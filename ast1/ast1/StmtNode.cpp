@@ -4,6 +4,7 @@
 
 StmtNode::StmtNode(void)
 {
+	StmtNumber = -1;
 }
 
 
@@ -11,7 +12,7 @@ StmtNode::~StmtNode(void)
 {
 }
 
-//int StmtNode::GetStmtNo(void)
-//{
-//	return 0;
-//}
+int StmtNode::GetStmtNumber(void)
+{
+	return StmtNumber;
+}

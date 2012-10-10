@@ -1,0 +1,691 @@
+// ast1.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include "ASTEntity.h"
+
+
+class StringLocation
+{
+public:
+	StringLocation(int start,int end)
+	{
+		this->start = start;
+		this->end = end;
+	}
+	int start;
+	int end;
+};
+
+StringLocation GetStringLocationFromPattern(string str,string pattern)//find pattern based on * (* = " ??? " or "???")
+{
+
+	vector<string> str_array;
+	while(pattern != "")
+	{
+		int index = pattern.find('*');
+		if(index == -1)
+			break;
+
+		str_array.push_back(pattern.substr(0,index));
+		pattern = pattern.substr(index+1, pattern.length());
+	}
+
+	if(pattern.size() != 0)
+		str_array.push_back(pattern);
+
+	int start =-1;
+	int test = str.find(str_array.at(0),-1);
+
+	if(str.find(str_array.at(0),start) >=-1)
+	{
+		int as= 1;
+	}
+	int size = str.size();
+	while(str.find(str_array.at(0),start) >=-1 && start < size)
+	{
+		int total_start = str.find(str_array.at(0),start);
+
+		int internal_previous_start = 0;
+		int internal_start=0;
+		int internal_previous_end = 0;
+		int internal_end=start;
+		for(int i=0;i<str_array.size();i++)
+		{
+			internal_start = str.find(str_array.at(i),internal_end);
+			internal_end = internal_start + str_array.at(i).length();
+
+			if(internal_start <= internal_previous_end && internal_previous_end != 0)
+				break;
+
+			internal_previous_start = internal_start;
+			internal_previous_end = internal_end;
+
+			if(i == str_array.size() - 1)
+				return StringLocation(total_start+1,internal_end);
+		}
+		
+
+		start = start + str_array.at(0).length();
+	}
+	//success
+
+
+
+
+	str.find('*');
+	
+	
+
+	return StringLocation(0,0);
+}
+
+//void doing(string codes, Stmt *s)
+//{
+//	while(!codes.empty())
+//	  {
+//		  if(codes.at(0) == ' ')
+//			codes = codes.substr(1,codes.length()-1);
+//		  else
+//		  {
+//			  if(codes.substr(0,10) == "procedure ")
+//			  {
+//				  //expect name and add to stakc{
+//				  codes = codes.substr(1,codes.length()-1);
+//			  }
+//			  else if(codes.at(0) == '}')
+//			  {
+//				  //chk that stack got { and pop
+//				  codes = codes.substr(1,codes.length()-1);
+//			  }
+//			  else
+//				  codes = codes.substr(1,codes.length()-1);
+//
+//		  }
+//	  }
+//}
+
+bool IsEmpty(string str)
+{
+	for(int i=0;i<str.size();i++)
+	{
+		if(str.at(i)!= ' ')
+			return false;
+	}
+	return true;
+}
+void error()
+{
+	cout<<"error"<<endl;
+	system("PAUSE");
+	throw 20;
+}
+string doing(vector<string>* codings,int* count, Stmt *s,Program *p,stack<string>* mystack)
+{
+	int totalsize = codings->size();
+	string codeline = codings->at(*count);
+	int line = (*count)+1;
+
+
+
+	while(*count < totalsize)
+	{
+
+		  if(s ==0)
+		  
+		  {//expect procedure
+			  int findindex = codeline.find("procedure");
+		  
+			if(!IsEmpty(codeline.substr(0,findindex)))
+			{
+				error();
+			}
+
+
+			int procedure_open = codeline.find("{",findindex);
+			string name = codeline.substr(findindex+10,procedure_open-(findindex+10));
+
+				int containtbad = name.find_first_of("{( )}");
+				  if(containtbad >0)
+				  {
+					  error();
+				  }
+
+
+
+				  //////////start inserting program
+
+				  if(p==0)//no program yet hence this is the first procedure
+				  {
+					  Program pp(name);
+					  p=&pp;
+				  }
+
+				  //start insert procedure
+
+				  Procedure procedure(name,line);
+				  p->GetProcedure()->push_back(&procedure);
+				  (*count)++;
+				  mystack->push(string(""));
+				  //
+				  doing(codings,count,procedure.GetStmt(), p);
+		  }
+		  else
+		  {		  //dont expect procedure
+			 // if(codeline.)
+			  int indexFindProcedure = codeline.find("procedure");
+			  if(codeline.find("procedure")>=0)
+			  {
+				  error();
+			  }
+			  else if(codeline.find("call")>=0)//call
+			  {
+			  }
+			  else if(codeline.find("=")>=0)//assign
+			  {
+				  if(codeline.find("+")>=0)
+				  {
+				  }
+				  else if(codeline.find("*")>=0)
+				  {
+				  }
+				  else if(codeline.find("-")>=0)
+				  {
+				  }
+				  int end = codeline.find(";");
+
+				  if(end <0)
+					  error();
+				  else
+				  {
+					  string remainderstr = codeline.substr(end, codeline.size() - end);
+
+					  while(remainderstr.size() > 0)
+					  {
+						  remainderstr = remainderstr.substr(1,remainderstr.size()-1);
+					  }
+				  }
+
+			  }
+			  else if(codeline.find("if")>=0)//if
+			  {
+			  }
+			  else if(codeline.find("while")>=0)//while
+			  {
+			  }
+			  else
+			  {
+				  error();
+			  }
+		  
+		  int a=1;
+		  
+		  }
+		(*count)++;
+	  }
+}
+
+
+
+
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	stack<string>* mystack;
+	vector<string>* codings;
+//	list<string> coding;
+	 string line;
+	string codes;
+
+	vector<string> l;
+	codings =&l;
+	stack<string> o;
+	mystack = o;
+
+
+	try{
+	  ifstream myfile ("C:\\CS3201test1.txt");
+	  
+	  if (myfile.is_open())
+	  {
+		while ( myfile.good() )
+		{
+		  getline (myfile,line);
+		  cout << line << endl;
+	//	  coding.push_back(line);
+		  codings->push_back(line);
+
+		  codes.append(line);
+		}
+		myfile.close();
+	  }
+
+	  else cout << "Unable to open file"<<endl; 
+
+	 // cout<<coding.size()<<endl;
+	  
+	  
+	  Program *p=0;
+	 
+	/*  Program pq("1");
+	  p=&pq;*/
+
+	  int temp =0;
+	  int* count=&temp;
+	  system("PAUSE");
+
+	  doing(codings,count,0,p,mystack);
+	  return 0;
+	  int totalsize = codings->size();
+	  while(*count < totalsize)
+	  {
+		  string codeline = codings->at(*count);
+		  int line = (*count)+1;
+		  cout<<"LINE "<<(*count)+1<<"\t"<<":"<<codeline<<endl;
+
+		  
+
+
+		  (*count)++;
+		 // system("PAUSE");
+	  }
+	  system("PAUSE");
+
+	  return 0;
+	  //cout<<p->GetName()<<endl;
+
+	  //while(!codes.empty())//find procedures only
+	  //{
+		 // if(codes.at(0) == ' ')
+			//codes = codes.substr(1,codes.length()-1);
+		 // else
+		 // {
+			//  if(codes.substr(0,10) == "procedure ")
+			//  {
+			//	  codes = codes.substr(10,codes.size()-10);
+
+				  //string name = codes.substr(0,codes.find("{"));
+
+				  //int containtbad = name.find_first_of("{( )}");
+				  //if(containtbad >0)
+				  //{
+					 // error();
+				  //}
+
+				  //codes = codes.substr(name.size()+1,codes.size() - (name.size()+1));
+				  ////error();
+				  //if(p == 0)
+				  //{
+					 //
+					 // 
+
+						//Program pq(name);
+						//p=&pq;
+				  //}
+				  ////int ll = 1;
+				  ////int* az =&ll;
+				  ////cout<<*az<<endl;
+				  //Procedure pp = Procedure(name,0);
+				  //p->GetProcedure()->push_back(&pp);
+				 // cout<<p->GetProcedure()->size()<<endl;
+/*
+
+				  vector<Procedure*>* Procedures;
+				  vector<Procedure*> ppp;
+				  Procedures = &ppp;
+				  Procedures->push_back(&pp);*/
+
+
+				 // system("PAUSE");
+				//  (*(p->GetProcedure())).push_back(
+				  
+				 // system("PAUSE");
+				  //cout<<p->GetProcedure()->size()<<endl;
+					/*if(p->GetProcedure() == 0)
+					{
+						int a =0;
+					}*/
+					  //p->GetProcedure().
+				  
+			 // }
+			 // else
+			 // {
+				//  //error
+				//  error();
+			 // }
+		  //}
+	 // }
+	}
+	catch(int e)
+	{return 0;
+	}
+
+	  system("PAUSE");
+	  while(!codes.empty())
+	  {
+		  if(codes.at(0) == ' ')
+			codes = codes.substr(1,codes.length()-1);
+		  else
+		  {
+			  if(codes.substr(0,10) == "procedure ")
+			  {
+				  //expect name and add to stakc{
+				  codes = codes.substr(1,codes.length()-1);
+			  }
+			  else if(codes.at(0) == '}')
+			  {
+				  //chk that stack got { and pop
+				  codes = codes.substr(1,codes.length()-1);
+			  }
+			  else
+				  codes = codes.substr(1,codes.length()-1);
+
+		  }
+	  }
+
+
+	  // doing(codes,0);
+
+	  return 0;
+
+
+
+
+	  //
+
+//	  return 0;
+//	  StringLocation sl = GetStringLocationFromPattern(codings.at(0) ,"procedure *{");
+//	  string as = codings.at(0).substr(sl.start,sl.end);
+//	  if(sl.end > 0)
+//	  {
+//			string programname = codings.at(0).substr(sl.start +10,sl.end-(sl.start +11));
+//			Program p(programname);
+//
+//
+//			//procedure = expect: name {}
+//			//if = (var){}
+//			//need a stack
+//
+//			//while()
+//
+//
+//	  }
+//	  //for(int i=0;i < codings.size();i++)
+//	  //{
+//		 // string code = codings.at(i);
+//
+//		 // //int zz = code.find("procedure");
+//		 // //cout<<zz<<endl; 
+//		 // //cout<<codings.at(i)<<endl
+//		 // 
+//		 // 
+//		 // 
+//	  //}
+//	  "procedure *";
+//	  "if(*)";
+//	  "while(*)";
+//	  "*=*";
+//
+//	  StringLocation sz = GetStringLocationFromPattern("aaaa   bbbddddddd" ,"a * b");
+//	  cout<<sz.start<<"::"<<sl.end<<endl;
+////	  	list<string>::iterator str;
+////for(list<string>::iterator it=coding.begin(); it!=coding.end(); ++it )
+////    {
+////      // Extra stuff removed
+////            str = it;
+////			
+////    }
+//
+//	
+//
+//system("PAUSE");
+	
+	/*string temp_str;
+	do{
+		
+		cin>>temp_str;
+		if(temp_str != "end")
+			coding.push_back(temp_str);
+	}while(temp_str != "end");
+	
+	cout<<coding.size()<<endl;
+	Program p("test1");
+		Stmt a(1);
+	Procedure px("1",a);
+	p.GetProcedure().clear();
+	p.GetProcedure().push_back(px);*/
+//
+//
+//
+//
+//
+//	list<Procedure> t;
+//	t.push_back(px);
+//	cout<<"as::"<<t.size();
+//
+//
+//
+//	p.GetProcedure() = t;
+//
+//
+//	cout<<p.GetProcedure().size();
+//	
+//	int  aax = px.GetStmt().GetLineNumber();
+//	system("PAUSE");
+//	
+//	system("PAUSE");
+//	list<Procedure>::iterator closestParticle;
+//for(list<Procedure>::iterator it=p.GetProcedure().begin(); it!=p.GetProcedure().end(); ++it )
+//    {
+//      // Extra stuff removed
+//            closestParticle = it;
+//    }
+//
+//	cout<<aax<<endl;
+//	system("PAUSE");
+
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+//// ast1.cpp : Defines the entry point for the console application.
+////
+//
+//#include "stdafx.h"
+//#include "ASTEntity.h"
+//
+//
+//class StringLocation
+//{
+//public:
+//	StringLocation(int start,int end)
+//	{
+//		this->start = start;
+//		this->end = end;
+//	}
+//	int start;
+//	int end;
+//};
+//
+//StringLocation GetStringLocationFromPattern(string str,string pattern)//find pattern based on * (* = " ??? " or "???")
+//{
+//
+//	vector<string> str_array;
+//	while(pattern != "")
+//	{
+//		int index = pattern.find('*');
+//		if(index == -1)
+//			break;
+//
+//		str_array.push_back(pattern.substr(0,index));
+//		pattern = pattern.substr(index+1, pattern.length());
+//	}
+//
+//	if(pattern.size() != 0)
+//		str_array.push_back(pattern);
+//
+//	int start =-1;
+//	int test = str.find(str_array.at(0),-1);
+//
+//	if(str.find(str_array.at(0),start) >=-1)
+//	{
+//		int as= 1;
+//	}
+//	int size = str.size();
+//	while(str.find(str_array.at(0),start) >=-1 && start < size)
+//	{
+//		int total_start = str.find(str_array.at(0),start);
+//
+//		int internal_previous_start = 0;
+//		int internal_start=0;
+//		int internal_previous_end = 0;
+//		int internal_end=start;
+//		for(int i=0;i<str_array.size();i++)
+//		{
+//			internal_start = str.find(str_array.at(i),internal_end);
+//			internal_end = internal_start + str_array.at(i).length();
+//
+//			if(internal_start <= internal_previous_end && internal_previous_end != 0)
+//				break;
+//
+//			internal_previous_start = internal_start;
+//			internal_previous_end = internal_end;
+//
+//			if(i == str_array.size() - 1)
+//				return StringLocation(total_start+1,internal_end);
+//		}
+//		
+//
+//		start = start + str_array.at(0).length();
+//	}
+//	//success
+//
+//
+//
+//
+//	str.find('*');
+//	
+//	
+//
+//	return StringLocation(0,0);
+//}
+//
+//
+//int _tmain(int argc, _TCHAR* argv[])
+//{
+//	vector<string> codings;
+//	list<string> coding;
+//	 string line;
+//	
+//	  ifstream myfile ("C:\\CS3201test1.txt");
+//	  
+//	  if (myfile.is_open())
+//	  {
+//		while ( myfile.good() )
+//		{
+//		  getline (myfile,line);
+//		  cout << line << endl;
+//		  coding.push_back(line);
+//		  codings.push_back(line);
+//		}
+//		myfile.close();
+//	  }
+//
+//	  else cout << "Unable to open file"<<endl; 
+//
+//	  cout<<coding.size()<<endl;
+//	  system("PAUSE");
+//	  
+//	  StringLocation sl = GetStringLocationFromPattern(codings.at(0) ,"procedure *{");
+//	  string as = codings.at(0).substr(sl.start,sl.end);
+//	  if(sl.end > 0)
+//	  {
+//			string programname = codings.at(0).substr(sl.start +10,sl.end-(sl.start +11));
+//			Program p(programname);
+//
+//	  }
+//	  for(int i=0;i < codings.size();i++)
+//	  {
+//		  string code = codings.at(i);
+//
+//		  //int zz = code.find("procedure");
+//		  //cout<<zz<<endl; 
+//		  //cout<<codings.at(i)<<endl
+//		  
+//		  
+//		  
+//	  }
+//	  "procedure *";
+//	  "if(*)";
+//	  "while(*)";
+//	  "*=*";
+//
+//	  StringLocation sz = GetStringLocationFromPattern("aaaa   bbbddddddd" ,"a * b");
+//	  cout<<sz.start<<"::"<<sl.end<<endl;
+////	  	list<string>::iterator str;
+////for(list<string>::iterator it=coding.begin(); it!=coding.end(); ++it )
+////    {
+////      // Extra stuff removed
+////            str = it;
+////			
+////    }
+//
+//	
+//
+//system("PAUSE");
+//	
+//	/*string temp_str;
+//	do{
+//		
+//		cin>>temp_str;
+//		if(temp_str != "end")
+//			coding.push_back(temp_str);
+//	}while(temp_str != "end");
+//	
+//	cout<<coding.size()<<endl;
+//	Program p("test1");
+//		Stmt a(1);
+//	Procedure px("1",a);
+//	p.GetProcedure().clear();
+//	p.GetProcedure().push_back(px);*/
+////
+////
+////
+////
+////
+////	list<Procedure> t;
+////	t.push_back(px);
+////	cout<<"as::"<<t.size();
+////
+////
+////
+////	p.GetProcedure() = t;
+////
+////
+////	cout<<p.GetProcedure().size();
+////	
+////	int  aax = px.GetStmt().GetLineNumber();
+////	system("PAUSE");
+////	
+////	system("PAUSE");
+////	list<Procedure>::iterator closestParticle;
+////for(list<Procedure>::iterator it=p.GetProcedure().begin(); it!=p.GetProcedure().end(); ++it )
+////    {
+////      // Extra stuff removed
+////            closestParticle = it;
+////    }
+////
+////	cout<<aax<<endl;
+////	system("PAUSE");
+//
+//	return 0;
+//}
+//

@@ -72,29 +72,35 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="backup.txt" />
-    <None Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="AssignmentParser.h" />
-    <ClInclude Include="ASTEntity.h" />
     <ClInclude Include="ASTNode.h" />
-    <ClInclude Include="CallNode.h" />
+    <ClInclude Include="DesignExtractor.h" />
+    <ClInclude Include="ExprNode.h" />
+    <ClInclude Include="Parser.h" />
+    <ClInclude Include="PROCTable.h" />
+    <ClInclude Include="SPAException.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="StmtLstNode.h" />
     <ClInclude Include="StmtNode.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="VARTable.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssignmentParser.cpp" />
     <ClCompile Include="ast1.cpp" />
-    <ClCompile Include="ASTEntity.cpp" />
     <ClCompile Include="ASTNode.cpp" />
-    <ClCompile Include="CallNode.cpp" />
+    <ClCompile Include="DesignExtractor.cpp" />
+    <ClCompile Include="ExprNode.cpp" />
+    <ClCompile Include="Parser.cpp" />
+    <ClCompile Include="PROCTable.cpp" />
+    <ClCompile Include="SPAException.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="StmtLstNode.cpp" />
     <ClCompile Include="StmtNode.cpp" />
+    <ClCompile Include="VARTable.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

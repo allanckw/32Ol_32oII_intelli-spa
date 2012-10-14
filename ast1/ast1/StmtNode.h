@@ -1,14 +1,24 @@
 #pragma once
-#include "astnode.h"
+#include "AstNode.h"
 
-class StmtNode : public ASTNode
+
+typedef int Index;
+
+class StmtNode : 
+	public ASTNode
 {
-protected:
-	int StmtNumber;
+private:
+	int stmtNumber;
+	void setValue(Index value);
+	void addChildToWhile(ASTNode* c, int);
+	void addChildToIF(ASTNode* c, int);
+	void addChildToAssign(ASTNode* c, int);
 
 public:
-	StmtNode(void);
-	virtual ~StmtNode(void);
-	virtual int GetStmtNumber() = 0;
+	StmtNode(int stmtNo, NodeType nodeType, Index value);
+	~StmtNode();
+	int getStmtNumber();
+
+	virtual ASTNode* AddChild(ASTNode* c, int childLoc);
 };
 

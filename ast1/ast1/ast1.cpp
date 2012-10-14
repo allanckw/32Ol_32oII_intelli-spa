@@ -1,12 +1,15 @@
-// ast1.cpp : Defines the entry point for the console application.
-//
-
+#pragma once
 #include "stdafx.h"
 #include "ASTNode.h"
 #include "StmtNode.h"
-#include "CallNode.h"
+#include "VARTable.h"
+#include "PROCTable.h"
+#include "ExprNode.h"
+#include "Parser.h"
 
 using namespace std;
+
+stack<char> brackets;
 
 
 bool IsEmpty(string str)
@@ -18,14 +21,90 @@ bool IsEmpty(string str)
 	}
 	return true;
 }
-void error()
+void error(int i)
 {
-	cout<<"error"<<endl;
+	cout<<"error: ";
+	switch(i)
+	{
+	case 1:
+		cout<<"bracket matching fail : "<<endl;
+		break;
+	case 2:
+		cout<<"bracket matching fail: "<<endl;
+		break;
+	case 3:
+		cout<<"var starting number: "<<endl;
+		break;
+	case 4:
+		cout<<"proc starting number: "<<endl;
+		break;
+	default:
+		cout<<"just error"<<endl;
+		break;
+	}
+	
 	system("PAUSE");
 	throw 20;
 }
 
+bool is_number(const std::string& s)
+{
+    std::string::const_iterator it = s.begin();
+    while (it != s.end() && isdigit(*it)) ++it;
+    return !s.empty() && it == s.end();
+}
 
+void AddTables(vector<string> list, string newtoken)
+{
+	int size = list.size();
+	if(newtoken == "while" || newtoken == "if" || newtoken == "procedure" || newtoken == "+" || newtoken == "-" || 
+		newtoken == "*" ||  newtoken == "=" ||newtoken == "call"||newtoken == "then"||newtoken == "else"||newtoken == ";")
+	{
+		return;
+	}
+	else if(newtoken[0] == '{' || newtoken[0] == '}')
+	{
+		
+		if(newtoken[0] == '{' )
+		{
+			brackets.push('{');
+		}
+		else if(newtoken[0] == '}' )
+		{
+			
+			if(brackets.size() == 0)
+			{
+				error(1);
+				//throw exception("Error!, Incorrect Bracket Matching");
+			}
+			else if(brackets.top() != '{')
+			{
+				error(2);
+			}
+			brackets.pop();
+			
+		}
+		//add var table
+	}
+	else if(!isdigit(newtoken[0]))
+	{
+		if(size != 0 && list.at(size-1) == "procedure")
+			PROCTable::procedures.insertPROC(newtoken);
+		else if(size == 0 || list.at(size-1) != "call")
+			VARTable::variables.insertVAR(newtoken);
+			//throw exception("Error!, first character of procedure cannot be a integer");
+	}
+	else
+	{
+		if(size != 0 && list.at(size-1) == "procedure")
+			error(4);
+		else if(!is_number(newtoken))
+		{
+			error(3);
+		}
+	}
+
+}
 
 vector<string> tokenizer3(string line)
 {
@@ -34,10 +113,12 @@ vector<string> tokenizer3(string line)
 	int position = 0;
 	int startindex = -1;
 	int endindex = -1;
-	do//while(!line.compare(""))
-	{
-		startindex = line.find_first_not_of(delimiter,position);
 
+	
+	do
+	{
+
+		startindex = line.find_first_not_of(delimiter,position);
 
 		if(endindex != -1 && endindex<line.size())
 			{
@@ -55,9 +136,11 @@ vector<string> tokenizer3(string line)
 					string tempstr = temp.substr(0,1);
 					temp = temp.substr(1,temp.size()-1);
 					if(tempstr != " ")
+					{
+						AddTables(list,tempstr);
 						list.push_back(tempstr);
+					}
 				}
-				//int a =1;
 			}
 
 		endindex = line.find_first_of(delimiter,startindex);
@@ -67,6 +150,7 @@ vector<string> tokenizer3(string line)
 		if(startindex != -1)
 		{
 			string temp = line.substr(startindex,endindex-startindex);
+			AddTables(list,temp);
 			list.push_back(temp);			
 		}
 
@@ -76,105 +160,29 @@ vector<string> tokenizer3(string line)
 }
 
 
-
-
-
-
-
-ASTNode* ProcessAssignment(ASTNode* procNode, int &line, vector<string> progline)
-{
-
-	int index = 0;
-
-	// For each token   
-	for ( int i = 0; i < progline.size(); i++ )   
-	{
-		//http://www.engr.mun.ca/~theo/Misc/exp_parsing.htm
-		//http://www.technical-recipes.com/2011/a-mathematical-expression-parser-in-java/
-		string token = progline[i]; 
-
-		//if (isOperator(token))
-		//{
-		//}
-		//else
-		//{
-		//}
-	}
-
-	return procNode;
-}
-
-ASTNode* ProcessProcedure(ASTNode* procNode, int &line, vector<vector<string>> &tokenized_codes)
-{
-	stack<string> brackets;
-	vector<string> progline = tokenized_codes.at(line);
-	//if the first line of the proc, its 3rd token or 1st token of the next line isnt a bracket then its an error~
-	if ((progline.at(2) == "{") || (tokenized_codes.at(line+1).at(0) == "{"))
-	{
-		//AHH A VALID PROCEDURE d: 
-		brackets.push("{");//push it in~
-		while (!brackets.empty()) //while the brackets is not empty~
-		{
-			line++;
-			if (line < tokenized_codes.size()){
-				progline = tokenized_codes.at(line);
-				
-				auto result = find(progline.begin(), progline.end(), "=") != progline.end();
-
-				if (result == true) //if there is an equal sign then its an assignment~
-				{
-					ASTNode* assnNode = ProcessAssignment(procNode, line, progline); 
-					procNode->AddChild(assnNode);
-				}
-			}
-			else
-			{
-
-			}
-		}
-	}
-	else
-	{
-		//Invalid Program, Parsing Failure Expect { but was something else~
-	}
-	
-	return NULL;
-}
-
-
-
-
-//Program CreateProgramNode(vector<vector<string>> data)
-//{
-//	Program pNode("");
-//
-//	return pNode;
-//}
-//
-//Procedure CreateProcedureNode(vector<vector<string>> data)
-//{
-//	Procedure pNode("",0);
-//
-//	return pNode;
-//}
-
 int main(int argc, char* arg[])
 {
-	/*stack<string> commastack;
-	
-	stack<Stmt> smtmstack;
-*/
+
 	vector<string> codings;
 
-	vector<vector<string>> tokenized_codes;
-
 	string line;
-	
-	StmtNode *s = new CallNode();
 
-	s->SetRoot();
+	//Testing Code
+	
 	try{
-	  ifstream myfile ("C:\\CS3201test1.txt");
+		ExprNode* test = new ExprNode(ASTNode::NodeType::Variable, "X");
+		cout<< test->getType() << endl;
+		test->AddChild(new ExprNode(ASTNode::NodeType::Constant, 10), 1);
+		test->AddChild(new ExprNode(ASTNode::NodeType::Constant, 5), 1);
+	}
+	catch (exception& e) {
+		cout << e.what() << endl;
+	}
+
+	//end testing code - Allan
+
+	try{
+	  ifstream myfile ("C:\\spa\\CS3201test6.txt");
 	  
 	  if (myfile.is_open())
 	  {
@@ -198,9 +206,8 @@ int main(int argc, char* arg[])
 	  {
 		  line = codings.at(currentline);
 		  vector<string> aa = tokenizer3(line);
-		  tokenized_codes.push_back(aa);
+		  Parser::tokenized_codes.push_back(aa);
 		  currentline++;
-
 	  }
 	  int templine =0;
 	  int tempindex=0;
@@ -209,38 +216,22 @@ int main(int argc, char* arg[])
 
 	  ASTNode* root;
 
+		if(brackets.size() != 0)
+		{
+			error(1);
+			//throw exception("Error!, Incorrect Bracket Matching");
+		}
+
 	  vector<vector<string>> data;
 
 	  //Vector of code form..
-	  while(*line < tokenized_codes.size())
+	  while(*line < Parser::tokenized_codes.size())
 	  {
-		  vector<string> inner = tokenized_codes.at(*line);
+		  vector<string> inner =  Parser::tokenized_codes.at(*line);
 		  *index = 0;
 		  while(*index < inner.size())
 		  {
-			  //if(inner.at(*index) == " ")
-			  //{
-				 // cout << tolower('H');
-			  //}
-			  //First Line of code and first token must be procedure~
-			  if (*index == 0 && *line == 0 )
-			  {
-				  if (inner.at(*index) == "procedure") //Assume case sensitive
-				  {
-					  root = new ASTNode(Program, inner.at(*index+1));
-					  root->SetRoot();
-
-					  ASTNode* proc = new ASTNode(Procedure, inner.at(*index+1));
-					  proc->SetParent(root);
-
-					  ProcessProcedure(proc, *line, tokenized_codes);
-					  root->AddChild(proc);
-				  }
-				  else
-				  {
-					  //Invalid Program
-				  }
-			  }
+			  //TODO: For Kai, Build the AST From Here
 
 			  //cout<<inner.at(*index)<<" ";
 			  (*index)++;
@@ -257,7 +248,6 @@ int main(int argc, char* arg[])
 		return 0;
 	}
 
-	  
 }
 
 

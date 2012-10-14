@@ -2,12 +2,11 @@
 #include "StdAfx.h"
 #include "ASTNode.h"
 
+//TODO: For Allan, Implement Shunting Yard Algorithm
+
 class AssignmentParser
 {
 private:
-	//static stack<string> operators;
-	//static stack<ASTNode*> operands;
-	//stack<> partialTree;
 
 public:
 	AssignmentParser(void);

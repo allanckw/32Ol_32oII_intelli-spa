@@ -1,38 +1,65 @@
 #pragma once
 #include "StdAfx.h"
-
-enum NodeType { 
-	Program, 
-	Procedure, 
-	StmtLst,
-	Assign,
-	Call,
-	Operator,
-	Variable,
-	Constant,
-	While,
-	If
-};
+#include "SPAException.h"
 
 class ASTNode
 {
-private:
-	NodeType nType;
-	string name;
+public:
+		
+	typedef enum enumNodeType { 
+		Program, 
+		Procedure,
+		StmtLst,
+		//Stmts
+		Assign,
+		Call,
+		While,
+		If,
+		//EXPR
+		Operator,
+		Variable,
+		Constant
+	} NodeType;
+	
+	/*	In C++, pure virtual functions are declared using the pure specifier[1] (= 0), as demonstrated below.
+	class Abstract {
+	public:
+		virtual void pure_virtual() = 0;
+	};
+	The pure virtual function declaration provides only the prototype of the method. */
 
+	ASTNode();
+	ASTNode(NodeType);
+	~ASTNode(void);
+
+	//TODO: For KAI, not implemented in Child Class, Please implement - ExprNode, StmtLstNode and StmtNode
+	//Very Simple, just push to the end with constraints enforced in overloaded method below
+	virtual ASTNode* AddChild(ASTNode*);
+
+
+	virtual ASTNode* AddChild(ASTNode*, int) = 0;
+	virtual ASTNode* SetParent(ASTNode * p);
+	virtual ASTNode* SetRightSibling(ASTNode * s);
+
+	void SetRoot(int);
+
+	ASTNode::NodeType getType();
+	ASTNode* getChild(int);
+ 
+	bool isHasChildren();
+	bool isHasRightSibling();
+	bool isRoot();
+
+protected:
+	int value;
 	ASTNode* parent;
 	vector<ASTNode*> children;
 	ASTNode* rightSibling;
-	bool isRoot;
+	NodeType nodeType;
 
-public:
-	ASTNode(void);
-	ASTNode(NodeType type, string name);
-	ASTNode* SetParent(ASTNode * p);
-	ASTNode* SetRightSibling(ASTNode * s);
-	ASTNode* AddChild(ASTNode* c);
-	void SetRoot();
-	~ASTNode(void);
-
+private:
+	
+	bool root;
 };
+
 

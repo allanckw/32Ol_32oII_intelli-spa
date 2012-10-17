@@ -5,14 +5,12 @@
 //TODO: For HW, Full implementation of StmtLstNode
 
 class StmtLstNode :
-	public ASTNode
+	public StmtNode
 {
-private:
-	vector<StmtNode*> stmts;
-
 public:
 	StmtLstNode(void);
 	~StmtLstNode(void);
 	int getSize();
+	void addChild(ASTNode*);
 };
 

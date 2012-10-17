@@ -14,5 +14,13 @@ StmtLstNode::~StmtLstNode(void)
 
 int StmtLstNode::getSize()
 {
-	return this->stmts.size();
+	return children.size();
+}
+
+void StmtLstNode::addChild(ASTNode* node)
+{
+	if(node->getType() == Assign || node->getType() == If || node->getType() == While)
+		children.push_back(node);
+	else
+		throw SPAException("StmtLstNode cannot accept weird nodes as children");
 }

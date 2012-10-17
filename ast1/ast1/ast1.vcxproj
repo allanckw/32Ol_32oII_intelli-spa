@@ -76,6 +76,7 @@
     <ClInclude Include="ASTNode.h" />
     <ClInclude Include="DesignExtractor.h" />
     <ClInclude Include="ExprNode.h" />
+    <ClInclude Include="FollowsTable.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="PROCTable.h" />
     <ClInclude Include="SPAException.h" />
@@ -91,6 +92,7 @@
     <ClCompile Include="ASTNode.cpp" />
     <ClCompile Include="DesignExtractor.cpp" />
     <ClCompile Include="ExprNode.cpp" />
+    <ClCompile Include="FollowsTable.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="PROCTable.cpp" />
     <ClCompile Include="SPAException.cpp" />

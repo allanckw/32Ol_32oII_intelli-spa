@@ -8,102 +8,106 @@ ModifiesTable::ModifiesTable()
 void ModifiesTable::insertStmtModifies(STMTIndex s, VARIndex v)
 {
 	auto newPair = make_pair(s, v);
-	if (modifiesStmt.size() != 0)
+	if (modifiesStmtTable.size() != 0)
 	{
-		for (int i = 0; i < modifiesStmt.size(); i++)
+		for (int i = 0; i < modifiesStmtTable.size(); i++)
 		{
-			if (modifiesStmt.at(i) == newPair) //if pair already exists in table, do nothing
+			if (modifiesStmtTable.at(i) == newPair) //if pair already exists in table, do nothing
 				return;
 		}
 	}
 
-	modifiesStmt.push_back(newPair);
+	modifiesStmtTable.push_back(newPair);
 }
 
 void ModifiesTable::insertProcModifies(PROCIndex p, VARIndex v)
 {
 	auto newPair = make_pair(p, v);
-	if (modifiesProc.size() != 0)
+	if (modifiesProcTable.size() != 0)
 	{
-		for (int i = 0; i < modifiesProc.size(); i++)
+		for (int i = 0; i < modifiesProcTable.size(); i++)
 		{
-			if (modifiesProc.at(i) == newPair) //if pair already exists in table, do nothing
+			if (modifiesProcTable.at(i) == newPair) //if pair already exists in table, do nothing
 				return;
 		}
 	}
 
-	modifiesProc.push_back(newPair);
+	modifiesProcTable.push_back(newPair);
 }
 
-vector<VARIndex> ModifiesTable::ModifiedByProc(PROCIndex p)
+//This function should be invoked once modifiestable has been fully populated by whoever is populating it
+void ModifiesTable::optimizeModifiesTables()
 {
-	vector<VARIndex> answer;
-	if (modifiesProc.size() != 0)
+	if (!modifiesStmtTable.empty())
 	{
-		for (int i = 0; i < modifiesProc.size(); i++)
+		for (int i = 0; i < modifiesStmtTable.size(); i++)
 		{
-			if (modifiesProc.at(i).first == p)
-				answer.push_back(modifiesProc.at(i).second);
+			optimizedModifiesStmtTable.at(modifiesStmtTable.at(i).first).push_back(modifiesStmtTable.at(i).second);
+			optimizedModifiedByStmtTable.at(modifiesStmtTable.at(i).second).push_back(modifiesStmtTable.at(i).first);
+		}
+	}
+	if (!modifiesProcTable.empty())
+	{
+		for (int j = 0; j < modifiesProcTable.size(); j++)
+		{
+			optimizedModifiesProcTable.at(modifiesProcTable.at(j).first).push_back(modifiesProcTable.at(j).second);
+			optimizedModifiedByProcTable.at(modifiesProcTable.at(j).second).push_back(modifiesProcTable.at(j).first);
 		}
 	}
 
-	return answer;
+	return;
 }
 
 vector<VARIndex> ModifiesTable::ModifiedByStmt(STMTIndex s)
 {
 	vector<VARIndex> answer;
-	if (modifiesStmt.size() != 0)
-	{
-		for (int i = 0; i < modifiesStmt.size(); i++)
-		{
-			if (modifiesStmt.at(i).first == s)
-				answer.push_back(modifiesStmt.at(i).second);
-		}
-	}
+
+	if (optimizedModifiesStmtTable.size() >= s)
+		answer = optimizedModifiesStmtTable.at(s);
+
+	return answer;
+}
+
+vector<VARIndex> ModifiesTable::ModifiedByProc(PROCIndex p)
+{
+	vector<VARIndex> answer;
+
+	if (optimizedModifiesProcTable.size() >= p)
+		answer = optimizedModifiesProcTable.at(p);
 
 	return answer;
 }
 
 vector<STMTIndex> ModifiesTable::getModifiesStmt(VARIndex v)
 {
-	vector<STMTIndex> answer;
-	if (modifiesStmt.size() != 0)
-	{
-		for (int i = 0; i < modifiesStmt.size(); i++)
-		{
-			if (modifiesStmt.at(i).second == v)
-				answer.push_back(modifiesStmt.at(i).first);
-		}
-	}
+	vector<VARIndex> answer;
+
+	if (optimizedModifiedByProcTable.size() >= v)
+		answer = optimizedModifiedByProcTable.at(v);
 
 	return answer;
 }
 
 vector<PROCIndex> ModifiesTable::getModifiesProc(VARIndex v)
 {
-	vector<PROCIndex> answer;
-	if (modifiesProc.size() != 0)
-	{
-		for (int i = 0; i < modifiesProc.size(); i++)
-		{
-			if (modifiesProc.at(i).second == v)
-				answer.push_back(modifiesProc.at(i).first);
-		}
-	}
+	vector<VARIndex> answer;
+
+	if (optimizedModifiedByStmtTable.size() >= v)
+		answer = optimizedModifiedByStmtTable.at(v);
 
 	return answer;
 }
 
 bool ModifiesTable::isModifiedStmt(STMTIndex s, VARIndex v)
 {
-	if (modifiesStmt.size() != 0)
+	vector<VARIndex> answer;
+
+	if (optimizedModifiesStmtTable.size() >= s)
 	{
-		for (int i = 0; i < modifiesStmt.size(); i++)
+		for (int i = 0; i < optimizedModifiesStmtTable.at(s).size(); i++)
 		{
-			if (modifiesStmt.at(i).first == s)
-				if (modifiesStmt.at(i).second == v)
-					return true;
+			if(optimizedModifiesStmtTable.at(s).at(i) == v)
+				return true;
 		}
 	}
 
@@ -112,13 +116,14 @@ bool ModifiesTable::isModifiedStmt(STMTIndex s, VARIndex v)
 
 bool ModifiesTable::isModifiedProc(PROCIndex p, VARIndex v)
 {
-	if (modifiesProc.size() != 0)
+	vector<VARIndex> answer;
+
+	if (optimizedModifiesProcTable.size() >= p)
 	{
-		for (int i = 0; i < modifiesProc.size(); i++)
+		for (int i = 0; i < optimizedModifiesProcTable.at(p).size(); i++)
 		{
-			if (modifiesProc.at(i).first == p)
-				if (modifiesProc.at(i).second == v)
-					return true;
+			if(optimizedModifiesProcTable.at(p).at(i) == v)
+				return true;
 		}
 	}
 

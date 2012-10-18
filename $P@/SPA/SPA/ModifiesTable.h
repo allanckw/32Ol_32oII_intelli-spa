@@ -7,16 +7,22 @@ typedef int VARIndex;
 class ModifiesTable
 {
 private:
-	vector<pair <int, int>> modifiesStmt; //Table of (stmt, var modified by stmt)
-	vector<pair <int, int>> modifiesProc; //Table of (proc, var modified by proc)
+	vector<pair <STMTIndex, VARIndex>> modifiesStmtTable; //Table of (stmt, var modified by stmt)
+	vector<pair <PROCIndex, VARIndex>> modifiesProcTable; //Table of (proc, var modified by proc)
+	//Hash Tables
+	vector<vector<VARIndex>> optimizedModifiesStmtTable;
+	vector<vector<VARIndex>> optimizedModifiesProcTable;
+	vector<vector<STMTIndex>> optimizedModifiedByStmtTable;
+	vector<vector<PROCIndex>> optimizedModifiedByProcTable;
 
 public:
 	ModifiesTable();
 
 	void insertStmtModifies(STMTIndex, VARIndex);
 	void insertProcModifies(PROCIndex, VARIndex);
-	vector<VARIndex> ModifiedByProc(PROCIndex);
+	void optimizeModifiesTables();
 	vector<VARIndex> ModifiedByStmt(STMTIndex);
+	vector<VARIndex> ModifiedByProc(PROCIndex);
 	vector<STMTIndex> getModifiesStmt(VARIndex);
 	vector<PROCIndex> getModifiesProc(VARIndex);
 	bool isModifiedStmt(STMTIndex, VARIndex);

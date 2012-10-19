@@ -39,23 +39,10 @@ void CallsTable::optimizeCallsTable()
 	for (int x = 0; x < PROCTable->size(); x++) //Need actual size of PROCTable during runtime
 	{
 		immediateChildren = optimizedCalledByTable.at(x);
-		if (immediateChildren.size() > 0)
-		{
-			for (int j = 0; j < immediateChildren.size(); j++)
-				procsChecked.push_back(immediateChildren.at(j));
-
-			optimizeCalledByStarTable(x, immediateChildren, procsChecked);
-		}
+		optimizeCalledByStarTable(x, immediateChildren, procsChecked);
 
 		immediateChildren = optimizedCalledFromTable.at(x);
-		procsChecked.clear();
-		if (immediateChildren.size() > 0)
-		{
-			for (int k = 0; k < immediateChildren.size(); k++)
-				procsChecked.push_back(immediateChildren.at(k));
-
-			optimizeCalledFromStarTable(x, immediateChildren, procsChecked);
-		}
+		optimizeCalledFromStarTable(x, immediateChildren, procsChecked);
 	}
 
 	return;
@@ -98,12 +85,13 @@ void CallsTable::optimizeCalledByStarTable(PROCIndex p, vector<PROCIndex> curren
 	
 	for (int i = 0; i < newChildren.size(); i++) //for every child procedure
 	{
+		//add each new child to optimized table
+		optimizedCalledByStarTable.at(p).push_back(newChildren.at(i)); 
 		if (!optimizedCalledByTable.at(newChildren.at(i)).empty())
 		{
 			for (int j = 0; j < optimizedCalledByTable.at(newChildren.at(i)).size(); j++) //for every child of each child procedure
 			{
-				//add each grandchild to list of children of p, as well as list of children to interrogate next(WHOS UR CHILD?!
-				optimizedCalledByStarTable.at(p).push_back(optimizedCalledByTable.at(newChildren.at(i)).at(j));
+				//add each grandchild to list of children to interrogate next(WHOS UR CHILD?!
 				currentChildren.push_back(optimizedCalledByTable.at(newChildren.at(i)).at(j));
 			}
 		}
@@ -149,12 +137,13 @@ void CallsTable::optimizeCalledFromStarTable(PROCIndex p, vector<PROCIndex> curr
 	
 	for (int i = 0; i < newChildren.size(); i++) //for every child procedure
 	{
+		//add each new child to optimized table
+		optimizedCalledFromStarTable.at(p).push_back(newChildren.at(i));
 		if (!optimizedCalledFromTable.at(newChildren.at(i)).empty())
 		{
 			for (int j = 0; j < optimizedCalledFromTable.at(newChildren.at(i)).size(); j++) //for every child of each child procedure
 			{
-				//add each grandchild to list of children of p, as well as list of children to interrogate next(WHOS UR CHILD?!
-				optimizedCalledFromStarTable.at(p).push_back(optimizedCalledFromTable.at(newChildren.at(i)).at(j));
+				//add each grandchild to list of children to interrogate next(WHOS UR CHILD?!
 				currentChildren.push_back(optimizedCalledFromTable.at(newChildren.at(i)).at(j));
 			}
 		}

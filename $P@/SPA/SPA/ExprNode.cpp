@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 #include "ExprNode.h"
-#include "VARTable.h"
+#include "PKB.h"
 
 #include <sstream>
 #include <typeinfo.h>
@@ -13,7 +13,7 @@ ExprNode::ExprNode(NodeType nodeType, int value)
 	else{
 		this->nodeType = nodeType;
 		if (this->getType() == Variable){
-			if (value < 0 || value > (VARTable::variables.getSize() - 1))
+			if (value < 0 || value > (PKB::variables.getSize() - 1))
 			{
 				throw SPAException("Invalid Variable Index, please check the VARTable");
 			}else{
@@ -36,7 +36,7 @@ ExprNode::ExprNode(NodeType nodeType, Expr value)
 	this->nodeType = nodeType;
 	if (this->getType() == Variable)
 	{
-		int idx = VARTable::variables.getVARIndex(value);
+		int idx = PKB::variables.getVARIndex(value);
 		if (idx == -1)
 		{
 			throw SPAException("Invalid Variable, please check the VARTable");
@@ -135,7 +135,7 @@ bool ExprNode::isMatched(Expr expr)
 //Check if variable passed is the same as in the varNode
 bool ExprNode::isVARMatched(string varName)
 {
-	int index = VARTable::variables.getVARIndex(varName);
+	int index = PKB::variables.getVARIndex(varName);
 	if (index == -1)
 	{
 		cout << "Variable Not found!" << endl;

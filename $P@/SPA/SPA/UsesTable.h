@@ -1,30 +1,30 @@
 #pragma once
 #include "StdAfx.h"
-typedef int PROCIndex;
-typedef int STMTIndex;
-typedef int VARIndex;
+typedef int PROC;
+typedef int STMT;
+typedef int VAR;
 
 class UsesTable
 {
 private:
-	vector<pair <STMTIndex, VARIndex>> usesStmtTable; //Table of (stmt, var used by stmt)
-	vector<pair <PROCIndex, VARIndex>> usesProcTable; //Table of (proc, var used by proc)
+	vector<pair <STMT, VAR>> usesStmtTable; //Table of (stmt, var used by stmt)
+	vector<pair <PROC, VAR>> usesProcTable; //Table of (proc, var used by proc)
 	//Hash Tables
-	vector<vector<VARIndex>> optimizedUsedByStmtTable;
-	vector<vector<VARIndex>> optimizedUsedByProcTable;
-	vector<vector<STMTIndex>> optimizedUsedInStmtTable;
-	vector<vector<PROCIndex>> optimizedUsedInProcTable;
+	vector<vector<VAR>> optimizedUsedByStmtTable;
+	vector<vector<VAR>> optimizedUsedByProcTable;
+	vector<vector<STMT>> optimizedUsedInStmtTable;
+	vector<vector<PROC>> optimizedUsedInProcTable;
 
 public:
 	UsesTable();
 
-	void insertStmtUses(STMTIndex, VARIndex);
-	void insertProcUses(PROCIndex, VARIndex);
+	void insertStmtUses(STMT, VAR);
+	void insertProcUses(PROC, VAR);
 	void optimizeUsesTables();
-	vector<VARIndex> getUsedByStmt(STMTIndex);
-	vector<VARIndex> getUsedByProc(PROCIndex);
-	vector<STMTIndex> getUsedInStmt(VARIndex);
-	vector<PROCIndex> getUsedInProc(VARIndex);
-	bool isUsedStmt(STMTIndex, VARIndex);
-	bool isUsedProc(PROCIndex, VARIndex);
-}
+	vector<VAR> getUsedByStmt(STMT);
+	vector<VAR> getUsedByProc(PROC);
+	vector<STMT> getUsedInStmt(VAR);
+	vector<PROC> getUsedInProc(VAR);
+	bool isUsedStmt(STMT, VAR);
+	bool isUsedProc(PROC, VAR);
+};

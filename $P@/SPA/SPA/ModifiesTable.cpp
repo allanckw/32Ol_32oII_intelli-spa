@@ -5,7 +5,7 @@ ModifiesTable::ModifiesTable()
 {
 }
 
-void ModifiesTable::insertStmtModifies(STMTIndex s, VARIndex v)
+void ModifiesTable::insertStmtModifies(STMT s, VAR v)
 {
 	auto newPair = make_pair(s, v);
 	if (modifiesStmtTable.size() != 0)
@@ -20,7 +20,7 @@ void ModifiesTable::insertStmtModifies(STMTIndex s, VARIndex v)
 	modifiesStmtTable.push_back(newPair);
 }
 
-void ModifiesTable::insertProcModifies(PROCIndex p, VARIndex v)
+void ModifiesTable::insertProcModifies(PROC p, VAR v)
 {
 	auto newPair = make_pair(p, v);
 	if (modifiesProcTable.size() != 0)
@@ -58,9 +58,9 @@ void ModifiesTable::optimizeModifiesTables()
 	return;
 }
 
-vector<VARIndex> ModifiesTable::ModifiedByStmt(STMTIndex s)
+vector<VAR> ModifiesTable::ModifiedByStmt(STMT s)
 {
-	vector<VARIndex> answer;
+	vector<VAR> answer;
 
 	if (optimizedModifiesStmtTable.size() >= s)
 		answer = optimizedModifiesStmtTable.at(s);
@@ -68,9 +68,9 @@ vector<VARIndex> ModifiesTable::ModifiedByStmt(STMTIndex s)
 	return answer;
 }
 
-vector<VARIndex> ModifiesTable::ModifiedByProc(PROCIndex p)
+vector<VAR> ModifiesTable::ModifiedByProc(PROC p)
 {
-	vector<VARIndex> answer;
+	vector<VAR> answer;
 
 	if (optimizedModifiesProcTable.size() >= p)
 		answer = optimizedModifiesProcTable.at(p);
@@ -78,9 +78,9 @@ vector<VARIndex> ModifiesTable::ModifiedByProc(PROCIndex p)
 	return answer;
 }
 
-vector<STMTIndex> ModifiesTable::getModifiesStmt(VARIndex v)
+vector<STMT> ModifiesTable::getModifiesStmt(VAR v)
 {
-	vector<VARIndex> answer;
+	vector<VAR> answer;
 
 	if (optimizedModifiedByProcTable.size() >= v)
 		answer = optimizedModifiedByProcTable.at(v);
@@ -88,9 +88,9 @@ vector<STMTIndex> ModifiesTable::getModifiesStmt(VARIndex v)
 	return answer;
 }
 
-vector<PROCIndex> ModifiesTable::getModifiesProc(VARIndex v)
+vector<PROC> ModifiesTable::getModifiesProc(VAR v)
 {
-	vector<VARIndex> answer;
+	vector<VAR> answer;
 
 	if (optimizedModifiedByStmtTable.size() >= v)
 		answer = optimizedModifiedByStmtTable.at(v);
@@ -98,7 +98,7 @@ vector<PROCIndex> ModifiesTable::getModifiesProc(VARIndex v)
 	return answer;
 }
 
-bool ModifiesTable::isModifiedStmt(STMTIndex s, VARIndex v)
+bool ModifiesTable::isModifiedStmt(STMT s, VAR v)
 {
 	if (optimizedModifiesStmtTable.size() >= s)
 	{
@@ -112,7 +112,7 @@ bool ModifiesTable::isModifiedStmt(STMTIndex s, VARIndex v)
 	return false;
 }
 
-bool ModifiesTable::isModifiedProc(PROCIndex p, VARIndex v)
+bool ModifiesTable::isModifiedProc(PROC p, VAR v)
 {
 	if (optimizedModifiesProcTable.size() >= p)
 	{

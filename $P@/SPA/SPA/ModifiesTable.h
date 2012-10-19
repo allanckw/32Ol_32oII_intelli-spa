@@ -1,30 +1,28 @@
 #pragma once
 #include "StdAfx.h"
-typedef int PROCIndex;
-typedef int STMTIndex;
-typedef int VARIndex;
+
 
 class ModifiesTable
 {
 private:
-	vector<pair <STMTIndex, VARIndex>> modifiesStmtTable; //Table of (stmt, var modified by stmt)
-	vector<pair <PROCIndex, VARIndex>> modifiesProcTable; //Table of (proc, var modified by proc)
+	vector<pair <STMT, VAR>> modifiesStmtTable; //Table of (stmt, var modified by stmt)
+	vector<pair <PROC, VAR>> modifiesProcTable; //Table of (proc, var modified by proc)
 	//Hash Tables
-	vector<vector<VARIndex>> optimizedModifiesStmtTable;
-	vector<vector<VARIndex>> optimizedModifiesProcTable;
-	vector<vector<STMTIndex>> optimizedModifiedByStmtTable;
-	vector<vector<PROCIndex>> optimizedModifiedByProcTable;
+	vector<vector<VAR>> optimizedModifiesStmtTable;
+	vector<vector<VAR>> optimizedModifiesProcTable;
+	vector<vector<STMT>> optimizedModifiedByStmtTable;
+	vector<vector<PROC>> optimizedModifiedByProcTable;
 
 public:
 	ModifiesTable();
 
-	void insertStmtModifies(STMTIndex, VARIndex);
-	void insertProcModifies(PROCIndex, VARIndex);
+	void insertStmtModifies(STMT, VAR);
+	void insertProcModifies(PROC, VAR);
 	void optimizeModifiesTables();
-	vector<VARIndex> ModifiedByStmt(STMTIndex);
-	vector<VARIndex> ModifiedByProc(PROCIndex);
-	vector<STMTIndex> getModifiesStmt(VARIndex);
-	vector<PROCIndex> getModifiesProc(VARIndex);
-	bool isModifiedStmt(STMTIndex, VARIndex);
-	bool isModifiedProc(PROCIndex, VARIndex);
-}
+	vector<VAR> ModifiedByStmt(STMT);
+	vector<VAR> ModifiedByProc(PROC);
+	vector<STMT> getModifiesStmt(VAR);
+	vector<PROC> getModifiesProc(VAR);
+	bool isModifiedStmt(STMT, VAR);
+	bool isModifiedProc(PROC, VAR);
+};

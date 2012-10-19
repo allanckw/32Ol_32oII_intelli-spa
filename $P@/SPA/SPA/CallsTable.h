@@ -1,29 +1,29 @@
 #pragma once
 #include "StdAfx.h"
 #include "PROCTable.h"
-//typedef int PROCIndex;
+
 
 class CallsTable
 {
 
 private:
-	vector<pair <PROCIndex, PROCIndex>> callsTable;
-	vector<vector<PROCIndex>> optimizedCalledByTable;
-	vector<vector<PROCIndex>> optimizedCalledFromTable;
-	vector<vector<PROCIndex>> optimizedCalledByStarTable;
-	vector<vector<PROCIndex>> optimizedCalledFromStarTable;
-	void optimizeCalledByStarTable(PROCIndex, vector<PROCIndex>, vector<PROCIndex>);
-	void optimizeCalledFromStarTable(PROCIndex, vector<PROCIndex>, vector<PROCIndex>);
+	vector<pair <PROC, PROC>> callsTable;
+	vector<vector<PROC>> optimizedCalledByTable;
+	vector<vector<PROC>> optimizedCalledFromTable;
+	vector<vector<PROC>> optimizedCalledByStarTable;
+	vector<vector<PROC>> optimizedCalledFromStarTable;
+	void optimizeCalledByStarTable(PROC, vector<PROC>, vector<PROC>);
+	void optimizeCalledFromStarTable(PROC, vector<PROC>, vector<PROC>);
 
 public:
 	CallsTable();
 
-	void insertCalls(PROCIndex, PROCIndex);
+	void insertCalls(PROC, PROC);
 	void optimizeCallsTable();
-	vector<PROCIndex> getCalledBy(PROCIndex);
-	vector<PROCIndex> getCalledFrom(PROCIndex);
-	vector<PROCIndex> getCalledByStar(PROCIndex);
-	vector<PROCIndex> getCalledFromStar(PROCIndex);
-	bool isCalled(PROCIndex, PROCIndex);
-	bool isCalledStar(PROCIndex, PROCIndex);
-}
+	vector<PROC> getCalledBy(PROC);
+	vector<PROC> getCalledFrom(PROC);
+	vector<PROC> getCalledByStar(PROC);
+	vector<PROC> getCalledFromStar(PROC);
+	bool isCalled(PROC, PROC);
+	bool isCalledStar(PROC, PROC);
+};

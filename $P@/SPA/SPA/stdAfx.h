@@ -16,3 +16,6 @@
 using namespace std;
 // TODO: reference additional headers your program requires here
 
+typedef int PROC;
+typedef int STMT;
+typedef int VAR;

@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "VARTable.h"
 
-VARTable VARTable::variables;
+
 
 VARTable::VARTable(void)
 {

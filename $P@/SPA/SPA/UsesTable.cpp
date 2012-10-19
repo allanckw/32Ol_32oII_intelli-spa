@@ -5,7 +5,7 @@ UsesTable::UsesTable()
 {
 }
 
-void UsesTable::insertStmtUses(STMTIndex s, VARIndex v)
+void UsesTable::insertStmtUses(STMT s, VAR v)
 {
 	auto newPair = make_pair(s, v);
 	if (usesStmtTable.size() != 0)
@@ -20,7 +20,7 @@ void UsesTable::insertStmtUses(STMTIndex s, VARIndex v)
 	usesStmtTable.push_back(newPair);
 }
 
-void UsesTable::insertProcUses(PROCIndex p, VARIndex v)
+void UsesTable::insertProcUses(PROC p, VAR v)
 {
 	auto newPair = make_pair(p, v);
 	if (usesProcTable.size() != 0)
@@ -58,9 +58,9 @@ void UsesTable::optimizeUsesTables()
 	return;
 }
 
-vector<VARIndex> UsesTable::getUsedByStmt(STMTIndex s)
+vector<VAR> UsesTable::getUsedByStmt(STMT s)
 {
-	vector<VARIndex> answer;
+	vector<VAR> answer;
 
 	if (optimizedUsedByStmtTable.size() >= s)
 		answer = optimizedUsedByStmtTable.at(s);
@@ -68,9 +68,9 @@ vector<VARIndex> UsesTable::getUsedByStmt(STMTIndex s)
 	return answer;
 }
 
-vector<VARIndex> UsesTable::getUsedByProc(PROCIndex p)
+vector<VAR> UsesTable::getUsedByProc(PROC p)
 {
-	vector<VARIndex> answer;
+	vector<VAR> answer;
 
 	if (optimizedUsedByProcTable.size() >= p)
 		answer = optimizedUsedByProcTable.at(p);
@@ -78,9 +78,9 @@ vector<VARIndex> UsesTable::getUsedByProc(PROCIndex p)
 	return answer;
 }
 
-vector<STMTIndex> UsesTable::getUsedInStmt(VARIndex v)
+vector<STMT> UsesTable::getUsedInStmt(VAR v)
 {
-	vector<VARIndex> answer;
+	vector<VAR> answer;
 
 	if (optimizedUsedInStmtTable.size() >= v)
 		answer = optimizedUsedInStmtTable.at(v);
@@ -88,9 +88,9 @@ vector<STMTIndex> UsesTable::getUsedInStmt(VARIndex v)
 	return answer;
 }
 
-vector<PROCIndex> UsesTable::getUsedInProc(VARIndex v)
+vector<PROC> UsesTable::getUsedInProc(VAR v)
 {
-	vector<VARIndex> answer;
+	vector<VAR> answer;
 
 	if (optimizedUsedInProcTable.size() >= v)
 		answer = optimizedUsedInProcTable.at(v);
@@ -98,7 +98,7 @@ vector<PROCIndex> UsesTable::getUsedInProc(VARIndex v)
 	return answer;
 }
 
-bool UsesTable::isUsedStmt(STMTIndex s, VARIndex v)
+bool UsesTable::isUsedStmt(STMT s, VAR v)
 {
 	if (optimizedUsedByStmtTable.size() >= s)
 	{
@@ -112,7 +112,7 @@ bool UsesTable::isUsedStmt(STMTIndex s, VARIndex v)
 	return false;
 }
 
-bool UsesTable::isUsedProc(PROCIndex p, VARIndex v)
+bool UsesTable::isUsedProc(PROC p, VAR v)
 {
 	if (optimizedUsedInStmtTable.size() >= p)
 	{

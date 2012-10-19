@@ -1,8 +1,6 @@
 #include "StdAfx.h"
 #include "PROCTable.h"
 
-PROCTable PROCTable::procedures;
-
 
 PROCTable::PROCTable(void)
 {

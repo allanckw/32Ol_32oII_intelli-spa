@@ -21,7 +21,7 @@ public:
 		Constant
 	} NodeType;
 
-	static ASTNode* rootNode;
+	
 	
 	/*	In C++, pure virtual functions are declared using the pure specifier[1] (= 0), as demonstrated below.
 	class Abstract {

@@ -1,12 +1,12 @@
 #include "StdAfx.h"
 #include "CallsTable.h"
-#include "PROCTable.h"
+#include "PKB.h"
 
 CallsTable::CallsTable()
 {
 }
 
-void CallsTable::insertCalls(PROCIndex p1, PROCIndex p2)
+void CallsTable::insertCalls(PROC p1, PROC p2)
 {
 	auto newPair = make_pair(p1, p2);
 	if (callsTable.size() != 0)
@@ -25,7 +25,7 @@ void CallsTable::insertCalls(PROCIndex p1, PROCIndex p2)
 //Creates hash tables callsTable and callsTable star for fast access during queries
 void CallsTable::optimizeCallsTable()
 {
-	vector<PROCIndex> immediateChildren, procsChecked;
+	vector<PROC> immediateChildren, procsChecked;
 
 	if (callsTable.size() != 0)
 	{
@@ -36,7 +36,7 @@ void CallsTable::optimizeCallsTable()
 		}
 	}
 
-	for (int x = 0; x < PROCTable->size(); x++) //Need actual size of PROCTable during runtime
+	for (int x = 0; x < PKB::procedures.getSize(); x++) //Need actual size of PROCTable during runtime
 	{
 		immediateChildren = optimizedCalledByTable.at(x);
 		optimizeCalledByStarTable(x, immediateChildren, procsChecked);
@@ -48,9 +48,9 @@ void CallsTable::optimizeCallsTable()
 	return;
 }
 
-void CallsTable::optimizeCalledByStarTable(PROCIndex p, vector<PROCIndex> currentChildren, vector<PROCIndex> procsChecked)
+void CallsTable::optimizeCalledByStarTable(PROC p, vector<PROC> currentChildren, vector<PROC> procsChecked)
 {
-	vector<PROCIndex> newChildren;
+	vector<PROC> newChildren;
 	bool isProcChecked = false;
 
 	//Keeping track of which procedures have already been interrogated and picking those not explored yet
@@ -77,7 +77,7 @@ void CallsTable::optimizeCalledByStarTable(PROCIndex p, vector<PROCIndex> curren
 
 	//Base case: either all procedures exhausted, or no new children left to explore
 	//Need to know actual size of PROCTable during runtime
-	if (procsChecked.size() == "max size of PROCTable" || newChildren.empty())
+	if (procsChecked.size() == PKB::procedures.getSize() || newChildren.empty())
 		return;
 
 	//To insert new grandchildren for next recursive call
@@ -100,9 +100,9 @@ void CallsTable::optimizeCalledByStarTable(PROCIndex p, vector<PROCIndex> curren
 	optimizeCalledByStarTable(p, currentChildren, procsChecked);
 }
 
-void CallsTable::optimizeCalledFromStarTable(PROCIndex p, vector<PROCIndex> currentChildren, vector<PROCIndex> procsChecked)
+void CallsTable::optimizeCalledFromStarTable(PROC p, vector<PROC> currentChildren, vector<PROC> procsChecked)
 {
-	vector<PROCIndex> newChildren;
+	vector<PROC> newChildren;
 	bool isProcChecked = false;
 
 	//Keeping track of which procedures have already been interrogated and picking those not explored yet
@@ -129,7 +129,7 @@ void CallsTable::optimizeCalledFromStarTable(PROCIndex p, vector<PROCIndex> curr
 
 	//Base case: either all procedures exhausted, or no new children left to explore
 	//Need to know actual size of PROCTable during runtime
-	if (procsChecked.size() == "max size of PROCTable" || newChildren.empty())
+	if (procsChecked.size() == PKB::procedures.getSize() || newChildren.empty())
 		return;
 
 	//To insert new grandchildren for next recursive call
@@ -152,9 +152,9 @@ void CallsTable::optimizeCalledFromStarTable(PROCIndex p, vector<PROCIndex> curr
 	optimizeCalledFromStarTable(p, currentChildren, procsChecked);
 }
 
-vector<PROCIndex> CallsTable::getCalledBy(PROCIndex p)
+vector<PROC> CallsTable::getCalledBy(PROC p)
 {
-	vector<PROCIndex> answer;
+	vector<PROC> answer;
 
 	if (optimizedCalledByTable.size() >= p)
 		answer = optimizedCalledByTable.at(p);
@@ -162,9 +162,9 @@ vector<PROCIndex> CallsTable::getCalledBy(PROCIndex p)
 	return answer;
 }
 
-vector<PROCIndex> CallsTable::getCalledFrom(PROCIndex p)
+vector<PROC> CallsTable::getCalledFrom(PROC p)
 {
-	vector<PROCIndex> answer;
+	vector<PROC> answer;
 
 	if (optimizedCalledFromTable.size() >= p)
 		answer = optimizedCalledFromTable.at(p);
@@ -172,9 +172,9 @@ vector<PROCIndex> CallsTable::getCalledFrom(PROCIndex p)
 	return answer;
 }
 
-vector<PROCIndex> CallsTable::getCalledByStar(PROCIndex p)
+vector<PROC> CallsTable::getCalledByStar(PROC p)
 {
-	vector<PROCIndex> answer;
+	vector<PROC> answer;
 
 	if (optimizedCalledByStarTable.size() >= p)
 		answer = optimizedCalledByStarTable.at(p);
@@ -182,9 +182,9 @@ vector<PROCIndex> CallsTable::getCalledByStar(PROCIndex p)
 	return answer; 
 }
 
-vector<PROCIndex> CallsTable::getCalledFromStar(PROCIndex p)
+vector<PROC> CallsTable::getCalledFromStar(PROC p)
 {
-	vector<PROCIndex> answer;
+	vector<PROC> answer;
 
 	if (optimizedCalledFromStarTable.size() >= p)
 		answer = optimizedCalledFromStarTable.at(p);
@@ -192,7 +192,7 @@ vector<PROCIndex> CallsTable::getCalledFromStar(PROCIndex p)
 	return answer;
 }
 
-bool CallsTable::isCalled(PROCIndex p1, PROCIndex p2)
+bool CallsTable::isCalled(PROC p1, PROC p2)
 {
 	if (optimizedCalledByTable.size() >= p1)
 	{
@@ -206,7 +206,7 @@ bool CallsTable::isCalled(PROCIndex p1, PROCIndex p2)
 	return false;
 }
 
-bool CallsTable::isCalledStar(PROCIndex p1, PROCIndex p2)
+bool CallsTable::isCalledStar(PROC p1, PROC p2)
 {
 	if (optimizedCalledByStarTable.size() >= p1)
 	{

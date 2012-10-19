@@ -12,7 +12,7 @@ public:
 	PROCIndex getPROCIndex(string PROCName);
 
 	int getSize();
-	static PROCTable procedures;
+	
 
 private:
 	vector<string> procs;

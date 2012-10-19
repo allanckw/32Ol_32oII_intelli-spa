@@ -16,7 +16,7 @@ public:
 
 	int getSize();
 
-	static VARTable variables;
+	
 private:
 	vector<string> vars;
 };

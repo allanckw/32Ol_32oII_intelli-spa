@@ -1,8 +1,7 @@
 #include "StdAfx.h"
 #include "StmtNode.h"
 #include "ASTNode.h"
-#include "VARTable.h"
-#include "PROCTable.h"
+#include "PKB.h"
 #include "ExprNode.h"
 #include "StmtLstNode.h"
 
@@ -135,7 +134,7 @@ void StmtNode::setValue(Index i)
 
 	if (this->getType() == Call)
 	{
-		if (i > (PROCTable::procedures.getSize() - 1))
+		if (i > (PKB::procedures.getSize() - 1))
 		{
 			throw SPAException("Invalid Parameter, Procedure Index cannot be found!");
 		}
@@ -146,7 +145,7 @@ void StmtNode::setValue(Index i)
 	}
 	else if (this->getType() == Assign || this->getType() == While || this->getType() == If)
 	{
-		if (i > (VARTable::variables.getSize() - 1))
+		if (i > (PKB::variables.getSize() - 1))
 		{
 			throw SPAException("Invalid Parameter, Variable Index cannot be found!");
 		}

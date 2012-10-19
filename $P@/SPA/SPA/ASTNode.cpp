@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "ASTNode.h"
 
-ASTNode* ASTNode::rootNode;
+
 
 ASTNode::ASTNode()
 {

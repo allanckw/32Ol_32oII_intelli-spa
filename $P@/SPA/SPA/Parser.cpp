@@ -1,8 +1,7 @@
 #include "StdAfx.h"
 #include "Parser.h"
 
-#include "VARTable.h"
-#include "PROCTable.h"
+#include "PKB.h"
 
 #include "SPAException.h"
 
@@ -101,9 +100,9 @@ void Parser::AddTables(vector<string> list, string newtoken)
 	else if(!isdigit(newtoken[0]))//if currentoken is not a number hence may be a variable or procedure
 	{
 		if(size != 0 && list.at(size-1) == "procedure")
-			PROCTable::procedures.insertPROC(newtoken);
+			PKB::procedures.insertPROC(newtoken);
 		else if(size == 0 || list.at(size-1) != "call")
-			VARTable::variables.insertVAR(newtoken);
+			PKB::variables.insertVAR(newtoken);
 			
 	}
 	else

@@ -11,6 +11,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\CallsTable.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\FollowsTable.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\ModifiesTable.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\PKB.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\UsesTable.h" />
     <ClInclude Include="AssignmentParser.h" />
     <ClInclude Include="ASTNode.h" />
     <ClInclude Include="DesignExtractor.h" />
@@ -24,6 +29,11 @@
     <ClInclude Include="VARTable.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\CallsTable.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\FollowsTable.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\ModifiesTable.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\PKB.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\UsesTable.cpp" />
     <ClCompile Include="AssignmentParser.cpp" />
     <ClCompile Include="ASTNode.cpp" />
     <ClCompile Include="DesignExtractor.cpp" />
@@ -42,7 +52,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>

@@ -87,6 +87,7 @@ publish
 [Bb]in
 [Oo]bj
 [iI]pch
+#[Ll]ib
 sql
 TestResults
 *.Cache

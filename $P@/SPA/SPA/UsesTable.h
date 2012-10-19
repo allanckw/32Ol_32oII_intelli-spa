@@ -7,13 +7,16 @@ typedef int VAR;
 class UsesTable
 {
 private:
+	int noStmts;
+	int noProcs;
+	int noVars;
 	vector<pair <STMT, VAR>> usesStmtTable; //Table of (stmt, var used by stmt)
 	vector<pair <PROC, VAR>> usesProcTable; //Table of (proc, var used by proc)
 	//Hash Tables
-	vector<vector<VAR>> optimizedUsedByStmtTable;
-	vector<vector<VAR>> optimizedUsedByProcTable;
-	vector<vector<STMT>> optimizedUsedInStmtTable;
-	vector<vector<PROC>> optimizedUsedInProcTable;
+	vector<VAR> * optimizedUsedByStmtTable;
+	vector<VAR> * optimizedUsedByProcTable;
+	vector<STMT> * optimizedUsedInStmtTable;
+	vector<PROC> * optimizedUsedInProcTable;
 
 public:
 	UsesTable();
@@ -27,4 +30,10 @@ public:
 	vector<PROC> getUsedInProc(VAR);
 	bool isUsedStmt(STMT, VAR);
 	bool isUsedProc(PROC, VAR);
+
+	//Functions for testing purposes
+	void displayUsedByProcTable();
+	void displayUsedByStmtTable();
+	void displayUsedInProcTable();
+	void displayUsedInStmtTable();
 };

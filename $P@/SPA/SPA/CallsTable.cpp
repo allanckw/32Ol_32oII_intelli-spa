@@ -4,10 +4,14 @@
 
 CallsTable::CallsTable()
 {
+	noProcs = PKB::procedures.getSize();
 }
 
 void CallsTable::insertCalls(PROC p1, PROC p2)
 {
+	if (p1 == p2)
+		throw SPAException("Procedure cannot perform direct call on itself.");
+
 	auto newPair = make_pair(p1, p2);
 	if (callsTable.size() != 0)
 	{
@@ -27,21 +31,26 @@ void CallsTable::optimizeCallsTable()
 {
 	vector<PROC> immediateChildren, procsChecked;
 
-	if (callsTable.size() != 0)
+	optimizedCalledByTable = new vector<PROC>[noProcs];
+	optimizedCalledByStarTable = new vector<PROC>[noProcs];
+	optimizedCalledFromTable = new vector<PROC>[noProcs];
+	optimizedCalledFromStarTable = new vector<PROC>[noProcs];
+
+	if (!callsTable.empty())
 	{
 		for (int i = 0; i < callsTable.size(); i++)
 		{
-			optimizedCalledByTable.at(callsTable.at(i).first).push_back(callsTable.at(i).second);
-			optimizedCalledFromTable.at(callsTable.at(i).second).push_back(callsTable.at(i).first);
+			optimizedCalledByTable[callsTable.at(i).first].push_back(callsTable.at(i).second);
+			optimizedCalledFromTable[callsTable.at(i).second].push_back(callsTable.at(i).first);
 		}
 	}
 
-	for (int x = 0; x < PKB::procedures.getSize(); x++) //Need actual size of PROCTable during runtime
+	for (int x = 0; x < noProcs; x++)
 	{
-		immediateChildren = optimizedCalledByTable.at(x);
+		immediateChildren = optimizedCalledByTable[x];
 		optimizeCalledByStarTable(x, immediateChildren, procsChecked);
 
-		immediateChildren = optimizedCalledFromTable.at(x);
+		immediateChildren = optimizedCalledFromTable[x];
 		optimizeCalledFromStarTable(x, immediateChildren, procsChecked);
 	}
 
@@ -69,15 +78,25 @@ void CallsTable::optimizeCalledByStarTable(PROC p, vector<PROC> currentChildren,
 			}
 
 			if(!isProcChecked)
+			{
 				procsChecked.push_back(currentChildren.at(k));
+				newChildren.push_back(currentChildren.at(k));
+			}
 
 			isProcChecked = false;
 		}
 	}
+	else if (procsChecked.empty() && !currentChildren.empty())
+	{
+		for (int a = 0; a < currentChildren.size(); a++)
+		{
+			procsChecked.push_back(currentChildren.at(a));
+			newChildren.push_back(currentChildren.at(a));
+		}
+	}
 
-	//Base case: either all procedures exhausted, or no new children left to explore
-	//Need to know actual size of PROCTable during runtime
-	if (procsChecked.size() == PKB::procedures.getSize() || newChildren.empty())
+	//Base case: No new children left to explore
+	if (newChildren.empty())
 		return;
 
 	//To insert new grandchildren for next recursive call
@@ -86,13 +105,13 @@ void CallsTable::optimizeCalledByStarTable(PROC p, vector<PROC> currentChildren,
 	for (int i = 0; i < newChildren.size(); i++) //for every child procedure
 	{
 		//add each new child to optimized table
-		optimizedCalledByStarTable.at(p).push_back(newChildren.at(i)); 
-		if (!optimizedCalledByTable.at(newChildren.at(i)).empty())
+		optimizedCalledByStarTable[p].push_back(newChildren.at(i)); 
+		if (!optimizedCalledByTable[newChildren.at(i)].empty())
 		{
-			for (int j = 0; j < optimizedCalledByTable.at(newChildren.at(i)).size(); j++) //for every child of each child procedure
+			for (int j = 0; j < optimizedCalledByTable[newChildren.at(i)].size(); j++) //for every child of each child procedure
 			{
 				//add each grandchild to list of children to interrogate next(WHOS UR CHILD?!
-				currentChildren.push_back(optimizedCalledByTable.at(newChildren.at(i)).at(j));
+				currentChildren.push_back(optimizedCalledByTable[newChildren.at(i)].at(j));
 			}
 		}
 	}
@@ -121,15 +140,25 @@ void CallsTable::optimizeCalledFromStarTable(PROC p, vector<PROC> currentChildre
 			}
 
 			if(!isProcChecked)
+			{
 				procsChecked.push_back(currentChildren.at(k));
+				newChildren.push_back(currentChildren.at(k));
+			}
 
 			isProcChecked = false;
 		}
 	}
+	else if (procsChecked.empty() && !currentChildren.empty())
+	{
+		for (int a = 0; a < currentChildren.size(); a++)
+		{
+			procsChecked.push_back(currentChildren.at(a));
+			newChildren.push_back(currentChildren.at(a));
+		}
+	}
 
-	//Base case: either all procedures exhausted, or no new children left to explore
-	//Need to know actual size of PROCTable during runtime
-	if (procsChecked.size() == PKB::procedures.getSize() || newChildren.empty())
+	//Base case: No new children left to explore
+	if (newChildren.empty())
 		return;
 
 	//To insert new grandchildren for next recursive call
@@ -138,13 +167,13 @@ void CallsTable::optimizeCalledFromStarTable(PROC p, vector<PROC> currentChildre
 	for (int i = 0; i < newChildren.size(); i++) //for every child procedure
 	{
 		//add each new child to optimized table
-		optimizedCalledFromStarTable.at(p).push_back(newChildren.at(i));
-		if (!optimizedCalledFromTable.at(newChildren.at(i)).empty())
+		optimizedCalledFromStarTable[p].push_back(newChildren.at(i)); 
+		if (!optimizedCalledFromTable[newChildren.at(i)].empty())
 		{
-			for (int j = 0; j < optimizedCalledFromTable.at(newChildren.at(i)).size(); j++) //for every child of each child procedure
+			for (int j = 0; j < optimizedCalledFromTable[newChildren.at(i)].size(); j++) //for every child of each child procedure
 			{
 				//add each grandchild to list of children to interrogate next(WHOS UR CHILD?!
-				currentChildren.push_back(optimizedCalledFromTable.at(newChildren.at(i)).at(j));
+				currentChildren.push_back(optimizedCalledFromTable[newChildren.at(i)].at(j));
 			}
 		}
 	}
@@ -156,8 +185,8 @@ vector<PROC> CallsTable::getCalledBy(PROC p)
 {
 	vector<PROC> answer;
 
-	if (optimizedCalledByTable.size() >= p)
-		answer = optimizedCalledByTable.at(p);
+	if (noProcs - 1 >= p)
+		answer = optimizedCalledByTable[p];
 
 	return answer;
 }
@@ -166,8 +195,8 @@ vector<PROC> CallsTable::getCalledFrom(PROC p)
 {
 	vector<PROC> answer;
 
-	if (optimizedCalledFromTable.size() >= p)
-		answer = optimizedCalledFromTable.at(p);
+	if (noProcs - 1 >= p)
+		answer = optimizedCalledFromTable[p];
 
 	return answer;
 }
@@ -176,8 +205,8 @@ vector<PROC> CallsTable::getCalledByStar(PROC p)
 {
 	vector<PROC> answer;
 
-	if (optimizedCalledByStarTable.size() >= p)
-		answer = optimizedCalledByStarTable.at(p);
+	if (noProcs - 1 >= p)
+		answer = optimizedCalledByStarTable[p];
 
 	return answer; 
 }
@@ -186,19 +215,19 @@ vector<PROC> CallsTable::getCalledFromStar(PROC p)
 {
 	vector<PROC> answer;
 
-	if (optimizedCalledFromStarTable.size() >= p)
-		answer = optimizedCalledFromStarTable.at(p);
+	if (noProcs - 1 >= p)
+		answer = optimizedCalledFromStarTable[p];
 
 	return answer;
 }
 
 bool CallsTable::isCalled(PROC p1, PROC p2)
 {
-	if (optimizedCalledByTable.size() >= p1)
+	if (noProcs - 1 >= p1 && noProcs - 1 >= p2)
 	{
-		for (int i = 0; i < optimizedCalledByTable.at(p1).size(); i++)
+		for (int i = 0; i < optimizedCalledByTable[p1].size(); i++)
 		{
-			if(optimizedCalledByTable.at(p1).at(i) == p2)
+			if(optimizedCalledByTable[p1].at(i) == p2)
 				return true;
 		}
 	}
@@ -208,14 +237,67 @@ bool CallsTable::isCalled(PROC p1, PROC p2)
 
 bool CallsTable::isCalledStar(PROC p1, PROC p2)
 {
-	if (optimizedCalledByStarTable.size() >= p1)
+	if (noProcs - 1 >= p1 && noProcs - 1 >= p2)
 	{
-		for (int i = 0; i < optimizedCalledByStarTable.at(p1).size(); i++)
+		for (int i = 0; i < optimizedCalledByStarTable[p1].size(); i++)
 		{
-			if(optimizedCalledByStarTable.at(p1).at(i) == p2)
+			if(optimizedCalledByStarTable[p1].at(i) == p2)
 				return true;
 		}
 	}
 
 	return false;
+}
+
+//////////////////////////////////
+//Functions for Testing purposes//
+//////////////////////////////////
+void CallsTable::displayCallsTable()
+{
+	for (int i = 0; i < callsTable.size(); i++)
+		cout<<callsTable.at(i).first<<" "<<callsTable.at(i).second<<endl;
+}
+
+void CallsTable::displayCalledByTable()
+{
+	for (int i = 0; i < noProcs; i++)
+	{
+		for (int j = 0; j < optimizedCalledByTable[i].size(); j++)
+			cout<<optimizedCalledByTable[i].at(j)<<" ";
+
+		cout<<endl;
+	}
+}
+
+void CallsTable::displayCalledByStarTable()
+{
+	for (int i = 0; i < noProcs; i++)
+	{
+		for (int j = 0; j < optimizedCalledByStarTable[i].size(); j++)
+			cout<<optimizedCalledByStarTable[i].at(j)<<" ";
+
+		cout<<endl;
+	}
+}
+
+void CallsTable::displayCalledFromTable()
+{
+	for (int i = 0; i < noProcs; i++)
+	{
+		for (int j = 0; j < optimizedCalledFromTable[i].size(); j++)
+			cout<<optimizedCalledFromTable[i].at(j)<<" ";
+
+		cout<<endl;
+	}
+}
+
+void CallsTable::displayCalledFromStarTable()
+{
+	for (int i = 0; i < noProcs; i++)
+	{
+		for (int j = 0; j < optimizedCalledFromStarTable[i].size(); j++)
+			cout<<optimizedCalledFromStarTable[i].at(j)<<" ";
+
+		cout<<endl;
+	}
 }

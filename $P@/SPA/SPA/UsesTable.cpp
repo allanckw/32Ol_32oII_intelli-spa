@@ -1,14 +1,18 @@
 #include "StdAfx.h"
+#include "PKB.h"
 #include "UsesTable.h"
 
 UsesTable::UsesTable()
 {
+	noStmts = PKB::statements.getSize();
+	noProcs = PKB::procedures.getSize();
+	noVars = PKB::variables.getSize();
 }
 
 void UsesTable::insertStmtUses(STMT s, VAR v)
 {
 	auto newPair = make_pair(s, v);
-	if (usesStmtTable.size() != 0)
+	if (!usesStmtTable.empty())
 	{
 		for (int i = 0; i < usesStmtTable.size(); i++)
 		{
@@ -23,7 +27,7 @@ void UsesTable::insertStmtUses(STMT s, VAR v)
 void UsesTable::insertProcUses(PROC p, VAR v)
 {
 	auto newPair = make_pair(p, v);
-	if (usesProcTable.size() != 0)
+	if (!usesProcTable.empty())
 	{
 		for (int i = 0; i < usesProcTable.size(); i++)
 		{
@@ -35,76 +39,81 @@ void UsesTable::insertProcUses(PROC p, VAR v)
 	usesProcTable.push_back(newPair);
 }
 
-//This function should be invoked once modifiestable has been fully populated by whoever is populating it
+//This function should be invoked once usestable has been fully populated by whoever is populating it
 void UsesTable::optimizeUsesTables()
 {
+	optimizedUsedByStmtTable = new vector<VAR>[noStmts];
+	optimizedUsedInStmtTable = new vector<STMT>[noVars];
+	optimizedUsedByProcTable = new vector<VAR>[noProcs];
+	optimizedUsedInProcTable = new vector<PROC>[noVars];
+
 	if (!usesStmtTable.empty())
 	{
 		for (int i = 0; i < usesStmtTable.size(); i++)
 		{
-			optimizedUsedByStmtTable.at(usesStmtTable.at(i).first).push_back(usesStmtTable.at(i).second);
-			optimizedUsedInStmtTable.at(usesStmtTable.at(i).second).push_back(usesStmtTable.at(i).first);
+			optimizedUsedInStmtTable[usesStmtTable.at(i).first].push_back(usesStmtTable.at(i).second);
+			optimizedUsedByStmtTable[usesStmtTable.at(i).second].push_back(usesStmtTable.at(i).first);
 		}
 	}
 	if (!usesProcTable.empty())
 	{
 		for (int j = 0; j < usesProcTable.size(); j++)
 		{
-			optimizedUsedByProcTable.at(usesProcTable.at(j).first).push_back(usesProcTable.at(j).second);
-			optimizedUsedInProcTable.at(usesProcTable.at(j).second).push_back(usesProcTable.at(j).first);
+			optimizedUsedInProcTable[usesProcTable.at(j).first].push_back(usesProcTable.at(j).second);
+			optimizedUsedByProcTable[usesProcTable.at(j).second].push_back(usesProcTable.at(j).first);
 		}
 	}
 
 	return;
 }
 
-vector<VAR> UsesTable::getUsedByStmt(STMT s)
+vector<VAR> UsesTable::getUsedInStmt(STMT s)
 {
 	vector<VAR> answer;
 
-	if (optimizedUsedByStmtTable.size() >= s)
-		answer = optimizedUsedByStmtTable.at(s);
+	if (noStmts - 1 >= s)
+		answer = optimizedUsedInStmtTable[s];
 
 	return answer;
 }
 
-vector<VAR> UsesTable::getUsedByProc(PROC p)
+vector<VAR> UsesTable::getUsedInProc(PROC p)
 {
 	vector<VAR> answer;
 
-	if (optimizedUsedByProcTable.size() >= p)
-		answer = optimizedUsedByProcTable.at(p);
+	if (noProcs - 1 >= p)
+		answer = optimizedUsedInProcTable[p];
 
 	return answer;
 }
 
-vector<STMT> UsesTable::getUsedInStmt(VAR v)
+vector<STMT> UsesTable::getUsedByStmt(VAR v)
 {
-	vector<VAR> answer;
+	vector<STMT> answer;
 
-	if (optimizedUsedInStmtTable.size() >= v)
-		answer = optimizedUsedInStmtTable.at(v);
+	if (noVars - 1 >= v)
+		answer = optimizedUsedByStmtTable[v];
 
 	return answer;
 }
 
-vector<PROC> UsesTable::getUsedInProc(VAR v)
+vector<PROC> UsesTable::getUsedByProc(VAR v)
 {
-	vector<VAR> answer;
+	vector<PROC> answer;
 
-	if (optimizedUsedInProcTable.size() >= v)
-		answer = optimizedUsedInProcTable.at(v);
+	if (noVars - 1 >= v)
+		answer = optimizedUsedByProcTable[v];
 
 	return answer;
 }
 
 bool UsesTable::isUsedStmt(STMT s, VAR v)
 {
-	if (optimizedUsedByStmtTable.size() >= s)
+	if (noStmts - 1 >= s && noVars - 1 > v)
 	{
-		for (int i = 0; i < optimizedUsedByStmtTable.at(s).size(); i++)
+		for (int i = 0; i < optimizedUsedByStmtTable[s].size(); i++)
 		{
-			if(optimizedUsedByStmtTable.at(s).at(i) == v)
+			if(optimizedUsedByStmtTable[s].at(i) == v)
 				return true;
 		}
 	}
@@ -114,14 +123,65 @@ bool UsesTable::isUsedStmt(STMT s, VAR v)
 
 bool UsesTable::isUsedProc(PROC p, VAR v)
 {
-	if (optimizedUsedInStmtTable.size() >= p)
+	if (noProcs - 1 >= p && noVars - 1 >= v)
 	{
-		for (int i = 0; i < optimizedUsedInStmtTable.at(p).size(); i++)
+		for (int i = 0; i < optimizedUsedByProcTable[p].size(); i++)
 		{
-			if(optimizedUsedInStmtTable.at(p).at(i) == v)
+			if(optimizedUsedByProcTable[p].at(i) == v)
 				return true;
 		}
 	}
 
 	return false;
+}
+
+//////////////////////////////////
+//Functions for testing purposes//
+//////////////////////////////////
+void UsesTable::displayUsedInProcTable()
+{
+	cout<<"PROC VAR"<<endl;
+	for (int i = 0; i < noVars; i++)
+	{
+		for (int j = 0; j < optimizedUsedInProcTable[i].size(); j++)
+			cout<<optimizedUsedInProcTable[i].at(j)<<" ";
+
+		cout<<endl;
+	}
+}
+
+void UsesTable::displayUsedInStmtTable()
+{
+	cout<<"STMT VAR"<<endl;
+	for (int i = 0; i < noVars; i++)
+	{
+		for (int j = 0; j < optimizedUsedInStmtTable[i].size(); j++)
+			cout<<optimizedUsedInStmtTable[i].at(j)<<" ";
+
+		cout<<endl;
+	}
+}
+
+void UsesTable::displayUsedByProcTable()
+{
+	cout<<"VAR PROC"<<endl;
+	for (int i = 0; i < noVars; i++)
+	{
+		for (int j = 0; j < optimizedUsedByProcTable[i].size(); j++)
+			cout<<optimizedUsedByProcTable[i].at(j)<<" ";
+
+		cout<<endl;
+	}
+}
+
+void UsesTable::displayUsedByStmtTable()
+{
+	cout<<"VAR STMT"<<endl;
+	for (int i = 0; i < noVars; i++)
+	{
+		for (int j = 0; j < optimizedUsedByProcTable[i].size(); j++)
+			cout<<optimizedUsedByProcTable[i].at(j)<<" ";
+
+		cout<<endl;
+	}
 }

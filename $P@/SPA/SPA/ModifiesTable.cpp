@@ -1,14 +1,18 @@
 #include "StdAfx.h"
+#include "PKB.h"
 #include "ModifiesTable.h"
 
 ModifiesTable::ModifiesTable()
 {
+	noStmts = PKB::statements.getSize();
+	noProcs = PKB::procedures.getSize();
+	noVars = PKB::variables.getSize();
 }
 
 void ModifiesTable::insertStmtModifies(STMT s, VAR v)
 {
 	auto newPair = make_pair(s, v);
-	if (modifiesStmtTable.size() != 0)
+	if (!modifiesStmtTable.empty())
 	{
 		for (int i = 0; i < modifiesStmtTable.size(); i++)
 		{
@@ -23,7 +27,7 @@ void ModifiesTable::insertStmtModifies(STMT s, VAR v)
 void ModifiesTable::insertProcModifies(PROC p, VAR v)
 {
 	auto newPair = make_pair(p, v);
-	if (modifiesProcTable.size() != 0)
+	if (!modifiesProcTable.empty())
 	{
 		for (int i = 0; i < modifiesProcTable.size(); i++)
 		{
@@ -38,73 +42,78 @@ void ModifiesTable::insertProcModifies(PROC p, VAR v)
 //This function should be invoked once modifiestable has been fully populated by whoever is populating it
 void ModifiesTable::optimizeModifiesTables()
 {
+	optimizedModifiesStmtTable = new vector<VAR>[noStmts];
+	optimizedModifiedByStmtTable = new vector<STMT>[noVars];
+	optimizedModifiesProcTable = new vector<VAR>[noProcs];
+	optimizedModifiedByProcTable = new vector<PROC>[noVars];
+
 	if (!modifiesStmtTable.empty())
 	{
 		for (int i = 0; i < modifiesStmtTable.size(); i++)
 		{
-			optimizedModifiesStmtTable.at(modifiesStmtTable.at(i).first).push_back(modifiesStmtTable.at(i).second);
-			optimizedModifiedByStmtTable.at(modifiesStmtTable.at(i).second).push_back(modifiesStmtTable.at(i).first);
+			optimizedModifiedByStmtTable[modifiesStmtTable.at(i).first].push_back(modifiesStmtTable.at(i).second);
+			optimizedModifiesStmtTable[modifiesStmtTable.at(i).second].push_back(modifiesStmtTable.at(i).first);
 		}
 	}
 	if (!modifiesProcTable.empty())
 	{
 		for (int j = 0; j < modifiesProcTable.size(); j++)
 		{
-			optimizedModifiesProcTable.at(modifiesProcTable.at(j).first).push_back(modifiesProcTable.at(j).second);
-			optimizedModifiedByProcTable.at(modifiesProcTable.at(j).second).push_back(modifiesProcTable.at(j).first);
+			optimizedModifiedByProcTable[modifiesProcTable.at(j).first].push_back(modifiesProcTable.at(j).second);
+			optimizedModifiesProcTable[modifiesProcTable.at(j).second].push_back(modifiesProcTable.at(j).first);
 		}
 	}
 
 	return;
 }
 
-vector<VAR> ModifiesTable::ModifiedByStmt(STMT s)
+vector<VAR> ModifiesTable::getModifiedByStmt(STMT s)
 {
 	vector<VAR> answer;
 
-	if (optimizedModifiesStmtTable.size() >= s)
-		answer = optimizedModifiesStmtTable.at(s);
+	if (noStmts - 1 >= s)
+		answer = optimizedModifiedByStmtTable[s];
 
 	return answer;
 }
 
-vector<VAR> ModifiesTable::ModifiedByProc(PROC p)
+vector<VAR> ModifiesTable::getModifiedByProc(PROC p)
 {
 	vector<VAR> answer;
 
-	if (optimizedModifiesProcTable.size() >= p)
-		answer = optimizedModifiesProcTable.at(p);
+	if (noProcs - 1 >= p)
+		answer = optimizedModifiedByProcTable[p];
 
 	return answer;
 }
 
 vector<STMT> ModifiesTable::getModifiesStmt(VAR v)
 {
-	vector<VAR> answer;
+	vector<STMT> answer;
 
-	if (optimizedModifiedByProcTable.size() >= v)
-		answer = optimizedModifiedByProcTable.at(v);
+	if (noVars - 1 >= v)
+		answer = optimizedModifiesStmtTable[v];
 
 	return answer;
 }
 
 vector<PROC> ModifiesTable::getModifiesProc(VAR v)
 {
-	vector<VAR> answer;
+	vector<PROC> answer;
 
-	if (optimizedModifiedByStmtTable.size() >= v)
-		answer = optimizedModifiedByStmtTable.at(v);
+	if (noVars - 1 >= v)
+		answer = optimizedModifiesProcTable[v];
 
 	return answer;
 }
 
 bool ModifiesTable::isModifiedStmt(STMT s, VAR v)
 {
-	if (optimizedModifiesStmtTable.size() >= s)
+	if (noStmts - 1 >= s && noVars - 1 > v)
 	{
-		for (int i = 0; i < optimizedModifiesStmtTable.at(s).size(); i++)
+		for (int i = 0; i < optimizedModifiesStmtTable[s].size(); i++)
 		{
-			if(optimizedModifiesStmtTable.at(s).at(i) == v)
+			if(optimizedModifiesStmtTable[s].at(i) == v)
 				return true;
 		}
 	}
@@ -114,14 +123,65 @@ bool ModifiesTable::isModifiedStmt(STMT s, VAR v)
 
 bool ModifiesTable::isModifiedProc(PROC p, VAR v)
 {
-	if (optimizedModifiesProcTable.size() >= p)
+	if (noProcs - 1 >= p && noVars - 1 >= v)
 	{
-		for (int i = 0; i < optimizedModifiesProcTable.at(p).size(); i++)
+		for (int i = 0; i < optimizedModifiesProcTable[p].size(); i++)
 		{
-			if(optimizedModifiesProcTable.at(p).at(i) == v)
+			if(optimizedModifiesProcTable[p].at(i) == v)
 				return true;
 		}
 	}
 
 	return false;
+}
+
+//////////////////////////////////
+//Functions for testing purposes//
+//////////////////////////////////
+void ModifiesTable::displayModifiedByProcTable()
+{
+	cout<<"PROC VAR"<<endl;
+	for (int i = 0; i < noVars; i++)
+	{
+		for (int j = 0; j < optimizedModifiedByProcTable[i].size(); j++)
+			cout<<optimizedModifiedByProcTable[i].at(j)<<" ";
+
+		cout<<endl;
+	}
+}
+
+void ModifiesTable::displayModifiedByStmtTable()
+{
+	cout<<"STMT VAR"<<endl;
+	for (int i = 0; i < noVars; i++)
+	{
+		for (int j = 0; j < optimizedModifiedByStmtTable[i].size(); j++)
+			cout<<optimizedModifiedByStmtTable[i].at(j)<<" ";
+
+		cout<<endl;
+	}
+}
+
+void ModifiesTable::displayModifiesProcTable()
+{
+	cout<<"VAR PROC"<<endl;
+	for (int i = 0; i < noVars; i++)
+	{
+		for (int j = 0; j < optimizedModifiesProcTable[i].size(); j++)
+			cout<<optimizedModifiesProcTable[i].at(j)<<" ";
+
+		cout<<endl;
+	}
+}
+
+void ModifiesTable::displayModifiesStmtTable()
+{
+	cout<<"VAR STMT"<<endl;
+	for (int i = 0; i < noVars; i++)
+	{
+		for (int j = 0; j < optimizedModifiesProcTable[i].size(); j++)
+			cout<<optimizedModifiesProcTable[i].at(j)<<" ";
+
+		cout<<endl;
+	}
 }

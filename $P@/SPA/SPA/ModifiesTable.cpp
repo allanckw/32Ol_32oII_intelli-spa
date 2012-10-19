@@ -100,8 +100,6 @@ vector<PROCIndex> ModifiesTable::getModifiesProc(VARIndex v)
 
 bool ModifiesTable::isModifiedStmt(STMTIndex s, VARIndex v)
 {
-	vector<VARIndex> answer;
-
 	if (optimizedModifiesStmtTable.size() >= s)
 	{
 		for (int i = 0; i < optimizedModifiesStmtTable.at(s).size(); i++)
@@ -116,8 +114,6 @@ bool ModifiesTable::isModifiedStmt(STMTIndex s, VARIndex v)
 
 bool ModifiesTable::isModifiedProc(PROCIndex p, VARIndex v)
 {
-	vector<VARIndex> answer;
-
 	if (optimizedModifiesProcTable.size() >= p)
 	{
 		for (int i = 0; i < optimizedModifiesProcTable.at(p).size(); i++)

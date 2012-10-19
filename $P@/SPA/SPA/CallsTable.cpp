@@ -192,5 +192,30 @@ vector<PROCIndex> CallsTable::getCalledFromStar(PROCIndex p)
 	return answer;
 }
 
-bool isCalled(PROCIndex, PROCIndex);
-bool isCalledStar(PROCIndex, PROCIndex);
+bool CallsTable::isCalled(PROCIndex p1, PROCIndex p2)
+{
+	if (optimizedCalledByTable.size() >= p1)
+	{
+		for (int i = 0; i < optimizedCalledByTable.at(p1).size(); i++)
+		{
+			if(optimizedCalledByTable.at(p1).at(i) == p2)
+				return true;
+		}
+	}
+
+	return false;
+}
+
+bool CallsTable::isCalledStar(PROCIndex p1, PROCIndex p2)
+{
+	if (optimizedCalledByStarTable.size() >= p1)
+	{
+		for (int i = 0; i < optimizedCalledByStarTable.at(p1).size(); i++)
+		{
+			if(optimizedCalledByStarTable.at(p1).at(i) == p2)
+				return true;
+		}
+	}
+
+	return false;
+}

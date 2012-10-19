@@ -100,8 +100,6 @@ vector<PROCIndex> UsesTable::getUsedInProc(VARIndex v)
 
 bool UsesTable::isUsedStmt(STMTIndex s, VARIndex v)
 {
-	vector<VARIndex> answer;
-
 	if (optimizedUsedByStmtTable.size() >= s)
 	{
 		for (int i = 0; i < optimizedUsedByStmtTable.at(s).size(); i++)
@@ -116,8 +114,6 @@ bool UsesTable::isUsedStmt(STMTIndex s, VARIndex v)
 
 bool UsesTable::isUsedProc(PROCIndex p, VARIndex v)
 {
-	vector<VARIndex> answer;
-
 	if (optimizedUsedInStmtTable.size() >= p)
 	{
 		for (int i = 0; i < optimizedUsedInStmtTable.at(p).size(); i++)

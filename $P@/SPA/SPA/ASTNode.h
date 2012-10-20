@@ -32,27 +32,34 @@ public:
 
 	ASTNode();
 	ASTNode(NodeType);
+	ASTNode(NodeType, PROC);
+
 	~ASTNode(void);
 
 	virtual ASTNode* AddChild(ASTNode*);
 	virtual ASTNode* SetParent(ASTNode * p);
-	virtual ASTNode* SetRightSibling(ASTNode * s);
+
+	//Removed as the index of children is a implicit right sibling table
+	//Child 1's right sibling is child 2.. etc
+	//virtual ASTNode* SetRightSibling(ASTNode * s);
+	//bool isHasRightSibling();
 
 	void SetRoot(int);
 
 	ASTNode::NodeType getType();
 	ASTNode* getChild(int);
 	ASTNode* getParent();
+
+	int getValue();
  
 	bool isHasChildren();
-	bool isHasRightSibling();
 	bool isRoot();
 
 protected:
 	int value;
 	ASTNode* parent;
 	vector<ASTNode*> children;
-	ASTNode* rightSibling;
+	//ASTNode* rightSibling;
 	NodeType nodeType;
 
 private:

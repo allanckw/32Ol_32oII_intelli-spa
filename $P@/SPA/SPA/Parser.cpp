@@ -322,15 +322,14 @@ ASTNode* Parser::processProcedure(int *i)
 	int* index = &tempindex;
 
 	vector<string> inner=Parser::tokenized_codes.at(*line);
-	//Note To KW:To add in PROCIndex for constructor
-	ASTNode* procNode = new ASTNode(ASTNode::NodeType::Procedure);
 	string procName = inner.at(1);
 
 	if (IsName(procName)==false){
 		throw SPAException("Invalid Name!");
 	}
-
 	PROCIndex pi=PKB::procedures.getPROCIndex(procName);
+
+	ASTNode* procNode = new ASTNode(ASTNode::NodeType::Procedure, pi );
 	//Get Next Line
 	(*line)++;
 	while(*line < Parser::tokenized_codes.size())

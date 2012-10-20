@@ -1,10 +1,9 @@
 #include "StdAfx.h"
 #include "StmtLstNode.h"
 
-//TODO: For HW, Full implementation of StmtLstNode
-
-StmtLstNode::StmtLstNode(NodeType type)
+StmtLstNode::StmtLstNode()
 {
+	this->nodeType = ASTNode::NodeType::StmtLst;
 }
 
 

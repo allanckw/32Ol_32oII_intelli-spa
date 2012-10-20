@@ -74,15 +74,23 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\TableTester.cpp" />
-    <ClCompile Include="..\..\..\$P%40\SPA\UnitTesting\TestCallsTable.cpp" />
+    <ClCompile Include="TestCalls.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\UnitTesting\TestFollows.cpp" />
+    <ClCompile Include="TestModifies.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\UnitTesting\TestParent.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\UnitTesting\TestProcTable.cpp" />
+    <ClCompile Include="TestUses.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\UnitTesting\TestVarTable.cpp" />
     <ClCompile Include="source\UnitTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\$P%40\SPA\UnitTesting\stdAfx.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\UnitTesting\TestCallsTable.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\UnitTesting\TestFollows.h" />
+    <ClInclude Include="TestModifies.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\UnitTesting\TestParent.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\UnitTesting\TestProcTable.h" />
+    <ClInclude Include="TestUses.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\UnitTesting\TestVarTable.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

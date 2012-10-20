@@ -27,7 +27,19 @@
     <ClCompile Include="..\..\..\$P%40\SPA\UnitTesting\TestProcTable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\$P%40\SPA\UnitTesting\TestCallsTable.cpp">
+    <ClCompile Include="..\..\..\$P%40\SPA\UnitTesting\TestParent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\$P%40\SPA\UnitTesting\TestFollows.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestModifies.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCalls.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestUses.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -42,6 +54,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\$P%40\SPA\UnitTesting\TestCallsTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\$P%40\SPA\UnitTesting\TestParent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\$P%40\SPA\UnitTesting\TestFollows.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TestUses.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TestModifies.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

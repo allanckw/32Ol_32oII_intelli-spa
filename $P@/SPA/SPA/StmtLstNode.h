@@ -8,7 +8,7 @@ class StmtLstNode :
 	public ASTNode
 {
 public:
-	StmtLstNode(NodeType type);
+	StmtLstNode();
 	~StmtLstNode(void);
 	int getSize();
 	void addChild(ASTNode*);

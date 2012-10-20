@@ -1,6 +1,5 @@
-#include "StdAfx.h"
+#pragma once
 #include "ASTNode.h"
-
 
 
 ASTNode::ASTNode()
@@ -21,8 +20,23 @@ ASTNode::ASTNode(NodeType type)
 	root = false;
 }
 
-ASTNode::~ASTNode(void)
+ASTNode::ASTNode(NodeType type, PROC p)
 {
+	if (type != Procedure && type != Program)
+	{
+		throw SPAException("Invalid NodeType: Please use StmtNode to denote stmts, StmtLstNode to denote stmtLst, and ExprNode to denote expressions");
+	}
+	else
+	{
+		this->nodeType = type;
+		this->value = p;
+	}
+	root = false;
+}
+
+int ASTNode::getValue()
+{
+	return this->value;
 }
 
 //Set parent to the node, return its reference
@@ -72,13 +86,7 @@ ASTNode* ASTNode::AddChild(ASTNode* c)
 	return this;
 }
 
-//Set right sibling to the node, return its reference
-//TODO: For Kai, Implement this f(x) to meet all constraints 
-ASTNode* ASTNode::SetRightSibling(ASTNode * s)
-{
-	this->rightSibling = s;
-	return this;
-}
+
 
 void ASTNode::SetRoot(int PROCIndex)
 {
@@ -100,11 +108,6 @@ bool ASTNode::isHasChildren()
 	return (children.size() > 0);
 }
 
-bool ASTNode::isHasRightSibling()
-{
-	return (this->rightSibling == NULL);
-}
-
 
 ASTNode::NodeType ASTNode::getType()
 {
@@ -124,3 +127,18 @@ ASTNode* ASTNode::getParent()
 {
 	return this->parent;
 }
+
+ASTNode::~ASTNode(void)
+{
+}
+
+//ASTNode* ASTNode::SetRightSibling(ASTNode * s)
+//{
+//	this->rightSibling = s;
+//	return this;
+//}
+
+//bool ASTNode::isHasRightSibling()
+//{
+//	return (this->rightSibling == NULL);
+//}

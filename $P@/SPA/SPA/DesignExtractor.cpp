@@ -1,6 +1,5 @@
 #include "DesignExtractor.h"
 
-//TODO: For Simon, WX, HW Traverse After its built to fill in respective tables
 DesignExtractor::DesignExtractor(CallsTable& ca, ModifiesTable& mo,
 	UsesTable& us, ParentTable& pa, FollowsTable& fo)
 {

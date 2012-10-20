@@ -7,12 +7,13 @@
 class PKB
 {
 public:
+	static int maxProgLines;
 
 	static PROCTable procedures;
 	static VARTable variables;
 	static ASTNode* rootNode;
 
-	static int maxProgLines;
+
 
 	PKB(void);
 	~PKB(void);

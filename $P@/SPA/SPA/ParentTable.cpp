@@ -1,39 +1,39 @@
 #include "StdAfx.h"
 #include "ParentTable.h"
 
-
 ParentTable::ParentTable()
 {
 }
-
 
 ParentTable::~ParentTable()
 {
 }
 
-//Armotised: O(1) (O(n) after n insertions)
-//Worst: O(r) <= O(n), where r, n is the number of relationships already, total relationships resp.
+//Let r be the number of relationships in ParentTable
+//Armotised: O(1) (O(k) after k insertions)
+//Worst: O(c) <= O(r), where c is the number of relationships in the table
 void ParentTable::insertParent(STMT s1, STMT s2)
 {
-	parentTo[s1][s2];
+	pair<unordered_set<STMT>, vector<STMT>> p = parentTo[s1];
+	p.first.insert(s2);
+	p.second.push_back(s2);
+
 	parentFrom[s2] = s1;
 }
 
 //O(1)
 bool ParentTable::isParent(STMT s1, STMT s2)
 {
-	return (parentTo.count(s1) && parentTo[s1].count(s2)) > 0;
+	return (parentTo.count(s1) && parentTo[s1].first.count(s2)) > 0;
 }
 
-//O(c) <= O(n), where c, n is the number of children, total relationships respectively
+//O(1)
 vector<STMT> ParentTable::getChildren(STMT s1)
 {
+	if (parentTo.count(s1))
+		return parentTo[s1].second;
+	
 	vector<STMT> output;
-	if (parentTo.count(s1)) {
-		unordered_map<STMT, void> children = parentTo[s1];
-		for (auto it = children.begin(); it != children.end(); it++)
-			output.push_back(it->first);
-	}
 	return output;
 }
 
@@ -46,7 +46,7 @@ STMT ParentTable:: getParent(STMT s2)
 		return -1;
 }
 
-//O(p) <= O(n), where p, n is the depth of s2, total relationships respectively
+//O(n) <= O(r), where n is the depth of s2
 bool ParentTable::isParentStar(STMT s1, STMT s2)
 {
 	STMT parent = s2;
@@ -59,14 +59,12 @@ bool ParentTable::isParentStar(STMT s1, STMT s2)
 	return true;
 }
 
-//O(c) <= O(n), where c, n is the number of children of s1, total relationships respectively
+//O(n) <= O(r), where n is the number of children of s1
 vector<STMT> ParentTable::getChildrenStar(STMT s1) 
 {
 	vector<STMT> output;
 	stack<STMT> stack;
 	STMT current;
-	//int numSTMT = PKB->statements.getSize();
-	int numSTMT = 100; //temporarily
 	
 	vector<STMT> children = getChildren(s1);
 	for (auto it = children.end(); it != children.begin(); it--)
@@ -82,7 +80,7 @@ vector<STMT> ParentTable::getChildrenStar(STMT s1)
 	return output;
 }
 
-//O(p) <= O(n), where p, n is the depth of s2, total relationships respectively
+//O(n) <= O(r), where n is the depth of s2
 vector <STMT> ParentTable::getParentStar(STMT s2) 
 {
 	vector <STMT> answer;
@@ -95,3 +93,4 @@ vector <STMT> ParentTable::getParentStar(STMT s2)
 			return answer;
 	} while (true);
 }
+

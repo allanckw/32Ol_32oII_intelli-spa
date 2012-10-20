@@ -1,8 +1,6 @@
 #include "StdAfx.h"
 #include "Parser.h"
-
 #include "PKB.h"
-
 #include "SPAException.h"
 
 //TODO: For Nick, put your parser into this controller
@@ -12,35 +10,26 @@ stack<char> brackets;
 
 Parser::Parser(vector<string> codings)
 {
-	
-	
 	string line;
-	  
 
-	  int currentline = 0;
-	  int totalsize = 0;
+	int currentline = 0;
 
-	  while(currentline < codings.size())
-	  {
+	while(currentline < codings.size()){
 		  line = codings.at(currentline);
 		  vector<string> lststr = tokenizer(line);//tokenize the line one by one
 		  Parser::tokenized_codes.push_back(lststr);//store the tokenized line
 		  currentline++;
-	  }
-	
-	  
-		if(brackets.size() != 0)
-		{
-			throw SPAException("Error during Parsing, Invalid Bracket matching");//error, bracket matching fail
-			
-		}
-
-	  
 	}
-	
-	
 
-
+	if(brackets.size() != 0){
+		throw SPAException("Error during Parsing, Invalid Bracket matching");//error, bracket matching fail
+	}
+	else
+	{
+		PKB::maxProgLines = currentline;
+	}
+	  
+}
 
 Parser::~Parser(void)
 {
@@ -120,7 +109,7 @@ void Parser::AddTables(vector<string> list, string newtoken)
 vector<string> Parser::tokenizer(string line)//split the string into tokens
 {
 	vector<string> list;
-	string delimiter = " -+/*;{}";//delimiter
+	string delimiter = " -+*;{}";//delimiter
 	int position = 0;//starting position
 	int startindex = -1;
 	int endindex = -1;

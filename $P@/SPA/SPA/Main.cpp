@@ -39,11 +39,8 @@ int main(int argc, char* arg[])
 		while ( myfile.good() )
 		{
 		  getline (myfile,line);
-		  //cout << line << endl;
 	
 		  codings.push_back(line);
-
-		 // codes.append(line);
 		}
 		myfile.close();
 	  }
@@ -57,40 +54,10 @@ int main(int argc, char* arg[])
 	  int* line=&templine;
 	  int* index = &tempindex;
 
-	  ASTNode* root;
-
 	  vector<vector<string>> data;
 
 	  Parser p(codings);
 	  data = Parser::tokenized_codes;
-
-	  //Vector of code form..
-	  //while(*line < Parser::tokenized_codes.size())
-	  //{
-		 // vector<string> inner =  Parser::tokenized_codes.at(*line);
-		 // *index = 0;
-		 // while(*index < inner.size())
-		 // {
-			//  //TODO: For Kai, Build the AST From Here
-			//  if (*index == 0 && *line == 0 )
-			//  {
-			//	  if (inner.at(*index) == "procedure") //Assume case sensitive
-			//	  {
-			//		  PROCIndex i = PROCTable::procedures.getPROCIndex(inner.at(1));
-			//		  if (i != 0)
-			//		  {
-			//			  //not the first procedure as parsed...
-			//		  }
-			//		  ASTNode::rootNode->SetRoot(i);
-			//	  }
-			//  }
-			//  //cout<<inner.at(*index)<<" ";
-			//  (*index)++;
-		 // }
-		 // cout<<endl;
-		 //// (*line)++;
-
-	  //}
 
 	  system("PAUSE");
 	}

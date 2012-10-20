@@ -4,7 +4,7 @@
 
 ModifiesTable::ModifiesTable()
 {
-	noStmts = PKB::statements.getSize();
+	noProgLines = PKB::maxProgLines;
 	noProcs = PKB::procedures.getSize();
 	noVars = PKB::variables.getSize();
 }
@@ -42,7 +42,7 @@ void ModifiesTable::insertProcModifies(PROC p, VAR v)
 //This function should be invoked once modifiestable has been fully populated by whoever is populating it
 void ModifiesTable::optimizeModifiesTables()
 {
-	optimizedModifiesStmtTable = new vector<VAR>[noStmts];
+	optimizedModifiesStmtTable = new vector<VAR>[noProgLines];
 	optimizedModifiedByStmtTable = new vector<STMT>[noVars];
 	optimizedModifiesProcTable = new vector<VAR>[noProcs];
 	optimizedModifiedByProcTable = new vector<PROC>[noVars];
@@ -71,7 +71,7 @@ vector<VAR> ModifiesTable::getModifiedByStmt(STMT s)
 {
 	vector<VAR> answer;
 
-	if (noStmts - 1 >= s)
+	if (noProgLines - 1 >= s)
 		answer = optimizedModifiedByStmtTable[s];
 
 	return answer;
@@ -109,7 +109,7 @@ vector<PROC> ModifiesTable::getModifiesProc(VAR v)
 
 bool ModifiesTable::isModifiedStmt(STMT s, VAR v)
 {
-	if (noStmts - 1 >= s && noVars - 1 > v)
+	if (noProgLines - 1 >= s && noVars - 1 > v)
 	{
 		for (int i = 0; i < optimizedModifiesStmtTable[s].size(); i++)
 		{

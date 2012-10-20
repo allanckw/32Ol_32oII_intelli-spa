@@ -168,6 +168,8 @@ string ExprNode::getOperator(){
 		return "-";
 	else if (value == 2)
 		return "*";
+	else
+		throw SPAException("Invalid Operator type");
 	
 }
 

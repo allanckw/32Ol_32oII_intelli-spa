@@ -1,4 +1,6 @@
 #pragma once
+
+
 class Parser
 {
 public:
@@ -6,6 +8,8 @@ public:
 
 	Parser(vector<string> codings);
 	~Parser(void);
+
+private:
 	bool IsEmpty(string str);
 	
 	bool is_number(const std::string& str);
@@ -13,4 +17,3 @@ public:
 	vector<string> tokenizer(string line);
 };
 
-//TODO: For Nick, put your parser into this controller

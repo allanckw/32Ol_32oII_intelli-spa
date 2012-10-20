@@ -4,7 +4,7 @@
 
 UsesTable::UsesTable()
 {
-	noStmts = PKB::statements.getSize();
+	noProgLines = PKB::maxProgLines;
 	noProcs = PKB::procedures.getSize();
 	noVars = PKB::variables.getSize();
 }
@@ -42,7 +42,7 @@ void UsesTable::insertProcUses(PROC p, VAR v)
 //This function should be invoked once usestable has been fully populated by whoever is populating it
 void UsesTable::optimizeUsesTables()
 {
-	optimizedUsedByStmtTable = new vector<VAR>[noStmts];
+	optimizedUsedByStmtTable = new vector<VAR>[noProgLines];
 	optimizedUsedInStmtTable = new vector<STMT>[noVars];
 	optimizedUsedByProcTable = new vector<VAR>[noProcs];
 	optimizedUsedInProcTable = new vector<PROC>[noVars];
@@ -71,7 +71,7 @@ vector<VAR> UsesTable::getUsedInStmt(STMT s)
 {
 	vector<VAR> answer;
 
-	if (noStmts - 1 >= s)
+	if (noProgLines - 1 >= s)
 		answer = optimizedUsedInStmtTable[s];
 
 	return answer;
@@ -109,7 +109,7 @@ vector<PROC> UsesTable::getUsedByProc(VAR v)
 
 bool UsesTable::isUsedStmt(STMT s, VAR v)
 {
-	if (noStmts - 1 >= s && noVars - 1 > v)
+	if (noProgLines - 1 >= s && noVars - 1 > v)
 	{
 		for (int i = 0; i < optimizedUsedByStmtTable[s].size(); i++)
 		{

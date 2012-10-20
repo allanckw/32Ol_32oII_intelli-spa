@@ -5,7 +5,7 @@
 class ModifiesTable
 {
 private:
-	int noStmts;
+	int noProgLines;
 	int noProcs;
 	int noVars;
 	vector<pair <STMT, VAR>> modifiesStmtTable; //Table of (stmt, var modified by stmt)

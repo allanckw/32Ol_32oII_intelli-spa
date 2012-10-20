@@ -12,6 +12,8 @@ public:
 	static VARTable variables;
 	static ASTNode* rootNode;
 
+	static int maxProgLines;
+
 	PKB(void);
 	~PKB(void);
 };

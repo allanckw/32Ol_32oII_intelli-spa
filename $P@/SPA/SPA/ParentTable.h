@@ -6,6 +6,7 @@ class ParentTable
 private:
 	unordered_map<STMT,
 		pair<unordered_set<STMT>, vector<STMT>>> parentTo;
+
 	unordered_map<STMT, STMT> parentFrom;
 
 public:

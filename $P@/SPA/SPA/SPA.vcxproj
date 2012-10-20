@@ -14,6 +14,7 @@
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\CallsTable.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\FollowsTable.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\ModifiesTable.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\ParentTable.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\PKB.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\UsesTable.h" />
     <ClInclude Include="AssignmentParser.h" />
@@ -32,6 +33,7 @@
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\CallsTable.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\FollowsTable.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\ModifiesTable.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\ParentTable.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\PKB.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\UsesTable.cpp" />
     <ClCompile Include="AssignmentParser.cpp" />

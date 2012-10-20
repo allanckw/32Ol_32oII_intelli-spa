@@ -7,7 +7,7 @@ typedef int VAR;
 class UsesTable
 {
 private:
-	int noStmts;
+	int noProgLines;
 	int noProcs;
 	int noVars;
 	vector<pair <STMT, VAR>> usesStmtTable; //Table of (stmt, var used by stmt)

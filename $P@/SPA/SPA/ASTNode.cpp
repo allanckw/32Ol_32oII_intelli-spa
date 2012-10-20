@@ -10,8 +10,7 @@ ASTNode::ASTNode()
 
 ASTNode::ASTNode(NodeType type)
 {
-	if (type != Procedure &&
-		type != Program)
+	if (type != Procedure && type != Program)
 	{
 		throw SPAException("Invalid NodeType: Please use StmtNode to denote stmts, StmtLstNode to denote stmtLst, and ExprNode to denote expressions");
 	}
@@ -114,7 +113,7 @@ ASTNode::NodeType ASTNode::getType()
 
 ASTNode* ASTNode::getChild(int i)
 {
-	if (i < 0 || i>children.size() -1)
+	if (i < 0 || i > children.size() -1)
 	{
 		throw SPAException("Index Out of Bound Exception, No Child at Index " + i);
 	}

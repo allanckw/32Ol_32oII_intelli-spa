@@ -17,6 +17,7 @@ void ParentTable::insertParent(STMT s1, STMT s2)
 	pair<unordered_set<STMT>, vector<STMT>> p = parentTo[s1];
 	p.first.insert(s2);
 	p.second.push_back(s2);
+	parentTo[s1] = p;
 
 	parentFrom[s2] = s1;
 }
@@ -67,14 +68,14 @@ vector<STMT> ParentTable::getChildrenStar(STMT s1)
 	STMT current;
 	
 	vector<STMT> children = getChildren(s1);
-	for (auto it = children.end(); it != children.begin(); it--)
+	for (auto it = children.rbegin(); it < children.rend(); it++)
 		stack.push(*it);
 	while (!stack.empty()) {
 		current = stack.top();
 		stack.pop();
 		output.push_back(current);
 		children = getChildren(current);
-		for (auto it = children.end(); it != children.begin(); it--)
+		for (auto it = children.rbegin(); it < children.rend(); it++)
 			stack.push(*it);
 	}
 	return output;

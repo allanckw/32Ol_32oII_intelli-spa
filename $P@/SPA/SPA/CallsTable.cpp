@@ -4,7 +4,8 @@
 
 CallsTable::CallsTable()
 {
-	noProcs = PKB::procedures.getSize();
+	noProcs = 5;
+	//noProcs = PKB::procedures.getSize();
 }
 
 void CallsTable::insertCalls(PROC p1, PROC p2)
@@ -254,14 +255,18 @@ bool CallsTable::isCalledStar(PROC p1, PROC p2)
 //////////////////////////////////
 void CallsTable::displayCallsTable()
 {
+	cout<<"ORIGINAL CALLSTABLE:"<<endl;
+	cout<<"p1 p2"<<endl;
 	for (int i = 0; i < callsTable.size(); i++)
-		cout<<callsTable.at(i).first<<" "<<callsTable.at(i).second<<endl;
+		cout<<callsTable.at(i).first<<"   "<<callsTable.at(i).second<<endl;
 }
 
 void CallsTable::displayCalledByTable()
 {
+	cout<<"PROC that calls PROC"<<endl;
 	for (int i = 0; i < noProcs; i++)
 	{
+		cout<<i<<": ";
 		for (int j = 0; j < optimizedCalledByTable[i].size(); j++)
 			cout<<optimizedCalledByTable[i].at(j)<<" ";
 
@@ -271,8 +276,10 @@ void CallsTable::displayCalledByTable()
 
 void CallsTable::displayCalledByStarTable()
 {
+	cout<<"PROC that calls* PROC*"<<endl;
 	for (int i = 0; i < noProcs; i++)
 	{
+		cout<<i<<": ";
 		for (int j = 0; j < optimizedCalledByStarTable[i].size(); j++)
 			cout<<optimizedCalledByStarTable[i].at(j)<<" ";
 
@@ -282,8 +289,10 @@ void CallsTable::displayCalledByStarTable()
 
 void CallsTable::displayCalledFromTable()
 {
+	cout<<"PROC called by PROC"<<endl;
 	for (int i = 0; i < noProcs; i++)
 	{
+		cout<<i<<": ";
 		for (int j = 0; j < optimizedCalledFromTable[i].size(); j++)
 			cout<<optimizedCalledFromTable[i].at(j)<<" ";
 
@@ -293,8 +302,10 @@ void CallsTable::displayCalledFromTable()
 
 void CallsTable::displayCalledFromStarTable()
 {
+	cout<<"PROC called* by PROC"<<endl;
 	for (int i = 0; i < noProcs; i++)
 	{
+		cout<<i<<": ";
 		for (int j = 0; j < optimizedCalledFromStarTable[i].size(); j++)
 			cout<<optimizedCalledFromStarTable[i].at(j)<<" ";
 

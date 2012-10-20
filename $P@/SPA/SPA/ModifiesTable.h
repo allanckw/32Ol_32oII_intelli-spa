@@ -21,7 +21,7 @@ public:
 
 	void insertStmtModifies(STMT, VAR);
 	void insertProcModifies(PROC, VAR);
-	void optimizeModifiesTables();
+	void optimizeModifiesTable();
 	vector<VAR> getModifiedByStmt(STMT);
 	vector<VAR> getModifiedByProc(PROC);
 	vector<STMT> getModifiesStmt(VAR);

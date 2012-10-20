@@ -4,9 +4,14 @@
 
 UsesTable::UsesTable()
 {
+	noProgLines = 5;
+	noProcs = 5;
+	noVars = 5;
+	/*
 	noProgLines = PKB::maxProgLines;
 	noProcs = PKB::procedures.getSize();
 	noVars = PKB::variables.getSize();
+	*/
 }
 
 void UsesTable::insertStmtUses(STMT s, VAR v)
@@ -40,7 +45,7 @@ void UsesTable::insertProcUses(PROC p, VAR v)
 }
 
 //This function should be invoked once usestable has been fully populated by whoever is populating it
-void UsesTable::optimizeUsesTables()
+void UsesTable::optimizeUsesTable()
 {
 	optimizedUsedByStmtTable = new vector<VAR>[noProgLines];
 	optimizedUsedInStmtTable = new vector<STMT>[noVars];
@@ -140,9 +145,10 @@ bool UsesTable::isUsedProc(PROC p, VAR v)
 //////////////////////////////////
 void UsesTable::displayUsedInProcTable()
 {
-	cout<<"PROC VAR"<<endl;
+	cout<<"PROC that use VAR"<<endl;
 	for (int i = 0; i < noVars; i++)
 	{
+		cout<<i<<": ";
 		for (int j = 0; j < optimizedUsedInProcTable[i].size(); j++)
 			cout<<optimizedUsedInProcTable[i].at(j)<<" ";
 
@@ -152,9 +158,10 @@ void UsesTable::displayUsedInProcTable()
 
 void UsesTable::displayUsedInStmtTable()
 {
-	cout<<"STMT VAR"<<endl;
+	cout<<"STMT that use VAR"<<endl;
 	for (int i = 0; i < noVars; i++)
 	{
+		cout<<i<<": ";
 		for (int j = 0; j < optimizedUsedInStmtTable[i].size(); j++)
 			cout<<optimizedUsedInStmtTable[i].at(j)<<" ";
 
@@ -164,9 +171,10 @@ void UsesTable::displayUsedInStmtTable()
 
 void UsesTable::displayUsedByProcTable()
 {
-	cout<<"VAR PROC"<<endl;
+	cout<<"VAR used by PROC"<<endl;
 	for (int i = 0; i < noVars; i++)
 	{
+		cout<<i<<": ";
 		for (int j = 0; j < optimizedUsedByProcTable[i].size(); j++)
 			cout<<optimizedUsedByProcTable[i].at(j)<<" ";
 
@@ -176,11 +184,12 @@ void UsesTable::displayUsedByProcTable()
 
 void UsesTable::displayUsedByStmtTable()
 {
-	cout<<"VAR STMT"<<endl;
+	cout<<"VAR used by STMT"<<endl;
 	for (int i = 0; i < noVars; i++)
 	{
-		for (int j = 0; j < optimizedUsedByProcTable[i].size(); j++)
-			cout<<optimizedUsedByProcTable[i].at(j)<<" ";
+		cout<<i<<": ";
+		for (int j = 0; j < optimizedUsedByStmtTable[i].size(); j++)
+			cout<<optimizedUsedByStmtTable[i].at(j)<<" ";
 
 		cout<<endl;
 	}

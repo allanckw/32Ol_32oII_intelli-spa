@@ -23,7 +23,7 @@ public:
 
 	void insertStmtUses(STMT, VAR);
 	void insertProcUses(PROC, VAR);
-	void optimizeUsesTables();
+	void optimizeUsesTable();
 	vector<VAR> getUsedByStmt(STMT);
 	vector<VAR> getUsedByProc(PROC);
 	vector<STMT> getUsedInStmt(VAR);

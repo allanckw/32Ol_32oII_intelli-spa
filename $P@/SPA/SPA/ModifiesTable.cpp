@@ -4,9 +4,15 @@
 
 ModifiesTable::ModifiesTable()
 {
+	noProgLines = 5;
+	noProcs = 5;
+	noVars = 5;
+
+	/*
 	noProgLines = PKB::maxProgLines;
 	noProcs = PKB::procedures.getSize();
 	noVars = PKB::variables.getSize();
+	*/
 }
 
 void ModifiesTable::insertStmtModifies(STMT s, VAR v)
@@ -40,7 +46,7 @@ void ModifiesTable::insertProcModifies(PROC p, VAR v)
 }
 
 //This function should be invoked once modifiestable has been fully populated by whoever is populating it
-void ModifiesTable::optimizeModifiesTables()
+void ModifiesTable::optimizeModifiesTable()
 {
 	optimizedModifiesStmtTable = new vector<VAR>[noProgLines];
 	optimizedModifiedByStmtTable = new vector<STMT>[noVars];
@@ -140,9 +146,10 @@ bool ModifiesTable::isModifiedProc(PROC p, VAR v)
 //////////////////////////////////
 void ModifiesTable::displayModifiedByProcTable()
 {
-	cout<<"PROC VAR"<<endl;
+	cout<<"PROC that modify VAR"<<endl;
 	for (int i = 0; i < noVars; i++)
 	{
+		cout<<i<<": ";
 		for (int j = 0; j < optimizedModifiedByProcTable[i].size(); j++)
 			cout<<optimizedModifiedByProcTable[i].at(j)<<" ";
 
@@ -152,9 +159,10 @@ void ModifiesTable::displayModifiedByProcTable()
 
 void ModifiesTable::displayModifiedByStmtTable()
 {
-	cout<<"STMT VAR"<<endl;
+	cout<<"STMT that modify VAR"<<endl;
 	for (int i = 0; i < noVars; i++)
 	{
+		cout<<i<<": ";
 		for (int j = 0; j < optimizedModifiedByStmtTable[i].size(); j++)
 			cout<<optimizedModifiedByStmtTable[i].at(j)<<" ";
 
@@ -164,9 +172,10 @@ void ModifiesTable::displayModifiedByStmtTable()
 
 void ModifiesTable::displayModifiesProcTable()
 {
-	cout<<"VAR PROC"<<endl;
+	cout<<"VAR modified by PROC"<<endl;
 	for (int i = 0; i < noVars; i++)
 	{
+		cout<<i<<": ";
 		for (int j = 0; j < optimizedModifiesProcTable[i].size(); j++)
 			cout<<optimizedModifiesProcTable[i].at(j)<<" ";
 
@@ -176,11 +185,12 @@ void ModifiesTable::displayModifiesProcTable()
 
 void ModifiesTable::displayModifiesStmtTable()
 {
-	cout<<"VAR STMT"<<endl;
+	cout<<"VAR modified by STMT"<<endl;
 	for (int i = 0; i < noVars; i++)
 	{
-		for (int j = 0; j < optimizedModifiesProcTable[i].size(); j++)
-			cout<<optimizedModifiesProcTable[i].at(j)<<" ";
+		cout<<i<<": ";
+		for (int j = 0; j < optimizedModifiesStmtTable[i].size(); j++)
+			cout<<optimizedModifiesStmtTable[i].at(j)<<" ";
 
 		cout<<endl;
 	}

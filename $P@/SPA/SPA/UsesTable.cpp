@@ -4,14 +4,9 @@
 
 UsesTable::UsesTable()
 {
-	noProgLines = 5;
-	noProcs = 5;
-	noVars = 5;
-	/*
 	noProgLines = PKB::maxProgLines;
 	noProcs = PKB::procedures.getSize();
 	noVars = PKB::variables.getSize();
-	*/
 }
 
 void UsesTable::insertStmtUses(STMT s, VAR v)

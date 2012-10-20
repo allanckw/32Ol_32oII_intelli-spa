@@ -17,6 +17,9 @@ ModifiesTable::ModifiesTable()
 
 void ModifiesTable::insertStmtModifies(STMT s, VAR v)
 {
+	if (s == 0)	{
+		throw new SPAException("Invalid Reference: There is no statement zero!");
+	}
 	auto newPair = make_pair(s, v);
 	if (!modifiesStmtTable.empty())
 	{

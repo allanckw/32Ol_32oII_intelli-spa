@@ -35,7 +35,6 @@
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\ModifiesTable.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\ParentTable.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\PKB.cpp" />
-    <ClCompile Include="..\..\..\$P%40\SPA\SPA\TableTester.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\UsesTable.cpp" />
     <ClCompile Include="AssignmentParser.cpp" />
     <ClCompile Include="ASTNode.cpp" />
@@ -55,7 +54,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -78,7 +77,7 @@
   <PropertyGroup />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level1</WarningLevel>
       <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>

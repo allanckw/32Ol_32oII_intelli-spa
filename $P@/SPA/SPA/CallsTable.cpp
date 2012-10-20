@@ -4,8 +4,7 @@
 
 CallsTable::CallsTable()
 {
-	noProcs = 5;
-	//noProcs = PKB::procedures.getSize();
+	noProcs = PKB::procedures.getSize();
 }
 
 void CallsTable::insertCalls(PROC p1, PROC p2)

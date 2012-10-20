@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 #include "PROCTable.h"
-
+#include "SPAException.h"
 
 PROCTable::PROCTable(void)
 {
@@ -30,7 +30,12 @@ int PROCTable::getSize()
 
 string PROCTable::getPROCName(PROCIndex i)
 {
-	return procs.at(i);
+	if (i > procs.size() -1 ){
+		throw SPAException("Invalid Index, there is no procedure at given location ");
+	}
+	else{
+		return procs.at(i);
+	}
 }
 
 PROCIndex PROCTable::getPROCIndex(string PROCName)

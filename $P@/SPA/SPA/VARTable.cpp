@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 #include "VARTable.h"
-
+#include "SPAException.h"
 
 
 VARTable::VARTable(void)
@@ -30,7 +30,12 @@ int VARTable::getSize()
 
 string VARTable::getVARName(VARIndex i)
 {
-	return vars.at(i);
+	if (i > vars.size() - 1){
+		throw SPAException("Invalid Index, there is no variable at given location ");
+	}
+	else{
+		return vars.at(i);
+	}
 }
 
 VARIndex VARTable::getVARIndex(string VARName)

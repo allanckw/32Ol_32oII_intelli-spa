@@ -39,15 +39,22 @@
   <PropertyGroup />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level1</WarningLevel>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(SolutionDir)source;$(SolutionDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(SolutionDir)lib\cppunit_debug.lib;$(SolutionDir)$(Configuration)\SPA.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>F:\3201_3202\cppunit.lib;F:\3201_3202\SPA\$P@\SPA\Debug\SPA.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Unit Test</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -66,7 +73,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\TableTester.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\UnitTesting\TestCallsTable.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\UnitTesting\TestProcTable.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\UnitTesting\TestVarTable.cpp" />
     <ClCompile Include="source\UnitTest.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\$P%40\SPA\UnitTesting\stdAfx.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\UnitTesting\TestCallsTable.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\UnitTesting\TestProcTable.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\UnitTesting\TestVarTable.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -20,6 +20,34 @@ StmtNode::StmtNode(int stmtNo, NodeType nodeType, Index value)
 	}
 }
 
+ASTNode* StmtNode::AddChild(ASTNode* c)
+{
+	int childLoc=this->children.size();
+
+	if(getType() == Call){
+		throw SPAException("Invalid Operation: No Children can be added to Call Nodes");
+	}
+	else if (childLoc <= 0 ){
+		throw SPAException("Invalid Parameter: Child Location must be at least 1. 1 denotes 1st child, 2 denotes 2nd child, etc...");
+	}
+	else if (getType() == If && childLoc > 3){
+		throw SPAException("Invalid Parameter: There is only a maximum of 3 children in If Statements Nodes!");
+	}
+	else if (childLoc > 2 && (getType() == While || getType() == Assign)){
+		throw SPAException("Invalid Parameter: There is only a maximum of 2 children in While/Assignment Nodes!");
+	}
+	else{
+		if (getType() == While)
+			addChildToWhile(c, childLoc);
+		else if (getType() == If)
+			addChildToIF(c, childLoc);
+		else if (getType() == Assign)
+			addChildToAssign(c, childLoc);
+		else
+			throw SPAException("Invalid Type for Statements, Expected Assign/Call/While/If");
+	}
+	return this;
+}
 
 ASTNode* StmtNode::AddChild(ASTNode* c, int childLoc)
 {

@@ -42,6 +42,7 @@ public:
 
 	ASTNode::NodeType getType();
 	ASTNode* getChild(int);
+	ASTNode* getParent();
  
 	bool isHasChildren();
 	bool isHasRightSibling();

@@ -19,6 +19,7 @@ public:
 	~StmtNode();
 	int getStmtNumber();
 
+	virtual ASTNode* AddChild(ASTNode* c);
 	virtual ASTNode* AddChild(ASTNode* c, int childLoc);
 };
 

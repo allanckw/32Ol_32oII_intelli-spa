@@ -119,3 +119,8 @@ ASTNode* ASTNode::getChild(int i)
 	}
 	return this->children[i];
 }
+
+ASTNode* ASTNode::getParent()
+{
+	return this->parent;
+}

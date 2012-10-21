@@ -121,6 +121,8 @@ vector<string> Parser::tokenizer(string line)//split the string into tokens
 
 		startindex = line.find_first_not_of(delimiter,position);
 
+		
+
 		if(endindex != -1 && endindex<line.size())
 			{
 				string tempstr1; //temp str to store subset of currently working substring
@@ -148,9 +150,13 @@ vector<string> Parser::tokenizer(string line)//split the string into tokens
 
 			position = endindex;
 		
-			if(startindex != -1)
+			if(startindex != -1 || line.size() == 1)
 			{
-				string tempstr = line.substr(startindex,endindex-startindex);
+				string tempstr;
+				if(line.size() == 1)
+					tempstr= line;
+				else
+					tempstr= line.substr(startindex,endindex-startindex);
 				AddTables(list,tempstr);
 				list.push_back(tempstr);			
 			}

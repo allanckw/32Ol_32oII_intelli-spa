@@ -27,7 +27,7 @@ int main(int argc, char* arg[])
 	//end testing code - Allan
 
 	try{
-	  ifstream myfile ("C:\\temp\\zzz.txt");
+	  ifstream myfile ("C:\\temp\\zzz.txt");//CS3201test6.txt");
 	  
 	  if (myfile.is_open()) {
 		while ( myfile.good() )		{		  

@@ -7,7 +7,7 @@ class Parser
 public:
 	static vector<vector<string>> tokenized_codes;
 
-	Parser(vector<string> codings);
+	Parser(string);
 	~Parser(void);
 
 	//Build AST Methods - JK

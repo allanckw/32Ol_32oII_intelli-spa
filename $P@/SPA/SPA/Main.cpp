@@ -9,7 +9,7 @@
 
 int main(int argc, char* arg[])
 {
-	vector<string> codings;
+	
 	string line;
 
 	//Testing Code
@@ -26,26 +26,26 @@ int main(int argc, char* arg[])
 
 	//end testing code - Allan
 
-	try{
-	  ifstream myfile ("C:\\temp\\zzz.txt");//CS3201test6.txt");
-	  
-	  if (myfile.is_open()) {
-		while ( myfile.good() )		{		  
-			getline (myfile,line);
-			codings.push_back(line);
-		}
-		myfile.close();
-	  }
+	//try{
+	//  ifstream myfile ("C:\\temp\\zzz.txt");//CS3201test6.txt");
+	//  
+	//  if (myfile.is_open()) {
+	//	while ( myfile.good() )		{		  
+	//		getline (myfile,line);
+	//		codings.push_back(line);
+	//	}
+	//	myfile.close();
+	//  }
 
-	  else cout << "Unable to open file"<<endl; 
+	//  else cout << "Unable to open file"<<endl; 
 
-	  //tokenize
-	  Parser p(codings);
-	  p.buildAST();
-	  
-	}catch (exception& e) {
-		cout << e.what() << endl;
-	}
+	//  //tokenize
+	//  //Parser p(arg);
+	//  //p.buildAST();
+	//  
+	//}catch (exception& e) {
+	//	cout << e.what() << endl;
+	//}
 	system("PAUSE");
 	return 0;
 }

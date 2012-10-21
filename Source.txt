@@ -1,0 +1,15 @@
+procedure lain {
+	x = yas;
+	while i {
+		x = x + q + 1;	}
+	if i {
+		x = x + 1; 	}
+	then {
+		yas = z + 1;	}
+	call Noob;
+}
+
+procedure Noob{
+	z = 1;
+	x = z;
+}

@@ -15,17 +15,23 @@ void TestVarTable::tearDown()
 
 void TestVarTable::testInsertAndRetrieveVars()
 {  
-	PKB::variables.insertVAR("asd");
-	PKB::variables.insertVAR("y");
 
-	CPPUNIT_ASSERT_EQUAL(0, PKB::variables.getVARIndex("asd"));
-	CPPUNIT_ASSERT_EQUAL(1, PKB::variables.getVARIndex("y"));
+	CPPUNIT_ASSERT_EQUAL(0, PKB::variables.getVARIndex("x"));
+	CPPUNIT_ASSERT_EQUAL(1, PKB::variables.getVARIndex("yas"));
+	CPPUNIT_ASSERT_EQUAL(2, PKB::variables.getVARIndex("i"));
+	CPPUNIT_ASSERT_EQUAL(3, PKB::variables.getVARIndex("z"));
 
 	string var = PKB::variables.getVARName(0);
-	CPPUNIT_ASSERT(var == "asd");
+	CPPUNIT_ASSERT(var == "x");
 
 	var = PKB::variables.getVARName(1);
-	CPPUNIT_ASSERT(var == "y");
+	CPPUNIT_ASSERT(var == "yas");
+	
+	var = PKB::variables.getVARName(2);
+	CPPUNIT_ASSERT(var == "i");
+
+	var = PKB::variables.getVARName(3);
+	CPPUNIT_ASSERT(var == "z");
 
 	CPPUNIT_ASSERT_EQUAL(-1, PKB::variables.getVARIndex("qq"));
 

@@ -14,17 +14,16 @@ void TestProcTable::tearDown()
 
 void TestProcTable::testInsertAndRetrieveProcs()
 {  
-	PKB::procedures.insertPROC("asd");
-	PKB::procedures.insertPROC("y");
 
-	CPPUNIT_ASSERT_EQUAL(0, PKB::procedures.getPROCIndex("asd"));
-	CPPUNIT_ASSERT_EQUAL(1, PKB::procedures.getPROCIndex("y"));
+
+	CPPUNIT_ASSERT_EQUAL(0, PKB::procedures.getPROCIndex("lain"));
+	CPPUNIT_ASSERT_EQUAL(1, PKB::procedures.getPROCIndex("Noob"));
 
 	string PROC = PKB::procedures.getPROCName(0);
-	CPPUNIT_ASSERT(PROC == "asd");
+	CPPUNIT_ASSERT(PROC == "lain");
 
 	PROC = PKB::procedures.getPROCName(1);
-	CPPUNIT_ASSERT(PROC == "y");
+	CPPUNIT_ASSERT(PROC == "Noob");
 
 	CPPUNIT_ASSERT_EQUAL(-1, PKB::procedures.getPROCIndex("qq"));
 

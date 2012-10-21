@@ -10,13 +10,33 @@ vector<vector<string>> Parser::tokenized_codes;
 
 stack<char> brackets;
 
-Parser::Parser(vector<string> codings)
+Parser::Parser(string fileName)
 {
+	vector<string> codings;
 	string line;
 
-	int currentline = 0;
+	try{
+	  
+		ifstream myfile (fileName);//CS3201test6.txt");
+	  
 
-	while(currentline < codings.size()){
+		if (myfile.is_open()) {
+		
+			while ( myfile.good() )		{		  
+			
+				getline (myfile,line);
+			
+				codings.push_back(line);
+		}
+		myfile.close();
+	  }
+	  else 
+		  cout << "Unable to open file"<<endl; 
+	  	
+	  int currentline = 0;
+
+	
+	  while(currentline < codings.size()){
 		  line = codings.at(currentline);
 		  vector<string> lststr = tokenizer(line);//tokenize the line one by one
 		  Parser::tokenized_codes.push_back(lststr);//store the tokenized line
@@ -30,7 +50,9 @@ Parser::Parser(vector<string> codings)
 	{
 		PKB::maxProgLines = currentline;
 	}
-	  
+	 }catch (exception& e) {
+		cout << e.what() << endl;
+	} 
 }
 
 Parser::~Parser(void)
@@ -93,7 +115,6 @@ void Parser::AddTables(vector<string> list, string newtoken)
 			PKB::procedures.insertPROC(newtoken);
 		else if(size == 0 || list.at(size-1) != "call")
 			PKB::variables.insertVAR(newtoken);
-			
 	}
 	else
 	{

@@ -77,11 +77,32 @@ bool Parser::is_number(const std::string& str)
     return !str.empty() && currentIterator == str.end();
 }
 
-void Parser::AddTables(vector<string> list, string newtoken)
+string Parser::Trim(string str)
+{
+	str.erase(remove(str.begin(), str.end(), '\t'), str.end());
+
+	return str;
+}
+
+void Parser::AddTables(vector<string> list, string newtokens)
 {
 	int size = list.size();
-	if(newtoken == "while" || newtoken == "if" || newtoken == "procedure" || newtoken == "+" || newtoken == "-" || 
-		newtoken == "*" ||  newtoken == "=" ||newtoken == "call"||newtoken == "then"||newtoken == "else"||newtoken == ";")//found a reserve token
+
+	//string replacement = Regex.Replace(s, @"\t|\n|\r", "");
+	//newtoken = newtoken.replace('\t',);
+	//std::remove(newtoken.begin(), newtoken.end(), '\t');
+	//newtoken.erase(newtoken,newtoken.end());
+	//newtoken.erase(remove(newtoken.begin(), newtoken.end(), '\t'), newtoken.end());
+
+	string newtoken = newtokens;
+	//newtoken.erase(remove(newtoken.begin(), newtoken.end(), '\t'), newtoken.end());
+	newtoken = Trim(newtoken);
+
+	if(newtoken.size() == 0 || newtoken.compare("while") == 0 || newtoken.compare("if") == 0 || newtoken.compare("procedure") == 0 || 
+		newtoken.compare("+") == 0 || newtoken.compare("-") == 0 || 
+		newtoken.compare("*") == 0 ||  newtoken.compare("=") == 0 ||
+		newtoken.compare("call") == 0||newtoken.compare("then") == 0||
+		newtoken.compare("else") == 0||newtoken.compare(";") == 0)//found a reserve token
 	{
 		return;
 	}
@@ -115,6 +136,7 @@ void Parser::AddTables(vector<string> list, string newtoken)
 			PKB::procedures.insertPROC(newtoken);
 		else if(size == 0 || list.at(size-1) != "call")
 			PKB::variables.insertVAR(newtoken);
+			
 	}
 	else
 	{
@@ -125,6 +147,7 @@ void Parser::AddTables(vector<string> list, string newtoken)
 			throw SPAException("Error during Parsing, Invalid Variable Starting Number");//error variable start with a number
 		}
 	}
+
 
 }
 
@@ -162,7 +185,7 @@ vector<string> Parser::tokenizer(string line)//split the string into tokens
 					if(tempstr2 != " ")
 					{
 						AddTables(list,tempstr2);
-						list.push_back(tempstr2);
+						list.push_back(Trim(tempstr2));
 					}
 				}
 			}
@@ -179,7 +202,7 @@ vector<string> Parser::tokenizer(string line)//split the string into tokens
 				else
 					tempstr= line.substr(startindex,endindex-startindex);
 				AddTables(list,tempstr);
-				list.push_back(tempstr);			
+				list.push_back(Trim(tempstr));			
 			}
 
 	}while(startindex != -1 && position < line.size() && endindex != -1);

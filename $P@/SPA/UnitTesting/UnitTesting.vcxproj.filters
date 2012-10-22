@@ -42,6 +42,12 @@
     <ClCompile Include="TestUses.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\$P%40\SPA\UnitTesting\TestAssnParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\$P%40\SPA\UnitTesting\TestBuildAST.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\$P%40\SPA\UnitTesting\TestVarTable.h">
@@ -66,6 +72,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TestModifies.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\$P%40\SPA\UnitTesting\TestAssnParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\$P%40\SPA\UnitTesting\TestBuildAST.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

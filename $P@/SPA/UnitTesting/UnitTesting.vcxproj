@@ -74,6 +74,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\TableTester.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\UnitTesting\TestAssnParser.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\UnitTesting\TestBuildAST.cpp" />
     <ClCompile Include="TestCalls.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\UnitTesting\TestFollows.cpp" />
     <ClCompile Include="TestModifies.cpp" />
@@ -85,6 +87,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\$P%40\SPA\UnitTesting\stdAfx.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\UnitTesting\TestAssnParser.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\UnitTesting\TestBuildAST.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\UnitTesting\TestCallsTable.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\UnitTesting\TestFollows.h" />
     <ClInclude Include="TestModifies.h" />

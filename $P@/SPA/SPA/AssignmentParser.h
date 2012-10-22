@@ -2,8 +2,6 @@
 #include "StdAfx.h"
 #include "ExprNode.h"
 
-//TODO: For Allan, Implement Shunting Yard Algorithm, to combine later with nick's parser class
-
 class AssignmentParser
 {
 private:
@@ -12,9 +10,8 @@ private:
 	static int compareOprPrecedence( string token1, string token2);
 	static void popOperator(string operators, string operands);
 	static int getConstantValue(string s);
- 
+	static bool isValidExpr(vector<string> expr);
 public:
 	
 	static ExprNode* processAssignment(vector<string> progline);
-	~AssignmentParser();
 };

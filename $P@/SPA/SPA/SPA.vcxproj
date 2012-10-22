@@ -35,6 +35,8 @@
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\ModifiesTable.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\ParentTable.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\PKB.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\QueryParser.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\TableTester.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\UsesTable.cpp" />
     <ClCompile Include="AssignmentParser.cpp" />
     <ClCompile Include="ASTNode.cpp" />

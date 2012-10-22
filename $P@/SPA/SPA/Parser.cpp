@@ -216,6 +216,7 @@ vector<string> Parser::tokenizer(string line)//split the string into tokens
 	return list;
 }
 
+
 void Parser::buildAST()
 {
 
@@ -411,8 +412,10 @@ StmtNode* Parser::processAssignment(int *i)
 	}
 
 	StmtNode* stmtAssign=new StmtNode(*i,ASTNode::NodeType::Assign,vi);
+	ExprNode* leftNode = new ExprNode(ASTNode::NodeType::Variable, vi);
 	ExprNode* rightNode = AssignmentParser::processAssignment(rightExpression);
-	stmtAssign->addChild(rightNode, 2);
+	stmtAssign->addChild(leftNode,1);
+	stmtAssign->addChild(rightNode,2);
 	return stmtAssign;
 }
 

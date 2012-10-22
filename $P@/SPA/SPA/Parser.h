@@ -25,5 +25,6 @@ private:
 	ASTNode* processProcedure(int *i);
 	StmtNode* processWhile(int *i, Index procIdx);
 	StmtNode* processCall(int *i, Index procIdx);
+	StmtNode* processAssignment(int *i);
 };
 

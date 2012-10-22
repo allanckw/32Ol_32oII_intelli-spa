@@ -80,7 +80,7 @@ ASTNode* ExprNode::addChild(ASTNode* c, int childLoc){
 	}
 	else if (this->getType() == Operator){
 
-		if (c->getType() != Constant && c->getType() != Constant && c->getType() != Variable)
+		if (c->getType() != Operator && c->getType() != Constant && c->getType() != Variable)
 		{
 			throw SPAException("Invalid Operation: Child of Operators must be of type Expression (Operator/Constant/Variable)");
 		}

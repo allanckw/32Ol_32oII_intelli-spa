@@ -5,6 +5,8 @@
 #include "ASTNode.h"
 #include "StmtNode.h"
 #include "StmtLstNode.h"
+#include "AssignmentParser.h"
+
 //TODO: For Nick, put your parser into this controller
 vector<vector<string>> Parser::tokenized_codes;
 
@@ -84,7 +86,7 @@ string Parser::Trim(string str)
 	return str;
 }
 
-void Parser::AddTables(vector<string> list, string newtokens)
+void Parser::AddTables(vector<string> list, string newtoken)
 {
 	int size = list.size();
 
@@ -94,9 +96,9 @@ void Parser::AddTables(vector<string> list, string newtokens)
 	//newtoken.erase(newtoken,newtoken.end());
 	//newtoken.erase(remove(newtoken.begin(), newtoken.end(), '\t'), newtoken.end());
 
-	string newtoken = newtokens;
+	//string newtoken = newtokens;
 	//newtoken.erase(remove(newtoken.begin(), newtoken.end(), '\t'), newtoken.end());
-	newtoken = Trim(newtoken);
+	//newtoken = Trim(newtoken);
 
 	if(newtoken.size() == 0 || newtoken.compare("while") == 0 || newtoken.compare("if") == 0 || newtoken.compare("procedure") == 0 || 
 		newtoken.compare("+") == 0 || newtoken.compare("-") == 0 || 
@@ -180,12 +182,12 @@ vector<string> Parser::tokenizer(string line)//split the string into tokens
 				}
 				for(int i=0;i<tempstr1.size();)
 				{
-					string tempstr2 = tempstr1.substr(0,1);
+					string tempstr2 = Trim(tempstr1.substr(0,1));
 					tempstr1 = tempstr1.substr(1,tempstr1.size()-1);
 					if(tempstr2 != " ")
 					{
 						AddTables(list,tempstr2);
-						list.push_back(Trim(tempstr2));
+						list.push_back(tempstr2);
 					}
 				}
 			}
@@ -198,11 +200,15 @@ vector<string> Parser::tokenizer(string line)//split the string into tokens
 			{
 				string tempstr;
 				if(line.size() == 1)
-					tempstr= line;
+					tempstr= Trim(line);
 				else
-					tempstr= line.substr(startindex,endindex-startindex);
-				AddTables(list,tempstr);
-				list.push_back(Trim(tempstr));			
+					tempstr= Trim(line.substr(startindex,endindex-startindex));
+
+				if(tempstr.size()>0)
+				{
+					AddTables(list,tempstr);
+					list.push_back(tempstr);			
+				}
 			}
 
 	}while(startindex != -1 && position < line.size() && endindex != -1);
@@ -324,9 +330,13 @@ StmtNode* Parser::processWhile(int *i, Index procIdx)
 			
 			if(*index==0){	
 				if (keyword=="call"){
-					stmtLstNode->addChild(processCall(line, procIdx));
+					StmtNode* callNode=processCall(line, procIdx);
+					callNode->setParent(stmtNode);
+					stmtLstNode->addChild(callNode);
 				}else if(keyword=="while"){
-					stmtLstNode->addChild(processWhile(line, procIdx));
+					StmtNode* whileNode=processWhile(line, procIdx);
+					whileNode->setParent(stmtNode);
+					stmtLstNode->addChild(whileNode);
 				}
 				else if(keyword=="if"){
 					//No implementation - Not required in CS3201
@@ -341,7 +351,10 @@ StmtNode* Parser::processWhile(int *i, Index procIdx)
 				{
 					if(keyword=="=")//check for assignment Statement
 					{
-					//processAssignmentNode
+						//processAssignmentNode
+						StmtNode* assignNode=processAssignment(line);
+						assignNode->setParent(stmtNode);
+						stmtLstNode->addChild(assignNode);
 					}
 				}
 			}
@@ -375,6 +388,34 @@ StmtNode* Parser::processCall(int *i, Index procIdx)
 	return stmtCall;
 }
 
+StmtNode* Parser::processAssignment(int *i)
+{
+	vector<string> inner=Parser::tokenized_codes.at(*i);
+	string varName = inner.at(0);
+
+	if (isName(varName)==false){
+		throw SPAException("Invalid Name!");
+	}
+
+	VARIndex vi=PKB::variables.getVARIndex(varName);
+
+	vector<string> rightExpression;
+	int exIdx=2;
+	while(exIdx<inner.size())
+	{
+		rightExpression.push_back(inner.at(exIdx));
+		
+		if(inner.at(exIdx)==";")
+			break;
+		exIdx++;
+	}
+
+	StmtNode* stmtAssign=new StmtNode(*i,ASTNode::NodeType::Assign,vi);
+	ExprNode* rightNode = AssignmentParser::processAssignment(rightExpression);
+	stmtAssign->addChild(rightNode, 2);
+	return stmtAssign;
+}
+
 ASTNode* Parser::processProcedure(int *i)
 {
 	stack<char> brackets;
@@ -396,10 +437,6 @@ ASTNode* Parser::processProcedure(int *i)
 	//Get Next Line
 	(*line)++;
 
-	//if(inner.size()>2 && inner.at(2)=="{")
-	//{
-	//	brackets.push('{');
-	//}
 	for(int i=0; i<inner.size(); i++)
 	{
 		if(inner.at(i)=="{")
@@ -439,16 +476,14 @@ ASTNode* Parser::processProcedure(int *i)
 				
 			if(*index==0){			
 				if (keyword=="call"){
-					//cout<<*line<<endl;
-					stmtLstNode->addChild(processCall(line, pi));
-					//cout<<*line<<endl;
-					//system("PAUSE");
-					//cout<<"PROCESS Call FINISH!"<<endl;
+					StmtNode* callNode=processCall(line, pi);
+					callNode->setParent(procNode);
+					stmtLstNode->addChild(callNode);
 					break;
-				}
-				else if(keyword=="while"){
-					stmtLstNode->addChild(processWhile(line, pi));
-					//cout<<"PROCESS WHILE FINISH!"<<endl;
+				}else if(keyword=="while"){
+					StmtNode* whileNode=processWhile(line, pi);
+					whileNode->setParent(procNode);
+					stmtLstNode->addChild(whileNode);
 					break;
 				}
 				else if(keyword=="if")
@@ -462,7 +497,9 @@ ASTNode* Parser::processProcedure(int *i)
 				{
 					if(keyword=="="){//check for assignment Statement
 					//processAssignmentNode
-					//stmtLstNode->addChild(processAssignment(line));
+						StmtNode* assignNode=processAssignment(line);
+						assignNode->setParent(procNode);
+						stmtLstNode->addChild(assignNode);
 					}
 				}
 			}

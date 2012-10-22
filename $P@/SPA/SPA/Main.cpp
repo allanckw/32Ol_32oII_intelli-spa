@@ -17,8 +17,8 @@ int main(int argc, char* arg[])
 	try{
 		ExprNode* test = new ExprNode(ASTNode::NodeType::Variable, "X");
 		cout<< test->getType() << endl;
-		test->AddChild(new ExprNode(ASTNode::NodeType::Constant, 10), 1);
-		test->AddChild(new ExprNode(ASTNode::NodeType::Constant, 5), 1);
+		test->addChild(new ExprNode(ASTNode::NodeType::Constant, 10), 1);
+		test->addChild(new ExprNode(ASTNode::NodeType::Constant, 5), 1);
 	}
 	catch (exception& e) {
 		cout << e.what() << endl;

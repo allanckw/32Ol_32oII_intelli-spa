@@ -36,15 +36,15 @@ public:
 
 	~ASTNode(void);
 
-	virtual ASTNode* AddChild(ASTNode*);
-	virtual ASTNode* SetParent(ASTNode * p);
+	virtual ASTNode* addChild(ASTNode*);
+	virtual ASTNode* setParent(ASTNode * p);
 
 	//Removed as the index of children is a implicit right sibling table
 	//Child 1's right sibling is child 2.. etc
 	//virtual ASTNode* SetRightSibling(ASTNode * s);
 	//bool isHasRightSibling();
 
-	void SetRoot(int);
+	void setRoot(int);
 
 	ASTNode::NodeType getType();
 	ASTNode* getChild(int);

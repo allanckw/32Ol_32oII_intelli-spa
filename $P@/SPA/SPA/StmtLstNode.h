@@ -11,6 +11,6 @@ public:
 	StmtLstNode();
 	~StmtLstNode(void);
 	int getSize();
-	void addChild(ASTNode*);
+	virtual ASTNode* addChild(ASTNode*);
 };
 

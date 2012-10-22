@@ -63,7 +63,7 @@ ExprNode::ExprNode(NodeType nodeType, Expr value)
 	}
 }
 
-ASTNode* ExprNode::AddChild(ASTNode* c, int childLoc){
+ASTNode* ExprNode::addChild(ASTNode* c, int childLoc){
 
 	if (childLoc <= 0 )
 	{

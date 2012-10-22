@@ -40,7 +40,7 @@ int ASTNode::getValue()
 }
 
 //Set parent to the node, return its reference
-ASTNode* ASTNode::SetParent(ASTNode * p)
+ASTNode* ASTNode::setParent(ASTNode * p)
 {
 	if (this->root){
 		throw SPAException("Node is already the root, Unable to set parent");
@@ -52,7 +52,7 @@ ASTNode* ASTNode::SetParent(ASTNode * p)
 	return this;
 }
 
-ASTNode* ASTNode::AddChild(ASTNode* c)
+ASTNode* ASTNode::addChild(ASTNode* c)
 {
 	if(this->getType() == Program)
 	{
@@ -88,7 +88,7 @@ ASTNode* ASTNode::AddChild(ASTNode* c)
 
 
 
-void ASTNode::SetRoot(int PROCIndex)
+void ASTNode::setRoot(int PROCIndex)
 {
 	if(getType() != Program){
 		throw SPAException("Invalid Operation: Root must be a Program Node");

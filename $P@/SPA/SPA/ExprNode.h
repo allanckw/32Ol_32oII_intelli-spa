@@ -13,7 +13,7 @@ public:
 	~ExprNode(void);
 	bool isMatched(Expr);
 
-	virtual ASTNode* AddChild(ASTNode* c, int childLoc);
+	virtual ASTNode* addChild(ASTNode* c, int childLoc);
 
 private:
 	bool isVARMatched(string);

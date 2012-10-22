@@ -13,7 +13,7 @@ public:
 	//Build AST Methods - JK
 	void buildAST();
 private:
-	bool IsEmpty(string str);
+	bool isEmpty(string str);
 	
 	bool is_number(const std::string& str);
 	void AddTables(vector<string> list, string newtoken);
@@ -21,7 +21,7 @@ private:
 	string Trim(string str);
 	
 	//Build AST Methods - JK
-	bool Parser::IsName(string s);
+	bool Parser::isName(string s);
 	ASTNode* processProcedure(int *i);
 	StmtNode* processWhile(int *i, Index procIdx);
 	StmtNode* processCall(int *i, Index procIdx);

@@ -10,7 +10,7 @@ StmtNode::StmtNode(int stmtNo, NodeType nodeType, Index value)
 	if (stmtNo < 0){
 		throw SPAException("Invalid Statement Number, must be more than 0");
 	}
-	else if (getType() != Assign && getType() != Call && getType() != While && getType() != If){
+	else if (nodeType != Assign && nodeType != Call && nodeType != While && nodeType != If){
 		throw SPAException("Invalid Type for Statements, Expected Assign/Call/While/If");
 	}
 	else{
@@ -20,7 +20,7 @@ StmtNode::StmtNode(int stmtNo, NodeType nodeType, Index value)
 	}
 }
 
-ASTNode* StmtNode::AddChild(ASTNode* c)
+ASTNode* StmtNode::addChild(ASTNode* c)
 {
 	int childLoc=this->children.size();
 
@@ -49,7 +49,7 @@ ASTNode* StmtNode::AddChild(ASTNode* c)
 	return this;
 }
 
-ASTNode* StmtNode::AddChild(ASTNode* c, int childLoc)
+ASTNode* StmtNode::addChild(ASTNode* c, int childLoc)
 {
 	if(getType() == Call){
 		throw SPAException("Invalid Operation: No Children can be added to Call Nodes");
@@ -182,7 +182,7 @@ void StmtNode::setValue(Index i)
 			this->value = i;
 			//Set first child after setting value
 			ExprNode* varNode = new ExprNode(ASTNode::NodeType::Variable, i);
-			this->AddChild(varNode, 1);
+			this->addChild(varNode, 1);
 		}
 	}
 	

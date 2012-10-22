@@ -16,9 +16,9 @@ int StmtLstNode::getSize()
 	return children.size();
 }
 
-void StmtLstNode::addChild(ASTNode* node)
+ASTNode* StmtLstNode::addChild(ASTNode* node)
 {
-	if(node->getType() == Assign || node->getType() == If || node->getType() == While)
+	if(node->getType() == Assign || node->getType() == If || node->getType() == While || node->getType() == Call)
 		children.push_back(node);
 	else
 		throw SPAException("StmtLstNode cannot accept weird nodes as children");

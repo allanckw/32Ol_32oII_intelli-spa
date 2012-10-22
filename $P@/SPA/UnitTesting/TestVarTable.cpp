@@ -19,7 +19,8 @@ void TestVarTable::testInsertAndRetrieveVars()
 	CPPUNIT_ASSERT_EQUAL(0, PKB::variables.getVARIndex("x"));
 	CPPUNIT_ASSERT_EQUAL(1, PKB::variables.getVARIndex("yas"));
 	CPPUNIT_ASSERT_EQUAL(2, PKB::variables.getVARIndex("i"));
-	CPPUNIT_ASSERT_EQUAL(3, PKB::variables.getVARIndex("z"));
+	CPPUNIT_ASSERT_EQUAL(3, PKB::variables.getVARIndex("q"));
+	CPPUNIT_ASSERT_EQUAL(4, PKB::variables.getVARIndex("z"));
 
 	string var = PKB::variables.getVARName(0);
 	CPPUNIT_ASSERT(var == "x");
@@ -31,6 +32,9 @@ void TestVarTable::testInsertAndRetrieveVars()
 	CPPUNIT_ASSERT(var == "i");
 
 	var = PKB::variables.getVARName(3);
+	CPPUNIT_ASSERT(var == "q");
+
+	var = PKB::variables.getVARName(4);
 	CPPUNIT_ASSERT(var == "z");
 
 	CPPUNIT_ASSERT_EQUAL(-1, PKB::variables.getVARIndex("qq"));

@@ -25,48 +25,45 @@
 //	return 0;
 //}
 
-void QueryParser::tokenize(string query)
+vector<string> QueryParser::tokenize(string query)
 {
 	tokens.clear();
-	string delimiters = (";,()");
-	char endline = '\n';
-	string currentstr, tempstr;
+	string delimiters = (";,()."), spaces(" \t");
+	string currentStr, tempStr;
 	int lastpos, pos;
-	lastpos = query.find_first_not_of(' ', 0);
-	pos = query.find_first_of(' ', lastpos);
+	lastpos = query.find_first_not_of(spaces, 0);
+	pos = query.find_first_of(spaces, lastpos);
 	while (lastpos < query.size() && pos <= query.size())
 	{
-		currentstr = query.substr(lastpos, pos - lastpos);
-		for (int i = 0; i < currentstr.size(); i++)
+		currentStr = query.substr(lastpos, pos - lastpos);
+		for (int i = 0; i < currentStr.size(); i++)
 		{
-			if (currentstr.at(i) == '\n') 
+			if (currentStr.at(i) == '\n') 
 			{
-				if (!tempstr.find(endline))  //for now, exterminate all \n from result string
-					tokens.push_back(tempstr);
-				tempstr.clear();
+				if (!tempStr.find('\n'))  //for now, exterminate all \n from result string
+					tokens.push_back(tempStr);
+				tempStr.clear();
 			}
-			else if (delimiters.find(currentstr.at(i)) != string::npos)
+			else if (delimiters.find(currentStr.at(i)) != string::npos)
 			{
-				tokens.push_back(tempstr);
-				tempstr.clear();
-				tempstr += currentstr.at(i);
-				tokens.push_back(tempstr);
-				tempstr.clear();
+				tokens.push_back(tempStr);
+				tempStr.clear();
+				tempStr += currentStr.at(i);
+				tokens.push_back(tempStr);
+				tempStr.clear();
 			}
 			else
-				tempstr += currentstr.at(i);
+				tempStr += currentStr.at(i);
 		}
-		if (!tempstr.empty())
-			tokens.push_back(tempstr);
+		if (!tempStr.empty())
+			tokens.push_back(tempStr);
 		
-		tempstr.clear();
-		lastpos = query.find_first_not_of(' ', lastpos + currentstr.size());
-		pos =  query.find_first_of(' ', lastpos);
+		tempStr.clear();
+		lastpos = query.find_first_not_of(spaces, lastpos + currentStr.size());
+		pos =  query.find_first_of(spaces, lastpos);
 		if (pos > query.size()) //check if there are no more spaces beyond the last element
 			pos = query.size();
 	}
-}
 
-vector<string> QueryParser::getTokens(){
 	return tokens;
 }

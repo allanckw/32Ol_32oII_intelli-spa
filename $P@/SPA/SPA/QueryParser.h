@@ -7,6 +7,5 @@ private:
 	vector<string> tokens;
 
 public:
-	void tokenize(string);
-	vector<string> getTokens();
+	vector<string> tokenize(string);
 };

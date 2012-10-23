@@ -22,7 +22,7 @@ StmtNode::StmtNode(int stmtNo, NodeType nodeType, Index value)
 
 ASTNode* StmtNode::addChild(ASTNode* c)
 {
-	int childLoc=this->children.size();
+	int childLoc=this->children.size()+1;
 
 	if(getType() == Call){
 		throw SPAException("Invalid Operation: No Children can be added to Call Nodes");

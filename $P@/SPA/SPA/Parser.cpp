@@ -267,30 +267,32 @@ void Parser::buildAST()
 	while(*line < Parser::tokenized_codes.size())
 	{
 		vector<string> inner =  Parser::tokenized_codes.at(*line);
-		*index = 0;
 		
 		while(*index < inner.size()) {
-			  
+			string keyword=inner.at(*index);
 			if (*index == 0 && *line == 0 ){
-				if (inner.at(*index) == "procedure") {//Assume case sensitive
+				if (keyword == "procedure") {//Assume case sensitive
 					PROCIndex i = PKB::procedures.getPROCIndex(inner.at(1));
 					if (i != 0){
 						  //not the first procedure as parsed...
 					 }
 					PKB::rootNode->setRoot(i);
-					PKB::rootNode->addChild(processProcedure(line));
+					PKB::rootNode->addChild(processProcedure(line,index));
+					inner=Parser::tokenized_codes.at(*line);
 				}
 			 }
 			 else
 			 {
-				  if (inner.at(*index) == "procedure") {
-					  PKB::rootNode->addChild(processProcedure(line));
+				  if (keyword == "procedure") {
+					  PKB::rootNode->addChild(processProcedure(line,index));
+					  inner=Parser::tokenized_codes.at(*line);
 				  }
 			 }
 			  //cout<<inner.at(*index)<<" ";
 			 (*index)++;
 		  }
 		 cout<<endl;
+		 *index = 0;
 		 (*line)++;
 	}
 }
@@ -304,18 +306,18 @@ bool Parser::isName(string s) //first char of name cannot be digit
 }
 
 //Reason why i put procIdx is in a while there could be a call statement possibilities
-StmtNode* Parser::processWhile(int *i, Index procIdx)
+StmtNode* Parser::processWhile(int *i, int *j, Index procIdx)
 {
 	stack<char> brackets;
 	int currline =*i;
-	int tempindex=0;
+	int tempindex= *j;
 	int* line=&currline;
 	int* index = &tempindex;
 
 	//Get Control Variable
 	vector<string> inner=Parser::tokenized_codes.at(*line);
 		
-	string varName = inner.at(1);
+	string varName = inner.at((*index)+1);
 
 	if ((isName(varName))==false)
 	{
@@ -327,168 +329,21 @@ StmtNode* Parser::processWhile(int *i, Index procIdx)
 	StmtNode* stmtNode = new StmtNode(*line, ASTNode::NodeType::While, vi);
 	StmtLstNode* stmtLstNode=new StmtLstNode();
 
-	//Get Next Line
-	(*line)++;
-
-	for(int i=0; i<inner.size(); i++)
+	for(int idx=0; idx<inner.size(); idx++)
 	{
-		if(inner.at(i)=="{")
+		if(inner.at(idx)=="{")
 		{
 			brackets.push('{');
-		}
-	}
-
-	while(*line < Parser::tokenized_codes.size())
-	{
-		inner =  Parser::tokenized_codes.at(*line);
-		*index = 0;
-		while(*index < inner.size())
-		{
-			string keyword=inner.at(*index);
-			if (keyword=="procedure"){
-				//throw exception, procedure does not exist in procedure
-			}
-
-			if (keyword=="{"){//do bracket Matching
-				brackets.push('{');
-				if (brackets.size() > 1){
-					//throw exception
-				}
-			}
-			else if (keyword=="}")
-			{
-				brackets.pop();
-				if(brackets.size()==0)
-				{
-					(*i)=(*line);
-					stmtNode->addChild(stmtLstNode, 2);
-					return stmtNode;
-				}
-			}
-			
-			if(*index==0){	
-				if (keyword=="call"){
-					StmtNode* callNode=processCall(line, procIdx);
-					callNode->setParent(stmtNode);
-					stmtLstNode->addChild(callNode);
-				}else if(keyword=="while"){
-					StmtNode* whileNode=processWhile(line, procIdx);
-					whileNode->setParent(stmtNode);
-					stmtLstNode->addChild(whileNode);
-				}
-				else if(keyword=="if"){
-					//No implementation - Not required in CS3201
-					//procNode->addChild(processIf(line));
-				}
-				else{//no other keyword
-					//variable which is assignment go to next token to check
-				}
-			}
-			else{
-				if (*index==1)
-				{
-					if(keyword=="=")//check for assignment Statement
-					{
-						//processAssignmentNode
-						StmtNode* assignNode=processAssignment(line);
-						assignNode->setParent(stmtNode);
-						stmtLstNode->addChild(assignNode);
-					}
-				}
-			}
-			(*index)++;
-		}
-		(*line)++;
-	}
-
-	//Not reachable
-	//To Throw exception as it pass over all the line
-	//(*i)=(*line);
-	return NULL;
-}
-
-//Reason why i put procIdx is in a while there could not be a self call
-StmtNode* Parser::processCall(int *i, Index procIdx)
-{
-	vector<string> inner=Parser::tokenized_codes.at(*i);
-	PROCIndex pi = PKB::procedures.getPROCIndex(inner.at(1));
-	if(pi==-1)
-	{
-		//Throw exception, Procedure not in Source
-	}
-	
-	if(pi==procIdx)
-	{
-		//Throw exception, Procedure cannot self call
-	}
-
-	StmtNode* stmtCall=new StmtNode(*i,ASTNode::NodeType::Call,pi);
-	return stmtCall;
-}
-
-StmtNode* Parser::processAssignment(int *i)
-{
-	vector<string> inner=Parser::tokenized_codes.at(*i);
-	string varName = inner.at(0);
-
-	if (isName(varName)==false){
-		throw SPAException("Invalid Name!");
-	}
-
-	VARIndex vi=PKB::variables.getVARIndex(varName);
-
-	vector<string> rightExpression;
-	int exIdx=2;
-	while(exIdx<inner.size())
-	{
-		rightExpression.push_back(inner.at(exIdx));
-		
-		if(inner.at(exIdx)==";")
+			(*index)=idx+1;
 			break;
-		exIdx++;
-	}
-
-	StmtNode* stmtAssign=new StmtNode(*i,ASTNode::NodeType::Assign,vi);
-	ExprNode* leftNode = new ExprNode(ASTNode::NodeType::Variable, vi);
-	ExprNode* rightNode = AssignmentParser::processAssignment(rightExpression);
-	stmtAssign->addChild(leftNode,1);
-	stmtAssign->addChild(rightNode,2);
-	return stmtAssign;
-}
-
-ASTNode* Parser::processProcedure(int *i)
-{
-	stack<char> brackets;
-	int currline =*i;
-	int tempindex=0;
-	int* line=&currline;
-	int* index = &tempindex;
-
-	vector<string> inner=Parser::tokenized_codes.at(*line);
-	string procName = inner.at(1);
-
-	if (isName(procName)==false){
-		throw SPAException("Invalid Name!");
-	}
-	PROCIndex pi=PKB::procedures.getPROCIndex(procName);
-
-	ASTNode* procNode = new ASTNode(ASTNode::NodeType::Procedure, pi );
-	StmtLstNode* stmtLstNode=new StmtLstNode();
-	//Get Next Line
-	(*line)++;
-
-	for(int i=0; i<inner.size(); i++)
-	{
-		if(inner.at(i)=="{")
-		{
-			brackets.push('{');
 		}
 	}
+
 
 	while(*line < Parser::tokenized_codes.size())
 	{
 		inner =  Parser::tokenized_codes.at(*line);
-		*index = 0;
+
 		while(*index < inner.size())
 		{
 			string keyword=inner.at(*index);
@@ -509,42 +364,187 @@ ASTNode* Parser::processProcedure(int *i)
 				brackets.pop();
 				if(brackets.size()==0){
 					(*i)=(*line);
+					(*j)=(*index);
+					stmtNode->addChild(stmtLstNode);
+					return stmtNode;
+				}
+			}			
+				
+			if (keyword=="call"){
+				StmtNode* callNode=processCall(line, index, procIdx);
+				callNode->setParent(stmtNode);
+				stmtLstNode->addChild(callNode);
+				//break;
+			}
+			
+			if(keyword=="while"){
+				StmtNode* whileNode=processWhile(line, index, procIdx);
+				whileNode->setParent(stmtNode);
+				stmtLstNode->addChild(whileNode);
+				break;
+			}
+			
+			if(keyword=="if")
+			{
+				//No implementation - Not required in CS3201
+				//stmtLstNode->addChild(processIf(line));
+			}
+			
+			if(keyword=="="){
+				//check for assignment Statement
+				//processAssignmentNode
+				StmtNode* assignNode=processAssignment(line, index);
+				assignNode->setParent(stmtNode);
+				stmtLstNode->addChild(assignNode);
+			}
+			(*index)++;
+		}
+		(*index)=0;
+		(*line)++;
+	}
+	
+	return NULL;
+}
+
+//Reason why i put procIdx is in a while there could not be a self call
+StmtNode* Parser::processCall(int *i, int *j, Index procIdx)
+{
+	vector<string> inner=Parser::tokenized_codes.at(*i);
+	PROCIndex pi = PKB::procedures.getPROCIndex(inner.at((*j)+1));
+	if(pi==-1)
+	{
+		//Throw exception, Procedure not in Source
+	}
+	
+	if(pi==procIdx)
+	{
+		//Throw exception, Procedure cannot self call
+	}
+
+	StmtNode* stmtCall=new StmtNode(*i,ASTNode::NodeType::Call,pi);
+	(*j)=(*j)+2;
+	return stmtCall;
+}
+
+StmtNode* Parser::processAssignment(int *i, int *j)
+{
+	vector<string> inner=Parser::tokenized_codes.at(*i);
+	string varName = inner.at((*j)-1);
+
+	if (isName(varName)==false){
+		throw SPAException("Invalid Name!");
+	}
+
+	VARIndex vi=PKB::variables.getVARIndex(varName);
+
+	vector<string> rightExpression;
+	int exIdx=(*j)+1;
+	while(exIdx<inner.size())
+	{
+		rightExpression.push_back(inner.at(exIdx));
+		
+		if(inner.at(exIdx)==";")
+			break;
+		exIdx++;
+	}
+
+	StmtNode* stmtAssign=new StmtNode(*i,ASTNode::NodeType::Assign,vi);
+	ExprNode* leftNode = new ExprNode(ASTNode::NodeType::Variable, vi);
+	ExprNode* rightNode = AssignmentParser::processAssignment(rightExpression);
+	stmtAssign->addChild(leftNode,1);
+	stmtAssign->addChild(rightNode,2);
+	(*j)=exIdx;
+	return stmtAssign;
+}
+
+ASTNode* Parser::processProcedure(int *i, int *j)
+{
+	stack<char> brackets;
+	int currline =*i;
+	int tempindex=*j;
+	int* line=&currline;
+	int* index = &tempindex;
+
+	vector<string> inner=Parser::tokenized_codes.at(*line);
+	string procName = inner.at(1);
+
+	if (isName(procName)==false){
+		throw SPAException("Invalid Name!");
+	}
+	PROCIndex pi=PKB::procedures.getPROCIndex(procName);
+
+	ASTNode* procNode = new ASTNode(ASTNode::NodeType::Procedure, pi );
+	StmtLstNode* stmtLstNode=new StmtLstNode();
+	
+	for(int i=0; i<inner.size(); i++)
+	{
+		if(inner.at(i)=="{")
+		{
+			brackets.push('{');
+			(*index) = i + 1;
+			break;
+		}
+	}
+
+	while(*line < Parser::tokenized_codes.size())
+	{
+		inner =  Parser::tokenized_codes.at(*line);
+		while(*index < inner.size())
+		{
+			string keyword=inner.at(*index);
+
+			if (keyword=="procedure"){				
+				//throw exception, procedure does not exist in procedure
+			}
+
+			//do bracket Matching
+			if (keyword=="{"){
+				brackets.push('{');
+				if (brackets.size()>1){
+					//throw exception
+				}
+			}
+
+			if (keyword=="}"){
+				brackets.pop();
+				if(brackets.size()==0){
+					(*i)=(*line);
+					(*j)=(*index);
 					procNode->addChild(stmtLstNode);
 					return procNode;
 				}
 			}			
 				
-			if(*index==0){			
-				if (keyword=="call"){
-					StmtNode* callNode=processCall(line, pi);
-					callNode->setParent(procNode);
-					stmtLstNode->addChild(callNode);
-					break;
-				}else if(keyword=="while"){
-					StmtNode* whileNode=processWhile(line, pi);
-					whileNode->setParent(procNode);
-					stmtLstNode->addChild(whileNode);
-					break;
-				}
-				else if(keyword=="if")
-				{
-					//No implementation - Not required in CS3201
-					//stmtLstNode->addChild(processIf(line));
-				}
+			if (keyword=="call"){
+				StmtNode* callNode=processCall(line, index, pi);
+				callNode->setParent(procNode);
+				stmtLstNode->addChild(callNode);
+				//break;
 			}
-			else{		
-				if(*index==1)
-				{
-					if(keyword=="="){//check for assignment Statement
-					//processAssignmentNode
-						StmtNode* assignNode=processAssignment(line);
-						assignNode->setParent(procNode);
-						stmtLstNode->addChild(assignNode);
-					}
-				}
+			
+			if(keyword=="while"){
+				StmtNode* whileNode=processWhile(line, index, pi);
+				whileNode->setParent(procNode);
+				stmtLstNode->addChild(whileNode);
+				break;
+			}
+			
+			if(keyword=="if")
+			{
+				//No implementation - Not required in CS3201
+				//stmtLstNode->addChild(processIf(line));
+			}
+			
+			if(keyword=="="){
+				//check for assignment Statement
+				//processAssignmentNode
+				StmtNode* assignNode=processAssignment(line, index);
+				assignNode->setParent(procNode);
+				stmtLstNode->addChild(assignNode);
 			}
 			(*index)++;
 		}
+		(*index)=0;
 		(*line)++;
 	}
 	

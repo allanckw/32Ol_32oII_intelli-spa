@@ -23,9 +23,9 @@ private:
 	
 	//Build AST Methods - JK
 	bool Parser::isName(string s);
-	ASTNode* processProcedure(int *i);
-	StmtNode* processWhile(int *i, Index procIdx);
-	StmtNode* processCall(int *i, Index procIdx);
-	StmtNode* processAssignment(int *i);
+	ASTNode* processProcedure(int *i, int *j);
+	StmtNode* processWhile(int *i, int *j, Index procIdx);
+	StmtNode* processCall(int *i, int *j, Index procIdx);
+	StmtNode* processAssignment(int *i, int *j);
 };
 

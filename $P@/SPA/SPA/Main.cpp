@@ -36,7 +36,12 @@ int main(int argc, char* arg[])
 	//	}
 	//	myfile.close();
 	//  }
+	/*Parser p("C:\\temp\\zzz2.txt");
+	Parser::tokenized_codes;
 
+	PKB::procedures;
+
+	PKB::variables;*/
 	//  else cout << "Unable to open file"<<endl; 
 
 	//  //tokenize

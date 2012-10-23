@@ -17,8 +17,9 @@ private:
 	
 	bool is_number(const std::string& str);
 	void AddTables(vector<string> list, string newtoken);
-	vector<string> tokenizer(string line);
+	void tokenizer(string line);
 	string Trim(string str);
+	void AddToList(vector<string>& list, string str);
 	
 	//Build AST Methods - JK
 	bool Parser::isName(string s);

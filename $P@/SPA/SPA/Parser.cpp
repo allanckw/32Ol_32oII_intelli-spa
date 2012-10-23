@@ -14,11 +14,11 @@ stack<char> brackets;
 
 Parser::Parser(string fileName)
 {
-	vector<string> codings;
-	string line;
+	string codings;
+	
 
 	try{
-	  
+	  string line;
 		ifstream myfile (fileName);//CS3201test6.txt");
 	  
 
@@ -26,9 +26,9 @@ Parser::Parser(string fileName)
 		
 			while ( myfile.good() )		{		  
 			
-				getline (myfile,line);
+				getline(myfile,line);
 			
-				codings.push_back(line);
+				codings.append(line);
 		}
 		myfile.close();
 	  }
@@ -37,13 +37,10 @@ Parser::Parser(string fileName)
 	  	
 	  int currentline = 0;
 
+	tokenizer(codings);
+
 	
-	  while(currentline < codings.size()){
-		  line = codings.at(currentline);
-		  vector<string> lststr = tokenizer(line);//tokenize the line one by one
-		  Parser::tokenized_codes.push_back(lststr);//store the tokenized line
-		  currentline++;
-	}
+	  
 
 	if(brackets.size() != 0){
 		throw SPAException("Error during Parsing, Invalid Bracket matching");//error, bracket matching fail
@@ -82,6 +79,7 @@ bool Parser::is_number(const std::string& str)
 string Parser::Trim(string str)
 {
 	str.erase(remove(str.begin(), str.end(), '\t'), str.end());
+	str.erase(remove(str.begin(), str.end(), ' '), str.end());
 
 	return str;
 }
@@ -153,7 +151,34 @@ void Parser::AddTables(vector<string> list, string newtoken)
 
 }
 
-vector<string> Parser::tokenizer(string line)//split the string into tokens
+void Parser::AddToList(vector<string>& list, string str)
+{//Parser::tokenized_codes.push_back(lststr);
+	str = Trim(str);
+	if(str.size() > 0)
+	{
+
+		if(str == "while" || str == "call" || str == "if")
+		{
+			//new
+			Parser::tokenized_codes.push_back(list);
+			vector<string> newlist;
+			list = newlist;
+		}else if(str=="=")
+		{
+			string tempstr = list.at(list.size()-1);
+			list.pop_back();
+			Parser::tokenized_codes.push_back(list);
+			vector<string> newlist;
+			list = newlist;
+			list.push_back(tempstr);
+		}
+		
+		AddTables(list,str);
+		list.push_back(str);
+	}
+}
+
+void Parser::tokenizer(string line)//split the string into tokens
 {
 	vector<string> list;
 	string delimiter = " -+*;{}";//delimiter
@@ -182,13 +207,13 @@ vector<string> Parser::tokenizer(string line)//split the string into tokens
 				}
 				for(int i=0;i<tempstr1.size();)
 				{
-					string tempstr2 = Trim(tempstr1.substr(0,1));
+					string tempstr2 = tempstr1.substr(0,1);
 					tempstr1 = tempstr1.substr(1,tempstr1.size()-1);
-					if(tempstr2 != " ")
-					{
-						AddTables(list,tempstr2);
-						list.push_back(tempstr2);
-					}
+					
+						AddToList(list,tempstr2);
+						//AddTables(list,tempstr2);
+						//list.push_back(tempstr2);
+					
 				}
 			}
 
@@ -200,22 +225,34 @@ vector<string> Parser::tokenizer(string line)//split the string into tokens
 			{
 				string tempstr;
 				if(line.size() == 1)
-					tempstr= Trim(line);
+					tempstr= line;
 				else
-					tempstr= Trim(line.substr(startindex,endindex-startindex));
+					tempstr= line.substr(startindex,endindex-startindex);
 
-				if(tempstr.size()>0)
-				{
-					AddTables(list,tempstr);
-					list.push_back(tempstr);			
-				}
+				
+					AddToList(list,tempstr);
+					//AddTables(list,tempstr);
+					//list.push_back(tempstr);			
+				
 			}
 
 	}while(startindex != -1 && position < line.size() && endindex != -1);
 	
-	return list;
-}
 
+	//house keeping
+	if(Parser::tokenized_codes.size() > 1)
+	{
+		vector<string> temp_vec = Parser::tokenized_codes.at(0);
+		temp_vec.insert(temp_vec.end(), Parser::tokenized_codes.at(1).begin(),Parser::tokenized_codes.at(1).end());
+		Parser::tokenized_codes.erase(Parser::tokenized_codes.begin());
+		Parser::tokenized_codes.at(0) = temp_vec;
+	}
+
+	if(list.size() > 0)
+	Parser::tokenized_codes.push_back(list);
+
+	
+}
 
 void Parser::buildAST()
 {

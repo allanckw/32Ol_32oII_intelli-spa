@@ -86,12 +86,10 @@ vector <STMT> ParentTable::getParentStar(STMT s2)
 {
 	vector <STMT> answer;
 	STMT parent = s2;
-	do {
-		if (parentFrom.count(parent)) {
-			parent = parentFrom[parent];
-			answer.push_back(parent);
-		} else
-			return answer;
-	} while (true);
+	while (parentFrom.count(parent)) {
+		parent = parentFrom[parent];
+		answer.push_back(parent);
+	}
+	return answer;
 }
 

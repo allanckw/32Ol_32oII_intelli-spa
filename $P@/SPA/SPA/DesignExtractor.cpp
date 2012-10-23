@@ -1,17 +1,16 @@
 #include "DesignExtractor.h"
 
-DesignExtractor::DesignExtractor(CallsTable& ca, ModifiesTable& mo,
-	UsesTable& us, ParentTable& pa, FollowsTable& fo)
+DesignExtractor::DesignExtractor(void)
 {
 	//currently, not going to check nodes if it is of
 	//the correct node type before typecasting
 	//not sure whether to do so at all or not
 
-	c = ca;
-	m = mo;
-	u = us;
-	p = pa;
-	f = fo;
+	CallsTable c = PKB::calls;
+	ModifiesTable m = PKB::modifies;
+	UsesTable u = PKB::uses;
+	ParentTable p = PKB::parent;
+	FollowsTable f = PKB::follows;
 
 	stack<StmtNode*> DFSstack;
 	stack<StmtLstNode*> DFSstmtLstStack;
@@ -178,7 +177,7 @@ DesignExtractor::DesignExtractor(CallsTable& ca, ModifiesTable& mo,
 						//currentPosition++; //not relevant for first level traversing
 						notYetGotNextChild = false;
 					} else
-						return; //the end!
+						break; //the end!
 				} else {
 					if (currentPosition + 1 < (*currentStmtListNode).getSize()) { //try right
 						currentStmtNode = (StmtNode*) (*currentStmtListNode).getChild(++currentPosition);
@@ -214,6 +213,12 @@ DesignExtractor::DesignExtractor(CallsTable& ca, ModifiesTable& mo,
 				}
 			}
 		}
+
+		PKB::calls = c;
+		PKB::modifies = m;
+		PKB::uses = u;
+		PKB::parent = p;
+		PKB::follows = f;
 	}
 }
 

@@ -13,16 +13,9 @@
 
 class DesignExtractor
 {
-private:
-	static CallsTable c;
-	static ModifiesTable m;
-	static UsesTable u;
-	static ParentTable p;
-	static FollowsTable f;
 	
 public:
-	DesignExtractor(CallsTable& ca, ModifiesTable& mo,
-	UsesTable& us, ParentTable& pa, FollowsTable& fo);
+	DesignExtractor(void);
 	~DesignExtractor(void);
 };
 

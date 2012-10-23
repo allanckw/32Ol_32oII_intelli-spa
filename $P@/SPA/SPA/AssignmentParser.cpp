@@ -41,18 +41,34 @@ int AssignmentParser::compareOprPrecedence(string opr1, string opr2)
 //Validating incorrect expression, half completed.. 
 bool AssignmentParser::isValidExpr(vector<string> expr)
 {
+	stack<string> brackets;
+	int exprIndex;
 	if (expr.at(expr.size() - 1) != ";")
-			throw SPAException("Invalid Token Found: Expected ; at the end of expression");
+			throw SPAException("Invalid Token Found: Expected ; at the end of the expression");
 
 	for ( int i = 0; i < expr.size() - 1; i++ ) {
 		string token = expr[i]; 
-		if (i == 0 && AssignmentParser::isOperator(token))
+		if (i == 0 && AssignmentParser::isOperator(token)) //the first token can never be an operator
 			return false;
+		else if (i == 0 && !AssignmentParser::isOperator(token))
+			exprIndex = 0;
+		else
+		{
+			if (token == "(")
+				brackets.push(token);
+			else if (token == ")" && brackets.size() == 0)
+				return false;
+			else if (token == ")" && brackets.size() > 0)
+				brackets.pop();
 
+
+		}
 	}
 
-
-	return false;
+	if (brackets.size() > 0)
+		return false;
+	else
+		return true;
 }
 
 //http://www.engr.mun.ca/~theo/Misc/exp_parsing.htm
@@ -83,14 +99,14 @@ ExprNode* AssignmentParser::processAssignment(vector<string> expr)
 			if (token == "("){
 				subExprBrackets.push(token);
 				subExpr.push_back(token);
-			} else if (token == ")" && subExprBrackets.size() > 1) {
-				subExprBrackets.pop();
-				subExpr.push_back(token);
 			} else if (token == ")" && subExprBrackets.size() == 1) {
 				subExprBrackets.pop();
 				subExpr.push_back(";");
 				operands.push(AssignmentParser::processAssignment(subExpr));
-			}
+			} else if (token == ")" && subExprBrackets.size() > 1) {
+				subExprBrackets.pop();
+				subExpr.push_back(token);
+			} 
 		}
 		else if (AssignmentParser::isOperator(token)) {
 			if (operators.empty()) {//if the operator stack is empty simply push

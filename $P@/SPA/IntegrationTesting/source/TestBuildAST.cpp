@@ -81,6 +81,17 @@ void TestBuildAST::testASTBuilder()
 	//CPPUNIT_ASSERT(var == "yas");
 
 	CPPUNIT_ASSERT_EQUAL(whileNode->getStmtNumber(),parentNode->getStmtNumber());
+	CPPUNIT_ASSERT_EQUAL(1,assignNode->getStmtNumber());
+	CPPUNIT_ASSERT_EQUAL(2,whileNode->getStmtNumber());
+	CPPUNIT_ASSERT_EQUAL(3,childNode->getStmtNumber());
+	CPPUNIT_ASSERT_EQUAL(4,callNode->getStmtNumber());
+
+	ASTNode* procNode2 = PKB::rootNode->getChild(1);
+	StmtLstNode* stmtListNode3 = dynamic_cast<StmtLstNode* >(procNode2->getChild(0));
+	StmtNode* assignNode2 = dynamic_cast<StmtNode* >(stmtListNode3->getChild(0));
+	StmtNode* assignNode3 = dynamic_cast<StmtNode* >(stmtListNode3->getChild(1));
+	CPPUNIT_ASSERT_EQUAL(5,assignNode2->getStmtNumber());
+	CPPUNIT_ASSERT_EQUAL(6,assignNode3->getStmtNumber());
 	//CPPUNIT_ASSERT_EQUAL(stmtListNode2);
 
 	pi=procNode->getValue();
@@ -104,4 +115,3 @@ void TestBuildAST::testASTBuilder()
 	var = PKB::variables.getVARName(vi);
 	CPPUNIT_ASSERT(var == "i");
 }
-

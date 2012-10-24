@@ -7,7 +7,8 @@
 
 StmtNode::StmtNode(int stmtNo, NodeType nodeType, Index value)
 {
-	if (stmtNo < 0){
+	stmtNo = stmtNo + 1;
+	if (stmtNo <= 0){
 		throw SPAException("Invalid Statement Number, must be more than 0");
 	}
 	else if (nodeType != Assign && nodeType != Call && nodeType != While && nodeType != If){

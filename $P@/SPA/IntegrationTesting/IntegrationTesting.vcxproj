@@ -66,7 +66,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\$P%40\SPA\IntegrationTesting\source\TestBuildAST.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\UnitTesting\TestProcTable.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\UnitTesting\TestVarTable.cpp" />
     <ClCompile Include="source\IntegrationTest.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\$P%40\SPA\IntegrationTesting\source\TestBuildAST.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\UnitTesting\TestProcTable.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\UnitTesting\TestVarTable.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

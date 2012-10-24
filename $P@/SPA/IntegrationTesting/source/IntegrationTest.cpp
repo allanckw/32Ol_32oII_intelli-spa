@@ -22,6 +22,6 @@ bool wasSucessful = runner.run();
 
 
 //getchar();
-
+system("PAUSE");
 return wasSucessful ? 0 : 1;
 }

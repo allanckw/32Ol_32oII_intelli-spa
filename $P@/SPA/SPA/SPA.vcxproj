@@ -12,10 +12,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\CallsTable.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\ConditionNode.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\FollowsTable.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\ModifiesTable.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\ParentTable.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\PKB.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\ProjectNode.h" />
+    <ClInclude Include="..\..\..\$p%40\spa\spa\queryparser.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\QueryPreprocessor.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\QueryTreeBuilder.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\QueryTreeNode.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\RelationshipNode.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\SelectNode.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\UsesTable.h" />
     <ClInclude Include="AssignmentParser.h" />
     <ClInclude Include="ASTNode.h" />
@@ -31,11 +39,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\CallsTable.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\ConditionNode.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\FollowsTable.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\ModifiesTable.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\ParentTable.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\PKB.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\ProjectNode.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\QueryParser.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\QueryPreprocessor.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\QueryTreeBuilder.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\QueryTreeNode.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\RelationshipNode.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\SelectNode.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\TableTester.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\UsesTable.cpp" />
     <ClCompile Include="AssignmentParser.cpp" />
@@ -56,7 +71,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -81,6 +96,7 @@
     <ClCompile>
       <WarningLevel>Level1</WarningLevel>
       <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

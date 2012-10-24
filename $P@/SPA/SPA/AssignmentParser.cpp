@@ -42,30 +42,38 @@ int AssignmentParser::compareOprPrecedence(string opr1, string opr2)
 bool AssignmentParser::isValidExpr(vector<string> expr)
 {
 	stack<string> brackets;
+	stack<int> exprIndexStack;
 	int exprIndex;
 	if (expr.at(expr.size() - 1) != ";")
 			throw SPAException("Invalid Token Found: Expected ; at the end of the expression");
 
 	for ( int i = 0; i < expr.size() - 1; i++ ) {
 		string token = expr[i]; 
-		if (i == 0 && AssignmentParser::isOperator(token)) //the first token can never be an operator
+		if (i == 0 && AssignmentParser::isOperator(token)){ //the first token can never be an operator
 			return false;
-		else if (i == 0 && !AssignmentParser::isOperator(token))
+		}else if (i == 0 && !AssignmentParser::isOperator(token)) {
 			exprIndex = 0;
-		else
-		{
-			if (token == "(")
+		} else if (token == ";"){
+			break;
+		} else {
+			if (token == "("){
 				brackets.push(token);
-			else if (token == ")" && brackets.size() == 0)
+				exprIndexStack.push(exprIndex);
+				exprIndex = 0;
+			} else if (token == ")" && brackets.size() == 0){
 				return false;
-			else if (token == ")" && brackets.size() > 0)
+			} else if (token == ")" && brackets.size() > 0){
 				brackets.pop();
-
+				exprIndex = exprIndexStack.top();
+				exprIndexStack.pop();
+			} else {
+				exprIndex += 1;
+			}
 
 		}
 	}
 
-	if (brackets.size() > 0)
+	if (brackets.size() > 0 || exprIndex % 2 != 0)
 		return false;
 	else
 		return true;
@@ -140,6 +148,7 @@ ExprNode* AssignmentParser::processAssignment(vector<string> expr)
 			else {
 				VAR i = PKB::variables.getVARIndex(token);
 				if (i == -1){
+					cout << token << " cannot be found " << endl;
 					throw SPAException("Variable cannot be found in assignment statement!");
 				}
 				else{

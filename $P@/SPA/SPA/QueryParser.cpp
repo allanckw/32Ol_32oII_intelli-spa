@@ -28,7 +28,7 @@
 vector<string> QueryParser::tokenize(string query)
 {
 	tokens.clear();
-	string delimiters = (";,()."), spaces(" \t");
+	string delimiters = (";,().="), spaces(" \t");
 	string currentStr, tempStr;
 	int lastpos, pos;
 	lastpos = query.find_first_not_of(spaces, 0);

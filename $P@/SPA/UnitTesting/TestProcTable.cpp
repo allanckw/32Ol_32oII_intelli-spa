@@ -14,7 +14,8 @@ void TestProcTable::tearDown()
 
 void TestProcTable::testInsertAndRetrieveProcs()
 {  
-
+	PKB::procedures.insertPROC("lain");
+	PKB::procedures.insertPROC("Noob");
 
 	CPPUNIT_ASSERT_EQUAL(0, PKB::procedures.getPROCIndex("lain"));
 	CPPUNIT_ASSERT_EQUAL(1, PKB::procedures.getPROCIndex("Noob"));
@@ -27,7 +28,7 @@ void TestProcTable::testInsertAndRetrieveProcs()
 
 	CPPUNIT_ASSERT_EQUAL(-1, PKB::procedures.getPROCIndex("qq"));
 
-	//PROC = PKB::procedures.getPROCName(2);
-	//CPPUNIT_ASSERT(PROC == "y");
+	CPPUNIT_ASSERT_EQUAL(2, PKB::procedures.getSize());
+
 }
 

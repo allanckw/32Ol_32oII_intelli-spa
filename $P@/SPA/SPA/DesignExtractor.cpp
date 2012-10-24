@@ -1,16 +1,10 @@
 #include "DesignExtractor.h"
 
-DesignExtractor::DesignExtractor(void)
+ void DesignExtractor::extractDesign()
 {
 	//currently, not going to check nodes if it is of
 	//the correct node type before typecasting
 	//not sure whether to do so at all or not
-
-	CallsTable c = PKB::calls;
-	ModifiesTable m = PKB::modifies;
-	UsesTable u = PKB::uses;
-	ParentTable p = PKB::parent;
-	FollowsTable f = PKB::follows;
 
 	stack<StmtNode*> DFSstack;
 	stack<StmtLstNode*> DFSstmtLstStack;
@@ -55,13 +49,13 @@ DesignExtractor::DesignExtractor(void)
 			ExprNode* modifiesVarNode = (ExprNode*) (*currentStmtNode).getChild(0);
 			VAR modifiesVar = (*modifiesVarNode).getValue();
 
-			m.insertProcModifies(currentProc, modifiesVar);
-			m.insertStmtModifies(currentStmtNumber, modifiesVar);
+			PKB::modifies.insertProcModifies(currentProc, modifiesVar);
+			PKB::modifies.insertStmtModifies(currentStmtNumber, modifiesVar);
 			while (!DFSstack.empty()) {
 				tempStmtNode = DFSstack.top();
 				DFSstack.pop();
 				STMT tempNumber = (*tempStmtNode).getStmtNumber();
-				m.insertStmtModifies(tempNumber, modifiesVar);
+				PKB::modifies.insertStmtModifies(tempNumber, modifiesVar);
 				tempStack.push(tempStmtNode);
 			}
 			while (!tempStack.empty()) {
@@ -79,13 +73,13 @@ DesignExtractor::DesignExtractor(void)
 				exprStack.pop();
 				if ((*exprNode).getType() == ASTNode::NodeType::Variable) {
 					VAR usesVar = (*exprNode).getValue(); 
-					u.insertProcUses(currentProc, usesVar);
-					u.insertStmtUses(currentStmtNumber, usesVar);
+					PKB::uses.insertProcUses(currentProc, usesVar);
+					PKB::uses.insertStmtUses(currentStmtNumber, usesVar);
 					while (!DFSstack.empty()) {
 						tempStmtNode = DFSstack.top();
 						DFSstack.pop();
 						STMT tempNumber = (*tempStmtNode).getStmtNumber();
-						u.insertStmtUses(tempNumber, usesVar);
+						PKB::uses.insertStmtUses(tempNumber, usesVar);
 						tempStack.push(tempStmtNode);
 					}
 					while (!tempStack.empty()) {
@@ -102,7 +96,7 @@ DesignExtractor::DesignExtractor(void)
 			break; }
 
 		case ASTNode::NodeType::Call: {
-			c.insertCalls(currentProc, (*currentStmtNode).getValue());
+			PKB::calls.insertCalls(currentProc, (*currentStmtNode).getValue());
 			/*
 			not yet handling the case with multiple procedures
 			but the idea is to save the current DFSstack contents into another stack/queue
@@ -116,13 +110,13 @@ DesignExtractor::DesignExtractor(void)
 		case ASTNode::NodeType::If: {
 			ExprNode* usesVarNode = (ExprNode*) (*currentStmtNode).getChild(0);
 			VAR usesVar = (*usesVarNode).getValue(); 
-			u.insertProcUses(currentProc, usesVar);
-			u.insertStmtUses(currentStmtNumber, usesVar);
+			PKB::uses.insertProcUses(currentProc, usesVar);
+			PKB::uses.insertStmtUses(currentStmtNumber, usesVar);
 			while (!DFSstack.empty()) {
 				tempStmtNode = DFSstack.top();
 				DFSstack.pop();
 				STMT tempNumber = (*tempStmtNode).getStmtNumber();
-				u.insertStmtUses(tempNumber, usesVar);
+				PKB::uses.insertStmtUses(tempNumber, usesVar);
 				tempStack.push(tempStmtNode);
 			}
 			while (!tempStack.empty()) {
@@ -156,12 +150,12 @@ DesignExtractor::DesignExtractor(void)
 				STMT olderChildNumber = newStmtNumber;
 				StmtNode* youngerChild;
 				STMT youngerChildNumber;
-				p.insertParent(currentStmtNumber, olderChildNumber);
+				PKB::parent.insertParent(currentStmtNumber, olderChildNumber);
 				for (int i = 1; i < (*currentStmtListNode).getSize(); i++) {
 					youngerChild = (StmtNode*) (*currentStmtListNode).getChild(i);
 					youngerChildNumber = (*youngerChild).getStmtNumber();
-					p.insertParent(currentStmtNumber, youngerChildNumber);
-					f.insertFollows(olderChildNumber, youngerChildNumber);
+					PKB::parent.insertParent(currentStmtNumber, youngerChildNumber);
+					PKB::follows.insertFollows(olderChildNumber, youngerChildNumber);
 					olderChild = youngerChild;
 					olderChildNumber = youngerChildNumber;
 				}
@@ -214,15 +208,6 @@ DesignExtractor::DesignExtractor(void)
 			}
 		}
 
-		PKB::calls = c;
-		PKB::modifies = m;
-		PKB::uses = u;
-		PKB::parent = p;
-		PKB::follows = f;
 	}
 }
 
-
-DesignExtractor::~DesignExtractor(void)
-{
-}

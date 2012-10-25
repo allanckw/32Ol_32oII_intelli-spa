@@ -18,10 +18,12 @@ CppUnit::TextUi::TestRunner runner;
 //Extract();
 
 runner.addTest(suite);
+
 bool wasSucessful = runner.run();
 
+system("PAUSE");
 
 //getchar();
-system("PAUSE");
+
 return wasSucessful ? 0 : 1;
 }

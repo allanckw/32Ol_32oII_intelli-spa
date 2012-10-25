@@ -21,6 +21,7 @@ void TestBuildAST::tearDown()
 
 void TestBuildAST::testASTBuilder()
 {  
+	try{
 	Parser* p = new Parser("C:\\temp\\Source.txt");
 
 	int templine =0;
@@ -37,81 +38,126 @@ void TestBuildAST::testASTBuilder()
 	//Parser::tokenized_codes
 	//Check if all variables are in the vartable, use testvartable as a reference
 	//Check if all procedures are in the proctable, use testproctable as a reference
-
-	p->buildAST();
+	//try
+	//{
+	
+		p->buildAST();
+		this->contTest = true;
+	}catch (exception& e) {
+		cout << e.what() << endl;
+		this->contTest = false;
+	} 
+	//}
+	//catch(SPAException ex)
+	//{
+	//	return;
+	//}
 
 	system("PAUSE");
-	//Insert assertions here..
+}
+
+void TestBuildAST::testASTFirstProcedure()
+{
+	if(this->contTest)
+	{
+	VARIndex vi;
+	string var;
+	PROCIndex pi;
+	string proc;
+	StmtNode* parentNode;
+
+	CPPUNIT_ASSERT_EQUAL(0, PKB::rootNode->getValue());
+	CPPUNIT_ASSERT_EQUAL(true,PKB::rootNode->isRoot());
+
+	//First Procedure
+	ASTNode* procNode = PKB::rootNode->getChild(0);
+	StmtLstNode* stmtListNode = dynamic_cast<StmtLstNode* >(procNode->getChild(0));
+	pi=procNode->getValue();
+	proc=PKB::procedures.getPROCName(pi);
+	CPPUNIT_ASSERT(proc == "lain");
+
+	//First Assignment Node
+	StmtNode* assignNode = dynamic_cast<StmtNode* >(stmtListNode->getChild(0));
+	CPPUNIT_ASSERT_EQUAL(1,assignNode->getStmtNumber());
+	vi=assignNode->getValue();
+	var = PKB::variables.getVARName(vi);
+	CPPUNIT_ASSERT(var == "x");
+	
+	//First While Loop
+	StmtNode* whileNode=dynamic_cast<StmtNode* >(stmtListNode->getChild(1));
+	CPPUNIT_ASSERT_EQUAL(2,whileNode->getStmtNumber());
+	vi=whileNode->getValue();
+	var = PKB::variables.getVARName(vi);
+	CPPUNIT_ASSERT(var == "i");
+
+	//First Assignment Node in while loop
+	assignNode = dynamic_cast<StmtNode* >(whileNode->getChild(1)->getChild(0));
+	CPPUNIT_ASSERT_EQUAL(3,assignNode->getStmtNumber());
+	vi=assignNode->getValue();
+	var = PKB::variables.getVARName(vi);
+	CPPUNIT_ASSERT(var == "yas");
+
+	//Second Assignment Node in while loop
+	assignNode = dynamic_cast<StmtNode* >(whileNode->getChild(1)->getChild(1));
+	CPPUNIT_ASSERT_EQUAL(4,assignNode->getStmtNumber());
+	vi=assignNode->getValue();
+	var = PKB::variables.getVARName(vi);
+	CPPUNIT_ASSERT(var == "t");
+
+	//Nested While Loop in While Loop
+	StmtNode* whileNode2 = dynamic_cast<StmtNode* >(whileNode->getChild(1)->getChild(2));
+	CPPUNIT_ASSERT_EQUAL(5,whileNode2->getStmtNumber());
+	vi=whileNode2->getValue();
+	var = PKB::variables.getVARName(vi);
+	CPPUNIT_ASSERT(var == "q");
+	//Test parent of nested while loop
+	parentNode =dynamic_cast<StmtNode* >(whileNode2->getParent());
+	CPPUNIT_ASSERT_EQUAL(whileNode,parentNode);
+
+	assignNode = dynamic_cast<StmtNode* >(whileNode2->getChild(1)->getChild(0));
+	CPPUNIT_ASSERT_EQUAL(6,assignNode->getStmtNumber());
+	vi=assignNode->getValue();
+	var = PKB::variables.getVARName(vi);
+	CPPUNIT_ASSERT(var == "x");
+	//Test Parent of Assigned in Nested While Loop
+	parentNode =dynamic_cast<StmtNode* >(assignNode->getParent());
+	CPPUNIT_ASSERT_EQUAL(whileNode2,parentNode);
+
+	//Call Node
+	StmtNode* callNode=dynamic_cast<StmtNode* >(stmtListNode->getChild(2));
+	CPPUNIT_ASSERT_EQUAL(7,callNode->getStmtNumber());
+	pi=callNode->getValue();
+	proc=PKB::procedures.getPROCName(pi);
+	CPPUNIT_ASSERT(proc == "Noob");
+	}
+}
+
+void TestBuildAST::testASTSecondProcedure()
+{
+	if(this->contTest)
+	{
 	VARIndex vi;
 	string var;
 	PROCIndex pi;
 	string proc;
 
-	CPPUNIT_ASSERT_EQUAL(0, PKB::rootNode->getValue());
-	CPPUNIT_ASSERT_EQUAL(true,PKB::rootNode->isRoot());
-	
-	ASTNode* procNode = PKB::rootNode->getChild(0);
+	ASTNode* procNode = PKB::rootNode->getChild(1);
 	StmtLstNode* stmtListNode = dynamic_cast<StmtLstNode* >(procNode->getChild(0));
+
+	pi=procNode->getValue();
+	proc=PKB::procedures.getPROCName(pi);
+	CPPUNIT_ASSERT(proc == "Noob");
+	
 	StmtNode* assignNode = dynamic_cast<StmtNode* >(stmtListNode->getChild(0));
-	ExprNode* oprNode = dynamic_cast<ExprNode* >(assignNode->getChild(1));
-
-	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Variable, oprNode->getType());
-	CPPUNIT_ASSERT_EQUAL(PKB::variables.getVARIndex("yas"), oprNode->getValue());
-
-	StmtNode* callNode=dynamic_cast<StmtNode* >(stmtListNode->getChild(2));
+	CPPUNIT_ASSERT_EQUAL(8,assignNode->getStmtNumber());
+	vi=assignNode->getValue();
+	var = PKB::variables.getVARName(vi);
+	CPPUNIT_ASSERT(var == "z");
 	
-	//ASTNode* parentNode=childNode->getParent();
-	
-	StmtNode* whileNode=dynamic_cast<StmtNode* >(stmtListNode->getChild(1));
-	StmtLstNode* stmtListNode2 = dynamic_cast<StmtLstNode* >(whileNode->getChild(1));
-	StmtNode* childNode=dynamic_cast<StmtNode* >(stmtListNode2->getChild(0));
-	StmtNode* parentNode=dynamic_cast<StmtNode* >(childNode->getParent());
-
-	
-	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Procedure, procNode->getType());
-	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::StmtLst, stmtListNode->getType());
-	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Assign, assignNode->getType());
-	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::While, whileNode->getType());
-	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Assign, childNode->getType());
-	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Call, callNode->getType());
-	
-
-	//vi=oprNode->getChild(0)->getValue();
-	//var = PKB::variables.getVARName(vi);
-	//CPPUNIT_ASSERT(var == "yas");
-
-	CPPUNIT_ASSERT_EQUAL(whileNode->getStmtNumber(),parentNode->getStmtNumber());
-	CPPUNIT_ASSERT_EQUAL(1,assignNode->getStmtNumber());
-	CPPUNIT_ASSERT_EQUAL(2,whileNode->getStmtNumber());
-	CPPUNIT_ASSERT_EQUAL(3,childNode->getStmtNumber());
-	CPPUNIT_ASSERT_EQUAL(4,callNode->getStmtNumber());
-
-	ASTNode* procNode2 = PKB::rootNode->getChild(1);
-	StmtLstNode* stmtListNode3 = dynamic_cast<StmtLstNode* >(procNode2->getChild(0));
-	StmtNode* assignNode2 = dynamic_cast<StmtNode* >(stmtListNode3->getChild(0));
-	StmtNode* assignNode3 = dynamic_cast<StmtNode* >(stmtListNode3->getChild(1));
-	CPPUNIT_ASSERT_EQUAL(5,assignNode2->getStmtNumber());
-	CPPUNIT_ASSERT_EQUAL(6,assignNode3->getStmtNumber());
-	//CPPUNIT_ASSERT_EQUAL(stmtListNode2);
-
-	pi=procNode->getValue();
-	proc=PKB::procedures.getPROCName(pi);
-	CPPUNIT_ASSERT(proc == "lain");
-
-	pi=callNode->getValue();
-	proc=PKB::procedures.getPROCName(pi);
-	CPPUNIT_ASSERT(proc == "Noob");
-
-	procNode=PKB::rootNode->getChild(1);
-	pi=procNode->getValue();
-	proc=PKB::procedures.getPROCName(pi);
-	CPPUNIT_ASSERT(proc == "Noob");
-
+	assignNode = dynamic_cast<StmtNode* >(stmtListNode->getChild(1));
+	CPPUNIT_ASSERT_EQUAL(9,assignNode->getStmtNumber());
 	vi=assignNode->getValue();
 	var = PKB::variables.getVARName(vi);
 	CPPUNIT_ASSERT(var == "x");
-
-	vi=whileNode->getValue(); 
-	var = PKB::variables.getVARName(vi);
-	CPPUNIT_ASSERT(var == "i");
+	}
 }

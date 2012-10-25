@@ -329,7 +329,7 @@ StmtNode* Parser::processWhile(int *i, int *j, Index procIdx)
 	StmtNode* stmtNode = new StmtNode(*line, ASTNode::NodeType::While, vi);
 	StmtLstNode* stmtLstNode=new StmtLstNode();
 
-	for(int idx=0; idx<inner.size(); idx++)
+	for(int idx=(*j); idx<inner.size(); idx++)
 	{
 		if(inner.at(idx)=="{")
 		{
@@ -350,13 +350,14 @@ StmtNode* Parser::processWhile(int *i, int *j, Index procIdx)
 
 			if (keyword=="procedure"){				
 				//throw exception, procedure does not exist in procedure
+				throw SPAException("Procedure cannot appear in While!Invalid Source!");
 			}
 
 			//do bracket Matching
 			if (keyword=="{"){
 				brackets.push('{');
 				if (brackets.size()>1){
-					//throw exception
+					throw SPAException("Invalid Source!");
 				}
 			}
 
@@ -365,6 +366,10 @@ StmtNode* Parser::processWhile(int *i, int *j, Index procIdx)
 				if(brackets.size()==0){
 					(*i)=(*line);
 					(*j)=(*index);
+					if(stmtLstNode->isHasChildren()==false)
+					{
+						throw SPAException("Stmt Must have one or more child!");
+					}
 					stmtNode->addChild(stmtLstNode);
 					return stmtNode;
 				}
@@ -381,7 +386,8 @@ StmtNode* Parser::processWhile(int *i, int *j, Index procIdx)
 				StmtNode* whileNode=processWhile(line, index, procIdx);
 				whileNode->setParent(stmtNode);
 				stmtLstNode->addChild(whileNode);
-				break;
+				inner=Parser::tokenized_codes.at(*line);
+				//break;
 			}
 			
 			if(keyword=="if")
@@ -495,6 +501,7 @@ ASTNode* Parser::processProcedure(int *i, int *j)
 
 			if (keyword=="procedure"){				
 				//throw exception, procedure does not exist in procedure
+				throw SPAException("Procedure cannot exist in another procedure!Invalid Source!");
 			}
 
 			//do bracket Matching
@@ -502,6 +509,7 @@ ASTNode* Parser::processProcedure(int *i, int *j)
 				brackets.push('{');
 				if (brackets.size()>1){
 					//throw exception
+					throw SPAException("Invalid Source!");
 				}
 			}
 
@@ -510,6 +518,10 @@ ASTNode* Parser::processProcedure(int *i, int *j)
 				if(brackets.size()==0){
 					(*i)=(*line);
 					(*j)=(*index);
+					if(stmtLstNode->getSize()==0)
+					{
+						throw SPAException("Procedure must have one or more child!");
+					}
 					procNode->addChild(stmtLstNode);
 					return procNode;
 				}

@@ -42,42 +42,45 @@ int AssignmentParser::compareOprPrecedence(string opr1, string opr2)
 bool AssignmentParser::isValidExpr(vector<string> expr)
 {
 	stack<string> brackets;
-	stack<int> exprIndexStack;
-	int exprIndex;
-	if (expr.at(expr.size() - 1) != ";")
-			throw SPAException("Invalid Token Found: Expected ; at the end of the expression");
+	int expect = 0; //0=constant or number, 1 = opr
 
-	for ( int i = 0; i < expr.size() - 1; i++ ) {
-		string token = expr[i]; 
-		if (i == 0 && AssignmentParser::isOperator(token)){ //the first token can never be an operator
-			return false;
-		}else if (i == 0 && !AssignmentParser::isOperator(token)) {
-			exprIndex = 0;
-		} else if (token == ";"){
+	for(int i=0; i<expr.size(); i++) {
+
+		if (i == expr.size() - 1)
 			break;
-		} else {
-			if (token == "("){
-				brackets.push(token);
-				exprIndexStack.push(exprIndex);
-				exprIndex = 0;
-			} else if (token == ")" && brackets.size() == 0){
-				return false;
-			} else if (token == ")" && brackets.size() > 0){
-				brackets.pop();
-				exprIndex = exprIndexStack.top();
-				exprIndexStack.pop();
-			} else {
-				exprIndex += 1;
-			}
 
+		if(expect == 1 &&  expr.at(i) == "("){
+			expect = 0;
+		} else if(expect == 0 &&  expr.at(i) == ")"){
+			return false;
+		}
+
+		if(expr.at(i) == "("){
+			brackets.push("(");
+		} else if (expr.at(i) == ")") {
+			if(brackets.size() == 0 || brackets.top() != "("){
+				return false;
+			}
+			brackets.pop();
+		} else {
+			if(AssignmentParser::isOperator(expr.at(i))) {
+				if(expect == 0){
+					return false;
+				}
+				expect = 0;
+			} else {//var or constant
+				if(expect == 1){
+					return false;
+				}
+				expect = 1;
+			}
 		}
 	}
+	
+	return (brackets.size() == 0);
 
-	if (brackets.size() > 0 || exprIndex % 2 != 0)
-		return false;
-	else
-		return true;
 }
+
 
 //http://www.engr.mun.ca/~theo/Misc/exp_parsing.htm
 //http://www.technical-recipes.com/2011/a-mathematical-expression-parser-in-java/
@@ -90,6 +93,14 @@ ExprNode* AssignmentParser::processAssignment(vector<string> expr)
 
 	stack<string> subExprBrackets;
 	vector<string> subExpr;
+
+	if (!AssignmentParser::isValidExpr(expr)){
+		string msg;
+		for (int i = 0; i < expr.size(); i++) {
+			msg += expr.at(i);
+		}
+		throw SPAException(msg + " is an invalid expression");
+	}
 
 	for ( int i = 0; i < expr.size(); i++ ) {
 		string token = expr[i]; 

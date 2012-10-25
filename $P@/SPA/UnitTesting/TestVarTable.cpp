@@ -32,6 +32,6 @@ void TestVarTable::testInsertAndRetrieveVars()
 	//var = PKB::variables.getVARName(2);
 	//CPPUNIT_ASSERT(var == "y");
 	
-	CPPUNIT_ASSERT_EQUAL(2, PKB::variables.getSize());
+	CPPUNIT_ASSERT_EQUAL(5, PKB::variables.getSize());
 }
 

@@ -181,7 +181,7 @@ void Parser::AddToList(vector<string>& list, string str)
 void Parser::tokenizer(string line)//split the string into tokens
 {
 	vector<string> list;
-	string delimiter = " -+*;{}";//delimiter
+	string delimiter = " -+*;{}=";//delimiters
 	int position = 0;//starting position
 	int startindex = -1;
 	int endindex = -1;

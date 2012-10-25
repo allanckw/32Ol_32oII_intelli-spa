@@ -6,6 +6,14 @@
 #include <list>
 
 // include your other headers here
+#include "../../SPA/PKB.h"
+#include "../../SPA/Parser.h"
+#include "../../SPA/ASTNode.h"
+#include "../../SPA/StmtLstNode.h"
+#include "../../SPA/StmtNode.h"
+#include "../../SPA/AssignmentParser.h"
+#include "../../SPA/DesignExtractor.h"
+
 #include "AbstractWrapper.h"
 
 class TestWrapper : public AbstractWrapper {

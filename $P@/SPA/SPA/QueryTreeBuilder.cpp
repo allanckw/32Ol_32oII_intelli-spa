@@ -9,29 +9,36 @@
 #include "ProjectNode.h"
 #include "ConditionNode.h"
 #include "QueryTreeBuilder.h"
+#include "PalletTown.h"
 
-void QueryTreeBuilder::buildQueryTree(unordered_map<int, vector<string>> userVariables, vector<string> selectVariables,
-					unordered_map<int, vector<vector<string>>> conditions, unordered_map<int, vector<vector<string>>> relationships)
+void QueryTreeBuilder::buildQueryTree(unordered_map<int, vector<string>> userVariables, 
+	unordered_map<int, vector<string>> selectVariables, 
+	unordered_map<int, pair<pair<PalletTown::ashKetchum, string>, pair<PalletTown::ashKetchum, string>>> relationships,
+	unordered_map<int, pair<pair<PalletTown::ashKetchum, string>, string>> conditions)
 {
-	vector<vector<string>> reladition;
-	QueryPreprocessor::garyOak relationshipType;
-	QueryPreprocessor::rorona conditionType;
-	string currentVariable;
-	vector<string> selectVars;
+	pair<pair<PalletTown::ashKetchum, string>, pair<PalletTown::ashKetchum, string>> relationship;
+	pair<pair<PalletTown::ashKetchum, string>, string> condition;
+	PalletTown::garyOak relationshipType;
+	PalletTown::mistyWaterflower conditionType;
+	PalletTown::ashKetchum currentVariableType;
+	vector<string> currentVariables;
+	unordered_map<int, vector<string>> selectVars;
 	vector<QueryTreeNode*> qtCluster;
 	
 	for (auto it = relationships.begin(); it != relationships.end(); it++)
 	{
-		relationshipType = (QueryPreprocessor::garyOak) (*it).first;
-		reladition = (*it).second;
-		for (int x = 0; x < reladition.size(); x++)
+		relationshipType = (PalletTown::garyOak) (*it).first;
+		relationship = (*it).second;
+		RelationshipNode* rNode = new RelationshipNode(relationshipType, relationship);
+		for (auto it2 = selectVariables.begin(); it2 != selectVariables.end(); it2++)
 		{
-			RelationshipNode* rNode = new RelationshipNode(relationshipType, reladition.at(x));
-			for (int y = 0; y < selectVariables.size(); y++)
+			currentVariableType = (PalletTown::ashKetchum) (*it2).first;
+			currentVariables = (*it2).second;
+			for (int i = 0; i < currentVariables.size(); i++)
 			{
-				currentVariable = selectVariables.at(y);
-				if (currentVariable.compare(rNode->getFirstVariable()) == 0 || currentVariable.compare(rNode->getSecondVariable()) == 0)
-					selectVars.push_back(currentVariable);
+				if (currentVariables.at(i).compare(rNode->getFirstVariableName()) == 0 ||
+					currentVariables.at(i).compare(rNode->getSecondVariableName()) == 0)
+					selectVars[currentVariableType].push_back(currentVariables.at(i));
 			}
 			SelectNode* sNode = new SelectNode(selectVars);
 			ProjectNode* pNode = new ProjectNode();
@@ -53,16 +60,17 @@ void QueryTreeBuilder::buildQueryTree(unordered_map<int, vector<string>> userVar
 
 	for (auto it = conditions.begin(); it != conditions.end(); it++)
 	{
-		conditionType = (QueryPreprocessor::rorona) (*it).first;
-		reladition = (*it).second; //iterator returns a pair
-		for (int x = 0; x < reladition.size(); x++)
+		conditionType = (PalletTown::mistyWaterflower) (*it).first;
+		condition = (*it).second;
+		ConditionNode* cNode = new ConditionNode(conditionType, condition);
+		for (auto it2 = selectVariables.begin(); it2 != selectVariables.end(); it2++)
 		{
-			ConditionNode* cNode = new ConditionNode(conditionType, reladition.at(x));
-			for (int y = 0; y < selectVariables.size(); y++)
+			currentVariableType = (PalletTown::ashKetchum) (*it2).first;
+			currentVariables = (*it2).second;
+			for (int i = 0; i < currentVariables.size(); i++)
 			{
-				currentVariable = selectVariables.at(y);
-				if (currentVariable.compare(cNode->getConditionVariable()) == 0)
-					selectVars.push_back(currentVariable);
+				if (currentVariables.at(i).compare(cNode->getConditionVariableName()) == 0)
+					selectVars[currentVariableType].push_back(currentVariables.at(i));
 			}
 			SelectNode* sNode = new SelectNode(selectVars);
 			ProjectNode* pNode = new ProjectNode();
@@ -83,4 +91,9 @@ void QueryTreeBuilder::buildQueryTree(unordered_map<int, vector<string>> userVar
 	}
 
 	return;
+}
+
+vector<vector<QueryTreeNode*>> QueryTreeBuilder::getQueryTree()
+{
+	return queryTree;
 }

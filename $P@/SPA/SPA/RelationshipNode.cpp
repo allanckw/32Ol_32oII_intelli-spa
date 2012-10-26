@@ -2,31 +2,41 @@
 #include "StdAfx.h"
 #include "RelationshipNode.h"
 #include "QueryPreprocessor.h"
+#include "PalletTown.h"
 #include "PKB.h"
 
-RelationshipNode::RelationshipNode(QueryPreprocessor::garyOak type, vector<string> contents)
+RelationshipNode::RelationshipNode(PalletTown::garyOak type, 
+	pair<pair<PalletTown::ashKetchum, string>, pair<PalletTown::ashKetchum, string>> contents)
 {
-	if (contents.size() != 2)
-		throw SPAException("Weird relationship detected");
-
 	this->nodeType = Relationship;
 	this->relationshipType = type;
-	this->firstVariable = contents.at(0);
-	this->secondVariable = contents.at(1);
+	this->firstVariableType = contents.first.first;
+	this->firstVariableName = contents.first.second;
+	this->secondVariableType = contents.second.first;
+	this->secondVariableName = contents.second.second;
 }
 
-string RelationshipNode::getRelationshipType()
+PalletTown::garyOak RelationshipNode::getRelationshipType()
 {
 	return relationshipType;
 }
 
-
-string RelationshipNode::getFirstVariable()
+string RelationshipNode::getFirstVariableName()
 {
-	return firstVariable;
+	return firstVariableName;
 }
 
-string RelationshipNode::getSecondVariable()
+PalletTown::ashKetchum RelationshipNode::getFirstVariableType()
 {
-	return secondVariable;
+	return firstVariableType;
+}
+
+string RelationshipNode::getSecondVariableName()
+{
+	return secondVariableName;
+}
+
+PalletTown::ashKetchum RelationshipNode::getSecondVariableType()
+{
+	return secondVariableType;
 }

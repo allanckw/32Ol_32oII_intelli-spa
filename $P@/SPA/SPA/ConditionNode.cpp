@@ -2,24 +2,29 @@
 #include "StdAfx.h"
 #include "ConditionNode.h"
 #include "QueryPreprocessor.h"
+#include "PalletTown.h"
 #include "PKB.h"
 
-ConditionNode::ConditionNode(QueryPreprocessor::rorona attribute, vector<string> c)
+ConditionNode::ConditionNode(PalletTown::mistyWaterflower attribute, pair<pair<PalletTown::ashKetchum, string>, string> contents)
 {
-	if (c.size() != 2)
-		throw SPAException("Weird condition detected");
 	this->nodeType = Condition;
 	this->conditionAttribute = attribute;
-	this->conditionVariable = c.at(0);
-	this->conditionBoundary = c.at(1);
+	this->conditionVariableType = contents.first.first;
+	this->conditionVariableName = contents.first.second;
+	this->conditionBoundary = contents.second;
 }
 	
-string ConditionNode::getConditionVariable()
+string ConditionNode::getConditionVariableName()
 {
-	return conditionVariable;
+	return conditionVariableName;
+}
+
+PalletTown::ashKetchum ConditionNode::getConditionVariableType()
+{
+	return conditionVariableType;
 }
 	
-string ConditionNode::getConditionAttribute()
+PalletTown::mistyWaterflower ConditionNode::getConditionAttribute()
 {
 	return conditionAttribute;
 }

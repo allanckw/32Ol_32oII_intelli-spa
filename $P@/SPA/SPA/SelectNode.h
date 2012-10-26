@@ -1,13 +1,16 @@
 #pragma once
 #include "StdAfx.h"
 #include "QueryTreeNode.h"
+#include "PalletTown.h"
 
 class SelectNode :
 	public QueryTreeNode
 {
 public:
-	SelectNode(vector<string>);
-	vector<string> getSelectVariables();
+	SelectNode(unordered_map<int, vector<string>>);
+	unordered_map<int, vector<string>> getSelectVariables();
 private:
-	vector<string> selectVariables;
+	unordered_map<int, vector<string>> selectVariables;
+	vector<string> getSelectVariableNames(PalletTown::ashKetchum t);
+	PalletTown::ashKetchum getSelectVariableType(string);
 };

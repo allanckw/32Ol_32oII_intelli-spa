@@ -2,17 +2,20 @@
 #include "StdAfx.h"
 #include "QueryTreeNode.h"
 #include "QueryPreprocessor.h"
+#include "PalletTown.h"
 
 class ConditionNode :
 	public QueryTreeNode
 {
 public:
-	ConditionNode(QueryPreprocessor::rorona, vector<string>);
-	string getConditionVariable();
-	string getConditionAttribute();
+	ConditionNode(PalletTown::mistyWaterflower, pair<pair<PalletTown::ashKetchum, string>, string>);
+	string getConditionVariableName();
+	PalletTown::ashKetchum getConditionVariableType();
+	PalletTown::mistyWaterflower getConditionAttribute();
 	string getConditionBoundary();
 private:
-	string conditionVariable;
-	string conditionAttribute;
+	string conditionVariableName;
+	PalletTown::ashKetchum conditionVariableType;
+	PalletTown::mistyWaterflower conditionAttribute;
 	string conditionBoundary;
 };

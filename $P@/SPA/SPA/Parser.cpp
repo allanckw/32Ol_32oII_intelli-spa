@@ -15,41 +15,33 @@ stack<char> brackets;
 Parser::Parser(string fileName)
 {
 	string codings;
-	
-
 	try{
 	  string line;
-		ifstream myfile (fileName);//CS3201test6.txt");
 	  
+	  ifstream myfile (fileName);//CS3201test6.txt");
 
-		if (myfile.is_open()) {
-		
-			while ( myfile.good() )		{		  
-			
-				getline(myfile,line);
-			
-				codings.append(line);
-		}
-		myfile.close();
-	  }
-	  else 
+	  if (myfile.is_open()) {
+		  while ( myfile.good() )		{		  
+	
+			  getline(myfile,line);
+			  codings.append(line);
+		  }
+
+		  myfile.close();
+	  }else 
 		  cout << "Unable to open file"<<endl; 
-	  	
 	  int currentline = 0;
 
-	tokenizer(codings);
+	  tokenizer(codings);
 
-	
-	  
-
-	if(brackets.size() != 0){
+	  if(brackets.size() != 0){
 		throw SPAException("Error during Parsing, Invalid Bracket matching");//error, bracket matching fail
-	}
-	else
-	{
+	  }	else {
 		PKB::maxProgLines = currentline;
-	}
-	 }catch (exception& e) {
+	  }
+
+	 
+	}catch (exception& e) {
 		cout << e.what() << endl;
 	} 
 }

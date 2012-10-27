@@ -33,13 +33,7 @@
 //
 //void testModifies()
 //{
-//	cout<<"-Testing Modifies Table-"<<endl;
-//	ModifiesTable MT;
-//	//insertions
-//	MT.insertStmtModifies(0, 0);
-//	MT.insertStmtModifies(0, 2);
-//	MT.insertProcModifies(0, 3);
-//	MT.insertProcModifies(0, 4);
+
 //	MT.insertStmtModifies(1, 1);
 //	MT.insertStmtModifies(1, 2);
 //	MT.insertProcModifies(1, 3);

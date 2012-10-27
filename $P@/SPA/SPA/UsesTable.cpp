@@ -11,6 +11,9 @@ UsesTable::UsesTable()
 
 void UsesTable::insertStmtUses(STMT s, VAR v)
 {
+	if (s <= 0 )
+		throw SPAException("statement cannot be less than or equal to zero");
+
 	auto newPair = make_pair(s, v);
 	if (!usesStmtTable.empty())
 	{

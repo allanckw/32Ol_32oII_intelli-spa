@@ -23,7 +23,6 @@ bool wasSucessful = runner.run();
 
 system("PAUSE");
 
-//getchar();
 
 return wasSucessful ? 0 : 1;
 }

@@ -8,7 +8,7 @@
 #include "../SPA/AssignmentParser.h"
 
 // Registers the fixture into the 'registry'
-CPPUNIT_TEST_SUITE_REGISTRATION(TestBuildAST); // Note 4 
+//CPPUNIT_TEST_SUITE_REGISTRATION(TestBuildAST); // Note 4 
 
 
 void TestBuildAST::setUp()
@@ -42,6 +42,8 @@ void TestBuildAST::testASTBuilder()
 	//{
 	
 		p->buildAST();
+		PKB::rootNode;
+
 		this->contTest = true;
 	}catch (exception& e) {
 		cout << e.what() << endl;

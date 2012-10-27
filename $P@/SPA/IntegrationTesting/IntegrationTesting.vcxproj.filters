@@ -27,6 +27,9 @@
     <ClCompile Include="..\..\..\$P%40\SPA\UnitTesting\TestProcTable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\$P%40\SPA\IntegrationTesting\TestDesignExtractor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\$P%40\SPA\IntegrationTesting\source\TestBuildAST.h">
@@ -36,6 +39,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\$P%40\SPA\UnitTesting\TestVarTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\$P%40\SPA\IntegrationTesting\TestDesignExtractor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

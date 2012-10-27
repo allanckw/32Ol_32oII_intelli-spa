@@ -3,7 +3,7 @@
 #include <cppunit/config/SourcePrefix.h>
 #include "../SPA/PKB.h"
 // Registers the fixture into the 'registry'
-CPPUNIT_TEST_SUITE_REGISTRATION(TestVarTable); // Note 4 
+//CPPUNIT_TEST_SUITE_REGISTRATION(TestVarTable); // Note 4 
 
 void TestVarTable::setUp()
 {

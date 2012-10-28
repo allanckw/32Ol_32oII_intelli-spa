@@ -13,8 +13,10 @@
 
 class DesignExtractor
 {
+private:
+	static void buildCallsTable();
+	static void buildOtherTables(PROC);
 	
 public:
 	static void extractDesign();
 };
-

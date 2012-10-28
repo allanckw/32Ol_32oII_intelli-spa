@@ -25,6 +25,8 @@ public:
 	static FollowsTable follows;
 	static ParentTable parent;
 
+	static vector<ASTNode::NodeType> statementTable;
+
 	PKB(void);
 	~PKB(void);
 };

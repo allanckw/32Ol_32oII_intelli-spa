@@ -6,6 +6,7 @@ class QueryProjectNode :
 	public QueryTreeNode
 {
 public:
+	QueryProjectNode();
 	vector<string> getAnswer();
 	void setAnswer(vector<string>);
 private:

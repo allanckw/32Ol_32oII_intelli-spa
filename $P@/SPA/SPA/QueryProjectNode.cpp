@@ -3,6 +3,11 @@
 #include "QueryTreeNode.h"
 #include "QueryProjectNode.h"
 
+QueryProjectNode::QueryProjectNode()
+{
+	this->nodeType = Project;
+}
+
 vector<string> QueryProjectNode::getAnswer()
 {
 	return answer;

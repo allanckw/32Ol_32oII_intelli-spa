@@ -13,6 +13,7 @@ private:
 	string firstVariableName, secondVariableName;
 
 public:
+	QueryRelNode();
 	QueryRelNode(QueryEnums::QueryRel, pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>>);
 	QueryEnums::QueryRel getRelationshipType();
 	string getFirstVariableName();

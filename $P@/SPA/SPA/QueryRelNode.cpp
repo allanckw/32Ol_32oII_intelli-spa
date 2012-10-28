@@ -5,6 +5,11 @@
 #include "QueryEnums.h"
 #include "PKB.h"
 
+QueryRelNode::QueryRelNode()
+{
+	this->nodeType = Relationship;
+}
+
 QueryRelNode::QueryRelNode(QueryEnums::QueryRel type, 
 	pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>> contents)
 {

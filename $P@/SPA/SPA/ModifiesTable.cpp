@@ -51,10 +51,14 @@ void ModifiesTable::insertProcModifies(PROC p, VAR v)
 //This function should be invoked once modifiestable has been fully populated by whoever is populating it
 void ModifiesTable::optimizeModifiesTable()
 {
-	optimizedModifiesStmtTable = new vector<VAR>[noProgLines];
-	optimizedModifiedByStmtTable = new vector<STMT>[noVars];
-	optimizedModifiesProcTable = new vector<VAR>[noProcs];
-	optimizedModifiedByProcTable = new vector<PROC>[noVars];
+	noProgLines = 100;
+	noProcs = 100;
+	noVars = 100;
+
+	optimizedModifiesStmtTable = new vector<VAR>[noProgLines+1];
+	optimizedModifiedByStmtTable = new vector<STMT>[noVars+1];
+	optimizedModifiesProcTable = new vector<VAR>[noProcs+1];
+	optimizedModifiedByProcTable = new vector<PROC>[noVars+1];
 
 	if (!modifiesStmtTable.empty())
 	{

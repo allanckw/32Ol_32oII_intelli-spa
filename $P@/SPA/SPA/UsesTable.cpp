@@ -45,10 +45,14 @@ void UsesTable::insertProcUses(PROC p, VAR v)
 //This function should be invoked once usestable has been fully populated by whoever is populating it
 void UsesTable::optimizeUsesTable()
 {
-	optimizedUsedByStmtTable = new vector<VAR>[noProgLines];
-	optimizedUsedInStmtTable = new vector<STMT>[noVars];
-	optimizedUsedByProcTable = new vector<VAR>[noProcs];
-	optimizedUsedInProcTable = new vector<PROC>[noVars];
+	noProgLines = 100;
+	noProcs = 100;
+	noVars = 100;
+
+	optimizedUsedByStmtTable = new vector<VAR>[noProgLines+1];
+	optimizedUsedInStmtTable = new vector<STMT>[noVars+1];
+	optimizedUsedByProcTable = new vector<VAR>[noProcs+1];
+	optimizedUsedInProcTable = new vector<PROC>[noVars+1];
 
 	if (!usesStmtTable.empty())
 	{

@@ -7,10 +7,10 @@ static unordered_map <PROC, int> procCount;
 static unordered_map <PROC, vector< stack<StmtNode*> > > savestate;
 
 vector<ASTNode::NodeType> PKB::statementTable;
-unordered_set<STMT> assignTable;
-unordered_set<STMT> callTable;
-unordered_set<STMT> whileTable;
-unordered_set<STMT> ifTable;
+unordered_set<STMT> PKB::assignTable;
+unordered_set<STMT> PKB::callTable;
+unordered_set<STMT> PKB::whileTable;
+unordered_set<STMT> PKB::ifTable;
 
 void DesignExtractor::extractDesign()
 {
@@ -39,7 +39,7 @@ void DesignExtractor::extractDesign()
 
 	totalNumOfProcs = PKB::procedures.getSize();
 
-	buildCallsTable(); //will build statement table and subtables as well
+	buildFirstRound(); //will build call table, statement and subtables (call, assign, while, if lists)
 	PKB::calls.optimizeCallsTable();
 
 	//toposort
@@ -69,9 +69,12 @@ void DesignExtractor::extractDesign()
 	for (auto it = toposort.begin(); it != toposort.end(); it++)
 		buildOtherTables(*it);
 
+	PKB::maxProgLines = PKB::statementTable.size();
+	PKB::modifies.optimizeModifiesTable();
+	PKB::uses.optimizeUsesTable();
 }
 
-void DesignExtractor::buildCallsTable() {
+void DesignExtractor::buildFirstRound() {
 
 	stack<StmtNode*> DFSstack;
 	stack<StmtLstNode*> DFSstmtLstStack;
@@ -83,11 +86,10 @@ void DesignExtractor::buildCallsTable() {
 	for (PROC currentProc = 0; currentProc < totalNumOfProcs; currentProc++) {
 		ASTNode* procedureNode = (*programNode).getChild(currentProc); //procedure
 		StmtLstNode* firstLevelStmtListNode = (StmtLstNode*) (*procedureNode).getChild(0); //stmtList
-		StmtNode* firstLevelStmtNode = (StmtNode*) (*firstLevelStmtListNode).getChild(0); //first statement
 		int firstLevelPosition = 0;
 
 		StmtLstNode* currentStmtListNode = firstLevelStmtListNode;
-		StmtNode* currentStmtNode = firstLevelStmtNode;
+		StmtNode* currentStmtNode = (StmtNode*) (*firstLevelStmtListNode).getChild(0); //first statement
 		int currentPosition = 0;
 		bool haveNextChildren = true;
 
@@ -236,11 +238,10 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 	StmtLstNode* firstLevelStmtListNode = (StmtLstNode*) tempASTNode;
 
 	tempASTNode = (*firstLevelStmtListNode).getChild(0); //first child
-	StmtNode* firstLevelStmtNode = (StmtNode*) tempASTNode;
 	int firstLevelPosition = 0;
 
 	StmtLstNode* currentStmtListNode = firstLevelStmtListNode;
-	StmtNode* currentStmtNode = firstLevelStmtNode;
+	StmtNode* currentStmtNode = (StmtNode*) (*firstLevelStmtListNode).getChild(0); //first statement
 	STMT currentStmtNumber = (*currentStmtNode).getStmtNumber();
 	int currentPosition = 0;
 	bool haveNextChildren = true;
@@ -308,7 +309,7 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 					//adding all the parent procs. JOY!
 					for (auto it = ancestors.begin(); it != ancestors.end(); it++) {
 						PROC ancestor = *it;
-						PKB::uses.insertStmtUses(ancestor, usesVar);
+						PKB::uses.insertProcUses(ancestor, usesVar);
 						vector< stack<StmtNode*> > savestates = savestate[ancestor];
 						for (auto it2 = savestates.begin(); it2 != savestates.end(); it2++) {
 							stack<StmtNode*> state = *it2;
@@ -354,7 +355,7 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 			//adding all the parent procs. JOY!
 			for (auto it = ancestors.begin(); it != ancestors.end(); it++) {
 				PROC ancestor = *it;
-				PKB::uses.insertStmtUses(ancestor, usesVar);
+				PKB::uses.insertProcUses(ancestor, usesVar);
 				vector< stack<StmtNode*> > savestates = savestate[ancestor];
 				for (auto it2 = savestates.begin(); it2 != savestates.end(); it2++) {
 					stack<StmtNode*> state = *it2;
@@ -416,7 +417,11 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 					if (firstLevelPosition + 1 < (*firstLevelStmtListNode).getSize()) {
 						currentStmtNode = (StmtNode*) (*firstLevelStmtListNode).getChild(++firstLevelPosition);
 						currentPosition = firstLevelPosition;
+						STMT oldStmtNumber = currentStmtNumber;
 						currentStmtNumber = (*currentStmtNode).getStmtNumber();
+
+						PKB::follows.insertFollows(oldStmtNumber, currentStmtNumber);
+
 						notYetGotNextChild = false;
 					} else { //end
 						haveNextChildren = false;

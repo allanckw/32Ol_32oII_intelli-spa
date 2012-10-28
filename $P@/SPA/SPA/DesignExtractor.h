@@ -14,7 +14,7 @@
 class DesignExtractor
 {
 private:
-	static void buildCallsTable();
+	static void buildFirstRound();
 	static void buildOtherTables(PROC);
 	
 public:

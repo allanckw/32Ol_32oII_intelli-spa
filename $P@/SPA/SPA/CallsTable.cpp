@@ -30,6 +30,7 @@ void CallsTable::insertCalls(PROC p1, PROC p2)
 void CallsTable::optimizeCallsTable()
 {
 	vector<PROC> immediateChildren, procsChecked;
+	noProcs = PKB::procedures.getSize();
 
 	optimizedCalledByTable = new vector<PROC>[noProcs];
 	optimizedCalledByStarTable = new vector<PROC>[noProcs];

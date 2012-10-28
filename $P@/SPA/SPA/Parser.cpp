@@ -264,7 +264,7 @@ void Parser::buildAST()
 			string keyword=inner.at(*index);
 			if (*index == 0 && *line == 0 ){
 				if (keyword == "procedure") {//Assume case sensitive
-					PROCIndex i = PKB::procedures.getPROCIndex(inner.at(1));
+					PROCIndex i = PKB::procedures.getPROCIndex(inner.at((*index)+1));
 					if (i != 0){
 						  //not the first procedure as parsed...
 					 }
@@ -308,8 +308,8 @@ StmtNode* Parser::processWhile(int *i, int *j, Index procIdx)
 
 	//Get Control Variable
 	vector<string> inner=Parser::tokenized_codes.at(*line);
-		
-	string varName = inner.at((*index)+1);
+	(*index)++;
+	string varName = inner.at(*index);
 
 	if ((isName(varName))==false)
 	{
@@ -321,7 +321,7 @@ StmtNode* Parser::processWhile(int *i, int *j, Index procIdx)
 	StmtNode* stmtNode = new StmtNode(*line, ASTNode::NodeType::While, vi);
 	StmtLstNode* stmtLstNode=new StmtLstNode();
 
-	for(int idx=(*j); idx<inner.size(); idx++)
+	for(int idx=*index; idx<inner.size(); idx++)
 	{
 		if(inner.at(idx)=="{")
 		{
@@ -408,15 +408,18 @@ StmtNode* Parser::processWhile(int *i, int *j, Index procIdx)
 StmtNode* Parser::processCall(int *i, int *j, Index procIdx)
 {
 	vector<string> inner=Parser::tokenized_codes.at(*i);
+
 	PROCIndex pi = PKB::procedures.getPROCIndex(inner.at((*j)+1));
 	if(pi==-1)
 	{
 		//Throw exception, Procedure not in Source
+		throw SPAException("Procedure does not exist!");
 	}
 	
 	if(pi==procIdx)
 	{
 		//Throw exception, Procedure cannot self call
+		throw SPAException("Recursive Call is not allowed!");
 	}
 
 	StmtNode* stmtCall=new StmtNode(*i,ASTNode::NodeType::Call,pi);
@@ -464,7 +467,8 @@ ASTNode* Parser::processProcedure(int *i, int *j)
 	int* index = &tempindex;
 
 	vector<string> inner=Parser::tokenized_codes.at(*line);
-	string procName = inner.at(1);
+	(*index)++;
+	string procName = inner.at(*index);
 
 	if (isName(procName)==false){
 		throw SPAException("Invalid Name!");
@@ -474,12 +478,12 @@ ASTNode* Parser::processProcedure(int *i, int *j)
 	ASTNode* procNode = new ASTNode(ASTNode::NodeType::Procedure, pi );
 	StmtLstNode* stmtLstNode=new StmtLstNode();
 	
-	for(int i=0; i<inner.size(); i++)
+	for(int idx=*index; idx<inner.size(); idx++)
 	{
-		if(inner.at(i)=="{")
+		if(inner.at(idx)=="{")
 		{
 			brackets.push('{');
-			(*index) = i + 1;
+			(*index) = idx + 1;
 			break;
 		}
 	}
@@ -530,7 +534,8 @@ ASTNode* Parser::processProcedure(int *i, int *j)
 				StmtNode* whileNode=processWhile(line, index, pi);
 				whileNode->setParent(procNode);
 				stmtLstNode->addChild(whileNode);
-				break;
+				inner=Parser::tokenized_codes.at(*line);
+				//break;
 			}
 			
 			if(keyword=="if")

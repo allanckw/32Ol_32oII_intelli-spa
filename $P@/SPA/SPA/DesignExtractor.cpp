@@ -7,6 +7,10 @@ static unordered_map <PROC, int> procCount;
 static unordered_map <PROC, vector< stack<StmtNode*> > > savestate;
 
 vector<ASTNode::NodeType> PKB::statementTable;
+unordered_set<STMT> assignTable;
+unordered_set<STMT> callTable;
+unordered_set<STMT> whileTable;
+unordered_set<STMT> ifTable;
 
 void DesignExtractor::extractDesign()
 {
@@ -35,18 +39,18 @@ void DesignExtractor::extractDesign()
 
 	totalNumOfProcs = PKB::procedures.getSize();
 
-	buildCallsTable(); //will build statement table as well
+	buildCallsTable(); //will build statement table and subtables as well
 	PKB::calls.optimizeCallsTable();
 
 	//toposort
 	vector<PROC> toposort;
-	queue<PROC> startNodes;
+	queue<PROC> insertableNodes;
 	for (PROC proc = 0; proc < totalNumOfProcs; proc++)
 		if (procCount.count(proc) == 0)
-			startNodes.push(proc);
-	while (!startNodes.empty()) {
-		PROC proc = startNodes.front();
-		startNodes.pop();
+			insertableNodes.push(proc);
+	while (!insertableNodes.empty()) {
+		PROC proc = insertableNodes.front();
+		insertableNodes.pop();
 		toposort.push_back(proc);
 		if (toProcAdjList.count(proc) > 0) {
 			unordered_set<PROC> calledProcs = toProcAdjList[proc];
@@ -54,7 +58,7 @@ void DesignExtractor::extractDesign()
 				PROC calledProc = *it;
 				int calledProcCount = procCount[calledProc];
 				if (calledProcCount == 1) {
-					toposort.push_back(calledProc);
+					insertableNodes.push(calledProc);
 				} else {
 					procCount[calledProc] = calledProcCount - 1;
 				}
@@ -148,7 +152,7 @@ void DesignExtractor::buildCallsTable() {
 						}
 					} else {
 						if (currentPosition + 1 < (*currentStmtListNode).getSize()) { //try right
-							currentStmtNode = (StmtNode*) (*firstLevelStmtListNode).getChild(++currentPosition);
+							currentStmtNode = (StmtNode*) (*currentStmtListNode).getChild(++currentPosition);
 							notYetGotNextChild = false;
 						} else { //must go up
 							StmtNode* parentNode = DFSstack.top();
@@ -173,6 +177,7 @@ void DesignExtractor::buildCallsTable() {
 
 								DFSstack.pop();
 								DFSstmtLstStack.pop();
+								positionStack.pop();
 							}
 						}
 					}
@@ -200,7 +205,6 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 	do {
 		PROC proc = tempStackForProc.top();
 		tempStackForProc.pop();
-		ancestors.insert(proc);
 		if (fromProcAdjList.count(proc) > 0) {
 			unordered_set<PROC> parents = fromProcAdjList[proc];
 			for (auto it = parents.begin(); it != parents.end(); it++) {
@@ -208,6 +212,7 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 				if (isNotAnAncestor[parent]) {
 					tempStackForProc.push(parent);
 					isNotAnAncestor[parent] = false;
+					ancestors.insert(parent);
 				}
 			}
 		}
@@ -243,6 +248,7 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 	while (haveNextChildren) {
 		switch ((*currentStmtNode).getType()) {
 		case ASTNode::Assign: {
+			PKB::assignTable.insert(currentStmtNumber);
 			ExprNode* modifiesVarNode = (ExprNode*) (*currentStmtNode).getChild(0);
 			VAR modifiesVar = (*modifiesVarNode).getValue();
 
@@ -324,6 +330,11 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 
 		case ASTNode::While:
 		case ASTNode::If: {
+			if ((*currentStmtNode).getType() == ASTNode::While)
+				PKB::whileTable.insert(currentStmtNumber);
+			else
+				PKB::ifTable.insert(currentStmtNumber);
+
 			ExprNode* usesVarNode = (ExprNode*) (*currentStmtNode).getChild(0);
 			VAR usesVar = (*usesVarNode).getValue(); 
 			PKB::uses.insertProcUses(currentProc, usesVar);
@@ -357,8 +368,9 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 			}
 			break; }
 
-		case ASTNode::Call:
-			break;
+		case ASTNode::Call: {
+			PKB::callTable.insert(currentStmtNumber);
+			break; }
 
 		default: throw SPAException("Unhandled Node type");
 		}
@@ -412,7 +424,7 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 					}
 				} else {
 					if (currentPosition + 1 < (*currentStmtListNode).getSize()) { //try right
-						currentStmtNode = (StmtNode*) (*firstLevelStmtListNode).getChild(++currentPosition);
+						currentStmtNode = (StmtNode*) (*currentStmtListNode).getChild(++currentPosition);
 						currentStmtNumber = (*currentStmtNode).getStmtNumber();
 						notYetGotNextChild = false;
 					} else { //must go up
@@ -439,6 +451,7 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 
 							DFSstack.pop();
 							DFSstmtLstStack.pop();
+							positionStack.pop();
 						}
 					}
 				}

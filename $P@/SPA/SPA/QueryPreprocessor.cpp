@@ -57,6 +57,7 @@
 //	cout<<"conditions: ";
 //	for (auto it = c.begin(); it != c.end(); it++)
 //	{
+//
 //		for (int y = 0; y < (*it).second.size(); y++)
 //		{
 //			cout<<"(";
@@ -140,7 +141,7 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 	QueryEnums::QueryCond conditionAttributeType;
 	bool variableDeclaration = false, selectVariableDeclaration = false, suchThat = false; 
 	bool relationship = false, condition = false;
-	bool complete = false;
+	bool complete = false; //determines whether the query is complete
 	bool openBracket = false, firstVariable = false, comma = false, secondVariable = false; //relationship validation
 	bool conditionVariable = false, dot = false, attribute = false, equals = false; //condition declaration
 	bool existsVariable = false; //check for existing variable name in relationship/condition in user variables 
@@ -370,9 +371,9 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 
 				attribute = true;
 			}
-			else if (currentToken.compare("=") == 0)
+			else if (attribute == true && currentToken.compare("=") == 0)
 				equals = true;
-			else if (attribute == true && equals == true)
+			else if (equals == true)
 			{
 				conditionDeclaration.second = currentToken; // value can be anything
 				conditions[conditionAttributeType].push_back(conditionDeclaration);

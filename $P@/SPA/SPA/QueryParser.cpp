@@ -13,12 +13,13 @@
 //
 //	QueryParser QP;
 //	QP.tokenize("assignment a1, a2; statement s1, s2; select a such that s1.stmt# = 5 and uses(a1, a2)\n");
+//	/*
 //	for (int i = 0; i < QP.getTokens().size(); i++)
 //		cout<<QP.getTokens().at(i)<<" ";
 //	cout<<endl;
 //	QP.tokenize("assignment a1, a2; statement s1, s2; select a such that modifies(a1, a2)\n");
 //	for (int i = 0; i < QP.getTokens().size(); i++)
-//		cout<<QP.getTokens().at(i)<<" ";
+//		cout<<QP.getTokens().at(i)<<" ";*/
 //	cout<<endl;
 //
 //	system("PAUSE");
@@ -65,5 +66,10 @@ vector<string> QueryParser::tokenize(string query)
 			pos = query.size();
 	}
 
+	for (auto it = tokens.begin(); it != tokens.end(); it++)
+	{
+		if ((*it).compare("") == 0)
+			it = tokens.erase(it);
+	}
 	return tokens;
 }

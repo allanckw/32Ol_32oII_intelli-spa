@@ -18,10 +18,15 @@ void QueryTreeNode::setChild(QueryTreeNode* c)
 
 QueryTreeNode* QueryTreeNode::getParent()
 {
-	return parentNode;
+	return this->parentNode;
 }
 	
 QueryTreeNode* QueryTreeNode::getChild()
 {
-	return childNode;
+	return this->childNode;
+}
+
+QueryTreeNode::QTNodeType QueryTreeNode::getNodeType()
+{
+	return this->nodeType;
 }

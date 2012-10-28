@@ -1,10 +1,14 @@
 procedure lain {
 	x = yas;
 	while i {
-		x = x + q * 2;	
+		yas = q * 6;
+		t= x + 6;	
+		while q {
+			x = x + q * 2;	
+		}
 	}
 	call Noob;
-}
+	}
 
 procedure Noob{
 	z = 1;

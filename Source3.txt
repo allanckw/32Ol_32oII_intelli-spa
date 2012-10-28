@@ -1,0 +1,33 @@
+procedure lain {
+	x = yas;
+	while i {
+		x = x + q * 2;	
+	}
+	call Noob;
+}
+
+procedure Noob{
+	z = 1;
+	x = z;
+	call Noober;
+}
+
+procedure Noober{
+	z = 1;
+	x = z;
+	while i {
+		x = 1;
+		y = 2;
+		while i {
+			x = 2;
+			y = 3;
+			while i {
+				z = 5;
+				x = 0;
+				while i {
+					xas = 11;
+					ydd = 9;
+				}						}	
+		}
+	}
+}

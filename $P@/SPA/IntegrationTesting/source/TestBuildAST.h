@@ -6,8 +6,17 @@ class TestBuildAST:
 {
 	CPPUNIT_TEST_SUITE(TestBuildAST); // Note 3 
 	CPPUNIT_TEST(testASTBuilder);
-	CPPUNIT_TEST(testASTFirstProcedure);
-	CPPUNIT_TEST(testASTSecondProcedure);
+	
+	//CPPUNIT_TEST(testASTFirstProcedureSource1);
+	//CPPUNIT_TEST(testASTSecondProcedureSource1);
+	
+	//CPPUNIT_TEST(testASTFirstProcedureSource2);
+	//CPPUNIT_TEST(testASTSecondProcedureSource2);
+	//CPPUNIT_TEST(testASTThirdProcedureSource2);
+	
+	CPPUNIT_TEST(testASTFirstProcedureSource3);
+	CPPUNIT_TEST(testASTSecondProcedureSource3);
+	CPPUNIT_TEST(testASTThirdProcedureSource3);
 	CPPUNIT_TEST_SUITE_END();
 private:
 	bool contTest;
@@ -18,8 +27,16 @@ public:
 	// method to test the assigning and retrieval of procs
 	void testASTBuilder();
 	//additional if needed..
-	void testASTFirstProcedure();
-	void testASTSecondProcedure();
+	void testASTFirstProcedureSource1();
+	void testASTSecondProcedureSource1();
+
+	void testASTFirstProcedureSource2();
+	void testASTSecondProcedureSource2();
+	void testASTThirdProcedureSource2();
+
+	void testASTFirstProcedureSource3();
+	void testASTSecondProcedureSource3();
+	void testASTThirdProcedureSource3();
 	//void watever();
 };
 

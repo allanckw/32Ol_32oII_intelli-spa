@@ -1,10 +1,10 @@
 #pragma once
 #include "stdAfx.h"
 
-class PalletTown
+class QueryEnums
 {
 public:
-	typedef enum ashKetchum { //variable PalletTown
+	typedef enum QueryVar { //variable QueryEnums
 		WildCard, //can be any type
 		Procedure,
 		Stmt,
@@ -15,7 +15,7 @@ public:
 		Variable,
 		Constant
 	};
-	typedef enum garyOak { //relationship PalletTown
+	typedef enum QueryRel { //relationship QueryEnums
 		Modifies,
 		Uses,
 		Calls,
@@ -30,7 +30,7 @@ public:
 		AffectsStar
 	};
 
-	typedef enum mistyWaterflower { //condition attribute PalletTown
+	typedef enum QueryCond { //condition attribute QueryEnums
 		ProcName,
 		VarName,
 		Value,

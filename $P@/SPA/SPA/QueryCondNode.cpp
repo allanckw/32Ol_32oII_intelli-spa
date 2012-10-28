@@ -1,11 +1,11 @@
 #pragma once
 #include "StdAfx.h"
-#include "ConditionNode.h"
+#include "QueryCondNode.h"
 #include "QueryPreprocessor.h"
-#include "PalletTown.h"
+#include "QueryEnums.h"
 #include "PKB.h"
 
-ConditionNode::ConditionNode(PalletTown::mistyWaterflower attribute, pair<pair<PalletTown::ashKetchum, string>, string> contents)
+QueryCondNode::QueryCondNode(QueryEnums::QueryCond attribute, pair<pair<QueryEnums::QueryVar, string>, string> contents)
 {
 	this->nodeType = Condition;
 	this->conditionAttribute = attribute;
@@ -14,22 +14,22 @@ ConditionNode::ConditionNode(PalletTown::mistyWaterflower attribute, pair<pair<P
 	this->conditionBoundary = contents.second;
 }
 	
-string ConditionNode::getConditionVariableName()
+string QueryCondNode::getConditionVariableName()
 {
 	return conditionVariableName;
 }
 
-PalletTown::ashKetchum ConditionNode::getConditionVariableType()
+QueryEnums::QueryVar QueryCondNode::getConditionVariableType()
 {
 	return conditionVariableType;
 }
 	
-PalletTown::mistyWaterflower ConditionNode::getConditionAttribute()
+QueryEnums::QueryCond QueryCondNode::getConditionAttribute()
 {
 	return conditionAttribute;
 }
 	
-string ConditionNode::getConditionBoundary()
+string QueryCondNode::getConditionBoundary()
 {
 	return conditionBoundary;
 }

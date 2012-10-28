@@ -1,19 +1,19 @@
 #pragma once
 #include "stdafx.h"
 #include <set>
-#include "PalletTown.h"
+#include "QueryEnums.h"
 
 class QueryPreprocessor
 {
 private:
 	set<string> keywords;
-	set<string> relationshipPalletTown;
-	set<string> variablePalletTown;
-	set<string> conditionAttributePalletTown;
+	set<string> relationshipQueryEnums;
+	set<string> variableQueryEnums;
+	set<string> conditionAttributeQueryEnums;
 	unordered_map<int, vector<string>> userVariables;
 	unordered_map<int, vector<string>> selectVariables;
-	unordered_map<int, vector<pair<pair<PalletTown::ashKetchum, string>, pair<PalletTown::ashKetchum, string>>>> relationships;
-	unordered_map<int, vector<pair<pair<PalletTown::ashKetchum, string>, string>>> conditions;
+	unordered_map<int, vector<pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>>>> relationships;
+	unordered_map<int, vector<pair<pair<QueryEnums::QueryVar, string>, string>>> conditions;
 	
 public:
 	QueryPreprocessor();
@@ -21,7 +21,7 @@ public:
 	bool isName(string);
 	unordered_map<int, vector<string>> getUserVariables();
 	unordered_map<int, vector<string>> getSelectVariables();
-	unordered_map<int, vector<pair<pair<PalletTown::ashKetchum, string>, pair<PalletTown::ashKetchum, string>>>> 
+	unordered_map<int, vector<pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>>>> 
 		getRelationships();
-	unordered_map<int, vector<pair<pair<PalletTown::ashKetchum, string>, string>>> getConditions();
+	unordered_map<int, vector<pair<pair<QueryEnums::QueryVar, string>, string>>> getConditions();
 };

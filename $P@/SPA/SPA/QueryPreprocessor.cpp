@@ -17,9 +17,9 @@
 //	vector<unordered_map<int, string>> test2;
 //	unordered_map<int, vector<string>> UT = QE.getUserVariables();
 //	unordered_map<int, vector<string>> SV = QE.getSelectVariables();
-//	unordered_map<int, vector<pair<pair<PalletTown::ashKetchum, string>, pair<PalletTown::ashKetchum, string>>>> r = 
+//	unordered_map<int, vector<pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>>>> r = 
 //		QE.getRelationships();
-//	unordered_map<int, vector<pair<pair<PalletTown::ashKetchum, string>, string>>> c = QE.getConditions();
+//	unordered_map<int, vector<pair<pair<QueryEnums::QueryVar, string>, string>>> c = QE.getConditions();
 //	cout<<"user var: ";
 //	for (auto it = UT.begin(); it != UT.end(); it++)
 //	{
@@ -100,44 +100,44 @@ QueryPreprocessor::QueryPreprocessor()
 	keywords.insert("such");
 	keywords.insert("that");
 
-	variablePalletTown.insert("assignment");
-	variablePalletTown.insert("variable");
-	variablePalletTown.insert("statement");
-	variablePalletTown.insert("procedure");
-	variablePalletTown.insert("call");
-	variablePalletTown.insert("while");
-	variablePalletTown.insert("ifstatement");
-	variablePalletTown.insert("constant");
+	variableQueryEnums.insert("assignment");
+	variableQueryEnums.insert("variable");
+	variableQueryEnums.insert("statement");
+	variableQueryEnums.insert("procedure");
+	variableQueryEnums.insert("call");
+	variableQueryEnums.insert("while");
+	variableQueryEnums.insert("ifstatement");
+	variableQueryEnums.insert("constant");
 	
-	relationshipPalletTown.insert("modifies");
-	relationshipPalletTown.insert("uses");
-	relationshipPalletTown.insert("calls");
-	relationshipPalletTown.insert("calls*");
-	relationshipPalletTown.insert("follows");
-	relationshipPalletTown.insert("follows*");
-	relationshipPalletTown.insert("parent");
-	relationshipPalletTown.insert("parent*");
-	relationshipPalletTown.insert("next");
-	relationshipPalletTown.insert("next*");
-	relationshipPalletTown.insert("affects");
-	relationshipPalletTown.insert("affects*");
+	relationshipQueryEnums.insert("modifies");
+	relationshipQueryEnums.insert("uses");
+	relationshipQueryEnums.insert("calls");
+	relationshipQueryEnums.insert("calls*");
+	relationshipQueryEnums.insert("follows");
+	relationshipQueryEnums.insert("follows*");
+	relationshipQueryEnums.insert("parent");
+	relationshipQueryEnums.insert("parent*");
+	relationshipQueryEnums.insert("next");
+	relationshipQueryEnums.insert("next*");
+	relationshipQueryEnums.insert("affects");
+	relationshipQueryEnums.insert("affects*");
 
-	conditionAttributePalletTown.insert("procname");
-	conditionAttributePalletTown.insert("varname");
-	conditionAttributePalletTown.insert("value");
-	conditionAttributePalletTown.insert("stmt#");
+	conditionAttributeQueryEnums.insert("procname");
+	conditionAttributeQueryEnums.insert("varname");
+	conditionAttributeQueryEnums.insert("value");
+	conditionAttributeQueryEnums.insert("stmt#");
 }
 
 void QueryPreprocessor::preProcess(vector<string> tokens)
 {
 	string delimiters = ";,()"; //all spaces are already taken care of
 	string currentToken;
-	pair<pair<PalletTown::ashKetchum, string>, pair<PalletTown::ashKetchum, string>> relationshipDeclaration;
-	pair<pair<PalletTown::ashKetchum, string>, string> conditionDeclaration;
+	pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>> relationshipDeclaration;
+	pair<pair<QueryEnums::QueryVar, string>, string> conditionDeclaration;
 	vector<string> variableNames;
-	PalletTown::ashKetchum variableType;
-	PalletTown::garyOak relationshipType;
-	PalletTown::mistyWaterflower conditionAttributeType;
+	QueryEnums::QueryVar variableType;
+	QueryEnums::QueryRel relationshipType;
+	QueryEnums::QueryCond conditionAttributeType;
 	bool variableDeclaration = false, selectVariableDeclaration = false, suchThat = false; 
 	bool relationship = false, condition = false;
 	bool complete = false;
@@ -148,24 +148,24 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 	for (int currentIndex = 0; currentIndex < tokens.size(); currentIndex++)
 	{
 		currentToken = tokens.at(currentIndex);
-		if (variablePalletTown.find(currentToken) != variablePalletTown.end() || currentToken.compare("select") == 0)
+		if (variableQueryEnums.find(currentToken) != variableQueryEnums.end() || currentToken.compare("select") == 0)
 		{
 			if (currentToken.compare("assignment") == 0)
-				variableType = PalletTown::Assign;
+				variableType = QueryEnums::Assign;
 			else if (currentToken.compare("variable") == 0)
-				variableType =PalletTown:: Variable;
+				variableType =QueryEnums:: Variable;
 			else if (currentToken.compare("statement") == 0)
-				variableType = PalletTown::Stmt;
+				variableType = QueryEnums::Stmt;
 			else if (currentToken.compare("procedure") == 0)
-				variableType = PalletTown::Procedure;
+				variableType = QueryEnums::Procedure;
 			else if (currentToken.compare("call") == 0)
-				variableType = PalletTown::Call;
+				variableType = QueryEnums::Call;
 			else if (currentToken.compare("while") == 0)
-				variableType = PalletTown::While;
+				variableType = QueryEnums::While;
 			else if (currentToken.compare("ifstatement") == 0)
-				variableType = PalletTown::If;
+				variableType = QueryEnums::If;
 			else if (currentToken.compare("constant") == 0)
-				variableType = PalletTown::Constant;
+				variableType = QueryEnums::Constant;
 			else if (currentToken.compare("select") == 0)
 			{
 				selectVariableDeclaration = true;
@@ -203,7 +203,7 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 					{
 						if (variableNames.at(i).compare(currentToken) == 0)
 						{
-							variableType = PalletTown::ashKetchum((*it).first);
+							variableType = QueryEnums::QueryVar((*it).first);
 							existsVariable = true;
 						}
 					}
@@ -229,32 +229,32 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 		}
 		else if (relationship == true)
 		{
-			if (relationshipPalletTown.find(currentToken) != relationshipPalletTown.end())
+			if (relationshipQueryEnums.find(currentToken) != relationshipQueryEnums.end())
 			{
 				if (currentToken.compare("modifies") == 0)
-					relationshipType = PalletTown::Modifies;
+					relationshipType = QueryEnums::Modifies;
 				else if (currentToken.compare("uses") == 0)
-					relationshipType = PalletTown::Uses;
+					relationshipType = QueryEnums::Uses;
 				else if (currentToken.compare("calls") == 0)
-					relationshipType = PalletTown::Calls;
+					relationshipType = QueryEnums::Calls;
 				else if (currentToken.compare("calls*") == 0)
-					relationshipType = PalletTown::CallsStar;
+					relationshipType = QueryEnums::CallsStar;
 				else if (currentToken.compare("follows") == 0)
-					relationshipType = PalletTown::Follows;
+					relationshipType = QueryEnums::Follows;
 				else if (currentToken.compare("follows*") == 0)
-					relationshipType = PalletTown::FollowsStar;
+					relationshipType = QueryEnums::FollowsStar;
 				else if (currentToken.compare("parent") == 0)
-					relationshipType = PalletTown::Parent;
+					relationshipType = QueryEnums::Parent;
 				else if (currentToken.compare("parent*") == 0)
-					relationshipType = PalletTown::ParentStar;
+					relationshipType = QueryEnums::ParentStar;
 				else if (currentToken.compare("next") == 0)
-					relationshipType = PalletTown::Next;
+					relationshipType = QueryEnums::Next;
 				else if (currentToken.compare("next*") == 0)
-					relationshipType = PalletTown::NextStar;
+					relationshipType = QueryEnums::NextStar;
 				else if (currentToken.compare("affects") == 0)
-					relationshipType = PalletTown::Affects;
+					relationshipType = QueryEnums::Affects;
 				else if (currentToken.compare("affect*") == 0)
-					relationshipType = PalletTown::AffectsStar;
+					relationshipType = QueryEnums::AffectsStar;
 				else
 					throw SPAException("Invalid relationship type");
 			}
@@ -264,10 +264,10 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 			{
 				if (currentToken.compare("_") == 0)
 				{
-					if (relationshipType == PalletTown::Modifies || relationshipType == PalletTown::Uses)
+					if (relationshipType == QueryEnums::Modifies || relationshipType == QueryEnums::Uses)
 						throw SPAException("Modifies and Uses cannot have '_' as the first parameter");
 					else
-						relationshipDeclaration.first = (make_pair(PalletTown::WildCard, currentToken));
+						relationshipDeclaration.first = (make_pair(QueryEnums::WildCard, currentToken));
 				}
 				else
 				{
@@ -278,7 +278,7 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 						{
 							if (variableNames.at(i).compare(currentToken) == 0)
 							{
-								variableType = PalletTown::ashKetchum((*it).first);
+								variableType = QueryEnums::QueryVar((*it).first);
 								existsVariable = true;
 							}
 						}
@@ -295,7 +295,7 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 			else if (openBracket == true && comma == true && secondVariable == false)
 			{
 				if (currentToken.compare("_") == 0)
-					relationshipDeclaration.second = (make_pair(PalletTown::WildCard, currentToken));
+					relationshipDeclaration.second = (make_pair(QueryEnums::WildCard, currentToken));
 				else
 				{
 					for (auto it = userVariables.begin(); it != userVariables.end(); it++)
@@ -305,7 +305,7 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 						{
 							if (variableNames.at(i).compare(currentToken) == 0)
 							{
-								variableType = PalletTown::ashKetchum((*it).first);
+								variableType = QueryEnums::QueryVar((*it).first);
 								existsVariable = true;
 							}
 						}
@@ -342,7 +342,7 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 					{
 						if (variableNames.at(i).compare(currentToken) == 0)
 						{
-							variableType = PalletTown::ashKetchum((*it).first);
+							variableType = QueryEnums::QueryVar((*it).first);
 							existsVariable = true;
 						}
 					}
@@ -355,16 +355,16 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 			}
 			else if (currentToken.compare(".") == 0 && conditionVariable == true)
 				dot = true;
-			else if (dot == true && conditionAttributePalletTown.find(currentToken) != conditionAttributePalletTown.end())
+			else if (dot == true && conditionAttributeQueryEnums.find(currentToken) != conditionAttributeQueryEnums.end())
 			{
 				if (currentToken.compare("procname") == 0)
-					conditionAttributeType = PalletTown::ProcName;
+					conditionAttributeType = QueryEnums::ProcName;
 				else if (currentToken.compare("varname") == 0)
-					conditionAttributeType = PalletTown::VarName;
+					conditionAttributeType = QueryEnums::VarName;
 				else if (currentToken.compare("value") == 0)
-					conditionAttributeType = PalletTown::Value;
+					conditionAttributeType = QueryEnums::Value;
 				else if (currentToken.compare("stmt#") == 0)
-					conditionAttributeType = PalletTown::StmtNo;
+					conditionAttributeType = QueryEnums::StmtNo;
 				else
 					throw SPAException("Invalid condition attribute");
 
@@ -422,13 +422,13 @@ unordered_map<int, vector<string>> QueryPreprocessor::getSelectVariables()
 	return selectVariables;
 }
 
-unordered_map<int, vector<pair<pair<PalletTown::ashKetchum, string>, pair<PalletTown::ashKetchum, string>>>> 
+unordered_map<int, vector<pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>>>> 
 	QueryPreprocessor::getRelationships()
 {
 	return relationships;
 }
 	
-unordered_map<int, vector<pair<pair<PalletTown::ashKetchum, string>, string>>> QueryPreprocessor::getConditions()
+unordered_map<int, vector<pair<pair<QueryEnums::QueryVar, string>, string>>> QueryPreprocessor::getConditions()
 {
 	return conditions;
 }

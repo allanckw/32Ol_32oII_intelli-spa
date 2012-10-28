@@ -1,7 +1,7 @@
 #pragma once
 #include "StdAfx.h"
 #include "QueryTreeNode.h"
-#include "PalletTown.h"
+#include "QueryEnums.h"
 
 class SelectNode :
 	public QueryTreeNode
@@ -11,6 +11,6 @@ public:
 	unordered_map<int, vector<string>> getSelectVariables();
 private:
 	unordered_map<int, vector<string>> selectVariables;
-	vector<string> getSelectVariableNames(PalletTown::ashKetchum t);
-	PalletTown::ashKetchum getSelectVariableType(string);
+	vector<string> getSelectVariableNames(QueryEnums::QueryVar t);
+	QueryEnums::QueryVar getSelectVariableType(string);
 };

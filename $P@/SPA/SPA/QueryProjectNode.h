@@ -2,7 +2,7 @@
 #include "StdAfx.h"
 #include "QueryTreeNode.h"
 
-class ProjectNode :
+class QueryProjectNode :
 	public QueryTreeNode
 {
 public:

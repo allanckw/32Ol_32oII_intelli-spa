@@ -1,12 +1,12 @@
 #pragma once
 #include "StdAfx.h"
-#include "RelationshipNode.h"
+#include "QueryRelNode.h"
 #include "QueryPreprocessor.h"
-#include "PalletTown.h"
+#include "QueryEnums.h"
 #include "PKB.h"
 
-RelationshipNode::RelationshipNode(PalletTown::garyOak type, 
-	pair<pair<PalletTown::ashKetchum, string>, pair<PalletTown::ashKetchum, string>> contents)
+QueryRelNode::QueryRelNode(QueryEnums::QueryRel type, 
+	pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>> contents)
 {
 	this->nodeType = Relationship;
 	this->relationshipType = type;
@@ -16,27 +16,27 @@ RelationshipNode::RelationshipNode(PalletTown::garyOak type,
 	this->secondVariableName = contents.second.second;
 }
 
-PalletTown::garyOak RelationshipNode::getRelationshipType()
+QueryEnums::QueryRel QueryRelNode::getRelationshipType()
 {
 	return relationshipType;
 }
 
-string RelationshipNode::getFirstVariableName()
+string QueryRelNode::getFirstVariableName()
 {
 	return firstVariableName;
 }
 
-PalletTown::ashKetchum RelationshipNode::getFirstVariableType()
+QueryEnums::QueryVar QueryRelNode::getFirstVariableType()
 {
 	return firstVariableType;
 }
 
-string RelationshipNode::getSecondVariableName()
+string QueryRelNode::getSecondVariableName()
 {
 	return secondVariableName;
 }
 
-PalletTown::ashKetchum RelationshipNode::getSecondVariableType()
+QueryEnums::QueryVar QueryRelNode::getSecondVariableType()
 {
 	return secondVariableType;
 }

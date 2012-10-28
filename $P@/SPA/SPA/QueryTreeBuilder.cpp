@@ -4,35 +4,35 @@
 #include "QueryParser.h"
 #include "QueryPreprocessor.h"
 #include "QueryTreeNode.h"
-#include "RelationshipNode.h"
+#include "QueryRelNode.h"
 #include "SelectNode.h"
-#include "ProjectNode.h"
-#include "ConditionNode.h"
+#include "QueryProjectNode.h"
+#include "QueryCondNode.h"
 #include "QueryTreeBuilder.h"
-#include "PalletTown.h"
+#include "QueryEnums.h"
 
 void QueryTreeBuilder::buildQueryTree(unordered_map<int, vector<string>> userVariables, 
 	unordered_map<int, vector<string>> selectVariables, 
-	unordered_map<int, pair<pair<PalletTown::ashKetchum, string>, pair<PalletTown::ashKetchum, string>>> relationships,
-	unordered_map<int, pair<pair<PalletTown::ashKetchum, string>, string>> conditions)
+	unordered_map<int, pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>>> relationships,
+	unordered_map<int, pair<pair<QueryEnums::QueryVar, string>, string>> conditions)
 {
-	pair<pair<PalletTown::ashKetchum, string>, pair<PalletTown::ashKetchum, string>> relationship;
-	pair<pair<PalletTown::ashKetchum, string>, string> condition;
-	PalletTown::garyOak relationshipType;
-	PalletTown::mistyWaterflower conditionType;
-	PalletTown::ashKetchum currentVariableType;
+	pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>> relationship;
+	pair<pair<QueryEnums::QueryVar, string>, string> condition;
+	QueryEnums::QueryRel relationshipType;
+	QueryEnums::QueryCond conditionType;
+	QueryEnums::QueryVar currentVariableType;
 	vector<string> currentVariables;
 	unordered_map<int, vector<string>> selectVars;
 	vector<QueryTreeNode*> qtCluster;
 	
 	for (auto it = relationships.begin(); it != relationships.end(); it++)
 	{
-		relationshipType = (PalletTown::garyOak) (*it).first;
+		relationshipType = (QueryEnums::QueryRel) (*it).first;
 		relationship = (*it).second;
-		RelationshipNode* rNode = new RelationshipNode(relationshipType, relationship);
+		QueryRelNode* rNode = new QueryRelNode(relationshipType, relationship);
 		for (auto it2 = selectVariables.begin(); it2 != selectVariables.end(); it2++)
 		{
-			currentVariableType = (PalletTown::ashKetchum) (*it2).first;
+			currentVariableType = (QueryEnums::QueryVar) (*it2).first;
 			currentVariables = (*it2).second;
 			for (int i = 0; i < currentVariables.size(); i++)
 			{
@@ -41,7 +41,7 @@ void QueryTreeBuilder::buildQueryTree(unordered_map<int, vector<string>> userVar
 					selectVars[currentVariableType].push_back(currentVariables.at(i));
 			}
 			SelectNode* sNode = new SelectNode(selectVars);
-			ProjectNode* pNode = new ProjectNode();
+			QueryProjectNode* pNode = new QueryProjectNode();
 			
 			//Form cluster
 			rNode->setParent(sNode);
@@ -60,12 +60,12 @@ void QueryTreeBuilder::buildQueryTree(unordered_map<int, vector<string>> userVar
 
 	for (auto it = conditions.begin(); it != conditions.end(); it++)
 	{
-		conditionType = (PalletTown::mistyWaterflower) (*it).first;
+		conditionType = (QueryEnums::QueryCond) (*it).first;
 		condition = (*it).second;
-		ConditionNode* cNode = new ConditionNode(conditionType, condition);
+		QueryCondNode* cNode = new QueryCondNode(conditionType, condition);
 		for (auto it2 = selectVariables.begin(); it2 != selectVariables.end(); it2++)
 		{
-			currentVariableType = (PalletTown::ashKetchum) (*it2).first;
+			currentVariableType = (QueryEnums::QueryVar) (*it2).first;
 			currentVariables = (*it2).second;
 			for (int i = 0; i < currentVariables.size(); i++)
 			{
@@ -73,7 +73,7 @@ void QueryTreeBuilder::buildQueryTree(unordered_map<int, vector<string>> userVar
 					selectVars[currentVariableType].push_back(currentVariables.at(i));
 			}
 			SelectNode* sNode = new SelectNode(selectVars);
-			ProjectNode* pNode = new ProjectNode();
+			QueryProjectNode* pNode = new QueryProjectNode();
 			
 			//Form cluster
 			cNode->setParent(sNode);

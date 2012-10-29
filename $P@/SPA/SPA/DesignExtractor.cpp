@@ -11,6 +11,7 @@ unordered_set<STMT> PKB::assignTable;
 unordered_set<STMT> PKB::callTable;
 unordered_set<STMT> PKB::whileTable;
 unordered_set<STMT> PKB::ifTable;
+vector<pair<STMT, STMT>> PKB::TheBeginningAndTheEnd;
 
 void DesignExtractor::extractDesign()
 {
@@ -91,16 +92,19 @@ void DesignExtractor::buildFirstRound() {
 		StmtLstNode* currentStmtListNode = firstLevelStmtListNode;
 		StmtNode* currentStmtNode = (StmtNode*) (*firstLevelStmtListNode).getChild(0); //first statement
 		int currentPosition = 0;
+		int firstStatementNumber = (*currentStmtNode).getStmtNumber();
+		int lastStatementNumber;
 		bool haveNextChildren = true;
 
 		while (haveNextChildren) {
+			lastStatementNumber = (*currentStmtNode).getStmtNumber();
 			switch ((*currentStmtNode).getType()) {
 
 			case ASTNode::Call: {
 				PROC calledProc = (*currentStmtNode).getValue();
 				PKB::calls.insertCalls(currentProc, calledProc);
 				PKB::uses.linkCallStmtToProcUses((*currentStmtNode).getStmtNumber(), currentProc);
-				PKB::modifies.linkCallStmtToProcModifies((*currentStmtNode).getStmtNumber(), currentProc);
+				PKB::modifies.linkCallStmtToProcModifies(lastStatementNumber, currentProc);
 
 				toProcAdjList[currentProc].insert(calledProc);
 				fromProcAdjList[calledProc].insert(currentProc);
@@ -151,6 +155,9 @@ void DesignExtractor::buildFirstRound() {
 							currentPosition = firstLevelPosition;
 							notYetGotNextChild = false;
 						} else { //end
+							PKB::TheBeginningAndTheEnd.push_back(make_pair(
+								firstStatementNumber, lastStatementNumber));
+
 							haveNextChildren = false;
 							notYetGotNextChild = false;
 						}

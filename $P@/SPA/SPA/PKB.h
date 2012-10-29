@@ -30,6 +30,7 @@ public:
 	static unordered_set<STMT> callTable;
 	static unordered_set<STMT> whileTable;
 	static unordered_set<STMT> ifTable;
+	static vector<pair<STMT, STMT>> TheBeginningAndTheEnd;
 
 	PKB(void);
 	~PKB(void);

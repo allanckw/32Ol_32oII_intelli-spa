@@ -12,6 +12,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\CallsTable.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\QueryEvaluator.h" />
+    <ClInclude Include="..\..\..\$p%40\spa\spa\queryselnode.h" />
     <ClInclude Include="QueryCondNode.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\FollowsTable.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\ModifiesTable.h" />
@@ -24,7 +26,6 @@
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\QueryTreeBuilder.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\QueryTreeNode.h" />
     <ClInclude Include="QueryRelNode.h" />
-    <ClInclude Include="..\..\..\$P%40\SPA\SPA\SelectNode.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\UsesTable.h" />
     <ClInclude Include="AssignmentParser.h" />
     <ClInclude Include="ASTNode.h" />
@@ -40,6 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\CallsTable.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\QueryEvaluator.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\QuerySelNode.cpp" />
     <ClCompile Include="QueryCondNode.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\FollowsTable.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\ModifiesTable.cpp" />
@@ -51,7 +54,6 @@
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\QueryTreeBuilder.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\QueryTreeNode.cpp" />
     <ClCompile Include="QueryRelNode.cpp" />
-    <ClCompile Include="..\..\..\$P%40\SPA\SPA\SelectNode.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\TableTester.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\UsesTable.cpp" />
     <ClCompile Include="AssignmentParser.cpp" />

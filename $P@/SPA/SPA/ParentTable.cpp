@@ -14,10 +14,8 @@ ParentTable::~ParentTable()
 //Worst: O(c) <= O(r), where c is the number of relationships in the table
 void ParentTable::insertParent(STMT s1, STMT s2)
 {
-	pair<unordered_set<STMT>, vector<STMT>> p = parentTo[s1];
-	p.first.insert(s2);
-	p.second.push_back(s2);
-	parentTo[s1] = p;
+	parentTo[s1].first.insert(s2);
+	parentTo[s1].second.push_back(s2); //assume the s2's will be distinct
 
 	parentFrom[s2] = s1;
 }
@@ -31,7 +29,7 @@ bool ParentTable::isParent(STMT s1, STMT s2)
 //O(1)
 vector<STMT> ParentTable::getChildren(STMT s1)
 {
-	if (parentTo.count(s1))
+	if (parentTo.count(s1) > 0)
 		return parentTo[s1].second;
 	
 	vector<STMT> output;
@@ -41,7 +39,7 @@ vector<STMT> ParentTable::getChildren(STMT s1)
 //O(1)
 STMT ParentTable:: getParent(STMT s2) 
 {
-	if (parentFrom.count(s2))
+	if (parentFrom.count(s2) > 0)
 		return parentFrom[s2];
 	else
 		return -1;
@@ -52,7 +50,7 @@ bool ParentTable::isParentStar(STMT s1, STMT s2)
 {
 	STMT parent = s2;
 	do {
-		if (parentFrom.count(parent))
+		if (parentFrom.count(parent) > 0)
 			parent = parentFrom[parent];
 		else
 			return false;
@@ -86,7 +84,7 @@ vector <STMT> ParentTable::getParentStar(STMT s2)
 {
 	vector <STMT> answer;
 	STMT parent = s2;
-	while (parentFrom.count(parent)) {
+	while (parentFrom.count(parent) > 0) {
 		parent = parentFrom[parent];
 		answer.push_back(parent);
 	}

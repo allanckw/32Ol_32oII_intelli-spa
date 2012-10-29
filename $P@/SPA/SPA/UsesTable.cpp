@@ -2,197 +2,156 @@
 #include "PKB.h"
 #include "UsesTable.h"
 
+unordered_map<STMT, set<VAR>> originalUsedByStmt;
+unordered_map<PROC, set<VAR>> originalUsedByProc;
+unordered_map<VAR, set<STMT>> originalUsesInStmt;
+unordered_map<VAR, set<PROC>> originalUsesInProc;
+unordered_map<STMT, PROC> callLinksUses;
+
+unordered_map<STMT, vector<VAR>> optimizedUsedByStmt;
+unordered_map<PROC, vector<VAR>> optimizedUsedByProc;
+unordered_map<VAR, vector<STMT>> optimizedUsesInStmt;
+unordered_map<VAR, vector<PROC>> optimizedUsesInProc;
+
 UsesTable::UsesTable()
 {
-	noProgLines = PKB::maxProgLines;
-	noProcs = PKB::procedures.getSize();
-	noVars = PKB::variables.getSize();
 }
 
 void UsesTable::insertStmtUses(STMT s, VAR v)
 {
-	if (s <= 0 )
+	if (s <= 0)
 		throw SPAException("statement cannot be less than or equal to zero");
 
-	auto newPair = make_pair(s, v);
-	if (!usesStmtTable.empty())
-	{
-		for (int i = 0; i < usesStmtTable.size(); i++)
-		{
-			if (usesStmtTable.at(i) == newPair) //if pair already exists in table, do nothing
-				return;
-		}
-	}
-
-	usesStmtTable.push_back(newPair);
+	originalUsedByStmt[s].insert(v);
+	originalUsesInStmt[v].insert(s);
 }
 
 void UsesTable::insertProcUses(PROC p, VAR v)
 {
-	auto newPair = make_pair(p, v);
-	if (!usesProcTable.empty())
-	{
-		for (int i = 0; i < usesProcTable.size(); i++)
-		{
-			if (usesProcTable.at(i) == newPair) //if pair already exists in table, do nothing
-				return;
-		}
-	}
-
-	usesProcTable.push_back(newPair);
+	originalUsedByProc[p].insert(v);
+	originalUsesInProc[v].insert(p);
 }
 
-//This function should be invoked once usestable has been fully populated by whoever is populating it
-void UsesTable::optimizeUsesTable()
-{
-	noProgLines = 100;
-	noProcs = 100;
-	noVars = 100;
-
-	optimizedUsedByStmtTable = new vector<VAR>[noProgLines+1];
-	optimizedUsedInStmtTable = new vector<STMT>[noVars+1];
-	optimizedUsedByProcTable = new vector<VAR>[noProcs+1];
-	optimizedUsedInProcTable = new vector<PROC>[noVars+1];
-
-	if (!usesStmtTable.empty())
-	{
-		for (int i = 0; i < usesStmtTable.size(); i++)
-		{
-			optimizedUsedInStmtTable[usesStmtTable.at(i).first].push_back(usesStmtTable.at(i).second);
-			optimizedUsedByStmtTable[usesStmtTable.at(i).second].push_back(usesStmtTable.at(i).first);
-		}
-	}
-	if (!usesProcTable.empty())
-	{
-		for (int j = 0; j < usesProcTable.size(); j++)
-		{
-			optimizedUsedInProcTable[usesProcTable.at(j).first].push_back(usesProcTable.at(j).second);
-			optimizedUsedByProcTable[usesProcTable.at(j).second].push_back(usesProcTable.at(j).first);
-		}
-	}
-
-	return;
-}
-
-vector<VAR> UsesTable::getUsedInStmt(STMT s)
-{
-	vector<VAR> answer;
-
-	if (noProgLines - 1 >= s)
-		answer = optimizedUsedInStmtTable[s];
-
-	return answer;
-}
-
-vector<VAR> UsesTable::getUsedInProc(PROC p)
-{
-	vector<VAR> answer;
-
-	if (noProcs - 1 >= p)
-		answer = optimizedUsedInProcTable[p];
-
-	return answer;
-}
-
-vector<STMT> UsesTable::getUsedByStmt(VAR v)
-{
-	vector<STMT> answer;
-
-	if (noVars - 1 >= v)
-		answer = optimizedUsedByStmtTable[v];
-
-	return answer;
-}
-
-vector<PROC> UsesTable::getUsedByProc(VAR v)
+vector<STMT> UsesTable::getUsedByStmt(STMT s)
 {
 	vector<PROC> answer;
+	if (optimizedUsedByStmt.count(s) > 0)
+		answer = optimizedUsedByStmt[s];
+	return answer;
+}
 
-	if (noVars - 1 >= v)
-		answer = optimizedUsedByProcTable[v];
+vector<PROC> UsesTable::getUsedByProc(PROC p)
+{
+	vector<PROC> answer;
+	if (optimizedUsedByProc.count(p) > 0)
+		answer = optimizedUsedByProc[p];
+	return answer;
+}
 
+vector<VAR> UsesTable::getUsedInStmt(VAR v)
+{
+	vector<PROC> answer;
+	if (optimizedUsesInStmt.count(v) > 0)
+		answer = optimizedUsesInStmt[v];
+	return answer;
+}
+
+vector<VAR> UsesTable::getUsedInProc(VAR v)
+{
+	vector<PROC> answer;
+	if (optimizedUsesInProc.count(v) > 0)
+		answer = optimizedUsesInProc[v];
 	return answer;
 }
 
 bool UsesTable::isUsedStmt(STMT s, VAR v)
 {
-	if (noProgLines - 1 >= s && noVars - 1 > v)
-	{
-		for (int i = 0; i < optimizedUsedByStmtTable[s].size(); i++)
-		{
-			if(optimizedUsedByStmtTable[s].at(i) == v)
-				return true;
-		}
-	}
-
-	return false;
+	return (originalUsedByStmt.count(s) > 0 && originalUsedByStmt[s].count(v) > 0);
 }
 
 bool UsesTable::isUsedProc(PROC p, VAR v)
 {
-	if (noProcs - 1 >= p && noVars - 1 >= v)
-	{
-		for (int i = 0; i < optimizedUsedByProcTable[p].size(); i++)
-		{
-			if(optimizedUsedByProcTable[p].at(i) == v)
-				return true;
+	return (originalUsedByProc.count(p) > 0 && originalUsedByProc[p].count(v) > 0);
+}
+
+void UsesTable::linkCallStmtToProcUses(STMT s, PROC p) {
+	callLinksUses[s] = p;
+}
+
+//This function should be invoked once usestable has been fully populated by whoever is populating it
+void UsesTable::optimizeUsesTable()
+{
+	for (auto it = originalUsedByStmt.begin(); it != originalUsedByStmt.end(); it++) {
+		STMT s = (*it).first;
+		for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
+			optimizedUsedByStmt[s].push_back(*it2);
+	}
+	for (auto it = originalUsedByProc.begin(); it != originalUsedByProc.end(); it++) {
+		PROC p = (*it).first;
+		for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
+			optimizedUsedByProc[p].push_back(*it2);
+	}
+	for (auto it = callLinksUses.begin(); it != callLinksUses.end(); it++) {
+		STMT s = (*it).first;
+		PROC p = (*it).second;
+		optimizedUsedByStmt[s] = optimizedUsedByProc[p];
+
+		for (auto it2 = optimizedUsedByStmt[s].begin(); it2 != optimizedUsedByStmt[s].end(); it2++) {
+			VAR v = *it2;
+			originalUsesInStmt[v].insert(s);
+			originalUsesInProc[v].insert(p);
 		}
 	}
-
-	return false;
+	for (auto it = originalUsesInStmt.begin(); it != originalUsesInStmt.end(); it++) {
+		VAR v = (*it).first;
+		for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
+			optimizedUsesInStmt[v].push_back(*it2);
+	}
+	for (auto it = originalUsesInProc.begin(); it != originalUsesInProc.end(); it++) {
+		VAR v = (*it).first;
+		for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
+			optimizedUsesInProc[v].push_back(*it2);
+	}
 }
 
 //////////////////////////////////
 //Functions for testing purposes//
 //////////////////////////////////
-void UsesTable::displayUsedInProcTable()
+void UsesTable::displayUsesTables()
 {
-	cout<<"PROC that use VAR"<<endl;
-	for (int i = 0; i < noVars; i++)
-	{
-		cout<<i<<": ";
-		for (int j = 0; j < optimizedUsedInProcTable[i].size(); j++)
-			cout<<optimizedUsedInProcTable[i].at(j)<<" ";
-
-		cout<<endl;
+	cout << "OPTIMISED USES BY (STMT):" << endl;
+	cout << "s: v such that Uses(s, v)" << endl;
+	for (auto it = optimizedUsedByStmt.begin(); it != optimizedUsedByStmt.end(); it++) {
+		cout << (*it).first << ": ";
+		for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
+			cout<< (*it2) << " ";
+		cout << endl;
 	}
-}
-
-void UsesTable::displayUsedInStmtTable()
-{
-	cout<<"STMT that use VAR"<<endl;
-	for (int i = 0; i < noVars; i++)
-	{
-		cout<<i<<": ";
-		for (int j = 0; j < optimizedUsedInStmtTable[i].size(); j++)
-			cout<<optimizedUsedInStmtTable[i].at(j)<<" ";
-
-		cout<<endl;
+	
+	cout << "OPTIMISED USES BY (PROC):" << endl;
+	cout << "p: v such that Uses(p, v)" << endl;
+	for (auto it = optimizedUsedByProc.begin(); it != optimizedUsedByProc.end(); it++) {
+		cout << (*it).first << ": ";
+		for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
+			cout<< (*it2) << " ";
+		cout << endl;
 	}
-}
 
-void UsesTable::displayUsedByProcTable()
-{
-	cout<<"VAR used by PROC"<<endl;
-	for (int i = 0; i < noVars; i++)
-	{
-		cout<<i<<": ";
-		for (int j = 0; j < optimizedUsedByProcTable[i].size(); j++)
-			cout<<optimizedUsedByProcTable[i].at(j)<<" ";
-
-		cout<<endl;
+	cout << "OPTIMISED USES (STMT):" << endl;
+	cout << "v: s such that Uses(s, v)" << endl;
+	for (auto it = optimizedUsesInStmt.begin(); it != optimizedUsesInStmt.end(); it++) {
+		cout << (*it).first << ": ";
+		for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
+			cout<< (*it2) << " ";
+		cout << endl;
 	}
-}
-
-void UsesTable::displayUsedByStmtTable()
-{
-	cout<<"VAR used by STMT"<<endl;
-	for (int i = 0; i < noVars; i++)
-	{
-		cout<<i<<": ";
-		for (int j = 0; j < optimizedUsedByStmtTable[i].size(); j++)
-			cout<<optimizedUsedByStmtTable[i].at(j)<<" ";
-
-		cout<<endl;
+	
+	cout << "OPTIMISED USES (PROC):" << endl;
+	cout << "v: p such that Uses(p, v)" << endl;
+	for (auto it = optimizedUsesInProc.begin(); it != optimizedUsesInProc.end(); it++) {
+		cout << (*it).first << ": ";
+		for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
+			cout<< (*it2) << " ";
+		cout << endl;
 	}
 }

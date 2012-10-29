@@ -99,6 +99,8 @@ void DesignExtractor::buildFirstRound() {
 			case ASTNode::Call: {
 				PROC calledProc = (*currentStmtNode).getValue();
 				PKB::calls.insertCalls(currentProc, calledProc);
+				PKB::uses.linkCallStmtToProcUses((*currentStmtNode).getStmtNumber(), currentProc);
+				PKB::modifies.linkCallStmtToProcModifies((*currentStmtNode).getStmtNumber(), currentProc);
 
 				toProcAdjList[currentProc].insert(calledProc);
 				fromProcAdjList[calledProc].insert(currentProc);
@@ -451,6 +453,7 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 								traversingThenPartOfIfStack.pop(); //was at 'else' part of if
 
 							currentStmtNode = parentNode;
+							currentStmtNumber = (*currentStmtNode).getStmtNumber();
 							currentStmtListNode = DFSstmtLstStack.top();
 							currentPosition = positionStack.top();
 

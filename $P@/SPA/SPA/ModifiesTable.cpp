@@ -2,17 +2,19 @@
 #include "PKB.h"
 #include "ModifiesTable.h"
 
+unordered_map<STMT, set<VAR>> originalModifiedByStmt;
+unordered_map<PROC, set<VAR>> originalModifiedByProc;
+unordered_map<VAR, set<STMT>> originalModifiesStmt;
+unordered_map<VAR, set<PROC>> originalModifiesProc;
+unordered_map<STMT, PROC> callLinksModifies;
+
+unordered_map<STMT, vector<VAR>> optimizedModifiedByStmt;
+unordered_map<PROC, vector<VAR>> optimizedModifiedByProc;
+unordered_map<VAR, vector<STMT>> optimizedModifiesStmt;
+unordered_map<VAR, vector<PROC>> optimizedModifiesProc;
+
 ModifiesTable::ModifiesTable()
 {
-	noProgLines = 5;
-	noProcs = 5;
-	noVars = 5;
-
-	/*
-	noProgLines = PKB::maxProgLines;
-	noProcs = PKB::procedures.getSize();
-	noVars = PKB::variables.getSize();
-	*/
 }
 
 void ModifiesTable::insertStmtModifies(STMT s, VAR v)
@@ -20,185 +22,137 @@ void ModifiesTable::insertStmtModifies(STMT s, VAR v)
 	if (s == 0)	{
 		throw new SPAException("Invalid Reference: There is no statement zero!");
 	}
-	auto newPair = make_pair(s, v);
-	if (!modifiesStmtTable.empty())
-	{
-		for (int i = 0; i < modifiesStmtTable.size(); i++)
-		{
-			if (modifiesStmtTable.at(i) == newPair) //if pair already exists in table, do nothing
-				return;
-		}
-	}
 
-	modifiesStmtTable.push_back(newPair);
+	originalModifiedByStmt[s].insert(v);
+	originalModifiesStmt[v].insert(s);
 }
 
 void ModifiesTable::insertProcModifies(PROC p, VAR v)
 {
-	auto newPair = make_pair(p, v);
-	if (!modifiesProcTable.empty())
-	{
-		for (int i = 0; i < modifiesProcTable.size(); i++)
-		{
-			if (modifiesProcTable.at(i) == newPair) //if pair already exists in table, do nothing
-				return;
-		}
-	}
-
-	modifiesProcTable.push_back(newPair);
-}
-
-//This function should be invoked once modifiestable has been fully populated by whoever is populating it
-void ModifiesTable::optimizeModifiesTable()
-{
-	noProgLines = 100;
-	noProcs = 100;
-	noVars = 100;
-
-	optimizedModifiesStmtTable = new vector<VAR>[noProgLines+1];
-	optimizedModifiedByStmtTable = new vector<STMT>[noVars+1];
-	optimizedModifiesProcTable = new vector<VAR>[noProcs+1];
-	optimizedModifiedByProcTable = new vector<PROC>[noVars+1];
-
-	if (!modifiesStmtTable.empty())
-	{
-		for (int i = 0; i < modifiesStmtTable.size(); i++)
-		{
-			optimizedModifiedByStmtTable[modifiesStmtTable.at(i).first].push_back(modifiesStmtTable.at(i).second);
-			optimizedModifiesStmtTable[modifiesStmtTable.at(i).second].push_back(modifiesStmtTable.at(i).first);
-		}
-	}
-	if (!modifiesProcTable.empty())
-	{
-		for (int j = 0; j < modifiesProcTable.size(); j++)
-		{
-			optimizedModifiedByProcTable[modifiesProcTable.at(j).first].push_back(modifiesProcTable.at(j).second);
-			optimizedModifiesProcTable[modifiesProcTable.at(j).second].push_back(modifiesProcTable.at(j).first);
-		}
-	}
-
-	return;
+	originalModifiedByProc[p].insert(v);
+	originalModifiesProc[v].insert(p);
 }
 
 vector<VAR> ModifiesTable::getModifiedByStmt(STMT s)
 {
-	vector<VAR> answer;
-
-	if (noProgLines - 1 >= s)
-		answer = optimizedModifiedByStmtTable[s];
-
+	vector<PROC> answer;
+	if (optimizedModifiedByStmt.count(s) > 0)
+		answer = optimizedModifiedByStmt[s];
 	return answer;
 }
 
 vector<VAR> ModifiesTable::getModifiedByProc(PROC p)
 {
-	vector<VAR> answer;
-
-	if (noProcs - 1 >= p)
-		answer = optimizedModifiedByProcTable[p];
-
+	vector<PROC> answer;
+	if (optimizedModifiedByProc.count(p) > 0)
+		answer = optimizedModifiedByProc[p];
 	return answer;
 }
 
 vector<STMT> ModifiesTable::getModifiesStmt(VAR v)
 {
-	vector<STMT> answer;
-
-	if (noVars - 1 >= v)
-		answer = optimizedModifiesStmtTable[v];
-
+	vector<PROC> answer;
+	if (optimizedModifiesStmt.count(v) > 0)
+		answer = optimizedModifiesStmt[v];
 	return answer;
 }
 
 vector<PROC> ModifiesTable::getModifiesProc(VAR v)
 {
 	vector<PROC> answer;
-
-	if (noVars - 1 >= v)
-		answer = optimizedModifiesProcTable[v];
-
+	if (optimizedModifiesProc.count(v) > 0)
+		answer = optimizedModifiesProc[v];
 	return answer;
 }
 
 bool ModifiesTable::isModifiedStmt(STMT s, VAR v)
 {
-	if (noProgLines - 1 >= s && noVars - 1 > v)
-	{
-		for (int i = 0; i < optimizedModifiesStmtTable[s].size(); i++)
-		{
-			if(optimizedModifiesStmtTable[s].at(i) == v)
-				return true;
-		}
-	}
-
-	return false;
+	return (originalModifiedByStmt.count(s) > 0 && originalModifiedByStmt[s].count(v) > 0);
 }
 
 bool ModifiesTable::isModifiedProc(PROC p, VAR v)
 {
-	if (noProcs - 1 >= p && noVars - 1 >= v)
-	{
-		for (int i = 0; i < optimizedModifiesProcTable[p].size(); i++)
-		{
-			if(optimizedModifiesProcTable[p].at(i) == v)
-				return true;
+	return (originalModifiedByProc.count(p) > 0 && originalModifiedByProc[p].count(v) > 0);
+}
+
+void ModifiesTable::linkCallStmtToProcModifies(STMT s, PROC p) {
+	callLinksModifies[s] = p;
+}
+
+//This function should be invoked once modifies has been fully populated by whoever is populating it
+void ModifiesTable::optimizeModifiesTable()
+{
+	for (auto it = originalModifiedByStmt.begin(); it != originalModifiedByStmt.end(); it++) {
+		STMT s = (*it).first;
+		for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
+			optimizedModifiedByStmt[s].push_back(*it2);
+	}
+	for (auto it = originalModifiedByProc.begin(); it != originalModifiedByProc.end(); it++) {
+		PROC p = (*it).first;
+		for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
+			optimizedModifiedByProc[p].push_back(*it2);
+	}
+	for (auto it = callLinksModifies.begin(); it != callLinksModifies.end(); it++) {
+		STMT s = (*it).first;
+		PROC p = (*it).second;
+		optimizedModifiedByStmt[s] = optimizedModifiedByProc[p];
+
+		for (auto it2 = optimizedModifiedByStmt[s].begin(); it2 != optimizedModifiedByStmt[s].end(); it2++) {
+			VAR v = *it2;
+			originalModifiesStmt[v].insert(s);
+			originalModifiesProc[v].insert(p);
 		}
 	}
-
-	return false;
+	for (auto it = originalModifiesStmt.begin(); it != originalModifiesStmt.end(); it++) {
+		VAR v = (*it).first;
+		for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
+			optimizedModifiesStmt[v].push_back(*it2);
+	}
+	for (auto it = originalModifiesProc.begin(); it != originalModifiesProc.end(); it++) {
+		VAR v = (*it).first;
+		for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
+			optimizedModifiesProc[v].push_back(*it2);
+	}
 }
 
 //////////////////////////////////
 //Functions for testing purposes//
 //////////////////////////////////
-void ModifiesTable::displayModifiedByProcTable()
+void ModifiesTable::displayModifiesTables()
 {
-	cout<<"PROC that modify VAR"<<endl;
-	for (int i = 0; i < noVars; i++)
-	{
-		cout<<i<<": ";
-		for (int j = 0; j < optimizedModifiedByProcTable[i].size(); j++)
-			cout<<optimizedModifiedByProcTable[i].at(j)<<" ";
-
-		cout<<endl;
+	cout << "OPTIMISED MODIFIED BY (STMT):" << endl;
+	cout << "s: v such that Modifies(s, v)" << endl;
+	for (auto it = optimizedModifiedByStmt.begin(); it != optimizedModifiedByStmt.end(); it++) {
+		cout << (*it).first << ": ";
+		for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
+			cout<< (*it2) << " ";
+		cout << endl;
 	}
-}
-
-void ModifiesTable::displayModifiedByStmtTable()
-{
-	cout<<"STMT that modify VAR"<<endl;
-	for (int i = 0; i < noVars; i++)
-	{
-		cout<<i<<": ";
-		for (int j = 0; j < optimizedModifiedByStmtTable[i].size(); j++)
-			cout<<optimizedModifiedByStmtTable[i].at(j)<<" ";
-
-		cout<<endl;
+	
+	cout << "OPTIMISED MODIFIED BY (PROC):" << endl;
+	cout << "p: v such that Modifies(p, v)" << endl;
+	for (auto it = optimizedModifiedByProc.begin(); it != optimizedModifiedByProc.end(); it++) {
+		cout << (*it).first << ": ";
+		for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
+			cout<< (*it2) << " ";
+		cout << endl;
 	}
-}
 
-void ModifiesTable::displayModifiesProcTable()
-{
-	cout<<"VAR modified by PROC"<<endl;
-	for (int i = 0; i < noVars; i++)
-	{
-		cout<<i<<": ";
-		for (int j = 0; j < optimizedModifiesProcTable[i].size(); j++)
-			cout<<optimizedModifiesProcTable[i].at(j)<<" ";
-
-		cout<<endl;
+	cout << "OPTIMISED MODIFIES (STMT):" << endl;
+	cout << "v: s such that Modifies(s, v)" << endl;
+	for (auto it = optimizedModifiesStmt.begin(); it != optimizedModifiesStmt.end(); it++) {
+		cout << (*it).first << ": ";
+		for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
+			cout<< (*it2) << " ";
+		cout << endl;
 	}
-}
-
-void ModifiesTable::displayModifiesStmtTable()
-{
-	cout<<"VAR modified by STMT"<<endl;
-	for (int i = 0; i < noVars; i++)
-	{
-		cout<<i<<": ";
-		for (int j = 0; j < optimizedModifiesStmtTable[i].size(); j++)
-			cout<<optimizedModifiesStmtTable[i].at(j)<<" ";
-
-		cout<<endl;
+	
+	cout << "OPTIMISED MODIFIES (PROC):" << endl;
+	cout << "v: p such that Modifies(p, v)" << endl;
+	for (auto it = optimizedModifiesProc.begin(); it != optimizedModifiesProc.end(); it++) {
+		cout << (*it).first << ": ";
+		for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
+			cout<< (*it2) << " ";
+		cout << endl;
 	}
 }

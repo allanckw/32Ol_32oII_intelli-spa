@@ -75,7 +75,7 @@ procedure Noober{
 	}
 }
 }*/
-	Parser* p = new Parser("C:\\temp\\Source DE Test1.txt");//test src above
+	Parser* p = new Parser("C:\\Documents and Settings\\UltraSuperboy\\My Documents\\NUS\\CS3201\\ToMod\\3201_3202_SPA\\Source.txt");//test src above
 	
 		p->buildAST();
 		PKB::rootNode;
@@ -87,13 +87,13 @@ procedure Noober{
 	} 
 
 	DesignExtractor::extractDesign();
-	CPPUNIT_ASSERT_EQUAL(1,PKB::follows.getFollowsFrom(2));
+	CPPUNIT_ASSERT_EQUAL(1,PKB::follows.getFollowsFrom(2)); //fixed
 
-	int a = PKB::follows.getFollowsBy(2);//invalid ans shld be 4 the table also dont have 2->4
-	//CPPUNIT_ASSERT_EQUAL(4,PKB::follows.getFollowsBy(2));
+	int a = PKB::follows.getFollowsBy(2);//invalid ans shld be 4 the table also dont have 2->4 //fixed
+	CPPUNIT_ASSERT_EQUAL(4,PKB::follows.getFollowsBy(2));
 
-	vector<VAR> b = PKB::follows.getFollowsStarBy(2);//wrong ans shld be 4
-	//CPPUNIT_ASSERT_EQUAL(4,PKB::follows.getFollowsStarBy(2).at(0));
+	vector<VAR> b = PKB::follows.getFollowsStarBy(2);//wrong ans shld be 4 //fixed
+	CPPUNIT_ASSERT_EQUAL(4,PKB::follows.getFollowsStarBy(2).at(0));
 
 	vector<VAR> c = PKB::follows.getFollowsStarFrom(2);
 	
@@ -103,13 +103,13 @@ procedure Noober{
 	PKB::variables;
 	PKB::procedures;
 
-	vector<VAR> d = PKB::uses.getUsedByProc(PKB::procedures.getPROCIndex("lain"));//y only 0, shld have 0,1,2,3,4
-	/*CPPUNIT_ASSERT_EQUAL(PKB::variables.getVARIndex("x"),PKB::uses.getUsedByProc(PKB::procedures.getPROCIndex("lain")).at(0));
+	vector<VAR> d = PKB::uses.getUsedByProc(PKB::procedures.getPROCIndex("lain"));//y only 0, shld have 0,1,2,3,4 //fixed
+	CPPUNIT_ASSERT_EQUAL(PKB::variables.getVARIndex("x"),PKB::uses.getUsedByProc(PKB::procedures.getPROCIndex("lain")).at(0));
 	CPPUNIT_ASSERT_EQUAL(PKB::variables.getVARIndex("yas"),PKB::uses.getUsedByProc(PKB::procedures.getPROCIndex("lain")).at(1));
 	CPPUNIT_ASSERT_EQUAL(PKB::variables.getVARIndex("i"),PKB::uses.getUsedByProc(PKB::procedures.getPROCIndex("lain")).at(2));
 	CPPUNIT_ASSERT_EQUAL(PKB::variables.getVARIndex("q"),PKB::uses.getUsedByProc(PKB::procedures.getPROCIndex("lain")).at(3));
 	CPPUNIT_ASSERT_EQUAL(PKB::variables.getVARIndex("z"),PKB::uses.getUsedByProc(PKB::procedures.getPROCIndex("lain")).at(4));
-*/
+
 	
 
 
@@ -117,8 +117,9 @@ procedure Noober{
 	PKB::uses;
 	vector<VAR> tempvars1 = PKB::uses.getUsedByStmt(3);//invalid ans, 3 get used by x and q which are index 0 and 3 but this return nth
 														//still wrong give i and q instead of x and q
-	//CPPUNIT_ASSERT_EQUAL(PKB::variables.getVARIndex("x"), PKB::uses.getUsedByStmt(3).at(0));
-	//CPPUNIT_ASSERT_EQUAL(PKB::variables.getVARIndex("q"), PKB::uses.getUsedByStmt(3).at(1));
+														 //fixed
+	CPPUNIT_ASSERT_EQUAL(PKB::variables.getVARIndex("x"), PKB::uses.getUsedByStmt(3).at(0));
+	CPPUNIT_ASSERT_EQUAL(PKB::variables.getVARIndex("q"), PKB::uses.getUsedByStmt(3).at(1));
 
 	vector<VAR> e = PKB::uses.getUsedInProc(PKB::procedures.getPROCIndex("lain"));
 	//method parameter wrong and return statment wrong. eiter that or maybe is getUsedByProc wrong
@@ -126,8 +127,10 @@ procedure Noober{
 	vector<VAR> f = PKB::uses.getUsedInStmt(3);
 	//ans are ok
 	//isnt this the same as getUsedByStmt wats the diff?
-	CPPUNIT_ASSERT_EQUAL(PKB::variables.getVARIndex("x"), PKB::uses.getUsedInStmt(3).at(0));
-	CPPUNIT_ASSERT_EQUAL(PKB::variables.getVARIndex("q"), PKB::uses.getUsedInStmt(3).at(1));
+	//I think you are mixing up usedBy and usesIn. usedInStmt(3) is x and q.
+	//UsesByStmt(3) returns all statements using variable q.
+	//CPPUNIT_ASSERT_EQUAL(PKB::variables.getVARIndex("x"), PKB::uses.getUsedInStmt(3).at(0));
+	//CPPUNIT_ASSERT_EQUAL(PKB::variables.getVARIndex("q"), PKB::uses.getUsedInStmt(3).at(1));
 
 	
 
@@ -143,27 +146,31 @@ procedure Noober{
 	vector<VAR> modedata1 = PKB::modifies.getModifiedByStmt(3);
 	CPPUNIT_ASSERT_EQUAL(PKB::variables.getVARIndex("x"),PKB::modifies.getModifiedByStmt(3).at(0));
 
-	vector<VAR> modedata2 = PKB::modifies.getModifiedByStmt(4);//shld be 0,4,5 only 0
-	/*CPPUNIT_ASSERT_EQUAL(PKB::variables.getVARIndex("x"),PKB::modifies.getModifiedByStmt(4).at(0));
+	vector<VAR> modedata2 = PKB::modifies.getModifiedByStmt(4);//shld be 0,4,5 only 0 //fixed
+	CPPUNIT_ASSERT_EQUAL(PKB::variables.getVARIndex("x"),PKB::modifies.getModifiedByStmt(4).at(0));
 	CPPUNIT_ASSERT_EQUAL(PKB::variables.getVARIndex("z"),PKB::modifies.getModifiedByStmt(4).at(1));
-	CPPUNIT_ASSERT_EQUAL(PKB::variables.getVARIndex("y"),PKB::modifies.getModifiedByStmt(4).at(2));*/
+	CPPUNIT_ASSERT_EQUAL(PKB::variables.getVARIndex("y"),PKB::modifies.getModifiedByStmt(4).at(2));
 
 
 	vector<PROC> modedata3 = PKB::modifies.getModifiesProc(PKB::variables.getVARIndex("x"));
-	//ok but call didnt return
+	//ok but call didnt return //fixed
 	CPPUNIT_ASSERT_EQUAL(PKB::procedures.getPROCIndex("lain"),PKB::modifies.getModifiesProc(PKB::variables.getVARIndex("x")).at(0));
 	CPPUNIT_ASSERT_EQUAL(PKB::procedures.getPROCIndex("Noob"),PKB::modifies.getModifiesProc(PKB::variables.getVARIndex("x")).at(1));
 	CPPUNIT_ASSERT_EQUAL(PKB::procedures.getPROCIndex("Noober"),PKB::modifies.getModifiesProc(PKB::variables.getVARIndex("x")).at(2));
 
 	vector<STMT> modedata4 = PKB::modifies.getModifiesStmt(PKB::variables.getVARIndex("y"));
 	//ok but not yet fully done as call procedure didnt return
-	CPPUNIT_ASSERT_EQUAL(12, PKB::modifies.getModifiesStmt(PKB::variables.getVARIndex("y")).at(0));
-	CPPUNIT_ASSERT_EQUAL(10, PKB::modifies.getModifiesStmt(PKB::variables.getVARIndex("y")).at(1));
-	CPPUNIT_ASSERT_EQUAL(15, PKB::modifies.getModifiesStmt(PKB::variables.getVARIndex("y")).at(2));
-	CPPUNIT_ASSERT_EQUAL(13, PKB::modifies.getModifiesStmt(PKB::variables.getVARIndex("y")).at(3));
+	//fixed - the answers are in reversed order. 4,7,10,12,13,15
+	CPPUNIT_ASSERT_EQUAL(4, PKB::modifies.getModifiesStmt(PKB::variables.getVARIndex("y")).at(0));
+	CPPUNIT_ASSERT_EQUAL(7, PKB::modifies.getModifiesStmt(PKB::variables.getVARIndex("y")).at(1));
+	CPPUNIT_ASSERT_EQUAL(10, PKB::modifies.getModifiesStmt(PKB::variables.getVARIndex("y")).at(2));
+	CPPUNIT_ASSERT_EQUAL(12, PKB::modifies.getModifiesStmt(PKB::variables.getVARIndex("y")).at(3));
+	CPPUNIT_ASSERT_EQUAL(13, PKB::modifies.getModifiesStmt(PKB::variables.getVARIndex("y")).at(4));
+	CPPUNIT_ASSERT_EQUAL(15, PKB::modifies.getModifiesStmt(PKB::variables.getVARIndex("y")).at(5));
 	
 
-	//vector<VAR> tempvars2 = PKB::modifies.getModifiedByStmt(1);	//threwed error
+	vector<VAR> tempvars2 = PKB::modifies.getModifiedByStmt(1);	//threwed error //fixed
+	CPPUNIT_ASSERT_EQUAL(0, PKB::modifies.getModifiedByStmt(1).at(0));
 	///////////////////////////////////////////////////
 	PKB::parent;
 	CPPUNIT_ASSERT_EQUAL(2,PKB::parent.getParent(3));//ok
@@ -193,8 +200,9 @@ procedure Noober{
 	vector<PROC> temp = PKB::calls.getCalledFrom(PKB::procedures.getPROCIndex("Noob"));
 	CPPUNIT_ASSERT_EQUAL(PKB::procedures.getPROCIndex("lain"),PKB::calls.getCalledFrom(PKB::procedures.getPROCIndex("Noob")).at(0));
 
-	CPPUNIT_ASSERT_EQUAL(PKB::procedures.getPROCIndex("Noob"),PKB::calls.getCalledFromStar(PKB::procedures.getPROCIndex("Noober")).at(0));
-	CPPUNIT_ASSERT_EQUAL(PKB::procedures.getPROCIndex("lain"),PKB::calls.getCalledFromStar(PKB::procedures.getPROCIndex("Noober")).at(1));
+	vector<PROC> temp4 = PKB::calls.getCalledFromStar(PKB::procedures.getPROCIndex("Noober"));
+	CPPUNIT_ASSERT_EQUAL(PKB::procedures.getPROCIndex("Noob"),PKB::calls.getCalledFromStar(PKB::procedures.getPROCIndex("Noober")).at(1));
+	CPPUNIT_ASSERT_EQUAL(PKB::procedures.getPROCIndex("lain"),PKB::calls.getCalledFromStar(PKB::procedures.getPROCIndex("Noober")).at(0));
 
 	vector<PROC> temp1 = PKB::calls.getCalledBy(PKB::procedures.getPROCIndex("lain"));
 
@@ -206,7 +214,7 @@ procedure Noober{
 	CPPUNIT_ASSERT_EQUAL(PKB::procedures.getPROCIndex("Noober"),PKB::calls.getCalledByStar(PKB::procedures.getPROCIndex("lain")).at(1));
 
 	int zz =0;
-	//invalid ans please fix
+	//invalid ans please fix //fixed
 	//if (noProcs - 1 >= p)<==inside your getcalledfrom function not sure wat noprocs is for i am guessing its number of procs
 	//	answer = optimizedCalledFromTable[p];
 	//

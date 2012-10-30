@@ -33,11 +33,8 @@ void TestQueryEvaluator::TestQueryEvaluatorBuilder()
 	
 		p->buildAST();
 		PKB::rootNode;
-
-		//this->contTest = true;
 	}catch (exception& e) {
 		cout << e.what() << endl;
-		//this->contTest = false;
 	} 
 
 	DesignExtractor::extractDesign();

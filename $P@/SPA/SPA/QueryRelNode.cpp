@@ -23,25 +23,25 @@ QueryRelNode::QueryRelNode(QueryEnums::QueryRel type,
 
 QueryEnums::QueryRel QueryRelNode::getRelationshipType()
 {
-	return relationshipType;
+	return this->relationshipType;
 }
 
 string QueryRelNode::getFirstVariableName()
 {
-	return firstVariableName;
+	return this->firstVariableName;
 }
 
 QueryEnums::QueryVar QueryRelNode::getFirstVariableType()
 {
-	return firstVariableType;
+	return this->firstVariableType;
 }
 
 string QueryRelNode::getSecondVariableName()
 {
-	return secondVariableName;
+	return this->secondVariableName;
 }
 
 QueryEnums::QueryVar QueryRelNode::getSecondVariableType()
 {
-	return secondVariableType;
+	return this->secondVariableType;
 }

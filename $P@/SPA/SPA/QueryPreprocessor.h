@@ -18,7 +18,7 @@ public:
 	QueryPreprocessor();
 	void preProcess(vector<string>);
 	bool isName(string);
-	bool isNumber(string&);
+	static bool isNumber(string&);
 	unordered_map<int, vector<string>> getUserVariables();
 	unordered_map<int, vector<string>> getSelectVariables();
 	unordered_map<int, vector<pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>>>> 

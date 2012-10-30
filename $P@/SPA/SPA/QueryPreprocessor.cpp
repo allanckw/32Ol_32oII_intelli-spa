@@ -325,6 +325,14 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 				{
 						relationshipDeclaration.second = (make_pair(QueryEnums::Procedure, currentToken));
 				}
+				else if ((relationshipType == QueryEnums::Modifies || relationshipType == QueryEnums::Uses) &&
+						currentToken.front() == '\"' && 
+						currentToken.at(currentToken.size() - 1) == '\"' &&
+						currentToken.size() > 2 && 
+						delimiters.find(currentToken.substr(1, currentToken.size() - 2)) != 0)
+				{
+						relationshipDeclaration.second = (make_pair(QueryEnums::Variable, currentToken));
+				}
 				else if(isNumber(currentToken))
 					relationshipDeclaration.second = (make_pair(QueryEnums::Stmt, currentToken));
 				else

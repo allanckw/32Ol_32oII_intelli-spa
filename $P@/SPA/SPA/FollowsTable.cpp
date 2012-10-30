@@ -24,7 +24,7 @@ void FollowsTable::insertFollows(STMT s1, STMT s2)
 //O(1)
 bool FollowsTable::isFollows(STMT s1, STMT s2)
 {
-	return (followsTo.count(s1) && followsTo[s1] == 2);
+	return (followsTo.count(s1) && followsTo[s1] == s2);
 }
 
 //O(1)

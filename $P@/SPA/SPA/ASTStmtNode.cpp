@@ -1,11 +1,12 @@
+#pragma once
 #include "StdAfx.h"
-#include "StmtNode.h"
+#include "ASTStmtNode.h"
 #include "ASTNode.h"
 #include "PKB.h"
-#include "ExprNode.h"
-#include "StmtLstNode.h"
+#include "ASTExprNode.h"
+#include "ASTStmtLstNode.h"
 
-StmtNode::StmtNode(int stmtNo, NodeType nodeType, Index value)
+ASTStmtNode::ASTStmtNode(int stmtNo, NodeType nodeType, Index value)
 {
 	stmtNo = stmtNo + 1;
 	if (stmtNo <= 0){
@@ -21,7 +22,7 @@ StmtNode::StmtNode(int stmtNo, NodeType nodeType, Index value)
 	}
 }
 
-ASTNode* StmtNode::addChild(ASTNode* c)
+ASTNode* ASTStmtNode::addChild(ASTNode* c)
 {
 	int childLoc=this->children.size()+1;
 
@@ -50,7 +51,7 @@ ASTNode* StmtNode::addChild(ASTNode* c)
 	return this;
 }
 
-ASTNode* StmtNode::addChild(ASTNode* c, int childLoc)
+ASTNode* ASTStmtNode::addChild(ASTNode* c, int childLoc)
 {
 	if(getType() == Call){
 		throw SPAException("Invalid Operation: No Children can be added to Call Nodes");
@@ -77,7 +78,7 @@ ASTNode* StmtNode::addChild(ASTNode* c, int childLoc)
 	return this;
 }
 
-void StmtNode::addChildToWhile(ASTNode* c, int childLoc)
+void ASTStmtNode::addChildToWhile(ASTNode* c, int childLoc)
 {
 	if (childLoc == 1 && c->getType() != Variable) {
 		throw SPAException("Invalid Operation: First Child of While must be a variable node (Control)");
@@ -99,7 +100,7 @@ void StmtNode::addChildToWhile(ASTNode* c, int childLoc)
 	}
 }
 
-void StmtNode::addChildToIF(ASTNode* c, int childLoc)
+void ASTStmtNode::addChildToIF(ASTNode* c, int childLoc)
 {
 	if (childLoc == 1 && c->getType() != Variable) {
 		throw SPAException("Invalid Operation: First Child of If must be a variable node (Control)");
@@ -124,7 +125,7 @@ void StmtNode::addChildToIF(ASTNode* c, int childLoc)
 	}
 }
 
-void StmtNode::addChildToAssign(ASTNode* c, int childLoc)
+void ASTStmtNode::addChildToAssign(ASTNode* c, int childLoc)
 {
 	if (childLoc == 1 && c->getType() != Variable) {
 		throw SPAException("Invalid Operation: First Child of Assignment must be a variable");
@@ -146,17 +147,17 @@ void StmtNode::addChildToAssign(ASTNode* c, int childLoc)
 	}
 }
 
-StmtNode::~StmtNode()
+ASTStmtNode::~ASTStmtNode()
 {
 }
 
-int StmtNode::getStmtNumber()
+int ASTStmtNode::getStmtNumber()
 {
 	return stmtNumber;
 }
 
 
-void StmtNode::setValue(Index i)
+void ASTStmtNode::setValue(Index i)
 {
 	if (i < 0)
 		throw SPAException("Invalid Parameter, Index cannot be less than 0");
@@ -182,7 +183,7 @@ void StmtNode::setValue(Index i)
 		{
 			this->value = i;
 			//Set first child after setting value
-			ExprNode* varNode = new ExprNode(ASTNode::NodeType::Variable, i);
+			ASTExprNode* varNode = new ASTExprNode(ASTNode::NodeType::Variable, i);
 			this->addChild(varNode, 1);
 		}
 	}

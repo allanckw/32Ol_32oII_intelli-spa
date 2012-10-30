@@ -1,11 +1,12 @@
+#pragma once
 #include "StdAfx.h"
-#include "ExprNode.h"
+#include "ASTExprNode.h"
 #include "PKB.h"
 
 #include <sstream>
 #include <typeinfo.h>
 
-ExprNode::ExprNode(NodeType nodeType, int value)
+ASTExprNode::ASTExprNode(NodeType nodeType, int value)
 {
 	if (nodeType != Constant && nodeType != Constant && nodeType != Variable){
 		throw SPAException("Invalid Type for Expression, Expected Constant/Variable/Operator");
@@ -31,7 +32,7 @@ ExprNode::ExprNode(NodeType nodeType, int value)
 	}
 }
 
-ExprNode::ExprNode(NodeType nodeType, Expr value)
+ASTExprNode::ASTExprNode(NodeType nodeType, Expr value)
 {
 	this->nodeType = nodeType;
 	if (this->getType() == Variable)
@@ -63,7 +64,7 @@ ExprNode::ExprNode(NodeType nodeType, Expr value)
 	}
 }
 
-ASTNode* ExprNode::addChild(ASTNode* c, int childLoc){
+ASTNode* ASTExprNode::addChild(ASTNode* c, int childLoc){
 
 	if (childLoc <= 0 )
 	{
@@ -107,11 +108,11 @@ ASTNode* ExprNode::addChild(ASTNode* c, int childLoc){
 }
 
 
-ExprNode::~ExprNode(void)
+ASTExprNode::~ASTExprNode(void)
 {
 }
 
-bool ExprNode::isMatched(Expr expr)
+bool ASTExprNode::isMatched(Expr expr)
 {
 	if (this->getType() == Variable)
 	{
@@ -132,7 +133,7 @@ bool ExprNode::isMatched(Expr expr)
 }
 
 //Check if variable passed is the same as in the varNode
-bool ExprNode::isVARMatched(string varName)
+bool ASTExprNode::isVARMatched(string varName)
 {
 	int index = PKB::variables.getVARIndex(varName);
 	if (index == -1)
@@ -149,7 +150,7 @@ bool ExprNode::isVARMatched(string varName)
 
 
 
-bool ExprNode::isOPRMatched(string opr)
+bool ASTExprNode::isOPRMatched(string opr)
 {
 	if (opr !=  "+" || opr != "-" || opr != "*"){
 		cout << "Invalid Operator Type! Expected '+', '-' or '*' " << endl;
@@ -160,7 +161,7 @@ bool ExprNode::isOPRMatched(string opr)
 	}
 }
 
-string ExprNode::getOperator(){
+string ASTExprNode::getOperator(){
 	if (value == 0)
 		return "+";
 	else if (value == 1)
@@ -172,7 +173,7 @@ string ExprNode::getOperator(){
 	
 }
 
-void ExprNode::setOperator(string opr)
+void ASTExprNode::setOperator(string opr)
 {
 	if (opr == "+")
 		this->value = 0;

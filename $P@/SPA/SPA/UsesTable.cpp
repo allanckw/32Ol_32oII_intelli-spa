@@ -1,3 +1,4 @@
+#pragma once
 #include "StdAfx.h"
 #include "PKB.h"
 #include "UsesTable.h"
@@ -20,7 +21,7 @@ UsesTable::UsesTable()
 void UsesTable::insertStmtUses(STMT s, VAR v)
 {
 	if (s <= 0)
-		throw SPAException("statement cannot be less than or equal to zero");
+		throw SPAException("Invalid Reference: statement no. cannot be less than or equal to zero");
 
 	originalUsedByStmt[s].insert(v);
 	originalUsesInStmt[v].insert(s);

@@ -13,7 +13,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\CallsTable.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\QueryEvaluator.h" />
-    <ClInclude Include="..\..\..\$p%40\spa\spa\queryselnode.h" />
+    <ClInclude Include="QuerySelNode.h" />
     <ClInclude Include="QueryCondNode.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\FollowsTable.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\ModifiesTable.h" />
@@ -30,13 +30,13 @@
     <ClInclude Include="AssignmentParser.h" />
     <ClInclude Include="ASTNode.h" />
     <ClInclude Include="DesignExtractor.h" />
-    <ClInclude Include="ExprNode.h" />
+    <ClInclude Include="ASTExprNode.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="PROCTable.h" />
     <ClInclude Include="SPAException.h" />
     <ClInclude Include="stdAfx.h" />
-    <ClInclude Include="StmtLstNode.h" />
-    <ClInclude Include="StmtNode.h" />
+    <ClInclude Include="ASTStmtLstNode.h" />
+    <ClInclude Include="ASTStmtNode.h" />
     <ClInclude Include="VARTable.h" />
   </ItemGroup>
   <ItemGroup>
@@ -54,18 +54,16 @@
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\QueryTreeBuilder.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\QueryTreeNode.cpp" />
     <ClCompile Include="QueryRelNode.cpp" />
-    <ClCompile Include="..\..\..\$P%40\SPA\SPA\TableTester.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\UsesTable.cpp" />
     <ClCompile Include="AssignmentParser.cpp" />
     <ClCompile Include="ASTNode.cpp" />
     <ClCompile Include="DesignExtractor.cpp" />
-    <ClCompile Include="ExprNode.cpp" />
-    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="ASTExprNode.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="PROCTable.cpp" />
     <ClCompile Include="SPAException.cpp" />
-    <ClCompile Include="StmtLstNode.cpp" />
-    <ClCompile Include="StmtNode.cpp" />
+    <ClCompile Include="ASTStmtLstNode.cpp" />
+    <ClCompile Include="ASTStmtNode.cpp" />
     <ClCompile Include="VARTable.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

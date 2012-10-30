@@ -11,7 +11,7 @@ ASTNode::ASTNode(NodeType type)
 {
 	if (type != Procedure && type != Program)
 	{
-		throw SPAException("Invalid NodeType: Please use StmtNode to denote stmts, StmtLstNode to denote stmtLst, and ExprNode to denote expressions");
+		throw SPAException("Invalid NodeType: Please use ASTStmtNode to denote stmts, ASTStmtLstNode to denote stmtLst, and ASTExprNode to denote expressions");
 	}
 	else
 	{
@@ -24,7 +24,7 @@ ASTNode::ASTNode(NodeType type, PROC p)
 {
 	if (type != Procedure && type != Program)
 	{
-		throw SPAException("Invalid NodeType: Please use StmtNode to denote stmts, StmtLstNode to denote stmtLst, and ExprNode to denote expressions");
+		throw SPAException("Invalid NodeType: Please use ASTStmtNode to denote stmts, ASTStmtLstNode to denote stmtLst, and ASTExprNode to denote expressions");
 	}
 	else
 	{
@@ -80,7 +80,7 @@ ASTNode* ASTNode::addChild(ASTNode* c)
 	}
 	else
 	{
-		throw SPAException("Invalid Operation: Please use StmtNode to denote stmts, StmtLstNode to denote stmtLst, and ExprNode to denote expressions");
+		throw SPAException("Invalid Operation: Please use ASTStmtNode to denote stmts, ASTStmtLstNode to denote stmtLst, and ASTExprNode to denote expressions");
 	}
 		
 	return this;

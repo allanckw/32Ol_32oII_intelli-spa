@@ -1,6 +1,6 @@
 #pragma once
 #include "StdAfx.h"
-#include "ExprNode.h"
+#include "ASTExprNode.h"
 
 class AssignmentParser
 {
@@ -13,6 +13,6 @@ private:
 
 
 public:
-	static ExprNode* processAssignment(vector<string> progline);
+	static ASTExprNode* processAssignment(vector<string> progline);
 	static bool isValidExpr(vector<string> expr);
 };

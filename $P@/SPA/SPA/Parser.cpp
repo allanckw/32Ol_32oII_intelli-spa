@@ -1,10 +1,11 @@
+#pragma once
 #include "StdAfx.h"
 #include "Parser.h"
 #include "PKB.h"
 #include "SPAException.h"
 #include "ASTNode.h"
-#include "StmtNode.h"
-#include "StmtLstNode.h"
+#include "ASTStmtNode.h"
+#include "ASTStmtLstNode.h"
 #include "AssignmentParser.h"
 
 //TODO: For Nick, put your parser into this controller
@@ -298,7 +299,7 @@ bool Parser::isName(string s) //first char of name cannot be digit
 }
 
 //Reason why i put procIdx is in a while there could be a call statement possibilities
-StmtNode* Parser::processWhile(int *i, int *j, Index procIdx)
+ASTStmtNode* Parser::processWhile(int *i, int *j, Index procIdx)
 {
 	stack<char> brackets;
 	int currline =*i;
@@ -318,8 +319,8 @@ StmtNode* Parser::processWhile(int *i, int *j, Index procIdx)
 
 	VARIndex vi=PKB::variables.getVARIndex(varName);
 
-	StmtNode* stmtNode = new StmtNode(*line, ASTNode::NodeType::While, vi);
-	StmtLstNode* stmtLstNode=new StmtLstNode();
+	ASTStmtNode* stmtNode = new ASTStmtNode(*line, ASTNode::NodeType::While, vi);
+	ASTStmtLstNode* stmtLstNode=new ASTStmtLstNode();
 
 	for(int idx=*index; idx<inner.size(); idx++)
 	{
@@ -368,14 +369,14 @@ StmtNode* Parser::processWhile(int *i, int *j, Index procIdx)
 			}			
 				
 			if (keyword=="call"){
-				StmtNode* callNode=processCall(line, index, procIdx);
+				ASTStmtNode* callNode=processCall(line, index, procIdx);
 				callNode->setParent(stmtNode);
 				stmtLstNode->addChild(callNode);
 				//break;
 			}
 			
 			if(keyword=="while"){
-				StmtNode* whileNode=processWhile(line, index, procIdx);
+				ASTStmtNode* whileNode=processWhile(line, index, procIdx);
 				whileNode->setParent(stmtNode);
 				stmtLstNode->addChild(whileNode);
 				inner=Parser::tokenized_codes.at(*line);
@@ -391,7 +392,7 @@ StmtNode* Parser::processWhile(int *i, int *j, Index procIdx)
 			if(keyword=="="){
 				//check for assignment Statement
 				//processAssignmentNode
-				StmtNode* assignNode=processAssignment(line, index);
+				ASTStmtNode* assignNode=processAssignment(line, index);
 				assignNode->setParent(stmtNode);
 				stmtLstNode->addChild(assignNode);
 			}
@@ -405,7 +406,7 @@ StmtNode* Parser::processWhile(int *i, int *j, Index procIdx)
 }
 
 //Reason why i put procIdx is in a while there could not be a self call
-StmtNode* Parser::processCall(int *i, int *j, Index procIdx)
+ASTStmtNode* Parser::processCall(int *i, int *j, Index procIdx)
 {
 	vector<string> inner=Parser::tokenized_codes.at(*i);
 
@@ -422,12 +423,12 @@ StmtNode* Parser::processCall(int *i, int *j, Index procIdx)
 		throw SPAException("Recursive Call is not allowed!");
 	}
 
-	StmtNode* stmtCall=new StmtNode(*i,ASTNode::NodeType::Call,pi);
+	ASTStmtNode* stmtCall=new ASTStmtNode(*i,ASTNode::NodeType::Call,pi);
 	(*j)=(*j)+2;
 	return stmtCall;
 }
 
-StmtNode* Parser::processAssignment(int *i, int *j)
+ASTStmtNode* Parser::processAssignment(int *i, int *j)
 {
 	vector<string> inner=Parser::tokenized_codes.at(*i);
 	string varName = inner.at((*j)-1);
@@ -449,9 +450,9 @@ StmtNode* Parser::processAssignment(int *i, int *j)
 		exIdx++;
 	}
 
-	StmtNode* stmtAssign=new StmtNode(*i,ASTNode::NodeType::Assign,vi);
-	ExprNode* leftNode = new ExprNode(ASTNode::NodeType::Variable, vi);
-	ExprNode* rightNode = AssignmentParser::processAssignment(rightExpression);
+	ASTStmtNode* stmtAssign=new ASTStmtNode(*i,ASTNode::NodeType::Assign,vi);
+	ASTExprNode* leftNode = new ASTExprNode(ASTNode::NodeType::Variable, vi);
+	ASTExprNode* rightNode = AssignmentParser::processAssignment(rightExpression);
 	stmtAssign->addChild(leftNode,1);
 	stmtAssign->addChild(rightNode,2);
 	(*j)=exIdx;
@@ -476,7 +477,7 @@ ASTNode* Parser::processProcedure(int *i, int *j)
 	PROCIndex pi=PKB::procedures.getPROCIndex(procName);
 
 	ASTNode* procNode = new ASTNode(ASTNode::NodeType::Procedure, pi );
-	StmtLstNode* stmtLstNode=new StmtLstNode();
+	ASTStmtLstNode* stmtLstNode=new ASTStmtLstNode();
 	
 	for(int idx=*index; idx<inner.size(); idx++)
 	{
@@ -524,14 +525,14 @@ ASTNode* Parser::processProcedure(int *i, int *j)
 			}			
 				
 			if (keyword=="call"){
-				StmtNode* callNode=processCall(line, index, pi);
+				ASTStmtNode* callNode=processCall(line, index, pi);
 				callNode->setParent(procNode);
 				stmtLstNode->addChild(callNode);
 				//break;
 			}
 			
 			if(keyword=="while"){
-				StmtNode* whileNode=processWhile(line, index, pi);
+				ASTStmtNode* whileNode=processWhile(line, index, pi);
 				whileNode->setParent(procNode);
 				stmtLstNode->addChild(whileNode);
 				inner=Parser::tokenized_codes.at(*line);
@@ -547,7 +548,7 @@ ASTNode* Parser::processProcedure(int *i, int *j)
 			if(keyword=="="){
 				//check for assignment Statement
 				//processAssignmentNode
-				StmtNode* assignNode=processAssignment(line, index);
+				ASTStmtNode* assignNode=processAssignment(line, index);
 				assignNode->setParent(procNode);
 				stmtLstNode->addChild(assignNode);
 			}

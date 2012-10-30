@@ -1,6 +1,6 @@
 #include "TestAssnParser.h"
 #include <cppunit/config/SourcePrefix.h>
-#include "../SPA/ExprNode.h"
+#include "../SPA/ASTExprNode.h"
 #include "../SPA/ASTNode.h"
 #include "../SPA/AssignmentParser.h"
 #include "../SPA/PKB.h"
@@ -39,7 +39,7 @@ void TestAssnParser::testAssignmentParsing()
 	expr.push_back("yas");
 	expr.push_back(";");
 
-	ExprNode* opr = AssignmentParser::processAssignment(expr);
+	ASTExprNode* opr = AssignmentParser::processAssignment(expr);
 
 	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Operator, opr->getType());
 	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Variable, opr->getChild(0)->getType());
@@ -70,7 +70,7 @@ void TestAssnParser::testAssignmentParsing()
 	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Variable, opr->getChild(0)->getType()); 
 	CPPUNIT_ASSERT_EQUAL(PKB::variables.getVARIndex("x"), opr->getChild(0)->getValue());
 
-	ExprNode* times = dynamic_cast<ExprNode* >(opr->getChild(1));
+	ASTExprNode* times = dynamic_cast<ASTExprNode* >(opr->getChild(1));
 	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Operator, times->getType());
 	CPPUNIT_ASSERT_EQUAL(getOprType("*"), times->getValue());
 

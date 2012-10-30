@@ -1,3 +1,4 @@
+#pragma once
 #include "StdAfx.h"
 #include "CallsTable.h"
 #include "PKB.h"

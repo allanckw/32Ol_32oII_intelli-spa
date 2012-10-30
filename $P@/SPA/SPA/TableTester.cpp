@@ -1,10 +1,10 @@
 //#pragma once
 //#include "stdafx.h"
 //#include "ASTNode.h"
-//#include "StmtNode.h"
+//#include "ASTStmtNode.h"
 //#include "VARTable.h"
 //#include "PROCTable.h"
-//#include "ExprNode.h"
+//#include "ASTExprNode.h"
 //#include "Parser.h"
 //#include "ModifiesTable.h"
 //#include "UsesTable.h"

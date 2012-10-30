@@ -1,17 +1,13 @@
+#pragma once
 #include "DesignExtractor.h"
 
 static int totalNumOfProcs;
 static unordered_map <PROC, unordered_set<PROC> > toProcAdjList;
 static unordered_map <PROC, unordered_set<PROC> > fromProcAdjList;
 static unordered_map <PROC, int> procCount;
-static unordered_map <PROC, vector< stack<StmtNode*> > > savestate;
+static unordered_map <PROC, vector< stack<ASTStmtNode*> > > savestate;
 
-vector<ASTNode::NodeType> PKB::statementTable;
-unordered_set<STMT> PKB::assignTable;
-unordered_set<STMT> PKB::callTable;
-unordered_set<STMT> PKB::whileTable;
-unordered_set<STMT> PKB::ifTable;
-vector<pair<STMT, STMT>> PKB::TheBeginningAndTheEnd;
+
 
 void DesignExtractor::extractDesign()
 {
@@ -70,6 +66,12 @@ void DesignExtractor::extractDesign()
 	for (auto it = toposort.begin(); it != toposort.end(); it++)
 		buildOtherTables(*it);
 
+	DesignExtractor::CompleteExtraction();
+}
+
+//Call all the optimization here...
+void DesignExtractor::CompleteExtraction()
+{
 	PKB::maxProgLines = PKB::statementTable.size();
 	PKB::modifies.optimizeModifiesTable();
 	PKB::uses.optimizeUsesTable();
@@ -77,8 +79,8 @@ void DesignExtractor::extractDesign()
 
 void DesignExtractor::buildFirstRound() {
 
-	stack<StmtNode*> DFSstack;
-	stack<StmtLstNode*> DFSstmtLstStack;
+	stack<ASTStmtNode*> DFSstack;
+	stack<ASTStmtLstNode*> DFSstmtLstStack;
 	stack<int> positionStack;
 	stack<bool> traversingThenPartOfIfStack;
 
@@ -86,11 +88,11 @@ void DesignExtractor::buildFirstRound() {
 	
 	for (PROC currentProc = 0; currentProc < totalNumOfProcs; currentProc++) {
 		ASTNode* procedureNode = (*programNode).getChild(currentProc); //procedure
-		StmtLstNode* firstLevelStmtListNode = (StmtLstNode*) (*procedureNode).getChild(0); //stmtList
+		ASTStmtLstNode* firstLevelStmtListNode = (ASTStmtLstNode*) (*procedureNode).getChild(0); //stmtList
 		int firstLevelPosition = 0;
 
-		StmtLstNode* currentStmtListNode = firstLevelStmtListNode;
-		StmtNode* currentStmtNode = (StmtNode*) (*firstLevelStmtListNode).getChild(0); //first statement
+		ASTStmtLstNode* currentStmtListNode = firstLevelStmtListNode;
+		ASTStmtNode* currentStmtNode = (ASTStmtNode*) (*firstLevelStmtListNode).getChild(0); //first statement
 		int currentPosition = 0;
 		int firstStatementNumber = (*currentStmtNode).getStmtNumber();
 		int lastStatementNumber;
@@ -142,8 +144,8 @@ void DesignExtractor::buildFirstRound() {
 						traversingThenPartOfIfStack.push(true);
 					//indicates is in the 'then' part of the if statement
 
-					currentStmtListNode = (StmtLstNode*) (*currentStmtNode).getChild(1);
-					currentStmtNode = (StmtNode*) (*currentStmtListNode).getChild(0);
+					currentStmtListNode = (ASTStmtLstNode*) (*currentStmtNode).getChild(1);
+					currentStmtNode = (ASTStmtNode*) (*currentStmtListNode).getChild(0);
 					currentPosition = 0;
 			} else {
 				//go right if can go right, if cannot, go up until can go right
@@ -151,7 +153,7 @@ void DesignExtractor::buildFirstRound() {
 				while (notYetGotNextChild) {
 					if (DFSstack.empty()) {
 						if (firstLevelPosition + 1 < (*firstLevelStmtListNode).getSize()) {
-							currentStmtNode = (StmtNode*) (*firstLevelStmtListNode).getChild(++firstLevelPosition);
+							currentStmtNode = (ASTStmtNode*) (*firstLevelStmtListNode).getChild(++firstLevelPosition);
 							currentPosition = firstLevelPosition;
 							notYetGotNextChild = false;
 						} else { //end
@@ -163,18 +165,18 @@ void DesignExtractor::buildFirstRound() {
 						}
 					} else {
 						if (currentPosition + 1 < (*currentStmtListNode).getSize()) { //try right
-							currentStmtNode = (StmtNode*) (*currentStmtListNode).getChild(++currentPosition);
+							currentStmtNode = (ASTStmtNode*) (*currentStmtListNode).getChild(++currentPosition);
 							notYetGotNextChild = false;
 						} else { //must go up
-							StmtNode* parentNode = DFSstack.top();
+							ASTStmtNode* parentNode = DFSstack.top();
 
 							if ((*parentNode).getType() == ASTNode::If &&
 								traversingThenPartOfIfStack.top()) { //go to 'else' part of if
 									traversingThenPartOfIfStack.pop();
 									traversingThenPartOfIfStack.push(false);
 
-									currentStmtListNode = (StmtLstNode*) (*parentNode).getChild(2);
-									currentStmtNode = (StmtNode*) (*currentStmtListNode).getChild(0);
+									currentStmtListNode = (ASTStmtLstNode*) (*parentNode).getChild(2);
+									currentStmtNode = (ASTStmtNode*) (*currentStmtListNode).getChild(0);
 									currentPosition = 0;
 
 									notYetGotNextChild = false;
@@ -230,27 +232,27 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 	} while (!tempStackForProc.empty());
 	delete [] isNotAnAncestor;
 
-	stack<StmtNode*> DFSstack;
-	stack<StmtLstNode*> DFSstmtLstStack;
+	stack<ASTStmtNode*> DFSstack;
+	stack<ASTStmtLstNode*> DFSstmtLstStack;
 	stack<int> positionStack;
 	stack<bool> traversingThenPartOfIfStack;
-	stack<StmtNode*> tempStack;
-	stack<ExprNode*> exprStack;
+	stack<ASTStmtNode*> tempStack;
+	stack<ASTExprNode*> exprStack;
 	ASTNode* tempASTNode;
-	StmtNode* tempStmtNode;
+	ASTStmtNode* tempStmtNode;
 
 	ASTNode* programNode = PKB::rootNode; //program
 	
 	ASTNode* procedureNode = (*programNode).getChild(currentProc); //procedure
 
 	tempASTNode = (*procedureNode).getChild(0); //stmtList
-	StmtLstNode* firstLevelStmtListNode = (StmtLstNode*) tempASTNode;
+	ASTStmtLstNode* firstLevelStmtListNode = (ASTStmtLstNode*) tempASTNode;
 
 	tempASTNode = (*firstLevelStmtListNode).getChild(0); //first child
 	int firstLevelPosition = 0;
 
-	StmtLstNode* currentStmtListNode = firstLevelStmtListNode;
-	StmtNode* currentStmtNode = (StmtNode*) (*firstLevelStmtListNode).getChild(0); //first statement
+	ASTStmtLstNode* currentStmtListNode = firstLevelStmtListNode;
+	ASTStmtNode* currentStmtNode = (ASTStmtNode*) (*firstLevelStmtListNode).getChild(0); //first statement
 	STMT currentStmtNumber = (*currentStmtNode).getStmtNumber();
 	int currentPosition = 0;
 	bool haveNextChildren = true;
@@ -259,7 +261,7 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 		switch ((*currentStmtNode).getType()) {
 		case ASTNode::Assign: {
 			PKB::assignTable.insert(currentStmtNumber);
-			ExprNode* modifiesVarNode = (ExprNode*) (*currentStmtNode).getChild(0);
+			ASTExprNode* modifiesVarNode = (ASTExprNode*) (*currentStmtNode).getChild(0);
 			VAR modifiesVar = (*modifiesVarNode).getValue();
 
 			PKB::modifies.insertProcModifies(currentProc, modifiesVar);
@@ -280,9 +282,9 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 			for (auto it = ancestors.begin(); it != ancestors.end(); it++) {
 				PROC ancestor = *it;
 				PKB::modifies.insertProcModifies(ancestor, modifiesVar);
-				vector< stack<StmtNode*> > savestates = savestate[ancestor];
+				vector< stack<ASTStmtNode*> > savestates = savestate[ancestor];
 				for (auto it2 = savestates.begin(); it2 != savestates.end(); it2++) {
-					stack<StmtNode*> state = *it2;
+					stack<ASTStmtNode*> state = *it2;
 					while (!state.empty()) {
 						tempStmtNode = DFSstack.top();
 						DFSstack.pop();
@@ -295,9 +297,9 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 			//check rhs for all uses relationships
 			if (!exprStack.empty())
 				throw new SPAException("Huh, how come stack not empty?"); 
-			exprStack.push( (ExprNode*) (*currentStmtNode).getChild(1) ); //rhs of assign
+			exprStack.push( (ASTExprNode*) (*currentStmtNode).getChild(1) ); //rhs of assign
 			do {
-				ExprNode* exprNode = exprStack.top();
+				ASTExprNode* exprNode = exprStack.top();
 				exprStack.pop();
 				if ((*exprNode).getType() == ASTNode::Variable) {
 					VAR usesVar = (*exprNode).getValue(); 
@@ -319,9 +321,9 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 					for (auto it = ancestors.begin(); it != ancestors.end(); it++) {
 						PROC ancestor = *it;
 						PKB::uses.insertProcUses(ancestor, usesVar);
-						vector< stack<StmtNode*> > savestates = savestate[ancestor];
+						vector< stack<ASTStmtNode*> > savestates = savestate[ancestor];
 						for (auto it2 = savestates.begin(); it2 != savestates.end(); it2++) {
-							stack<StmtNode*> state = *it2;
+							stack<ASTStmtNode*> state = *it2;
 							while (!state.empty()) {
 								tempStmtNode = DFSstack.top();
 								DFSstack.pop();
@@ -332,8 +334,8 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 					}
 				} //a variable would not have any children
 				else if ((*exprNode).isHasChildren()) {
-					exprStack.push((ExprNode*) (*exprNode).getChild(1));
-					exprStack.push((ExprNode*) (*exprNode).getChild(0));
+					exprStack.push((ASTExprNode*) (*exprNode).getChild(1));
+					exprStack.push((ASTExprNode*) (*exprNode).getChild(0));
 				}
 			} while (!exprStack.empty());
 			break; }
@@ -345,7 +347,7 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 			else
 				PKB::ifTable.insert(currentStmtNumber);
 
-			ExprNode* usesVarNode = (ExprNode*) (*currentStmtNode).getChild(0);
+			ASTExprNode* usesVarNode = (ASTExprNode*) (*currentStmtNode).getChild(0);
 			VAR usesVar = (*usesVarNode).getValue(); 
 			PKB::uses.insertProcUses(currentProc, usesVar);
 			PKB::uses.insertStmtUses(currentStmtNumber, usesVar);
@@ -365,9 +367,9 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 			for (auto it = ancestors.begin(); it != ancestors.end(); it++) {
 				PROC ancestor = *it;
 				PKB::uses.insertProcUses(ancestor, usesVar);
-				vector< stack<StmtNode*> > savestates = savestate[ancestor];
+				vector< stack<ASTStmtNode*> > savestates = savestate[ancestor];
 				for (auto it2 = savestates.begin(); it2 != savestates.end(); it2++) {
-					stack<StmtNode*> state = *it2;
+					stack<ASTStmtNode*> state = *it2;
 					while (!state.empty()) {
 						tempStmtNode = DFSstack.top();
 						DFSstack.pop();
@@ -397,19 +399,19 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 					traversingThenPartOfIfStack.push(true);
 				//indicates is in the 'then' part of the if statement
 
-				currentStmtListNode = (StmtLstNode*) (*currentStmtNode).getChild(1);
-				currentStmtNode = (StmtNode*) (*currentStmtListNode).getChild(0);
+				currentStmtListNode = (ASTStmtLstNode*) (*currentStmtNode).getChild(1);
+				currentStmtNode = (ASTStmtNode*) (*currentStmtListNode).getChild(0);
 				STMT newStmtNumber = (*currentStmtNode).getStmtNumber();
 				currentPosition = 0;
 
 				//add Parent and Follows relationship for all the children
-				StmtNode* olderChild = currentStmtNode;
+				ASTStmtNode* olderChild = currentStmtNode;
 				STMT olderChildNumber = newStmtNumber;
-				StmtNode* youngerChild;
+				ASTStmtNode* youngerChild;
 				STMT youngerChildNumber;
 				PKB::parent.insertParent(currentStmtNumber, olderChildNumber);
 				for (int i = 1; i < (*currentStmtListNode).getSize(); i++) {
-					youngerChild = (StmtNode*) (*currentStmtListNode).getChild(i);
+					youngerChild = (ASTStmtNode*) (*currentStmtListNode).getChild(i);
 					youngerChildNumber = (*youngerChild).getStmtNumber();
 					PKB::parent.insertParent(currentStmtNumber, youngerChildNumber);
 					PKB::follows.insertFollows(olderChildNumber, youngerChildNumber);
@@ -424,7 +426,7 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 			while (notYetGotNextChild) {
 				if (DFSstack.empty()) {
 					if (firstLevelPosition + 1 < (*firstLevelStmtListNode).getSize()) {
-						currentStmtNode = (StmtNode*) (*firstLevelStmtListNode).getChild(++firstLevelPosition);
+						currentStmtNode = (ASTStmtNode*) (*firstLevelStmtListNode).getChild(++firstLevelPosition);
 						currentPosition = firstLevelPosition;
 						STMT oldStmtNumber = currentStmtNumber;
 						currentStmtNumber = (*currentStmtNode).getStmtNumber();
@@ -438,19 +440,19 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 					}
 				} else {
 					if (currentPosition + 1 < (*currentStmtListNode).getSize()) { //try right
-						currentStmtNode = (StmtNode*) (*currentStmtListNode).getChild(++currentPosition);
+						currentStmtNode = (ASTStmtNode*) (*currentStmtListNode).getChild(++currentPosition);
 						currentStmtNumber = (*currentStmtNode).getStmtNumber();
 						notYetGotNextChild = false;
 					} else { //must go up
-						StmtNode* parentNode = DFSstack.top();
+						ASTStmtNode* parentNode = DFSstack.top();
 
 						if ((*parentNode).getType() == ASTNode::If &&
 							traversingThenPartOfIfStack.top()) { //go to 'else' part of if
 								traversingThenPartOfIfStack.pop();
 								traversingThenPartOfIfStack.push(false);
 
-								currentStmtListNode = (StmtLstNode*) (*parentNode).getChild(2);
-								currentStmtNode = (StmtNode*) (*currentStmtListNode).getChild(0);
+								currentStmtListNode = (ASTStmtLstNode*) (*parentNode).getChild(2);
+								currentStmtNode = (ASTStmtNode*) (*currentStmtListNode).getChild(0);
 								currentStmtNumber = (*currentStmtNode).getStmtNumber();
 								currentPosition = 0;
 

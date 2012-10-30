@@ -1,3 +1,4 @@
+#pragma once
 #include "PKB.h"
 
 ASTNode* PKB::rootNode;
@@ -14,11 +15,9 @@ CallsTable PKB::calls;
 
 int PKB::maxProgLines;
 
-PKB::PKB(void)
-{
-}
-
-
-PKB::~PKB(void)
-{
-}
+vector<ASTNode::NodeType> PKB::statementTable;
+unordered_set<STMT> PKB::assignTable;
+unordered_set<STMT> PKB::callTable;
+unordered_set<STMT> PKB::whileTable;
+unordered_set<STMT> PKB::ifTable;
+vector<pair<STMT, STMT>> PKB::TheBeginningAndTheEnd;

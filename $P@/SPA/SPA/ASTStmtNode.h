@@ -4,7 +4,7 @@
 
 typedef int Index;
 
-class StmtNode : 
+class ASTStmtNode : 
 	public ASTNode
 {
 private:
@@ -15,8 +15,8 @@ private:
 	void addChildToAssign(ASTNode* c, int);
 
 public:
-	StmtNode(int stmtNo, NodeType nodeType, Index value);
-	~StmtNode();
+	ASTStmtNode(int stmtNo, NodeType nodeType, Index value);
+	~ASTStmtNode();
 	int getStmtNumber();
 
 	virtual ASTNode* addChild(ASTNode* c);

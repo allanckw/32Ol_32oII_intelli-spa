@@ -1,5 +1,5 @@
 #pragma once
-#include "StmtNode.h"
+#include "ASTStmtNode.h"
 #include "ASTNode.h"
 
 class Parser
@@ -24,8 +24,8 @@ private:
 	//Build AST Methods - JK
 	bool Parser::isName(string s);
 	ASTNode* processProcedure(int *i, int *j);
-	StmtNode* processWhile(int *i, int *j, Index procIdx);
-	StmtNode* processCall(int *i, int *j, Index procIdx);
-	StmtNode* processAssignment(int *i, int *j);
+	ASTStmtNode* processWhile(int *i, int *j, Index procIdx);
+	ASTStmtNode* processCall(int *i, int *j, Index procIdx);
+	ASTStmtNode* processAssignment(int *i, int *j);
 };
 

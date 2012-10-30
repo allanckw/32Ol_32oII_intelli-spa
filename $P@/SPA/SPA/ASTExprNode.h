@@ -3,14 +3,14 @@
 
 typedef string Expr;
 
-class ExprNode :
+class ASTExprNode :
 	public ASTNode
 {
 public:
-	ExprNode(NodeType, int);
-	ExprNode(NodeType, Expr);
+	ASTExprNode(NodeType, int);
+	ASTExprNode(NodeType, Expr);
 
-	~ExprNode(void);
+	~ASTExprNode(void);
 	bool isMatched(Expr);
 
 	virtual ASTNode* addChild(ASTNode* c, int childLoc);

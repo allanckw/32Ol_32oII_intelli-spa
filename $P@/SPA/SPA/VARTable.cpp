@@ -1,3 +1,4 @@
+#pragma once
 #include "StdAfx.h"
 #include "VARTable.h"
 #include "SPAException.h"

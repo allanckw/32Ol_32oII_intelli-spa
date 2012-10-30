@@ -1,3 +1,4 @@
+#pragma once
 #include "StdAfx.h"
 #include "PKB.h"
 #include "ModifiesTable.h"
@@ -19,9 +20,8 @@ ModifiesTable::ModifiesTable()
 
 void ModifiesTable::insertStmtModifies(STMT s, VAR v)
 {
-	if (s == 0)	{
-		throw new SPAException("Invalid Reference: There is no statement zero!");
-	}
+	if (s <= 0)
+		throw SPAException("Invalid Reference: statement no. cannot be less than or equal to zero");
 
 	originalModifiedByStmt[s].insert(v);
 	originalModifiesStmt[v].insert(s);

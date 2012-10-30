@@ -1,15 +1,15 @@
 #pragma once
 #include "AstNode.h"
-#include "StmtNode.h"
+#include "ASTStmtNode.h"
 
 
 
-class StmtLstNode :
+class ASTStmtLstNode :
 	public ASTNode
 {
 public:
-	StmtLstNode();
-	~StmtLstNode(void);
+	ASTStmtLstNode();
+	~ASTStmtLstNode(void);
 	int getSize();
 	virtual ASTNode* addChild(ASTNode*);
 };

@@ -87,10 +87,10 @@ void TestAssnParser::testAssignmentParsing()
 	expr.clear();
 		
 	expr.push_back("x");
-	expr.push_back("+");
+	expr.push_back("*");
 	expr.push_back("(");
 	expr.push_back("yas");
-	expr.push_back("*");
+	expr.push_back("+");
 	expr.push_back("2");
 	expr.push_back(")");
 	expr.push_back(";");

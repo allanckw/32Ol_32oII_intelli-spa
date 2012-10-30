@@ -7,12 +7,13 @@ class QueryProjectNode :
 {
 public:
 	QueryProjectNode();
-	QueryProjectNode(vector<pair<int, string>>);
 	QueryProjectNode(vector<pair<string, string>>);
-	QueryProjectNode(vector<pair<string, int>>);
-	QueryProjectNode(vector<pair<int, int>>);
+	QueryProjectNode(vector<string>);
 	vector<string> getAnswer();
+	vector<pair<string, string>> getPairAnswer();
 	void setAnswer(vector<string>);
+	void setAnswer(vector<pair<string, string>>);
 private:
-	vector<string> answer;
+	vector<string> answer1;
+	vector<pair<string, string>> answer2;
 };

@@ -5,13 +5,15 @@
 #include "QueryEnums.h"
 #include "PKB.h"
 
-QueryCondNode::QueryCondNode(QueryEnums::QueryCond attribute, pair<pair<QueryEnums::QueryVar, string>, string> contents)
+QueryCondNode::QueryCondNode(QueryEnums::QueryCond attribute, 
+	pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>> contents)
 {
 	this->nodeType = Condition;
 	this->conditionAttribute = attribute;
 	this->conditionVariableType = contents.first.first;
 	this->conditionVariableName = contents.first.second;
-	this->conditionBoundary = contents.second;
+	this->conditionBoundaryType = contents.second.first;
+	this->conditionBoundaryName = contents.second.second;
 }
 	
 string QueryCondNode::getConditionVariableName()
@@ -29,7 +31,12 @@ QueryEnums::QueryCond QueryCondNode::getConditionAttribute()
 	return conditionAttribute;
 }
 	
-string QueryCondNode::getConditionBoundary()
+string QueryCondNode::getConditionBoundaryName()
 {
-	return conditionBoundary;
+	return conditionBoundaryName;
+}
+
+QueryEnums::QueryVar QueryCondNode::getConditionBoundaryType()
+{
+	return conditionBoundaryType;
 }

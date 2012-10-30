@@ -90,12 +90,10 @@
 void QueryTreeBuilder::buildQueryTree(unordered_map<int, vector<string>> userVariables, 
 	unordered_map<int, vector<string>> selectVariables, 
 	unordered_map<int, vector<pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>>>> relationships,
-	unordered_map<int, vector<pair<pair<QueryEnums::QueryVar, string>, string>>> conditions)
+	unordered_map<int, vector<pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>>>> conditions)
 {
-	vector<pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>>> currentRelationships;
-	pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>> relationship;
-	vector<pair<pair<QueryEnums::QueryVar, string>, string>> currentConditions;
-	pair<pair<QueryEnums::QueryVar, string>, string> condition;
+	vector<pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>>> currentRelationships, currentConditions;
+	pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>> relationship, condition;
 	unordered_map<int, vector<string>> selectVariablesLeft = selectVariables;
 	QueryEnums::QueryRel relationshipType;
 	QueryEnums::QueryCond conditionType;

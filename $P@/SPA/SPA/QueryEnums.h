@@ -6,7 +6,7 @@ class QueryEnums
 public:
 	typedef enum QueryVar { //variable QueryEnums
 		WildCard, //can be any type
-		Constant, //for "somename"
+		Constant, //for type = constant, NOT for anything else
 		Procedure,
 		Stmt,
 		Assign,
@@ -14,7 +14,6 @@ public:
 		While,
 		If,
 		Variable,
-		Number
 	};
 	typedef enum QueryRel { //relationship QueryEnums
 		Modifies,

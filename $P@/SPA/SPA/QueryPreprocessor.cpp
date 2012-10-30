@@ -20,7 +20,8 @@ int main(int argc, char* arg[])
 	unordered_map<int, vector<string>> SV = QE.getSelectVariables();
 	unordered_map<int, vector<pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>>>> r = 
 		QE.getRelationships();
-	unordered_map<int, vector<pair<pair<QueryEnums::QueryVar, string>, string>>> c = QE.getConditions();
+	unordered_map<int, vector<pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>>>> c = 
+		QE.getConditions();
 	cout<<"user var: ";
 	for (auto it = UT.begin(); it != UT.end(); it++)
 	{
@@ -64,7 +65,7 @@ int main(int argc, char* arg[])
 		{
 			cout<<"(";
 			cout<<(*it).second.at(y).first.first<<","<<(*it).second.at(y).first.second<<" ";
-			cout<<(*it).second.at(y).second;
+			cout<<(*it).second.at(y).second.first<<","<<(*it).second.at(y).second.second;
 			cout<<")";
 		}
 	}
@@ -135,8 +136,7 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 {
 	string delimiters = ";,() \"'"; //all spaces are already taken care of
 	string currentToken;
-	pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>> relationshipDeclaration;
-	pair<pair<QueryEnums::QueryVar, string>, string> conditionDeclaration;
+	pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>> relationshipDeclaration, conditionDeclaration;
 	vector<string> variableNames;
 	QueryEnums::QueryVar variableType;
 	QueryEnums::QueryRel relationshipType;
@@ -275,16 +275,17 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 					else
 						relationshipDeclaration.first = (make_pair(QueryEnums::WildCard, currentToken));
 				}
-				else if ((relationshipType == QueryEnums::Calls || relationshipType == QueryEnums::CallsStar) &&
+				else if ((relationshipType == QueryEnums::Modifies || relationshipType == QueryEnums::Uses ||
+						relationshipType == QueryEnums::Calls || relationshipType == QueryEnums::CallsStar) &&
 						currentToken.front() == '\"' && 
 						currentToken.at(currentToken.size() - 1) == '\"' &&
 						currentToken.size() > 2 && 
 						delimiters.find(currentToken.substr(1, currentToken.size() - 2)) != 0)
 				{
-						relationshipDeclaration.first = (make_pair(QueryEnums::Constant, currentToken));
+						relationshipDeclaration.first = (make_pair(QueryEnums::Procedure, currentToken));
 				}
 				else if(isNumber(currentToken))
-					relationshipDeclaration.first = (make_pair(QueryEnums::Number, currentToken));
+					relationshipDeclaration.first = (make_pair(QueryEnums::Stmt, currentToken));
 				else
 				{
 					for (auto it = userVariables.begin(); it != userVariables.end(); it++)
@@ -312,17 +313,16 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 			{
 				if (currentToken.compare("_") == 0)
 					relationshipDeclaration.second = (make_pair(QueryEnums::WildCard, currentToken));
-				else if ((relationshipType == QueryEnums::Modifies || relationshipType == QueryEnums::Uses ||
-						relationshipType == QueryEnums::Calls || relationshipType == QueryEnums::CallsStar) &&
+				else if ((relationshipType == QueryEnums::Calls || relationshipType == QueryEnums::CallsStar) &&
 						currentToken.front() == '\"' && 
 						currentToken.at(currentToken.size() - 1) == '\"' &&
 						currentToken.size() > 2 && 
 						delimiters.find(currentToken.substr(1, currentToken.size() - 2)) != 0)
 				{
-						relationshipDeclaration.second = (make_pair(QueryEnums::Constant, currentToken));
+						relationshipDeclaration.second = (make_pair(QueryEnums::Procedure, currentToken));
 				}
 				else if(isNumber(currentToken))
-					relationshipDeclaration.second = (make_pair(QueryEnums::Number, currentToken));
+					relationshipDeclaration.second = (make_pair(QueryEnums::Stmt, currentToken));
 				else
 				{
 					for (auto it = userVariables.begin(); it != userVariables.end(); it++)
@@ -401,7 +401,25 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 				equals = true;
 			else if (equals == true)
 			{
-				conditionDeclaration.second = currentToken; // value can be anything
+				if (currentToken.front() == '\"' && 
+					currentToken.at(currentToken.size() - 1) == '\"' &&
+					currentToken.size() > 2 && 
+					delimiters.find(currentToken.substr(1, currentToken.size() - 2)) != 0)
+				{
+					if (conditionAttributeType == QueryEnums::ProcName)
+						conditionDeclaration.second = make_pair(QueryEnums::Procedure, currentToken);
+					if (conditionAttributeType == QueryEnums::VarName)
+						conditionDeclaration.second = make_pair(QueryEnums::Variable, currentToken);
+				}
+				else if (isNumber(currentToken))
+				{
+					if (conditionAttributeType == QueryEnums::Value)
+						conditionDeclaration.second = make_pair(QueryEnums::Constant, currentToken);
+					if (conditionAttributeType == QueryEnums::StmtNo)
+						conditionDeclaration.second = make_pair(QueryEnums::Stmt, currentToken);
+				}
+				else
+					throw SPAException("Condition equates to invalid type");
 				conditions[conditionAttributeType].push_back(conditionDeclaration);
 				conditionVariable = false;
 				dot = false;
@@ -463,7 +481,8 @@ unordered_map<int, vector<pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnu
 	return relationships;
 }
 	
-unordered_map<int, vector<pair<pair<QueryEnums::QueryVar, string>, string>>> QueryPreprocessor::getConditions()
+unordered_map<int, vector<pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>>>> 
+	QueryPreprocessor::getConditions()
 {
 	return conditions;
 }

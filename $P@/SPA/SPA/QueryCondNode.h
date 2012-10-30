@@ -8,14 +8,15 @@ class QueryCondNode :
 	public QueryTreeNode
 {
 public:
-	QueryCondNode(QueryEnums::QueryCond, pair<pair<QueryEnums::QueryVar, string>, string>);
+	QueryCondNode(QueryEnums::QueryCond, pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>>);
 	string getConditionVariableName();
 	QueryEnums::QueryVar getConditionVariableType();
 	QueryEnums::QueryCond getConditionAttribute();
-	string getConditionBoundary();
+	string getConditionBoundaryName();
+	QueryEnums::QueryVar getConditionBoundaryType();
+	
 private:
-	string conditionVariableName;
-	QueryEnums::QueryVar conditionVariableType;
+	string conditionVariableName, conditionBoundaryName;
+	QueryEnums::QueryVar conditionVariableType, conditionBoundaryType;
 	QueryEnums::QueryCond conditionAttribute;
-	string conditionBoundary;
 };

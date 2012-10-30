@@ -15,34 +15,34 @@
 #include "CallsTable.h"
 #include "ASTNode.h"
 
-//int main(int argc, char* arg[])
-//{
-//	vector<string> tokens; 
-//	QueryPreprocessor QPP;
-//	QueryParser QP;
-//	QueryTreeBuilder QTB;
-//	vector<vector<QueryTreeNode*>> QT;
-//	vector<QueryTreeNode*> cluster;
-//	vector<pair<QueryEnums::QueryVar, string>> selected;
-//	QueryTreeNode::QTNodeType NT;
-//	QueryProjectNode* p;
-//	QuerySelNode* sn;
-//	QueryEvaluator* QE = new QueryEvaluator();
-//	vector<string> ans;
-//	tokens = QP.tokenize("assign a1; select a1 such that follows(a1, 10)");
-//	QPP.preProcess(tokens);
-//	QTB.buildQueryTree(QPP.getUserVariables(), QPP.getSelectVariables(), QPP.getRelationships(), QPP.getConditions());
-//	QT = QTB.getQueryTree();
-//	ans = QE->returnAnswer(QPP, QTB);
-//	
-//	for (int i = 0; i < ans.size(); i++)
-//		cout<<ans.at(i)<<" ";
-//
-//	cout<<endl;
-//
-//	system("PAUSE");
-//	return 0;
-//}
+int main(int argc, char* arg[])
+{
+	vector<string> tokens; 
+	QueryPreprocessor QPP;
+	QueryParser QP;
+	QueryTreeBuilder QTB;
+	vector<vector<QueryTreeNode*>> QT;
+	vector<QueryTreeNode*> cluster;
+	vector<pair<QueryEnums::QueryVar, string>> selected;
+	QueryTreeNode::QTNodeType NT;
+	QueryProjectNode* p;
+	QuerySelNode* sn;
+	QueryEvaluator* QE = new QueryEvaluator();
+	vector<string> ans;
+	tokens = QP.tokenize("assign a1; select a1 such that follows(a1, 10)");
+	QPP.preProcess(tokens);
+	QTB.buildQueryTree(QPP.getUserVariables(), QPP.getSelectVariables(), QPP.getRelationships(), QPP.getConditions());
+	QT = QTB.getQueryTree();
+	ans = QE->returnAnswer(QPP, QTB);
+	
+	for (int i = 0; i < ans.size(); i++)
+		cout<<ans.at(i)<<" ";
+
+	cout<<endl;
+
+	system("PAUSE");
+	return 0;
+}
 
 QueryEvaluator::QueryEvaluator(void)
 {

@@ -1,6 +1,8 @@
 #pragma once
 #include "StdAfx.h"
 #include "QueryTreeNode.h"
+#include "QueryEnums.h"
+typedef vector<vector<QueryTreeNode*>> QueryTree ;
 
 class QueryTreeBuilder
 {
@@ -11,5 +13,5 @@ public:
 	unordered_map<int, vector<pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>>>> conditions);
 	vector<vector<QueryTreeNode*>> getQueryTree();
 private:
-	vector<vector<QueryTreeNode*>> queryTree;
+	QueryTree queryTree;
 };

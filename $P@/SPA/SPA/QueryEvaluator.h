@@ -1,6 +1,5 @@
 #pragma once
 #include "stdafx.h"
-#include <set>
 #include "QueryPreprocessor.h"
 #include "QueryTreeBuilder.h"
 

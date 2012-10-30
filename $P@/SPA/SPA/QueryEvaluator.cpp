@@ -1,6 +1,6 @@
 #pragma once
-#include "QueryEvaluator.h"
 #include "StdAfx.h"
+#include "QueryEvaluator.h"
 #include "PKB.h"
 #include "QueryParser.h"
 #include "QueryPreprocessor.h"
@@ -8,11 +8,41 @@
 #include "QueryTreeNode.h"
 #include "QueryRelNode.h"
 #include "QueryCondNode.h"
+#include "QuerySelNode.h"
 #include "QueryEnums.h"
 #include "PROCTable.h"
 #include "QueryProjectNode.h"
 #include "CallsTable.h"
 #include "ASTNode.h"
+
+//int main(int argc, char* arg[])
+//{
+//	vector<string> tokens; 
+//	QueryPreprocessor QPP;
+//	QueryParser QP;
+//	QueryTreeBuilder QTB;
+//	vector<vector<QueryTreeNode*>> QT;
+//	vector<QueryTreeNode*> cluster;
+//	vector<pair<QueryEnums::QueryVar, string>> selected;
+//	QueryTreeNode::QTNodeType NT;
+//	QueryProjectNode* p;
+//	QuerySelNode* sn;
+//	QueryEvaluator* QE = new QueryEvaluator();
+//	vector<string> ans;
+//	tokens = QP.tokenize("assign a1; select a1 such that follows(a1, 10)");
+//	QPP.preProcess(tokens);
+//	QTB.buildQueryTree(QPP.getUserVariables(), QPP.getSelectVariables(), QPP.getRelationships(), QPP.getConditions());
+//	QT = QTB.getQueryTree();
+//	ans = QE->returnAnswer(QPP, QTB);
+//	
+//	for (int i = 0; i < ans.size(); i++)
+//		cout<<ans.at(i)<<" ";
+//
+//	cout<<endl;
+//
+//	system("PAUSE");
+//	return 0;
+//}
 
 QueryEvaluator::QueryEvaluator(void)
 {
@@ -79,7 +109,6 @@ vector<string> QueryEvaluator::returnAnswer(QueryPreprocessor querypreprocessor,
 		QueryTreeNode::QTNodeType nodetype = currentnode->getNodeType();
 		
 		if (nodetype == QueryTreeNode::Relationship) {
-			
 			QueryRelNode* rnode = (QueryRelNode*) currentnode;
 			QueryEnums::QueryRel rtype = rnode->getRelationshipType();
 			switch(rtype) {
@@ -1965,7 +1994,7 @@ vector<string> QueryEvaluator::returnAnswer(QueryPreprocessor querypreprocessor,
 			case QueryEnums::NextStar: break;
 			case QueryEnums::Affects: break;
 			case QueryEnums::AffectsStar: break;
-			default: throw SPAException("Hanwei, why you no handle cases properly!!!");
+			default: break;
 			}
 		} else {
 			QueryCondNode* cnode = (QueryCondNode*) currentnode;
@@ -1979,7 +2008,7 @@ vector<string> QueryEvaluator::returnAnswer(QueryPreprocessor querypreprocessor,
 				QueryProjectNode* newprojnode = new QueryProjectNode(newans);
 				querycluster.push_back(newprojnode);
 				} else {
-				string procname = cnode->getConditionBoundary();
+				string procname = cnode->getConditionBoundaryName();
 				PROCIndex procindex = PKB::procedures.getPROCIndex(procname);
 				if (procindex != -1) {
 					newans.push_back(procname);
@@ -1994,7 +2023,7 @@ vector<string> QueryEvaluator::returnAnswer(QueryPreprocessor querypreprocessor,
 				QueryProjectNode* newprojnode = new QueryProjectNode(newans);
 				querycluster.push_back(newprojnode);
 				} else {
-				string varname = cnode->getConditionBoundary();
+				string varname = cnode->getConditionBoundaryName();
 				PROCIndex varindex = PKB::variables.getVARIndex(varname);
 				if (varindex != -1) {
 					newans.push_back(varname);
@@ -2006,7 +2035,7 @@ vector<string> QueryEvaluator::returnAnswer(QueryPreprocessor querypreprocessor,
 			}
 			case QueryEnums::StmtNo: {
 				if (vartype == QueryEnums::Stmt) {
-				string stmt = cnode->getConditionBoundary();
+				string stmt = cnode->getConditionBoundaryName();
 				STMT stmtno = atoi(stmt.c_str());
 				if (!(stmtno > PKB::maxProgLines)) {
 					newans.push_back(stmt);
@@ -2014,7 +2043,7 @@ vector<string> QueryEvaluator::returnAnswer(QueryPreprocessor querypreprocessor,
 					querycluster.push_back(newprojnode);
 				}
 				} else if (vartype == QueryEnums::Assign) {
-				string stmt = cnode->getConditionBoundary();
+				string stmt = cnode->getConditionBoundaryName();
 				STMT stmtno = atoi(stmt.c_str());
 				if (!(stmtno > PKB::maxProgLines)) {
 					if (PKB::statementTable[stmtno] == ASTNode::Assign) {
@@ -2024,7 +2053,7 @@ vector<string> QueryEvaluator::returnAnswer(QueryPreprocessor querypreprocessor,
 					}
 				}
 				} else if (vartype == QueryEnums::While) {
-				string stmt = cnode->getConditionBoundary();
+				string stmt = cnode->getConditionBoundaryName();
 				STMT stmtno = atoi(stmt.c_str());
 				if (!(stmtno > PKB::maxProgLines)) {
 					if (PKB::statementTable[stmtno] == ASTNode::While) {
@@ -2034,7 +2063,7 @@ vector<string> QueryEvaluator::returnAnswer(QueryPreprocessor querypreprocessor,
 					}
 				}
 				} else if (vartype == QueryEnums::If) {
-				string stmt = cnode->getConditionBoundary();
+				string stmt = cnode->getConditionBoundaryName();
 				STMT stmtno = atoi(stmt.c_str());
 				if (!(stmtno > PKB::maxProgLines)) {
 					if (PKB::statementTable[stmtno] == ASTNode::If) {
@@ -2044,7 +2073,7 @@ vector<string> QueryEvaluator::returnAnswer(QueryPreprocessor querypreprocessor,
 					}
 				}
 				}  else if (vartype == QueryEnums::Call) {
-				string stmt = cnode->getConditionBoundary();
+				string stmt = cnode->getConditionBoundaryName();
 				STMT stmtno = atoi(stmt.c_str());
 				if (!(stmtno > PKB::maxProgLines)) {
 					if (PKB::statementTable[stmtno] == ASTNode::Call) {
@@ -2060,7 +2089,7 @@ vector<string> QueryEvaluator::returnAnswer(QueryPreprocessor querypreprocessor,
 								break;
 			} 
 			case QueryEnums::Value: break;
-			default: throw SPAException("Hanwei why you no handle the cases properly?");
+			default: break;
 			}
 			}
 	}

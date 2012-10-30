@@ -6,7 +6,8 @@
 
 class QueryEvaluator
 {
-private: static unordered_map<string, pair<bool, vector<string>>> answer;
+private: 
+	unordered_map<string, pair<bool, vector<string>>> answer;
 	vector<string> intersection(vector<string>, vector<string>);
 	vector<string> listfirst(vector<pair<string, string>>);
 	vector<string> listsecond(vector<pair<string, string>>);

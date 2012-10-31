@@ -25,9 +25,27 @@ void TestWrapper::parse(std::string filename) {
 
 // method to evaluating a query
 void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
-// call your evaluator to evaluate the query here
-  // ...code to evaluate query...
 
-  // store the answers to the query in the results list (it is initially empty)
-  // each result must be a string.
+	// Stuff Required to evaluate
+	vector<string> tokens; 
+	QueryPreprocessor qParserreProcessor;
+	QueryParser qParser;
+	QueryTreeBuilder* queryTreeBuilder = new QueryTreeBuilder();
+	vector<pair<QueryEnums::QueryVar, string>> selected;
+	QueryTree QT;
+	IEvalQuery* EQ = new IEvalQuery();
+
+	string ans;
+
+	// ...code to evaluate query...
+	tokens = qParser.tokenize(query);
+	qParserreProcessor.preProcess(tokens);
+	queryTreeBuilder->buildQueryTree(qParserreProcessor.getUserVariables(), qParserreProcessor.getSelectVariables(), qParserreProcessor.getRelationships(), qParserreProcessor.getConditions());
+	QT = queryTreeBuilder->getQueryTree();
+
+	ans = EQ->evaluateQuery(QT);
+
+	// store the answers to the query in the results list (it is initially empty)
+	results.push_back(ans);
+	// each result must be a string.
 }

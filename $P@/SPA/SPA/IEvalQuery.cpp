@@ -31,13 +31,13 @@ void IEvalQuery::initNewQuery()
 	secondFixedVariable = false;
 
 	projectBool = false;
+
+	answer.clear();
 }
 
 //I Evaluate Query, I PWNED ALL THE CLASSES HERE ! @.@
-vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
+string IEvalQuery::evaluateQuery(QueryTree qt)
 {
-	//Outer vector is vector of cluster
-	//inner vector is the cluster
 	initNewQuery();
 
 	for (int i = 0; i< qt.size(); i++)
@@ -93,6 +93,9 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 				case QueryEnums::AffectsStar:
 		//			EvaluateAffectsStar();
 					break;
+				case QueryEnums::Patterns:
+		//			EvaluateAffectsStar();
+					break;
 				default:
 					break;
 				}
@@ -126,17 +129,22 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 				break;
 			}
 		}
+
 	}
 
 	if (projectBool == false && answer.empty())
 	{
-		answer.push_back("None");
-		return answer;
+		return ("None");
 	}
 	else if (projectBool == true)
-		return boolAnswer;
+		return boolAnswer.at(0);
 	else
-		return answer;
+	{
+		string a;
+		for (int i = 0; i < answer.size(); i++)
+			a.append(answer.at(i));
+		return a;
+	}
 }
 
 void IEvalQuery::populateVariableIndices(QueryEnums::QueryVar type, int index)
@@ -266,7 +274,7 @@ void IEvalQuery::EvaluateModifies()
 	}
 	else if (allProcsFirst == true && allVarsSecond == true)
 	{
-		for (int x = 1; x <= PKB::procedures.getSize(); x++)
+		for (int x = 0; x < PKB::procedures.getSize(); x++)
 		{
 			for (int y = 1; y <= PKB::variables.getSize(); y++)
 				if (PKB::modifies.isModifiedProc(x, y))
@@ -278,7 +286,7 @@ void IEvalQuery::EvaluateModifies()
 	}
 	else if (allProcsFirst == true && secondFixedVariable == true)
 	{
-		for (int x = 1; x <= PKB::procedures.getSize(); x++)
+		for (int x = 0; x < PKB::procedures.getSize(); x++)
 		{
 			if (PKB::modifies.isModifiedProc(x, currentSecondVariableNo))
 				firstVariableAnswer.push_back(PKB::procedures.getPROCName(x));	
@@ -308,7 +316,7 @@ void IEvalQuery::EvaluateModifies()
 	}
 	else if (firstFixedProcedure == true && allVarsSecond == true)
 	{
-		for (int x = 1; x <= PKB::variables.getSize(); x++)
+		for (int x = 0; x < PKB::variables.getSize(); x++)
 		{
 			if (PKB::modifies.isModifiedProc(currentFirstVariableNo, x))
 				secondVariableAnswer.push_back(PKB::variables.getVARName(x));
@@ -316,7 +324,7 @@ void IEvalQuery::EvaluateModifies()
 	}
 	else if (firstNumber == true && allVarsSecond == true)
 	{
-		for (int x = 1; x <= PKB::variables.getSize(); x++)
+		for (int x = 0; x < PKB::variables.getSize(); x++)
 		{
 			if (PKB::modifies.isModifiedStmt(currentFirstVariableNo, x))
 				secondVariableAnswer.push_back(PKB::variables.getVARName(x));
@@ -397,7 +405,7 @@ void IEvalQuery::EvaluateUses()
 	}
 	else if (allProcsFirst == true && allVarsSecond == true)
 	{
-		for (int x = 1; x <= PKB::procedures.getSize(); x++)
+		for (int x = 0; x < PKB::procedures.getSize(); x++)
 		{
 			for (int y = 1; y <= PKB::variables.getSize(); y++)
 				if (PKB::uses.isUsedProc(x, y))
@@ -409,7 +417,7 @@ void IEvalQuery::EvaluateUses()
 	}
 	else if (allProcsFirst == true && secondFixedVariable == true)
 	{
-		for (int x = 1; x <= PKB::procedures.getSize(); x++)
+		for (int x = 0; x < PKB::procedures.getSize(); x++)
 		{
 			if (PKB::uses.isUsedProc(x, currentSecondVariableNo))
 				firstVariableAnswer.push_back(PKB::procedures.getPROCName(x));	
@@ -439,7 +447,7 @@ void IEvalQuery::EvaluateUses()
 	}
 	else if ((firstFixedProcedure == true || firstNumber == true) && allVarsSecond == true)
 	{
-		for (int x = 1; x <= PKB::variables.getSize(); x++)
+		for (int x = 0; x < PKB::variables.getSize(); x++)
 		{
 			if (PKB::uses.isUsedProc(currentFirstVariableNo, x))
 				secondVariableAnswer.push_back(PKB::variables.getVARName(x));
@@ -618,7 +626,7 @@ void IEvalQuery::EvaluateFollows()
 		populateVariableIndices(currentFirstVariableType, 1);
 
 	if (secondNumber == false)
-		populateVariableIndices(currentSecondVariableType, 2);
+		populateVariableIndices(currentSecondVariableType,2 );
 
 	if (firstNumber == true && secondNumber == true) //special case
 	{
@@ -627,6 +635,7 @@ void IEvalQuery::EvaluateFollows()
 			boolAnswer.push_back("true");
 		else
 			boolAnswer.push_back("false");
+
 	}
 	else if (allStmtsFirst == true && allStmtsSecond == true)
 	{
@@ -676,16 +685,6 @@ void IEvalQuery::EvaluateFollows()
 				}
 		}
 	}
-
-	//Resetting all the flags and stuff, todo: put at bottom of 2nd for loop
-	firstNumber = false;
-	secondNumber = false;
-	allStmtsFirst = false;
-	allStmtsSecond = false;
-	currentFirstIndices.clear();
-	currentSecondIndices.clear();
-	firstVariableAnswer.clear();
-	secondVariableAnswer.clear();
 }
 
 void IEvalQuery::EvaluateFollowsStar()
@@ -821,7 +820,7 @@ void IEvalQuery::EvaluateCalls()
 	}
 	else if (firstFixedProcedure == true && allProcsSecond == true)
 	{
-		for (int x = 1; x <= PKB::procedures.getSize(); x++)
+		for (int x = 0; x < PKB::procedures.getSize(); x++)
 		{
 			if (PKB::calls.isCalled(currentFirstVariableNo, x))
 				secondVariableAnswer.push_back(Helper::intToString(x));
@@ -829,7 +828,7 @@ void IEvalQuery::EvaluateCalls()
 	}
 	else if (secondFixedProcedure == true && allProcsFirst == true)
 	{
-		for (int x = 1; x <= PKB::procedures.getSize(); x++)
+		for (int x = 0; x < PKB::procedures.getSize(); x++)
 		{
 			if (PKB::calls.isCalled(x, currentSecondVariableNo))
 				firstVariableAnswer.push_back(Helper::intToString(x));
@@ -905,7 +904,7 @@ void IEvalQuery::EvaluateCallsStar()
 	}
 	else if (firstFixedProcedure == true && allProcsSecond == true)
 	{
-		for (int x = 1; x <= PKB::procedures.getSize(); x++)
+		for (int x = 0; x < PKB::procedures.getSize(); x++)
 		{
 			if (PKB::calls.isCalledStar(currentFirstVariableNo, x))
 				secondVariableAnswer.push_back(Helper::intToString(x));
@@ -913,7 +912,7 @@ void IEvalQuery::EvaluateCallsStar()
 	}
 	else if (secondFixedProcedure == true && allProcsFirst == true)
 	{
-		for (int x = 1; x <= PKB::procedures.getSize(); x++)
+		for (int x = 0; x < PKB::procedures.getSize(); x++)
 		{
 			if (PKB::calls.isCalledStar(x, currentSecondVariableNo))
 				firstVariableAnswer.push_back(Helper::intToString(x));
@@ -933,4 +932,8 @@ void IEvalQuery::EvaluateCallsStar()
 			}
 		}
 	}
+}
+
+void IEvalQuery::EvaluatePattern()
+{
 }

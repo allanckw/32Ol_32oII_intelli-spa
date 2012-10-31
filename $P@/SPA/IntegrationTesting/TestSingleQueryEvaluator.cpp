@@ -45,42 +45,47 @@ void TestSingleQueryEvaluator::TestSingleQueryEvaluatorBuilder()
 	vector<string> tokens; 
 	QueryPreprocessor QPP;
 	QueryParser QP;
-	QueryTreeBuilder QTB;
+	QueryTreeBuilder* QTB = new QueryTreeBuilder();
 	vector<pair<QueryEnums::QueryVar, string>> selected;
 	vector<string> ans;
 	QueryTree QT;
-	IEvalQuery EQ;
+	IEvalQuery* EQ = new IEvalQuery();
 	string a;
+	int size = ans.size();
 	/////////////////
 	//Follows tests//
 	
 	
 	tokens = QP.tokenize("stmt s1; select s1 such that follows(3, s1)");
 	QPP.preProcess(tokens);
-	QTB.buildQueryTree(QPP.getUserVariables(), QPP.getSelectVariables(), QPP.getRelationships(), QPP.getConditions());
-	QT = QTB.getQueryTree();
-	ans = EQ.evaluateQuery(QT);
-	a = ans.at(0);
+	QTB->buildQueryTree(QPP.getUserVariables(), QPP.getSelectVariables(), QPP.getRelationships(), QPP.getConditions());
+	QT = QTB->getQueryTree();
+	string a = EQ->evaluateQuery(QT);
 	CPPUNIT_ASSERT(a == "4");
-	CPPUNIT_ASSERT_EQUAL(1, (int)ans.size());
+	size = ans.size();
+	CPPUNIT_ASSERT_EQUAL(1, size);
 
+	EQ = new IEvalQuery();
 	tokens = QP.tokenize("stmt s1; select s1 such that follows(s1, 4)");
 	QPP.preProcess(tokens);
-	QTB.buildQueryTree(QPP.getUserVariables(), QPP.getSelectVariables(), QPP.getRelationships(), QPP.getConditions());
-	QT = QTB.getQueryTree();
-	ans = EQ.evaluateQuery(QT);
-	a = ans.at(0);
-	CPPUNIT_ASSERT(a.compare("3"));
-	CPPUNIT_ASSERT(ans.size() == 1);
+	QTB->buildQueryTree(QPP.getUserVariables(), QPP.getSelectVariables(), QPP.getRelationships(), QPP.getConditions());
+	QT = QTB->getQueryTree();
+	a = EQ->evaluateQuery(QT);
+	CPPUNIT_ASSERT(a =="3");
+	size = ans.size();
+	CPPUNIT_ASSERT_EQUAL(1,size);
 	
+
+	EQ = new IEvalQuery();
 	tokens = QP.tokenize("stmt s1; select s1 such that follows(9, s1)");
 	QPP.preProcess(tokens);
-	QTB.buildQueryTree(QPP.getUserVariables(), QPP.getSelectVariables(), QPP.getRelationships(), QPP.getConditions());
-	QT = QTB.getQueryTree();
-	ans = EQ.evaluateQuery(QT);
-	a = ans.at(0);
+	QTB->buildQueryTree(QPP.getUserVariables(), QPP.getSelectVariables(), QPP.getRelationships(), QPP.getConditions());
+	QT = QTB->getQueryTree();
+	a = EQ->evaluateQuery(QT);
 	CPPUNIT_ASSERT(a == "None");
-	CPPUNIT_ASSERT(ans.size() == 1);
+	size = ans.size();
+	CPPUNIT_ASSERT_EQUAL(1,size);
+
 	//tokens = QP.tokenize("stmt s1; select s1 such that follows(2, s1)");
 	//tokens = QP.tokenize("stmt s1; select s1 such that follows*(3, s1)");
 

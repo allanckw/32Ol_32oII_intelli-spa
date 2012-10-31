@@ -5,79 +5,9 @@
 #include "QueryPreprocessor.h"
 #include <set>
 
-//FOR TESTING PURPOSES COS I SEE UNITTESTER NO UP
-//int main(int argc, char* arg[])
-//{
-//	QueryParser QP;
-//	//vector<string> tokens = QP.tokenize("assignment a1, a2; statement s1, s2; select a1 such that uses(10, \"x\")");
-//	vector<string> tokens = QP.tokenize("assign a1; select a1 such that follows(a1, 10)");
-//	//vector<string> tokens = QP.tokenize("assignment a1, a2; statement s1, s2; select a1 such that modifies(a1, a2)");
-//	QueryPreprocessor QE;
-//	QE.preProcess(tokens);
-//	vector<string> test;
-//	vector<unordered_map<int, string>> test2;
-//	unordered_map<int, vector<string>> UT = QE.getUserVariables();
-//	unordered_map<int, vector<string>> SV = QE.getSelectVariables();
-//	unordered_map<int, vector<pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>>>> r = 
-//		QE.getRelationships();
-//	unordered_map<int, vector<pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>>>> c = 
-//		QE.getConditions();
-//	cout<<"user var: ";
-//	for (auto it = UT.begin(); it != UT.end(); it++)
-//	{
-//		test = (*it).second;
-//		for (int i = 0; i < test.size(); i++)
-//			cout<<test.at(i)<<" ";
-//		cout<<", ";
-//	}
-//
-//	cout<<endl;
-//
-//	cout<<"select var: ";
-//	for (auto it = SV.begin(); it != SV.end(); it++)
-//	{
-//		test = (*it).second;
-//		for (int i = 0; i < test.size(); i++)
-//			cout<<test.at(i)<<" ";
-//		cout<<", ";
-//	}
-//
-//	cout<<endl;
-//
-//	cout<<"relationships: "<<endl;;
-//	for (auto it = r.begin(); it != r.end(); it++)
-//	{
-//		cout<<(*it).first<<": ";
-//		for (int x = 0; x < (*it).second.size(); x++)
-//		{
-//			cout<<"(";
-//			cout<<(*it).second.at(x).first.first<<","<<(*it).second.at(x).first.second<<" ";
-//			cout<<(*it).second.at(x).second.first<<","<<(*it).second.at(x).second.second;
-//			cout<<")";
-//		}
-//	}
-//	cout<<endl;
-//	cout<<"conditions: ";
-//	for (auto it = c.begin(); it != c.end(); it++)
-//	{
-//		cout<<(*it).first<<": ";
-//		for (int y = 0; y < (*it).second.size(); y++)
-//		{
-//			cout<<"(";
-//			cout<<(*it).second.at(y).first.first<<","<<(*it).second.at(y).first.second<<" ";
-//			cout<<(*it).second.at(y).second.first<<","<<(*it).second.at(y).second.second;
-//			cout<<")";
-//		}
-//	}
-//	cout<<endl;
-//
-//	system("PAUSE");
-//
-//	return 0;
-//}
-
 QueryPreprocessor::QueryPreprocessor()
 {
+
 	keywords.insert("assignment");
 	keywords.insert("variable");
 	keywords.insert("statement");
@@ -138,6 +68,8 @@ QueryPreprocessor::QueryPreprocessor()
 
 void QueryPreprocessor::preProcess(vector<string> tokens)
 {
+	resetAll();
+
 	string delimiters = ";,() \"'"; //all spaces are already taken care of
 	string currentToken;
 	pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>> relationshipDeclaration, conditionDeclaration;
@@ -497,4 +429,11 @@ unordered_map<int, vector<pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnu
 	QueryPreprocessor::getConditions()
 {
 	return conditions;
+}
+
+void QueryPreprocessor::resetAll(){
+	userVariables.clear();
+	selectVariables.clear();
+	relationships.clear();
+	conditions.clear();
 }

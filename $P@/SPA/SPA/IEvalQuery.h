@@ -10,7 +10,6 @@ class IEvalQuery
 {
 private:
 
-	//Copied from previous evaluator.. not sure how to use yet tho -.-
 	bool allStmtsFirst, allStmtsSecond, allProcsFirst, allProcsSecond, allVarsSecond;
 	vector<string> answer;
 
@@ -53,6 +52,8 @@ private:
 
 	void IEvalQuery::EvaluateCallsStar();
 
+	void IEvalQuery::EvaluatePattern();
+
 	void IEvalQuery::initNewQuery();
 
 	//TODO: FOR CS3202
@@ -61,6 +62,6 @@ private:
 	//Etc..
 
 public:
-	vector<string> evaluateQuery(QueryTree qt);
+	string evaluateQuery(QueryTree);
 };
 

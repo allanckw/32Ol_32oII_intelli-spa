@@ -13,7 +13,8 @@ private:
 	unordered_map<int, vector<string>> selectVariables;
 	unordered_map<int, vector<pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>>>> relationships;
 	unordered_map<int, vector<pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>>>> conditions;
-	
+	void resetAll();
+
 public:
 	QueryPreprocessor();
 	void preProcess(vector<string>);

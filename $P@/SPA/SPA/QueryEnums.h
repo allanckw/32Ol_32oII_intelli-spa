@@ -27,7 +27,8 @@ public:
 		Next,
 		NextStar,
 		Affects,
-		AffectsStar
+		AffectsStar,
+		Patterns
 	};
 
 	typedef enum QueryCond { //condition attribute QueryEnums

@@ -99,9 +99,6 @@
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\IEvalQuery.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\$P%40\SPA\SPA\SingleQueryEvaluator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\Helper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -183,9 +180,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\IEvalQuery.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\$P%40\SPA\SPA\SingleQueryEvaluator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\Helper.cpp">

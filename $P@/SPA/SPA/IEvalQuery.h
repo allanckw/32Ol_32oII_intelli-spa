@@ -13,6 +13,7 @@ private:
 	//Copied from previous evaluator.. not sure how to use yet tho -.-
 	bool allStmtsFirst, allStmtsSecond, allProcsFirst, allProcsSecond, allVarsSecond;
 	vector<string> answer;
+
 	unordered_set<STMT> currentFirstIndices, currentSecondIndices;
 	void populateVariableIndices(QueryEnums::QueryVar, int index);
 
@@ -50,9 +51,9 @@ private:
 
 	void IEvalQuery::EvaluateCalls();
 
-	void IEvalQuery::EvaluateCallStar();
+	void IEvalQuery::EvaluateCallsStar();
 
-	
+	void IEvalQuery::initNewQuery();
 
 	//TODO: FOR CS3202
 	//Affects, Affects*

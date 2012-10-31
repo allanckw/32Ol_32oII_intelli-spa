@@ -12,7 +12,7 @@
 #include "PKB.h"
 #include "Helper.h"
 
-IEvalQuery::IEvalQuery()
+void IEvalQuery::initNewQuery()
 {
 	allStmtsFirst = false;
 	allStmtsSecond = false;
@@ -37,13 +37,14 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 {
 	//Outer vector is vector of cluster
 	//inner vector is the cluster
+	initNewQuery();
 
 	for (int i = 0; i< qt.size(); i++)
 	{
 		vector<QueryTreeNode*> cluster = qt.at(i);
 		for (int j = 0; j < cluster.size(); j++)
 		{
-			QueryTreeNode* node = cluster.at(j);
+			currentNode = cluster.at(j);
 			currentNodeType = currentNode->getNodeType();			
 			switch (currentNodeType){
 			case QueryTreeNode::Relationship:
@@ -77,7 +78,7 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 					EvaluateCalls();
 					break;
 				case QueryEnums::CallsStar:
-		//			EvaluateCallsStar();
+					EvaluateCallsStar();
 					break;
 				case QueryEnums::Next:
 		//			EvaluateNext();
@@ -92,35 +93,34 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 		//			EvaluateAffectsStar();
 					break;
 				default:
-					throw SPAException("fuck off");
 					break;
 				}
 			case QueryTreeNode::Select:
+			{
+				currentSelNode = new QuerySelNode();
+				currentSelNode = (QuerySelNode*) currentNode;
+				selected = currentSelNode->getSelectedVariables();
+				for (int x = 0; x < selected.size(); x++)
 				{
-					currentSelNode = new QuerySelNode();
-					currentSelNode = (QuerySelNode*) currentNode;
-					selected = currentSelNode->getSelectedVariables();
-					for (int x = 0; x < selected.size(); x++)
+					if (currentFirstVariableName.compare(selected.at(x).second) == 0)
 					{
-						if (currentFirstVariableName.compare(selected.at(x).second) == 0)
-						{
-							for (auto y = firstVariableAnswer.begin(); y != firstVariableAnswer.end(); y++)
-								answer.push_back((*y));
-						}
-						if (currentSecondVariableName.compare(selected.at(x).second) == 0)
-						{
-							for (auto y = secondVariableAnswer.begin(); y != secondVariableAnswer.end(); y++)
-								answer.push_back((*y));
-						}
+						for (auto y = firstVariableAnswer.begin(); y != firstVariableAnswer.end(); y++)
+							answer.push_back((*y));
+					}
+					if (currentSecondVariableName.compare(selected.at(x).second) == 0)
+					{
+						for (auto y = secondVariableAnswer.begin(); y != secondVariableAnswer.end(); y++)
+							answer.push_back((*y));
 					}
 				}
+			}
 				break;
 			case QueryTreeNode::Project:
-				{
-					//what do i do with this useless piece of crap?
-				}
+			{
+				//what do i do with this useless piece of crap?
+			}
 				break;
-				default:
+			default:
 				throw SPAException("Unidentified QT node");
 				break;
 			}
@@ -840,7 +840,7 @@ void IEvalQuery::EvaluateCalls()
 	}
 }
 
-void IEvalQuery::EvaluateCallStar()
+void IEvalQuery::EvaluateCallsStar()
 {
 		//Assume correct input, ie. 2 procedures and nothing else
 	if (currentFirstVariableName.front() == '\"' && 

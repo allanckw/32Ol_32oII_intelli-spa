@@ -61,7 +61,6 @@ private:
 	//Etc..
 
 public:
-	IEvalQuery::IEvalQuery();
 	vector<string> evaluateQuery(QueryTree qt);
 };
 

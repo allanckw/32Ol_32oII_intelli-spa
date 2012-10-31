@@ -48,9 +48,9 @@ void TestSingleQueryEvaluator::TestSingleQueryEvaluatorBuilder()
 	QueryTreeBuilder QTB;
 	vector<pair<QueryEnums::QueryVar, string>> selected;
 	vector<string> ans;
-	
+	QueryTree QT;
 	IEvalQuery EQ;
-
+	string a;
 	/////////////////
 	//Follows tests//
 	
@@ -58,20 +58,29 @@ void TestSingleQueryEvaluator::TestSingleQueryEvaluatorBuilder()
 	tokens = QP.tokenize("stmt s1; select s1 such that follows(3, s1)");
 	QPP.preProcess(tokens);
 	QTB.buildQueryTree(QPP.getUserVariables(), QPP.getSelectVariables(), QPP.getRelationships(), QPP.getConditions());
-	
-	vector<vector<QueryTreeNode*>> QT;
 	QT = QTB.getQueryTree();
 	ans = EQ.evaluateQuery(QT);
-	string a = ans.at(0);
-
+	a = ans.at(0);
 	CPPUNIT_ASSERT(a == "4");
 	CPPUNIT_ASSERT_EQUAL(1, (int)ans.size());
 
-	/*tokens = QP.tokenize("stmt s1; select s1 such that follows(s1, 4)");
+	tokens = QP.tokenize("stmt s1; select s1 such that follows(s1, 4)");
+	QPP.preProcess(tokens);
+	QTB.buildQueryTree(QPP.getUserVariables(), QPP.getSelectVariables(), QPP.getRelationships(), QPP.getConditions());
+	QT = QTB.getQueryTree();
+	ans = EQ.evaluateQuery(QT);
+	a = ans.at(0);
 	CPPUNIT_ASSERT(a.compare("3"));
 	CPPUNIT_ASSERT(ans.size() == 1);
-	*/
-	//tokens = QP.tokenize("stmt s1; select s1 such that follows(9, s1)");
+	
+	tokens = QP.tokenize("stmt s1; select s1 such that follows(9, s1)");
+	QPP.preProcess(tokens);
+	QTB.buildQueryTree(QPP.getUserVariables(), QPP.getSelectVariables(), QPP.getRelationships(), QPP.getConditions());
+	QT = QTB.getQueryTree();
+	ans = EQ.evaluateQuery(QT);
+	a = ans.at(0);
+	CPPUNIT_ASSERT(a == "None");
+	CPPUNIT_ASSERT(ans.size() == 1);
 	//tokens = QP.tokenize("stmt s1; select s1 such that follows(2, s1)");
 	//tokens = QP.tokenize("stmt s1; select s1 such that follows*(3, s1)");
 

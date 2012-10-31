@@ -12,6 +12,7 @@
 #include "PKB.h"
 #include "Helper.h"
 
+
 void IEvalQuery::initNewQuery()
 {
 	allStmtsFirst = false;
@@ -612,7 +613,7 @@ void IEvalQuery::EvaluateFollows()
 		currentSecondIndices.insert(atoi(currentSecondVariableName.c_str()));
 		currentSecondVariableNo = atoi(currentFirstVariableName.c_str());
 	}
-
+						
 	if (firstNumber == false)
 		populateVariableIndices(currentFirstVariableType, 1);
 
@@ -622,7 +623,7 @@ void IEvalQuery::EvaluateFollows()
 	if (firstNumber == true && secondNumber == true) //special case
 	{
 		projectBool = true; //answer is a boolean
-		if (PKB::follows.isFollowsStar(currentFirstVariableNo, currentSecondVariableNo))
+		if (PKB::follows.isFollows(currentFirstVariableNo, currentSecondVariableNo))
 			boolAnswer.push_back("true");
 		else
 			boolAnswer.push_back("false");
@@ -632,7 +633,7 @@ void IEvalQuery::EvaluateFollows()
 		for (int x = 1; x <= PKB::maxProgLines; x++)
 		{
 			for (int y = 1; y <= PKB::maxProgLines; y++)
-				if (PKB::follows.isFollowsStar(x, y))
+				if (PKB::follows.isFollows(x, y))
 				{
 					firstVariableAnswer.push_back(Helper::intToString(x));
 					secondVariableAnswer.push_back(Helper::intToString(y));
@@ -644,7 +645,7 @@ void IEvalQuery::EvaluateFollows()
 		for (int x = 1; x <= PKB::maxProgLines; x++)
 		{
 			for (auto y = currentSecondIndices.begin(); y != currentSecondIndices.end(); y++)
-				if (PKB::follows.isFollowsStar(x, *y))
+				if (PKB::follows.isFollows(x, (*y)))
 				{
 					firstVariableAnswer.push_back(Helper::intToString(x));
 					secondVariableAnswer.push_back(Helper::intToString(*y));
@@ -656,7 +657,7 @@ void IEvalQuery::EvaluateFollows()
 		for (auto x = currentFirstIndices.begin(); x != currentFirstIndices.end(); x++)
 		{
 			for (int y = 1; y <= PKB::maxProgLines; y++)
-				if (PKB::follows.isFollowsStar(*x, y))
+				if (PKB::follows.isFollows((*x), y))
 				{
 					firstVariableAnswer.push_back(Helper::intToString(*x));
 					secondVariableAnswer.push_back(Helper::intToString(y));
@@ -668,13 +669,23 @@ void IEvalQuery::EvaluateFollows()
 		for (auto x = currentFirstIndices.begin(); x != currentFirstIndices.end(); x++)
 		{
 			for (auto y = currentSecondIndices.begin(); y != currentSecondIndices.end(); y++)
-				if (PKB::follows.isFollowsStar(*x,  *y))
+				if (PKB::follows.isFollows(int (*x),  int (*y)))
 				{
 					firstVariableAnswer.push_back(Helper::intToString(*x));
 					secondVariableAnswer.push_back(Helper::intToString(*y));
 				}
 		}
 	}
+
+	//Resetting all the flags and stuff, todo: put at bottom of 2nd for loop
+	firstNumber = false;
+	secondNumber = false;
+	allStmtsFirst = false;
+	allStmtsSecond = false;
+	currentFirstIndices.clear();
+	currentSecondIndices.clear();
+	firstVariableAnswer.clear();
+	secondVariableAnswer.clear();
 }
 
 void IEvalQuery::EvaluateFollowsStar()

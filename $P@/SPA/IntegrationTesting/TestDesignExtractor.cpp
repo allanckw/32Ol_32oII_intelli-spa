@@ -10,7 +10,7 @@
 #include "../SPA/PKB.h"
 
 // Registers the fixture into the 'registry'
-CPPUNIT_TEST_SUITE_REGISTRATION(TestDesignExtractor); // Note 4 
+//CPPUNIT_TEST_SUITE_REGISTRATION(TestDesignExtractor); // Note 4 
 
 TestDesignExtractor::TestDesignExtractor(void)
 {

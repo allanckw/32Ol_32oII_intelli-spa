@@ -12,6 +12,7 @@
 #include "../SPA/QueryPreprocessor.h"
 #include "../SPA/QueryTreeBuilder.h"
 #include "../SPA/SingleQueryEvaluator.h"
+#include "../SPA/IEvalQuery.h"
 #include "../SPA/QueryEnums.h"
 
 // Registers the fixture into the 'registry'
@@ -29,7 +30,7 @@ TestSingleQueryEvaluator::~TestSingleQueryEvaluator(void)
 void TestSingleQueryEvaluator::TestSingleQueryEvaluatorBuilder()
 {  
 	try{
-	Parser* p = new Parser("D:\\SPA\\lalala\\Source.txt");//test src above
+	Parser* p = new Parser("F:\\3201_3202\\SPA\\Source.txt");//test src above
 	
 		p->buildAST();
 		PKB::rootNode;
@@ -51,7 +52,7 @@ void TestSingleQueryEvaluator::TestSingleQueryEvaluatorBuilder()
 	/////////////////
 	//Follows tests//
 
-	//tokens = QP.tokenize("stmt s1; select s1 such that follows(3, s1)");
+	tokens = QP.tokenize("stmt s1; select s1 such that follows(3, s1)");
 	//tokens = QP.tokenize("stmt s1; select s1 such that follows(s1, 4)");
 	//tokens = QP.tokenize("stmt s1; select s1 such that follows(9, s1)");
 	//tokens = QP.tokenize("stmt s1; select s1 such that follows(2, s1)");
@@ -99,15 +100,15 @@ void TestSingleQueryEvaluator::TestSingleQueryEvaluatorBuilder()
 
 	QPP.preProcess(tokens);
 	QTB.buildQueryTree(QPP.getUserVariables(), QPP.getSelectVariables(), QPP.getRelationships(), QPP.getConditions());
-	SingleQueryEvaluator SQE;
+	IEvalQuery EQ;
 	vector<vector<QueryTreeNode*>> QT;
 	QT = QTB.getQueryTree();
-	ans = SQE.returnAnswer(QT);
+	ans = EQ.evaluateQuery(QT);
 
 	//CPPUNIT_ASSERT(ans.empty() == false);
 	//CPPUNIT_ASSERT(ans.empty() == true);
 
-	string a = ans.at(0);
+	//string a = ans.at(0);
 
 	///////////////////
 	//Follows asserts//

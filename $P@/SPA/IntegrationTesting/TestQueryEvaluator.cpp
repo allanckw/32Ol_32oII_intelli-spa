@@ -15,7 +15,7 @@
 #include "../SPA/QueryEnums.h"
 
 // Registers the fixture into the 'registry'
-CPPUNIT_TEST_SUITE_REGISTRATION(TestQueryEvaluator); // Note 4 
+//CPPUNIT_TEST_SUITE_REGISTRATION(TestQueryEvaluator); // Note 4 
 
 TestQueryEvaluator::TestQueryEvaluator(void)
 {

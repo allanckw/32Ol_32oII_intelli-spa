@@ -12,8 +12,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\CallsTable.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\Helper.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\IEvalQuery.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\QueryEvaluator.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\SingleQueryEvaluator.h" />
     <ClInclude Include="QuerySelNode.h" />
     <ClInclude Include="QueryCondNode.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\FollowsTable.h" />
@@ -42,9 +44,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\CallsTable.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\Helper.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\IEvalQuery.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\QueryEvaluator.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\QuerySelNode.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\SingleQueryEvaluator.cpp" />
     <ClCompile Include="QueryCondNode.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\FollowsTable.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\ModifiesTable.cpp" />
@@ -74,7 +78,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>

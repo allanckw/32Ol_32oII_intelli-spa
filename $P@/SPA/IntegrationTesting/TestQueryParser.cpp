@@ -9,7 +9,7 @@
 #include "../SPA/DesignExtractor.h"
 #include "../SPA/PKB.h"
 
-CPPUNIT_TEST_SUITE_REGISTRATION(TestQueryParser); // Note 4 
+//CPPUNIT_TEST_SUITE_REGISTRATION(TestQueryParser); // Note 4 
 
 
 TestQueryParser::TestQueryParser(void)

@@ -1,16 +1,39 @@
 #pragma once
 #include "stdafx.h"
 #include "QueryTreeBuilder.h"
+#include "QueryEnums.h"
+#include "QueryTreeNode.h"
+#include "QuerySelNode.h"
+#include "QueryRelNode.h"
 
 class IEvalQuery
 {
 private:
 
 	//Copied from previous evaluator.. not sure how to use yet tho -.-
-	unordered_map<string, pair<bool, vector<string>>> answer;
-	vector<string> intersection(vector<string>, vector<string>);
-	vector<string> listfirst(vector<pair<string, string>>);
-	vector<string> listsecond(vector<pair<string, string>>);
+	bool allStmtsFirst, allStmtsSecond, allProcsFirst, allProcsSecond, allVarsSecond;
+	vector<string> answer;
+	unordered_set<STMT> currentFirstIndices, currentSecondIndices;
+	void populateVariableIndices(QueryEnums::QueryVar, int index);
+
+	vector<QueryTreeNode*> currentCluster;
+	QueryTreeNode* currentNode;
+	QueryTreeNode::QTNodeType currentNodeType;
+
+	QueryRelNode* currentRelationshipNode;
+	QueryEnums::QueryRel currentRelationshipType;
+	QueryEnums::QueryVar currentFirstVariableType, currentSecondVariableType;
+	string currentFirstVariableName, currentSecondVariableName;
+	int currentFirstVariableNo, currentSecondVariableNo;
+	bool firstNumber, secondNumber; 
+	bool firstFixedProcedure , secondFixedProcedure , secondFixedVariable ;
+	vector<string> boolAnswer;
+	vector<string> firstVariableAnswer, secondVariableAnswer;
+	bool projectBool ;
+
+	QuerySelNode* currentSelNode;
+	vector<pair<QueryEnums::QueryVar, string>> selected;
+
 
 	//Methods For Evaluating Relationships
 	void IEvalQuery::EvaluateModifies();
@@ -29,13 +52,15 @@ private:
 
 	void IEvalQuery::EvaluateCallStar();
 
+	
+
 	//TODO: FOR CS3202
 	//Affects, Affects*
 	//Next, Next*
 	//Etc..
 
 public:
-
-	static string evaluateQuery(QueryTree qt);
+	IEvalQuery::IEvalQuery();
+	vector<string> evaluateQuery(QueryTree qt);
 };
 

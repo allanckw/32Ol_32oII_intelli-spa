@@ -36,6 +36,15 @@
     <ClCompile Include="..\..\..\$P%40\SPA\IntegrationTesting\TestQueryEvaluator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\$P%40\SPA\IntegrationTesting\TestQueryPreprocessor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\$P%40\SPA\IntegrationTesting\TestQueryTreeBuilder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\$P%40\SPA\IntegrationTesting\TestSingleQueryEvaluator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\$P%40\SPA\IntegrationTesting\source\TestBuildAST.h">
@@ -54,6 +63,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\$P%40\SPA\IntegrationTesting\TestQueryEvaluator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\$P%40\SPA\IntegrationTesting\TestQueryTreeBuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\$P%40\SPA\IntegrationTesting\TestSingleQueryEvaluator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\$P%40\SPA\IntegrationTesting\TestQueryPreprocessor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

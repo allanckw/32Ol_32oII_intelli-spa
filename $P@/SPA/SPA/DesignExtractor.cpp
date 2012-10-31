@@ -8,7 +8,6 @@ static unordered_map <PROC, int> procCount;
 static unordered_map <PROC, vector< stack<ASTStmtNode*> > > savestate;
 
 
-
 void DesignExtractor::extractDesign()
 {
 	//Do two traversals
@@ -37,8 +36,7 @@ void DesignExtractor::extractDesign()
 	totalNumOfProcs = PKB::procedures.getSize();
 
 	buildFirstRound(); //will build call table, statement and subtables (call, assign, while, if lists)
-	PKB::calls.optimizeCallsTable();
-
+	
 	//toposort
 	vector<PROC> toposort;
 	queue<PROC> insertableNodes;
@@ -73,6 +71,7 @@ void DesignExtractor::extractDesign()
 void DesignExtractor::CompleteExtraction()
 {
 	PKB::maxProgLines = PKB::statementTable.size();
+	PKB::calls.optimizeCallsTable();
 	PKB::modifies.optimizeModifiesTable();
 	PKB::uses.optimizeUsesTable();
 }
@@ -302,7 +301,7 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 				ASTExprNode* exprNode = exprStack.top();
 				exprStack.pop();
 				if ((*exprNode).getType() == ASTNode::Variable) {
-					VAR usesVar = (*exprNode).getValue(); 
+					VAR usesVar = (*exprNode).getValue();
 					PKB::uses.insertProcUses(currentProc, usesVar);
 					PKB::uses.insertStmtUses(currentStmtNumber, usesVar);
 					while (!DFSstack.empty()) {
@@ -332,8 +331,9 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 							}
 						}
 					}
-				} //a variable would not have any children
-				else if ((*exprNode).isHasChildren()) {
+				} else if ((*exprNode).getType() == ASTNode::Constant) {
+					PKB::constantsTable[(*exprNode).getValue()].push_back(currentStmtNumber);
+				} else {
 					exprStack.push((ASTExprNode*) (*exprNode).getChild(1));
 					exprStack.push((ASTExprNode*) (*exprNode).getChild(0));
 				}
@@ -476,4 +476,3 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 		}
 	}
 }
-

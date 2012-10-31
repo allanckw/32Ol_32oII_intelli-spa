@@ -31,6 +31,8 @@ public:
 	static unordered_set<STMT> whileTable;
 	static unordered_set<STMT> ifTable;
 	static vector<pair<STMT, STMT>> TheBeginningAndTheEnd;
+	//varIndex -> vector containing all statements using that var
+	static unordered_map<VAR, vector<STMT>> constantsTable;
 
 
 };

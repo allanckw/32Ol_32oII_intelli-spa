@@ -21,3 +21,4 @@ unordered_set<STMT> PKB::callTable;
 unordered_set<STMT> PKB::whileTable;
 unordered_set<STMT> PKB::ifTable;
 vector<pair<STMT, STMT>> PKB::TheBeginningAndTheEnd;
+unordered_map<VAR, vector<STMT>> PKB::constantsTable;

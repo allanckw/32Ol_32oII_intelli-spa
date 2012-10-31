@@ -737,7 +737,7 @@ vector<string> QueryEvaluator::returnAnswer(QueryPreprocessor querypreprocessor,
 						}
 					}
 					QueryProjectNode* newprojnode = new QueryProjectNode(newans);
-					querycluster.push_back(newprojnode);
+					answer.push_back(newprojnode);
 					} else {
 					QueryProjectNode* newprojnode = new QueryProjectNode(newans);
 					querycluster.push_back(newprojnode);

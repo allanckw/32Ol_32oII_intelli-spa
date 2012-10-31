@@ -92,6 +92,11 @@ void TestSingleQueryEvaluator::TestSingleQueryEvaluatorBuilder()
 	//End Uses tests//
 	//////////////////
 
+	///////////////
+	//Calls tests//
+
+	tokens = QP.tokenize("proc p1, p2; select p1 such that calls(p1, p2)");
+
 	QPP.preProcess(tokens);
 	QTB.buildQueryTree(QPP.getUserVariables(), QPP.getSelectVariables(), QPP.getRelationships(), QPP.getConditions());
 	SingleQueryEvaluator SQE;
@@ -214,4 +219,13 @@ void TestSingleQueryEvaluator::TestSingleQueryEvaluatorBuilder()
 
 	//End Uses asserts//
 	////////////////////
+
+	/////////////////
+	//Calls asserts//
+
+	//CPPUNIT_ASSERT(a.compare("lain"));
+	//CPPUNIT_ASSERT(ans.size() == 1);
+
+	//End Calls Asserts//
+	/////////////////////
 }

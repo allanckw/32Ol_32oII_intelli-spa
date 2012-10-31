@@ -101,7 +101,7 @@ vector<string> SingleQueryEvaluator::returnAnswer(vector<vector<QueryTreeNode*>>
 	string currentFirstVariableName, currentSecondVariableName;
 	int currentFirstVariableNo, currentSecondVariableNo;
 	bool firstNumber = false, secondNumber = false; 
-	bool firstFixedProcedure = false, secondFixedVariable = false;
+	bool firstFixedProcedure = false, secondFixedProcedure = false, secondFixedVariable = false;
 	vector<string> boolAnswer;
 	vector<string> firstVariableAnswer, secondVariableAnswer;
 	bool projectBool = false;
@@ -326,8 +326,6 @@ vector<string> SingleQueryEvaluator::returnAnswer(vector<vector<QueryTreeNode*>>
 								boolAnswer.push_back("true");
 							else
 								boolAnswer.push_back("false");
-
-							break; //we're done here
 						}
 						else if (allStmtsFirst == true && allStmtsSecond == true)
 						{
@@ -722,8 +720,175 @@ vector<string> SingleQueryEvaluator::returnAnswer(vector<vector<QueryTreeNode*>>
 							throw SPAException("No case matches this query; not supposed to happen");
 					}
 					break;
+					case QueryEnums::Calls:
+					{
+						//Assume correct input, ie. 2 procedures and nothing else
+						if (currentFirstVariableName.front() == '\"' && 
+							currentFirstVariableName.at(currentFirstVariableName.size() - 1) == '\"')
+						{
+							firstFixedProcedure = true;
+							if (currentFirstVariableName.size() == 3)
+							{
+								currentFirstVariableName = charToString(currentFirstVariableName.at(1));
+								currentFirstVariableNo = PKB::variables.getVARIndex(currentFirstVariableName);
+							}
+							else
+							{
+								currentFirstIndices.insert(PKB::procedures.getPROCIndex(currentFirstVariableName.substr(1, 
+									currentFirstVariableName.size() - 2)));
+								currentFirstVariableNo = (PKB::procedures.getPROCIndex(currentFirstVariableName.substr(1, 
+									currentFirstVariableName.size() - 2)));
+							}
+						}
+
+						if (currentSecondVariableName.front() == '\"' && 
+							currentSecondVariableName.at(currentSecondVariableName.size() - 1) == '\"')
+						{
+							secondFixedProcedure = true;
+							if (currentSecondVariableName.size() == 3)
+							{
+								currentSecondVariableName = charToString(currentSecondVariableName.at(1));
+								currentSecondVariableNo = PKB::variables.getVARIndex(currentSecondVariableName);
+							}
+							else
+							{
+								currentSecondIndices.insert(PKB::procedures.getPROCIndex(currentSecondVariableName.substr(1, 
+									currentSecondVariableName.size() - 2)));
+								currentSecondVariableNo = (PKB::procedures.getPROCIndex(currentSecondVariableName.substr(1, 
+									currentSecondVariableName.size() - 2)));
+							}
+						}
+
+						if (firstFixedProcedure == false)
+							populateFirstVariableIndices(currentFirstVariableType);
+						if (secondFixedProcedure == false)
+							populateSecondVariableIndices(currentSecondVariableType);
+
+						if (firstFixedProcedure == true && secondFixedProcedure == true)
+						{
+							projectBool = true;
+							if (PKB::calls.isCalled(currentFirstVariableNo, currentSecondVariableNo))
+								boolAnswer.push_back("True");
+							else
+								boolAnswer.push_back("False");
+						}
+						else if (firstFixedProcedure == true && allProcsSecond == true)
+						{
+							for (int x = 1; x <= PKB::procedures.getSize(); x++)
+							{
+								if (PKB::calls.isCalled(currentFirstVariableNo, x))
+									secondVariableAnswer.push_back(intToString(x));
+							}
+						}
+						else if (secondFixedProcedure == true && allProcsFirst == true)
+						{
+							for (int x = 1; x <= PKB::procedures.getSize(); x++)
+							{
+								if (PKB::calls.isCalled(x, currentSecondVariableNo))
+									firstVariableAnswer.push_back(intToString(x));
+							}
+						}
+						else
+						{
+							for (auto x = currentFirstIndices.begin(); x != currentFirstIndices.end(); x++)
+							{
+								for (auto y = currentSecondIndices.begin(); y != currentSecondIndices.end(); y++)
+								{
+									if (PKB::calls.isCalled(*x, *y))
+									{
+										firstVariableAnswer.push_back(intToString(*x));
+										secondVariableAnswer.push_back(intToString(*y));
+									}
+								}
+							}
+						}
+					}
+					break;
+					case QueryEnums::CallsStar:
+					{
+						//Assume correct input, ie. 2 procedures and nothing else
+						if (currentFirstVariableName.front() == '\"' && 
+							currentFirstVariableName.at(currentFirstVariableName.size() - 1) == '\"')
+						{
+							firstFixedProcedure = true;
+							if (currentFirstVariableName.size() == 3)
+							{
+								currentFirstVariableName = charToString(currentFirstVariableName.at(1));
+								currentFirstVariableNo = PKB::variables.getVARIndex(currentFirstVariableName);
+							}
+							else
+							{
+								currentFirstIndices.insert(PKB::procedures.getPROCIndex(currentFirstVariableName.substr(1, 
+									currentFirstVariableName.size() - 2)));
+								currentFirstVariableNo = (PKB::procedures.getPROCIndex(currentFirstVariableName.substr(1, 
+									currentFirstVariableName.size() - 2)));
+							}
+						}
+
+						if (currentSecondVariableName.front() == '\"' && 
+							currentSecondVariableName.at(currentSecondVariableName.size() - 1) == '\"')
+						{
+							secondFixedProcedure = true;
+							if (currentSecondVariableName.size() == 3)
+							{
+								currentSecondVariableName = charToString(currentSecondVariableName.at(1));
+								currentSecondVariableNo = PKB::variables.getVARIndex(currentSecondVariableName);
+							}
+							else
+							{
+								currentSecondIndices.insert(PKB::procedures.getPROCIndex(currentSecondVariableName.substr(1, 
+									currentSecondVariableName.size() - 2)));
+								currentSecondVariableNo = (PKB::procedures.getPROCIndex(currentSecondVariableName.substr(1, 
+									currentSecondVariableName.size() - 2)));
+							}
+						}
+
+						if (firstFixedProcedure == false)
+							populateFirstVariableIndices(currentFirstVariableType);
+						if (secondFixedProcedure == false)
+							populateSecondVariableIndices(currentSecondVariableType);
+
+						if (firstFixedProcedure == true && secondFixedProcedure == true)
+						{
+							projectBool = true;
+							if (PKB::calls.isCalledStar(currentFirstVariableNo, currentSecondVariableNo))
+								boolAnswer.push_back("True");
+							else
+								boolAnswer.push_back("False");
+						}
+						else if (firstFixedProcedure == true && allProcsSecond == true)
+						{
+							for (int x = 1; x <= PKB::procedures.getSize(); x++)
+							{
+								if (PKB::calls.isCalledStar(currentFirstVariableNo, x))
+									secondVariableAnswer.push_back(intToString(x));
+							}
+						}
+						else if (secondFixedProcedure == true && allProcsFirst == true)
+						{
+							for (int x = 1; x <= PKB::procedures.getSize(); x++)
+							{
+								if (PKB::calls.isCalledStar(x, currentSecondVariableNo))
+									firstVariableAnswer.push_back(intToString(x));
+							}
+						}
+						else
+						{
+							for (auto x = currentFirstIndices.begin(); x != currentFirstIndices.end(); x++)
+							{
+								for (auto y = currentSecondIndices.begin(); y != currentSecondIndices.end(); y++)
+								{
+									if (PKB::calls.isCalledStar(*x, *y))
+									{
+										firstVariableAnswer.push_back(intToString(*x));
+										secondVariableAnswer.push_back(intToString(*y));
+									}
+								}
+							}
+						}
+					}
+					break;
 				}
-				///next case here
 				break;
 			case QueryTreeNode::Condition:
 				break;

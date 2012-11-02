@@ -4,8 +4,8 @@
 class QueryParser
 {
 private:
-	vector<string> tokens;
+	static vector<string> tokens;
 
 public:
-	vector<string> tokenize(string);
+	static vector<string> tokenize(string);
 };

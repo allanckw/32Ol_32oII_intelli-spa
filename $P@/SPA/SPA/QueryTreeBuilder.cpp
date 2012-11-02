@@ -8,6 +8,7 @@
 #include "QuerySelNode.h"
 #include "QueryProjectNode.h"
 #include "QueryCondNode.h"
+#include "QueryLastSelNode.h"
 #include "QueryTreeBuilder.h"
 #include "QueryEnums.h"
 
@@ -41,17 +42,23 @@ void QueryTreeBuilder::buildQueryTree(unordered_map<int, vector<string>> userVar
 			{
 				currentVariableType = (QueryEnums::QueryVar) (*it).first;
 				currentVariables = (*it).second;
-				for (int i = 0; i < currentVariables.size(); i++)
+				if (currentVariableType == QueryEnums::Boolean)
+					selectVars[currentVariableType].push_back("false"); //just for the sake of adding something
+				else
 				{
-					if (currentVariables.at(i).compare(rNode->getFirstVariableName()) == 0 ||
-						currentVariables.at(i).compare(rNode->getSecondVariableName()) == 0)
+					for (int i = 0; i < currentVariables.size(); i++)
 					{
-						selectVars[currentVariableType].push_back(currentVariables.at(i));
-	/*					if(!(selectVariablesLeft[currentVariableType].size() == 0))
+						if (currentVariables.at(i).compare(rNode->getFirstVariableName()) == 0 ||
+							currentVariables.at(i).compare(rNode->getSecondVariableName()) == 0)
 						{
-							cout<<selectVariablesLeft[currentVariableType].size();
-							selectVariablesLeft[currentVariableType].erase(selectVariablesLeft[currentVariableType].begin() + i);
-						}*/
+							selectVars[currentVariableType].push_back(currentVariables.at(i));
+							if(!(selectVariablesLeft[currentVariableType].size() == 0))
+							{
+								cout<<selectVariablesLeft[currentVariableType].size();
+								selectVariablesLeft[currentVariableType].erase
+									(selectVariablesLeft[currentVariableType].begin() + i);
+							}
+						}
 					}
 				}
 				QuerySelNode* sNode = new QuerySelNode(selectVars);
@@ -92,8 +99,8 @@ void QueryTreeBuilder::buildQueryTree(unordered_map<int, vector<string>> userVar
 					if (currentVariables.at(j).compare(cNode->getConditionVariableName()) == 0)
 					{
 						selectVars[currentVariableType].push_back(currentVariables.at(j));
-					/*	if(!(selectVariablesLeft[currentVariableType].size() == 0))
-							selectVariablesLeft[currentVariableType].erase(selectVariablesLeft[currentVariableType].begin() + i);*/
+						if(!(selectVariablesLeft[currentVariableType].size() == 0))
+							selectVariablesLeft[currentVariableType].erase(selectVariablesLeft[currentVariableType].begin() + i);
 					}
 				}
 				QuerySelNode* sNode = new QuerySelNode(selectVars);
@@ -116,26 +123,22 @@ void QueryTreeBuilder::buildQueryTree(unordered_map<int, vector<string>> userVar
 		}
 	}
 
-	//Create a dummy node for remaining select variables not found in relationships/conditions
-	//
-	//if (!(selectVariablesLeft.begin() == selectVariablesLeft.end()))
-	//{
-	//	QueryRelNode* blankRNode = new QueryRelNode();
-	//	QuerySelNode* sNode = new QuerySelNode(selectVariables);
-	//	QueryProjectNode* blankPNode = new QueryProjectNode();
-	//	//Form cluster
-	//	blankRNode->setParent(sNode);
-	//	sNode->setChild(blankRNode);
-	//	sNode->setParent(blankPNode);
-	//	blankPNode->setChild(sNode);
-	//	qtCluster.push_back(blankRNode);
-	//	qtCluster.push_back(sNode);
-	//	qtCluster.push_back(blankPNode);
-	//	//Throw cluster into query tree
-	//	queryTree.push_back(qtCluster);
-	//	//clear cluster for next insertion
-	//	qtCluster.clear();
-	//}
+	//Create a dummy cluster for remaining select variables not found in relationships/conditions
+	QueryRelNode* blankRNode = new QueryRelNode();
+	QueryLastSelNode* sNode = new QueryLastSelNode(selectVariablesLeft); //can be empty
+	QueryProjectNode* blankPNode = new QueryProjectNode();
+	//Form cluster
+	blankRNode->setParent(sNode);
+	sNode->setChild(blankRNode);
+	sNode->setParent(blankPNode);
+	blankPNode->setChild(sNode);
+	qtCluster.push_back(blankRNode);
+	qtCluster.push_back(sNode);
+	qtCluster.push_back(blankPNode);
+	//Throw cluster into query tree
+	queryTree.push_back(qtCluster);
+	//clear cluster for next insertion
+	qtCluster.clear();
 
 	return;
 }

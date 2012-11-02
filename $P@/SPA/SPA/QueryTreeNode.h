@@ -8,7 +8,9 @@ public:
 		Relationship,
 		Condition,
 		Select,
-		Project
+		Project,
+		LastSelect,
+		Dummy
 	};
 	QueryTreeNode();
 	void setParent(QueryTreeNode*);

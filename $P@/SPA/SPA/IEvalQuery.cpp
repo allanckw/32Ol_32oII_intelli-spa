@@ -1,6 +1,7 @@
 #pragma once
 #include "IEvalQuery.h"
 #include "stdafx.h"
+#include "QueryParser.h"
 #include "QueryTreeNode.h"
 #include "QueryTreeBuilder.h"
 #include "QueryPreprocessor.h"
@@ -8,7 +9,10 @@
 #include "QueryRelNode.h"
 #include "QuerySelNode.h"
 #include "QueryCondNode.h"
+#include "QueryLastSelNode.h"
 #include "QueryEnums.h"
+#include "ASTNode.h"
+#include "ASTStmtNode.h"
 #include "PKB.h"
 #include "Helper.h"
 
@@ -21,6 +25,7 @@ void IEvalQuery::initNewQuery()
 	allProcsFirst = false;
 	allProcsSecond = false;
 	
+	allVarsFirst = false;
 	allVarsSecond = false;
 
 	firstNumber = false;
@@ -30,15 +35,18 @@ void IEvalQuery::initNewQuery()
 	secondFixedProcedure = false;
 	secondFixedVariable = false;
 
+	boolAnswer = false;
 	projectBool = false;
 
 	answer.clear();
 }
 
 //I Evaluate Query, I PWNED ALL THE CLASSES HERE ! @.@
-string IEvalQuery::evaluateQuery(QueryTree qt)
+list<string> IEvalQuery::evaluateQuery(QueryTree qt)
 {
 	initNewQuery();
+
+	string a;
 
 	for (int i = 0; i< qt.size(); i++)
 	{
@@ -93,8 +101,8 @@ string IEvalQuery::evaluateQuery(QueryTree qt)
 				case QueryEnums::AffectsStar:
 		//			EvaluateAffectsStar();
 					break;
-				case QueryEnums::Patterns:
-		//			EvaluateAffectsStar();
+				case QueryEnums::Pattern:
+		//			EvaluatePattern();
 					break;
 				default:
 					break;
@@ -104,25 +112,87 @@ string IEvalQuery::evaluateQuery(QueryTree qt)
 				currentSelNode = new QuerySelNode();
 				currentSelNode = (QuerySelNode*) currentNode;
 				selected = currentSelNode->getSelectedVariables();
-				for (int x = 0; x < selected.size(); x++)
+				QueryEnums::QueryVar selectType;
+				if (projectBool == true) //When parameters of relationship are a combination of fixed and wildcards) 
 				{
-					if (currentFirstVariableName.compare(selected.at(x).second) == 0)
+					if (boolAnswer == true) //if false, answer will be empty and will be filled in with a None at the end
 					{
-						for (auto y = firstVariableAnswer.begin(); y != firstVariableAnswer.end(); y++)
-							answer.push_back((*y));
+						allStmtsFirst = false;
+						allProcsFirst = false;
+						//Implementation below is for ONLY ONE SELECT VARIABLE
+						for (int i = 0; i < selected.size(); i++)
+						{
+							selectType = selected.at(i).first;
+							currentFirstIndices.clear();
+							populateVariableIndices(selectType, 1);
+							if (allStmtsFirst == true)
+							{
+								for (int i = 1; i <= PKB::maxProgLines; i++)
+									answer.push_back(Helper::intToString(i));
+							}
+							else if (allProcsFirst == true)
+							{
+								for (int i = 0; i < PKB::procedures.getSize(); i++)
+									answer.push_back(PKB::procedures.getPROCName(i));
+							}
+							else
+							{
+								for (auto z = currentFirstIndices.begin(); z != currentFirstIndices.end(); z++)
+									answer.push_back(Helper::intToString(*z));
+							}
+						}
 					}
-					if (currentSecondVariableName.compare(selected.at(x).second) == 0)
+				}
+				else if (selectType == QueryEnums::Boolean)
+				{
+					if (boolAnswer == true || !firstVariableAnswer.empty() || !secondVariableAnswer.empty())
+						answer.push_back("True");
+					else
+						answer.push_back("False");
+				}
+				else
+				{
+					for (int x = 0; x < selected.size(); x++)
 					{
-						for (auto y = secondVariableAnswer.begin(); y != secondVariableAnswer.end(); y++)
-							answer.push_back((*y));
+						if (currentFirstVariableName.compare(selected.at(x).second) == 0)
+						{
+							for (auto z = firstVariableAnswer.begin(); z != firstVariableAnswer.end(); z++)
+								answer.push_back((*z));
+						}
+						if (currentSecondVariableName.compare(selected.at(x).second) == 0)
+						{
+							for (auto z = secondVariableAnswer.begin(); z != secondVariableAnswer.end(); z++)
+								answer.push_back((*z));
+						}
 					}
 				}
 			}
-				break;
+			break;
 			case QueryTreeNode::Project:
 			{
 				//what do i do with this useless piece of crap?
 			}
+			break;
+			case QueryTreeNode::LastSelect:
+				{
+					lastSelNode = new QueryLastSelNode();
+					lastSelNode = (QueryLastSelNode*) currentNode;
+					selected = lastSelNode->getRemaindingSelectedVariables();
+
+					if ((!firstVariableAnswer.empty() || !secondVariableAnswer.empty())
+						&& !selected.empty()) //If select variables were not found in reladition excluding projectBool case
+					{	
+						currentFirstIndices.clear();
+						for (int i = 0; i < selected.size(); i++)
+						{
+							populateVariableIndices(selected.at(i).first, 1);
+							for (auto y = currentFirstIndices.begin(); y != currentFirstIndices.end(); y++)
+								answer.push_back(Helper::intToString(*y));
+						}
+					}
+				}
+				break;
+			case QueryTreeNode::Dummy: //Do nothing since this is just a dummy node, and is still a valid node type
 				break;
 			default:
 				throw SPAException("Unidentified QT node");
@@ -132,19 +202,7 @@ string IEvalQuery::evaluateQuery(QueryTree qt)
 
 	}
 
-	if (projectBool == false && answer.empty())
-	{
-		return ("None");
-	}
-	else if (projectBool == true)
-		return boolAnswer.at(0);
-	else
-	{
-		string a;
-		for (int i = 0; i < answer.size(); i++)
-			a.append(answer.at(i));
-		return a;
-	}
+	return answer;
 }
 
 void IEvalQuery::populateVariableIndices(QueryEnums::QueryVar type, int index)
@@ -168,6 +226,12 @@ void IEvalQuery::populateVariableIndices(QueryEnums::QueryVar type, int index)
 				break;
 			case QueryEnums::Stmt:
 				allStmtsFirst = true;
+				break;
+			case QueryEnums::WildCard:
+				{
+					allStmtsFirst = true;
+					allProcsFirst = true;
+				}
 				break;
 			default:
 				throw SPAException("Invalid first relationship parameter type");
@@ -195,6 +259,13 @@ void IEvalQuery::populateVariableIndices(QueryEnums::QueryVar type, int index)
 			case QueryEnums::Variable:
 				allVarsSecond = true;
 				break;
+			case QueryEnums::WildCard:
+				{
+					allStmtsSecond = true;
+					allProcsSecond = true;
+					allVarsSecond = true;
+				}
+				break;
 			default:
 				throw SPAException("Invalid second relationship parameter type");
 		}
@@ -209,24 +280,20 @@ void IEvalQuery::EvaluateModifies()
 	if (QueryPreprocessor::isNumber(currentFirstVariableName))
 	{
 		firstNumber = true;
-		currentFirstIndices.insert(atoi(currentFirstVariableName.c_str()));
 		currentFirstVariableNo = atoi(currentFirstVariableName.c_str());
 	}
 	else if (currentFirstVariableType == QueryEnums::Procedure && currentFirstVariableName.front() == '\"' && 
-			currentFirstVariableName.at(currentFirstVariableName.size() - 1) == '\"') {
+			currentFirstVariableName.at(currentFirstVariableName.size() - 1) == '\"') 
+	{
 		firstFixedProcedure = true;
 		if (currentFirstVariableName.size() == 3)
 		{
 			currentFirstVariableName = Helper::charToString(currentFirstVariableName.at(1));
-			currentFirstVariableNo = PKB::variables.getVARIndex(currentFirstVariableName);
+			currentFirstVariableNo = PKB::procedures.getPROCIndex(currentFirstVariableName);
 		}
 		else
-		{
-			currentFirstIndices.insert(PKB::procedures.getPROCIndex(currentFirstVariableName.substr(1, 
-				currentFirstVariableName.size() - 2)));
 			currentFirstVariableNo = (PKB::procedures.getPROCIndex(currentFirstVariableName.substr(1, 
 				currentFirstVariableName.size() - 2)));
-		}
 	}
 
 	//For second parameter, i only expect variables either in the form of "ilovestayingupatnight" or 
@@ -237,16 +304,12 @@ void IEvalQuery::EvaluateModifies()
 		secondFixedVariable = true;
 		if (currentSecondVariableName.size() == 3)
 		{
-			currentSecondVariableName = Helper::charToString(currentSecondVariableName.at(1));
+			currentFirstVariableName = Helper::charToString(currentSecondVariableName.at(1));
 			currentSecondVariableNo = PKB::variables.getVARIndex(currentSecondVariableName);
 		}
 		else
-		{
-			currentSecondIndices.insert(PKB::variables.getVARIndex(currentSecondVariableName.substr(1, 
-				currentSecondVariableName.size() - 2)));
 			currentSecondVariableNo = PKB::variables.getVARIndex(currentSecondVariableName.substr(1, 
 				currentSecondVariableName.size() - 2));
-		}
 	}
 						
 	if (firstNumber == false && firstFixedProcedure == false)
@@ -259,18 +322,38 @@ void IEvalQuery::EvaluateModifies()
 	{
 		projectBool = true; //answer is a boolean
 		if (PKB::modifies.isModifiedProc(currentFirstVariableNo, currentSecondVariableNo))
-			boolAnswer.push_back("true");
+			boolAnswer = true;
 		else
-			boolAnswer.push_back("false");
+			boolAnswer = false;
+	}
+	else if ((firstFixedProcedure == true && currentSecondVariableType == QueryEnums::WildCard))
+	{
+		projectBool = true;
+		for (int x = 0; x < PKB::variables.getSize(); x++)
+			if (PKB::modifies.isModifiedProc(currentFirstVariableNo, x))
+			{
+				boolAnswer = true; //remember that boolanswer is false by default
+				break;
+			}
 	}
 	else if (firstNumber == true && secondFixedVariable == true)
 	{
 		projectBool = true; //answer is a boolean
 		if (PKB::modifies.isModifiedStmt(currentFirstVariableNo, currentSecondVariableNo))
-			boolAnswer.push_back("true");
+			boolAnswer = true;
 		else
-			boolAnswer.push_back("false");
+			boolAnswer = false;
 
+	}
+	else if ((firstNumber == true && currentSecondVariableType == QueryEnums::WildCard))
+	{
+		projectBool = true;
+		for (int x = 0; x < PKB::variables.getSize(); x++)
+			if (PKB::modifies.isModifiedStmt(currentFirstVariableNo, x))
+			{
+				boolAnswer = true; //remember that boolanswer is false by default
+				break;
+			}
 	}
 	else if (allProcsFirst == true && allVarsSecond == true)
 	{
@@ -336,10 +419,10 @@ void IEvalQuery::EvaluateModifies()
 
 void IEvalQuery::EvaluateUses()
 {
+	//Checks and implementations for first parameter
 	if (QueryPreprocessor::isNumber(currentFirstVariableName))
 	{
 		firstNumber = true;
-		currentFirstIndices.insert(atoi(currentFirstVariableName.c_str()));
 		currentFirstVariableNo = atoi(currentFirstVariableName.c_str());
 	}
 	else if (currentFirstVariableType == QueryEnums::Procedure &&
@@ -348,19 +431,17 @@ void IEvalQuery::EvaluateUses()
 	{
 		firstFixedProcedure = true;
 		if (currentFirstVariableName.size() == 3)
+		if (currentFirstVariableName.size() == 3)
 		{
 			currentFirstVariableName = Helper::charToString(currentFirstVariableName.at(1));
-			currentFirstVariableNo = PKB::variables.getVARIndex(currentFirstVariableName);
+			currentFirstVariableNo = PKB::procedures.getPROCIndex(currentFirstVariableName);
 		}
 		else
-		{
-			currentFirstIndices.insert(PKB::procedures.getPROCIndex(currentFirstVariableName.substr(1, 
-				currentFirstVariableName.size() - 2)));
 			currentFirstVariableNo = (PKB::procedures.getPROCIndex(currentFirstVariableName.substr(1, 
 				currentFirstVariableName.size() - 2)));
-		}
 	}
 
+	//Checks and implementations for second parameter
 	//For second parameter, i only expect variables either in the form of "ilovestayingupatnight" or 
 	//a user defined synonym.
 	if (currentSecondVariableName.front() == '\"' && 
@@ -370,15 +451,11 @@ void IEvalQuery::EvaluateUses()
 		if (currentSecondVariableName.size() == 3)
 		{
 			currentSecondVariableName = Helper::charToString(currentSecondVariableName.at(1));
-			currentSecondVariableNo = PKB::variables.getVARIndex(currentSecondVariableName);
+			currentSecondVariableNo = PKB::procedures.getPROCIndex(currentSecondVariableName);
 		}
 		else
-		{
-			currentSecondIndices.insert(PKB::variables.getVARIndex(currentSecondVariableName.substr(1, 
-				currentSecondVariableName.size() - 2)));
 			currentSecondVariableNo = PKB::variables.getVARIndex(currentSecondVariableName.substr(1, 
 				currentSecondVariableName.size() - 2));
-		}
 	}
 						
 	if (firstNumber == false && firstFixedProcedure == false)
@@ -391,17 +468,37 @@ void IEvalQuery::EvaluateUses()
 	{
 		projectBool = true; //answer is a boolean
 		if (PKB::uses.isUsedProc(currentFirstVariableNo, currentSecondVariableNo))
-			boolAnswer.push_back("true");
+			boolAnswer = true;
 		else
-			boolAnswer.push_back("false");
+			boolAnswer = false;
+	}
+	else if ((firstFixedProcedure == true && currentSecondVariableType == QueryEnums::WildCard))
+	{
+		projectBool = true;
+		for (int x = 0; x < PKB::variables.getSize(); x++)
+			if (PKB::modifies.isModifiedProc(currentFirstVariableNo, x))
+			{
+				boolAnswer = true; //remember that boolanswer is false by default
+				break;
+			}
 	}
 	else if (firstNumber == true && secondFixedVariable == true)
 	{
 		projectBool = true; //answer is a boolean
 		if (PKB::uses.isUsedStmt(currentFirstVariableNo, currentSecondVariableNo))
-			boolAnswer.push_back("true");
+			boolAnswer = true;
 		else
-			boolAnswer.push_back("false");
+			boolAnswer = false;
+	}
+	else if ((firstNumber == true && currentSecondVariableType == QueryEnums::WildCard))
+	{
+		projectBool = true;
+		for (int x = 0; x < PKB::variables.getSize(); x++)
+			if (PKB::modifies.isModifiedStmt(currentFirstVariableNo, x))
+			{
+				boolAnswer = true; //remember that boolanswer is false by default
+				break;
+			}
 	}
 	else if (allProcsFirst == true && allVarsSecond == true)
 	{
@@ -453,22 +550,20 @@ void IEvalQuery::EvaluateUses()
 				secondVariableAnswer.push_back(PKB::variables.getVARName(x));
 		}							
 	}
-	else{
+	else
 		throw SPAException("No case matches this query; not supposed to happen");
-	}
 }
 
 void IEvalQuery::EvaluateParent()
 {
 	if (QueryPreprocessor::isNumber(currentFirstVariableName)){
 		firstNumber = true;
-		currentFirstIndices.insert(atoi(currentFirstVariableName.c_str()));
 		currentFirstVariableNo = atoi(currentFirstVariableName.c_str());
 	}
+
 	if (QueryPreprocessor::isNumber(currentSecondVariableName))
 	{
 		secondNumber = true;
-		currentSecondIndices.insert(atoi(currentSecondVariableName.c_str()));
 		currentSecondVariableNo = atoi(currentFirstVariableName.c_str());
 	}
 						
@@ -478,12 +573,25 @@ void IEvalQuery::EvaluateParent()
 	if (secondNumber == false)
 		populateVariableIndices(currentSecondVariableType, 2);
 
-	if (firstNumber == true && secondNumber == true){ //special case{
+	if (firstNumber == true && secondNumber == true){ //special case
 		projectBool = true; //answer is a boolean
 		if (PKB::parent.isParent(currentFirstVariableNo, currentSecondVariableNo))
-			boolAnswer.push_back("true");
+			boolAnswer = true;
 		else
-			boolAnswer.push_back("false");
+			boolAnswer = false;
+	}
+	else if (currentFirstVariableType == QueryEnums::WildCard && currentSecondVariableType == QueryEnums::WildCard)
+	{
+		projectBool = true;
+		for (int x = 1; x <= PKB::maxProgLines; x++)
+		{
+			for (int y = 1; y <= PKB::maxProgLines; y++)
+				if (PKB::parent.isParent(x, y))
+				{
+					boolAnswer = true;
+					break;
+				}
+		}
 	}
 	else if (allStmtsFirst == true && allStmtsSecond == true)
 	{
@@ -516,7 +624,9 @@ void IEvalQuery::EvaluateParent()
 					secondVariableAnswer.push_back(Helper::intToString(y));
 				}
 		}
-	}else{
+	}
+	else
+	{
 		for (auto x = currentFirstIndices.begin(); x != currentFirstIndices.end(); x++){
 			for (auto y = currentSecondIndices.begin(); y != currentSecondIndices.end(); y++){
 				if (PKB::parent.isParent(int (*x),  int (*y))){
@@ -533,13 +643,12 @@ void IEvalQuery::EvaluateParentStar()
 	if (QueryPreprocessor::isNumber(currentFirstVariableName))
 	{
 		firstNumber = true;
-		currentFirstIndices.insert(atoi(currentFirstVariableName.c_str()));
 		currentFirstVariableNo = atoi(currentFirstVariableName.c_str());
 	}
+
 	if (QueryPreprocessor::isNumber(currentSecondVariableName))
 	{
 		secondNumber = true;
-		currentSecondIndices.insert(atoi(currentSecondVariableName.c_str()));
 		currentSecondVariableNo = atoi(currentFirstVariableName.c_str());
 	}
 						
@@ -553,9 +662,22 @@ void IEvalQuery::EvaluateParentStar()
 	{
 		projectBool = true; //answer is a boolean
 		if (PKB::parent.isParentStar(currentFirstVariableNo, currentSecondVariableNo))
-			boolAnswer.push_back("true");
+			boolAnswer = true;
 		else
-			boolAnswer.push_back("false");
+			boolAnswer = false;
+	}
+	else if (currentFirstVariableType == QueryEnums::WildCard && currentSecondVariableType == QueryEnums::WildCard)
+	{
+		projectBool = true;
+		for (int x = 1; x <= PKB::maxProgLines; x++)
+		{
+			for (int y = 1; y <= PKB::maxProgLines; y++)
+				if (PKB::parent.isParent(x, y))
+				{
+					boolAnswer = true;
+					break;
+				}
+		}
 	}
 	else if (allStmtsFirst == true && allStmtsSecond == true)
 	{
@@ -612,19 +734,17 @@ void IEvalQuery::EvaluateFollows()
 	if (QueryPreprocessor::isNumber(currentFirstVariableName))
 	{
 		firstNumber = true;
-		currentFirstIndices.insert(atoi(currentFirstVariableName.c_str()));
 		currentFirstVariableNo = atoi(currentFirstVariableName.c_str());
 	}
+
 	if (QueryPreprocessor::isNumber(currentSecondVariableName))
 	{
 		secondNumber = true;
-		currentSecondIndices.insert(atoi(currentSecondVariableName.c_str()));
 		currentSecondVariableNo = atoi(currentFirstVariableName.c_str());
 	}
 						
 	if (firstNumber == false)
 		populateVariableIndices(currentFirstVariableType, 1);
-
 	if (secondNumber == false)
 		populateVariableIndices(currentSecondVariableType,2 );
 
@@ -632,10 +752,23 @@ void IEvalQuery::EvaluateFollows()
 	{
 		projectBool = true; //answer is a boolean
 		if (PKB::follows.isFollows(currentFirstVariableNo, currentSecondVariableNo))
-			boolAnswer.push_back("true");
+			boolAnswer = true;
 		else
-			boolAnswer.push_back("false");
+			boolAnswer = false;
 
+	}
+	else if (currentFirstVariableType == QueryEnums::WildCard && currentSecondVariableType == QueryEnums::WildCard)
+	{
+		projectBool = true;
+		for (int x = 1; x <= PKB::maxProgLines; x++)
+		{
+			for (int y = 1; y <= PKB::maxProgLines; y++)
+				if (PKB::follows.isFollows(x, y))
+				{
+					boolAnswer = true;
+					break;
+				}
+		}
 	}
 	else if (allStmtsFirst == true && allStmtsSecond == true)
 	{
@@ -692,13 +825,12 @@ void IEvalQuery::EvaluateFollowsStar()
 	if (QueryPreprocessor::isNumber(currentFirstVariableName))
 	{
 		firstNumber = true;
-		currentFirstIndices.insert(atoi(currentFirstVariableName.c_str()));
 		currentFirstVariableNo = atoi(currentFirstVariableName.c_str());
 	}
+
 	if (QueryPreprocessor::isNumber(currentSecondVariableName))
 	{
 		secondNumber = true;
-		currentSecondIndices.insert(atoi(currentSecondVariableName.c_str()));
 		currentSecondVariableNo = atoi(currentFirstVariableName.c_str());
 	}
 
@@ -712,9 +844,22 @@ void IEvalQuery::EvaluateFollowsStar()
 	{
 		projectBool = true; //answer is a boolean
 		if (PKB::follows.isFollowsStar(currentFirstVariableNo, currentSecondVariableNo))
-			boolAnswer.push_back("true");
+			boolAnswer = true;
 		else
-			boolAnswer.push_back("false");
+			boolAnswer = false;
+	}
+	else if (currentFirstVariableType == QueryEnums::WildCard && currentSecondVariableType == QueryEnums::WildCard)
+	{
+		projectBool = true;
+		for (int x = 1; x <= PKB::maxProgLines; x++)
+		{
+			for (int y = 1; y <= PKB::maxProgLines; y++)
+				if (PKB::follows.isFollowsStar(x, y))
+				{
+					boolAnswer = true;
+					break;
+				}
+		}
 	}
 	else if (allStmtsFirst == true && allStmtsSecond == true)
 	{
@@ -776,15 +921,11 @@ void IEvalQuery::EvaluateCalls()
 		if (currentFirstVariableName.size() == 3)
 		{
 			currentFirstVariableName = Helper::charToString(currentFirstVariableName.at(1));
-			currentFirstVariableNo = PKB::variables.getVARIndex(currentFirstVariableName);
+			currentFirstVariableNo = PKB::procedures.getPROCIndex(currentFirstVariableName);
 		}
 		else
-		{
-			currentFirstIndices.insert(PKB::procedures.getPROCIndex(currentFirstVariableName.substr(1, 
-				currentFirstVariableName.size() - 2)));
 			currentFirstVariableNo = (PKB::procedures.getPROCIndex(currentFirstVariableName.substr(1, 
 				currentFirstVariableName.size() - 2)));
-		}
 	}
 
 	if (currentSecondVariableName.front() == '\"' && 
@@ -794,15 +935,11 @@ void IEvalQuery::EvaluateCalls()
 		if (currentSecondVariableName.size() == 3)
 		{
 			currentSecondVariableName = Helper::charToString(currentSecondVariableName.at(1));
-			currentSecondVariableNo = PKB::variables.getVARIndex(currentSecondVariableName);
+			currentSecondVariableNo = PKB::procedures.getPROCIndex(currentSecondVariableName);
 		}
 		else
-		{
-			currentSecondIndices.insert(PKB::procedures.getPROCIndex(currentSecondVariableName.substr(1, 
-				currentSecondVariableName.size() - 2)));
 			currentSecondVariableNo = (PKB::procedures.getPROCIndex(currentSecondVariableName.substr(1, 
 				currentSecondVariableName.size() - 2)));
-		}
 	}
 
 	if (firstFixedProcedure == false)
@@ -814,9 +951,22 @@ void IEvalQuery::EvaluateCalls()
 	{
 		projectBool = true;
 		if (PKB::calls.isCalled(currentFirstVariableNo, currentSecondVariableNo))
-			boolAnswer.push_back("True");
+			boolAnswer = true;
 		else
-			boolAnswer.push_back("False");
+			boolAnswer = false;
+	}
+	else if (currentFirstVariableType == QueryEnums::WildCard && currentSecondVariableType == QueryEnums::WildCard)
+	{
+		projectBool = true;
+		for (int x = 0; x < PKB::procedures.getSize(); x++)
+		{
+			for (int y = 0; y < PKB::procedures.getSize(); y++)
+				if (PKB::calls.isCalled(x, y))
+				{
+					boolAnswer = true;
+					break;
+				}
+		}
 	}
 	else if (firstFixedProcedure == true && allProcsSecond == true)
 	{
@@ -860,15 +1010,11 @@ void IEvalQuery::EvaluateCallsStar()
 		if (currentFirstVariableName.size() == 3)
 		{
 			currentFirstVariableName = Helper::charToString(currentFirstVariableName.at(1));
-			currentFirstVariableNo = PKB::variables.getVARIndex(currentFirstVariableName);
+			currentFirstVariableNo = PKB::procedures.getPROCIndex(currentFirstVariableName);
 		}
 		else
-		{
-			currentFirstIndices.insert(PKB::procedures.getPROCIndex(currentFirstVariableName.substr(1, 
-				currentFirstVariableName.size() - 2)));
 			currentFirstVariableNo = (PKB::procedures.getPROCIndex(currentFirstVariableName.substr(1, 
 				currentFirstVariableName.size() - 2)));
-		}
 	}
 
 	if (currentSecondVariableName.front() == '\"' && 
@@ -878,15 +1024,11 @@ void IEvalQuery::EvaluateCallsStar()
 		if (currentSecondVariableName.size() == 3)
 		{
 			currentSecondVariableName = Helper::charToString(currentSecondVariableName.at(1));
-			currentSecondVariableNo = PKB::variables.getVARIndex(currentSecondVariableName);
+			currentSecondVariableNo = PKB::procedures.getPROCIndex(currentSecondVariableName);
 		}
 		else
-		{
-			currentSecondIndices.insert(PKB::procedures.getPROCIndex(currentSecondVariableName.substr(1, 
-				currentSecondVariableName.size() - 2)));
 			currentSecondVariableNo = (PKB::procedures.getPROCIndex(currentSecondVariableName.substr(1, 
 				currentSecondVariableName.size() - 2)));
-		}
 	}
 
 	if (firstFixedProcedure == false)
@@ -898,9 +1040,22 @@ void IEvalQuery::EvaluateCallsStar()
 	{
 		projectBool = true;
 		if (PKB::calls.isCalledStar(currentFirstVariableNo, currentSecondVariableNo))
-			boolAnswer.push_back("True");
+			boolAnswer = true;
 		else
-			boolAnswer.push_back("False");
+			boolAnswer = false;
+	}
+	else if (currentFirstVariableType == QueryEnums::WildCard && currentSecondVariableType == QueryEnums::WildCard)
+	{
+		projectBool = true;
+		for (int x = 0; x < PKB::procedures.getSize(); x++)
+		{
+			for (int y = 0; y < PKB::procedures.getSize(); y++)
+				if (PKB::calls.isCalledStar(x, y))
+				{
+					boolAnswer = true;
+					break;
+				}
+		}
 	}
 	else if (firstFixedProcedure == true && allProcsSecond == true)
 	{
@@ -934,6 +1089,167 @@ void IEvalQuery::EvaluateCallsStar()
 	}
 }
 
+//Keep getting child nodes of each node starting from the root and testing to see if they are assign nodes
+//If assign node is found, TryMatch is called to DFS the children of that node to look for pattern match.
 void IEvalQuery::EvaluatePattern()
 {
+	if (currentFirstVariableName.at(0) == '\"' && currentFirstVariableName.at(currentFirstVariableName.size() - 1) == '\"')
+	{
+		if (currentFirstVariableName.size() == 3)
+			currentFirstVariableName = Helper::charToString(currentFirstVariableName.at(1));
+		else
+			currentFirstVariableName = currentFirstVariableName.substr(1, currentFirstVariableName.size() - 2);
+	}
+	else
+		allVarsFirst = true;
+
+	vecMatch = QueryParser::tokenize(currentSecondVariableName);
+
+	stack<ASTNode*> nodesStack;
+	PKB::rootNode;
+	PKB::variables;
+	PKB::procedures;
+
+	nodesStack.push(PKB::rootNode);
+
+	vector<int> stmtLineTrue;
+
+	while(nodesStack.size() > 0)
+	{
+		int tempchk = nodesStack.size();
+		if(nodesStack.top()->getType() == ASTNode::Assign)
+		{
+			ASTNode* temp = nodesStack.top();
+			//chk if match
+
+			/*vector<string> vecmatch;
+			vecmatch.push_back("_");
+*/
+
+			//test space
+			ASTStmtNode* tempnode = (ASTStmtNode*)temp;
+
+			 //isSub is always true for now because we only need to handle _"hi"_ case
+			if (allVarsFirst == true)
+			{
+				for (int i = 0; i < PKB::variables.getSize(); i++)
+				{
+					if(TryMatch(temp,PKB::variables.getVARName(i),vecMatch,true))
+					{
+						ASTStmtNode* tempnode = (ASTStmtNode*)temp;
+						stmtLineTrue.push_back(tempnode->getStmtNumber());
+					}
+				}
+			}
+			else
+			{
+				if(TryMatch(temp,currentFirstVariableName,vecMatch,true))
+				{
+					ASTStmtNode* tempnode = (ASTStmtNode*)temp;
+					stmtLineTrue.push_back(tempnode->getStmtNumber());
+				}
+
+			}
+			nodesStack.pop();
+			//remember to pop	
+		}
+		else
+		{
+			ASTNode* temp = nodesStack.top();
+			nodesStack.pop();
+			int counter = 0;
+
+			while(true)
+			{
+				try
+				{
+				ASTNode* tempushnode = temp->getChild(counter);
+
+				if(tempushnode == 0)
+					break;
+				nodesStack.push(tempushnode);
+				counter++;
+				}
+				catch (exception ex)
+				{
+					break;
+				}
+			}
+			//pop and push
+		}
+	}
+}
+
+//RHS for now handles patterns in the form of "a" or _"a"_
+bool IEvalQuery::TryMatch(ASTNode* testedNode, string targetVar,vector<string> incCodes, bool isSubsTree)
+{
+	if(!(testedNode->getType() == ASTNode::Assign))
+		throw SPAException("Error, this node not an assignNode");
+
+	if(!testedNode->isHasChildren())
+		throw SPAException("Assignment no child error!");
+
+	bool leftTrue = true;
+
+	currentFirstVariableNo = PKB::variables.getVARIndex(targetVar);
+	if(!(targetVar.compare("_") == 0) && currentFirstVariableNo != testedNode->getChild(0)->getValue())
+		leftTrue = false;
+	////////at this point left hand side is ok
+
+	ASTNode* head= testedNode->getChild(1);
+
+	bool rightTrue = false;
+
+	if(incCodes.at(0).compare("_") == 0)
+		rightTrue = true;
+
+	if(leftTrue && rightTrue)
+		return true;
+
+	int rightInt = PKB::variables.getVARIndex(incCodes.at(0));
+
+	if(!isSubsTree)//if not a subtree, since we only handle 1 variable so right side must be a variable if is true
+	{
+		if(head->getChild(1)->getChild(1)->getType() != ASTNode::Variable)//right node is not a variable = auto fail
+			return false;
+		else if(rightInt == head->getChild(1)->getChild(1)->getValue()) //right side value is same as rightint
+			return true;
+		else
+			return false; //if not equal return false
+	}
+	stack<ASTNode*> nodesStack; //if subtree = true
+
+	/*nodesStack.push(head->getChild(0));
+
+	nodesStack.push(head->getChild(1));
+	*/
+	nodesStack.push(head);
+
+	while(nodesStack.size() > 0)
+	{
+		if(nodesStack.top()->getType() == ASTNode::Operator)
+		{
+			ASTNode* tempnode = nodesStack.top();
+			nodesStack.pop();
+			nodesStack.push(tempnode->getChild(1));//add right side in
+
+			nodesStack.push(tempnode->getChild(0));//add left side in
+		}
+		else if(nodesStack.top()->getType() == ASTNode::Variable || nodesStack.top()->getType() == ASTNode::Constant)
+		{
+			//assume is subtree
+
+			if(rightInt == nodesStack.top()->getValue())
+			{
+				return true;
+			}
+			nodesStack.pop();
+		}
+		else
+		{
+			throw SPAException("Error! invalid node kind in operator");
+		}
+	}
+
+	return false;
 }

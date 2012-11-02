@@ -5,15 +5,17 @@
 #include "QueryTreeNode.h"
 #include "QuerySelNode.h"
 #include "QueryRelNode.h"
+#include "QueryLastSelNode.h"
+#include "ASTNode.h"
 
 class IEvalQuery
 {
 private:
 
-	bool allStmtsFirst, allStmtsSecond, allProcsFirst, allProcsSecond, allVarsSecond;
-	vector<string> answer;
+	bool allStmtsFirst, allStmtsSecond, allProcsFirst, allProcsSecond, allVarsFirst, allVarsSecond;
+	list<string> answer;
 
-	unordered_set<STMT> currentFirstIndices, currentSecondIndices;
+	unordered_set<int> currentFirstIndices, currentSecondIndices;
 	void populateVariableIndices(QueryEnums::QueryVar, int index);
 
 	vector<QueryTreeNode*> currentCluster;
@@ -26,14 +28,18 @@ private:
 	string currentFirstVariableName, currentSecondVariableName;
 	int currentFirstVariableNo, currentSecondVariableNo;
 	bool firstNumber, secondNumber; 
-	bool firstFixedProcedure , secondFixedProcedure , secondFixedVariable ;
-	vector<string> boolAnswer;
+	bool firstFixedProcedure , secondFixedProcedure , secondFixedVariable;
 	vector<string> firstVariableAnswer, secondVariableAnswer;
-	bool projectBool ;
+	bool projectBool, boolAnswer; //projectBool = true means that the reladition should return bool instead of vecctor answer
 
 	QuerySelNode* currentSelNode;
 	vector<pair<QueryEnums::QueryVar, string>> selected;
+	QueryLastSelNode* lastSelNode;
 
+	vector<int> stmtLineTrue;
+	vector<string> vecMatch;
+	bool isSub;
+	bool TryMatch(ASTNode*, string, vector<string>, bool);
 
 	//Methods For Evaluating Relationships
 	void IEvalQuery::EvaluateModifies();
@@ -59,9 +65,7 @@ private:
 	//TODO: FOR CS3202
 	//Affects, Affects*
 	//Next, Next*
-	//Etc..
 
 public:
-	string evaluateQuery(QueryTree);
+	list<string> evaluateQuery(QueryTree);
 };
-

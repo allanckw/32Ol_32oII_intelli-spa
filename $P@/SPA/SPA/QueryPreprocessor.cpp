@@ -102,7 +102,7 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 		else
 		{
 			//leave the first letter unchanged because its the only letter needed to be validated 
-			for (int i = 0; i < currentToken.size(); i++)
+			for (int i = 1; i < currentToken.size(); i++)
 				currentToken.at(i) = tolower(currentToken.at(i));
 		}
 

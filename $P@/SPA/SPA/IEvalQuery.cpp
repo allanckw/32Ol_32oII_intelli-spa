@@ -42,7 +42,7 @@ void IEvalQuery::initNewQuery()
 }
 
 //I Evaluate Query, I PWNED ALL THE CLASSES HERE ! @.@
-list<string> IEvalQuery::evaluateQuery(QueryTree qt)
+vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 {
 	initNewQuery();
 

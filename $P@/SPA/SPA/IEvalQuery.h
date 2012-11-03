@@ -13,7 +13,7 @@ class IEvalQuery
 private:
 
 	bool allStmtsFirst, allStmtsSecond, allProcsFirst, allProcsSecond, allVarsFirst, allVarsSecond;
-	list<string> answer;
+	vector<string> answer;
 
 	unordered_set<int> currentFirstIndices, currentSecondIndices;
 	void populateVariableIndices(QueryEnums::QueryVar, int index);
@@ -67,5 +67,5 @@ private:
 	//Next, Next*
 
 public:
-	list<string> evaluateQuery(QueryTree);
+	vector<string> evaluateQuery(QueryTree);
 };

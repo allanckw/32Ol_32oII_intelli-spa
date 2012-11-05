@@ -35,6 +35,7 @@ private:
 	QuerySelNode* currentSelNode;
 	vector<pair<QueryEnums::QueryVar, string>> selected;
 	QueryLastSelNode* lastSelNode;
+	QueryEnums::QueryVar selectType;
 
 	vector<int> stmtLineTrue;
 	vector<string> vecMatch;

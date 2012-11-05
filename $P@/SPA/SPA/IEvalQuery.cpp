@@ -46,8 +46,6 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 {
 	initNewQuery();
 
-	string a;
-
 	for (int i = 0; i< qt.size(); i++)
 	{
 		vector<QueryTreeNode*> cluster = qt.at(i);
@@ -55,151 +53,154 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 		{
 			currentNode = cluster.at(j);
 			currentNodeType = currentNode->getNodeType();			
-			switch (currentNodeType){
-			case QueryTreeNode::Relationship:
-				currentRelationshipNode = new QueryRelNode();
-				currentRelationshipNode = (QueryRelNode*) currentNode;
-				currentRelationshipType = currentRelationshipNode->getRelationshipType();
-				currentFirstVariableName = currentRelationshipNode->getFirstVariableName();
-				currentSecondVariableName = currentRelationshipNode->getSecondVariableName();
-				currentFirstVariableType = currentRelationshipNode->getFirstVariableType();
-				currentSecondVariableType = currentRelationshipNode->getSecondVariableType();
-				switch (currentRelationshipType){
-				case QueryEnums::Follows:
-					EvaluateFollows();
-					break;
-				case QueryEnums::FollowsStar:
-					EvaluateFollowsStar();
-					break;
-				case QueryEnums::Parent:
-					EvaluateParent();
-					break;
-				case QueryEnums::ParentStar:
-					EvaluateParentStar();
-					break;
-				case QueryEnums::Modifies:
-					EvaluateModifies();
-					break;
-				case QueryEnums::Uses:
-					EvaluateUses();
-					break;
-				case QueryEnums::Calls:
-					EvaluateCalls();
-					break;
-				case QueryEnums::CallsStar:
-					EvaluateCallsStar();
-					break;
-				case QueryEnums::Next:
-		//			EvaluateNext();
-					break;
-				case QueryEnums::NextStar:
-		//			EvaluateNextStar();
-					break;
-				case QueryEnums::Affects:
-		//			EvaluateAffects();
-					break;
-				case QueryEnums::AffectsStar:
-		//			EvaluateAffectsStar();
-					break;
-				case QueryEnums::Pattern:
-		//			EvaluatePattern();
-					break;
-				default:
-					break;
-				}
-			case QueryTreeNode::Select:
+			switch (currentNodeType)
 			{
-				currentSelNode = new QuerySelNode();
-				currentSelNode = (QuerySelNode*) currentNode;
-				selected = currentSelNode->getSelectedVariables();
-				QueryEnums::QueryVar selectType = selected.at(0).first;
-				if (selectType == QueryEnums::Boolean)
+				case QueryTreeNode::Relationship:
 				{
-					if (boolAnswer == true || !firstVariableAnswer.empty() || !secondVariableAnswer.empty())
-						answer.push_back("True");
-					else
-						answer.push_back("False");
+					currentRelationshipNode = new QueryRelNode();
+					currentRelationshipNode = (QueryRelNode*) currentNode;
+					currentRelationshipType = currentRelationshipNode->getRelationshipType();
+					currentFirstVariableName = currentRelationshipNode->getFirstVariableName();
+					currentSecondVariableName = currentRelationshipNode->getSecondVariableName();
+					currentFirstVariableType = currentRelationshipNode->getFirstVariableType();
+					currentSecondVariableType = currentRelationshipNode->getSecondVariableType();
+					switch (currentRelationshipType){
+					case QueryEnums::Follows:
+						EvaluateFollows();
+						break;
+					case QueryEnums::FollowsStar:
+						EvaluateFollowsStar();
+						break;
+					case QueryEnums::Parent:
+						EvaluateParent();
+						break;
+					case QueryEnums::ParentStar:
+						EvaluateParentStar();
+						break;
+					case QueryEnums::Modifies:
+						EvaluateModifies();
+						break;
+					case QueryEnums::Uses:
+						EvaluateUses();
+						break;
+					case QueryEnums::Calls:
+						EvaluateCalls();
+						break;
+					case QueryEnums::CallsStar:
+						EvaluateCallsStar();
+						break;
+					case QueryEnums::Next:
+			//			EvaluateNext();
+						break;
+					case QueryEnums::NextStar:
+			//			EvaluateNextStar();
+						break;
+					case QueryEnums::Affects:
+			//			EvaluateAffects();
+						break;
+					case QueryEnums::AffectsStar:
+			//			EvaluateAffectsStar();
+						break;
+					case QueryEnums::Pattern:
+						EvaluatePattern();
+						break;
+					default:
+						break;
+					}
 				}
-				else if (projectBool == true) //When parameters of relationship are a combination of fixed and wildcards) 
+				break;
+				case QueryTreeNode::Select:
 				{
-					if (boolAnswer == true) //if false, answer will be empty
+					currentSelNode = (QuerySelNode*) currentNode;
+					selected = currentSelNode->getSelectedVariables();
+					if (!selected.empty())
 					{
-						allStmtsFirst = false;
-						allProcsFirst = false;
-						//Implementation below is for ONLY ONE SELECT VARIABLE
-						for (int i = 0; i < selected.size(); i++)
+						selectType = selected.at(0).first;
+						for (int x = 0; x < selected.size(); x++)
 						{
-							selectType = selected.at(i).first;
-							currentFirstIndices.clear();
-							populateVariableIndices(selectType, 1);
-							if (allStmtsFirst == true)
+							if (currentFirstVariableName.compare(selected.at(x).second) == 0)
 							{
-								for (int i = 1; i <= PKB::maxProgLines; i++)
-									answer.push_back(Helper::intToString(i));
+								for (auto z = firstVariableAnswer.begin(); z != firstVariableAnswer.end(); z++)
+									answer.push_back((*z));
 							}
-							else if (allProcsFirst == true)
+							if (currentSecondVariableName.compare(selected.at(x).second) == 0)
 							{
-								for (int i = 0; i < PKB::procedures.getSize(); i++)
-									answer.push_back(PKB::procedures.getPROCName(i));
-							}
-							else
-							{
-								for (auto z = currentFirstIndices.begin(); z != currentFirstIndices.end(); z++)
-									answer.push_back(Helper::intToString(*z));
+								for (auto z = secondVariableAnswer.begin(); z != secondVariableAnswer.end(); z++)
+									answer.push_back((*z));
 							}
 						}
 					}
 				}
-				else
+				break;
+				case QueryTreeNode::Project:
 				{
-					for (int x = 0; x < selected.size(); x++)
-					{
-						if (currentFirstVariableName.compare(selected.at(x).second) == 0)
-						{
-							for (auto z = firstVariableAnswer.begin(); z != firstVariableAnswer.end(); z++)
-								answer.push_back((*z));
-						}
-						if (currentSecondVariableName.compare(selected.at(x).second) == 0)
-						{
-							for (auto z = secondVariableAnswer.begin(); z != secondVariableAnswer.end(); z++)
-								answer.push_back((*z));
-						}
-					}
+					//what do i do with this useless piece of crap?
 				}
-			}
-			break;
-			case QueryTreeNode::Project:
-			{
-				//what do i do with this useless piece of crap?
-			}
-			break;
-			case QueryTreeNode::LastSelect:
+				break;
+				case QueryTreeNode::LastSelect:
 				{
-					lastSelNode = new QueryLastSelNode();
 					lastSelNode = (QueryLastSelNode*) currentNode;
 					selected = lastSelNode->getRemaindingSelectedVariables();
 
-					if ((!firstVariableAnswer.empty() || !secondVariableAnswer.empty())
+					if ((!firstVariableAnswer.empty() || !secondVariableAnswer.empty() || boolAnswer == true)
 						&& !selected.empty()) //If select variables were not found in reladition excluding projectBool case
 					{	
 						currentFirstIndices.clear();
 						for (int i = 0; i < selected.size(); i++)
 						{
-							populateVariableIndices(selected.at(i).first, 1);
-							for (auto y = currentFirstIndices.begin(); y != currentFirstIndices.end(); y++)
-								answer.push_back(Helper::intToString(*y));
+							allStmtsFirst = false;
+							allProcsFirst = false;
+							for (int i = 0; i < selected.size(); i++)
+							{
+								selectType = selected.at(i).first;
+								if (selectType == QueryEnums::Boolean)
+								{
+									answer.push_back("True");
+									break;
+								}
+								else
+								{
+									currentFirstIndices.clear();
+									populateVariableIndices(selectType, 1);
+									if (allStmtsFirst == true)
+									{
+										for (int i = 1; i <= PKB::maxProgLines; i++)
+											answer.push_back(Helper::intToString(i));
+									}
+									else if (allProcsFirst == true)
+									{
+										for (int i = 0; i < PKB::procedures.getSize(); i++)
+											answer.push_back(PKB::procedures.getPROCName(i));
+									}
+									else
+									{
+										for (auto z = currentFirstIndices.begin(); z != currentFirstIndices.end(); z++)
+											answer.push_back(Helper::intToString(*z));
+									}
+								}
+							}
 						}
 					}
+					else if (!selected.empty())
+					{
+						selectType = selected.at(0).first;
+						//If Boolean, then false needs to be returned
+						//Otherwise, answer set should just be left blank.
+						if (selectType == QueryEnums::Boolean)
+							answer.push_back("False");
+					}
+
 				}
 				break;
-			case QueryTreeNode::Dummy: //Do nothing since this is just a dummy node, and is still a valid node type
+				case QueryTreeNode::Dummy: //Do nothing since this is just a dummy node, and is still a valid node type
 				break;
-			default:
-				throw SPAException("Unidentified QT node");
+				default:
+				{
+					throw SPAException("Unidentified QT node");
+				}
 				break;
 			}
 		}
-
 	}
 
 	return answer;
@@ -235,7 +236,9 @@ void IEvalQuery::populateVariableIndices(QueryEnums::QueryVar type, int index)
 				}
 				break;
 			default:
-				throw SPAException("Invalid first relationship parameter type");
+				{
+					throw SPAException("Invalid first relationship parameter type");
+				}
 			}
 	}else if(index == 2){
 		switch (type){
@@ -559,13 +562,15 @@ void IEvalQuery::EvaluateParent()
 {
 	if (QueryPreprocessor::isNumber(currentFirstVariableName)){
 		firstNumber = true;
+		currentFirstIndices.insert(atoi(currentFirstVariableName.c_str()));
 		currentFirstVariableNo = atoi(currentFirstVariableName.c_str());
 	}
 
 	if (QueryPreprocessor::isNumber(currentSecondVariableName))
 	{
 		secondNumber = true;
-		currentSecondVariableNo = atoi(currentFirstVariableName.c_str());
+		currentSecondIndices.insert(atoi(currentSecondVariableName.c_str()));
+		currentSecondVariableNo = atoi(currentSecondVariableName.c_str());
 	}
 						
 	if (firstNumber == false)
@@ -644,13 +649,15 @@ void IEvalQuery::EvaluateParentStar()
 	if (QueryPreprocessor::isNumber(currentFirstVariableName))
 	{
 		firstNumber = true;
+		currentFirstIndices.insert(atoi(currentFirstVariableName.c_str()));
 		currentFirstVariableNo = atoi(currentFirstVariableName.c_str());
 	}
 
 	if (QueryPreprocessor::isNumber(currentSecondVariableName))
 	{
 		secondNumber = true;
-		currentSecondVariableNo = atoi(currentFirstVariableName.c_str());
+		currentSecondIndices.insert(atoi(currentSecondVariableName.c_str()));
+		currentSecondVariableNo = atoi(currentSecondVariableName.c_str());
 	}
 						
 	if (firstNumber == false)
@@ -735,19 +742,21 @@ void IEvalQuery::EvaluateFollows()
 	if (QueryPreprocessor::isNumber(currentFirstVariableName))
 	{
 		firstNumber = true;
+		currentFirstIndices.insert(atoi(currentFirstVariableName.c_str()));
 		currentFirstVariableNo = atoi(currentFirstVariableName.c_str());
 	}
 
 	if (QueryPreprocessor::isNumber(currentSecondVariableName))
 	{
 		secondNumber = true;
-		currentSecondVariableNo = atoi(currentFirstVariableName.c_str());
+		currentSecondIndices.insert(atoi(currentSecondVariableName.c_str()));
+		currentSecondVariableNo = atoi(currentSecondVariableName.c_str());
 	}
 						
 	if (firstNumber == false)
 		populateVariableIndices(currentFirstVariableType, 1);
 	if (secondNumber == false)
-		populateVariableIndices(currentSecondVariableType,2 );
+		populateVariableIndices(currentSecondVariableType, 2);
 
 	if (firstNumber == true && secondNumber == true) //special case
 	{
@@ -756,7 +765,6 @@ void IEvalQuery::EvaluateFollows()
 			boolAnswer = true;
 		else
 			boolAnswer = false;
-
 	}
 	else if (currentFirstVariableType == QueryEnums::WildCard && currentSecondVariableType == QueryEnums::WildCard)
 	{
@@ -826,13 +834,15 @@ void IEvalQuery::EvaluateFollowsStar()
 	if (QueryPreprocessor::isNumber(currentFirstVariableName))
 	{
 		firstNumber = true;
+		currentFirstIndices.insert(atoi(currentFirstVariableName.c_str()));
 		currentFirstVariableNo = atoi(currentFirstVariableName.c_str());
 	}
 
 	if (QueryPreprocessor::isNumber(currentSecondVariableName))
 	{
 		secondNumber = true;
-		currentSecondVariableNo = atoi(currentFirstVariableName.c_str());
+		currentSecondIndices.insert(atoi(currentSecondVariableName.c_str()));
+		currentSecondVariableNo = atoi(currentSecondVariableName.c_str());
 	}
 
 	if (firstNumber == false)
@@ -1003,7 +1013,7 @@ void IEvalQuery::EvaluateCalls()
 
 void IEvalQuery::EvaluateCallsStar()
 {
-		//Assume correct input, ie. 2 procedures and nothing else
+	//Assume correct input, ie. 2 procedures and nothing else
 	if (currentFirstVariableName.front() == '\"' && 
 		currentFirstVariableName.at(currentFirstVariableName.size() - 1) == '\"')
 	{

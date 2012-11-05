@@ -42,22 +42,16 @@ void QueryTreeBuilder::buildQueryTree(unordered_map<int, vector<string>> userVar
 			{
 				currentVariableType = (QueryEnums::QueryVar) (*it).first;
 				currentVariables = (*it).second;
-				if (currentVariableType == QueryEnums::Boolean)
-					selectVars[currentVariableType].push_back("false"); //just for the sake of adding something
-				else
+				for (int i = 0; i < currentVariables.size(); i++)
 				{
-					for (int i = 0; i < currentVariables.size(); i++)
+					if (currentVariables.at(i).compare(rNode->getFirstVariableName()) == 0 ||
+						currentVariables.at(i).compare(rNode->getSecondVariableName()) == 0)
 					{
-						if (currentVariables.at(i).compare(rNode->getFirstVariableName()) == 0 ||
-							currentVariables.at(i).compare(rNode->getSecondVariableName()) == 0)
+						selectVars[currentVariableType].push_back(currentVariables.at(i));
+						if(!(selectVariablesLeft[currentVariableType].size() == 0))
 						{
-							selectVars[currentVariableType].push_back(currentVariables.at(i));
-							if(!(selectVariablesLeft[currentVariableType].size() == 0))
-							{
-								cout<<selectVariablesLeft[currentVariableType].size();
-								selectVariablesLeft[currentVariableType].erase
-									(selectVariablesLeft[currentVariableType].begin() + i);
-							}
+							selectVariablesLeft[currentVariableType].erase
+								(selectVariablesLeft[currentVariableType].begin() + i);
 						}
 					}
 				}

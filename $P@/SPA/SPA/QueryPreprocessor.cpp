@@ -38,17 +38,29 @@ QueryPreprocessor::QueryPreprocessor()
 	keywords.insert("boolean");
 
 	variableQueryEnums.insert("assignment");
+	variableQueryEnums.insert("Assignment");
 	variableQueryEnums.insert("assign");
+	variableQueryEnums.insert("Assign");
 	variableQueryEnums.insert("variable");
+	variableQueryEnums.insert("Variable");
 	variableQueryEnums.insert("var");
+	variableQueryEnums.insert("Var");
 	variableQueryEnums.insert("statement");
+	variableQueryEnums.insert("Statement");
 	variableQueryEnums.insert("stmt");
+	variableQueryEnums.insert("Stmt");
 	variableQueryEnums.insert("procedure");
+	variableQueryEnums.insert("Procedure");
 	variableQueryEnums.insert("proc");
+	variableQueryEnums.insert("Proc");
 	variableQueryEnums.insert("call");
+	variableQueryEnums.insert("Call");
 	variableQueryEnums.insert("while");
+	variableQueryEnums.insert("While");
 	variableQueryEnums.insert("ifstatement");
+	variableQueryEnums.insert("Ifstatement");
 	variableQueryEnums.insert("constant");
+	variableQueryEnums.insert("Constant");
 	
 	relationshipQueryEnums.insert("modifies");
 	relationshipQueryEnums.insert("uses");
@@ -84,7 +96,7 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 	bool relationship = false, condition = false;
 	bool complete = false; //determines whether the query is complete
 	//relationship validation
-	bool checkCapitalLetter = false;
+	bool checkCapitalLetter = true;
 	bool relationshipDef = false, openBracket = false, firstVariable = false, comma = false, secondVariable = false;
 	//condition declaration
 	bool conditionVariable = false, dot = false, attribute = false, equals = false; 
@@ -108,36 +120,44 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 
 		if (variableQueryEnums.find(currentToken) != variableQueryEnums.end() || currentToken.compare("select") == 0)
 		{
-			if (currentToken.compare("assignment") == 0 || currentToken.compare("assign") == 0)
+			if (currentToken.compare("assignment") == 0 || currentToken.compare("assign") == 0 ||
+				currentToken.compare("Assignment") == 0 || currentToken.compare("Assign") == 0)
 				variableType = QueryEnums::Assign;
-			else if (currentToken.compare("variable") == 0 || currentToken.compare("var") == 0)
+			else if (currentToken.compare("variable") == 0 || currentToken.compare("var") == 0 ||
+					currentToken.compare("Variable") == 0 || currentToken.compare("Var") == 0)
 				variableType =QueryEnums:: Variable;
-			else if (currentToken.compare("statement") == 0 || currentToken.compare("stmt") == 0)
+			else if (currentToken.compare("statement") == 0 || currentToken.compare("stmt") == 0 ||
+				currentToken.compare("Statement") == 0 || currentToken.compare("Stmt") == 0)
 				variableType = QueryEnums::Stmt;
-			else if (currentToken.compare("procedure") == 0 || currentToken.compare("proc") == 0)
+			else if (currentToken.compare("procedure") == 0 || currentToken.compare("proc") == 0 ||
+				currentToken.compare("Procedure") == 0 || currentToken.compare("Proc") == 0)
 				variableType = QueryEnums::Procedure;
-			else if (currentToken.compare("call") == 0)
+			else if (currentToken.compare("call") == 0 || currentToken.compare("Call") == 0)
 				variableType = QueryEnums::Call;
-			else if (currentToken.compare("while") == 0)
+			else if (currentToken.compare("while") == 0 || currentToken.compare("While") == 0)
 				variableType = QueryEnums::While;
-			else if (currentToken.compare("ifstatement") == 0)
+			else if (currentToken.compare("ifstatement") == 0 || currentToken.compare("Ifstatement") == 0)
 				variableType = QueryEnums::If;
-			else if (currentToken.compare("constant") == 0)
+			else if (currentToken.compare("constant") == 0 || currentToken.compare("Constant") == 0)
 				variableType = QueryEnums::Constant;
-			else if (currentToken.compare("select") == 0)
+			else if (currentToken.compare("Select") == 0) //Select must be capital s, the rest dont matter
 			{
 				selectVariableDeclaration = true;
 				continue;
 			}
 			else
-				throw SPAException("Unknown data type declaration");
+				throw SPAException("Invalid data type declaration");
 
 			variableDeclaration = true;
+			checkCapitalLetter = false;
 		}
 		else if (variableDeclaration == true || selectVariableDeclaration == true)
 		{
 			if (currentToken.compare(";") == 0) //end of variable declaration
+			{
 				variableDeclaration = false;
+				checkCapitalLetter = true;
+			}
 			else if (currentToken.compare("such") == 0)
 			{
 					suchThat = true;
@@ -153,7 +173,6 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 			else if (currentToken.compare(",") == 0) //there are more variables of the same type to store
 			{
 				complete = false; //commas means you expect something more
-				continue;
 			}
 			else if (selectVariableDeclaration == true)
 			{
@@ -178,6 +197,7 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 				else if (currentToken.compare("boolean") == 0)
 				{
 					selectVariables[QueryEnums::Boolean].push_back(currentToken);
+					//More select variable declarations should not be allowed after boolean
 					selectVariableDeclaration = false;
 				}
 			}
@@ -453,7 +473,10 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 		else if (relationship == false && condition == false)
 		{
 			if (currentToken.compare("and") == 0)
+			{
+				checkCapitalLetter = true;
 				relationship = true;
+			}
 			else if (currentToken.compare("with") == 0)
 				condition = true;
 			else if (currentToken.compare("such") == 0)

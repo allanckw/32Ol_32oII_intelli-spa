@@ -3,28 +3,7 @@
 #include "PKB.h"
 #include "QueryParser.h"
 
-//**For testing purposes only
-//int main(int argc, char* arg[])
-//{
-//	string query;
-//
-//	//cout<<"Enter query plz:"<<endl;
-//	//cin>>query;
-//
-//	QueryParser QP;
-//	QP.tokenize("assignment a1, a2; statement s1, s2; select a such that s1.stmt# = 5 and uses(a1, a2)\n");
-//	/*
-//	for (int i = 0; i < QP.getTokens().size(); i++)
-//		cout<<QP.getTokens().at(i)<<" ";
-//	cout<<endl;
-//	QP.tokenize("assignment a1, a2; statement s1, s2; select a such that modifies(a1, a2)\n");
-//	for (int i = 0; i < QP.getTokens().size(); i++)
-//		cout<<QP.getTokens().at(i)<<" ";*/
-//	cout<<endl;
-//
-//	system("PAUSE");
-//	return 0;
-//}
+vector<string> QueryParser::tokens;
 
 vector<string> QueryParser::tokenize(string query)
 {

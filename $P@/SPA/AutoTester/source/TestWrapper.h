@@ -4,10 +4,8 @@
 #include <string>
 #include <iostream>
 #include <list>
-#include "AbstractWrapper.h"
 
 // include your other headers here
-//PKB Includes
 #include "../../SPA/PKB.h"
 #include "../../SPA/Parser.h"
 #include "../../SPA/ASTNode.h"
@@ -16,17 +14,14 @@
 #include "../../SPA/AssignmentParser.h"
 #include "../../SPA/DesignExtractor.h"
 
-//Query Includes
-#include "../../SPA/QueryTreeBuilder.h"
-#include "../../SPA/QueryPreProcessor.h"
 #include "../../SPA/QueryParser.h"
-#include "../../SPA/QuerySelnode.h"
-#include "../../SPA/QueryRelNode.h"
-#include "../../SPA/QueryCondNode.h"
-#include "../../SPA/QueryProjectNode.h"
+#include "../../SPA/QueryPreprocessor.h"
+#include "../../SPA/QueryTreeBuilder.h"
+#include "../../SPA/QueryTreeNode.h"
 #include "../../SPA/IEvalQuery.h"
+#include "../../SPA/QueryEnums.h"
 
-
+#include "AbstractWrapper.h"
 
 class TestWrapper : public AbstractWrapper {
  public:
@@ -41,8 +36,6 @@ class TestWrapper : public AbstractWrapper {
   
   // method for evaluating a query
   virtual void evaluate(std::string query, std::list<std::string>& results);
-
-  
 };
 
 #endif

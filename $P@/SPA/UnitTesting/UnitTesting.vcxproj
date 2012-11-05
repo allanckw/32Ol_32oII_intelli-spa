@@ -73,7 +73,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\$P%40\SPA\SPA\TableTester.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\UnitTesting\TestAssnParser.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\UnitTesting\TestProcTable.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\UnitTesting\TestVarTable.cpp" />

@@ -18,9 +18,6 @@
     <ClCompile Include="source\UnitTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\$P%40\SPA\SPA\TableTester.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\$P%40\SPA\UnitTesting\TestParent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

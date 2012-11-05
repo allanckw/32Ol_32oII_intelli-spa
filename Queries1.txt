@@ -1,0 +1,103 @@
+20
+cat: All Category
+1 Statements that Follows by 3  
+stmt s1; select s1 such that Follows(3, s1)
+4
+5000
+
+2 Statements that Follows from 4
+stmt s1; select s1 such that Follows(s1, 4)
+3
+5000
+
+3 Statements that Follows by 10
+stmt s1; select s1 such that Follows(10, s1)
+None
+5000
+
+4. 
+stmt s1; select s1 such that Follows(2, s1)
+8
+5000
+
+5.
+stmt s1; select s1 such that Follows*(3, s1)
+4, 5
+5000
+
+6.
+Parent Tests
+stmt s1; select s1 such that parent(2, s1)
+3, 4, 5, 7
+5000
+
+7.
+stmt s1; select s1 such that parent*(2, s1)
+3, 4, 5, 6, 7
+5000
+
+8.
+stmt s1; select s1 such that parent(s1, 8)
+None
+5000
+
+9. Modifies Tests
+stmt s1; select s1 such that Modifies(s1, "x")
+1, 6, 10
+5000
+
+10. 
+proc s1; select s1 such that Modifies(s1, "x")
+lain, Noob
+5000
+
+11.
+var s1; select s1 such that Modifies(6, s1)
+x, q
+5000
+
+12.
+Uses Tests:
+stmt s1; select s1 such that Uses(s1, "x")
+4, 6
+5000
+
+13.
+proc p1; select p1 such that Uses(p1, "x")
+lain
+5000
+
+14.
+var v1; select v1 such that Uses(1, v1)
+yas
+5000
+
+15.
+var v1; select v1 such that Uses("lain", v1)
+a, i, pika, q, t, x, yas
+5000
+
+16.
+var s1; select s1 such that Modifies("lain", s1)
+yas
+5000
+
+17.
+stmt s; select s such that Follows(_,_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+5000
+
+18.
+var v; select v such that Parent(_, _)
+a, i, pika, q, t, x, yas, z
+5000
+ 
+19.
+proc p; select p such that Modifies(_, _)
+None 
+5000
+
+20.
+proc p; select p such that Uses(_, _)
+None 
+5000

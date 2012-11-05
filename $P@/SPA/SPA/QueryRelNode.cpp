@@ -7,7 +7,7 @@
 
 QueryRelNode::QueryRelNode()
 {
-	this->nodeType = Relationship;
+	this->nodeType = Dummy;
 }
 
 QueryRelNode::QueryRelNode(QueryEnums::QueryRel type, 

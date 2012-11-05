@@ -25,7 +25,6 @@ void TestWrapper::parse(std::string filename) {
 
 // method to evaluating a query
 void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
-
 	// Stuff Required to evaluate
 	vector<string> tokens; 
 	QueryPreprocessor preProcessor;
@@ -45,10 +44,15 @@ void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
 	
 	QT = queryTreeBuilder->getQueryTree();
 
-	ans = EQ->evaluateQuery(QT);
+	vector<string> answers = EQ->evaluateQuery(QT);
+
+	for(int i = 0; i < answers.size(); i++)
+	{
+		results.push_back(answers.at(i));
+	}
 
 	// store the answers to the query in the results list (it is initially empty)
-	results.push_back(ans);
+
 	// each result must be a string.
 	
 	//Clean up...

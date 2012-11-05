@@ -15,6 +15,8 @@ void TestVarTable::tearDown()
 
 void TestVarTable::testInsertAndRetrieveVars()
 {  
+
+
 	CPPUNIT_ASSERT_EQUAL(0, PKB::variables.getVARIndex("x"));
 	CPPUNIT_ASSERT_EQUAL(1, PKB::variables.getVARIndex("yas"));
 

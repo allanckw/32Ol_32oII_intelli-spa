@@ -112,10 +112,17 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 				currentSelNode = new QuerySelNode();
 				currentSelNode = (QuerySelNode*) currentNode;
 				selected = currentSelNode->getSelectedVariables();
-				QueryEnums::QueryVar selectType;
-				if (projectBool == true) //When parameters of relationship are a combination of fixed and wildcards) 
+				QueryEnums::QueryVar selectType = selected.at(0).first;
+				if (selectType == QueryEnums::Boolean)
 				{
-					if (boolAnswer == true) //if false, answer will be empty and will be filled in with a None at the end
+					if (boolAnswer == true || !firstVariableAnswer.empty() || !secondVariableAnswer.empty())
+						answer.push_back("True");
+					else
+						answer.push_back("False");
+				}
+				else if (projectBool == true) //When parameters of relationship are a combination of fixed and wildcards) 
+				{
+					if (boolAnswer == true) //if false, answer will be empty
 					{
 						allStmtsFirst = false;
 						allProcsFirst = false;
@@ -142,13 +149,6 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 							}
 						}
 					}
-				}
-				else if (selectType == QueryEnums::Boolean)
-				{
-					if (boolAnswer == true || !firstVariableAnswer.empty() || !secondVariableAnswer.empty())
-						answer.push_back("True");
-					else
-						answer.push_back("False");
 				}
 				else
 				{
@@ -231,6 +231,7 @@ void IEvalQuery::populateVariableIndices(QueryEnums::QueryVar type, int index)
 				{
 					allStmtsFirst = true;
 					allProcsFirst = true;
+					allVarsFirst = true;
 				}
 				break;
 			default:

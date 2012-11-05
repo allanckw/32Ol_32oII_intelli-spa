@@ -14,7 +14,7 @@
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\CallsTable.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\Helper.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\IEvalQuery.h" />
-    <ClInclude Include="..\..\..\$P%40\SPA\SPA\QueryEvaluator.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\QueryLastSelNode.h" />
     <ClInclude Include="QuerySelNode.h" />
     <ClInclude Include="QueryCondNode.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\FollowsTable.h" />
@@ -45,7 +45,7 @@
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\CallsTable.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\Helper.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\IEvalQuery.cpp" />
-    <ClCompile Include="..\..\..\$P%40\SPA\SPA\QueryEvaluator.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\QueryLastSelNode.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\QuerySelNode.cpp" />
     <ClCompile Include="QueryCondNode.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\FollowsTable.cpp" />

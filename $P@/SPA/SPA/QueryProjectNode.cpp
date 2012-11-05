@@ -5,7 +5,7 @@
 
 QueryProjectNode::QueryProjectNode()
 {
-	this->nodeType = Project;
+	this->nodeType = Dummy;
 }
 
 QueryProjectNode::QueryProjectNode(vector<pair<string, string>> v)

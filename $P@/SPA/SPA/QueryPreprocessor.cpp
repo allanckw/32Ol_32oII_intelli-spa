@@ -118,7 +118,7 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 				currentToken.at(i) = tolower(currentToken.at(i));
 		}
 
-		if (variableQueryEnums.find(currentToken) != variableQueryEnums.end() || currentToken.compare("select") == 0)
+		if (variableQueryEnums.find(currentToken) != variableQueryEnums.end() || currentToken.compare("Select") == 0)
 		{
 			if (currentToken.compare("assignment") == 0 || currentToken.compare("assign") == 0 ||
 				currentToken.compare("Assignment") == 0 || currentToken.compare("Assign") == 0)

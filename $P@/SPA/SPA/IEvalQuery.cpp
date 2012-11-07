@@ -51,6 +51,7 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 		vector<QueryTreeNode*> cluster = qt.at(i);
 		for (int j = 0; j < cluster.size(); j++)
 		{
+			PKB::uses.displayUsesTables();
 			currentNode = cluster.at(j);
 			currentNodeType = currentNode->getNodeType();			
 			switch (currentNodeType)
@@ -246,6 +247,12 @@ void IEvalQuery::populateVariableIndices(QueryEnums::QueryVar type, int index)
 					allVarsFirst = true;
 				}
 				break;
+			case QueryEnums::Constant:
+				{
+					for(auto it = PKB::constantsTable.begin(); it != PKB::constantsTable.end(); it++)
+						currentFirstIndices.insert((*it).first);
+				}
+				break;
 			default:
 				throw SPAException("Invalid first relationship parameter type");
 				break;
@@ -278,6 +285,12 @@ void IEvalQuery::populateVariableIndices(QueryEnums::QueryVar type, int index)
 					allStmtsSecond = true;
 					allProcsSecond = true;
 					allVarsSecond = true;
+				}
+				break;
+			case QueryEnums::Constant:
+				{
+					for(auto it = PKB::constantsTable.begin(); it != PKB::constantsTable.end(); it++)
+						currentSecondIndices.insert((*it).first);
 				}
 				break;
 			default:
@@ -566,8 +579,11 @@ void IEvalQuery::EvaluateUses()
 	}
 	else if (firstNumber == true && allVarsSecond == true)
 	{
+		//int h =currentFirstVariableNo;
+		//cout<<h<<endl;
 		for (int x = 0; x < PKB::variables.getSize(); x++)
 		{
+			//cout<<PKB::uses.isUsedStmt(currentFirstVariableNo, x)<<"var"<<x<<endl;
 			if (PKB::uses.isUsedStmt(currentFirstVariableNo, x))
 				secondVariableAnswer.push_back(PKB::variables.getVARName(x));
 		}							
@@ -619,14 +635,19 @@ void IEvalQuery::EvaluateParent()
 	}
 	else if (allStmtsFirst == true && allStmtsSecond == true)
 	{
-		for (int x = 1; x <= PKB::maxProgLines; x++)
+		if (currentFirstVariableName.compare(currentSecondVariableName) == 0)
+			boolAnswer = false;
+		else
 		{
-			for (int y = 1; y <= PKB::maxProgLines; y++)
-				if (PKB::parent.isParent(x, y))
-				{
-					firstVariableAnswer.push_back(Helper::intToString(x));
-					secondVariableAnswer.push_back(Helper::intToString(y));
-				}
+			for (int x = 1; x <= PKB::maxProgLines; x++)
+			{
+				for (int y = 1; y <= PKB::maxProgLines; y++)
+					if (PKB::parent.isParent(x, y))
+					{
+						firstVariableAnswer.push_back(Helper::intToString(x));
+						secondVariableAnswer.push_back(Helper::intToString(y));
+					}
+			}
 		}
 
 	}else if (allStmtsFirst == true){
@@ -707,14 +728,19 @@ void IEvalQuery::EvaluateParentStar()
 	}
 	else if (allStmtsFirst == true && allStmtsSecond == true)
 	{
-		for (int x = 1; x <= PKB::maxProgLines; x++)
+		if (currentFirstVariableName.compare(currentSecondVariableName) == 0)
+			boolAnswer = false;
+		else
 		{
-			for (int y = 1; y <= PKB::maxProgLines; y++)
-				if (PKB::parent.isParentStar(x, y))
-				{
-					firstVariableAnswer.push_back(Helper::intToString(x));
-					secondVariableAnswer.push_back(Helper::intToString(y));
-				}
+			for (int x = 1; x <= PKB::maxProgLines; x++)
+			{
+				for (int y = 1; y <= PKB::maxProgLines; y++)
+					if (PKB::parent.isParentStar(x, y))
+					{
+						firstVariableAnswer.push_back(Helper::intToString(x));
+						secondVariableAnswer.push_back(Helper::intToString(y));
+					}
+			}
 		}
 	}
 	else if (allStmtsFirst == true)
@@ -799,14 +825,19 @@ void IEvalQuery::EvaluateFollows()
 	}
 	else if (allStmtsFirst == true && allStmtsSecond == true)
 	{
-		for (int x = 1; x <= PKB::maxProgLines; x++)
+		if (currentFirstVariableName.compare(currentSecondVariableName) == 0)
+			boolAnswer = false;
+		else
 		{
-			for (int y = 1; y <= PKB::maxProgLines; y++)
-				if (PKB::follows.isFollows(x, y))
-				{
-					firstVariableAnswer.push_back(Helper::intToString(x));
-					secondVariableAnswer.push_back(Helper::intToString(y));
-				}
+			for (int x = 1; x <= PKB::maxProgLines; x++)
+			{
+				for (int y = 1; y <= PKB::maxProgLines; y++)
+					if (PKB::follows.isFollows(x, y))
+					{
+						firstVariableAnswer.push_back(Helper::intToString(x));
+						secondVariableAnswer.push_back(Helper::intToString(y));
+					}
+			}
 		}
 	}
 	else if (allStmtsFirst == true)
@@ -892,14 +923,19 @@ void IEvalQuery::EvaluateFollowsStar()
 	}
 	else if (allStmtsFirst == true && allStmtsSecond == true)
 	{
-		for (int x = 1; x <= PKB::maxProgLines; x++)				
+		if (currentFirstVariableName.compare(currentSecondVariableName) == 0)
+			boolAnswer = false;
+		else
 		{
-			for (int y = 1; y <= PKB::maxProgLines; y++)
-				if (PKB::follows.isFollowsStar(x, y))
-				{
-					firstVariableAnswer.push_back(Helper::intToString(x));
-					secondVariableAnswer.push_back(Helper::intToString(y));
-				}
+			for (int x = 1; x <= PKB::maxProgLines; x++)				
+			{
+				for (int y = 1; y <= PKB::maxProgLines; y++)
+					if (PKB::follows.isFollowsStar(x, y))
+					{
+						firstVariableAnswer.push_back(Helper::intToString(x));
+						secondVariableAnswer.push_back(Helper::intToString(y));
+					}
+			}
 		}
 	}
 	else if (allStmtsFirst == true)

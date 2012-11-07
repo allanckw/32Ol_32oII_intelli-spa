@@ -8,7 +8,7 @@
 #include "../SPA/AssignmentParser.h"
 
 // Registers the fixture into the 'registry'
-//CPPUNIT_TEST_SUITE_REGISTRATION(TestBuildAST); // Note 4 
+CPPUNIT_TEST_SUITE_REGISTRATION(TestBuildAST); // Note 4 
 
 
 void TestBuildAST::setUp()
@@ -24,7 +24,7 @@ void TestBuildAST::testASTBuilder()
 	try{
 	//Parser* p = new Parser("C:\\temp\\Source.txt");
 	//Parser* p = new Parser("C:\\temp\\Source2.txt");
-	Parser* p = new Parser("C:\\temp\\Source3.txt");
+	Parser* p = new Parser("F:\\3201_3202\\SPA\\$P@\SPA\\Debug\\Source.txt");
 	int templine =0;
 	int tempindex=0;
 	for(int i=0; i<Parser::tokenized_codes.size(); i++)

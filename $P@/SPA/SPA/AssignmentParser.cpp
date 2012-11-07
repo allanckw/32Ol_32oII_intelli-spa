@@ -2,6 +2,7 @@
 #include "StdAfx.h"
 #include "AssignmentParser.h"
 #include "PKB.h"
+#include "Helper.h"
 
 int AssignmentParser::getOperatorWeight(string token)
 {
@@ -14,15 +15,6 @@ int AssignmentParser::getOperatorWeight(string token)
 		return 2;
 	else
 		return 0; //else weightless
-}
-
-int AssignmentParser::getConstantValue(string s) //first char of name cannot be digit
-{
-	//Check if first char of name is digit or character
-	int output; 
-	istringstream (s) >> output;                                                                                                                                                                                                                                                                                                                     
-	return output;
-	//return (output != -858993460);
 }
 
 // Test if token is an operator    
@@ -153,8 +145,9 @@ ASTExprNode* AssignmentParser::processAssignment(vector<string> expr)
 			}
 		}
 		else { //it is an operands
-			int value = AssignmentParser::getConstantValue(token);
-			if (value != -858993460){ //Check that it is a constant, if it is create a constant node and push it into operand stack
+
+			if (Helper::isNumber(token)){ //Check that it is a constant, if it is create a constant node and push it into operand stack
+				int value = atoi(token.c_str());
 				ASTExprNode* constNode = new ASTExprNode(ASTNode::NodeType::Constant, value);
 				operands.push(constNode);
 			}

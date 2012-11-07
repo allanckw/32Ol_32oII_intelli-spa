@@ -42,6 +42,9 @@
     <ClCompile Include="..\..\..\$P%40\SPA\UnitTesting\TestProcTable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\$P%40\SPA\UnitTesting\Unit_Testing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\$P%40\SPA\UnitTesting\TestCallsTable.h">

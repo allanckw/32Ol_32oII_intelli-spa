@@ -7,6 +7,7 @@
 #include "ASTStmtNode.h"
 #include "ASTStmtLstNode.h"
 #include "AssignmentParser.h"
+#include "Helper.h"
 
 //TODO: For Nick, put your parser into this controller
 vector<vector<string>> Parser::tokenized_codes;
@@ -16,7 +17,7 @@ stack<char> brackets;
 Parser::Parser(string fileName)
 {
 	string codings;
-	try{
+	//try{
 	  string line;
 	  
 	  ifstream myfile (fileName);//CS3201test6.txt");
@@ -41,10 +42,10 @@ Parser::Parser(string fileName)
 		PKB::maxProgLines = currentline;
 	  }
 
-	 
-	}catch (exception& e) {
-		cout << e.what() << endl;
-	} 
+	// 
+	//}catch (exception& e) {
+	//	cout << e.what() << endl;
+	//} 
 }
 
 Parser::~Parser(void)
@@ -81,6 +82,7 @@ void Parser::AddTables(vector<string> list, string newtoken)
 {
 	int size = list.size();
 
+	
 	//string replacement = Regex.Replace(s, @"\t|\n|\r", "");
 	//newtoken = newtoken.replace('\t',);
 	//std::remove(newtoken.begin(), newtoken.end(), '\t');
@@ -312,11 +314,6 @@ ASTStmtNode* Parser::processWhile(int *i, int *j, Index procIdx)
 	(*index)++;
 	string varName = inner.at(*index);
 
-	if ((isName(varName))==false)
-	{
-		throw SPAException("Invalid Variable Name!");
-	}
-
 	VARIndex vi=PKB::variables.getVARIndex(varName);
 
 	ASTStmtNode* stmtNode = new ASTStmtNode(*line, ASTNode::NodeType::While, vi);
@@ -433,10 +430,6 @@ ASTStmtNode* Parser::processAssignment(int *i, int *j)
 	vector<string> inner=Parser::tokenized_codes.at(*i);
 	string varName = inner.at((*j)-1);
 
-	if (isName(varName)==false){
-		throw SPAException("Invalid Name!");
-	}
-
 	VARIndex vi=PKB::variables.getVARIndex(varName);
 
 	vector<string> rightExpression;
@@ -471,9 +464,6 @@ ASTNode* Parser::processProcedure(int *i, int *j)
 	(*index)++;
 	string procName = inner.at(*index);
 
-	if (isName(procName)==false){
-		throw SPAException("Invalid Name!");
-	}
 	PROCIndex pi=PKB::procedures.getPROCIndex(procName);
 
 	ASTNode* procNode = new ASTNode(ASTNode::NodeType::Procedure, pi );

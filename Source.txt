@@ -1,4 +1,4 @@
-procedure lain {
+procedure 1lain {
 	x = yas;
 	while i {
 		yas = q * 6;

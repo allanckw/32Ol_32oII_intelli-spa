@@ -61,7 +61,9 @@ QueryPreprocessor::QueryPreprocessor()
 	variableQueryEnums.insert("Ifstatement");
 	variableQueryEnums.insert("constant");
 	variableQueryEnums.insert("Constant");
-	
+	variableQueryEnums.insert("prog_line");
+	variableQueryEnums.insert("Prog_line");
+
 	relationshipQueryEnums.insert("modifies");
 	relationshipQueryEnums.insert("uses");
 	relationshipQueryEnums.insert("calls");
@@ -95,6 +97,7 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 	bool variableDeclaration = false, selectVariableDeclaration = false, suchThat = false; 
 	bool relationship = false, condition = false;
 	bool complete = false; //determines whether the query is complete
+	bool pattern = false, patternVariable = false; 
 	//relationship validation
 	bool checkCapitalLetter = true;
 	bool relationshipDef = false, openBracket = false, firstVariable = false, comma = false, secondVariable = false;
@@ -127,7 +130,8 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 					currentToken.compare("Variable") == 0 || currentToken.compare("Var") == 0)
 				variableType =QueryEnums:: Variable;
 			else if (currentToken.compare("statement") == 0 || currentToken.compare("stmt") == 0 ||
-				currentToken.compare("Statement") == 0 || currentToken.compare("Stmt") == 0)
+				currentToken.compare("Statement") == 0 || currentToken.compare("Stmt") == 0 	||
+				currentToken.compare("prog_line") == 0 || currentToken.compare("Prog_line") == 0 )
 				variableType = QueryEnums::Stmt;
 			else if (currentToken.compare("procedure") == 0 || currentToken.compare("proc") == 0 ||
 				currentToken.compare("Procedure") == 0 || currentToken.compare("Proc") == 0)
@@ -163,6 +167,12 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 					suchThat = true;
 					variableDeclaration = false;
 					selectVariableDeclaration = false;
+			}
+			else if (currentToken.compare("pattern") == 0)
+			{
+				pattern = true;
+				variableDeclaration = false;
+				selectVariableDeclaration = false;
 			}
 			else if (currentToken.compare("with") == 0)
 			{
@@ -251,8 +261,6 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 						relationshipType = QueryEnums::Affects;
 					else if (currentToken.compare("affect*") == 0)
 						relationshipType = QueryEnums::AffectsStar;
-					else if (currentToken.compare("pattern") == 0)
-						relationshipType = QueryEnums::Pattern;
 					else
 						throw SPAException("Invalid relationship type");
 
@@ -491,10 +499,8 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 bool QueryPreprocessor::isName(string s) //first char of name cannot be digit
 {
 	//Check if first char of name is digit or character
-	int output;
 	string delimiters = " ,;:.()";
-	istringstream (s.at(0)) >> output;
-	return (output == -858993460 && delimiters.find(s) != 0 && (keywords.find(s) == keywords.end()));
+	return (!isdigit(s.at(0)) && delimiters.find(s) != 0 && (keywords.find(s) == keywords.end()));
 }
 
 bool QueryPreprocessor::isNumber(string& s)

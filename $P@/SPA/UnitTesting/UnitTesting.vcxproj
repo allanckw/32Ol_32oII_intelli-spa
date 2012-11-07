@@ -58,24 +58,25 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level1</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(SolutionDir)source;$(SolutionDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(SolutionDir)source;$(SolutionDir)include;F:\3201_3202\cppunit-1.12.1.VS2010\cppunit-1.12.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>$(SolutionDir)lib\cppunit.lib;$(SolutionDir)$(Configuration)\SPA.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>F:\3201_3202\SPA\$P@\SPA\lib\cppunit_debug.lib;F:\3201_3202\SPA\$P@\SPA\Debug\SPA.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\$P%40\SPA\UnitTesting\TestAssnParser.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\UnitTesting\TestProcTable.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\UnitTesting\TestVarTable.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\UnitTesting\Unit_Testing.cpp" />
     <ClCompile Include="TestCalls.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\UnitTesting\TestFollows.cpp" />
     <ClCompile Include="TestModifies.cpp" />

@@ -43,12 +43,12 @@ None
 9 - Typed, Next, ImplStmtLine ::
 stmt s1; 
 Select s1 such that Modifies(s1, "x")
-1, 2, 5, 6
+1, 2, 5, 6, 10
 5000
 10 - NextStar, Typed, ImplStmtLine ::
 proc s1; 
 Select s1 such that Modifies(s1, "x")
-lain
+lain, Noob
 5000
 11 - Affects, Typed, ImplStmtLine ::
 var v; 
@@ -100,3 +100,20 @@ proc p;
 Select p such that Uses(_, _)
 An exception has occured: Modifies and Uses cannot have '_' as the first parameter
 5000
+21 - Typed, NextStar, ParentStar, ImplStmtLine, And-Tuple ::
+constant c; 
+Select c such that Follows(_, _)
+6, 2, 7, 1
+5000
+22 - Typed, NextStar, ParentStar, ImplStmtLine, And-Tuple ::
+prog_line pl; 
+Select pl such that Follows(_, _)
+1,2,3,4,5,6,7,8,9,10
+5000
+23 - Typed, NextStar, ParentStar, ImplStmtLine, And-Tuple ::
+assign a1, a2; 
+Select a1 such that Follows(_, a2)
+1,3,4,6,7,9,10
+5000
+
+

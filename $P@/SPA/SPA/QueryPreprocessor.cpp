@@ -85,7 +85,7 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 {
 	resetAll();
 
-	string delimiters = ";,() \"'"; //all spaces are already taken care of
+	string delimiters = ";,() \"'";
 	string currentToken;
 	pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>> relationshipDeclaration, conditionDeclaration;
 	vector<string> variableNames;
@@ -193,6 +193,7 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 					if (existsVariable == false)
 						throw SPAException("Variable in select was not found in query");
 					selectVariables[variableType].push_back(currentToken);
+					existsVariable = false;
 				}
 				else if (currentToken.compare("boolean") == 0)
 				{
@@ -273,16 +274,15 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 				else if ((relationshipType == QueryEnums::Modifies || relationshipType == QueryEnums::Uses ||
 						relationshipType == QueryEnums::Calls || relationshipType == QueryEnums::CallsStar) &&
 						currentToken.front() == '\"' && 
-						currentToken.at(currentToken.size() - 1) == '\"' &&
-						currentToken.size() > 2 && 
-						delimiters.find(currentToken.substr(1, currentToken.size() - 2)) != 0)
+						currentToken.at(currentToken.size() - 1) == '\"')
 				{
+					if((currentToken.size() > 2 && delimiters.find(currentToken.substr(1, currentToken.size() - 2)) != 0) ||
+						(currentToken.size() == 3 && isName(Helper::charToString(currentToken.at(1)))))
 						relationshipDeclaration.first = (make_pair(QueryEnums::Procedure, currentToken));
 				}
 				else if (relationshipType == QueryEnums::Pattern && currentToken.front() == '\"' && 
 						currentToken.at(currentToken.size() - 1) == '\"' &&
-						!(currentToken.size() == 3 && !isName(Helper::charToString(currentToken.at(1))) &&
-						isName(currentToken.substr(1, currentToken.size() - 2))))
+						(currentToken.size() == 3 && isName(Helper::charToString(currentToken.at(1)))))
 				{
 					relationshipDeclaration.first = (make_pair(QueryEnums::Variable, currentToken));
 				}
@@ -326,22 +326,21 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 			else if (openBracket == true && comma == true && secondVariable == false)
 			{
 				if (currentToken.compare("_") == 0)
-					relationshipDeclaration.second = (make_pair(QueryEnums::WildCard, currentToken));
+					relationshipDeclaration.second = make_pair(QueryEnums::WildCard, currentToken);
 				else if ((relationshipType == QueryEnums::Calls || relationshipType == QueryEnums::CallsStar) &&
-						currentToken.front() == '\"' && 
-						currentToken.at(currentToken.size() - 1) == '\"' &&
-						currentToken.size() > 2 && 
-						delimiters.find(currentToken.substr(1, currentToken.size() - 2)) != 0)
+						currentToken.front() == '\"')
 				{
-						relationshipDeclaration.second = (make_pair(QueryEnums::Procedure, currentToken));
+					if((currentToken.size() > 2 && delimiters.find(currentToken.substr(1, currentToken.size() - 2)) != 0) ||
+						(currentToken.size() == 3 && isName(Helper::charToString(currentToken.at(1)))))
+						relationshipDeclaration.second = make_pair(QueryEnums::Procedure, currentToken);
 				}
 				else if ((relationshipType == QueryEnums::Modifies || relationshipType == QueryEnums::Uses) &&
 						currentToken.front() == '\"' && 
-						currentToken.at(currentToken.size() - 1) == '\"' &&
-						!(currentToken.size() == 3 && !isName(Helper::charToString(currentToken.at(1))) &&
-						isName(currentToken.substr(1, currentToken.size() - 2))))
+						currentToken.at(currentToken.size() - 1) == '\"')
 				{
-						relationshipDeclaration.second = (make_pair(QueryEnums::Variable, currentToken));
+					if((currentToken.size() > 2 && delimiters.find(currentToken.substr(1, currentToken.size() - 2)) != 0) ||
+						(currentToken.size() == 3 && isName(Helper::charToString(currentToken.at(1)))))
+						relationshipDeclaration.second = make_pair(QueryEnums::Variable, currentToken);
 				}
 				else if(isNumber(currentToken) && relationshipType != QueryEnums::Calls && 
 						relationshipType != QueryEnums::CallsStar  && relationshipType != QueryEnums::Pattern)

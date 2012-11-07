@@ -150,6 +150,7 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 						{
 							allStmtsFirst = false;
 							allProcsFirst = false;
+							allVarsFirst = false;
 							for (int i = 0; i < selected.size(); i++)
 							{
 								selectType = selected.at(i).first;
@@ -160,7 +161,6 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 								}
 								else
 								{
-									currentFirstIndices.clear();
 									populateVariableIndices(selectType, 1);
 									if (allStmtsFirst == true)
 									{
@@ -171,6 +171,11 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 									{
 										for (int i = 0; i < PKB::procedures.getSize(); i++)
 											answer.push_back(PKB::procedures.getPROCName(i));
+									}
+									else if (allVarsFirst == true)
+									{
+										for (int i = 0; i < PKB::variables.getSize(); i++)
+											answer.push_back(PKB::variables.getVARName(i));
 									}
 									else
 									{
@@ -203,6 +208,9 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 		}
 	}
 
+	if (answer.empty())
+		answer.push_back("None");
+
 	return answer;
 }
 
@@ -228,6 +236,9 @@ void IEvalQuery::populateVariableIndices(QueryEnums::QueryVar type, int index)
 			case QueryEnums::Stmt:
 				allStmtsFirst = true;
 				break;
+			case QueryEnums::Variable:
+				allVarsFirst = true;
+				break;
 			case QueryEnums::WildCard:
 				{
 					allStmtsFirst = true;
@@ -236,9 +247,8 @@ void IEvalQuery::populateVariableIndices(QueryEnums::QueryVar type, int index)
 				}
 				break;
 			default:
-				{
-					throw SPAException("Invalid first relationship parameter type");
-				}
+				throw SPAException("Invalid first relationship parameter type");
+				break;
 			}
 	}else if(index == 2){
 		switch (type){
@@ -272,6 +282,7 @@ void IEvalQuery::populateVariableIndices(QueryEnums::QueryVar type, int index)
 				break;
 			default:
 				throw SPAException("Invalid second relationship parameter type");
+				break;
 		}
 	}else
 	{
@@ -308,7 +319,7 @@ void IEvalQuery::EvaluateModifies()
 		secondFixedVariable = true;
 		if (currentSecondVariableName.size() == 3)
 		{
-			currentFirstVariableName = Helper::charToString(currentSecondVariableName.at(1));
+			currentSecondVariableName = Helper::charToString(currentSecondVariableName.at(1));
 			currentSecondVariableNo = PKB::variables.getVARIndex(currentSecondVariableName);
 		}
 		else
@@ -330,7 +341,7 @@ void IEvalQuery::EvaluateModifies()
 		else
 			boolAnswer = false;
 	}
-	else if ((firstFixedProcedure == true && currentSecondVariableType == QueryEnums::WildCard))
+	else if (firstFixedProcedure == true && currentSecondVariableType == QueryEnums::WildCard)
 	{
 		projectBool = true;
 		for (int x = 0; x < PKB::variables.getSize(); x++)
@@ -349,7 +360,7 @@ void IEvalQuery::EvaluateModifies()
 			boolAnswer = false;
 
 	}
-	else if ((firstNumber == true && currentSecondVariableType == QueryEnums::WildCard))
+	else if (firstNumber == true && currentSecondVariableType == QueryEnums::WildCard)
 	{
 		projectBool = true;
 		for (int x = 0; x < PKB::variables.getSize(); x++)
@@ -435,7 +446,6 @@ void IEvalQuery::EvaluateUses()
 	{
 		firstFixedProcedure = true;
 		if (currentFirstVariableName.size() == 3)
-		if (currentFirstVariableName.size() == 3)
 		{
 			currentFirstVariableName = Helper::charToString(currentFirstVariableName.at(1));
 			currentFirstVariableNo = PKB::procedures.getPROCIndex(currentFirstVariableName);
@@ -455,7 +465,7 @@ void IEvalQuery::EvaluateUses()
 		if (currentSecondVariableName.size() == 3)
 		{
 			currentSecondVariableName = Helper::charToString(currentSecondVariableName.at(1));
-			currentSecondVariableNo = PKB::procedures.getPROCIndex(currentSecondVariableName);
+			currentSecondVariableNo = PKB::variables.getVARIndex(currentSecondVariableName);
 		}
 		else
 			currentSecondVariableNo = PKB::variables.getVARIndex(currentSecondVariableName.substr(1, 
@@ -476,7 +486,7 @@ void IEvalQuery::EvaluateUses()
 		else
 			boolAnswer = false;
 	}
-	else if ((firstFixedProcedure == true && currentSecondVariableType == QueryEnums::WildCard))
+	else if (firstFixedProcedure == true && currentSecondVariableType == QueryEnums::WildCard)
 	{
 		projectBool = true;
 		for (int x = 0; x < PKB::variables.getSize(); x++)
@@ -494,7 +504,7 @@ void IEvalQuery::EvaluateUses()
 		else
 			boolAnswer = false;
 	}
-	else if ((firstNumber == true && currentSecondVariableType == QueryEnums::WildCard))
+	else if (firstNumber == true && currentSecondVariableType == QueryEnums::WildCard)
 	{
 		projectBool = true;
 		for (int x = 0; x < PKB::variables.getSize(); x++)
@@ -546,11 +556,19 @@ void IEvalQuery::EvaluateUses()
 				firstVariableAnswer.push_back(Helper::intToString(x));
 		}
 	}
-	else if ((firstFixedProcedure == true || firstNumber == true) && allVarsSecond == true)
+	else if (firstFixedProcedure == true && allVarsSecond == true)
 	{
 		for (int x = 0; x < PKB::variables.getSize(); x++)
 		{
 			if (PKB::uses.isUsedProc(currentFirstVariableNo, x))
+				secondVariableAnswer.push_back(PKB::variables.getVARName(x));
+		}							
+	}
+	else if (firstNumber == true && allVarsSecond == true)
+	{
+		for (int x = 0; x < PKB::variables.getSize(); x++)
+		{
+			if (PKB::uses.isUsedStmt(currentFirstVariableNo, x))
 				secondVariableAnswer.push_back(PKB::variables.getVARName(x));
 		}							
 	}

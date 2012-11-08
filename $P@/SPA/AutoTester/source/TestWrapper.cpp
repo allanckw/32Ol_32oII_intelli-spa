@@ -13,7 +13,7 @@ volatile bool TestWrapper::GlobalStop = false;
 // a default constructor
 TestWrapper::TestWrapper() {
   // create any objects here as instance variables of this class
-  // as well as any initialization rqueryEvaluatoruired for your spa program
+  // as well as any initialization required for your spa program
 }
 
 // method for parsing the SIMPLE source
@@ -32,7 +32,7 @@ void TestWrapper::parse(std::string filename) {
 
 // method to evaluating a query
 void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
-	// Stuff RqueryEvaluatoruired to evaluate
+	// Stuff Required to evaluate
 	vector<string> tokens; 
 	QueryPreprocessor preProcessor;
 	QueryParser qParser;

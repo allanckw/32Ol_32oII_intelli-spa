@@ -1,5 +1,6 @@
 #include "TestWrapper.h"
 
+
 // implementation code of WrapperFactory - do NOT modify the next 5 lines
 AbstractWrapper* WrapperFactory::wrapper = 0;
 AbstractWrapper* WrapperFactory::createWrapper() {
@@ -12,34 +13,33 @@ volatile bool TestWrapper::GlobalStop = false;
 // a default constructor
 TestWrapper::TestWrapper() {
   // create any objects here as instance variables of this class
-  // as well as any initialization required for your spa program
+  // as well as any initialization rqueryEvaluatoruired for your spa program
 }
 
 // method for parsing the SIMPLE source
 void TestWrapper::parse(std::string filename) {
+	Parser* p;
 	try{
-		Parser* p = new Parser(filename);
+		p = new Parser(filename);
 		p->buildAST();
 		DesignExtractor::extractDesign();
-		
 
-	//	PKB::rootNode;
-	}catch (exception& e)
-	{
+	}catch (exception& e){
 		cout<< e.what();
 	}
+	delete p;
 }
 
 // method to evaluating a query
 void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
-	// Stuff Required to evaluate
+	// Stuff RqueryEvaluatoruired to evaluate
 	vector<string> tokens; 
 	QueryPreprocessor preProcessor;
 	QueryParser qParser;
 	QueryTreeBuilder* queryTreeBuilder = new QueryTreeBuilder();
 	vector<pair<QueryEnums::QueryVar, string>> selected;
-	QueryTree QT;
-	IEvalQuery* EQ = new IEvalQuery();
+	QueryTree qTree;
+	IEvalQuery* queryEvaluator = new IEvalQuery();
 
 	string ans;
 
@@ -50,11 +50,11 @@ void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
 		queryTreeBuilder->buildQueryTree(preProcessor.getUserVariables(), preProcessor.getSelectVariables(),
 										preProcessor.getRelationships(), preProcessor.getConditions());
 	
-		QT = queryTreeBuilder->getQueryTree();
+		qTree = queryTreeBuilder->getQueryTree();
 
-		vector<string> answers = EQ->evaluateQuery(QT);
+		vector<string> answers = queryEvaluator->evaluateQuery(qTree);
 
-		for(int i = 0; i < answers.size(); i++)
+		for(unsigned int i = 0; i < answers.size(); i++)
 		{
 			results.push_back(answers.at(i));
 		}
@@ -72,6 +72,7 @@ void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
 	// each result must be a string.
 	
 	//Clean up...
-	delete EQ;
+
+	delete queryEvaluator;
 	delete queryTreeBuilder;
 }

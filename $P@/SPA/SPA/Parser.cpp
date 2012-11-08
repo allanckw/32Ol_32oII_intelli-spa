@@ -52,6 +52,16 @@ Parser::~Parser(void)
 {
 }
 
+bool Parser::isStrCheckNoSpecialChar(string newtoken)
+ {
+         int result = newtoken.find_first_of("!@#$%^&*()_+{}|\][~`",0);
+		 return result == 0;
+         //if(result == 0)
+         //        return true;
+
+         //throw SPAException("Error invalid Syntex");
+         //return false;
+ }
 
 bool Parser::isEmpty(string str)
 {
@@ -81,17 +91,6 @@ string Parser::Trim(string str)
 void Parser::AddTables(vector<string> list, string newtoken)
 {
 	int size = list.size();
-
-	
-	//string replacement = Regex.Replace(s, @"\t|\n|\r", "");
-	//newtoken = newtoken.replace('\t',);
-	//std::remove(newtoken.begin(), newtoken.end(), '\t');
-	//newtoken.erase(newtoken,newtoken.end());
-	//newtoken.erase(remove(newtoken.begin(), newtoken.end(), '\t'), newtoken.end());
-
-	//string newtoken = newtokens;
-	//newtoken.erase(remove(newtoken.begin(), newtoken.end(), '\t'), newtoken.end());
-	//newtoken = Trim(newtoken);
 
 	if(newtoken.size() == 0 || newtoken.compare("while") == 0 || newtoken.compare("if") == 0 || newtoken.compare("procedure") == 0 || 
 		newtoken.compare("+") == 0 || newtoken.compare("-") == 0 || 
@@ -127,11 +126,15 @@ void Parser::AddTables(vector<string> list, string newtoken)
 	}
 	else if(!isdigit(newtoken[0]))//if currentoken is not a number hence may be a variable or procedure
 	{
-		if(size != 0 && list.at(size-1) == "procedure")
-			PKB::procedures.insertPROC(newtoken);
-		else if(size == 0 || list.at(size-1) != "call")
-			PKB::variables.insertVAR(newtoken);
-			
+		if (isStrCheckNoSpecialChar(newtoken)) {
+			throw SPAException("Error invalid source Syntax");
+		}else{
+			if(size != 0 && list.at(size-1) == "procedure"){
+				PKB::procedures.insertPROC(newtoken);
+			}else if(size == 0 || list.at(size-1) != "call"){
+				PKB::variables.insertVAR(newtoken);
+			}
+		}
 	}
 	else
 	{
@@ -143,7 +146,6 @@ void Parser::AddTables(vector<string> list, string newtoken)
 		}
 	}
 
-
 }
 
 void Parser::AddToList(vector<string>& list, string str)
@@ -151,15 +153,12 @@ void Parser::AddToList(vector<string>& list, string str)
 	str = Trim(str);
 	if(str.size() > 0)
 	{
-
-		if(str == "while" || str == "call" || str == "if")
-		{
+		if(str == "while" || str == "call" || str == "if")	{
 			//new
 			Parser::tokenized_codes.push_back(list);
 			vector<string> newlist;
 			list = newlist;
-		}else if(str=="=")
-		{
+		}else if(str=="=")	{
 			string tempstr = list.at(list.size()-1);
 			list.pop_back();
 			Parser::tokenized_codes.push_back(list);

@@ -51,7 +51,6 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 		vector<QueryTreeNode*> cluster = qt.at(i);
 		for (int j = 0; j < cluster.size(); j++)
 		{
-			PKB::uses.displayUsesTables();
 			currentNode = cluster.at(j);
 			currentNodeType = currentNode->getNodeType();			
 			switch (currentNodeType)
@@ -579,8 +578,6 @@ void IEvalQuery::EvaluateUses()
 	}
 	else if (firstNumber == true && allVarsSecond == true)
 	{
-		//int h =currentFirstVariableNo;
-		//cout<<h<<endl;
 		for (int x = 0; x < PKB::variables.getSize(); x++)
 		{
 			//cout<<PKB::uses.isUsedStmt(currentFirstVariableNo, x)<<"var"<<x<<endl;

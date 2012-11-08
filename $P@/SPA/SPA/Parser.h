@@ -27,5 +27,6 @@ private:
 	ASTStmtNode* processWhile(int *i, int *j, Index procIdx);
 	ASTStmtNode* processCall(int *i, int *j, Index procIdx);
 	ASTStmtNode* processAssignment(int *i, int *j);
+	bool isStrCheckNoSpecialChar(string);
 };
 

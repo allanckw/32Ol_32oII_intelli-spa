@@ -294,7 +294,7 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 				{
 					relationshipDeclaration.first = (make_pair(QueryEnums::Variable, currentToken));
 				}
-				else if(isNumber(currentToken) && relationshipType != QueryEnums::Calls && 
+				else if(Helper::isNumber(currentToken) && relationshipType != QueryEnums::Calls && 
 					relationshipType != QueryEnums::CallsStar && relationshipType != QueryEnums::Pattern)
 					relationshipDeclaration.first = (make_pair(QueryEnums::Stmt, currentToken));
 				else
@@ -350,7 +350,7 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 						(currentToken.size() == 3 && isName(Helper::charToString(currentToken.at(1)))))
 						relationshipDeclaration.second = make_pair(QueryEnums::Variable, currentToken);
 				}
-				else if(isNumber(currentToken) && relationshipType != QueryEnums::Calls && 
+				else if(Helper::isNumber(currentToken) && relationshipType != QueryEnums::Calls && 
 						relationshipType != QueryEnums::CallsStar  && relationshipType != QueryEnums::Pattern)
 					relationshipDeclaration.second = (make_pair(QueryEnums::Stmt, currentToken));
 				else
@@ -456,7 +456,7 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 					if (conditionAttributeType == QueryEnums::VarName)
 						conditionDeclaration.second = make_pair(QueryEnums::Variable, currentToken);
 				}
-				else if (isNumber(currentToken))
+				else if (Helper::isNumber(currentToken))
 				{
 					if (conditionAttributeType == QueryEnums::Value)
 						conditionDeclaration.second = make_pair(QueryEnums::Constant, currentToken);
@@ -500,16 +500,12 @@ bool QueryPreprocessor::isName(string s) //first char of name cannot be digit
 {
 	//Check if first char of name is digit or character
 	string delimiters = " ,;:.()";
-	return (!isdigit(s.at(0)) && delimiters.find(s) != 0 && (keywords.find(s) == keywords.end()));
+	int result = s.find_first_of("!@$%^&*()_+{}|\][~`", 0);
+
+	return (!isdigit(s.at(0)) && delimiters.find(s) != 0 && (keywords.find(s) == keywords.end()) && result == string::npos);
 }
 
-bool QueryPreprocessor::isNumber(string& s)
-{
-    auto it = s.begin();
-    while (it != s.end() && isdigit(*it)) 
-		it++;
-    return !s.empty() && it == s.end();
-}
+
 
 unordered_map<int, vector<string>> QueryPreprocessor::getUserVariables()
 {
@@ -539,3 +535,4 @@ void QueryPreprocessor::resetAll(){
 	relationships.clear();
 	conditions.clear();
 }
+

@@ -20,17 +20,17 @@ TestWrapper::TestWrapper() {
 void TestWrapper::parse(std::string filename) {
 	Parser* p;
 	try{
-		p = new Parser(filename);
+		Parser* p = new Parser(filename);
 		p->buildAST();
 		DesignExtractor::extractDesign();
-
+		delete p;
 	}catch (exception& e){
 		cout<< e.what();
 	}
-	delete p;
+		
 }
 
-// method to evaluating a query
+// method to evaluate a query
 void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
 	// Stuff Required to evaluate
 	vector<string> tokens; 
@@ -41,8 +41,6 @@ void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
 	QueryTree qTree;
 	IEvalQuery* queryEvaluator = new IEvalQuery();
 
-	string ans;
-
 	try{
 		// ...code to evaluate query...
 		tokens = qParser.tokenize(query);
@@ -51,14 +49,18 @@ void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
 										preProcessor.getRelationships(), preProcessor.getConditions());
 	
 		qTree = queryTreeBuilder->getQueryTree();
-
 		vector<string> answers = queryEvaluator->evaluateQuery(qTree);
 
-		for(unsigned int i = 0; i < answers.size(); i++)
-		{
-			results.push_back(answers.at(i));
+		if (AbstractWrapper::GlobalStop){
+						
 		}
-
+		else
+		{
+			for(unsigned int i = 0; i < answers.size(); i++)
+			{
+				results.push_back(answers.at(i));
+			}
+		}
 	}catch (exception& e)
 	{
 		//Giving u the error result in the results, instead of throwing exception

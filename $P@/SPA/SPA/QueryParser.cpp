@@ -5,6 +5,8 @@
 
 vector<string> QueryParser::tokens;
 
+
+
 vector<string> QueryParser::tokenize(string query)
 {
 	tokens.clear();

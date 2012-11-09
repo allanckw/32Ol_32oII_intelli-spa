@@ -54,8 +54,9 @@ Parser::~Parser(void)
 
 bool Parser::isStrCheckNoSpecialChar(string newtoken)
  {
-         int result = newtoken.find_first_of("!@#$%^&*()_+{}|\][~`",0);
-		 return result == 0;
+	 int result = newtoken.find_first_of("!@#$%^&*()_+{}|\][~`", 0);
+		 
+	 return result != string::npos;
          //if(result == 0)
          //        return true;
 

@@ -304,7 +304,7 @@ void IEvalQuery::populateVariableIndices(QueryEnums::QueryVar type, int index)
 
 void IEvalQuery::EvaluateModifies()
 {
-	if (QueryPreprocessor::isNumber(currentFirstVariableName))
+	if (Helper::isNumber(currentFirstVariableName))
 	{
 		firstNumber = true;
 		currentFirstVariableNo = atoi(currentFirstVariableName.c_str());
@@ -447,7 +447,7 @@ void IEvalQuery::EvaluateModifies()
 void IEvalQuery::EvaluateUses()
 {
 	//Checks and implementations for first parameter
-	if (QueryPreprocessor::isNumber(currentFirstVariableName))
+	if (Helper::isNumber(currentFirstVariableName))
 	{
 		firstNumber = true;
 		currentFirstVariableNo = atoi(currentFirstVariableName.c_str());
@@ -591,13 +591,13 @@ void IEvalQuery::EvaluateUses()
 
 void IEvalQuery::EvaluateParent()
 {
-	if (QueryPreprocessor::isNumber(currentFirstVariableName)){
+	if (Helper::isNumber(currentFirstVariableName)){
 		firstNumber = true;
 		currentFirstIndices.insert(atoi(currentFirstVariableName.c_str()));
 		currentFirstVariableNo = atoi(currentFirstVariableName.c_str());
 	}
 
-	if (QueryPreprocessor::isNumber(currentSecondVariableName))
+	if (Helper::isNumber(currentSecondVariableName))
 	{
 		secondNumber = true;
 		currentSecondIndices.insert(atoi(currentSecondVariableName.c_str()));
@@ -682,14 +682,14 @@ void IEvalQuery::EvaluateParent()
 
 void IEvalQuery::EvaluateParentStar()
 {
-	if (QueryPreprocessor::isNumber(currentFirstVariableName))
+	if (Helper::isNumber(currentFirstVariableName))
 	{
 		firstNumber = true;
 		currentFirstIndices.insert(atoi(currentFirstVariableName.c_str()));
 		currentFirstVariableNo = atoi(currentFirstVariableName.c_str());
 	}
 
-	if (QueryPreprocessor::isNumber(currentSecondVariableName))
+	if (Helper::isNumber(currentSecondVariableName))
 	{
 		secondNumber = true;
 		currentSecondIndices.insert(atoi(currentSecondVariableName.c_str()));
@@ -780,14 +780,14 @@ void IEvalQuery::EvaluateParentStar()
 
 void IEvalQuery::EvaluateFollows()
 {
-	if (QueryPreprocessor::isNumber(currentFirstVariableName))
+	if (Helper::isNumber(currentFirstVariableName))
 	{
 		firstNumber = true;
 		currentFirstIndices.insert(atoi(currentFirstVariableName.c_str()));
 		currentFirstVariableNo = atoi(currentFirstVariableName.c_str());
 	}
 
-	if (QueryPreprocessor::isNumber(currentSecondVariableName))
+	if (Helper::isNumber(currentSecondVariableName))
 	{
 		secondNumber = true;
 		currentSecondIndices.insert(atoi(currentSecondVariableName.c_str()));
@@ -877,14 +877,14 @@ void IEvalQuery::EvaluateFollows()
 
 void IEvalQuery::EvaluateFollowsStar()
 {
-	if (QueryPreprocessor::isNumber(currentFirstVariableName))
+	if (Helper::isNumber(currentFirstVariableName))
 	{
 		firstNumber = true;
 		currentFirstIndices.insert(atoi(currentFirstVariableName.c_str()));
 		currentFirstVariableNo = atoi(currentFirstVariableName.c_str());
 	}
 
-	if (QueryPreprocessor::isNumber(currentSecondVariableName))
+	if (Helper::isNumber(currentSecondVariableName))
 	{
 		secondNumber = true;
 		currentSecondIndices.insert(atoi(currentSecondVariableName.c_str()));

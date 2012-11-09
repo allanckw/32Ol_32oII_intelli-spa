@@ -1,119 +1,157 @@
-25
+31
 cat: All Category
 1 - Parent, ImplStmtLine, Typed :: Which is the Parent (type while) of the statement in line number 7
 stmt s##1;
 Select s##1 such that Follows(3, s##1)
 4
-5000
+500
 2 - Follows, Typed, ImplStmtLine ::
 stmt s1; 
 Select s1 such that Follows(s1, 4)
 3
-5000
+500
 3 - ParentStar, Typed, ImplStmtLine ::
 stmt s1; 
 Select s1 such that Follows(10, s1)
 None
-5000
+500
 4 - FollowsStar, Typed, ImplStmtLine ::
 stmt s1; 
 Select s1 such that Follows(2, s1)
 8
-5000
+500
 5 - Modifies ::
 stmt s1; 
 Select s1 such that Follows*(3, s1)
 4, 5, 7
-5000
+500
 6 - Typed, Uses ::
 stmt s1; 
 Select s1 such that Parent(2, s1)
 3, 4, 5, 7
-5000
+500
 7 - Calls, Typed ::
 stmt s1; 
 Select s1 such that Parent*(2, s1)
 3, 4, 5, 6, 7
-5000
+500
 8 - CallsStar, Typed ::
 stmt s1; 
 Select s1 such that Parent(s1, 8)
 None
-5000
+500
 9 - Typed, Next, ImplStmtLine ::
 stmt s1; 
 Select s1 such that Modifies(s1, "x")
 1, 2, 5, 6, 10
-5000
+500
 10 - NextStar, Typed, ImplStmtLine ::
 proc s1; 
 Select s1 such that Modifies(s1, "x")
 lain, Noob
-5000
+500
 11 - Affects, Typed, ImplStmtLine ::
 var v; 
 Select v such that Modifies(6, v)
 x
-5000
+500
 12 - AffectsStar, ImplStmtLine, Typed ::
 stmt s1; 
 Select s1 such that Uses(s1, "x")
 2, 4, 5, 6
-5000
+500
 13 - Pattern, Typed ::
 proc p1; 
 Select p1 such that Uses(p1, "x")
 lain
-5000
+500
 14 - Pattern, Typed ::
 var v1; 
 Select v1 such that Uses(1, v1)
 yas
-5000
+500
 15 - Pattern, Typed ::
 var v1; 
 Select v1 such that Uses("lain", v1)
 yas, i, q, x, pika, z
-5000
+500
 16 - Typed, Modifies, With ::
 var v; 
 Select v such that Modifies("lain", v)
 x, yas, t, a, z
-5000
+500
 17 - Typed, Uses, With ::
 stmt s; 
 Select s such that Follows(_,_)
 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
-5000
+500
 18 - Typed, ReturnBoolean, Calls, With, With-And ::
 var v; 
 Select v such that Parent(_, _)
 a, i, pika, q, t, x, yas, z
-5000
+500
 19 - Typed, FollowsStar, Modifies, Uses, With, And-Multi ::
 proc p; 
 Select p such that Modifies(_, _)
 An exception has occured: Modifies and Uses cannot have '_' as the first parameter
-5000
+500
 20 - Typed, NextStar, ParentStar, ImplStmtLine, And-Tuple ::
 proc p; 
 Select p such that Uses(_, _)
 An exception has occured: Modifies and Uses cannot have '_' as the first parameter
-5000
+500
 21 - Typed, NextStar, ParentStar, ImplStmtLine, And-Tuple ::
 constant c; 
 Select c such that Follows(_, _)
 6, 2, 7, 1
-5000
+500
 22 - Typed, NextStar, ParentStar, ImplStmtLine, And-Tuple ::
 prog_line pl; 
 Select pl such that Follows(_, _)
 1,2,3,4,5,6,7,8,9,10
-5000
+500
 23 - Typed, NextStar, ParentStar, ImplStmtLine, And-Tuple ::
 assign a1, a2; 
 Select a1 such that Follows(_, a2)
 1,3,4,6,7,9,10
-5000
-
-
+500
+24 - Typed, NextStar, ParentStar, ImplStmtLine, And-Tuple ::
+assign a1, a2; 
+Select a1 such that Follows(0, 1)
+None
+500
+25 - Typed, NextStar, ParentStar, ImplStmtLine, And-Tuple ::
+assign a1, a2; 
+Select a1 such that Follows(1, 0)
+None
+500
+26 - Typed, NextStar, ParentStar, ImplStmtLine, And-Tuple ::
+assign a1, a2; 
+Select a1 such that Follows(a1, _)
+1,3,4,9
+500
+27 - Typed, NextStar, ParentStar, ImplStmtLine, And-Tuple ::
+while w; 
+Select w such that Follows(w, _)
+2,5
+500
+28 - Parent, ImplStmtLine, Typed :: Which is the Parent (type while) of the statement in line number 7
+stmt s!1;
+Select s!1 such that Follows(3, s!1)
+None
+500
+29 - Parent, ImplStmtLine, Typed :: Which is the Parent (type while) of the statement in line number 7
+stmt s1;
+Select s1 
+1,2,3,4,5,6,7,8,9,10
+500
+30 - Parent, ImplStmtLine, Typed :: Which is the Parent (type while) of the statement in line number 7
+assign a;
+Select a 
+1,3,4,6,9,10
+500
+31 - Uses :: Which variables are modified by statement 6?
+variable v;
+Select v such that Uses(6, v) 
+x,q
+500

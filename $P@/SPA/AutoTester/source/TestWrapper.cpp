@@ -18,7 +18,7 @@ TestWrapper::TestWrapper() {
 
 // method for parsing the SIMPLE source
 void TestWrapper::parse(std::string filename) {
-	Parser* p;
+	
 	try{
 		Parser* p = new Parser(filename);
 		p->buildAST();
@@ -46,7 +46,7 @@ void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
 		tokens = qParser.tokenize(query);
 		preProcessor.preProcess(tokens);
 		queryTreeBuilder->buildQueryTree(preProcessor.getUserVariables(), preProcessor.getSelectVariables(),
-										preProcessor.getRelationships(), preProcessor.getConditions());
+										preProcessor.getRelationships(), preProcessor.getConditions(), preProcessor.getPatterns());
 	
 		qTree = queryTreeBuilder->getQueryTree();
 		vector<string> answers = queryEvaluator->evaluateQuery(qTree);
@@ -56,10 +56,14 @@ void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
 		}
 		else
 		{
-			for(unsigned int i = 0; i < answers.size(); i++)
-			{
-				results.push_back(answers.at(i));
-			}
+			if (answers.size() == 0)
+				results.push_back("None");
+
+			else
+				for(unsigned int i = 0; i < answers.size(); i++)
+				{
+					results.push_back(answers.at(i));
+				}
 		}
 	}catch (exception& e)
 	{

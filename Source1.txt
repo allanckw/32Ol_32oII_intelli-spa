@@ -14,5 +14,4 @@ procedure lain {
 procedure Noob{
 	z = 1;
 	x = z;
-
 }

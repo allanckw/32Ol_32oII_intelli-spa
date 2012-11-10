@@ -20,6 +20,7 @@
 #include "../../SPA/QueryTreeNode.h"
 #include "../../SPA/IEvalQuery.h"
 #include "../../SPA/QueryEnums.h"
+#include "../../SPA/QueryProjectNode.h"
 
 #include "AbstractWrapper.h"
 

@@ -128,7 +128,7 @@ Select s such that Follows(s, 231)
 1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 stmt s, stmt t;
 Select s such that Follows(s, 175)
-None
+174
 5000
 1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 stmt s, stmt t;

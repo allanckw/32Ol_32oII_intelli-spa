@@ -90,6 +90,7 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 	string delimiters = ";,() \"'";
 	string currentToken;
 	pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>> relationshipDeclaration, conditionDeclaration;
+	pair<pair<QueryEnums::QueryVar, string>, pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>>> patternDeclaration;
 	vector<string> variableNames;
 	QueryEnums::QueryVar variableType;
 	QueryEnums::QueryRel relationshipType;
@@ -97,7 +98,7 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 	bool variableDeclaration = false, selectVariableDeclaration = false, suchThat = false; 
 	bool relationship = false, condition = false;
 	bool complete = false; //determines whether the query is complete
-	bool pattern = false, patternVariable = false; 
+	bool pattern = false, patternVariable = false, patternFirst = false, patternSecond = false;
 	//relationship validation
 	bool checkCapitalLetter = true;
 	bool relationshipDef = false, openBracket = false, firstVariable = false, comma = false, secondVariable = false;
@@ -230,8 +231,14 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 		}
 		else if (relationship == true)
 		{
+			//Abit of cheating; redirecting away to pattern case after "and" clause
+			if (currentToken.compare("pattern") == 0 || currentToken.compare("Pattern") == 0)
+			{
+				relationship = false;
+				pattern = true;
+			}
 			//else case for non capital letter is handled collectively with the rest of the invalid relationship cases
-			if (isupper(currentToken.at(0))) 
+			else if (isupper(currentToken.at(0))) 
 			{
 				currentToken.at(0) = tolower(currentToken.at(0));
 				checkCapitalLetter = false;
@@ -288,14 +295,8 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 						(currentToken.size() == 3 && isName(Helper::charToString(currentToken.at(1)))))
 						relationshipDeclaration.first = (make_pair(QueryEnums::Procedure, currentToken));
 				}
-				else if (relationshipType == QueryEnums::Pattern && currentToken.front() == '\"' && 
-						currentToken.at(currentToken.size() - 1) == '\"' &&
-						(currentToken.size() == 3 && isName(Helper::charToString(currentToken.at(1)))))
-				{
-					relationshipDeclaration.first = (make_pair(QueryEnums::Variable, currentToken));
-				}
 				else if(Helper::isNumber(currentToken) && relationshipType != QueryEnums::Calls && 
-					relationshipType != QueryEnums::CallsStar && relationshipType != QueryEnums::Pattern)
+					relationshipType != QueryEnums::CallsStar)
 					relationshipDeclaration.first = (make_pair(QueryEnums::Stmt, currentToken));
 				else
 				{
@@ -318,10 +319,6 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 						relationshipType == QueryEnums::Parent || relationshipType == QueryEnums::ParentStar))
 					{
 						throw SPAException("Follows and Parent parameters cannot be procedures");
-					}
-					if (relationshipType == QueryEnums::Pattern && variableType != QueryEnums::Variable)
-					{
-						throw SPAException("First parameter of pattern must be a variable type");
 					}
 					relationshipDeclaration.first = (make_pair(variableType, currentToken));
 					existsVariable = false;
@@ -374,15 +371,6 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 						relationshipType == QueryEnums::Parent || relationshipType == QueryEnums::ParentStar))
 					{
 						throw SPAException("Follows and Parent parameters cannot be procedures");
-					}
-					if (relationshipType == QueryEnums::Pattern)
-					{
-						if(currentToken.at(0) != '_' || currentToken.at(currentToken.size() - 1) != '_' ||
-							currentToken.at(1) != '\"' || currentToken.at(currentToken.size() - 2) != '\"')
-							throw SPAException("Pattern must be in the form _\"variable\"_");
-						else if ((currentToken.size() == 3 && !isName(Helper::charToString(currentToken.at(1)))) ||
-								!isName(currentToken.substr(1, currentToken.size() - 2)))
-							throw SPAException("Invalid parameter for pattern");
 					}
 					relationshipDeclaration.second = (make_pair(variableType, currentToken));
 					existsVariable = false;
@@ -477,6 +465,104 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 			else
 				throw SPAException("Invalid condition syntax");
 		}
+		else if (currentToken.compare("pattern") == 0)
+			pattern = true;
+		else if (pattern)
+		{
+			if (!patternVariable)
+			{
+				if (isName(currentToken))
+				{
+					for (auto it = userVariables.begin(); it != userVariables.end(); it++)
+					{
+						variableNames = (*it).second;
+						for (int i = 0; i < variableNames.size(); i++)
+						{
+							if (variableNames.at(i).compare(currentToken) == 0)
+							{
+								variableType = QueryEnums::QueryVar((*it).first);
+								existsVariable = true;
+							}
+						}
+					}
+					if (existsVariable == false)
+						throw SPAException("Variable in condition was not found in query");
+					patternDeclaration.first = make_pair(variableType, currentToken);
+					patternVariable = true;
+					existsVariable = false;
+				}
+			}
+			else if (patternVariable && currentToken.compare("(") == 0)
+				openBracket = true;
+			else if (openBracket)
+			{
+				if (currentToken.compare("_") == 0)
+				{
+					patternDeclaration.second.first = make_pair(QueryEnums::WildCard, currentToken);
+					patternFirst = true;
+				}
+				else if (currentToken.front() == '\"' && currentToken.at(currentToken.size() - 1) == '\"')
+				{
+					if ((currentToken.size() == 3 && isName(Helper::charToString(currentToken.at(1)))) ||
+						(currentToken.size() > 3 && delimiters.find(currentToken.substr(1, currentToken.size() - 2)) != 0))
+					{
+						patternDeclaration.second.first = make_pair(QueryEnums::Variable, currentToken);
+						patternFirst = true;
+					}
+				}
+				else if (isName(currentToken))
+				{
+					for (auto it = userVariables.begin(); it != userVariables.end(); it++)
+					{
+						variableNames = (*it).second;
+						for (int i = 0; i < variableNames.size(); i++)
+						{
+							if (variableNames.at(i).compare(currentToken) == 0)
+							{
+								variableType = QueryEnums::QueryVar((*it).first);
+								existsVariable = true;
+							}
+						}
+					}
+					if (existsVariable == false)
+						throw SPAException("Variable in condition was not found in query");
+					patternDeclaration.second.first = make_pair(variableType, currentToken);
+					patternFirst = true;
+					existsVariable = false;
+				}
+			}
+			else if (patternFirst && currentToken.compare(","))
+				comma = true;
+			else if (comma)
+			{
+				if (currentToken.compare("_") == 0)
+				{
+					patternDeclaration.second.second = make_pair(QueryEnums::WildCard, currentToken);
+					patternSecond = true;
+				}
+				else if(currentToken.at(0) != '_' || currentToken.at(currentToken.size() - 1) != '_' ||
+					currentToken.at(1) != '\"' || currentToken.at(currentToken.size() - 2) != '\"')
+					throw SPAException("Pattern must be in the form _\"variable\"_");
+				else if ((currentToken.size() == 3 && !isName(Helper::charToString(currentToken.at(1)))) ||
+						!isName(currentToken.substr(1, currentToken.size() - 2)))
+					throw SPAException("Invalid parameter for pattern");
+				else
+				{
+					patternDeclaration.second.second = make_pair(QueryEnums::Expression, currentToken);
+					patternSecond = true;
+				}
+			}
+			else if (patternSecond && currentToken.compare(")"))
+			{
+				patterns.push_back(patternDeclaration);
+				pattern = false;
+				patternVariable = false;
+				patternFirst = false;
+				patternSecond = false;
+				openBracket = false;
+				comma = false;
+			}
+		}
 		else if (relationship == false && condition == false)
 		{
 			if (currentToken.compare("and") == 0)
@@ -527,6 +613,11 @@ unordered_map<int, vector<pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnu
 	QueryPreprocessor::getConditions()
 {
 	return conditions;
+}
+vector<pair<pair<QueryEnums::QueryVar, string>, pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>>>>
+	QueryPreprocessor::getPatterns()
+{
+	return patterns;
 }
 
 void QueryPreprocessor::resetAll(){

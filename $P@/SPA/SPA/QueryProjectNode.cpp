@@ -2,40 +2,78 @@
 #include "StdAfx.h"
 #include "QueryTreeNode.h"
 #include "QueryProjectNode.h"
+#include "PKB.h"
 
 QueryProjectNode::QueryProjectNode()
 {
-	this->nodeType = Dummy;
+	this->nodeType = Project;
 }
 
-QueryProjectNode::QueryProjectNode(vector<pair<string, string>> v)
+QueryProjectNode::QueryProjectNode(QueryEnums::QueryVar t1, string s1, QueryEnums::QueryVar t2, string s2, vector<string> a1, vector<string> a2, bool boolAns)
 {
 	this->nodeType = Project;
-	this->answer2 = v;
+	this->projectionHeader.first.first = t1;
+	this->projectionHeader.first.second = s1;
+	this->projectionHeader.second.first = t2;
+	this->projectionHeader.second.second = s2;
+	for (int i  = 0; i < a1.size(); i++)
+	{
+		if (this->projectionHeader.first.first == QueryEnums::Procedure)
+			firstProjectionAnswer.push_back(PKB::procedures.getPROCIndex(a1.at(i)));
+		else if (this->projectionHeader.first.first == QueryEnums::Variable)
+			firstProjectionAnswer.push_back(PKB::variables.getVARIndex(a1.at(i)));
+		else
+			firstProjectionAnswer.push_back(atoi(a1.at(i).c_str()));
+	}
+	for (int j  = 0; j < a2.size(); j++)
+	{
+		if (this->projectionHeader.second.first == QueryEnums::Procedure)
+			secondProjectionAnswer.push_back(PKB::procedures.getPROCIndex(a2.at(j)));
+		else if (this->projectionHeader.second.first == QueryEnums::Variable)
+			secondProjectionAnswer.push_back(PKB::variables.getVARIndex(a2.at(j)));
+		else
+			secondProjectionAnswer.push_back(atoi(a2.at(j).c_str()));
+	}
+	this->projectionAnswer = make_pair(firstProjectionAnswer, secondProjectionAnswer);
+	this->boolAnswer = boolAns;
 }
 
-QueryProjectNode::QueryProjectNode(vector<string> v)
+pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>> QueryProjectNode::getProjectionHeader()
 {
-	this->nodeType = Project;
-	this->answer1 = v;
+	return projectionHeader;
 }
 
-vector<string> QueryProjectNode::getAnswer()
+QueryEnums::QueryVar QueryProjectNode::getFirstProjectionType()
 {
-	return answer1;
-}
-	
-void QueryProjectNode::setAnswer(vector<string> a)
-{
-	answer1 = a;
+	return projectionHeader.first.first;
 }
 
-vector<pair<string, string>> QueryProjectNode::getPairAnswer()
+QueryEnums::QueryVar QueryProjectNode::getSecondProjectionType()
 {
-	return answer2;
+	return projectionHeader.second.first;
 }
-	
-void QueryProjectNode::setAnswer(vector<pair<string, string>> a)
+
+string QueryProjectNode::getFirstProjectionName()
 {
-	answer2 = a;
+	return projectionHeader.first.second;
+}
+
+string QueryProjectNode::getSecondProjectionName()
+{
+	return projectionHeader.second.second;
+}
+
+vector<int> QueryProjectNode::getFirstProjectionAnswer()
+{
+	return firstProjectionAnswer;
+}
+
+vector<int> QueryProjectNode::getSecondProjectionAnswer()
+{
+	return secondProjectionAnswer;
+}
+
+bool QueryProjectNode::getBoolAnswer()
+{
+	return boolAnswer;
 }

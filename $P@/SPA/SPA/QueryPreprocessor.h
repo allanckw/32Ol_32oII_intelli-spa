@@ -14,8 +14,8 @@ private:
 	unordered_map<int, vector<string>> selectVariables;
 	unordered_map<int, vector<pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>>>> relationships;
 	unordered_map<int, vector<pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>>>> conditions;
+	vector<pair<pair<QueryEnums::QueryVar, string>, pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>>>> patterns;
 	void resetAll();
-
 	bool isName(string);
 
 public:
@@ -27,4 +27,5 @@ public:
 	unordered_map<int, vector<pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>>>> 
 		getRelationships();
 	unordered_map<int, vector<pair<pair<QueryEnums::QueryVar, string>,pair<QueryEnums::QueryVar, string>>>> getConditions();
+	vector<pair<pair<QueryEnums::QueryVar, string>, pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>>>> getPatterns();
 };

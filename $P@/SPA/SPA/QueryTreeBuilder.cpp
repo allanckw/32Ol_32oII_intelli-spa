@@ -9,6 +9,7 @@
 #include "QueryProjectNode.h"
 #include "QueryCondNode.h"
 #include "QueryLastSelNode.h"
+#include "QueryPatternNode.h"
 #include "QueryTreeBuilder.h"
 #include "QueryEnums.h"
 
@@ -16,12 +17,14 @@
 void QueryTreeBuilder::buildQueryTree(unordered_map<int, vector<string>> userVariables, 
 	unordered_map<int, vector<string>> selectVariables, 
 	unordered_map<int, vector<pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>>>> relationships,
-	unordered_map<int, vector<pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>>>> conditions)
+	unordered_map<int, vector<pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>>>> conditions,
+	vector<pair<pair<QueryEnums::QueryVar, string>, pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>>>> patterns)
 {
 	queryTree.clear();
 
 	vector<pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>>> currentRelationships, currentConditions;
 	pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>> relationship, condition;
+	pair<pair<QueryEnums::QueryVar, string>, pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>>> pattern;
 	unordered_map<int, vector<string>> selectVariablesLeft = selectVariables;
 	QueryEnums::QueryRel relationshipType;
 	QueryEnums::QueryCond conditionType;
@@ -117,9 +120,49 @@ void QueryTreeBuilder::buildQueryTree(unordered_map<int, vector<string>> userVar
 		}
 	}
 
+	for (int i = 0; i < patterns.size(); i++)
+	{
+		pattern = patterns.at(i);
+		QueryPatternNode* paNode = new QueryPatternNode(pattern);
+		for (auto it = selectVariables.begin(); it != selectVariables.end(); it++)
+		{
+			currentVariableType = (QueryEnums::QueryVar) (*it).first;
+			currentVariables = (*it).second;
+			for (int i = 0; i < currentVariables.size(); i++)
+			{
+				if (currentVariables.at(i).compare(paNode->getPatternVariableName()) == 0 ||
+					currentVariables.at(i).compare(paNode->getFirstPatternParameterName()) == 0)
+				{
+					selectVars[currentVariableType].push_back(currentVariables.at(i));
+					if(!(selectVariablesLeft[currentVariableType].size() == 0))
+					{
+						selectVariablesLeft[currentVariableType].erase
+							(selectVariablesLeft[currentVariableType].begin() + i);
+					}
+				}
+			}
+			QuerySelNode* sNode = new QuerySelNode(selectVars);
+			QueryProjectNode* pNode = new QueryProjectNode();
+			selectVars.clear();
+			
+			//Form cluster
+			paNode->setParent(sNode);
+			sNode->setChild(paNode);
+			sNode->setParent(pNode);
+			pNode->setChild(sNode);
+			qtCluster.push_back(paNode);
+			qtCluster.push_back(sNode);
+			qtCluster.push_back(pNode);
+			//Throw cluster into query tree
+			queryTree.push_back(qtCluster);
+			//clear cluster for next insertion
+			qtCluster.clear();
+		}
+	}
+
 	//Create a dummy cluster for remaining select variables not found in relationships/conditions
 	QueryRelNode* blankRNode = new QueryRelNode();
-	QueryLastSelNode* sNode = new QueryLastSelNode(selectVariablesLeft); //can be empty
+	QueryLastSelNode* sNode = new QueryLastSelNode(selectVariables); //getting all select variables now
 	QueryProjectNode* blankPNode = new QueryProjectNode();
 	//Form cluster
 	blankRNode->setParent(sNode);

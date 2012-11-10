@@ -14,6 +14,7 @@ public:
 		While,
 		If,
 		Variable,
+		Expression,
 		Boolean //Cannot by a variable type, only select. Put it here because idk where else to put it
 	};
 	typedef enum QueryRel { //relationship QueryEnums
@@ -28,7 +29,10 @@ public:
 		Next,
 		NextStar,
 		Affects,
-		AffectsStar,
+		AffectsStar
+	};
+
+	typedef enum QueryPattern{
 		Pattern
 	};
 

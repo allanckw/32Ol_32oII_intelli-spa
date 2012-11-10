@@ -6,11 +6,15 @@
 #include "QuerySelNode.h"
 #include "QueryRelNode.h"
 #include "QueryLastSelNode.h"
+#include "QueryProjectNode.h"
+#include "QueryPatternNode.h"
 #include "ASTNode.h"
 
 class IEvalQuery
 {
 private:
+
+	vector<QueryProjectNode*> projects;
 
 	bool allStmtsFirst, allStmtsSecond, allProcsFirst, allProcsSecond, allVarsFirst, allVarsSecond;
 	vector<string> answer;
@@ -18,14 +22,17 @@ private:
 	unordered_set<int> currentFirstIndices, currentSecondIndices;
 	void populateVariableIndices(QueryEnums::QueryVar, int index);
 
+	QueryEnums::QueryVar currentFirstVariableType, currentSecondVariableType;
+	string currentFirstVariableName, currentSecondVariableName;
+
 	vector<QueryTreeNode*> currentCluster;
 	QueryTreeNode* currentNode;
 	QueryTreeNode::QTNodeType currentNodeType;
 
+	QueryPatternNode* currentPatternNode;
+
 	QueryRelNode* currentRelationshipNode;
 	QueryEnums::QueryRel currentRelationshipType;
-	QueryEnums::QueryVar currentFirstVariableType, currentSecondVariableType;
-	string currentFirstVariableName, currentSecondVariableName;
 	int currentFirstVariableNo, currentSecondVariableNo;
 	bool firstNumber, secondNumber; 
 	bool firstFixedProcedure , secondFixedProcedure , secondFixedVariable;
@@ -37,10 +44,16 @@ private:
 	QueryLastSelNode* lastSelNode;
 	QueryEnums::QueryVar selectType;
 
-	vector<int> stmtLineTrue;
 	vector<string> vecMatch;
 	bool isSub;
 	bool TryMatch(ASTNode*, string, vector<string>, bool);
+
+	//testing?
+	unordered_map<string, vector<int>> variableAnswers;
+	vector<string> bigAnswerHeaders, tempBigAnswerHeaders;
+	vector<vector<int>> bigAnswerIndices, tempBigAnswerIndices;
+	vector<int> tempSmallAnswerIndices;
+	void cartesianUntilGoMad();
 
 	//Methods For Evaluating Relationships
 	void IEvalQuery::EvaluateModifies();
@@ -61,7 +74,7 @@ private:
 
 	void IEvalQuery::EvaluatePattern();
 
-	void IEvalQuery::initNewQuery();
+	void IEvalQuery::resetAll();
 
 	//TODO: FOR CS3202
 	//Affects, Affects*

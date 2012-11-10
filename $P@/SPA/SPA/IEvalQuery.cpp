@@ -11,13 +11,14 @@
 #include "QueryCondNode.h"
 #include "QueryLastSelNode.h"
 #include "QueryEnums.h"
+#include "QueryProjectNode.h"
 #include "ASTNode.h"
 #include "ASTStmtNode.h"
 #include "PKB.h"
 #include "Helper.h"
 
 
-void IEvalQuery::initNewQuery()
+void IEvalQuery::resetAll()
 {
 	allStmtsFirst = false;
 	allStmtsSecond = false;
@@ -35,19 +36,125 @@ void IEvalQuery::initNewQuery()
 	secondFixedProcedure = false;
 	secondFixedVariable = false;
 
-	boolAnswer = false;
+	boolAnswer = true;
 	projectBool = false;
 
 	answer.clear();
 }
 
+void IEvalQuery::cartesianUntilGoMad()
+{
+	//Firstly, fill the table with something at least
+	QueryProjectNode* firstPNode = projects.at(0);
+	bigAnswerHeaders.push_back(firstPNode->getFirstProjectionName());
+	bigAnswerHeaders.push_back(firstPNode->getSecondProjectionName());
+	bigAnswerIndices.push_back(firstPNode->getFirstProjectionAnswer());
+	bigAnswerIndices.push_back(firstPNode->getSecondProjectionAnswer());
+	
+	bool firstMatch, secondMatch;
+	int firstIndexMatch, secondIndexMatch;
+	QueryProjectNode* currentPNode;
+
+	for (int i = 1; i < projects.size(); i++)
+	{
+		currentPNode = projects.at(i);
+		for (int j = 0; j < bigAnswerHeaders.size(); j++)
+		{
+			if (currentPNode->getFirstProjectionName().compare(bigAnswerHeaders.at(j)) == 0) // when a matching header is found in big table
+			{
+				firstMatch = true;
+				firstIndexMatch = j;
+			}
+			if (currentPNode->getSecondProjectionName().compare(bigAnswerHeaders.at(j)) == 0) // when a matching header is found in big table
+			{
+				secondMatch = true;
+				secondIndexMatch = j;
+			}
+		}
+
+		if (firstMatch && secondMatch)
+		{
+			for (int x = 0; x <  bigAnswerHeaders.size(); x++) //transfer all current big answers to temp table
+				tempBigAnswerHeaders.push_back(bigAnswerHeaders.at(x));
+
+			for (int k = 0; k < bigAnswerIndices.at(firstIndexMatch).size(); k++) //for every index in big table
+			{ 
+				for (int l = 0; l < currentPNode->getFirstProjectionAnswer().size(); l++) //for every index in current project node
+				{
+					if (bigAnswerIndices.at(firstIndexMatch).at(k) == currentPNode->getFirstProjectionAnswer().at(l) &&
+						bigAnswerIndices.at(secondIndexMatch).at(k) == currentPNode->getSecondProjectionAnswer().at(l)) //if those indices are equal
+					{
+						for (int y = 0; y < bigAnswerIndices.size(); y++)
+							tempSmallAnswerIndices.push_back(bigAnswerIndices.at(y).at(k));
+
+						tempBigAnswerIndices.push_back(tempSmallAnswerIndices);
+						tempSmallAnswerIndices.clear();
+					}
+				}
+			}
+		}
+		else if (firstMatch)
+		{
+			for (int x = 0; x <  bigAnswerHeaders.size(); x++) //transfer all current big answers to temp table
+				tempBigAnswerHeaders.push_back(bigAnswerHeaders.at(x));
+			tempBigAnswerHeaders.push_back(currentPNode->getSecondProjectionName());
+
+			for (int k = 0; k < bigAnswerIndices.at(firstIndexMatch).size(); k++) //for every index in big table
+			{ 
+				for (int l = 0; l < currentPNode->getFirstProjectionAnswer().size(); l++) //for every index in current project node
+				{
+					if (bigAnswerIndices.at(firstIndexMatch).at(k) == currentPNode->getFirstProjectionAnswer().at(l)) //if those indices are equal
+					{
+						for (int y = 0; y < bigAnswerIndices.size(); y++)
+							tempSmallAnswerIndices.push_back(bigAnswerIndices.at(y).at(k));
+						tempSmallAnswerIndices.push_back(currentPNode->getSecondProjectionAnswer().at(l));
+
+						tempBigAnswerIndices.push_back(tempSmallAnswerIndices);
+						tempSmallAnswerIndices.clear();
+					}
+				}
+			}
+		}
+		else if (secondMatch)
+		{
+			for (int x = 0; x <  bigAnswerHeaders.size(); x++) //transfer all current big answers to temp table
+					tempBigAnswerHeaders.push_back(bigAnswerHeaders.at(x));
+			tempBigAnswerHeaders.push_back(currentPNode->getFirstProjectionName());
+
+			for (int k = 0; k < bigAnswerIndices.at(secondIndexMatch).size(); k++) //for every index in big table
+			{ 
+				for (int l = 0; l < currentPNode->getSecondProjectionAnswer().size(); l++) //for every index in current project node
+				{
+					if (bigAnswerIndices.at(secondIndexMatch).at(k) == currentPNode->getSecondProjectionAnswer().at(l)) //if those indices are equal
+					{
+						for (int y = 0; y < bigAnswerIndices.size(); y++)
+							tempSmallAnswerIndices.push_back(bigAnswerIndices.at(y).at(k));
+						tempSmallAnswerIndices.push_back(currentPNode->getFirstProjectionAnswer().at(l));
+
+						tempBigAnswerIndices.push_back(tempSmallAnswerIndices);
+						tempSmallAnswerIndices.clear();
+					}
+				}
+			}
+		}
+
+		firstMatch = false;
+		secondMatch = false;
+		bigAnswerHeaders = tempBigAnswerHeaders;
+		bigAnswerIndices = tempBigAnswerIndices;
+		tempBigAnswerHeaders.clear();
+		tempBigAnswerIndices.clear();
+	}
+}
+
+
+
 //I Evaluate Query, I PWNED ALL THE CLASSES HERE ! @.@
 vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 {
-	initNewQuery();
-
 	for (int i = 0; i< qt.size(); i++)
 	{
+		resetAll();
 		vector<QueryTreeNode*> cluster = qt.at(i);
 		for (int j = 0; j < cluster.size(); j++)
 		{
@@ -55,6 +162,18 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 			currentNodeType = currentNode->getNodeType();			
 			switch (currentNodeType)
 			{
+				case QueryTreeNode::Pattern:
+				{
+					currentPatternNode = new QueryPatternNode();
+					currentPatternNode = (QueryPatternNode*) currentNode;
+					currentFirstVariableName = currentPatternNode->getFirstPatternParameterName();
+					currentSecondVariableName = currentPatternNode->getSecondPatternParameterName();
+					currentFirstVariableType = currentPatternNode->getFirstPatternParameterType();
+					currentSecondVariableType = currentPatternNode->getSecondPatternParameterType();
+
+					EvaluatePattern();
+				}
+				break;
 				case QueryTreeNode::Relationship:
 				{
 					currentRelationshipNode = new QueryRelNode();
@@ -101,17 +220,15 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 					case QueryEnums::AffectsStar:
 			//			EvaluateAffectsStar();
 						break;
-					case QueryEnums::Pattern:
-						EvaluatePattern();
-						break;
 					default:
 						break;
 					}
 				}
 				break;
+				//Select Node has officially been deemed worthless
 				case QueryTreeNode::Select:
 				{
-					currentSelNode = (QuerySelNode*) currentNode;
+					/*currentSelNode = (QuerySelNode*) currentNode;
 					selected = currentSelNode->getSelectedVariables();
 					if (!selected.empty())
 					{
@@ -129,35 +246,141 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 									answer.push_back((*z));
 							}
 						}
-					}
+					}*/
 				}
 				break;
 				case QueryTreeNode::Project:
 				{
-					//what do i do with this useless piece of crap?
+					//This part can simply be done just after processing the relationship node, put it here for fun
+					QueryProjectNode* currentProjNode = new QueryProjectNode(currentFirstVariableType, currentFirstVariableName,
+																			currentSecondVariableType, currentSecondVariableName,
+																			firstVariableAnswer, secondVariableAnswer, boolAnswer);
+					projects.push_back(currentProjNode);
+
+					firstVariableAnswer.clear();
+					secondVariableAnswer.clear();
+					currentFirstIndices.clear();
+					currentSecondIndices.clear();
 				}
 				break;
 				case QueryTreeNode::LastSelect:
 				{
 					lastSelNode = (QueryLastSelNode*) currentNode;
 					selected = lastSelNode->getRemaindingSelectedVariables();
+					string selectName;
+					vector<vector<int>> allSelectAnswers;
+					selectType = selected.at(0).first;
+					selectName = selected.at(0).second;
+					int index = 0;
+					set<int> uniqueSelectAnswers;
 
-					if ((!firstVariableAnswer.empty() || !secondVariableAnswer.empty() || boolAnswer == true)
-						&& !selected.empty()) //If select variables were not found in reladition excluding projectBool case
-					{	
-						currentFirstIndices.clear();
-						for (int i = 0; i < selected.size(); i++)
-						{
-							allStmtsFirst = false;
-							allProcsFirst = false;
-							allVarsFirst = false;
-							for (int i = 0; i < selected.size(); i++)
+					bool related = false;
+					if (projects.size() == 1)
+					{
+						QueryProjectNode* firstPNode = projects.at(0);
+						if (selectName.compare(firstPNode->getFirstProjectionName()) == 0) {
+							vector<int> temp = firstPNode->getFirstProjectionAnswer();
+							for (int k = 0; k < temp.size(); k++)
+								uniqueSelectAnswers.insert(temp.at(k));
+						} else {
+							vector<int> temp = firstPNode->getSecondProjectionAnswer();
+							for (int k = 0; k < temp.size(); k++)
+								uniqueSelectAnswers.insert(temp.at(k));
+						}
+					}
+					else 
+					{
+						cartesianUntilGoMad();					
+						
+
+						//Havent performed cartesian properly.
+						//Mostly should work on only 1 select variable.
+						if (!selected.empty()) //irrelavant check but just in case. 
+						{	
+							//TODO
+							/*for (int i = 0; i < selected.size(); i++)
 							{
-								selectType = selected.at(i).first;
+								currentFirstIndices.clear();*/
+								
+
+								for (int j = 0; j < bigAnswerHeaders.size(); j++)
+								{
+									if (selectName.compare(bigAnswerHeaders.at(j)) == 0)
+									{
+										index = j;
+										break;
+									}
+								}
+
+							for (int k = 0; k < bigAnswerIndices.size(); k++)
+								uniqueSelectAnswers.insert(bigAnswerIndices.at(k).at(index));
+						}
+					}
+
+					for (auto it = uniqueSelectAnswers.begin(); it != uniqueSelectAnswers.end(); it++)
+					{
+						if (selectType == QueryEnums::Variable)
+							answer.push_back(PKB::variables.getVARName(*it));
+						else if (selectType == QueryEnums::Procedure)
+							answer.push_back(PKB::procedures.getPROCName(*it));
+						else
+							answer.push_back(Helper::intToString(*it));
+					}
+
+							return answer;
+							/*for (int i = 0; i < projects.size(); i++)
+							{
+								if (projects.at(i)->getFirstProjectionName().compare(selectName) == 0)
+								{
+									allSelectAnswers.push_back(projects.at(i)->getFirstProjectionAnswer());
+									related = true;
+								}
+								if (projects.at(i)->getSecondProjectionName().compare(selectName) == 0)
+								{
+									allSelectAnswers.push_back(projects.at(i)->getSecondProjectionAnswer());
+									related = true;
+								}
+							}*/
+
+							if (related)
+							{
+								/*for (int x = 0; x < allSelectAnswers.size(); x++)
+								{
+									for (int y = 0; y < allSelectAnswers.at(x).size(); y++)
+										uniqueSelectAnswers.insert(allSelectAnswers.at(x).at(y));
+								}
+								for (auto it = uniqueSelectAnswers.begin(); it != uniqueSelectAnswers.end(); it++)
+								{
+									if (selectType == QueryEnums::Procedure)
+										answer.push_back(PKB::procedures.getPROCName(*it));
+									else if (selectType == QueryEnums::Variable)
+										answer.push_back(PKB::variables.getVARName(*it));
+									else
+										answer.push_back(Helper::intToString(*it));
+								}*/
+							}
+							/*else
+							{
+								for (int i = 0; i < projects.size(); i++)
+								{
+									if (!projects.at(i)->getBoolAnswer())
+									{
+										if (selectType == QueryEnums::Boolean)
+											answer.push_back("FALSE");
+										else
+											answer.push_back("None");
+
+										return answer;
+									}
+								}
+								allStmtsFirst = false;
+								allProcsFirst = false;
+								allVarsFirst = false;
+
 								if (selectType == QueryEnums::Boolean)
 								{
 									answer.push_back("True");
-									break;
+									return answer;
 								}
 								else
 								{
@@ -183,18 +406,8 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 											answer.push_back(Helper::intToString(*z));
 									}
 								}
-							}
-						}
-					}
-					else if (!selected.empty())
-					{
-						selectType = selected.at(0).first;
-						//If Boolean, then false needs to be returned
-						//Otherwise, answer set should just be left blank.
-						if (selectType == QueryEnums::Boolean)
-							answer.push_back("False");
-					}
-
+							}*/
+					//return answer;
 				}
 				break;
 				case QueryTreeNode::Dummy: //Do nothing since this is just a dummy node, and is still a valid node type
@@ -357,11 +570,14 @@ void IEvalQuery::EvaluateModifies()
 	{
 		projectBool = true;
 		for (int x = 0; x < PKB::variables.getSize(); x++)
+		{
 			if (PKB::modifies.isModifiedProc(currentFirstVariableNo, x))
 			{
-				boolAnswer = true; //remember that boolanswer is false by default
+				boolAnswer = true;
 				break;
 			}
+			boolAnswer = false;
+		}
 	}
 	else if (firstNumber == true && secondFixedVariable == true)
 	{
@@ -376,17 +592,20 @@ void IEvalQuery::EvaluateModifies()
 	{
 		projectBool = true;
 		for (int x = 0; x < PKB::variables.getSize(); x++)
+		{
 			if (PKB::modifies.isModifiedStmt(currentFirstVariableNo, x))
 			{
 				boolAnswer = true; //remember that boolanswer is false by default
 				break;
 			}
+			boolAnswer = false;
+		}
 	}
 	else if (allProcsFirst == true && allVarsSecond == true)
 	{
 		for (int x = 0; x < PKB::procedures.getSize(); x++)
 		{
-			for (int y = 1; y <= PKB::variables.getSize(); y++)
+			for (int y = 0; y <= PKB::variables.getSize(); y++)
 				if (PKB::modifies.isModifiedProc(x, y))
 				{
 					firstVariableAnswer.push_back(PKB::procedures.getPROCName(x));
@@ -406,7 +625,7 @@ void IEvalQuery::EvaluateModifies()
 	{
 		for (int x = 1; x <= PKB::maxProgLines; x++)
 		{
-			for (int y = 1; y <= PKB::variables.getSize(); y++)
+			for (int y = 0; y <= PKB::variables.getSize(); y++)
 			{
 				if (PKB::modifies.isModifiedStmt(x, y))
 				{
@@ -502,11 +721,14 @@ void IEvalQuery::EvaluateUses()
 	{
 		projectBool = true;
 		for (int x = 0; x < PKB::variables.getSize(); x++)
+		{
 			if (PKB::modifies.isModifiedProc(currentFirstVariableNo, x))
 			{
-				boolAnswer = true; //remember that boolanswer is false by default
+				boolAnswer = true;
 				break;
 			}
+			boolAnswer = false;
+		}
 	}
 	else if (firstNumber == true && secondFixedVariable == true)
 	{
@@ -520,17 +742,20 @@ void IEvalQuery::EvaluateUses()
 	{
 		projectBool = true;
 		for (int x = 0; x < PKB::variables.getSize(); x++)
+		{
 			if (PKB::modifies.isModifiedStmt(currentFirstVariableNo, x))
 			{
 				boolAnswer = true; //remember that boolanswer is false by default
 				break;
 			}
+			boolAnswer = false;
+		}
 	}
 	else if (allProcsFirst == true && allVarsSecond == true)
 	{
 		for (int x = 0; x < PKB::procedures.getSize(); x++)
 		{
-			for (int y = 1; y <= PKB::variables.getSize(); y++)
+			for (int y = 0; y <= PKB::variables.getSize(); y++)
 				if (PKB::uses.isUsedProc(x, y))
 				{
 					firstVariableAnswer.push_back(PKB::procedures.getPROCName(x));
@@ -550,7 +775,7 @@ void IEvalQuery::EvaluateUses()
 	{
 		for (int x = 1; x <= PKB::maxProgLines; x++)
 		{
-			for (int y = 1; y <= PKB::variables.getSize(); y++)
+			for (int y = 0; y <= PKB::variables.getSize(); y++)
 			{
 				if (PKB::uses.isUsedStmt(x, y))
 				{
@@ -623,11 +848,14 @@ void IEvalQuery::EvaluateParent()
 		for (int x = 1; x <= PKB::maxProgLines; x++)
 		{
 			for (int y = 1; y <= PKB::maxProgLines; y++)
+			{
 				if (PKB::parent.isParent(x, y))
 				{
 					boolAnswer = true;
 					break;
 				}
+				boolAnswer = false;
+			}
 		}
 	}
 	else if (allStmtsFirst == true && allStmtsSecond == true)
@@ -716,11 +944,14 @@ void IEvalQuery::EvaluateParentStar()
 		for (int x = 1; x <= PKB::maxProgLines; x++)
 		{
 			for (int y = 1; y <= PKB::maxProgLines; y++)
+			{
 				if (PKB::parent.isParent(x, y))
 				{
 					boolAnswer = true;
 					break;
 				}
+				boolAnswer = false;
+			}
 		}
 	}
 	else if (allStmtsFirst == true && allStmtsSecond == true)
@@ -813,11 +1044,14 @@ void IEvalQuery::EvaluateFollows()
 		for (int x = 1; x <= PKB::maxProgLines; x++)
 		{
 			for (int y = 1; y <= PKB::maxProgLines; y++)
+			{
 				if (PKB::follows.isFollows(x, y))
 				{
 					boolAnswer = true;
 					break;
 				}
+				boolAnswer = false;
+			}
 		}
 	}
 	else if (allStmtsFirst == true && allStmtsSecond == true)
@@ -911,11 +1145,14 @@ void IEvalQuery::EvaluateFollowsStar()
 		for (int x = 1; x <= PKB::maxProgLines; x++)
 		{
 			for (int y = 1; y <= PKB::maxProgLines; y++)
+			{
 				if (PKB::follows.isFollowsStar(x, y))
 				{
 					boolAnswer = true;
 					break;
 				}
+				boolAnswer = false;
+			}
 		}
 	}
 	else if (allStmtsFirst == true && allStmtsSecond == true)
@@ -1023,11 +1260,14 @@ void IEvalQuery::EvaluateCalls()
 		for (int x = 0; x < PKB::procedures.getSize(); x++)
 		{
 			for (int y = 0; y < PKB::procedures.getSize(); y++)
+			{
 				if (PKB::calls.isCalled(x, y))
 				{
 					boolAnswer = true;
 					break;
 				}
+				boolAnswer = false;
+			}
 		}
 	}
 	else if (firstFixedProcedure == true && allProcsSecond == true)
@@ -1114,8 +1354,11 @@ void IEvalQuery::EvaluateCallsStar()
 			for (int y = 0; y < PKB::procedures.getSize(); y++)
 				if (PKB::calls.isCalledStar(x, y))
 				{
-					boolAnswer = true;
-					break;
+					{
+						boolAnswer = true;
+						break;
+					}
+				boolAnswer = false;
 				}
 		}
 	}
@@ -1199,7 +1442,7 @@ void IEvalQuery::EvaluatePattern()
 					if(TryMatch(temp,PKB::variables.getVARName(i),vecMatch,true))
 					{
 						ASTStmtNode* tempnode = (ASTStmtNode*)temp;
-						stmtLineTrue.push_back(tempnode->getStmtNumber());
+						firstVariableAnswer.push_back(Helper::intToString(tempnode->getStmtNumber()));
 					}
 				}
 			}
@@ -1208,7 +1451,7 @@ void IEvalQuery::EvaluatePattern()
 				if(TryMatch(temp,currentFirstVariableName,vecMatch,true))
 				{
 					ASTStmtNode* tempnode = (ASTStmtNode*)temp;
-					stmtLineTrue.push_back(tempnode->getStmtNumber());
+					firstVariableAnswer.push_back(Helper::intToString(tempnode->getStmtNumber()));
 				}
 
 			}

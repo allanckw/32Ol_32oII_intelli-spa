@@ -1,19 +1,25 @@
 #pragma once
 #include "StdAfx.h"
 #include "QueryTreeNode.h"
+#include "QueryEnums.h"
 
 class QueryProjectNode :
 	public QueryTreeNode
 {
 public:
 	QueryProjectNode();
-	QueryProjectNode(vector<pair<string, string>>);
-	QueryProjectNode(vector<string>);
-	vector<string> getAnswer();
-	vector<pair<string, string>> getPairAnswer();
-	void setAnswer(vector<string>);
-	void setAnswer(vector<pair<string, string>>);
+	QueryProjectNode(QueryEnums::QueryVar, string, QueryEnums::QueryVar, string, vector<string>, vector<string>, bool);
+	pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>> getProjectionHeader();
+	QueryEnums::QueryVar getFirstProjectionType();
+	QueryEnums::QueryVar getSecondProjectionType();
+	string getFirstProjectionName();
+	string getSecondProjectionName();
+	vector<int> getFirstProjectionAnswer();
+	vector<int> getSecondProjectionAnswer();
+	bool getBoolAnswer();
 private:
-	vector<string> answer1;
-	vector<pair<string, string>> answer2;
+	pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>> projectionHeader;
+	vector<int> firstProjectionAnswer, secondProjectionAnswer;
+	pair<vector<int>, vector<int>> projectionAnswer;
+	bool boolAnswer;
 };

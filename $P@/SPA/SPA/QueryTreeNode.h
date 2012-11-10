@@ -9,6 +9,7 @@ public:
 		Condition,
 		Select,
 		Project,
+		Pattern,
 		LastSelect,
 		Dummy
 	};

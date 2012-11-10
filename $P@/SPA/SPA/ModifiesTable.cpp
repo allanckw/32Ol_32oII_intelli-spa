@@ -95,6 +95,7 @@ void ModifiesTable::optimizeModifiesTable()
 	for (auto it = callLinksModifies.begin(); it != callLinksModifies.end(); it++) {
 		STMT s = (*it).first;
 		PROC p = (*it).second;
+		originalModifiedByStmt[s] = originalModifiedByProc[p];
 		optimizedModifiedByStmt[s] = optimizedModifiedByProc[p];
 
 		for (auto it2 = optimizedModifiedByStmt[s].begin(); it2 != optimizedModifiedByStmt[s].end(); it2++) {

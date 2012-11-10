@@ -104,8 +104,8 @@ void DesignExtractor::buildFirstRound() {
 			case ASTNode::Call: {
 				PROC calledProc = (*currentStmtNode).getValue();
 				PKB::calls.insertCalls(currentProc, calledProc);
-				PKB::uses.linkCallStmtToProcUses((*currentStmtNode).getStmtNumber(), currentProc);
-				PKB::modifies.linkCallStmtToProcModifies(lastStatementNumber, currentProc);
+				PKB::uses.linkCallStmtToProcUses((*currentStmtNode).getStmtNumber(), calledProc);
+				PKB::modifies.linkCallStmtToProcModifies((*currentStmtNode).getStmtNumber(), calledProc);
 
 				toProcAdjList[currentProc].insert(calledProc);
 				fromProcAdjList[calledProc].insert(currentProc);

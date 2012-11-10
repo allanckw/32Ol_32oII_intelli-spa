@@ -95,6 +95,7 @@ void UsesTable::optimizeUsesTable()
 	for (auto it = callLinksUses.begin(); it != callLinksUses.end(); it++) {
 		STMT s = (*it).first;
 		PROC p = (*it).second;
+		originalUsedByStmt[s] = originalUsedByProc[p];
 		optimizedUsedByStmt[s] = optimizedUsedByProc[p];
 
 		for (auto it2 = optimizedUsedByStmt[s].begin(); it2 != optimizedUsedByStmt[s].end(); it2++) {

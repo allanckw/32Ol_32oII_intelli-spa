@@ -1,0 +1,393 @@
+79
+cat: All Category
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, stmt t;
+Select BOOLEAN such that Follows(1, 2)
+TRUE
+5000 
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, stmt t;
+Select BOOLEAN such that Follows(103, 243)
+TRUE
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, stmt t;
+Select BOOLEAN such that Follows(109, 239)
+TRUE
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, stmt t;
+Select BOOLEAN such that Follows(151, 152)
+FALSE
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, stmt t;
+Select BOOLEAN such that Follows(303, 357)
+TRUE
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, stmt t;
+Select BOOLEAN such that Follows(312, 321)
+TRUE
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, stmt t;
+Select BOOLEAN such that Follows(501, 502)
+FALSE
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, stmt t;
+Select BOOLEAN such that Follows(157, s)
+FALSE
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, stmt t;
+Select BOOLEAN such that Follows(s, t)
+TRUE
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, stmt t; variable v;
+Select BOOLEAN such that Follows(1, v)
+FALSE
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, stmt t; variable v;
+Select BOOLEAN such that Follows(1, "v")
+FALSE
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, stmt t; variable v;
+Select BOOLEAN such that Follows(v, 2)
+FALSE
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, stmt t; variable v;
+Select BOOLEAN such that Follows("v", 2)
+FALSE
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, stmt t; assign a;
+Select BOOLEAN such that Follows(1, 2) pattern a ("a", "b")
+TRUE
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, stmt t; assign a;
+Select BOOLEAN such that Follows(1, 2) pattern a ("a", _"x"_)
+FALSE
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, stmt t;
+Select s such that Follows(1, s)
+2
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, stmt t;
+Select s such that Follows(103, s)
+243
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, stmt t;
+Select s such that Follows(115, s)
+235
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, stmt t;
+Select s such that Follows(157, s)
+None
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, stmt t;
+Select s such that Follows(303, s)
+357
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, stmt t;
+Select s such that Follows(312, s)
+321
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, stmt t;
+Select s such that Follows(501, s)
+None
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, stmt t;
+Select s such that Follows(s, 2)
+1
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, stmt t;
+Select s such that Follows(s, 243)
+103
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, stmt t;
+Select s such that Follows(s, 231)
+121
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, stmt t;
+Select s such that Follows(s, 175)
+None
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, stmt t;
+Select s such that Follows(s, 357)
+303
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, stmt t;
+Select s such that Follows(s, 330)
+321
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, stmt t;
+Select s such that Follows(s, 1)
+None
+5000 
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, stmt t; constant c
+Select c such that Follows(s, t)
+0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+5000 
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a;
+Select a such that Follows(1, a)
+2
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a;
+Select a such that Follows(103, a)
+243
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a;
+Select a such that Follows(115, a)
+235
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a;
+Select a such that Follows(157, a)
+None
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a;
+Select a such that Follows(303, a)
+357
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a;
+Select a such that Follows(312, a)
+None
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a;
+Select a such that Follows(501, a)
+None
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a;
+Select a such that Follows(a, 2)
+1
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a;
+Select a such that Follows(a, 243)
+None
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a;
+Select a such that Follows(a, 231)
+None
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a;
+Select a such that Follows(a, 175)
+None
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a;
+Select a such that Follows(a, 357)
+None
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a;
+Select a such that Follows(a, 330)
+None
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a;
+Select a such that Follows(a, 1)
+None
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a;
+Select a such that Follows(1, a) pattern a ("a", "l")
+None
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a;
+Select a such that Follows(1, a) pattern a ("a", _"l"_)
+2
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a;
+Select a such that Follows(1, a) pattern a ("t", _"l"_)
+None
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a;
+Select a such that Follows(1, a) pattern a ("a", _)
+2
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a;
+Select a such that Follows(1, a) pattern a (_, _"a"_)
+2
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a;
+Select a such that Follows(a, 401) pattern a ("g", "h")
+400
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a;
+Select a such that Follows(a, 401) pattern a ("g", _"h"_)
+400
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a;
+Select a such that Follows(a, 401) pattern a ("z", _"h"_)
+None
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a;
+Select a such that Follows(a, 401) pattern a ("a", _)
+None
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a;
+Select a such that Follows(a, 401) pattern a (_, _"a"_)
+None
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+while w;
+Select w such that Follows(1, w)
+None
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+while w;
+Select w such that Follows(103, w)
+None
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+while w;
+Select w such that Follows(115, w)
+None
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+while w;
+Select w such that Follows(157, w)
+None
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+while w;
+Select w such that Follows(303, w)
+None
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a;
+Select a such that Follows(312, w)
+321
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+while w;
+Select w such that Follows(501, w)
+None
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+while w;
+Select w such that Follows(w, 2)
+None
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+while w;
+Select w such that Follows(w, 243)
+103
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+while w;
+Select w such that Follows(w, 231)
+121
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+while w;
+Select w such that Follows(w, 175)
+None
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+while w;
+Select w such that Follows(w, 357)
+303
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+while w;
+Select w such that Follows(w, 330)
+321
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+while w;
+Select w such that Follows(w, 1)
+None
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+while w; stmt s;
+Select s such that Follows(s, w)
+102, 108, 114, 120, 126, 132, 138, 144, 150, 156, 162, 168, 174, 180, 186, 192, 198, 204, 210, 216, 302, 303, 312, 321, 330, 339
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+while w; stmt s;
+Select s such that Follows(w, s)
+223, 227, 231, 235, 239, 243, 312, 321, 330, 339, 348, 357
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+while w; stmt s;
+Select w such that Follows(s, w)
+103, 109, 115, 121, 127, 133, 139, 145, 151, 157, 163, 169, 175, 181, 187, 193, 199, 205, 211, 217, 303, 312, 321, 330, 339, 348
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+while w; stmt s;
+Select w such that Follows(w, s)
+103, 109, 115, 121, 127, 133, 303, 312, 321, 330, 339
+5000
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+while w; assign a;
+Select a such that Follows(a, w)
+102, 108, 114, 120, 126, 132, 138, 144, 150, 156, 162, 168, 174, 180, 186, 192, 198, 204, 210, 216, 302
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+while w; assign a;
+Select a such that Follows(w, a)
+223, 227, 231, 235, 239, 243, 357
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+while w; assign a;
+Select w such that Follows(a, w)
+103, 109, 115, 121, 127, 133, 139, 145, 151, 157, 163, 169, 175, 181, 187, 193, 199, 205, 211, 217, 303
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+while w; assign a;
+Select w such that Follows(w, a)
+103, 109, 115, 121, 127, 133, 303
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+while w, x;
+Select w such that Follows(w, x)
+312, 321, 330, 339
+5000
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+while w, x;
+Select x such that Follows(w, x)
+321, 330, 339, 348
+5000                

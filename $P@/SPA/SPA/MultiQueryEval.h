@@ -10,4 +10,7 @@ private:
 
 public:
 	vector<string> evaluateQuery(MultiQueryTree);
+	void evaluateStarred(vector<vector<int>> *answers, MultiQueryTree reladition);
+	void evaluateUnstarred(vector<vector<int>> *answers, MultiQueryTree reladition);
+
 };

@@ -13,7 +13,7 @@ private:
 	DisjointSet synonyms;
 	
 	//condition: v.varName='x' => (v, <varName, x>)
-	unordered_map< string, unordered_map<QueryEnums::QueryCond, string> > unsortedConditions;
+	unordered_map< string, unordered_map<QueryEnums::QueryCond, int> > unsortedConditions;
 	//relation:  Modifies(s,v) => (s, <Modifies, v>)
 	unordered_map< string, set<pair<QueryEnums::QueryRel, string>> > unsortedRelations;
 	
@@ -21,13 +21,12 @@ private:
 	unordered_set<string> selectedSynonymsSet;
 
 	//evaluation
-	vector<QueryCluster> markedTree;
-	vector<QueryCluster> uUnmarkedTree;
+	vector<QueryCluster> tree;
 
 public:
 	//creation
 	void insertSynonym(string synonym, QueryEnums::QueryVar);
-	bool insertCondition(string synonym, QueryEnums::QueryCond attribute, string condition);
+	bool insertCondition(string synonym, QueryEnums::QueryCond attribute, int condition);
 	void insertRelationship(QueryEnums::QueryRel, string synonym1, string synonym2);
 	void insertSelectSynonym(string synonym);
 	void buildTree();
@@ -35,6 +34,5 @@ public:
 	//evaluation
 	unordered_map<string, QueryEnums::QueryVar> getSelectedSynonymToType();
 	unordered_map<QueryEnums::QueryVar, string> getSelectedTypeToSynonym();
-	vector<QueryCluster> getMarkedTree();
-	vector<QueryCluster> getUnmarkedTree();
+	vector<QueryCluster> getTree();
 };

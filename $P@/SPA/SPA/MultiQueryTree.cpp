@@ -8,7 +8,7 @@ void MultiQueryTree::insertSynonym(string synonym, QueryEnums::QueryVar var)
 }
 
 bool MultiQueryTree::insertCondition(string synonym,
-	QueryEnums::QueryCond attribute, string condition)
+	QueryEnums::QueryCond attribute, int condition)
 {
 	if (unsortedConditions[synonym].count(attribute) > 0 &&
 		unsortedConditions[synonym][attribute] != condition)
@@ -31,6 +31,7 @@ void MultiQueryTree::insertSelectSynonym(string synonym)
 
 void MultiQueryTree::buildTree()
 {
+	queue<QueryCluster> markedTree;
 	vector<unordered_set<string>> components = synonyms.getComponents();
 	for (auto it = components.begin(); it != components.end(); it++) {
 		QueryCluster cluster;
@@ -46,16 +47,21 @@ void MultiQueryTree::buildTree()
 			if (cluster.synonymsSet.count((*it2).first) > 0)
 				cluster.relations[(*it2).first] = (*it2).second;
 
-		bool marked = false;
+		cluster.marked = false;
 		for (auto it2 = selectedSynonymsSet.begin(); it2 != selectedSynonymsSet.end(); it2++)
 			if (cluster.synonymsSet.count(*it2) > 0) {
-				marked = true;
+				cluster.marked = true;
+				markedTree.push(cluster);
 				break;
 			}
-		if (marked)
-			markedTree.push_back(cluster);
-		else
-			uUnmarkedTree.push_back(cluster);
+
+		if (!cluster.marked)
+			tree.push_back(cluster);
+	}
+
+	while (!markedTree.empty()) {
+		tree.push_back(markedTree.front());
+		markedTree.pop();
 	}
 }
 
@@ -69,12 +75,7 @@ unordered_map<QueryEnums::QueryVar, string> MultiQueryTree::getSelectedTypeToSyn
 	return typeToSynonym;
 }
 
-vector<QueryCluster> MultiQueryTree::getMarkedTree()
+vector<QueryCluster> MultiQueryTree::getTree()
 {
-	return markedTree;
-}
-
-vector<QueryCluster> MultiQueryTree::getUnmarkedTree()
-{
-	return uUnmarkedTree;
+	return tree;
 }

@@ -155,3 +155,13 @@ variable v;
 Select v such that Uses(6, v) 
 x,q
 500
+32 - Uses :: Which variables are modified by statement 6?
+variable v; stmt s1;
+Select s1 such that Modifies(s1, v) 
+1,2,3,4,5,6,7,8,9,10
+500
+33 - Uses :: Which variables are modified by statement 6?
+variable v; stmt s1;
+Select s1 such that Uses(s1, v) 
+1,2,3,4,5,6,7,8,9,10
+500

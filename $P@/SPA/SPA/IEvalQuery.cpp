@@ -1527,6 +1527,7 @@ void IEvalQuery::EvaluatePattern()
 
 bool IEvalQuery::TryMatch(ASTNode* testedNode, string targetVar,vector<string> incCodes, bool isSubsTree)
 {
+
 	if(!(testedNode->getType() == ASTNode::Assign))
 		throw SPAException("Error, this node not an assignNode");
 
@@ -1587,7 +1588,7 @@ bool IEvalQuery::TryMatch(ASTNode* testedNode, string targetVar,vector<string> i
 		{
 			//assume is subtree
 
-			if(rightInt == nodesStack.top()->getValue())
+			if(nodesStack.top()->getType() == ASTNode::Variable && rightInt == nodesStack.top()->getValue())
 			{
 				return true;
 			}

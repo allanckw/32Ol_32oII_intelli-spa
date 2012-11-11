@@ -44,7 +44,7 @@ void IEvalQuery::resetAll()
 	answer.clear();
 }
 
-void IEvalQuery::cartesianProduct()
+void IEvalQuery::cartesianUntilGoMad()
 {
 	//Firstly, fill the table with something at least
 	QueryProjectNode* firstPNode = projects.at(0);
@@ -316,7 +316,7 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 					}
 					else if (projects.size() > 1)
 					{
-						cartesianProduct();					
+						cartesianUntilGoMad();					
 
 						//Mostly should work on only 1 select variable.
 						if (!selected.empty()) //irrelavant check but just in case. 
@@ -1458,19 +1458,23 @@ void IEvalQuery::EvaluatePattern()
 			 //isSub is always true for now because we only need to handle _"hi"_ case
 			if (allVarsFirst == true)
 			{
-				for (int i = 0; i < PKB::variables.getSize(); i++)
-				{
-					if(TryMatch(temp,PKB::variables.getVARName(i),vecMatch,sub))
+				
+					if(TryMatch(temp,"_",vecMatch,sub))
 					{
-						ASTStmtNode* tempnode = (ASTStmtNode*)temp;
-						string tempstr = Helper::intToString(tempnode->getStmtNumber());
+						for (int i = 0; i < PKB::variables.getSize(); i++)
+						{
+							ASTStmtNode* tempnode = (ASTStmtNode*)temp;
+							string tempstr = Helper::intToString(tempnode->getStmtNumber());
 
-							firstVariableAnswer.push_back(tempstr);
+							PKB::variables;
+							if(temp->getChild(0)->getValue() == i)
+							{
+								firstVariableAnswer.push_back(tempstr);
 							
-							secondVariableAnswer.push_back(Helper::intToString(i));
+								secondVariableAnswer.push_back(Helper::intToString(i));
+							}
 						
-						
-					}
+						}
 				}
 			}
 			else

@@ -125,7 +125,8 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 				currentToken.at(i) = tolower(currentToken.at(i));
 		}
 
-		if (variableQueryEnums.find(currentToken) != variableQueryEnums.end() || currentToken.compare("Select") == 0)
+		if (variableQueryEnums.find(currentToken) != variableQueryEnums.end() || 
+			currentToken.compare("select") == 0 || currentToken.compare("Select") == 0)
 		{
 			if (currentToken.compare("assignment") == 0 || currentToken.compare("assign") == 0 ||
 				currentToken.compare("Assignment") == 0 || currentToken.compare("Assign") == 0)
@@ -483,7 +484,7 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 						}
 					}
 					if (existsVariable == false)
-						throw SPAException("Variable in condition was not found in query");
+						throw SPAException("Variable in pattern was not found in query");
 					patternDeclaration.first = make_pair(variableType, currentToken);
 					patternVariable = true;
 					existsVariable = false;
@@ -540,7 +541,8 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 				else if(currentToken.at(0) != '_' || currentToken.at(currentToken.size() - 1) != '_' ||
 					currentToken.at(1) != '\"' || currentToken.at(currentToken.size() - 2) != '\"')
 					throw SPAException("Pattern must be in the form _\"variable\"_"); //for sem 1 only
-				else if ((currentToken.size() == 3 && !isName(Helper::charToString(currentToken.at(1)))) ||
+				else if (currentToken.at(0) == '\"' && currentToken.at(currentToken.size() - 1) == '\"' && 
+						(currentToken.size() == 3 && !isName(Helper::charToString(currentToken.at(1)))) ||
 						!isName(currentToken.substr(1, currentToken.size() - 2)))
 					throw SPAException("Invalid parameter for pattern");
 				else

@@ -46,26 +46,62 @@ void IEvalQuery::resetAll()
 
 void IEvalQuery::cartesianUntilGoMad()
 {
-	//Firstly, fill the table with something at least
-	QueryProjectNode* firstPNode = projects.at(0);
-	bigAnswerHeaders.push_back(firstPNode->getFirstProjectionName());
-	bigAnswerHeaders.push_back(firstPNode->getSecondProjectionName());
-	bigAnswerIndices.push_back(firstPNode->getFirstProjectionAnswer());
-	bigAnswerIndices.push_back(firstPNode->getSecondProjectionAnswer());
+	int startIndex = 0;
 	
+	//Firstly, fill the table with something at least
+	//But that something must be a valid synonym
+	while ((projects.at(startIndex)->getFirstProjectionName().find('\"') == 0 || 
+			projects.at(startIndex)->getFirstProjectionType() == QueryEnums::WildCard ||
+			projects.at(startIndex)->getSecondProjectionName().find('\"') == 0 || 
+			projects.at(startIndex)->getSecondProjectionType() == QueryEnums::WildCard) &&
+			startIndex < projects.size())
+	{
+		startIndex++;
+	}
+	
+	if (projects.at(startIndex)->getFirstProjectionName().find('\"') != 0 && 
+			projects.at(startIndex)->getFirstProjectionType() != QueryEnums::WildCard)
+	{
+		bigAnswerHeaders.push_back(projects.at(startIndex)->getFirstProjectionName());
+		bigAnswerIndices.push_back(projects.at(startIndex)->getFirstProjectionAnswer());
+	}
+	
+	if (projects.at(startIndex)->getSecondProjectionName().find('\"') != 0 && 
+		projects.at(startIndex)->getSecondProjectionType() != QueryEnums::WildCard)
+	{
+		bigAnswerHeaders.push_back(projects.at(startIndex)->getSecondProjectionName());
+		bigAnswerIndices.push_back(projects.at(startIndex)->getSecondProjectionAnswer());
+	}
+
+	startIndex++;
+	if (startIndex >= projects.size())
+	{
+		superBigAnswerHeaders.push_back(bigAnswerHeaders);
+		superBigAnswerIndices.push_back(bigAnswerIndices);
+		finalBoolAnswer = projects.at(startIndex - 1)->getBoolAnswer();
+		return;
+	}
+
 	bool firstMatch = false, secondMatch = false;
 	int firstIndexMatch, secondIndexMatch;
 	QueryProjectNode* currentPNode;
 
-	for (int i = 1; i < projects.size(); i++)
+	for (int i = startIndex; i < projects.size(); i++)
 	{
 		currentPNode = projects.at(i);
 		currentReladitionType = currentPNode->getProjectionReladitionType();
+
+		if (currentPNode->getBoolAnswer() == false) //One dies, ALL DIE
+		{
+			finalBoolAnswer = false;
+			return;
+		}
+
 		for (int j = 0; j < bigAnswerHeaders.size(); j++)
 		{
 			if (currentPNode->getFirstProjectionName().compare(bigAnswerHeaders.at(j)) == 0) // when a matching header is found in big table
 			{
-				if (currentPNode->getFirstProjectionType() != QueryEnums::WildCard) //Wildcards do _NOT_ match!
+				if (currentPNode->getFirstProjectionName().find('\"') != 0 && currentPNode->getFirstProjectionType() != QueryEnums::WildCard)
 				{
 					firstMatch = true;
 					firstIndexMatch = j;
@@ -73,7 +109,7 @@ void IEvalQuery::cartesianUntilGoMad()
 			}
 			if (currentPNode->getSecondProjectionName().compare(bigAnswerHeaders.at(j)) == 0) // when a matching header is found in big table
 			{
-				if (currentPNode->getSecondProjectionType() != QueryEnums::WildCard) //Wildcards do _NOT_ match!
+				if (currentPNode->getSecondProjectionName().find('\"') != 0 && currentPNode->getSecondProjectionType() != QueryEnums::WildCard)
 				{
 					secondMatch = true;
 					secondIndexMatch = j;
@@ -105,7 +141,8 @@ void IEvalQuery::cartesianUntilGoMad()
 		{
 			for (int x = 0; x <  bigAnswerHeaders.size(); x++) //transfer all current big answers to temp table
 				tempBigAnswerHeaders.push_back(bigAnswerHeaders.at(x));
-			if (currentReladitionType != QueryEnums::Pattern) //Pattern will only have 1 vector of answers as with all conditions
+			//Pattern may only have 1 vector of answers
+			if (currentPNode->getSecondProjectionName().find('\"') != 0 && currentPNode->getSecondProjectionType() != QueryEnums::WildCard)
 				tempBigAnswerHeaders.push_back(currentPNode->getSecondProjectionName());
 
 			for (int k = 0; k < bigAnswerIndices.at(firstIndexMatch).size(); k++) //for every index in big table
@@ -116,7 +153,7 @@ void IEvalQuery::cartesianUntilGoMad()
 					{
 						for (int y = 0; y < bigAnswerIndices.size(); y++)
 							tempSmallAnswerIndices.push_back(bigAnswerIndices.at(y).at(k));
-						if (currentReladitionType != QueryEnums::Pattern)  //Pattern will only have 1 vector of answers as with all conditions
+						if (currentPNode->getSecondProjectionName().find('\"') != 0 && currentPNode->getSecondProjectionType() != QueryEnums::WildCard)
 							tempSmallAnswerIndices.push_back(currentPNode->getSecondProjectionAnswer().at(l));
 
 						tempBigAnswerIndices.push_back(tempSmallAnswerIndices);
@@ -128,8 +165,9 @@ void IEvalQuery::cartesianUntilGoMad()
 		else if (secondMatch)
 		{
 			for (int x = 0; x <  bigAnswerHeaders.size(); x++) //transfer all current big answers to temp table
-					tempBigAnswerHeaders.push_back(bigAnswerHeaders.at(x));
-			tempBigAnswerHeaders.push_back(currentPNode->getFirstProjectionName());
+				tempBigAnswerHeaders.push_back(bigAnswerHeaders.at(x));
+			if (currentPNode->getFirstProjectionName().find('\"') != 0 && currentPNode->getFirstProjectionType() != QueryEnums::WildCard)
+				tempBigAnswerHeaders.push_back(currentPNode->getFirstProjectionName());
 
 			for (int k = 0; k < bigAnswerIndices.at(secondIndexMatch).size(); k++) //for every index in big table
 			{ 
@@ -139,7 +177,8 @@ void IEvalQuery::cartesianUntilGoMad()
 					{
 						for (int y = 0; y < bigAnswerIndices.size(); y++)
 							tempSmallAnswerIndices.push_back(bigAnswerIndices.at(y).at(k));
-						tempSmallAnswerIndices.push_back(currentPNode->getFirstProjectionAnswer().at(l));
+						if (currentPNode->getFirstProjectionName().find('\"') != 0 && currentPNode->getFirstProjectionType() != QueryEnums::WildCard)
+							tempSmallAnswerIndices.push_back(currentPNode->getFirstProjectionAnswer().at(l));
 
 						tempBigAnswerIndices.push_back(tempSmallAnswerIndices);
 						tempSmallAnswerIndices.clear();
@@ -147,8 +186,28 @@ void IEvalQuery::cartesianUntilGoMad()
 				}
 			}
 		}
-		else
-			finalBoolAnswer = currentPNode->getBoolAnswer();
+		else //create a new cluster
+		{
+			superBigAnswerHeaders.push_back(bigAnswerHeaders);
+			superBigAnswerIndices.push_back(bigAnswerIndices);
+
+			bigAnswerHeaders.clear();
+			bigAnswerIndices.clear();
+			tempBigAnswerIndices.clear();
+			tempBigAnswerHeaders.clear();
+			
+			if (currentPNode->getFirstProjectionName().find('\"') != 0 && currentPNode->getFirstProjectionType() != QueryEnums::WildCard)
+			{
+				tempBigAnswerHeaders.push_back(currentPNode->getFirstProjectionName());
+				tempBigAnswerIndices.push_back(currentPNode->getFirstProjectionAnswer());
+			}
+			
+			if (currentPNode->getSecondProjectionName().find('\"') != 0 && currentPNode->getSecondProjectionType() != QueryEnums::WildCard)
+			{
+				tempBigAnswerHeaders.push_back(currentPNode->getSecondProjectionName());
+				tempBigAnswerIndices.push_back(currentPNode->getSecondProjectionAnswer());
+			}
+		}
 
 		firstMatch = false;
 		secondMatch = false;
@@ -185,10 +244,12 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 					currentSecondVariableType = currentPatternNode->getSecondPatternParameterType();
 
 					EvaluatePattern();
-					//Name of first parameter changed to pattern variable name so that select can be performed on
-					//firstvariableanswer vector.
+					
+					//Since answers are being overwritten, headers should also be overwritten accordingly
 					currentFirstVariableName = currentPatternNode->getPatternVariableName();
 					currentFirstVariableType = currentPatternNode->getPatternVariableType();
+					currentSecondVariableName = currentPatternNode->getFirstPatternParameterName();
+					currentSecondVariableType = currentPatternNode->getFirstPatternParameterType();
 				}
 				break;
 				case QueryTreeNode::Relationship:
@@ -291,7 +352,7 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 					vector<vector<int>> allSelectAnswers;
 					selectType = selected.at(0).first;
 					selectName = selected.at(0).second;
-					int index = -1;
+					int index1 = -1, index2 = -1;
 					set<int> uniqueSelectAnswers;
 					bool related = true; //if select variables are related to relationships
 
@@ -325,22 +386,25 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 							/*for (int i = 0; i < selected.size(); i++)
 							{
 								currentFirstIndices.clear();*/
-
-								for (int j = 0; j < bigAnswerHeaders.size(); j++)
+							for (int a = 0; a < superBigAnswerHeaders.size(); a++)
+							{
+								for (int j = 0; j < superBigAnswerHeaders.at(a).size(); j++)
 								{
-									if (selectName.compare(bigAnswerHeaders.at(j)) == 0)
+									if (selectName.compare(superBigAnswerHeaders.at(a).at(j)) == 0)
 									{
-										index = j;
+										index1 = a;
+										index2 = j;
 										break;
 									}
 								}
+							}
 
-							if (index < 0)
+							if (index1 < 0 || index2 < 0)
 								related = false;
 							else
 							{
-								for (int k = 0; k < bigAnswerIndices.size(); k++)
-									uniqueSelectAnswers.insert(bigAnswerIndices.at(k).at(index));
+								for (int k = 0; k < superBigAnswerIndices.at(index1).size(); k++)
+									uniqueSelectAnswers.insert(superBigAnswerIndices.at(index1).at(index2).at(k));
 							}
 						}
 					}
@@ -660,8 +724,84 @@ void IEvalQuery::EvaluateModifies()
 			}
 		}
 	}
+	else if (allStmtsFirst)
+	{
+		for (int x = 1; x <= PKB::maxProgLines; x++)
+		{
+			for (auto it = currentSecondIndices.begin(); it != currentSecondIndices.end(); it++)
+			{
+				if (PKB::modifies.isModifiedStmt(x, (*it)))
+				{
+					firstVariableAnswer.push_back(Helper::intToString(x));
+					secondVariableAnswer.push_back(Helper::intToString(*it));
+				}
+			}
+		}
+	}
+	else if (allProcsFirst)
+	{
+		for (int x = 0; x < PKB::procedures.getSize(); x++)
+		{
+			for (auto it = currentSecondIndices.begin(); it != currentSecondIndices.end(); it++)
+			{
+				if (PKB::modifies.isModifiedProc(x, (*it)))
+				{
+					firstVariableAnswer.push_back(Helper::intToString(x));
+					secondVariableAnswer.push_back(Helper::intToString(*it));
+				}
+			}
+		}
+	}
+	else if (allVarsSecond)
+	{
+		for (auto it = currentFirstIndices.begin(); it != currentFirstIndices.end(); it++)
+		{
+			for (int x = 0; x < PKB::variables.getSize(); x++)
+			{
+				if (currentFirstVariableType == QueryEnums::Procedure)
+				{
+					if (PKB::modifies.isModifiedProc((*it), x))
+					{
+						firstVariableAnswer.push_back(Helper::intToString(*it));
+						secondVariableAnswer.push_back(Helper::intToString(x));
+					}
+				}
+				else //statement
+				{
+					if (PKB::modifies.isModifiedStmt((*it), x))
+					{
+						firstVariableAnswer.push_back(Helper::intToString(*it));
+						secondVariableAnswer.push_back(Helper::intToString(x));
+					}
+				}
+			}
+		}
+	}
 	else
-		throw SPAException("No case matches this query; not supposed to happen");
+	{
+		for (auto it = currentFirstIndices.begin(); it != currentFirstIndices.end(); it++)
+		{
+			for (auto it2 = currentSecondIndices.begin(); it2 != currentSecondIndices.end(); it2++)
+			{
+				if (currentFirstVariableType == QueryEnums::Procedure)
+				{
+					if (PKB::modifies.isModifiedProc((*it), (*it2)))
+					{
+						firstVariableAnswer.push_back(Helper::intToString(*it));
+						secondVariableAnswer.push_back(Helper::intToString(*it2));
+					}
+				}
+				else //statement
+				{
+					if (PKB::modifies.isModifiedStmt((*it), (*it2)))
+					{
+						firstVariableAnswer.push_back(Helper::intToString(*it));
+						secondVariableAnswer.push_back(Helper::intToString(*it2));
+					}
+				}
+			}
+		}
+	}
 }
 
 void IEvalQuery::EvaluateUses()
@@ -823,8 +963,84 @@ void IEvalQuery::EvaluateUses()
 			}
 		}							
 	}
+	else if (allStmtsFirst)
+	{
+		for (int x = 1; x <= PKB::maxProgLines; x++)
+		{
+			for (auto it = currentSecondIndices.begin(); it != currentSecondIndices.end(); it++)
+			{
+				if (PKB::uses.isUsedStmt(x, (*it)))
+				{
+					firstVariableAnswer.push_back(Helper::intToString(x));
+					secondVariableAnswer.push_back(Helper::intToString(*it));
+				}
+			}
+		}
+	}
+	else if (allProcsFirst)
+	{
+		for (int x = 0; x < PKB::procedures.getSize(); x++)
+		{
+			for (auto it = currentSecondIndices.begin(); it != currentSecondIndices.end(); it++)
+			{
+				if (PKB::uses.isUsedProc(x, (*it)))
+				{
+					firstVariableAnswer.push_back(Helper::intToString(x));
+					secondVariableAnswer.push_back(Helper::intToString(*it));
+				}
+			}
+		}
+	}
+	else if (allVarsSecond)
+	{
+		for (auto it = currentFirstIndices.begin(); it != currentFirstIndices.end(); it++)
+		{
+			for (int x = 0; x < PKB::variables.getSize(); x++)
+			{
+				if (currentFirstVariableType == QueryEnums::Procedure)
+				{
+					if (PKB::uses.isUsedProc((*it), x))
+					{
+						firstVariableAnswer.push_back(Helper::intToString(*it));
+						secondVariableAnswer.push_back(Helper::intToString(x));
+					}
+				}
+				else //statement
+				{
+					if (PKB::uses.isUsedStmt((*it), x))
+					{
+						firstVariableAnswer.push_back(Helper::intToString(*it));
+						secondVariableAnswer.push_back(Helper::intToString(x));
+					}
+				}
+			}
+		}
+	}
 	else
-		throw SPAException("No case matches this query; not supposed to happen");
+	{
+		for (auto it = currentFirstIndices.begin(); it != currentFirstIndices.end(); it++)
+		{
+			for (auto it2 = currentSecondIndices.begin(); it2 != currentSecondIndices.end(); it2++)
+			{
+				if (currentFirstVariableType == QueryEnums::Procedure)
+				{
+					if (PKB::uses.isUsedProc((*it), (*it2)))
+					{
+						firstVariableAnswer.push_back(Helper::intToString(*it));
+						secondVariableAnswer.push_back(Helper::intToString(*it2));
+					}
+				}
+				else //statement
+				{
+					if (PKB::uses.isUsedStmt((*it), (*it2)))
+					{
+						firstVariableAnswer.push_back(Helper::intToString(*it));
+						secondVariableAnswer.push_back(Helper::intToString(*it2));
+					}
+				}
+			}
+		}
+	}
 }
 
 void IEvalQuery::EvaluateParent()

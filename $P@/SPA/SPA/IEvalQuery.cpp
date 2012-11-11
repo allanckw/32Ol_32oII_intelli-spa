@@ -1689,7 +1689,7 @@ void IEvalQuery::EvaluatePattern()
 							{
 								firstVariableAnswer.push_back(tempstr);
 							
-								secondVariableAnswer.push_back(Helper::intToString(i));
+								secondVariableAnswer.push_back(PKB::variables.getVARName(i));
 							}
 						
 						}

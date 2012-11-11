@@ -1463,7 +1463,13 @@ void IEvalQuery::EvaluatePattern()
 					if(TryMatch(temp,PKB::variables.getVARName(i),vecMatch,sub))
 					{
 						ASTStmtNode* tempnode = (ASTStmtNode*)temp;
-						firstVariableAnswer.push_back(Helper::intToString(tempnode->getStmtNumber()));
+						string tempstr = Helper::intToString(tempnode->getStmtNumber());
+
+							firstVariableAnswer.push_back(tempstr);
+							
+							secondVariableAnswer.push_back(Helper::intToString(i));
+						
+						
 					}
 				}
 			}
@@ -1518,6 +1524,7 @@ void IEvalQuery::EvaluatePattern()
 }
 
 //RHS for now handles patterns in the form of "a" or _"a"_
+
 bool IEvalQuery::TryMatch(ASTNode* testedNode, string targetVar,vector<string> incCodes, bool isSubsTree)
 {
 	if(!(testedNode->getType() == ASTNode::Assign))
@@ -1528,13 +1535,15 @@ bool IEvalQuery::TryMatch(ASTNode* testedNode, string targetVar,vector<string> i
 
 	bool leftTrue = true;
 
-	currentFirstVariableNo = PKB::variables.getVARIndex(targetVar);
-	if(!(targetVar.compare("_") == 0) && currentFirstVariableNo != testedNode->getChild(0)->getValue())
+	if(!allVarsFirst)
 	{
-		return false;
+		currentFirstVariableNo = PKB::variables.getVARIndex(targetVar);
+		if(!(targetVar.compare("_") == 0) && currentFirstVariableNo != testedNode->getChild(0)->getValue())
+		{
+			return false;
+		}
+		////////at this point left hand side is ok
 	}
-	////////at this point left hand side is ok
-
 	ASTNode* head= testedNode->getChild(1);
 
 	bool rightTrue = false;

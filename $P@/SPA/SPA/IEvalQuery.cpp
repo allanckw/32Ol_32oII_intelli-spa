@@ -349,7 +349,6 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 					lastSelNode = (QueryLastSelNode*) currentNode;
 					selected = lastSelNode->getRemaindingSelectedVariables();
 					string selectName;
-					vector<vector<int>> allSelectAnswers;
 					selectType = selected.at(0).first;
 					selectName = selected.at(0).second;
 					int index1 = -1, index2 = -1;
@@ -1687,7 +1686,7 @@ void IEvalQuery::EvaluatePattern()
 							{
 								firstVariableAnswer.push_back(tempstr);
 							
-								secondVariableAnswer.push_back(Helper::intToString(i));
+								secondVariableAnswer.push_back(PKB::variables.getVARName(i));
 							}
 						
 						}

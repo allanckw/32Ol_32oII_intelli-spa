@@ -56,14 +56,10 @@ void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
 		}
 		else
 		{
-			if (answers.size() == 0)
-				results.push_back("None");
-
-			else
-				for(unsigned int i = 0; i < answers.size(); i++)
-				{
-					results.push_back(answers.at(i));
-				}
+			for(unsigned int i = 0; i < answers.size(); i++)
+			{
+				results.push_back(answers.at(i));
+			}
 		}
 	}catch (exception& e)
 	{

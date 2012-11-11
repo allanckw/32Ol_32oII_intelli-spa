@@ -165,3 +165,13 @@ variable v; stmt s1;
 Select s1 such that Uses(s1, v) 
 1,2,3,4,5,6,7,8,10
 500
+34 - Uses :: Which variables are modified by statement 6?
+procedure p, q
+Select p such that Calls(p, q) 
+lain
+500
+35 - Uses :: Which variables are modified by statement 6?
+procedure p, q
+Select q such that Calls(p, q) 
+Noob
+500

@@ -1,4 +1,4 @@
-procedure John{	
+procedure Lain{	
 	i=1;
 	m=i;
 	x = i+m+2;

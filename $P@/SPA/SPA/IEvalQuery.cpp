@@ -44,7 +44,7 @@ void IEvalQuery::resetAll()
 	answer.clear();
 }
 
-void IEvalQuery::cartesianUntilGoMad()
+void IEvalQuery::cartesianProduct()
 {
 	//Firstly, fill the table with something at least
 	QueryProjectNode* firstPNode = projects.at(0);
@@ -316,7 +316,7 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 					}
 					else if (projects.size() > 1)
 					{
-						cartesianUntilGoMad();					
+						cartesianProduct();					
 
 						//Mostly should work on only 1 select variable.
 						if (!selected.empty()) //irrelavant check but just in case. 

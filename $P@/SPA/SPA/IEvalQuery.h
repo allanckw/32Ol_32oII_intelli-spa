@@ -53,7 +53,7 @@ private:
 	vector<string> bigAnswerHeaders, tempBigAnswerHeaders;
 	vector<vector<int>> bigAnswerIndices, tempBigAnswerIndices;
 	vector<int> tempSmallAnswerIndices;
-	void cartesianUntilGoMad();
+	void cartesianProduct();
 	bool finalBoolAnswer;
 
 	//Methods For Evaluating Relationships

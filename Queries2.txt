@@ -470,30 +470,30 @@ variable v;
 Select v
 i, m, x, y, k, z
 5000
-95 - Variable, ImplStmtLine, Typed :: What are the variables?
-variable v;
-Select v
-i, m, x, y, k, z
+95 - Procedures, ImplStmtLine, Typed :: What are the procedures?
+procedure p;
+Select p
+Lain
 5000
-96 - Variable, ImplStmtLine, Typed :: What are the variables?
-variable v;
-Select v
-i, m, x, y, k, z
+96 - Follows, ImplStmtLine, Typed :: Follows(1,0)
+assign a1, a2; 
+Select a1 such that Follows(1, 0)
+None
 5000
-97 - Variable, ImplStmtLine, Typed :: What are the variables?
-variable v;
-Select v
-i, m, x, y, k, z
+97 - Follows, ImplStmtLine, Typed :: Follows(0,1)
+assign a1, a2; 
+Select a1 such that Follows(0, 1)
+None
 5000
-98 - Variable, ImplStmtLine, Typed :: What are the variables?
+98 - Variable, ImplStmtLine, Typed :: What are the variables if Follows(1, 0) is true?
 variable v;
-Select v
-i, m, x, y, k, z
+Select v such that Follows(1, 0)
+None
 5000
-99 - Variable, ImplStmtLine, Typed :: What are the variables?
-variable v;
-Select v
-i, m, x, y, k, z
+99 - Variable, ImplStmtLine, Typed :: What are the Constants if Follows(1,2) is true?
+constant c;
+Select c such that Follows(1, 2)
+2,3,1,5
 5000
 100 - Variable, TwoClauses, AssignPattern :: What are the variables if there is an assignment with pattern ('m',_'k'_) and it is followed by another statement?
 variable v; assign a; stmt s;

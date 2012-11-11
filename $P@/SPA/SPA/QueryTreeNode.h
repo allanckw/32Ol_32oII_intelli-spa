@@ -7,9 +7,9 @@ public:
 	typedef enum QTNodeType{
 		Relationship,
 		Condition,
+		Pattern,
 		Select,
 		Project,
-		Pattern,
 		LastSelect,
 		Dummy
 	};

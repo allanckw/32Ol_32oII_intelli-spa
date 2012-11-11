@@ -5,7 +5,7 @@
 #include "QueryEnums.h"
 #include "PKB.h"
 
-QueryCondNode::QueryCondNode(QueryEnums::QueryCond attribute, 
+QueryCondNode::QueryCondNode(QueryEnums::QueryReladition attribute, 
 	pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>> contents)
 {
 	this->nodeType = Condition;
@@ -26,7 +26,7 @@ QueryEnums::QueryVar QueryCondNode::getConditionVariableType()
 	return conditionVariableType;
 }
 	
-QueryEnums::QueryCond QueryCondNode::getConditionAttribute()
+QueryEnums::QueryReladition QueryCondNode::getConditionAttribute()
 {
 	return conditionAttribute;
 }

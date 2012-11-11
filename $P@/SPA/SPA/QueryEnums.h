@@ -17,7 +17,8 @@ public:
 		Expression,
 		Boolean //Cannot by a variable type, only select. Put it here because idk where else to put it
 	};
-	typedef enum QueryRel { //relationship QueryEnums
+
+	typedef enum QueryReladition { //relationship QueryEnums
 		Modifies,
 		Uses,
 		Calls,
@@ -29,14 +30,8 @@ public:
 		Next,
 		NextStar,
 		Affects,
-		AffectsStar
-	};
-
-	typedef enum QueryPattern{
-		Pattern
-	};
-
-	typedef enum QueryCond { //condition attribute QueryEnums
+		AffectsStar,
+		Pattern,
 		ProcName,
 		VarName,
 		Value,

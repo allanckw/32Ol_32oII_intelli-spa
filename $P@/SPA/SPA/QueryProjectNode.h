@@ -8,7 +8,7 @@ class QueryProjectNode :
 {
 public:
 	QueryProjectNode();
-	QueryProjectNode(QueryEnums::QueryVar, string, QueryEnums::QueryVar, string, vector<string>, vector<string>, bool);
+	QueryProjectNode(QueryEnums::QueryReladition, QueryEnums::QueryVar, string, QueryEnums::QueryVar, string, vector<string>, vector<string>, bool);
 	pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>> getProjectionHeader();
 	QueryEnums::QueryVar getFirstProjectionType();
 	QueryEnums::QueryVar getSecondProjectionType();
@@ -16,8 +16,10 @@ public:
 	string getSecondProjectionName();
 	vector<int> getFirstProjectionAnswer();
 	vector<int> getSecondProjectionAnswer();
+	QueryEnums::QueryReladition getProjectionReladitionType();
 	bool getBoolAnswer();
 private:
+	QueryEnums::QueryReladition reladitionType;
 	pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>> projectionHeader;
 	vector<int> firstProjectionAnswer, secondProjectionAnswer;
 	pair<vector<int>, vector<int>> projectionAnswer;

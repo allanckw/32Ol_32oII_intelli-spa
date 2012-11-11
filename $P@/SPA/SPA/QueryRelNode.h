@@ -8,14 +8,14 @@ class QueryRelNode :
 	public QueryTreeNode
 {
 private:
-	QueryEnums::QueryRel relationshipType;
+	QueryEnums::QueryReladition relationshipType;
 	QueryEnums::QueryVar firstVariableType, secondVariableType;
 	string firstVariableName, secondVariableName;
 
 public:
 	QueryRelNode();
-	QueryRelNode(QueryEnums::QueryRel, pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>>);
-	QueryEnums::QueryRel getRelationshipType();
+	QueryRelNode(QueryEnums::QueryReladition, pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>>);
+	QueryEnums::QueryReladition getRelationshipType();
 	string getFirstVariableName();
 	QueryEnums::QueryVar getFirstVariableType();
 	string getSecondVariableName();

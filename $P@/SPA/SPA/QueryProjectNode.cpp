@@ -9,9 +9,12 @@ QueryProjectNode::QueryProjectNode()
 	this->nodeType = Project;
 }
 
-QueryProjectNode::QueryProjectNode(QueryEnums::QueryVar t1, string s1, QueryEnums::QueryVar t2, string s2, vector<string> a1, vector<string> a2, bool boolAns)
+QueryProjectNode::QueryProjectNode
+	(QueryEnums::QueryReladition rcType, QueryEnums::QueryVar t1, string s1, QueryEnums::QueryVar t2, 
+	string s2, vector<string> a1, vector<string> a2, bool boolAns)
 {
 	this->nodeType = Project;
+	this->reladitionType = rcType;
 	this->projectionHeader.first.first = t1;
 	this->projectionHeader.first.second = s1;
 	this->projectionHeader.second.first = t2;
@@ -76,4 +79,9 @@ vector<int> QueryProjectNode::getSecondProjectionAnswer()
 bool QueryProjectNode::getBoolAnswer()
 {
 	return boolAnswer;
+}
+
+QueryEnums::QueryReladition QueryProjectNode::getProjectionReladitionType()
+{
+	return reladitionType;
 }

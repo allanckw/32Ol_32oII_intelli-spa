@@ -30,9 +30,9 @@ private:
 	QueryTreeNode::QTNodeType currentNodeType;
 
 	QueryPatternNode* currentPatternNode;
+	QueryEnums::QueryReladition currentReladitionType;
 
 	QueryRelNode* currentRelationshipNode;
-	QueryEnums::QueryRel currentRelationshipType;
 	int currentFirstVariableNo, currentSecondVariableNo;
 	bool firstNumber, secondNumber; 
 	bool firstFixedProcedure , secondFixedProcedure , secondFixedVariable;
@@ -54,6 +54,7 @@ private:
 	vector<vector<int>> bigAnswerIndices, tempBigAnswerIndices;
 	vector<int> tempSmallAnswerIndices;
 	void cartesianUntilGoMad();
+	bool finalBoolAnswer;
 
 	//Methods For Evaluating Relationships
 	void IEvalQuery::EvaluateModifies();

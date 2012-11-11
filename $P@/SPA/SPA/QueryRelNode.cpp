@@ -10,7 +10,7 @@ QueryRelNode::QueryRelNode()
 	this->nodeType = Dummy;
 }
 
-QueryRelNode::QueryRelNode(QueryEnums::QueryRel type, 
+QueryRelNode::QueryRelNode(QueryEnums::QueryReladition type, 
 	pair<pair<QueryEnums::QueryVar, string>, pair<QueryEnums::QueryVar, string>> contents)
 {
 	this->nodeType = Relationship;
@@ -21,7 +21,7 @@ QueryRelNode::QueryRelNode(QueryEnums::QueryRel type,
 	this->secondVariableName = contents.second.second;
 }
 
-QueryEnums::QueryRel QueryRelNode::getRelationshipType()
+QueryEnums::QueryReladition QueryRelNode::getRelationshipType()
 {
 	return this->relationshipType;
 }

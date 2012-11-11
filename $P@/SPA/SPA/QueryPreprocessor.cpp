@@ -92,7 +92,7 @@ QueryPreprocessor::QueryPreprocessor()
 	patternVariable = false;
 	patternFirst = false;
 	patternSecond = false;
-	checkCapitalLetter = false;
+	checkCapitalLetter = true;
 	relationshipDef = false;
 	openBracket = false;
 	firstVariable = false;

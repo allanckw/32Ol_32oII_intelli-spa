@@ -50,11 +50,11 @@ void IEvalQuery::cartesianUntilGoMad()
 	
 	//Firstly, fill the table with something at least
 	//But that something must be a valid synonym
-	while ((projects.at(startIndex)->getFirstProjectionName().find('\"') == 0 || 
-			projects.at(startIndex)->getFirstProjectionType() == QueryEnums::WildCard ||
-			projects.at(startIndex)->getSecondProjectionName().find('\"') == 0 || 
+	while (((projects.at(startIndex)->getFirstProjectionName().find('\"') == 0 || 
+			projects.at(startIndex)->getFirstProjectionType() == QueryEnums::WildCard) &&
+			(projects.at(startIndex)->getSecondProjectionName().find('\"') == 0 || 
 			projects.at(startIndex)->getSecondProjectionType() == QueryEnums::WildCard) &&
-			startIndex < projects.size())
+			startIndex < projects.size()))
 	{
 		startIndex++;
 	}

@@ -164,7 +164,7 @@ void IEvalQuery::cartesianUntilGoMad()
 		}
 		else if (secondMatch)
 		{
-			for (int x = 0; x <  bigAnswerHeaders.size(); x++) //transfer all current big answers to temp table
+			for (int x = 0; x < bigAnswerHeaders.size(); x++) //transfer all current big answers to temp table
 				tempBigAnswerHeaders.push_back(bigAnswerHeaders.at(x));
 			if (currentPNode->getFirstProjectionName().find('\"') != 0 && currentPNode->getFirstProjectionType() != QueryEnums::WildCard)
 				tempBigAnswerHeaders.push_back(currentPNode->getFirstProjectionName());
@@ -186,22 +186,18 @@ void IEvalQuery::cartesianUntilGoMad()
 				}
 			}
 		}
-		else //create a new cluster
+		else
 		{
-			superBigAnswerHeaders.push_back(bigAnswerHeaders);
-			superBigAnswerIndices.push_back(bigAnswerIndices);
+			for (int x = 0; x < bigAnswerHeaders.size(); x++) //transfer all current big answers to temp table
+				tempBigAnswerHeaders.push_back(bigAnswerHeaders.at(x));
+			for (int y = 0; y < bigAnswerIndices.size(); y++)
+				tempBigAnswerIndices.push_back(bigAnswerIndices.at(y));
 
-			bigAnswerHeaders.clear();
-			bigAnswerIndices.clear();
-			tempBigAnswerIndices.clear();
-			tempBigAnswerHeaders.clear();
-			
 			if (currentPNode->getFirstProjectionName().find('\"') != 0 && currentPNode->getFirstProjectionType() != QueryEnums::WildCard)
 			{
 				tempBigAnswerHeaders.push_back(currentPNode->getFirstProjectionName());
 				tempBigAnswerIndices.push_back(currentPNode->getFirstProjectionAnswer());
 			}
-			
 			if (currentPNode->getSecondProjectionName().find('\"') != 0 && currentPNode->getSecondProjectionType() != QueryEnums::WildCard)
 			{
 				tempBigAnswerHeaders.push_back(currentPNode->getSecondProjectionName());
@@ -351,7 +347,7 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 					string selectName;
 					selectType = selected.at(0).first;
 					selectName = selected.at(0).second;
-					int index1 = -1, index2 = -1;
+					int index = -1;
 					set<int> uniqueSelectAnswers;
 					bool related = true; //if select variables are related to relationships
 
@@ -388,25 +384,17 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 							/*for (int i = 0; i < selected.size(); i++)
 							{
 								currentFirstIndices.clear();*/
-							for (int a = 0; a < superBigAnswerHeaders.size(); a++)
+							for (int j = 0; j < bigAnswerHeaders.size(); j++)
 							{
-								for (int j = 0; j < superBigAnswerHeaders.at(a).size(); j++)
-								{
-									if (selectName.compare(superBigAnswerHeaders.at(a).at(j)) == 0)
-									{
-										index1 = a;
-										index2 = j;
-										break;
-									}
-								}
+								if (selectName.compare(bigAnswerHeaders.at(j)) == 0)
+									index = j;
 							}
-
-							if (index1 < 0 || index2 < 0)
+							if (index < 0)  //or when no select variables are related to reladitions
 								related = false;
 							else
 							{
-								for (int k = 0; k < superBigAnswerIndices.at(index1).size(); k++)
-									uniqueSelectAnswers.insert(superBigAnswerIndices.at(index1).at(index2).at(k));
+								for (int k = 0; k < bigAnswerIndices.size(); k++)
+									uniqueSelectAnswers.insert(bigAnswerIndices.at(k).at(index));
 							}
 						}
 					}

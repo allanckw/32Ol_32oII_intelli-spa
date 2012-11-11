@@ -372,7 +372,10 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 								uniqueSelectAnswers.insert(temp.at(k));
 						}
 						else
+						{
 							related = false;
+							finalBoolAnswer = firstPNode->getBoolAnswer();
+						}
 					}
 					else if (projects.size() > 1)
 					{
@@ -721,7 +724,43 @@ void IEvalQuery::EvaluateModifies()
 		{
 			if (PKB::modifies.isModifiedProc(currentFirstVariableNo, x))
 			{
-				firstVariableAnswer.push_back(Helper::intToString(currentFirstVariableNo));
+				firstVariableAnswer.push_back(PKB::procedures.getPROCName(currentFirstVariableNo));
+				secondVariableAnswer.push_back(PKB::variables.getVARName(x));
+			}
+		}							
+	}
+	else if (allStmtsFirst == true && allVarsSecond == true)
+	{
+		for (int x = 1; x <= PKB::maxProgLines; x++)
+		{
+			for (int y = 0; y <= PKB::variables.getSize(); y++)
+			{
+				if (PKB::modifies.isModifiedStmt(x, y))
+				{
+					firstVariableAnswer.push_back(Helper::intToString(x));
+					secondVariableAnswer.push_back(PKB::variables.getVARName(y));
+				}
+			}
+		}
+	}
+	else if (allStmtsFirst == true && secondFixedVariable == true)
+	{
+		for (int x = 1; x <= PKB::maxProgLines; x++)
+		{
+			if (PKB::modifies.isModifiedStmt(x, currentSecondVariableNo))
+			{
+				firstVariableAnswer.push_back(Helper::intToString(x));
+				secondVariableAnswer.push_back(PKB::variables.getVARName(currentSecondVariableNo));
+			}
+		}
+	}
+	else if (firstFixedProcedure == true && allVarsSecond == true)
+	{
+		for (int x = 0; x < PKB::variables.getSize(); x++)
+		{
+			if (PKB::modifies.isModifiedProc(currentFirstVariableNo, x))
+			{
+				firstVariableAnswer.push_back(PKB::procedures.getPROCName(currentSecondVariableNo));
 				secondVariableAnswer.push_back(PKB::variables.getVARName(x));
 			}
 		}							
@@ -730,12 +769,13 @@ void IEvalQuery::EvaluateModifies()
 	{
 		for (int x = 0; x < PKB::variables.getSize(); x++)
 		{
+			//cout<<PKB::modifies.isModifiedStmt(currentFirstVariableNo, x)<<"var"<<x<<endl;
 			if (PKB::modifies.isModifiedStmt(currentFirstVariableNo, x))
 			{
 				firstVariableAnswer.push_back(Helper::intToString(currentFirstVariableNo));
 				secondVariableAnswer.push_back(PKB::variables.getVARName(x));
 			}
-		}
+		}							
 	}
 	else if (allStmtsFirst)
 	{
@@ -746,7 +786,7 @@ void IEvalQuery::EvaluateModifies()
 				if (PKB::modifies.isModifiedStmt(x, (*it)))
 				{
 					firstVariableAnswer.push_back(Helper::intToString(x));
-					secondVariableAnswer.push_back(Helper::intToString(*it));
+					secondVariableAnswer.push_back(PKB::variables.getVARName(*it));
 				}
 			}
 		}
@@ -760,7 +800,7 @@ void IEvalQuery::EvaluateModifies()
 				if (PKB::modifies.isModifiedProc(x, (*it)))
 				{
 					firstVariableAnswer.push_back(Helper::intToString(x));
-					secondVariableAnswer.push_back(Helper::intToString(*it));
+					secondVariableAnswer.push_back(PKB::variables.getVARName(*it));
 				}
 			}
 		}
@@ -775,8 +815,8 @@ void IEvalQuery::EvaluateModifies()
 				{
 					if (PKB::modifies.isModifiedProc((*it), x))
 					{
-						firstVariableAnswer.push_back(Helper::intToString(*it));
-						secondVariableAnswer.push_back(Helper::intToString(x));
+						firstVariableAnswer.push_back(PKB::procedures.getPROCName(*it));
+						secondVariableAnswer.push_back(PKB::variables.getVARName(x));
 					}
 				}
 				else //statement
@@ -784,7 +824,7 @@ void IEvalQuery::EvaluateModifies()
 					if (PKB::modifies.isModifiedStmt((*it), x))
 					{
 						firstVariableAnswer.push_back(Helper::intToString(*it));
-						secondVariableAnswer.push_back(Helper::intToString(x));
+						secondVariableAnswer.push_back(PKB::variables.getVARName(x));
 					}
 				}
 			}
@@ -800,8 +840,8 @@ void IEvalQuery::EvaluateModifies()
 				{
 					if (PKB::modifies.isModifiedProc((*it), (*it2)))
 					{
-						firstVariableAnswer.push_back(Helper::intToString(*it));
-						secondVariableAnswer.push_back(Helper::intToString(*it2));
+						firstVariableAnswer.push_back(PKB::procedures.getPROCName(*it));
+						secondVariableAnswer.push_back(PKB::variables.getVARName(*it2));
 					}
 				}
 				else //statement
@@ -809,7 +849,7 @@ void IEvalQuery::EvaluateModifies()
 					if (PKB::modifies.isModifiedStmt((*it), (*it2)))
 					{
 						firstVariableAnswer.push_back(Helper::intToString(*it));
-						secondVariableAnswer.push_back(Helper::intToString(*it2));
+						secondVariableAnswer.push_back(PKB::variables.getVARName(*it2));
 					}
 				}
 			}
@@ -935,7 +975,7 @@ void IEvalQuery::EvaluateUses()
 			if (PKB::uses.isUsedProc(x, currentSecondVariableNo))
 			{
 				firstVariableAnswer.push_back(PKB::procedures.getPROCName(x));
-				secondVariableAnswer.push_back(Helper::intToString(currentSecondVariableNo));
+				secondVariableAnswer.push_back(PKB::variables.getVARName(currentSecondVariableNo));
 			}
 		}
 	}
@@ -960,7 +1000,7 @@ void IEvalQuery::EvaluateUses()
 			if (PKB::uses.isUsedStmt(x, currentSecondVariableNo))
 			{
 				firstVariableAnswer.push_back(Helper::intToString(x));
-				secondVariableAnswer.push_back(Helper::intToString(currentSecondVariableNo));
+				secondVariableAnswer.push_back(PKB::variables.getVARName(currentSecondVariableNo));
 			}
 		}
 	}
@@ -970,7 +1010,7 @@ void IEvalQuery::EvaluateUses()
 		{
 			if (PKB::uses.isUsedProc(currentFirstVariableNo, x))
 			{
-				firstVariableAnswer.push_back(Helper::intToString(currentFirstVariableNo));
+				firstVariableAnswer.push_back(PKB::procedures.getPROCName(currentSecondVariableNo));
 				secondVariableAnswer.push_back(PKB::variables.getVARName(x));
 			}
 		}							
@@ -996,7 +1036,7 @@ void IEvalQuery::EvaluateUses()
 				if (PKB::uses.isUsedStmt(x, (*it)))
 				{
 					firstVariableAnswer.push_back(Helper::intToString(x));
-					secondVariableAnswer.push_back(Helper::intToString(*it));
+					secondVariableAnswer.push_back(PKB::variables.getVARName(*it));
 				}
 			}
 		}
@@ -1010,7 +1050,7 @@ void IEvalQuery::EvaluateUses()
 				if (PKB::uses.isUsedProc(x, (*it)))
 				{
 					firstVariableAnswer.push_back(Helper::intToString(x));
-					secondVariableAnswer.push_back(Helper::intToString(*it));
+					secondVariableAnswer.push_back(PKB::variables.getVARName(*it));
 				}
 			}
 		}
@@ -1025,8 +1065,8 @@ void IEvalQuery::EvaluateUses()
 				{
 					if (PKB::uses.isUsedProc((*it), x))
 					{
-						firstVariableAnswer.push_back(Helper::intToString(*it));
-						secondVariableAnswer.push_back(Helper::intToString(x));
+						firstVariableAnswer.push_back(PKB::procedures.getPROCName(*it));
+						secondVariableAnswer.push_back(PKB::variables.getVARName(x));
 					}
 				}
 				else //statement
@@ -1034,7 +1074,7 @@ void IEvalQuery::EvaluateUses()
 					if (PKB::uses.isUsedStmt((*it), x))
 					{
 						firstVariableAnswer.push_back(Helper::intToString(*it));
-						secondVariableAnswer.push_back(Helper::intToString(x));
+						secondVariableAnswer.push_back(PKB::variables.getVARName(x));
 					}
 				}
 			}
@@ -1050,8 +1090,8 @@ void IEvalQuery::EvaluateUses()
 				{
 					if (PKB::uses.isUsedProc((*it), (*it2)))
 					{
-						firstVariableAnswer.push_back(Helper::intToString(*it));
-						secondVariableAnswer.push_back(Helper::intToString(*it2));
+						firstVariableAnswer.push_back(PKB::procedures.getPROCName(*it));
+						secondVariableAnswer.push_back(PKB::variables.getVARName(*it2));
 					}
 				}
 				else //statement
@@ -1059,7 +1099,7 @@ void IEvalQuery::EvaluateUses()
 					if (PKB::uses.isUsedStmt((*it), (*it2)))
 					{
 						firstVariableAnswer.push_back(Helper::intToString(*it));
-						secondVariableAnswer.push_back(Helper::intToString(*it2));
+						secondVariableAnswer.push_back(PKB::variables.getVARName(*it2));
 					}
 				}
 			}
@@ -1111,6 +1151,9 @@ void IEvalQuery::EvaluateParent()
 			}
 		}
 	}
+	else if (currentFirstVariableName.compare(currentSecondVariableName) == 0 && currentFirstVariableType != QueryEnums::WildCard &&
+		currentSecondVariableType != QueryEnums::WildCard)
+			boolAnswer = false;
 	else if (allStmtsFirst == true && allStmtsSecond == true)
 	{
 		if (currentFirstVariableName.compare(currentSecondVariableName) == 0)
@@ -1207,6 +1250,9 @@ void IEvalQuery::EvaluateParentStar()
 			}
 		}
 	}
+	else if (currentFirstVariableName.compare(currentSecondVariableName) == 0 && currentFirstVariableType != QueryEnums::WildCard &&
+		currentSecondVariableType != QueryEnums::WildCard)
+			boolAnswer = false;
 	else if (allStmtsFirst == true && allStmtsSecond == true)
 	{
 		if (currentFirstVariableName.compare(currentSecondVariableName) == 0)
@@ -1307,6 +1353,9 @@ void IEvalQuery::EvaluateFollows()
 			}
 		}
 	}
+	else if (currentFirstVariableName.compare(currentSecondVariableName) == 0 && currentFirstVariableType != QueryEnums::WildCard &&
+		currentSecondVariableType != QueryEnums::WildCard)
+			boolAnswer = false;
 	else if (allStmtsFirst == true && allStmtsSecond == true)
 	{
 		if (currentFirstVariableName.compare(currentSecondVariableName) == 0)
@@ -1408,11 +1457,11 @@ void IEvalQuery::EvaluateFollowsStar()
 			}
 		}
 	}
+	else if (currentFirstVariableName.compare(currentSecondVariableName) == 0 && currentFirstVariableType != QueryEnums::WildCard &&
+		currentSecondVariableType != QueryEnums::WildCard)
+			boolAnswer = false;
 	else if (allStmtsFirst == true && allStmtsSecond == true)
 	{
-		if (currentFirstVariableName.compare(currentSecondVariableName) == 0)
-			boolAnswer = false;
-		else
 		{
 			for (int x = 1; x <= PKB::maxProgLines; x++)				
 			{
@@ -1454,7 +1503,7 @@ void IEvalQuery::EvaluateFollowsStar()
 		for (auto x = currentFirstIndices.begin(); x != currentFirstIndices.end(); x++)
 		{
 			for (auto y = currentSecondIndices.begin(); y != currentSecondIndices.end(); y++)
-				if (PKB::follows.isFollowsStar(*x,  *y))
+				if (PKB::follows.isFollowsStar(*x, *y))
 				{
 					firstVariableAnswer.push_back(Helper::intToString(*x));
 					secondVariableAnswer.push_back(Helper::intToString(*y));

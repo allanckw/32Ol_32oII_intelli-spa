@@ -1640,11 +1640,14 @@ void IEvalQuery::EvaluatePattern()
 	vecMatch.push_back(currentSecondVariableName);
 
 	bool sub = false;
-	if(currentSecondVariableName.at(0) == '_')
+	if(currentSecondVariableName.at(0) == '_' && currentSecondVariableName.length() > 2)
 		sub = true;
 
-	vecMatch.at(0).erase(remove(vecMatch.at(0).begin(), vecMatch.at(0).end(), '_'), vecMatch.at(0).end());
+	if(sub == true)
+	{
+	vecMatch.at(0) = vecMatch.at(0).substr(1,vecMatch.at(0).length()-2);
 	vecMatch.at(0).erase(remove(vecMatch.at(0).begin(), vecMatch.at(0).end(), '\"'), vecMatch.at(0).end());
+	}
 
 	stack<ASTNode*> nodesStack;
 	PKB::rootNode;
@@ -1686,7 +1689,7 @@ void IEvalQuery::EvaluatePattern()
 							{
 								firstVariableAnswer.push_back(tempstr);
 							
-								secondVariableAnswer.push_back(PKB::variables.getVARName(i));
+								secondVariableAnswer.push_back(Helper::intToString(i));
 							}
 						
 						}

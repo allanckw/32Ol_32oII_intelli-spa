@@ -51,11 +51,10 @@ private:
 	//testing?
 	unordered_map<string, vector<int>> variableAnswers;
 	vector<string> bigAnswerHeaders, tempBigAnswerHeaders;
-	vector<vector<string>> superBigAnswerHeaders;
 	vector<vector<int>> bigAnswerIndices, tempBigAnswerIndices;
-	vector<vector<vector<int>>> superBigAnswerIndices;
 	vector<int> tempSmallAnswerIndices;
 	void cartesianUntilGoMad();
+	bool isSynonym(string&, QueryEnums::QueryVar);
 	bool finalBoolAnswer;
 
 	//Methods For Evaluating Relationships

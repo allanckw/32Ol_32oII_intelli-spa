@@ -44,30 +44,37 @@ void IEvalQuery::resetAll()
 	answer.clear();
 }
 
+bool IEvalQuery::isSynonym(string& s, QueryEnums::QueryVar t)
+{
+	return (s.find('\"') != 0 && t != QueryEnums::WildCard && !Helper::isNumber(s));
+}
+
 void IEvalQuery::cartesianUntilGoMad()
 {
 	int startIndex = 0;
 	
 	//Firstly, fill the table with something at least
 	//But that something must be a valid synonym
-	while (((projects.at(startIndex)->getFirstProjectionName().find('\"') == 0 || 
-			projects.at(startIndex)->getFirstProjectionType() == QueryEnums::WildCard) &&
-			(projects.at(startIndex)->getSecondProjectionName().find('\"') == 0 || 
-			projects.at(startIndex)->getSecondProjectionType() == QueryEnums::WildCard) &&
+	while ((!isSynonym(projects.at(startIndex)->getFirstProjectionName(), projects.at(startIndex)->getFirstProjectionType()) &&
+			(!isSynonym(projects.at(startIndex)->getSecondProjectionName(), projects.at(startIndex)->getSecondProjectionType())) &&
 			startIndex < projects.size()))
 	{
+		if (projects.at(startIndex)->getBoolAnswer() == false)
+		{
+			finalBoolAnswer = false;
+			return;
+		}
+
 		startIndex++;
 	}
 	
-	if (projects.at(startIndex)->getFirstProjectionName().find('\"') != 0 && 
-			projects.at(startIndex)->getFirstProjectionType() != QueryEnums::WildCard)
+	if (isSynonym(projects.at(startIndex)->getFirstProjectionName(), projects.at(startIndex)->getFirstProjectionType()))
 	{
 		bigAnswerHeaders.push_back(projects.at(startIndex)->getFirstProjectionName());
 		bigAnswerIndices.push_back(projects.at(startIndex)->getFirstProjectionAnswer());
 	}
 	
-	if (projects.at(startIndex)->getSecondProjectionName().find('\"') != 0 && 
-		projects.at(startIndex)->getSecondProjectionType() != QueryEnums::WildCard)
+	if (isSynonym(projects.at(startIndex)->getSecondProjectionName(), projects.at(startIndex)->getSecondProjectionType()))
 	{
 		bigAnswerHeaders.push_back(projects.at(startIndex)->getSecondProjectionName());
 		bigAnswerIndices.push_back(projects.at(startIndex)->getSecondProjectionAnswer());
@@ -76,8 +83,6 @@ void IEvalQuery::cartesianUntilGoMad()
 	startIndex++;
 	if (startIndex >= projects.size())
 	{
-		superBigAnswerHeaders.push_back(bigAnswerHeaders);
-		superBigAnswerIndices.push_back(bigAnswerIndices);
 		finalBoolAnswer = projects.at(startIndex - 1)->getBoolAnswer();
 		return;
 	}
@@ -101,7 +106,7 @@ void IEvalQuery::cartesianUntilGoMad()
 		{
 			if (currentPNode->getFirstProjectionName().compare(bigAnswerHeaders.at(j)) == 0) // when a matching header is found in big table
 			{
-				if (currentPNode->getFirstProjectionName().find('\"') != 0 && currentPNode->getFirstProjectionType() != QueryEnums::WildCard)
+				if (isSynonym(currentPNode->getFirstProjectionName(), currentPNode->getFirstProjectionType()))
 				{
 					firstMatch = true;
 					firstIndexMatch = j;
@@ -109,7 +114,7 @@ void IEvalQuery::cartesianUntilGoMad()
 			}
 			if (currentPNode->getSecondProjectionName().compare(bigAnswerHeaders.at(j)) == 0) // when a matching header is found in big table
 			{
-				if (currentPNode->getSecondProjectionName().find('\"') != 0 && currentPNode->getSecondProjectionType() != QueryEnums::WildCard)
+				if (isSynonym(currentPNode->getSecondProjectionName(), currentPNode->getSecondProjectionType()))
 				{
 					secondMatch = true;
 					secondIndexMatch = j;
@@ -142,7 +147,7 @@ void IEvalQuery::cartesianUntilGoMad()
 			for (int x = 0; x <  bigAnswerHeaders.size(); x++) //transfer all current big answers to temp table
 				tempBigAnswerHeaders.push_back(bigAnswerHeaders.at(x));
 			//Pattern may only have 1 vector of answers
-			if (currentPNode->getSecondProjectionName().find('\"') != 0 && currentPNode->getSecondProjectionType() != QueryEnums::WildCard)
+			if (isSynonym(currentPNode->getSecondProjectionName(), currentPNode->getSecondProjectionType()))
 				tempBigAnswerHeaders.push_back(currentPNode->getSecondProjectionName());
 
 			for (int k = 0; k < bigAnswerIndices.at(firstIndexMatch).size(); k++) //for every index in big table
@@ -153,7 +158,7 @@ void IEvalQuery::cartesianUntilGoMad()
 					{
 						for (int y = 0; y < bigAnswerIndices.size(); y++)
 							tempSmallAnswerIndices.push_back(bigAnswerIndices.at(y).at(k));
-						if (currentPNode->getSecondProjectionName().find('\"') != 0 && currentPNode->getSecondProjectionType() != QueryEnums::WildCard)
+						if (isSynonym(currentPNode->getSecondProjectionName(), currentPNode->getSecondProjectionType()))
 							tempSmallAnswerIndices.push_back(currentPNode->getSecondProjectionAnswer().at(l));
 
 						tempBigAnswerIndices.push_back(tempSmallAnswerIndices);
@@ -166,7 +171,7 @@ void IEvalQuery::cartesianUntilGoMad()
 		{
 			for (int x = 0; x < bigAnswerHeaders.size(); x++) //transfer all current big answers to temp table
 				tempBigAnswerHeaders.push_back(bigAnswerHeaders.at(x));
-			if (currentPNode->getFirstProjectionName().find('\"') != 0 && currentPNode->getFirstProjectionType() != QueryEnums::WildCard)
+			if (isSynonym(currentPNode->getFirstProjectionName(), currentPNode->getFirstProjectionType()))
 				tempBigAnswerHeaders.push_back(currentPNode->getFirstProjectionName());
 
 			for (int k = 0; k < bigAnswerIndices.at(secondIndexMatch).size(); k++) //for every index in big table
@@ -177,7 +182,7 @@ void IEvalQuery::cartesianUntilGoMad()
 					{
 						for (int y = 0; y < bigAnswerIndices.size(); y++)
 							tempSmallAnswerIndices.push_back(bigAnswerIndices.at(y).at(k));
-						if (currentPNode->getFirstProjectionName().find('\"') != 0 && currentPNode->getFirstProjectionType() != QueryEnums::WildCard)
+						if (isSynonym(currentPNode->getFirstProjectionName(), currentPNode->getFirstProjectionType()))
 							tempSmallAnswerIndices.push_back(currentPNode->getFirstProjectionAnswer().at(l));
 
 						tempBigAnswerIndices.push_back(tempSmallAnswerIndices);
@@ -193,12 +198,12 @@ void IEvalQuery::cartesianUntilGoMad()
 			for (int y = 0; y < bigAnswerIndices.size(); y++)
 				tempBigAnswerIndices.push_back(bigAnswerIndices.at(y));
 
-			if (currentPNode->getFirstProjectionName().find('\"') != 0 && currentPNode->getFirstProjectionType() != QueryEnums::WildCard)
+			if (isSynonym(currentPNode->getFirstProjectionName(), currentPNode->getFirstProjectionType()))
 			{
 				tempBigAnswerHeaders.push_back(currentPNode->getFirstProjectionName());
 				tempBigAnswerIndices.push_back(currentPNode->getFirstProjectionAnswer());
 			}
-			if (currentPNode->getSecondProjectionName().find('\"') != 0 && currentPNode->getSecondProjectionType() != QueryEnums::WildCard)
+			if (isSynonym(currentPNode->getSecondProjectionName(), currentPNode->getSecondProjectionType()))
 			{
 				tempBigAnswerHeaders.push_back(currentPNode->getSecondProjectionName());
 				tempBigAnswerIndices.push_back(currentPNode->getSecondProjectionAnswer());
@@ -325,7 +330,7 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 				break;*/
 				case QueryTreeNode::Project:
 				{
-					if (firstVariableAnswer.empty() && secondVariableAnswer.empty())
+					if (firstVariableAnswer.empty() && secondVariableAnswer.empty() && !projectBool)
 						boolAnswer = false;
 
 					QueryProjectNode* currentProjNode = new QueryProjectNode(currentReladitionType, 
@@ -368,10 +373,9 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 								uniqueSelectAnswers.insert(temp.at(k));
 						}
 						else
-						{
 							related = false;
-							finalBoolAnswer = firstPNode->getBoolAnswer();
-						}
+
+						finalBoolAnswer = firstPNode->getBoolAnswer();
 					}
 					else if (projects.size() > 1)
 					{
@@ -393,8 +397,9 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 								related = false;
 							else
 							{
-								for (int k = 0; k < bigAnswerIndices.size(); k++)
-									uniqueSelectAnswers.insert(bigAnswerIndices.at(k).at(index));
+								if (!bigAnswerIndices.empty() && !bigAnswerIndices.at(index).empty())
+									for (int k = 0; k < bigAnswerIndices.at(index).size(); k++)
+										uniqueSelectAnswers.insert(bigAnswerIndices.at(index).at(k));
 							}
 						}
 					}

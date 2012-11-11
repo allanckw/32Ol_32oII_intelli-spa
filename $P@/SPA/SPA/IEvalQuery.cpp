@@ -1530,7 +1530,9 @@ bool IEvalQuery::TryMatch(ASTNode* testedNode, string targetVar,vector<string> i
 
 	currentFirstVariableNo = PKB::variables.getVARIndex(targetVar);
 	if(!(targetVar.compare("_") == 0) && currentFirstVariableNo != testedNode->getChild(0)->getValue())
-		leftTrue = false;
+	{
+		return false;
+	}
 	////////at this point left hand side is ok
 
 	ASTNode* head= testedNode->getChild(1);

@@ -569,25 +569,34 @@ void IEvalQuery::populateVariableIndices(QueryEnums::QueryVar type, int index)
 
 void IEvalQuery::EvaluateModifies()
 {
+	//Checks and implementations for first parameter
 	if (Helper::isNumber(currentFirstVariableName))
 	{
 		firstNumber = true;
 		currentFirstVariableNo = atoi(currentFirstVariableName.c_str());
+		currentFirstIndices.insert(atoi(currentFirstVariableName.c_str()));
 	}
-	else if (currentFirstVariableType == QueryEnums::Procedure && currentFirstVariableName.front() == '\"' && 
-			currentFirstVariableName.at(currentFirstVariableName.size() - 1) == '\"') 
+	else if (currentFirstVariableType == QueryEnums::Procedure &&
+			currentFirstVariableName.front() == '\"' && 
+			currentFirstVariableName.at(currentFirstVariableName.size() - 1) == '\"')
 	{
 		firstFixedProcedure = true;
 		if (currentFirstVariableName.size() == 3)
 		{
 			currentFirstVariableName = Helper::charToString(currentFirstVariableName.at(1));
 			currentFirstVariableNo = PKB::procedures.getPROCIndex(currentFirstVariableName);
+			currentFirstIndices.insert(PKB::procedures.getPROCIndex(currentFirstVariableName));
 		}
 		else
+		{
 			currentFirstVariableNo = (PKB::procedures.getPROCIndex(currentFirstVariableName.substr(1, 
 				currentFirstVariableName.size() - 2)));
+			currentFirstIndices.insert(PKB::procedures.getPROCIndex(currentFirstVariableName.substr(1, 
+				currentFirstVariableName.size() - 2)));
+		}
 	}
 
+	//Checks and implementations for second parameter
 	//For second parameter, i only expect variables either in the form of "ilovestayingupatnight" or 
 	//a user defined synonym.
 	if (currentSecondVariableName.front() == '\"' && 
@@ -598,10 +607,15 @@ void IEvalQuery::EvaluateModifies()
 		{
 			currentSecondVariableName = Helper::charToString(currentSecondVariableName.at(1));
 			currentSecondVariableNo = PKB::variables.getVARIndex(currentSecondVariableName);
+			currentSecondIndices.insert(PKB::variables.getVARIndex(currentSecondVariableName));
 		}
 		else
+		{
 			currentSecondVariableNo = PKB::variables.getVARIndex(currentSecondVariableName.substr(1, 
 				currentSecondVariableName.size() - 2));
+			currentSecondIndices.insert(PKB::variables.getVARIndex(currentSecondVariableName.substr(1, 
+				currentSecondVariableName.size() - 2)));
+		}
 	}
 						
 	if (firstNumber == false && firstFixedProcedure == false)
@@ -810,6 +824,7 @@ void IEvalQuery::EvaluateUses()
 	{
 		firstNumber = true;
 		currentFirstVariableNo = atoi(currentFirstVariableName.c_str());
+		currentFirstIndices.insert(atoi(currentFirstVariableName.c_str()));
 	}
 	else if (currentFirstVariableType == QueryEnums::Procedure &&
 			currentFirstVariableName.front() == '\"' && 
@@ -820,10 +835,15 @@ void IEvalQuery::EvaluateUses()
 		{
 			currentFirstVariableName = Helper::charToString(currentFirstVariableName.at(1));
 			currentFirstVariableNo = PKB::procedures.getPROCIndex(currentFirstVariableName);
+			currentFirstIndices.insert(PKB::procedures.getPROCIndex(currentFirstVariableName));
 		}
 		else
+		{
 			currentFirstVariableNo = (PKB::procedures.getPROCIndex(currentFirstVariableName.substr(1, 
 				currentFirstVariableName.size() - 2)));
+			currentFirstIndices.insert(PKB::procedures.getPROCIndex(currentFirstVariableName.substr(1, 
+				currentFirstVariableName.size() - 2)));
+		}
 	}
 
 	//Checks and implementations for second parameter
@@ -837,10 +857,15 @@ void IEvalQuery::EvaluateUses()
 		{
 			currentSecondVariableName = Helper::charToString(currentSecondVariableName.at(1));
 			currentSecondVariableNo = PKB::variables.getVARIndex(currentSecondVariableName);
+			currentSecondIndices.insert(PKB::variables.getVARIndex(currentSecondVariableName));
 		}
 		else
+		{
 			currentSecondVariableNo = PKB::variables.getVARIndex(currentSecondVariableName.substr(1, 
 				currentSecondVariableName.size() - 2));
+			currentSecondIndices.insert(PKB::variables.getVARIndex(currentSecondVariableName.substr(1, 
+				currentSecondVariableName.size() - 2)));
+		}
 	}
 						
 	if (firstNumber == false && firstFixedProcedure == false)

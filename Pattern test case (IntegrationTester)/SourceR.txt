@@ -1,0 +1,17 @@
+procedure lain {
+	x = yas;
+	while i {
+		yas = q * 6;
+		t= x + 6;	
+		while q {
+			x = x + q * 2;	
+		}
+		a = 7 + pika;
+	}
+	call Noob;
+	}
+
+procedure Noob{
+	z = 1;
+	x = 2;
+}

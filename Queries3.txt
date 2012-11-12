@@ -146,7 +146,7 @@ Select s such that Follows(s, 1)
 None
 5000 
 1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t; constant c
+stmt s, stmt t; constant c;
 Select c such that Follows(s, t)
 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 5000 
@@ -296,7 +296,7 @@ Select w such that Follows(303, w)
 None
 5000
 1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-assign a;
+while w; assign a;
 Select a such that Follows(312, w)
 321
 5000
@@ -343,12 +343,12 @@ None
 1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 while w; stmt s;
 Select s such that Follows(s, w)
-102, 108, 114, 120, 126, 132, 138, 144, 150, 156, 162, 168, 174, 180, 186, 192, 198, 204, 210, 216, 302, 303, 312, 321, 330, 339
+102, 108, 114, 120, 126, 132, 138, 144, 150, 156, 162, 168, 174, 180, 186, 192, 198, 204, 210, 216, 302, 304, 311, 321, 330, 339
 5000
 1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 while w; stmt s;
 Select s such that Follows(w, s)
-223, 227, 231, 235, 239, 243, 312, 321, 330, 339, 348, 357
+223, 227, 231, 235, 239, 243, 305, 321, 330, 339, 348, 357
 5000
 1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 while w; stmt s;
@@ -360,11 +360,10 @@ while w; stmt s;
 Select w such that Follows(w, s)
 103, 109, 115, 121, 127, 133, 303, 312, 321, 330, 339
 5000
-5000
 1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 while w; assign a;
 Select a such that Follows(a, w)
-102, 108, 114, 120, 126, 132, 138, 144, 150, 156, 162, 168, 174, 180, 186, 192, 198, 204, 210, 216, 302
+102, 108, 114, 120, 126, 132, 138, 144, 150, 156, 162, 168, 174, 180, 186, 192, 198, 204, 210, 216, 302, 311
 5000
 1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 while w; assign a;
@@ -374,7 +373,7 @@ Select a such that Follows(w, a)
 1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 while w; assign a;
 Select w such that Follows(a, w)
-103, 109, 115, 121, 127, 133, 139, 145, 151, 157, 163, 169, 175, 181, 187, 193, 199, 205, 211, 217, 303
+103, 109, 115, 121, 127, 133, 139, 145, 151, 157, 163, 169, 175, 181, 187, 193, 199, 205, 211, 217, 303, 312
 5000
 1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 while w; assign a;

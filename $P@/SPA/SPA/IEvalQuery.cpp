@@ -359,8 +359,17 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 					}
 					else if (projects.size() > 1)
 					{
-						cartesianUntilGoMad();					
-
+						cartesianUntilGoMad();
+						bool emptyCartesian = true;
+						for (int i = 0; i<bigAnswerIndices.size(); i++)
+						{
+							if (!bigAnswerIndices.at(i).empty()){
+								emptyCartesian = false;
+								break;
+							}
+						}
+						if (emptyCartesian)
+							finalBoolAnswer = false;
 						if (!selected.empty())
 						{	
 							for (int j = 0; j < bigAnswerHeaders.size(); j++)
@@ -1693,9 +1702,9 @@ void IEvalQuery::EvaluatePattern()
 	if(sub == true)
 	{
 	vecMatch.at(0) = vecMatch.at(0).substr(1,vecMatch.at(0).length()-2);
-	vecMatch.at(0).erase(remove(vecMatch.at(0).begin(), vecMatch.at(0).end(), '\"'), vecMatch.at(0).end());
+	
 	}
-
+vecMatch.at(0).erase(remove(vecMatch.at(0).begin(), vecMatch.at(0).end(), '\"'), vecMatch.at(0).end());
 	stack<ASTNode*> nodesStack;
 	PKB::rootNode;
 	PKB::variables;
@@ -1817,13 +1826,14 @@ bool IEvalQuery::TryMatch(ASTNode* testedNode, string targetVar,vector<string> i
 	if(leftTrue && rightTrue)
 		return true;
 
+
 	int rightInt = PKB::variables.getVARIndex(incCodes.at(0));
 
 	if(!isSubsTree)//if not a subtree, since we only handle 1 variable so right side must be a variable if is true
 	{
-		if(head->getChild(1)->getChild(1)->getType() != ASTNode::Variable)//right node is not a variable = auto fail
+		if(head->getType() != ASTNode::Variable)//right node is not a variable = auto fail
 			return false;
-		else if(rightInt == head->getChild(1)->getChild(1)->getValue()) //right side value is same as rightint
+		else if(rightInt == head->getValue()) //right side value is same as rightint
 			return true;
 		else
 			return false; //if not equal return false

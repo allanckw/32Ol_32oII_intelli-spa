@@ -625,7 +625,7 @@ void IEvalQuery::EvaluateModifies()
 			if (PKB::modifies.isModifiedProc(currentFirstVariableNo, x))
 			{
 				boolAnswer = true;
-				break;
+				return;
 			}
 			boolAnswer = false;
 		}
@@ -647,7 +647,7 @@ void IEvalQuery::EvaluateModifies()
 			if (PKB::modifies.isModifiedStmt(currentFirstVariableNo, x))
 			{
 				boolAnswer = true; //remember that boolanswer is false by default
-				break;
+				return;
 			}
 			boolAnswer = false;
 		}
@@ -912,7 +912,7 @@ void IEvalQuery::EvaluateUses()
 			if (PKB::uses.isUsedProc(currentFirstVariableNo, x))
 			{
 				boolAnswer = true;
-				break;
+				return;
 			}
 			boolAnswer = false;
 		}
@@ -933,7 +933,7 @@ void IEvalQuery::EvaluateUses()
 			if (PKB::uses.isUsedStmt(currentFirstVariableNo, x))
 			{
 				boolAnswer = true; //remember that boolanswer is false by default
-				break;
+				return;
 			}
 			boolAnswer = false;
 		}
@@ -1127,7 +1127,7 @@ void IEvalQuery::EvaluateParent()
 				if (PKB::parent.isParent(x, y))
 				{
 					boolAnswer = true;
-					break;
+					return;
 				}
 				boolAnswer = false;
 			}
@@ -1226,7 +1226,7 @@ void IEvalQuery::EvaluateParentStar()
 				if (PKB::parent.isParent(x, y))
 				{
 					boolAnswer = true;
-					break;
+					return;
 				}
 				boolAnswer = false;
 			}
@@ -1329,7 +1329,7 @@ void IEvalQuery::EvaluateFollows()
 				if (PKB::follows.isFollows(x, y))
 				{
 					boolAnswer = true;
-					break;
+					return;
 				}
 				boolAnswer = false;
 			}
@@ -1433,7 +1433,7 @@ void IEvalQuery::EvaluateFollowsStar()
 				if (PKB::follows.isFollowsStar(x, y))
 				{
 					boolAnswer = true;
-					break;
+					return;
 				}
 				boolAnswer = false;
 			}

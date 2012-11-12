@@ -52,7 +52,6 @@ private:
 	unordered_map<string, vector<int>> variableAnswers;
 	vector<string> bigAnswerHeaders, tempBigAnswerHeaders;
 	vector<vector<int>> bigAnswerIndices, tempBigAnswerIndices;
-	vector<int> tempSmallAnswerIndices;
 	void cartesianUntilGoMad();
 	bool isSynonym(string&, QueryEnums::QueryVar);
 	bool finalBoolAnswer;

@@ -125,6 +125,9 @@ void IEvalQuery::cartesianUntilGoMad()
 		{
 			for (int x = 0; x <  bigAnswerHeaders.size(); x++) //transfer all current big answers to temp table
 				tempBigAnswerHeaders.push_back(bigAnswerHeaders.at(x));
+			
+			for (int i = 0; i < bigAnswerIndices.size(); i++)
+				tempBigAnswerIndices.push_back(vector<int>());
 
 			for (int k = 0; k < bigAnswerIndices.at(firstIndexMatch).size(); k++) //for every index in big table
 			{ 
@@ -365,7 +368,7 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 								related = false;
 							else
 							{
-								if (!bigAnswerIndices.empty() && index >= 0)
+								if (!bigAnswerIndices.empty() && !bigAnswerIndices.at(index).empty())
 									for (int k = 0; k < bigAnswerIndices.at(index).size(); k++)
 										uniqueSelectAnswers.insert(bigAnswerIndices.at(index).at(k));
 							}

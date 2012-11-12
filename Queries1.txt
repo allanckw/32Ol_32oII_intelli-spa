@@ -138,7 +138,7 @@ Select w such that Follows(w, _)
 28 - Parent, ImplStmtLine, Typed :: Which is the Parent (type while) of the statement in line number 7
 stmt s!1;
 Select s!1 such that Follows(3, s!1)
-None
+An exception has occured: Invalid variable name or boolean
 500
 29 - Parent, ImplStmtLine, Typed :: Which is the Parent (type while) of the statement in line number 7
 stmt s1;
@@ -148,7 +148,7 @@ Select s1
 30 - Parent, ImplStmtLine, Typed :: Which is the Parent (type while) of the statement in line number 7
 assign a;
 Select a 
-1,3,4,6,9,10
+1,3,4,6,7,9,10
 500
 31 - Uses :: Which variables are modified by statement 6?
 variable v;
@@ -166,12 +166,22 @@ Select s1 such that Uses(s1, v)
 1,2,3,4,5,6,7,8,10
 500
 34 - Uses :: Which variables are modified by statement 6?
-procedure p, q
+procedure p, q;
 Select p such that Calls(p, q) 
 lain
 500
 35 - Uses :: Which variables are modified by statement 6?
-procedure p, q
+procedure p, q;
 Select q such that Calls(p, q) 
 Noob
+500
+17 - Typed, Uses, With ::
+stmt s; 
+Select s such that Follows*(_,_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+500
+17 - Typed, Uses, With ::
+constant c;
+Select c such that Parent*(_,_)
+6, 2, 7, 1
 500

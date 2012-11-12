@@ -1,4 +1,4 @@
-129
+130
 cat: All Category
 1 - Variable, ImplStmtLine, Typed :: What are the variables?
 variable v;
@@ -644,4 +644,9 @@ Select a pattern a(v,_"k"_) such that Parent(w1,a) and Follows(w1,w2)
 assign a; variable v,vv;while w1,w2;
 Select vv pattern a(v,_"k"_) such that Parent(w1,a) and Follows(w1,w2)
 i,m,k,x,y,z
+5000
+130 - Bonus :: what are variables if there are assignments with 'k' on right side that is parent of a while loop which is followed by another while loop?
+assign a; variable v,vv;while w1,w2;
+Select vv pattern a(v,_"k"_) such that Parent(w1,a) and Follows(321,         29)
+None
 5000

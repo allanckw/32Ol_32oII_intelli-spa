@@ -992,7 +992,7 @@ void IEvalQuery::EvaluateUses()
 		{
 			if (PKB::uses.isUsedProc(currentFirstVariableNo, x))
 			{
-				firstVariableAnswer.push_back(PKB::procedures.getPROCName(currentSecondVariableNo));
+				firstVariableAnswer.push_back(PKB::procedures.getPROCName(currentFirstVariableNo));
 				secondVariableAnswer.push_back(PKB::variables.getVARName(x));
 			}
 		}							

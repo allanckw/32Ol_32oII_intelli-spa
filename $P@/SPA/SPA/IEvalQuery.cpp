@@ -134,10 +134,7 @@ void IEvalQuery::cartesianUntilGoMad()
 						bigAnswerIndices.at(secondIndexMatch).at(k) == currentPNode->getSecondProjectionAnswer().at(l)) //if those indices are equal
 					{
 						for (int y = 0; y < bigAnswerIndices.size(); y++)
-							tempSmallAnswerIndices.push_back(bigAnswerIndices.at(y).at(k));
-
-						tempBigAnswerIndices.push_back(tempSmallAnswerIndices);
-						tempSmallAnswerIndices.clear();
+							tempBigAnswerIndices.at(y).push_back(bigAnswerIndices.at(y).at(k));
 					}
 				}
 			}
@@ -150,6 +147,9 @@ void IEvalQuery::cartesianUntilGoMad()
 			if (isSynonym(currentPNode->getSecondProjectionName(), currentPNode->getSecondProjectionType()))
 				tempBigAnswerHeaders.push_back(currentPNode->getSecondProjectionName());
 
+			for (int i = 0; i <= bigAnswerIndices.size(); i++)
+				tempBigAnswerIndices.push_back(vector<int>());
+
 			for (int k = 0; k < bigAnswerIndices.at(firstIndexMatch).size(); k++) //for every index in big table
 			{ 
 				for (int l = 0; l < currentPNode->getFirstProjectionAnswer().size(); l++) //for every index in current project node
@@ -157,12 +157,9 @@ void IEvalQuery::cartesianUntilGoMad()
 					if (bigAnswerIndices.at(firstIndexMatch).at(k) == currentPNode->getFirstProjectionAnswer().at(l)) //if those indices are equal
 					{
 						for (int y = 0; y < bigAnswerIndices.size(); y++)
-							tempSmallAnswerIndices.push_back(bigAnswerIndices.at(y).at(k));
+							tempBigAnswerIndices.at(y).push_back(bigAnswerIndices.at(y).at(k));
 						if (isSynonym(currentPNode->getSecondProjectionName(), currentPNode->getSecondProjectionType()))
-							tempSmallAnswerIndices.push_back(currentPNode->getSecondProjectionAnswer().at(l));
-
-						tempBigAnswerIndices.push_back(tempSmallAnswerIndices);
-						tempSmallAnswerIndices.clear();
+							tempBigAnswerIndices.at(bigAnswerIndices.size()).push_back(currentPNode->getSecondProjectionAnswer().at(l));
 					}
 				}
 			}
@@ -174,6 +171,9 @@ void IEvalQuery::cartesianUntilGoMad()
 			if (isSynonym(currentPNode->getFirstProjectionName(), currentPNode->getFirstProjectionType()))
 				tempBigAnswerHeaders.push_back(currentPNode->getFirstProjectionName());
 
+			for (int i = 0; i <= bigAnswerIndices.size(); i++)
+				tempBigAnswerIndices.push_back(vector<int>());
+
 			for (int k = 0; k < bigAnswerIndices.at(secondIndexMatch).size(); k++) //for every index in big table
 			{ 
 				for (int l = 0; l < currentPNode->getSecondProjectionAnswer().size(); l++) //for every index in current project node
@@ -181,12 +181,9 @@ void IEvalQuery::cartesianUntilGoMad()
 					if (bigAnswerIndices.at(secondIndexMatch).at(k) == currentPNode->getSecondProjectionAnswer().at(l)) //if those indices are equal
 					{
 						for (int y = 0; y < bigAnswerIndices.size(); y++)
-							tempSmallAnswerIndices.push_back(bigAnswerIndices.at(y).at(k));
+							tempBigAnswerIndices.at(y).push_back(bigAnswerIndices.at(y).at(k));
 						if (isSynonym(currentPNode->getFirstProjectionName(), currentPNode->getFirstProjectionType()))
-							tempSmallAnswerIndices.push_back(currentPNode->getFirstProjectionAnswer().at(l));
-
-						tempBigAnswerIndices.push_back(tempSmallAnswerIndices);
-						tempSmallAnswerIndices.clear();
+							tempBigAnswerIndices.at(bigAnswerIndices.size()).push_back(currentPNode->getFirstProjectionAnswer().at(l));
 					}
 				}
 			}
@@ -369,8 +366,8 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 							else
 							{
 								if (!bigAnswerIndices.empty() && index >= 0)
-									for (int k = 0; k < bigAnswerIndices.size(); k++)
-										uniqueSelectAnswers.insert(bigAnswerIndices.at(k).at(index));
+									for (int k = 0; k < bigAnswerIndices.at(index).size(); k++)
+										uniqueSelectAnswers.insert(bigAnswerIndices.at(index).at(k));
 							}
 						}
 					}
@@ -891,7 +888,7 @@ void IEvalQuery::EvaluateUses()
 		projectBool = true;
 		for (int x = 0; x < PKB::variables.getSize(); x++)
 		{
-			if (PKB::modifies.isModifiedProc(currentFirstVariableNo, x))
+			if (PKB::uses.isUsedProc(currentFirstVariableNo, x))
 			{
 				boolAnswer = true;
 				break;
@@ -912,7 +909,7 @@ void IEvalQuery::EvaluateUses()
 		projectBool = true;
 		for (int x = 0; x < PKB::variables.getSize(); x++)
 		{
-			if (PKB::modifies.isModifiedStmt(currentFirstVariableNo, x))
+			if (PKB::uses.isUsedStmt(currentFirstVariableNo, x))
 			{
 				boolAnswer = true; //remember that boolanswer is false by default
 				break;

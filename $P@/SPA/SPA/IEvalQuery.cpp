@@ -360,7 +360,6 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 					else if (projects.size() > 1)
 					{
 						cartesianUntilGoMad();					
-						finalBoolAnswer = bigAnswerIndices.size() == 0;
 
 						if (!selected.empty())
 						{	

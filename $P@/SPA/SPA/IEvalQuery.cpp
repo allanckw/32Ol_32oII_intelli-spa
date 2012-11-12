@@ -154,9 +154,6 @@ void IEvalQuery::cartesianUntilGoMad()
 				tempBigAnswerIndices.push_back(vector<int>());
 			}
 
-			for (int i = 0; i <= bigAnswerIndices.size(); i++)
-				tempBigAnswerIndices.push_back(vector<int>());
-
 			for (int k = 0; k < bigAnswerIndices.at(firstIndexMatch).size(); k++) //for every index in big table
 			{ 
 				for (int l = 0; l < currentPNode->getFirstProjectionAnswer().size(); l++) //for every index in current project node
@@ -182,9 +179,6 @@ void IEvalQuery::cartesianUntilGoMad()
 				tempBigAnswerHeaders.push_back(currentPNode->getFirstProjectionName());
 				tempBigAnswerIndices.push_back(vector<int>());
 			}
-
-			for (int i = 0; i <= bigAnswerIndices.size(); i++)
-				tempBigAnswerIndices.push_back(vector<int>());
 
 			for (int k = 0; k < bigAnswerIndices.at(secondIndexMatch).size(); k++) //for every index in big table
 			{ 

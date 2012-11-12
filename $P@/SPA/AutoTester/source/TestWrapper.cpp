@@ -52,7 +52,7 @@ void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
 		vector<string> answers = queryEvaluator->evaluateQuery(qTree);
 
 		if (AbstractWrapper::GlobalStop){
-						
+			
 		}
 		else
 		{

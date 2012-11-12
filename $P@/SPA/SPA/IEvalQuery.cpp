@@ -304,30 +304,7 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 					}
 				}
 				break;
-				//Select Node has officially been deemed worthless
-				/*case QueryTreeNode::Select:
-				{
-					currentSelNode = (QuerySelNode*) currentNode;
-					selected = currentSelNode->getSelectedVariables();
-					if (!selected.empty())
-					{
-						selectType = selected.at(0).first;
-						for (int x = 0; x < selected.size(); x++)
-						{
-							if (currentFirstVariableName.compare(selected.at(x).second) == 0)
-							{
-								for (auto z = firstVariableAnswer.begin(); z != firstVariableAnswer.end(); z++)
-									answer.push_back((*z));
-							}
-							if (currentSecondVariableName.compare(selected.at(x).second) == 0)
-							{
-								for (auto z = secondVariableAnswer.begin(); z != secondVariableAnswer.end(); z++)
-									answer.push_back((*z));
-							}
-						}
-					}
-				}
-				break;*/
+				
 				case QueryTreeNode::Project:
 				{
 					if (firstVariableAnswer.empty() && secondVariableAnswer.empty() && !projectBool)
@@ -380,26 +357,20 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 					else if (projects.size() > 1)
 					{
 						cartesianUntilGoMad();					
-
-						//Mostly should work on only 1 select variable.
-						if (!selected.empty()) //irrelavant check but just in case. 
+						if (!selected.empty())
 						{	
-							//TODO
-							/*for (int i = 0; i < selected.size(); i++)
-							{
-								currentFirstIndices.clear();*/
 							for (int j = 0; j < bigAnswerHeaders.size(); j++)
 							{
 								if (selectName.compare(bigAnswerHeaders.at(j)) == 0)
 									index = j;
 							}
-							if (index < 0)  //or when no select variables are related to reladitions
+							if (index < 0) 
 								related = false;
 							else
 							{
-								if (!bigAnswerIndices.empty() && !bigAnswerIndices.at(index).empty())
-									for (int k = 0; k < bigAnswerIndices.at(index).size(); k++)
-										uniqueSelectAnswers.insert(bigAnswerIndices.at(index).at(k));
+								if (!bigAnswerIndices.empty() && index >= 0)
+									for (int k = 0; k < bigAnswerIndices.size(); k++)
+										uniqueSelectAnswers.insert(bigAnswerIndices.at(k).at(index));
 							}
 						}
 					}
@@ -1731,13 +1702,7 @@ void IEvalQuery::EvaluatePattern()
 		if(nodesStack.top()->getType() == ASTNode::Assign)
 		{
 			ASTNode* temp = nodesStack.top();
-			//chk if match
 
-			/*vector<string> vecmatch;
-			vecmatch.push_back("_");
-*/
-
-			//test space
 			ASTStmtNode* tempnode = (ASTStmtNode*)temp;
 
 			 //isSub is always true for now because we only need to handle _"hi"_ case
@@ -1813,7 +1778,6 @@ void IEvalQuery::EvaluatePattern()
 }
 
 //RHS for now handles patterns in the form of "a" or _"a"_
-
 bool IEvalQuery::TryMatch(ASTNode* testedNode, string targetVar,vector<string> incCodes, bool isSubsTree)
 {
 

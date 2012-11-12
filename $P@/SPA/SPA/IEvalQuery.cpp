@@ -144,11 +144,15 @@ void IEvalQuery::cartesianUntilGoMad()
 		}
 		else if (firstMatch)
 		{
-			for (int x = 0; x <  bigAnswerHeaders.size(); x++) //transfer all current big answers to temp table
+			for (int x = 0; x < bigAnswerHeaders.size(); x++) //transfer all current big answers to temp table
 				tempBigAnswerHeaders.push_back(bigAnswerHeaders.at(x));
-			//Pattern may only have 1 vector of answers
+			for (int i = 0; i < bigAnswerIndices.size(); i++)
+				tempBigAnswerIndices.push_back(vector<int>());
 			if (isSynonym(currentPNode->getSecondProjectionName(), currentPNode->getSecondProjectionType()))
+			{
 				tempBigAnswerHeaders.push_back(currentPNode->getSecondProjectionName());
+				tempBigAnswerIndices.push_back(vector<int>());
+			}
 
 			for (int i = 0; i <= bigAnswerIndices.size(); i++)
 				tempBigAnswerIndices.push_back(vector<int>());
@@ -171,8 +175,13 @@ void IEvalQuery::cartesianUntilGoMad()
 		{
 			for (int x = 0; x < bigAnswerHeaders.size(); x++) //transfer all current big answers to temp table
 				tempBigAnswerHeaders.push_back(bigAnswerHeaders.at(x));
+			for (int i = 0; i < bigAnswerIndices.size(); i++)
+				tempBigAnswerIndices.push_back(vector<int>());
 			if (isSynonym(currentPNode->getFirstProjectionName(), currentPNode->getFirstProjectionType()))
+			{
 				tempBigAnswerHeaders.push_back(currentPNode->getFirstProjectionName());
+				tempBigAnswerIndices.push_back(vector<int>());
+			}
 
 			for (int i = 0; i <= bigAnswerIndices.size(); i++)
 				tempBigAnswerIndices.push_back(vector<int>());
@@ -357,12 +366,17 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 					else if (projects.size() > 1)
 					{
 						cartesianUntilGoMad();					
+						finalBoolAnswer = bigAnswerIndices.size() == 0;
+
 						if (!selected.empty())
 						{	
 							for (int j = 0; j < bigAnswerHeaders.size(); j++)
 							{
 								if (selectName.compare(bigAnswerHeaders.at(j)) == 0)
+								{
 									index = j;
+									break;
+								}
 							}
 							if (index < 0) 
 								related = false;
@@ -371,6 +385,8 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 								if (!bigAnswerIndices.empty() && !bigAnswerIndices.at(index).empty())
 									for (int k = 0; k < bigAnswerIndices.at(index).size(); k++)
 										uniqueSelectAnswers.insert(bigAnswerIndices.at(index).at(k));
+								else
+									finalBoolAnswer = false;
 							}
 						}
 					}
@@ -389,7 +405,7 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 								answer.push_back(Helper::intToString(*it));
 						}
 					}
-					else if (finalBoolAnswer)
+					else if (!related && finalBoolAnswer)
 					{
 						allStmtsFirst = false;
 						allProcsFirst = false;

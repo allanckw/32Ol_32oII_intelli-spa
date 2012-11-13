@@ -24,7 +24,7 @@ void TestBuildAST::testASTBuilder()
 	try{
 	//Parser* p = new Parser("C:\\temp\\Source.txt");
 	//Parser* p = new Parser("C:\\temp\\Source2.txt");
-	Parser* p = new Parser("F:\\3201_3202\\SPA\\$P@\SPA\\Debug\\Source.txt");
+	Parser* p = new Parser("F:\\3201_3202\\SPA\\Source1.txt");
 	int templine =0;
 	int tempindex=0;
 	for(int i=0; i<Parser::tokenized_codes.size(); i++)

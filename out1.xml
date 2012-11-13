@@ -1,0 +1,296 @@
+<?xml-stylesheet type="text/xsl" href="analysis.xsl"?>
+<test_results>
+<info>
+<name>AutoTester</name><parsing_time_taken>0.000000</parsing_time_taken>
+</info>
+<queries>
+<category name=" All Category">
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the Parent (type while) of the statement in line number 7" >1</id><querystr><![CDATA[stmt s##1; Select s##1 such that Follows(3, s##1)]]></querystr>
+<stuans>4</stuans>
+<correct>4</correct>
+<time_taken>10.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Follows="1" Typed="1" ImplStmtLine="1" comment="" >2</id><querystr><![CDATA[stmt s1;  Select s1 such that Follows(s1, 4)]]></querystr>
+<stuans>3</stuans>
+<correct>3</correct>
+<time_taken>10.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ParentStar="1" Typed="1" ImplStmtLine="1" comment="" >3</id><querystr><![CDATA[stmt s1;  Select s1 such that Follows(10, s1)]]></querystr>
+<stuans>None</stuans>
+<correct>None</correct>
+<time_taken>10.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id FollowsStar="1" Typed="1" ImplStmtLine="1" comment="" >4</id><querystr><![CDATA[stmt s1;  Select s1 such that Follows(2, s1)]]></querystr>
+<stuans>8</stuans>
+<correct>8</correct>
+<time_taken>0.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Modifies="1" comment="" >5</id><querystr><![CDATA[stmt s1;  Select s1 such that Follows*(3, s1)]]></querystr>
+<stuans>4,5,7</stuans>
+<correct>4,5,7</correct>
+<time_taken>0.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Typed="1" Uses="1" comment="" >6</id><querystr><![CDATA[stmt s1;  Select s1 such that Parent(2, s1)]]></querystr>
+<stuans>3,4,5,7</stuans>
+<correct>3,4,5,7</correct>
+<time_taken>10.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Calls="1" Typed="1" comment="" >7</id><querystr><![CDATA[stmt s1;  Select s1 such that Parent*(2, s1)]]></querystr>
+<stuans>3,4,5,6,7</stuans>
+<correct>3,4,5,6,7</correct>
+<time_taken>10.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id CallsStar="1" Typed="1" comment="" >8</id><querystr><![CDATA[stmt s1;  Select s1 such that Parent(s1, 8)]]></querystr>
+<stuans>None</stuans>
+<correct>None</correct>
+<time_taken>10.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Typed="1" Next="1" ImplStmtLine="1" comment="" >9</id><querystr><![CDATA[stmt s1;  Select s1 such that Modifies(s1, "x")]]></querystr>
+<stuans>1,2,5,6,8,10</stuans>
+<correct>1,2,5,6,8,10</correct>
+<time_taken>10.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id NextStar="1" Typed="1" ImplStmtLine="1" comment="" >10</id><querystr><![CDATA[proc s1;  Select s1 such that Modifies(s1, "x")]]></querystr>
+<stuans>lain,Noob</stuans>
+<correct>lain,Noob</correct>
+<time_taken>10.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Affects="1" Typed="1" ImplStmtLine="1" comment="" >11</id><querystr><![CDATA[var v;  Select v such that Modifies(6, v)]]></querystr>
+<stuans>x</stuans>
+<correct>x</correct>
+<time_taken>10.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id AffectsStar="1" ImplStmtLine="1" Typed="1" comment="" >12</id><querystr><![CDATA[stmt s1;  Select s1 such that Uses(s1, "x")]]></querystr>
+<stuans>2,4,5,6</stuans>
+<correct>2,4,5,6</correct>
+<time_taken>10.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Pattern="1" Typed="1" comment="" >13</id><querystr><![CDATA[proc p1;  Select p1 such that Uses(p1, "x")]]></querystr>
+<stuans>lain</stuans>
+<correct>lain</correct>
+<time_taken>10.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Pattern="1" Typed="1" comment="" >14</id><querystr><![CDATA[var v1;  Select v1 such that Uses(1, v1)]]></querystr>
+<stuans>yas</stuans>
+<correct>yas</correct>
+<time_taken>0.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Pattern="1" Typed="1" comment="" >15</id><querystr><![CDATA[var v1;  Select v1 such that Uses("lain", v1)]]></querystr>
+<stuans>An exception has occured: Invalid Index, there is no procedure at given location </stuans>
+<correct>yas,i,q,x,pika,z</correct>
+<time_taken>10.000000</time_taken>
+<failed>
+<missing>i,pika,q,x,yas,z</missing>
+<additional>An exception has occured: Invalid Index, there is no procedure at given location </additional>
+<summary>
+<expected>6</expected>
+<matched>0</matched>
+<missing>6</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Typed="1" Modifies="1" With="1" comment="" >16</id><querystr><![CDATA[var v;  Select v such that Modifies("lain", v)]]></querystr>
+<stuans>x,yas,t,a,z</stuans>
+<correct>x,yas,t,a,z</correct>
+<time_taken>10.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Typed="1" Uses="1" With="1" comment="" >17</id><querystr><![CDATA[stmt s;  Select s such that Follows(_,_)]]></querystr>
+<stuans>1,2,3,4,5,6,7,8,9,10</stuans>
+<correct>1,2,3,4,5,6,7,8,9,10</correct>
+<time_taken>10.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Typed="1" ReturnBoolean="1" Calls="1" With="1" With-And="1" comment="" >18</id><querystr><![CDATA[var v;  Select v such that Parent(_, _)]]></querystr>
+<stuans>x,yas,i,q,t,a,pika,z</stuans>
+<correct>a,i,pika,q,t,x,yas,z</correct>
+<time_taken>10.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Typed="1" FollowsStar="1" Modifies="1" Uses="1" With="1" And-Multi="1" comment="" >19</id><querystr><![CDATA[proc p;  Select p such that Modifies(_, _)]]></querystr>
+<stuans>An exception has occured: Modifies and Uses cannot have '_' as the first parameter</stuans>
+<correct>An exception has occured: Modifies and Uses cannot have '_' as the first parameter</correct>
+<time_taken>20.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Typed="1" NextStar="1" ParentStar="1" ImplStmtLine="1" And-Tuple="1" comment="" >20</id><querystr><![CDATA[proc p;  Select p such that Uses(_, _)]]></querystr>
+<stuans>An exception has occured: Modifies and Uses cannot have '_' as the first parameter</stuans>
+<correct>An exception has occured: Modifies and Uses cannot have '_' as the first parameter</correct>
+<time_taken>20.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Typed="1" NextStar="1" ParentStar="1" ImplStmtLine="1" And-Tuple="1" comment="" >21</id><querystr><![CDATA[constant c;  Select c such that Follows(_, _)]]></querystr>
+<stuans>6,2,7,1</stuans>
+<correct>6,2,7,1</correct>
+<time_taken>20.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Typed="1" NextStar="1" ParentStar="1" ImplStmtLine="1" And-Tuple="1" comment="" >22</id><querystr><![CDATA[prog_line pl;  Select pl such that Follows(_, _)]]></querystr>
+<stuans>1,2,3,4,5,6,7,8,9,10</stuans>
+<correct>1,2,3,4,5,6,7,8,9,10</correct>
+<time_taken>20.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Typed="1" NextStar="1" ParentStar="1" ImplStmtLine="1" And-Tuple="1" comment="" >23</id><querystr><![CDATA[assign a1, a2;  Select a1 such that Follows(_, a2)]]></querystr>
+<stuans>1,9,3,4,6,7,10</stuans>
+<correct>1,3,4,6,7,9,10</correct>
+<time_taken>10.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Typed="1" NextStar="1" ParentStar="1" ImplStmtLine="1" And-Tuple="1" comment="" >24</id><querystr><![CDATA[assign a1, a2;  Select a1 such that Follows(0, 1)]]></querystr>
+<stuans>None</stuans>
+<correct>None</correct>
+<time_taken>10.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Typed="1" NextStar="1" ParentStar="1" ImplStmtLine="1" And-Tuple="1" comment="" >25</id><querystr><![CDATA[assign a1, a2;  Select a1 such that Follows(1, 0)]]></querystr>
+<stuans>None</stuans>
+<correct>None</correct>
+<time_taken>10.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Typed="1" NextStar="1" ParentStar="1" ImplStmtLine="1" And-Tuple="1" comment="" >26</id><querystr><![CDATA[assign a1, a2;  Select a1 such that Follows(a1, _)]]></querystr>
+<stuans>1,3,4,9</stuans>
+<correct>1,3,4,9</correct>
+<time_taken>10.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Typed="1" NextStar="1" ParentStar="1" ImplStmtLine="1" And-Tuple="1" comment="" >27</id><querystr><![CDATA[while w;  Select w such that Follows(w, _)]]></querystr>
+<stuans>2,5</stuans>
+<correct>2,5</correct>
+<time_taken>10.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the Parent (type while) of the statement in line number 7" >28</id><querystr><![CDATA[stmt s!1; Select s!1 such that Follows(3, s!1)]]></querystr>
+<stuans>An exception has occured: Invalid variable name or boolean</stuans>
+<correct>An exception has occured: Invalid variable name or boolean</correct>
+<time_taken>20.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the Parent (type while) of the statement in line number 7" >29</id><querystr><![CDATA[stmt s1; Select s1 ]]></querystr>
+<stuans>1,2,3,4,5,6,7,8,9,10</stuans>
+<correct>1,2,3,4,5,6,7,8,9,10</correct>
+<time_taken>10.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the Parent (type while) of the statement in line number 7" >30</id><querystr><![CDATA[assign a; Select a ]]></querystr>
+<stuans>1,9,3,4,6,7,10</stuans>
+<correct>1,3,4,6,7,9,10</correct>
+<time_taken>10.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Uses="1" comment="Which variables are modified by statement 6?" >31</id><querystr><![CDATA[variable v; Select v such that Uses(6, v) ]]></querystr>
+<stuans>x,q</stuans>
+<correct>x,q</correct>
+<time_taken>10.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Uses="1" comment="Which variables are modified by statement 6?" >32</id><querystr><![CDATA[variable v; stmt s1; Select s1 such that Modifies(s1, v) ]]></querystr>
+<stuans>1,2,3,4,5,6,7,8,9,10</stuans>
+<correct>1,2,3,4,5,6,7,8,9,10</correct>
+<time_taken>10.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Uses="1" comment="Which variables are modified by statement 6?" >33</id><querystr><![CDATA[variable v; stmt s1; Select s1 such that Uses(s1, v) ]]></querystr>
+<stuans>1,2,3,4,5,6,7,8,10</stuans>
+<correct>1,2,3,4,5,6,7,8,10</correct>
+<time_taken>10.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Uses="1" comment="Which variables are modified by statement 6?" >34</id><querystr><![CDATA[procedure p, q; Select p such that Calls(p, q) ]]></querystr>
+<stuans>None</stuans>
+<correct>lain</correct>
+<time_taken>10.000000</time_taken>
+<failed>
+<missing>lain</missing>
+<additional>None</additional>
+<summary>
+<expected>1</expected>
+<matched>0</matched>
+<missing>1</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Uses="1" comment="Which variables are modified by statement 6?" >35</id><querystr><![CDATA[procedure p, q; Select q such that Calls(p, q) ]]></querystr>
+<stuans>None</stuans>
+<correct>Noob</correct>
+<time_taken>10.000000</time_taken>
+<failed>
+<missing>Noob</missing>
+<additional>None</additional>
+<summary>
+<expected>1</expected>
+<matched>0</matched>
+<missing>1</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Typed="1" Uses="1" With="1" comment="" >17</id><querystr><![CDATA[stmt s;  Select s such that Follows*(_,_)]]></querystr>
+<stuans>1,2,3,4,5,6,7,8,9,10</stuans>
+<correct>1,2,3,4,5,6,7,8,9,10</correct>
+<time_taken>10.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Typed="1" Uses="1" With="1" comment="" >17</id><querystr><![CDATA[constant c; Select c such that Parent*(_,_)]]></querystr>
+<stuans>6,2,7,1</stuans>
+<correct>6,2,7,1</correct>
+<time_taken>10.000000</time_taken>
+<passed/>
+</query>
+</category>
+</queries>
+</test_results>

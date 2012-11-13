@@ -5,7 +5,7 @@ procedure lain {
 		t= x + 6;	
 		while q {
 			x = x + q * 2;	
-		}
+	}
 		a = 7 + pika;
 	}
 	call Noob;

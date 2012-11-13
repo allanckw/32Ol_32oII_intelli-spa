@@ -568,9 +568,8 @@ void IEvalQuery::EvaluateModifies()
 		firstFixedProcedure = true;
 		if (currentFirstVariableName.size() == 3)
 		{
-			currentFirstVariableName = Helper::charToString(currentFirstVariableName.at(1));
-			currentFirstVariableNo = PKB::procedures.getPROCIndex(currentFirstVariableName);
-			currentFirstIndices.insert(PKB::procedures.getPROCIndex(currentFirstVariableName));
+			currentFirstVariableNo = PKB::procedures.getPROCIndex(Helper::charToString(currentFirstVariableName.at(1)));
+			currentFirstIndices.insert(PKB::procedures.getPROCIndex(Helper::charToString(currentFirstVariableName.at(1))));
 		}
 		else
 		{
@@ -590,9 +589,8 @@ void IEvalQuery::EvaluateModifies()
 		secondFixedVariable = true;
 		if (currentSecondVariableName.size() == 3)
 		{
-			currentSecondVariableName = Helper::charToString(currentSecondVariableName.at(1));
-			currentSecondVariableNo = PKB::variables.getVARIndex(currentSecondVariableName);
-			currentSecondIndices.insert(PKB::variables.getVARIndex(currentSecondVariableName));
+			currentSecondVariableNo = PKB::variables.getVARIndex(Helper::charToString(currentSecondVariableName.at(1)));
+			currentSecondIndices.insert(PKB::variables.getVARIndex(Helper::charToString(currentSecondVariableName.at(1))));
 		}
 		else
 		{
@@ -854,9 +852,8 @@ void IEvalQuery::EvaluateUses()
 		firstFixedProcedure = true;
 		if (currentFirstVariableName.size() == 3)
 		{
-			currentFirstVariableName = Helper::charToString(currentFirstVariableName.at(1));
-			currentFirstVariableNo = PKB::procedures.getPROCIndex(currentFirstVariableName);
-			currentFirstIndices.insert(PKB::procedures.getPROCIndex(currentFirstVariableName));
+			currentFirstVariableNo = PKB::procedures.getPROCIndex(Helper::charToString(currentFirstVariableName.at(1)));
+			currentFirstIndices.insert(PKB::procedures.getPROCIndex(Helper::charToString(currentFirstVariableName.at(1))));
 		}
 		else
 		{
@@ -876,9 +873,8 @@ void IEvalQuery::EvaluateUses()
 		secondFixedVariable = true;
 		if (currentSecondVariableName.size() == 3)
 		{
-			currentSecondVariableName = Helper::charToString(currentSecondVariableName.at(1));
-			currentSecondVariableNo = PKB::variables.getVARIndex(currentSecondVariableName);
-			currentSecondIndices.insert(PKB::variables.getVARIndex(currentSecondVariableName));
+			currentSecondVariableNo = PKB::variables.getVARIndex(Helper::charToString(currentSecondVariableName.at(1)));
+			currentSecondIndices.insert(PKB::variables.getVARIndex(Helper::charToString(currentSecondVariableName.at(1))));
 		}
 		else
 		{
@@ -1680,12 +1676,13 @@ void IEvalQuery::EvaluateCallsStar()
 //If assign node is found, TryMatch is called to DFS the children of that node to look for pattern match.
 void IEvalQuery::EvaluatePattern()
 {
+	string firstVarName;
 	if (currentFirstVariableName.at(0) == '\"' && currentFirstVariableName.at(currentFirstVariableName.size() - 1) == '\"')
 	{
 		if (currentFirstVariableName.size() == 3)
-			currentFirstVariableName = Helper::charToString(currentFirstVariableName.at(1));
+			firstVarName = Helper::charToString(currentFirstVariableName.at(1));
 		else
-			currentFirstVariableName = currentFirstVariableName.substr(1, currentFirstVariableName.size() - 2);
+			firstVarName = currentFirstVariableName.substr(1, currentFirstVariableName.size() - 2);
 	}
 	else
 		allVarsFirst = true;
@@ -1702,7 +1699,8 @@ void IEvalQuery::EvaluatePattern()
 	vecMatch.at(0) = vecMatch.at(0).substr(1,vecMatch.at(0).length()-2);
 	
 	}
-vecMatch.at(0).erase(remove(vecMatch.at(0).begin(), vecMatch.at(0).end(), '\"'), vecMatch.at(0).end());
+	vecMatch.at(0).erase(remove(vecMatch.at(0).begin(), vecMatch.at(0).end(), '\"'), vecMatch.at(0).end());
+
 	stack<ASTNode*> nodesStack;
 	PKB::rootNode;
 	PKB::variables;
@@ -1745,7 +1743,7 @@ vecMatch.at(0).erase(remove(vecMatch.at(0).begin(), vecMatch.at(0).end(), '\"'),
 			}
 			else
 			{
-				if(TryMatch(temp,currentFirstVariableName,vecMatch,sub))
+				if(TryMatch(temp,firstVarName,vecMatch,sub))
 				{
 					ASTStmtNode* tempnode = (ASTStmtNode*)temp;
 					firstVariableAnswer.push_back(tempnode->getStmtNumber());

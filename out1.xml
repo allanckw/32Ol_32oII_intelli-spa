@@ -9,7 +9,7 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the Parent (type while) of the statement in line number 7" >1</id><querystr><![CDATA[stmt s##1; Select s##1 such that Follows(3, s##1)]]></querystr>
 <stuans>4</stuans>
 <correct>4</correct>
-<time_taken>10.000000</time_taken>
+<time_taken>0.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -100,24 +100,15 @@
 <id Pattern="1" Typed="1" comment="" >14</id><querystr><![CDATA[var v1;  Select v1 such that Uses(1, v1)]]></querystr>
 <stuans>yas</stuans>
 <correct>yas</correct>
-<time_taken>0.000000</time_taken>
+<time_taken>10.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Pattern="1" Typed="1" comment="" >15</id><querystr><![CDATA[var v1;  Select v1 such that Uses("lain", v1)]]></querystr>
-<stuans>An exception has occured: Invalid Index, there is no procedure at given location </stuans>
+<stuans>x,yas,i,q,pika,z</stuans>
 <correct>yas,i,q,x,pika,z</correct>
 <time_taken>10.000000</time_taken>
-<failed>
-<missing>i,pika,q,x,yas,z</missing>
-<additional>An exception has occured: Invalid Index, there is no procedure at given location </additional>
-<summary>
-<expected>6</expected>
-<matched>0</matched>
-<missing>6</missing>
-<additional>1</additional>
-</summary>
-</failed>
+<passed/>
 </query>
 <query>
 <id Typed="1" Modifies="1" With="1" comment="" >16</id><querystr><![CDATA[var v;  Select v such that Modifies("lain", v)]]></querystr>
@@ -137,35 +128,53 @@
 <id Typed="1" ReturnBoolean="1" Calls="1" With="1" With-And="1" comment="" >18</id><querystr><![CDATA[var v;  Select v such that Parent(_, _)]]></querystr>
 <stuans>x,yas,i,q,t,a,pika,z</stuans>
 <correct>a,i,pika,q,t,x,yas,z</correct>
-<time_taken>10.000000</time_taken>
+<time_taken>20.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Typed="1" FollowsStar="1" Modifies="1" Uses="1" With="1" And-Multi="1" comment="" >19</id><querystr><![CDATA[proc p;  Select p such that Modifies(_, _)]]></querystr>
-<stuans>An exception has occured: Modifies and Uses cannot have '_' as the first parameter</stuans>
+<stuans>None: Modifies and Uses cannot have '_' as the first parameter</stuans>
 <correct>An exception has occured: Modifies and Uses cannot have '_' as the first parameter</correct>
 <time_taken>20.000000</time_taken>
-<passed/>
+<failed>
+<missing>An exception has occured: Modifies and Uses cannot have '_' as the first parameter</missing>
+<additional>None: Modifies and Uses cannot have '_' as the first parameter</additional>
+<summary>
+<expected>1</expected>
+<matched>0</matched>
+<missing>1</missing>
+<additional>1</additional>
+</summary>
+</failed>
 </query>
 <query>
 <id Typed="1" NextStar="1" ParentStar="1" ImplStmtLine="1" And-Tuple="1" comment="" >20</id><querystr><![CDATA[proc p;  Select p such that Uses(_, _)]]></querystr>
-<stuans>An exception has occured: Modifies and Uses cannot have '_' as the first parameter</stuans>
+<stuans>None: Modifies and Uses cannot have '_' as the first parameter</stuans>
 <correct>An exception has occured: Modifies and Uses cannot have '_' as the first parameter</correct>
 <time_taken>20.000000</time_taken>
-<passed/>
+<failed>
+<missing>An exception has occured: Modifies and Uses cannot have '_' as the first parameter</missing>
+<additional>None: Modifies and Uses cannot have '_' as the first parameter</additional>
+<summary>
+<expected>1</expected>
+<matched>0</matched>
+<missing>1</missing>
+<additional>1</additional>
+</summary>
+</failed>
 </query>
 <query>
 <id Typed="1" NextStar="1" ParentStar="1" ImplStmtLine="1" And-Tuple="1" comment="" >21</id><querystr><![CDATA[constant c;  Select c such that Follows(_, _)]]></querystr>
 <stuans>6,2,7,1</stuans>
 <correct>6,2,7,1</correct>
-<time_taken>20.000000</time_taken>
+<time_taken>10.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Typed="1" NextStar="1" ParentStar="1" ImplStmtLine="1" And-Tuple="1" comment="" >22</id><querystr><![CDATA[prog_line pl;  Select pl such that Follows(_, _)]]></querystr>
 <stuans>1,2,3,4,5,6,7,8,9,10</stuans>
 <correct>1,2,3,4,5,6,7,8,9,10</correct>
-<time_taken>20.000000</time_taken>
+<time_taken>10.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -205,10 +214,19 @@
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the Parent (type while) of the statement in line number 7" >28</id><querystr><![CDATA[stmt s!1; Select s!1 such that Follows(3, s!1)]]></querystr>
-<stuans>An exception has occured: Invalid variable name or boolean</stuans>
+<stuans>None: Invalid synonym declaration name</stuans>
 <correct>An exception has occured: Invalid variable name or boolean</correct>
-<time_taken>20.000000</time_taken>
-<passed/>
+<time_taken>10.000000</time_taken>
+<failed>
+<missing>An exception has occured: Invalid variable name or boolean</missing>
+<additional>None: Invalid synonym declaration name</additional>
+<summary>
+<expected>1</expected>
+<matched>0</matched>
+<missing>1</missing>
+<additional>1</additional>
+</summary>
+</failed>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the Parent (type while) of the statement in line number 7" >29</id><querystr><![CDATA[stmt s1; Select s1 ]]></querystr>

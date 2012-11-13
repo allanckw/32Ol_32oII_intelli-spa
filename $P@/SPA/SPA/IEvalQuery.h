@@ -36,7 +36,7 @@ private:
 	int currentFirstVariableNo, currentSecondVariableNo;
 	bool firstNumber, secondNumber; 
 	bool firstFixedProcedure , secondFixedProcedure , secondFixedVariable;
-	vector<string> firstVariableAnswer, secondVariableAnswer;
+	vector<int> firstVariableAnswer, secondVariableAnswer;
 	bool projectBool, boolAnswer; //projectBool = true means that the reladition should return bool instead of vecctor answer
 
 	QuerySelNode* currentSelNode;

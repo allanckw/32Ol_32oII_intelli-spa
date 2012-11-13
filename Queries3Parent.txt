@@ -8,7 +8,7 @@ None
 2 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 constant c;
 Select BOOLEAN such that Parent(103, 242)
-0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+TRUE
 5000
 3 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 constant c;
@@ -208,7 +208,7 @@ None
 42 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 assign a;
 Select a such that Parent(103, a) pattern a ("t", _"w"_)
-2
+105
 5000
 43 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 assign a;
@@ -218,7 +218,7 @@ None
 44 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 assign a;
 Select a such that Parent(103, a) pattern a ("t", _)
-104, 105
+105, 106
 5000
 45 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 assign a;

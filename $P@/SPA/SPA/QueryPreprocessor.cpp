@@ -156,6 +156,8 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 			{
 				selectVariableDeclaration = true;
 				downSize = false;
+				checkCapitalLetter = false;
+				complete = false;
 				continue;
 			}
 			else
@@ -203,7 +205,15 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 			else if (selectVariableDeclaration == true)
 			{
 				//ASSUMING 1 SELECT VARIABLE
-				if (isName(currentToken))
+				if (currentToken.compare("BOOLEAN") == 0)
+				{
+					selectVariables[QueryEnums::Boolean].push_back(currentToken);
+					//More select variable declarations should not be allowed after boolean
+					selectVariableDeclaration = false;
+					downSize = true;
+					complete = true;
+				}
+				else if (isName(currentToken))
 				{
 					for (auto it = userVariables.begin(); it != userVariables.end(); it++)
 					{
@@ -224,14 +234,8 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 					selectVariableDeclaration = false;
 					complete = true;
 				}
-				else if (currentToken.compare("boolean") == 0)
-				{
-					selectVariables[QueryEnums::Boolean].push_back(currentToken);
-					//More select variable declarations should not be allowed after boolean
-					selectVariableDeclaration = false;
-					downSize = true;
-					complete = true;
-				}
+				else
+					throw SPAException("Invalid Select variable declaration");
 			}
 			else if (isName(currentToken))
 			{
@@ -247,7 +251,7 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 				userVariables[variableType].push_back(currentToken);
 			}
 			else
-				throw SPAException("Invalid variable name or boolean");
+				throw SPAException("Invalid synonym declaration name");
 		}
 		else if (suchThat == true)
 		{
@@ -321,7 +325,15 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 				{
 					if((currentToken.size() > 2 && delimiters.find(currentToken.substr(1, currentToken.size() - 2)) != 0) ||
 						(currentToken.size() == 3 && isName(Helper::charToString(currentToken.at(1)))))
+					{
 						relationshipDeclaration.first = (make_pair(QueryEnums::Procedure, currentToken));
+					}
+				}
+				else if ((reladitionType == QueryEnums::Follows || reladitionType == QueryEnums::FollowsStar ||
+						reladitionType == QueryEnums::Parent || reladitionType == QueryEnums::ParentStar) &&
+						currentToken.find("\"") == 0)
+				{
+					throw SPAException("Follows, Parent and their star versions can only accept statement numbers as parameters");
 				}
 				else if(Helper::isNumber(currentToken) && reladitionType != QueryEnums::Calls && 
 					reladitionType != QueryEnums::CallsStar)
@@ -346,7 +358,7 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 						(reladitionType == QueryEnums::Follows || reladitionType == QueryEnums::FollowsStar ||
 						reladitionType == QueryEnums::Parent || reladitionType == QueryEnums::ParentStar))
 					{
-						throw SPAException("Follows and Parent parameters can only be statements");
+						throw SPAException("Follows and Parent and their star versions can only take in parameters that are statements");
 					}
 					else if (variableType == QueryEnums::Variable && 
 							(reladitionType == QueryEnums::Modifies || reladitionType == QueryEnums::Uses))
@@ -379,6 +391,12 @@ void QueryPreprocessor::preProcess(vector<string> tokens)
 					if((currentToken.size() > 2 && delimiters.find(currentToken.substr(1, currentToken.size() - 2)) != 0) ||
 						(currentToken.size() == 3 && isName(Helper::charToString(currentToken.at(1)))))
 						relationshipDeclaration.second = make_pair(QueryEnums::Variable, currentToken);
+				}
+				else if ((reladitionType == QueryEnums::Follows || reladitionType == QueryEnums::FollowsStar ||
+						reladitionType == QueryEnums::Parent || reladitionType == QueryEnums::ParentStar) &&
+						currentToken.find("\"") == 0)
+				{
+					throw SPAException("Follows, Parent and their star versions can only accept statement numbers as parameters");
 				}
 				else if(Helper::isNumber(currentToken) && reladitionType != QueryEnums::Calls && 
 						reladitionType != QueryEnums::CallsStar  && reladitionType != QueryEnums::Pattern)

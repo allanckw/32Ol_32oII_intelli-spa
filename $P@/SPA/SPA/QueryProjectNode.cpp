@@ -11,7 +11,7 @@ QueryProjectNode::QueryProjectNode()
 
 QueryProjectNode::QueryProjectNode
 	(QueryEnums::QueryReladition rcType, QueryEnums::QueryVar t1, string s1, QueryEnums::QueryVar t2, 
-	string s2, vector<string> a1, vector<string> a2, bool boolAns)
+	string s2, vector<int> a1, vector<int> a2, bool boolAns)
 {
 	this->nodeType = Project;
 	this->reladitionType = rcType;
@@ -19,24 +19,8 @@ QueryProjectNode::QueryProjectNode
 	this->projectionHeader.first.second = s1;
 	this->projectionHeader.second.first = t2;
 	this->projectionHeader.second.second = s2;
-	for (int i  = 0; i < a1.size(); i++)
-	{
-		if (this->projectionHeader.first.first == QueryEnums::Procedure)
-			firstProjectionAnswer.push_back(PKB::procedures.getPROCIndex(a1.at(i)));
-		else if (this->projectionHeader.first.first == QueryEnums::Variable)
-			firstProjectionAnswer.push_back(PKB::variables.getVARIndex(a1.at(i)));
-		else
-			firstProjectionAnswer.push_back(atoi(a1.at(i).c_str()));
-	}
-	for (int j  = 0; j < a2.size(); j++)
-	{
-		if (this->projectionHeader.second.first == QueryEnums::Procedure)
-			secondProjectionAnswer.push_back(PKB::procedures.getPROCIndex(a2.at(j)));
-		else if (this->projectionHeader.second.first == QueryEnums::Variable)
-			secondProjectionAnswer.push_back(PKB::variables.getVARIndex(a2.at(j)));
-		else
-			secondProjectionAnswer.push_back(atoi(a2.at(j).c_str()));
-	}
+	this->firstProjectionAnswer = a1;
+	this->secondProjectionAnswer = a2;
 	this->projectionAnswer = make_pair(firstProjectionAnswer, secondProjectionAnswer);
 	this->boolAnswer = boolAns;
 }

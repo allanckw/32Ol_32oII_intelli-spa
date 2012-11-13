@@ -397,14 +397,14 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 
 					if (related && finalBoolAnswer)
 					{
-						for (auto it = uniqueSelectAnswers.begin(); it != uniqueSelectAnswers.end(); it++)
+						for (auto its = uniqueSelectAnswers.begin(); its != uniqueSelectAnswers.end(); its++)
 						{
 							if (selectType == QueryEnums::Variable)
-								answer.push_back(PKB::variables.getVARName(*it));
+								answer.push_back(PKB::variables.getVARName(*its));
 							else if (selectType == QueryEnums::Procedure)
-								answer.push_back(PKB::procedures.getPROCName(*it));
+								answer.push_back(PKB::procedures.getPROCName(*its));
 							else
-								answer.push_back(Helper::intToString(*it));
+								answer.push_back(Helper::intToString(*its));
 						}
 					}
 					else if (!related && finalBoolAnswer)
@@ -646,7 +646,7 @@ void IEvalQuery::EvaluateModifies()
 		{
 			if (PKB::modifies.isModifiedStmt(currentFirstVariableNo, x))
 			{
-				boolAnswer = true; //remember that boolanswer is false by default
+				boolAnswer = true;
 				return;
 			}
 			boolAnswer = false;
@@ -659,8 +659,8 @@ void IEvalQuery::EvaluateModifies()
 			for (int y = 0; y <= PKB::variables.getSize(); y++)
 				if (PKB::modifies.isModifiedProc(x, y))
 				{
-					firstVariableAnswer.push_back(PKB::procedures.getPROCName(x));
-					secondVariableAnswer.push_back(PKB::variables.getVARName(y));
+					firstVariableAnswer.push_back(x);
+					secondVariableAnswer.push_back(y);
 				}
 		}
 	}
@@ -670,8 +670,8 @@ void IEvalQuery::EvaluateModifies()
 		{
 			if (PKB::modifies.isModifiedProc(x, currentSecondVariableNo))
 			{
-				firstVariableAnswer.push_back(PKB::procedures.getPROCName(x));
-				secondVariableAnswer.push_back(Helper::intToString(currentSecondVariableNo));
+				firstVariableAnswer.push_back(x);
+				secondVariableAnswer.push_back(currentSecondVariableNo);
 			}
 		}
 	}
@@ -683,8 +683,8 @@ void IEvalQuery::EvaluateModifies()
 			{
 				if (PKB::modifies.isModifiedStmt(x, y))
 				{
-					firstVariableAnswer.push_back(Helper::intToString(x));
-					secondVariableAnswer.push_back(PKB::variables.getVARName(y));
+					firstVariableAnswer.push_back(x);
+					secondVariableAnswer.push_back(y);
 				}
 			}
 		}
@@ -695,8 +695,8 @@ void IEvalQuery::EvaluateModifies()
 		{
 			if (PKB::modifies.isModifiedStmt(x, currentSecondVariableNo))
 			{
-				firstVariableAnswer.push_back(Helper::intToString(x));
-				secondVariableAnswer.push_back(Helper::intToString(currentSecondVariableNo));
+				firstVariableAnswer.push_back(x);
+				secondVariableAnswer.push_back(currentSecondVariableNo);
 			}
 		}
 	}
@@ -706,8 +706,8 @@ void IEvalQuery::EvaluateModifies()
 		{
 			if (PKB::modifies.isModifiedProc(currentFirstVariableNo, x))
 			{
-				firstVariableAnswer.push_back(PKB::procedures.getPROCName(currentFirstVariableNo));
-				secondVariableAnswer.push_back(PKB::variables.getVARName(x));
+				firstVariableAnswer.push_back(currentFirstVariableNo);
+				secondVariableAnswer.push_back(x);
 			}
 		}							
 	}
@@ -719,8 +719,8 @@ void IEvalQuery::EvaluateModifies()
 			{
 				if (PKB::modifies.isModifiedStmt(x, y))
 				{
-					firstVariableAnswer.push_back(Helper::intToString(x));
-					secondVariableAnswer.push_back(PKB::variables.getVARName(y));
+					firstVariableAnswer.push_back(x);
+					secondVariableAnswer.push_back(y);
 				}
 			}
 		}
@@ -731,8 +731,8 @@ void IEvalQuery::EvaluateModifies()
 		{
 			if (PKB::modifies.isModifiedStmt(x, currentSecondVariableNo))
 			{
-				firstVariableAnswer.push_back(Helper::intToString(x));
-				secondVariableAnswer.push_back(PKB::variables.getVARName(currentSecondVariableNo));
+				firstVariableAnswer.push_back(x);
+				secondVariableAnswer.push_back(currentSecondVariableNo);
 			}
 		}
 	}
@@ -742,8 +742,8 @@ void IEvalQuery::EvaluateModifies()
 		{
 			if (PKB::modifies.isModifiedProc(currentFirstVariableNo, x))
 			{
-				firstVariableAnswer.push_back(PKB::procedures.getPROCName(currentSecondVariableNo));
-				secondVariableAnswer.push_back(PKB::variables.getVARName(x));
+				firstVariableAnswer.push_back(currentFirstVariableNo);
+				secondVariableAnswer.push_back(x);
 			}
 		}							
 	}
@@ -751,11 +751,10 @@ void IEvalQuery::EvaluateModifies()
 	{
 		for (int x = 0; x < PKB::variables.getSize(); x++)
 		{
-			//cout<<PKB::modifies.isModifiedStmt(currentFirstVariableNo, x)<<"var"<<x<<endl;
 			if (PKB::modifies.isModifiedStmt(currentFirstVariableNo, x))
 			{
-				firstVariableAnswer.push_back(Helper::intToString(currentFirstVariableNo));
-				secondVariableAnswer.push_back(PKB::variables.getVARName(x));
+				firstVariableAnswer.push_back(currentFirstVariableNo);
+				secondVariableAnswer.push_back(x);
 			}
 		}							
 	}
@@ -767,8 +766,8 @@ void IEvalQuery::EvaluateModifies()
 			{
 				if (PKB::modifies.isModifiedStmt(x, (*it)))
 				{
-					firstVariableAnswer.push_back(Helper::intToString(x));
-					secondVariableAnswer.push_back(PKB::variables.getVARName(*it));
+					firstVariableAnswer.push_back(x);
+					secondVariableAnswer.push_back((*it));
 				}
 			}
 		}
@@ -781,8 +780,8 @@ void IEvalQuery::EvaluateModifies()
 			{
 				if (PKB::modifies.isModifiedProc(x, (*it)))
 				{
-					firstVariableAnswer.push_back(Helper::intToString(x));
-					secondVariableAnswer.push_back(PKB::variables.getVARName(*it));
+					firstVariableAnswer.push_back(x);
+					secondVariableAnswer.push_back((*it));
 				}
 			}
 		}
@@ -797,16 +796,16 @@ void IEvalQuery::EvaluateModifies()
 				{
 					if (PKB::modifies.isModifiedProc((*it), x))
 					{
-						firstVariableAnswer.push_back(PKB::procedures.getPROCName(*it));
-						secondVariableAnswer.push_back(PKB::variables.getVARName(x));
+						firstVariableAnswer.push_back((*it));
+						secondVariableAnswer.push_back(x);
 					}
 				}
 				else //statement
 				{
 					if (PKB::modifies.isModifiedStmt((*it), x))
 					{
-						firstVariableAnswer.push_back(Helper::intToString(*it));
-						secondVariableAnswer.push_back(PKB::variables.getVARName(x));
+						firstVariableAnswer.push_back((*it));
+						secondVariableAnswer.push_back(x);
 					}
 				}
 			}
@@ -822,16 +821,16 @@ void IEvalQuery::EvaluateModifies()
 				{
 					if (PKB::modifies.isModifiedProc((*it), (*it2)))
 					{
-						firstVariableAnswer.push_back(PKB::procedures.getPROCName(*it));
-						secondVariableAnswer.push_back(PKB::variables.getVARName(*it2));
+						firstVariableAnswer.push_back((*it));
+						secondVariableAnswer.push_back((*it2));
 					}
 				}
 				else //statement
 				{
 					if (PKB::modifies.isModifiedStmt((*it), (*it2)))
 					{
-						firstVariableAnswer.push_back(Helper::intToString(*it));
-						secondVariableAnswer.push_back(PKB::variables.getVARName(*it2));
+						firstVariableAnswer.push_back((*it));
+						secondVariableAnswer.push_back((*it2));
 					}
 				}
 			}
@@ -932,7 +931,7 @@ void IEvalQuery::EvaluateUses()
 		{
 			if (PKB::uses.isUsedStmt(currentFirstVariableNo, x))
 			{
-				boolAnswer = true; //remember that boolanswer is false by default
+				boolAnswer = true;
 				return;
 			}
 			boolAnswer = false;
@@ -945,8 +944,8 @@ void IEvalQuery::EvaluateUses()
 			for (int y = 0; y <= PKB::variables.getSize(); y++)
 				if (PKB::uses.isUsedProc(x, y))
 				{
-					firstVariableAnswer.push_back(PKB::procedures.getPROCName(x));
-					secondVariableAnswer.push_back(PKB::variables.getVARName(y));
+					firstVariableAnswer.push_back(x);
+					secondVariableAnswer.push_back(y);
 				}
 		}
 	}
@@ -956,8 +955,8 @@ void IEvalQuery::EvaluateUses()
 		{
 			if (PKB::uses.isUsedProc(x, currentSecondVariableNo))
 			{
-				firstVariableAnswer.push_back(PKB::procedures.getPROCName(x));
-				secondVariableAnswer.push_back(PKB::variables.getVARName(currentSecondVariableNo));
+				firstVariableAnswer.push_back(x);
+				secondVariableAnswer.push_back(currentSecondVariableNo);
 			}
 		}
 	}
@@ -969,8 +968,8 @@ void IEvalQuery::EvaluateUses()
 			{
 				if (PKB::uses.isUsedStmt(x, y))
 				{
-					firstVariableAnswer.push_back(Helper::intToString(x));
-					secondVariableAnswer.push_back(PKB::variables.getVARName(y));
+					firstVariableAnswer.push_back(x);
+					secondVariableAnswer.push_back(y);
 				}
 			}
 		}
@@ -981,8 +980,8 @@ void IEvalQuery::EvaluateUses()
 		{
 			if (PKB::uses.isUsedStmt(x, currentSecondVariableNo))
 			{
-				firstVariableAnswer.push_back(Helper::intToString(x));
-				secondVariableAnswer.push_back(PKB::variables.getVARName(currentSecondVariableNo));
+				firstVariableAnswer.push_back(x);
+				secondVariableAnswer.push_back(currentSecondVariableNo);
 			}
 		}
 	}
@@ -992,8 +991,8 @@ void IEvalQuery::EvaluateUses()
 		{
 			if (PKB::uses.isUsedProc(currentFirstVariableNo, x))
 			{
-				firstVariableAnswer.push_back(PKB::procedures.getPROCName(currentFirstVariableNo));
-				secondVariableAnswer.push_back(PKB::variables.getVARName(x));
+				firstVariableAnswer.push_back(currentFirstVariableNo);
+				secondVariableAnswer.push_back(x);
 			}
 		}							
 	}
@@ -1001,11 +1000,10 @@ void IEvalQuery::EvaluateUses()
 	{
 		for (int x = 0; x < PKB::variables.getSize(); x++)
 		{
-			//cout<<PKB::uses.isUsedStmt(currentFirstVariableNo, x)<<"var"<<x<<endl;
 			if (PKB::uses.isUsedStmt(currentFirstVariableNo, x))
 			{
-				firstVariableAnswer.push_back(Helper::intToString(currentFirstVariableNo));
-				secondVariableAnswer.push_back(PKB::variables.getVARName(x));
+				firstVariableAnswer.push_back(currentFirstVariableNo);
+				secondVariableAnswer.push_back(x);
 			}
 		}							
 	}
@@ -1017,8 +1015,8 @@ void IEvalQuery::EvaluateUses()
 			{
 				if (PKB::uses.isUsedStmt(x, (*it)))
 				{
-					firstVariableAnswer.push_back(Helper::intToString(x));
-					secondVariableAnswer.push_back(PKB::variables.getVARName(*it));
+					firstVariableAnswer.push_back(x);
+					secondVariableAnswer.push_back((*it));
 				}
 			}
 		}
@@ -1031,8 +1029,8 @@ void IEvalQuery::EvaluateUses()
 			{
 				if (PKB::uses.isUsedProc(x, (*it)))
 				{
-					firstVariableAnswer.push_back(Helper::intToString(x));
-					secondVariableAnswer.push_back(PKB::variables.getVARName(*it));
+					firstVariableAnswer.push_back(x);
+					secondVariableAnswer.push_back((*it));
 				}
 			}
 		}
@@ -1047,16 +1045,16 @@ void IEvalQuery::EvaluateUses()
 				{
 					if (PKB::uses.isUsedProc((*it), x))
 					{
-						firstVariableAnswer.push_back(PKB::procedures.getPROCName(*it));
-						secondVariableAnswer.push_back(PKB::variables.getVARName(x));
+						firstVariableAnswer.push_back((*it));
+						secondVariableAnswer.push_back(x);
 					}
 				}
 				else //statement
 				{
 					if (PKB::uses.isUsedStmt((*it), x))
 					{
-						firstVariableAnswer.push_back(Helper::intToString(*it));
-						secondVariableAnswer.push_back(PKB::variables.getVARName(x));
+						firstVariableAnswer.push_back((*it));
+						secondVariableAnswer.push_back(x);
 					}
 				}
 			}
@@ -1072,16 +1070,16 @@ void IEvalQuery::EvaluateUses()
 				{
 					if (PKB::uses.isUsedProc((*it), (*it2)))
 					{
-						firstVariableAnswer.push_back(PKB::procedures.getPROCName(*it));
-						secondVariableAnswer.push_back(PKB::variables.getVARName(*it2));
+						firstVariableAnswer.push_back((*it));
+						secondVariableAnswer.push_back((*it2));
 					}
 				}
 				else //statement
 				{
 					if (PKB::uses.isUsedStmt((*it), (*it2)))
 					{
-						firstVariableAnswer.push_back(Helper::intToString(*it));
-						secondVariableAnswer.push_back(PKB::variables.getVARName(*it2));
+						firstVariableAnswer.push_back((*it));
+						secondVariableAnswer.push_back((*it2));
 					}
 				}
 			}
@@ -1147,8 +1145,8 @@ void IEvalQuery::EvaluateParent()
 				for (int y = 1; y <= PKB::maxProgLines; y++)
 					if (PKB::parent.isParent(x, y))
 					{
-						firstVariableAnswer.push_back(Helper::intToString(x));
-						secondVariableAnswer.push_back(Helper::intToString(y));
+						firstVariableAnswer.push_back(x);
+						secondVariableAnswer.push_back(y);
 					}
 			}
 		}
@@ -1157,9 +1155,9 @@ void IEvalQuery::EvaluateParent()
 		for (int x = 1; x <= PKB::maxProgLines; x++)
 		{
 			for (auto y = currentSecondIndices.begin(); y != currentSecondIndices.end(); y++)
-				if (PKB::parent.isParent(x, int (*y))){
-					firstVariableAnswer.push_back(Helper::intToString(x));
-					secondVariableAnswer.push_back(Helper::intToString(*y));
+				if (PKB::parent.isParent(x, *y)){
+					firstVariableAnswer.push_back(x);
+					secondVariableAnswer.push_back((*y));
 				}
 		}
 	}
@@ -1168,8 +1166,8 @@ void IEvalQuery::EvaluateParent()
 			for (int y = 1; y <= PKB::maxProgLines; y++)
 				if (PKB::parent.isParent(int (*x), y))
 				{
-					firstVariableAnswer.push_back(Helper::intToString(*x));
-					secondVariableAnswer.push_back(Helper::intToString(y));
+					firstVariableAnswer.push_back((*x));
+					secondVariableAnswer.push_back(y);
 				}
 		}
 	}
@@ -1178,8 +1176,8 @@ void IEvalQuery::EvaluateParent()
 		for (auto x = currentFirstIndices.begin(); x != currentFirstIndices.end(); x++){
 			for (auto y = currentSecondIndices.begin(); y != currentSecondIndices.end(); y++){
 				if (PKB::parent.isParent(int (*x),  int (*y))){
-					firstVariableAnswer.push_back(Helper::intToString(*x));
-					secondVariableAnswer.push_back(Helper::intToString(*y));
+					firstVariableAnswer.push_back((*x));
+					secondVariableAnswer.push_back((*y));
 				}
 			}
 		}
@@ -1246,8 +1244,8 @@ void IEvalQuery::EvaluateParentStar()
 				for (int y = 1; y <= PKB::maxProgLines; y++)
 					if (PKB::parent.isParentStar(x, y))
 					{
-						firstVariableAnswer.push_back(Helper::intToString(x));
-						secondVariableAnswer.push_back(Helper::intToString(y));
+						firstVariableAnswer.push_back(x);
+						secondVariableAnswer.push_back(y);
 					}
 			}
 		}
@@ -1259,8 +1257,8 @@ void IEvalQuery::EvaluateParentStar()
 			for (auto y = currentSecondIndices.begin(); y != currentSecondIndices.end(); y++)
 				if (PKB::parent.isParentStar(x, int (*y)))
 				{
-					firstVariableAnswer.push_back(Helper::intToString(x));
-					secondVariableAnswer.push_back(Helper::intToString(*y));
+					firstVariableAnswer.push_back(x);
+					secondVariableAnswer.push_back((*y));
 				}
 		}
 	}
@@ -1271,8 +1269,8 @@ void IEvalQuery::EvaluateParentStar()
 			for (int y = 1; y <= PKB::maxProgLines; y++)
 				if (PKB::parent.isParentStar(int (*x), y))
 				{
-					firstVariableAnswer.push_back(Helper::intToString(*x));
-					secondVariableAnswer.push_back(Helper::intToString(y));
+					firstVariableAnswer.push_back((*x));
+					secondVariableAnswer.push_back(y);
 				}
 		}
 	}
@@ -1283,8 +1281,8 @@ void IEvalQuery::EvaluateParentStar()
 			for (auto y = currentSecondIndices.begin(); y != currentSecondIndices.end(); y++)
 				if (PKB::parent.isParentStar(int (*x),  int (*y)))
 				{
-					firstVariableAnswer.push_back(Helper::intToString(*x));
-					secondVariableAnswer.push_back(Helper::intToString(*y));
+					firstVariableAnswer.push_back((*x));
+					secondVariableAnswer.push_back((*y));
 				}
 		}
 	}
@@ -1349,8 +1347,8 @@ void IEvalQuery::EvaluateFollows()
 				for (int y = 1; y <= PKB::maxProgLines; y++)
 					if (PKB::follows.isFollows(x, y))
 					{
-						firstVariableAnswer.push_back(Helper::intToString(x));
-						secondVariableAnswer.push_back(Helper::intToString(y));
+						firstVariableAnswer.push_back(x);
+						secondVariableAnswer.push_back(y);
 					}
 			}
 		}
@@ -1362,8 +1360,8 @@ void IEvalQuery::EvaluateFollows()
 			for (auto y = currentSecondIndices.begin(); y != currentSecondIndices.end(); y++)
 				if (PKB::follows.isFollows(x, (*y)))
 				{
-					firstVariableAnswer.push_back(Helper::intToString(x));
-					secondVariableAnswer.push_back(Helper::intToString(*y));
+					firstVariableAnswer.push_back(x);
+					secondVariableAnswer.push_back((*y));
 				}
 		}
 	}
@@ -1374,8 +1372,8 @@ void IEvalQuery::EvaluateFollows()
 			for (int y = 1; y <= PKB::maxProgLines; y++)
 				if (PKB::follows.isFollows((*x), y))
 				{
-					firstVariableAnswer.push_back(Helper::intToString(*x));
-					secondVariableAnswer.push_back(Helper::intToString(y));
+					firstVariableAnswer.push_back((*x));
+					secondVariableAnswer.push_back(y);
 				}
 		}
 	}
@@ -1386,8 +1384,8 @@ void IEvalQuery::EvaluateFollows()
 			for (auto y = currentSecondIndices.begin(); y != currentSecondIndices.end(); y++)
 				if (PKB::follows.isFollows(int (*x),  int (*y)))
 				{
-					firstVariableAnswer.push_back(Helper::intToString(*x));
-					secondVariableAnswer.push_back(Helper::intToString(*y));
+					firstVariableAnswer.push_back((*x));
+					secondVariableAnswer.push_back((*y));
 				}
 		}
 	}
@@ -1445,13 +1443,13 @@ void IEvalQuery::EvaluateFollowsStar()
 	else if (allStmtsFirst == true && allStmtsSecond == true)
 	{
 		{
-			for (int x = 1; x <= PKB::maxProgLines; x++)				
+		for (int x = 1; x <= PKB::maxProgLines; x++)			
 			{
-				for (int y = 1; y <= PKB::maxProgLines; y++)
-					if (PKB::follows.isFollowsStar(x, y))
+				vector<int> results = PKB::follows.getFollowsStarBy(x);
+				for (auto it = results.begin(); it != results.end(); it++)
 					{
-						firstVariableAnswer.push_back(Helper::intToString(x));
-						secondVariableAnswer.push_back(Helper::intToString(y));
+						firstVariableAnswer.push_back(x);
+						secondVariableAnswer.push_back((*it));
 					}
 			}
 		}
@@ -1463,8 +1461,8 @@ void IEvalQuery::EvaluateFollowsStar()
 			for (auto y = currentSecondIndices.begin(); y != currentSecondIndices.end(); y++)
 				if (PKB::follows.isFollowsStar(x, *y))
 				{
-					firstVariableAnswer.push_back(Helper::intToString(x));
-					secondVariableAnswer.push_back(Helper::intToString(*y));
+					firstVariableAnswer.push_back(x);
+					secondVariableAnswer.push_back((*y));
 				}
 		}
 	}
@@ -1475,8 +1473,8 @@ void IEvalQuery::EvaluateFollowsStar()
 			for (int y = 1; y <= PKB::maxProgLines; y++)
 				if (PKB::follows.isFollowsStar(*x, y))
 				{
-					firstVariableAnswer.push_back(Helper::intToString(*x));
-					secondVariableAnswer.push_back(Helper::intToString(y));
+					firstVariableAnswer.push_back((*x));
+					secondVariableAnswer.push_back(y);
 				}
 		}
 	}
@@ -1487,8 +1485,8 @@ void IEvalQuery::EvaluateFollowsStar()
 			for (auto y = currentSecondIndices.begin(); y != currentSecondIndices.end(); y++)
 				if (PKB::follows.isFollowsStar(*x, *y))
 				{
-					firstVariableAnswer.push_back(Helper::intToString(*x));
-					secondVariableAnswer.push_back(Helper::intToString(*y));
+					firstVariableAnswer.push_back((*x));
+					secondVariableAnswer.push_back((*y));
 				}
 		}
 	}
@@ -1559,7 +1557,7 @@ void IEvalQuery::EvaluateCalls()
 		for (int x = 0; x < PKB::procedures.getSize(); x++)
 		{
 			if (PKB::calls.isCalled(currentFirstVariableNo, x))
-				secondVariableAnswer.push_back(Helper::intToString(x));
+				secondVariableAnswer.push_back(x);
 		}
 	}
 	else if (secondFixedProcedure == true && allProcsFirst == true)
@@ -1567,7 +1565,7 @@ void IEvalQuery::EvaluateCalls()
 		for (int x = 0; x < PKB::procedures.getSize(); x++)
 		{
 			if (PKB::calls.isCalled(x, currentSecondVariableNo))
-				firstVariableAnswer.push_back(Helper::intToString(x));
+				firstVariableAnswer.push_back(x);
 		}
 	}
 	else
@@ -1578,8 +1576,8 @@ void IEvalQuery::EvaluateCalls()
 			{
 				if (PKB::calls.isCalled(*x, *y))
 				{
-					firstVariableAnswer.push_back(Helper::intToString(*x));
-					secondVariableAnswer.push_back(Helper::intToString(*y));
+					firstVariableAnswer.push_back((*x));
+					secondVariableAnswer.push_back((*y));
 				}
 			}
 		}
@@ -1651,7 +1649,7 @@ void IEvalQuery::EvaluateCallsStar()
 		for (int x = 0; x < PKB::procedures.getSize(); x++)
 		{
 			if (PKB::calls.isCalledStar(currentFirstVariableNo, x))
-				secondVariableAnswer.push_back(Helper::intToString(x));
+				secondVariableAnswer.push_back(x);
 		}
 	}
 	else if (secondFixedProcedure == true && allProcsFirst == true)
@@ -1659,7 +1657,7 @@ void IEvalQuery::EvaluateCallsStar()
 		for (int x = 0; x < PKB::procedures.getSize(); x++)
 		{
 			if (PKB::calls.isCalledStar(x, currentSecondVariableNo))
-				firstVariableAnswer.push_back(Helper::intToString(x));
+				firstVariableAnswer.push_back(x);
 		}
 	}
 	else
@@ -1670,8 +1668,8 @@ void IEvalQuery::EvaluateCallsStar()
 			{
 				if (PKB::calls.isCalledStar(*x, *y))
 				{
-					firstVariableAnswer.push_back(Helper::intToString(*x));
-					secondVariableAnswer.push_back(Helper::intToString(*y));
+					firstVariableAnswer.push_back((*x));
+					secondVariableAnswer.push_back((*y));
 				}
 			}
 		}
@@ -1737,9 +1735,9 @@ vecMatch.at(0).erase(remove(vecMatch.at(0).begin(), vecMatch.at(0).end(), '\"'),
 							PKB::variables;
 							if(temp->getChild(0)->getValue() == i)
 							{
-								firstVariableAnswer.push_back(tempstr);
+								firstVariableAnswer.push_back(tempnode->getStmtNumber());
 							
-								secondVariableAnswer.push_back(PKB::variables.getVARName(i));
+								secondVariableAnswer.push_back(i);
 							}
 						
 						}
@@ -1750,7 +1748,7 @@ vecMatch.at(0).erase(remove(vecMatch.at(0).begin(), vecMatch.at(0).end(), '\"'),
 				if(TryMatch(temp,currentFirstVariableName,vecMatch,sub))
 				{
 					ASTStmtNode* tempnode = (ASTStmtNode*)temp;
-					firstVariableAnswer.push_back(Helper::intToString(tempnode->getStmtNumber()));
+					firstVariableAnswer.push_back(tempnode->getStmtNumber());
 				}
 
 			}

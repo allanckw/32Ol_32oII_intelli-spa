@@ -8,7 +8,7 @@ Select c such that Follows*(1, 2)
 2 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 constant c;
 Select BOOLEAN such that Follows*(103, 243)
-0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+TRUE
 5000
 3 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 constant c;
@@ -56,12 +56,12 @@ Select c such that Follows*(104, 321)
 None
 5000
 12 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-constant c;
+constant c, stmt s;
 Select c such that Follows*(157, s)
 None
 5000
 13 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-constant c;
+constant c, stmt s, t;
 Select c such that Follows*(s, t)
 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 5000
@@ -71,7 +71,7 @@ Select c such that Follows*(1, v)
 None
 5000
 15 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-constant c;
+constant c, variable v;
 Select c such that Follows*(1, "v")
 None
 5000
@@ -143,7 +143,7 @@ Select s such that Follows*(s, 242)
 29 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 stmt s, stmt t;
 Select s such that Follows*(s, 238)
-235, 236, 237
+110, 111, 112, 113, 114, 115,235, 236, 237
 5000
 30 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 stmt s, stmt t;
@@ -218,11 +218,11 @@ Select a such that Follows*(a, 242)
 44 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 assign a;
 Select a such that Follows*(a, 238)
-235, 236, 237
+110, 111, 112, 113, 114, 235, 236, 237
 5000
 45 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-assign a;
-Select s such that Follows*(a, 175)
+assign a, stmt s;
+Select a such that Follows*(a, 175)
 170, 171, 172, 173, 174
 5000
 46 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
@@ -248,7 +248,7 @@ None
 50 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 assign a;
 Select a such that Follows*(1, a) pattern a ("a", _"l"_)
-1, 7, 13, 19, 25, 31, 37, 43, 412, 418, 424, 430, 436, 442, 448, 454
+7, 13, 19, 25, 31, 37, 43, 412, 418, 424, 430, 436, 442, 448, 454
 5000
 51 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 assign a;
@@ -258,12 +258,12 @@ None
 52 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 assign a;
 Select a such that Follows*(1, a) pattern a ("a", _)
-1, 7, 13, 19, 25, 31, 37, 43, 49, 55, 61, 67, 73, 79, 85, 91, 97, 244, 246, 254, 256, 264, 266, 274, 276, 284, 286, 294, 296, 357, 362, 367, 372, 377, 382, 387, 392, 397, 402, 407, 412, 418, 424, 430, 436, 442, 448, 454, 460, 466, 472, 478, 484, 490, 496
+7, 13, 19, 25, 31, 37, 43, 49, 55, 61, 67, 73, 79, 85, 91, 97, 244, 246, 254, 256, 264, 266, 274, 276, 284, 286, 294, 296, 357, 362, 367, 372, 377, 382, 387, 392, 397, 402, 407, 412, 418, 424, 430, 436, 442, 448, 454, 460, 466, 472, 478, 484, 490, 496
 5000
 53 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 assign a;
 Select a such that Follows*(1, a) pattern a (_, _"d"_)
-358, 363, 368, 373, 378, 383, 388, 393, 398, 403, 412
+358, 363, 368, 373, 378, 383, 388, 393, 398, 403, 408
 5000
 54 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 assign a;
@@ -282,8 +282,8 @@ None
 5000
 57 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 assign a;
-Select a such that Follows*(a, 401) pattern a ("a", _)
-412, 418, 424, 430, 436, 442, 448, 454, 460, 466, 472, 478, 484, 490, 496
+Select a such that Follows*(401, a) pattern a ("a", _)
+402, 407, 412, 418, 424, 430, 436, 442, 448, 454, 460, 466, 472, 478, 484, 490, 496
 5000
 58 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 assign a;
@@ -338,7 +338,7 @@ Select w such that Follows*(w, 242)
 68 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 while w;
 Select w such that Follows*(w, 238)
-None
+115
 5000
 69 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 while w;

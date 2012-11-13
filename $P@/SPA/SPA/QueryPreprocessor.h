@@ -20,9 +20,9 @@ private:
 	bool variableDeclaration, selectVariableDeclaration, suchThat; 
 	bool relationship, condition;
 	bool complete; //determines whether the query is complete
-	bool pattern, patternVariable, patternFirst, patternSecond;
+	bool pattern, nextPattern, patternVariable, patternFirst, patternSecond;
 	//relationship validation
-	bool checkCapitalLetter;
+	bool checkCapitalLetter, downSize;
 	bool relationshipDef, openBracket, firstVariable, comma, secondVariable;
 	//condition declaration
 	bool conditionVariable, dot, attribute, equals; 

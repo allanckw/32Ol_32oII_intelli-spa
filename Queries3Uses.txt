@@ -28,7 +28,7 @@ Select c such that Uses(103, "n")
 6 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 constant c;
 Select c such that Uses(157, "n")
-none
+0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 5000
 7 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 constant c;
@@ -138,7 +138,7 @@ None
 28 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 stmt s, stmt t;
 Select s such that Uses(s, "y")
-None
+303,312,321,330,339,348
 5000
 29 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 assign a;
@@ -163,12 +163,12 @@ Select a such that Uses(a, "a") pattern a ("a", _"a"_)
 33 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 assign a; variable v;
 Select a such that Uses(a, v) pattern a ("c", _)
-None
+358,363,368,373,378,383,388,393,398,403,408
 5000
 34 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 assign a;
 Select a such that Uses(a, "n") pattern a ("n", _"b"_)
-304, 305, 306, 307, 308, 309, 310, 311, 313, 314, 315, 316, 317, 318, 319, 320, 322, 323, 324, 325, 326, 327, 328, 329, 331, 332, 333, 334, 335, 336, 337, 338, 340, 341, 342, 343, 344, 345, 346, 347, 349, 350, 351, 352, 353, 354, 355, 356
+None
 5000
 35 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 assign a;
@@ -178,7 +178,7 @@ Select a such that Uses(a, "i") pattern a ("f", _)
 36 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 assign a;
 Select a such that Uses(a, "a") pattern a (_, _"n"_)
-1, 7, 13, 19, 25, 31, 37, 43, 49, 55, 61, 67, 73, 79, 85, 91, 97, 412, 418, 424, 430, 436, 442, 448, 454, 460, 466, 472, 478, 484, 490, 496
+1, 7, 13, 19, 25, 31, 37, 43, 49, 55, 61, 67, 73, 79, 85, 91, 97, 412, 418, 424, 430, 436, 442, 448, 454, 460, 466, 472, 478, 484, 490, 496, 10, 100, 16, 22, 28, 34, 4, 40, 415, 421, 427, 433, 439, 445, 451, 457, 46, 463, 469, 475, 481, 487, 493, 499, 52, 58, 64, 70, 76, 82, 88, 94
 5000
 37 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 assign a;

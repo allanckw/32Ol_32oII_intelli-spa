@@ -45,6 +45,8 @@ void TestAssnParser::testAssignmentParsing()
 	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Variable, opr->getChild(0)->getType());
 	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Variable, opr->getChild(1)->getType());
 
+	CPPUNIT_ASSERT_EQUAL(getOprType("+"), opr->getValue());
+
 	expr.clear();
 	///*
 	//		+
@@ -77,18 +79,60 @@ void TestAssnParser::testAssignmentParsing()
 	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Constant, times->getChild(1)->getType()); 
 	CPPUNIT_ASSERT_EQUAL(2, times->getChild(1)->getValue());
 
-
 	expr.clear();
-		
+	//x+yas*2+3*yas
 	expr.push_back("x");
-	expr.push_back("*");
-	expr.push_back("(");
-	expr.push_back("yas");
 	expr.push_back("+");
+	expr.push_back("yas");
+	expr.push_back("*");
 	expr.push_back("2");
-	expr.push_back(")");
+	expr.push_back("+");
+	expr.push_back("3");
+	expr.push_back("*");
+	expr.push_back("yas");
 	expr.push_back(";");
 
+	//					+
+	//				x		+
+	//					*		   *
+	//				yas		2	 3	   yas
+
+	//Sub Tree Root +
+	ASTNode* opr1 = AssignmentParser::processAssignment(expr);
+	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Operator, opr1->getType()); //+
+	CPPUNIT_ASSERT_EQUAL(getOprType("+"), opr1->getValue());
+	
+	//X Node
+	ASTNode* subTree1 = opr1->getChild(0);
+	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Variable, subTree1->getType()); 
+	CPPUNIT_ASSERT_EQUAL(PKB::variables.getVARIndex("x"), subTree1->getValue());
+
+	// + Node
+	ASTNode* subTree2 = opr1->getChild(1);
+	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Operator, subTree2->getType()); 
+	CPPUNIT_ASSERT_EQUAL(getOprType("+"), subTree2->getValue());
+
+	//Sub Tree y*2
+	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Operator, subTree2->getChild(0)->getType()); 
+	CPPUNIT_ASSERT_EQUAL(getOprType("*"), subTree2->getChild(0)->getValue());
+
+	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Variable, subTree2->getChild(0)->getChild(0)->getType()); 
+	CPPUNIT_ASSERT_EQUAL(PKB::variables.getVARIndex("yas"), subTree2->getChild(0)->getChild(0)->getValue());
+
+	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Constant, subTree2->getChild(0)->getChild(1)->getType()); 
+	CPPUNIT_ASSERT_EQUAL(2, subTree2->getChild(0)->getChild(1)->getValue());
+	//End Sub Tree y*2
+
+	//Sub Tree 3*y
+	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Operator, subTree2->getChild(1)->getType()); 
+	CPPUNIT_ASSERT_EQUAL(getOprType("*"), subTree2->getChild(1)->getValue());
+
+	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Constant, subTree2->getChild(1)->getChild(0)->getType()); 
+	CPPUNIT_ASSERT_EQUAL(3, subTree2->getChild(1)->getChild(0)->getValue());
+
+	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Variable, subTree2->getChild(1)->getChild(1)->getType()); 
+	CPPUNIT_ASSERT_EQUAL(PKB::variables.getVARIndex("yas"), subTree2->getChild(1)->getChild(1)->getValue());
+	//End Sub Tree 3*y
 
 }
 

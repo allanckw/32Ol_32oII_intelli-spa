@@ -27,8 +27,8 @@ int AssignmentParser::compareOprPrecedence(string opr1, string opr2)
 {    
 	 if (opr1 == ";" || opr2 == ";")
 		return -1;
-
-	 return getOperatorWeight(opr1) - getOperatorWeight(opr2);
+	 int weight = getOperatorWeight(opr1) - getOperatorWeight(opr2);
+	 return weight;
 }
 
 bool AssignmentParser::isValidExpr(vector<string> expr)
@@ -129,8 +129,10 @@ ASTExprNode* AssignmentParser::processAssignment(MathExpression expr)
 				if (AssignmentParser::compareOprPrecedence(token, operators.top()) > 0)	{
 					operators.push(token); //if it is greater, push
 				} else { //else pop and form a sub tree
-					ASTExprNode* oprNode = new ASTExprNode(ASTNode::NodeType::Operator, token);
-					
+					cout << i;
+					ASTExprNode* oprNode = new ASTExprNode(ASTNode::NodeType::Operator, operators.top());
+					operators.pop();
+
 					ASTExprNode* rightChild = operands.top();
 					operands.pop();
 					
@@ -141,6 +143,7 @@ ASTExprNode* AssignmentParser::processAssignment(MathExpression expr)
 					oprNode->addChild(rightChild, 2);
 
 					operands.push(oprNode);
+					operators.push(token);
 				}
 			}
 		}
@@ -166,7 +169,7 @@ ASTExprNode* AssignmentParser::processAssignment(MathExpression expr)
 	}
 	
 	//Build the complete right sub tree to be return to assignment node
-	while (operators.size() > 0)
+	while (!operators.empty())
 	{
 		ASTExprNode* oprNode = new ASTExprNode(ASTNode::NodeType::Operator, operators.top());
 					

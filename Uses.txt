@@ -1,0 +1,212 @@
+
+cat: All Category
+1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+constant c;
+Select c such that Uses(1, "a")
+0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+5000 
+2 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+constant c;
+Select c such that Uses(2, "a")
+0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+5000
+3 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+constant c;
+Select c such that Uses(2, "z")
+None
+5000
+4 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+constant c;
+Select c such that Uses(103, "c")
+None
+5000
+5 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+constant c;
+Select c such that Uses(103, "n")
+0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+5000
+6 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+constant c;
+Select c such that Uses(157, "n")
+none
+5000
+7 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+constant c;
+Select c such that Uses(157, "o")
+None
+5000
+8 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+constant c; variable v;
+Select c such that Uses(303, "y")
+0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+5000
+9 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+constant c;
+Select c such that Uses(s, t)
+None
+5000
+10 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+constant c;
+Select c such that Uses("a", 100)
+None
+5000
+11 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+constant c; assign a;
+Select c such that Uses(1, "a") pattern a ("a", "b")
+0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+5000
+12 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+constant c; assign a;
+Select c such that Uses(1, "a") pattern a ("a", _"x"_)
+None
+5000
+13 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, variable v;
+Select v such that Uses(1, v)
+a, l, n
+5000
+14 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, variable v;
+Select v such that Uses(103, v)
+x, n, e, w, h, r, u, i, v
+5000
+15 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, variable v;
+Select v such that Uses(115, v)
+x, n, e, w, h, r, u, i, v
+5000
+16 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, variable v;
+Select v such that Uses(131, v)
+u, r
+5000
+17 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, variable v;
+Select v such that Uses(303, v)
+y, b, a
+5000
+18 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, variable v;
+Select v such that Uses(312, v)
+y, b, a
+5000
+19 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, variable v;
+Select v such that Uses(501, v)
+i, m, n
+5000
+20 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, variable v;
+Select v such that Uses(223, v)
+None
+5000
+21 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, variable v;
+Select v such that Uses(302, v)
+None
+5000
+22 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, stmt t;
+Select s such that Uses(s, "y")
+303, 312, 321, 330, 339, 348
+5000
+23 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, stmt t;
+Select s such that Uses(s, "a")
+1, 2, 4, 5, 7, 8, 10, 11, 13, 14, 16, 17, 19, 20, 22, 23, 25, 26, 28, 29, 31, 32, 34, 35, 37, 38, 40, 41, 43, 44, 46, 47, 49, 50, 52, 53, 55, 56, 58, 59, 61, 62, 64, 65, 67, 68, 70, 71, 73, 74, 76, 77, 79, 80, 82, 83, 85, 86, 88, 89, 91, 92, 94, 95, 97, 98, 100, 101, 303, 304, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319, 320, 321, 322, 323, 324, 325, 326, 327, 328, 329, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 349, 350, 351, 352, 353, 354, 355, 356, 412, 413, 415, 416, 418, 419, 421, 422, 424, 425, 427, 428, 430, 431, 433, 434, 436, 437, 439, 440, 442, 443, 445, 446, 448, 449, 451, 452, 454, 455, 457, 458, 460, 461, 463, 464, 466, 467, 469, 470, 472, 473, 475, 476, 478, 479, 481, 482, 484, 485, 487, 488, 490, 491, 493, 494, 496, 497, 499, 500
+5000
+24 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, stmt t;
+Select s such that Uses(s, "x")
+103, 109, 115, 121, 127, 133, 139, 145, 151, 157, 163, 169, 175, 181, 187, 193, 199, 205, 211, 217
+5000
+25 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, stmt t;
+Select s such that Uses(s, "b")
+303, 304, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319, 320, 321, 322, 323, 324, 325, 326, 327, 328, 329, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 349, 350, 351, 352, 353, 354, 355, 356, 357, 362, 367, 372, 377, 382, 387, 392, 397, 402, 407
+5000
+26 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, stmt t;
+Select s such that Uses(s, "e")
+4, 10, 16, 22, 28, 34, 40, 46, 52, 58, 64, 70, 76, 82, 88, 94, 100, 103, 104, 109, 110, 115, 116, 121, 122, 127, 128, 133, 134, 139, 140, 145, 146, 151, 152, 157, 158, 163, 164, 169, 170, 175, 176, 181, 182, 187, 188, 193, 194, 199, 200, 205, 206, 211, 212, 217, 218, 415, 421, 427, 433, 439, 445, 451, 457, 463, 469, 475, 481, 487, 493, 499
+5000
+27 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, stmt t;
+Select s such that Uses(s, "z")
+None
+5000
+28 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+stmt s, stmt t;
+Select s such that Uses(s, "y")
+None
+5000
+29 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a;
+Select a such that Uses(a, "a")
+1, 2, 4, 5, 7, 8, 10, 11, 13, 14, 16, 17, 19, 20, 22, 23, 25, 26, 28, 29, 31, 32, 34, 35, 37, 38, 40, 41, 43, 44, 46, 47, 49, 50, 52, 53, 55, 56, 58, 59, 61, 62, 64, 65, 67, 68, 70, 71, 73, 74, 76, 77, 79, 80, 82, 83, 85, 86, 88, 89, 91, 92, 94, 95, 97, 98, 100, 101, 304, 305, 306, 307, 308, 309, 310, 311, 313, 314, 315, 316, 317, 318, 319, 320, 322, 323, 324, 325, 326, 327, 328, 329, 331, 332, 333, 334, 335, 336, 337, 338, 340, 341, 342, 343, 344, 345, 346, 347, 349, 350, 351, 352, 353, 354, 355, 356, 412, 413, 415, 416, 418, 419, 421, 422, 424, 425, 427, 428, 430, 431, 433, 434, 436, 437, 439, 440, 442, 443, 445, 446, 448, 449, 451, 452, 454, 455, 457, 458, 460, 461, 463, 464, 466, 467, 469, 470, 472, 473, 475, 476, 478, 479, 481, 482, 484, 485, 487, 488, 490, 491, 493, 494, 496, 497, 499, 500
+5000
+30 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a;
+Select a such that Uses(a, "x")
+None
+5000
+31 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a;
+Select a such that Uses(a, "f")
+359, 364, 369, 374, 379, 384, 389, 394, 399, 404, 409
+5000 
+32 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a;
+Select a such that Uses(a, "a") pattern a ("a", _"a"_)
+1, 7, 13, 19, 25, 31, 37, 43, 49, 55, 61, 67, 73, 79, 85, 91, 97, 412, 418, 424, 430, 436, 442, 448, 454, 460, 466, 472, 478, 484, 490, 496
+5000
+33 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a; variable v;
+Select a such that Uses(a, v) pattern a ("c", _)
+None
+5000
+34 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a;
+Select a such that Uses(a, "n") pattern a ("n", _"b"_)
+304, 305, 306, 307, 308, 309, 310, 311, 313, 314, 315, 316, 317, 318, 319, 320, 322, 323, 324, 325, 326, 327, 328, 329, 331, 332, 333, 334, 335, 336, 337, 338, 340, 341, 342, 343, 344, 345, 346, 347, 349, 350, 351, 352, 353, 354, 355, 356
+5000
+35 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a;
+Select a such that Uses(a, "i") pattern a ("f", _)
+108, 114, 120, 126, 132, 138, 144, 150, 156, 162, 168, 174, 180, 186, 192, 198, 204, 210, 216, 222
+5000
+36 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a;
+Select a such that Uses(a, "a") pattern a (_, _"n"_)
+1, 7, 13, 19, 25, 31, 37, 43, 49, 55, 61, 67, 73, 79, 85, 91, 97, 412, 418, 424, 430, 436, 442, 448, 454, 460, 466, 472, 478, 484, 490, 496
+5000
+37 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a;
+Select a such that Uses(a, "k") pattern a ("p", "i")
+None
+5000
+38 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a;
+Select a such that Uses(a, "a") pattern a ("p", _"i"_)
+5, 11, 17, 23, 29, 35, 41, 47, 53, 59, 65, 71, 77, 83, 89, 95, 101, 416, 422, 428, 434, 440, 446, 452, 458, 464, 470, 476, 482, 488, 494, 500
+5000
+39 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a;
+Select a such that Uses(a, "d") pattern a (_ , "d")
+358, 363, 368, 373, 378, 383, 388, 393, 398, 403, 408
+5000
+40 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a;
+Select a such that Uses(a, "a") pattern a (a , "l")
+None
+5000
+41 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+while w, variable v;
+Select v such that Uses(w, v)
+x, n, e, w, h, r, u, i, v, y, b, a
+5000
+42 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
+assign a; variable v;
+Select v such that Uses(a, v)
+n, e, w, h, r, u, i, v, b, a, l, k, c, m, o, d, f, j
+5000                

@@ -1,7 +1,7 @@
 procedure lain {
-	x = yas;
+	x = y2s;
 	while i {
-		yas = q * 6;
+		y2s = q * 6;
 		t= x + 6;	
 		while q {
 			x = x + q * 2;	

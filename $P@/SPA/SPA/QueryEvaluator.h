@@ -10,7 +10,7 @@
 #include "QueryPatternNode.h"
 #include "ASTNode.h"
 
-class IEvalQuery
+class QueryEvaluator
 {
 private:
 
@@ -52,30 +52,30 @@ private:
 	unordered_map<string, vector<int>> variableAnswers;
 	vector<string> bigAnswerHeaders, tempBigAnswerHeaders;
 	vector<vector<int>> bigAnswerIndices, tempBigAnswerIndices;
-	void cartesianUntilGoMad();
+	void cartesianProduct();
 	bool isSynonym(string&, QueryEnums::QueryVar);
 	bool finalBoolAnswer;
 
 	//Methods For Evaluating Relationships
-	void IEvalQuery::EvaluateModifies();
+	void QueryEvaluator::EvaluateModifies();
 
-	void IEvalQuery::EvaluateUses();
+	void QueryEvaluator::EvaluateUses();
 	
-	void IEvalQuery::EvaluateParent();
+	void QueryEvaluator::EvaluateParent();
 	
-	void IEvalQuery::EvaluateParentStar();
+	void QueryEvaluator::EvaluateParentStar();
 	
-	void IEvalQuery::EvaluateFollows();
+	void QueryEvaluator::EvaluateFollows();
 	
-	void IEvalQuery::EvaluateFollowsStar();
+	void QueryEvaluator::EvaluateFollowsStar();
 
-	void IEvalQuery::EvaluateCalls();
+	void QueryEvaluator::EvaluateCalls();
 
-	void IEvalQuery::EvaluateCallsStar();
+	void QueryEvaluator::EvaluateCallsStar();
 
-	void IEvalQuery::EvaluatePattern();
+	void QueryEvaluator::EvaluatePattern();
 
-	void IEvalQuery::resetAll();
+	void QueryEvaluator::resetAll();
 
 	//TODO: FOR CS3202
 	//Affects, Affects*

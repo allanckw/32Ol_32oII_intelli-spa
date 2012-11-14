@@ -3,16 +3,7 @@
 #include "PKB.h"
 #include "ModifiesTable.h"
 
-unordered_map<STMT, set<VAR>> originalModifiedByStmt;
-unordered_map<PROC, set<VAR>> originalModifiedByProc;
-unordered_map<VAR, set<STMT>> originalModifiesStmt;
-unordered_map<VAR, set<PROC>> originalModifiesProc;
-unordered_map<STMT, PROC> callLinksModifies;
 
-unordered_map<STMT, vector<VAR>> optimizedModifiedByStmt;
-unordered_map<PROC, vector<VAR>> optimizedModifiedByProc;
-unordered_map<VAR, vector<STMT>> optimizedModifiesStmt;
-unordered_map<VAR, vector<PROC>> optimizedModifiesProc;
 
 ModifiesTable::ModifiesTable()
 {

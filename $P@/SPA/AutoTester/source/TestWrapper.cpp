@@ -39,7 +39,7 @@ void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
 	QueryTreeBuilder* queryTreeBuilder = new QueryTreeBuilder();
 	vector<pair<QueryEnums::QueryVar, string>> selected;
 	QueryTree qTree;
-	IEvalQuery* queryEvaluator = new IEvalQuery();
+	QueryEvaluator* queryEvaluator = new QueryEvaluator();
 
 	try{
 		// ...code to evaluate query...

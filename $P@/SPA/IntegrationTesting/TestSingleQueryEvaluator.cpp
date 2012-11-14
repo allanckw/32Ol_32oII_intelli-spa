@@ -11,7 +11,7 @@
 //#include "../SPA/QueryParser.h"
 //#include "../SPA/QueryPreprocessor.h"
 //#include "../SPA/QueryTreeBuilder.h"
-//#include "../SPA/IEvalQuery.h"
+//#include "../SPA/QueryEvaluator.h"
 //#include "../SPA/QueryEnums.h"
 //
 //// Registers the fixture into the 'registry'
@@ -48,7 +48,7 @@
 //	vector<pair<QueryEnums::QueryVar, string>> selected;
 //	vector<string> ans;
 //	QueryTree QT;
-//	IEvalQuery* EQ = new IEvalQuery();
+//	QueryEvaluator* EQ = new QueryEvaluator();
 //	vector<string> a;
 //	int size;
 //	///////////////////
@@ -64,7 +64,7 @@
 //	//size = a.size();
 //	//CPPUNIT_ASSERT_EQUAL(1, size);
 //
-//	//EQ = new IEvalQuery();
+//	//EQ = new QueryEvaluator();
 //	//tokens = QP.tokenize("stmt s1; select s1 such that follows(s1, 4)");
 //	//QPP.preProcess(tokens);
 //	//QTB->buildQueryTree(QPP.getUserVariables(), QPP.getSelectVariables(), QPP.getRelationships(), QPP.getConditions());
@@ -75,7 +75,7 @@
 //	//CPPUNIT_ASSERT_EQUAL(1,size);
 //	//
 //
-//	//EQ = new IEvalQuery();
+//	//EQ = new QueryEvaluator();
 //	//tokens = QP.tokenize("stmt s1; select s1 such that follows(10, s1)");
 //	//QPP.preProcess(tokens);
 //	//QTB->buildQueryTree(QPP.getUserVariables(), QPP.getSelectVariables(), QPP.getRelationships(), QPP.getConditions());

@@ -1,5 +1,5 @@
 #pragma once
-#include "IEvalQuery.h"
+#include "QueryEvaluator.h"
 #include "stdafx.h"
 #include "QueryParser.h"
 #include "QueryTreeNode.h"
@@ -19,7 +19,7 @@
 #include "ASTStmtLstNode.h"
 
 
-void IEvalQuery::resetAll()
+void QueryEvaluator::resetAll()
 {
 	allStmtsFirst = false;
 	allStmtsSecond = false;
@@ -44,12 +44,12 @@ void IEvalQuery::resetAll()
 	answer.clear();
 }
 
-bool IEvalQuery::isSynonym(string& s, QueryEnums::QueryVar t)
+bool QueryEvaluator::isSynonym(string& s, QueryEnums::QueryVar t)
 {
 	return (s.find('\"') != 0 && t != QueryEnums::WildCard && !Helper::isNumber(s));
 }
 
-void IEvalQuery::cartesianUntilGoMad()
+void QueryEvaluator::cartesianProduct()
 {
 	int startIndex = 0;
 	
@@ -225,7 +225,7 @@ void IEvalQuery::cartesianUntilGoMad()
 
 
 //I Evaluate Query, I PWNED ALL THE CLASSES HERE ! @.@
-vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
+vector<string> QueryEvaluator::evaluateQuery(QueryTree qt)
 {
 	for (int i = 0; i< qt.size(); i++)
 	{
@@ -359,7 +359,7 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 					}
 					else if (projects.size() > 1)
 					{
-						cartesianUntilGoMad();
+						cartesianProduct();
 						bool emptyCartesian = true;
 						for (int i = 0; i<bigAnswerIndices.size(); i++)
 						{
@@ -464,7 +464,7 @@ vector<string> IEvalQuery::evaluateQuery(QueryTree qt)
 	}
 }
 
-void IEvalQuery::populateVariableIndices(QueryEnums::QueryVar type, int index)
+void QueryEvaluator::populateVariableIndices(QueryEnums::QueryVar type, int index)
 {
 	if (index == 1){
 		switch (type){
@@ -552,7 +552,7 @@ void IEvalQuery::populateVariableIndices(QueryEnums::QueryVar type, int index)
 	}
 }
 
-void IEvalQuery::EvaluateModifies()
+void QueryEvaluator::EvaluateModifies()
 {
 	//Checks and implementations for first parameter
 	if (Helper::isNumber(currentFirstVariableName))
@@ -836,7 +836,7 @@ void IEvalQuery::EvaluateModifies()
 	}
 }
 
-void IEvalQuery::EvaluateUses()
+void QueryEvaluator::EvaluateUses()
 {
 	//Checks and implementations for first parameter
 	if (Helper::isNumber(currentFirstVariableName))
@@ -1083,7 +1083,7 @@ void IEvalQuery::EvaluateUses()
 	}
 }
 
-void IEvalQuery::EvaluateParent()
+void QueryEvaluator::EvaluateParent()
 {
 	if (Helper::isNumber(currentFirstVariableName)){
 		firstNumber = true;
@@ -1180,7 +1180,7 @@ void IEvalQuery::EvaluateParent()
 	}
 }
 
-void IEvalQuery::EvaluateParentStar()
+void QueryEvaluator::EvaluateParentStar()
 {
 	if (Helper::isNumber(currentFirstVariableName))
 	{
@@ -1284,7 +1284,7 @@ void IEvalQuery::EvaluateParentStar()
 	}
 }
 
-void IEvalQuery::EvaluateFollows()
+void QueryEvaluator::EvaluateFollows()
 {
 	if (Helper::isNumber(currentFirstVariableName))
 	{
@@ -1387,7 +1387,7 @@ void IEvalQuery::EvaluateFollows()
 	}
 }
 
-void IEvalQuery::EvaluateFollowsStar()
+void QueryEvaluator::EvaluateFollowsStar()
 {
 	if (Helper::isNumber(currentFirstVariableName))
 	{
@@ -1488,7 +1488,7 @@ void IEvalQuery::EvaluateFollowsStar()
 	}
 }
 
-void IEvalQuery::EvaluateCalls()
+void QueryEvaluator::EvaluateCalls()
 {
 		//Assume correct input, ie. 2 procedures and nothing else
 	if (currentFirstVariableName.front() == '\"' && 
@@ -1580,7 +1580,7 @@ void IEvalQuery::EvaluateCalls()
 	}
 }
 
-void IEvalQuery::EvaluateCallsStar()
+void QueryEvaluator::EvaluateCallsStar()
 {
 	//Assume correct input, ie. 2 procedures and nothing else
 	if (currentFirstVariableName.front() == '\"' && 
@@ -1674,7 +1674,7 @@ void IEvalQuery::EvaluateCallsStar()
 
 //Keep getting child nodes of each node starting from the root and testing to see if they are assign nodes
 //If assign node is found, TryMatch is called to DFS the children of that node to look for pattern match.
-void IEvalQuery::EvaluatePattern()
+void QueryEvaluator::EvaluatePattern()
 {
 	string firstVarName;
 	if (currentFirstVariableName.at(0) == '\"' && currentFirstVariableName.at(currentFirstVariableName.size() - 1) == '\"')
@@ -1792,7 +1792,7 @@ void IEvalQuery::EvaluatePattern()
 }
 
 //RHS for now handles patterns in the form of "a" or _"a"_
-bool IEvalQuery::TryMatch(ASTNode* testedNode, string targetVar,vector<string> incCodes, bool isSubsTree)
+bool QueryEvaluator::TryMatch(ASTNode* testedNode, string targetVar,vector<string> incCodes, bool isSubsTree)
 {
 
 	if(!(testedNode->getType() == ASTNode::Assign))

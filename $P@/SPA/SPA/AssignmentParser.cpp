@@ -77,8 +77,8 @@ bool AssignmentParser::isValidExpr(vector<string> expr)
 //http://www.engr.mun.ca/~theo/Misc/exp_parsing.htm
 //http://www.technical-recipes.com/2011/a-mathematical-expression-parser-in-java/
 //Shunting Yard Algorithm Tested to Work With No Brackets, Brackets May Contain Bugs as it is not Tested
-//But The General Idea is there - Allan
-ASTExprNode* AssignmentParser::processAssignment(vector<string> expr)
+//But The General Idea is there 
+ASTExprNode* AssignmentParser::processAssignment(MathExpression expr)
 {
 	stack<string> operators; 
 	stack<ASTExprNode*> operands;

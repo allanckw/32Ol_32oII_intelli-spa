@@ -13,7 +13,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\CallsTable.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\Helper.h" />
-    <ClInclude Include="..\..\..\$P%40\SPA\SPA\IEvalQuery.h" />
+    <ClInclude Include="QueryEvaluator.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\QueryLastSelNode.h" />
     <ClInclude Include="..\..\..\$p%40\spa\spa\querypatternnode.h" />
     <ClInclude Include="QuerySelNode.h" />
@@ -45,7 +45,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\CallsTable.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\Helper.cpp" />
-    <ClCompile Include="..\..\..\$P%40\SPA\SPA\IEvalQuery.cpp" />
+    <ClCompile Include="QueryEvaluator.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\QueryLastSelNode.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\QueryPatternNode.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\QuerySelNode.cpp" />

@@ -18,7 +18,7 @@
 #include "../../SPA/QueryPreprocessor.h"
 #include "../../SPA/QueryTreeBuilder.h"
 #include "../../SPA/QueryTreeNode.h"
-#include "../../SPA/IEvalQuery.h"
+#include "../../SPA/QueryEvaluator.h"
 #include "../../SPA/QueryEnums.h"
 #include "../../SPA/QueryProjectNode.h"
 

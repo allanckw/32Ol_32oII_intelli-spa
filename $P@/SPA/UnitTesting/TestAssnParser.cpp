@@ -45,8 +45,6 @@ void TestAssnParser::testAssignmentParsing()
 	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Variable, opr->getChild(0)->getType());
 	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Variable, opr->getChild(1)->getType());
 
-	CPPUNIT_ASSERT_EQUAL(true, AssignmentParser::isValidExpr(expr));
-
 	expr.clear();
 	///*
 	//		+
@@ -60,7 +58,6 @@ void TestAssnParser::testAssignmentParsing()
 	expr.push_back("2");
 	expr.push_back(";");
 
-	CPPUNIT_ASSERT_EQUAL(true, AssignmentParser::isValidExpr(expr));
 
 	opr = AssignmentParser::processAssignment(expr);
 	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Operator, opr->getType()); //+
@@ -81,9 +78,6 @@ void TestAssnParser::testAssignmentParsing()
 	CPPUNIT_ASSERT_EQUAL(2, times->getChild(1)->getValue());
 
 
-	CPPUNIT_ASSERT_EQUAL(true, AssignmentParser::isValidExpr(expr));
-
-
 	expr.clear();
 		
 	expr.push_back("x");
@@ -95,7 +89,6 @@ void TestAssnParser::testAssignmentParsing()
 	expr.push_back(")");
 	expr.push_back(";");
 
-	CPPUNIT_ASSERT_EQUAL(true, AssignmentParser::isValidExpr(expr));
 
 }
 

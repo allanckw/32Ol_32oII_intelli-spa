@@ -68,17 +68,17 @@ lain
 14 - Pattern, Typed ::
 var v1; 
 Select v1 such that Uses(1, v1)
-yas
+y2s
 500
 15 - Pattern, Typed ::
 var v1; 
 Select v1 such that Uses("lain", v1)
-yas, i, q, x, pika, z
+y2s, i, q, x, pika, z
 500
 16 - Typed, Modifies, With ::
 var v; 
 Select v such that Modifies("lain", v)
-x, yas, t, a, z
+x, y2s, t, a, z
 500
 17 - Typed, Uses, With ::
 stmt s; 
@@ -88,7 +88,7 @@ Select s such that Follows(_,_)
 18 - Typed, ReturnBoolean, Calls, With, With-And ::
 var v; 
 Select v such that Parent(_, _)
-a, i, pika, q, t, x, yas, z
+a, i, pika, q, t, x, y2s, z
 500
 19 - Typed, FollowsStar, Modifies, Uses, With, And-Multi ::
 proc p; 
@@ -164,16 +164,6 @@ Select s1 such that Modifies(s1, v)
 variable v; stmt s1;
 Select s1 such that Uses(s1, v) 
 1,2,3,4,5,6,7,8,10
-500
-34 - Uses :: Which variables are modified by statement 6?
-procedure p, q;
-Select p such that Calls(p, q) 
-lain
-500
-35 - Uses :: Which variables are modified by statement 6?
-procedure p, q;
-Select q such that Calls(p, q) 
-Noob
 500
 17 - Typed, Uses, With ::
 stmt s; 

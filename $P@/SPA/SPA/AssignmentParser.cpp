@@ -129,7 +129,7 @@ ASTExprNode* AssignmentParser::processAssignment(MathExpression expr)
 				if (AssignmentParser::compareOprPrecedence(token, operators.top()) > 0)	{
 					operators.push(token); //if it is greater, push
 				} else { //else pop and form a sub tree
-					cout << i;
+					
 					ASTExprNode* oprNode = new ASTExprNode(ASTNode::NodeType::Operator, operators.top());
 					operators.pop();
 

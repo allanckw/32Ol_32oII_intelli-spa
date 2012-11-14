@@ -9,35 +9,35 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the Parent (type while) of the statement in line number 7" >1</id><querystr><![CDATA[stmt s##1; Select s##1 such that Follows(3, s##1)]]></querystr>
 <stuans>4</stuans>
 <correct>4</correct>
-<time_taken>0.000000</time_taken>
+<time_taken>10.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Follows="1" Typed="1" ImplStmtLine="1" comment="" >2</id><querystr><![CDATA[stmt s1;  Select s1 such that Follows(s1, 4)]]></querystr>
 <stuans>3</stuans>
 <correct>3</correct>
-<time_taken>10.000000</time_taken>
+<time_taken>0.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id ParentStar="1" Typed="1" ImplStmtLine="1" comment="" >3</id><querystr><![CDATA[stmt s1;  Select s1 such that Follows(10, s1)]]></querystr>
 <stuans>None</stuans>
 <correct>None</correct>
-<time_taken>10.000000</time_taken>
+<time_taken>0.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id FollowsStar="1" Typed="1" ImplStmtLine="1" comment="" >4</id><querystr><![CDATA[stmt s1;  Select s1 such that Follows(2, s1)]]></querystr>
 <stuans>8</stuans>
 <correct>8</correct>
-<time_taken>0.000000</time_taken>
+<time_taken>10.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Modifies="1" comment="" >5</id><querystr><![CDATA[stmt s1;  Select s1 such that Follows*(3, s1)]]></querystr>
 <stuans>4,5,7</stuans>
 <correct>4,5,7</correct>
-<time_taken>0.000000</time_taken>
+<time_taken>10.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -93,7 +93,7 @@
 <id Pattern="1" Typed="1" comment="" >13</id><querystr><![CDATA[proc p1;  Select p1 such that Uses(p1, "x")]]></querystr>
 <stuans>lain</stuans>
 <correct>lain</correct>
-<time_taken>10.000000</time_taken>
+<time_taken>0.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -128,7 +128,7 @@
 <id Typed="1" ReturnBoolean="1" Calls="1" With="1" With-And="1" comment="" >18</id><querystr><![CDATA[var v;  Select v such that Parent(_, _)]]></querystr>
 <stuans>x,yas,i,q,t,a,pika,z</stuans>
 <correct>a,i,pika,q,t,x,yas,z</correct>
-<time_taken>20.000000</time_taken>
+<time_taken>10.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -195,7 +195,7 @@
 <id Typed="1" NextStar="1" ParentStar="1" ImplStmtLine="1" And-Tuple="1" comment="" >25</id><querystr><![CDATA[assign a1, a2;  Select a1 such that Follows(1, 0)]]></querystr>
 <stuans>None</stuans>
 <correct>None</correct>
-<time_taken>10.000000</time_taken>
+<time_taken>0.000000</time_taken>
 <passed/>
 </query>
 <query>

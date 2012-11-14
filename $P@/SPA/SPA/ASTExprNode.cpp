@@ -2,10 +2,9 @@
 #include "StdAfx.h"
 #include "ASTExprNode.h"
 #include "PKB.h"
-
-#include <sstream>
+#include "Helper.h"
 #include <typeinfo.h>
-
+#include <sstream>
 ASTExprNode::ASTExprNode(NodeType nodeType, int value)
 {
 	if (nodeType != Constant && nodeType != Constant && nodeType != Variable){
@@ -49,14 +48,12 @@ ASTExprNode::ASTExprNode(NodeType nodeType, Expr value)
 	}
 	else if(this->getType() == Constant)
 	{
-		int output; 
-		istringstream (value) >> output;
-		if (output == -858993460)
+		if (!Helper::isNumber(value))
 		{
 			throw SPAException("Invalid constant value!");
 		}
 		else
-			this->value = output;
+			this->value = atoi(value.c_str());
 	}
 	else if(this->getType() == Operator)
 	{

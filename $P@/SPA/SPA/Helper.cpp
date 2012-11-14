@@ -1,6 +1,6 @@
 #pragma once
 #include "Helper.h"
-
+#include <sstream>
 
 string Helper::intToString(int i)
 {
@@ -16,11 +16,6 @@ string Helper::charToString(char c)
 	return ss.str();
 }
 
-int Helper::stringToInt(string s)
-{
-	//to implement
-	return -1;
-}
 
 bool Helper::isNumber(string s)
 {

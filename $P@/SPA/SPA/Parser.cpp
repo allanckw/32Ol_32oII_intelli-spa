@@ -294,10 +294,7 @@ void Parser::buildAST()
 
 bool Parser::isName(string s) //first char of name cannot be digit
 {
-	//Check if first char of name is digit or character
-	int output; 
-	istringstream (s.at(0)) >> output;
-	return (output == -858993460);
+	return (!isdigit(s.at(0)));
 }
 
 //Reason why i put procIdx is in a while there could be a call statement possibilities

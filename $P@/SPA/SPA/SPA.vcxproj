@@ -11,12 +11,21 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\AnswerTable.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\ASTExprNode.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\ASTStmtLstNode.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\ASTStmtNode.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\CallsTable.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\DisjointSet.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\Helper.h" />
-    <ClInclude Include="QueryEvaluator.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\MultiQueryEval.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\MultiQueryTree.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\QueryCluster.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\QueryEvaluator.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\QueryLastSelNode.h" />
-    <ClInclude Include="..\..\..\$p%40\spa\spa\querypatternnode.h" />
-    <ClInclude Include="QuerySelNode.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\QueryPatternNode.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\RulesOfEngagement.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\SynonymTable.h" />
     <ClInclude Include="QueryCondNode.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\FollowsTable.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\ModifiesTable.h" />
@@ -33,22 +42,30 @@
     <ClInclude Include="AssignmentParser.h" />
     <ClInclude Include="ASTNode.h" />
     <ClInclude Include="DesignExtractor.h" />
-    <ClInclude Include="ASTExprNode.h" />
+    <ClInclude Include="ExprNode.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="PROCTable.h" />
     <ClInclude Include="SPAException.h" />
     <ClInclude Include="stdAfx.h" />
-    <ClInclude Include="ASTStmtLstNode.h" />
-    <ClInclude Include="ASTStmtNode.h" />
+    <ClInclude Include="StmtLstNode.h" />
+    <ClInclude Include="StmtNode.h" />
     <ClInclude Include="VARTable.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\AnswerTable.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\ASTExprNode.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\ASTStmtLstNode.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\ASTStmtNode.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\CallsTable.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\DisjointSet.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\Helper.cpp" />
-    <ClCompile Include="QueryEvaluator.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\MultiQueryEval.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\MultiQueryTree.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\QueryEvaluator.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\QueryLastSelNode.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\QueryPatternNode.cpp" />
-    <ClCompile Include="..\..\..\$P%40\SPA\SPA\QuerySelNode.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\RulesOfEngagement.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\SynonymTable.cpp" />
     <ClCompile Include="QueryCondNode.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\FollowsTable.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\ModifiesTable.cpp" />
@@ -64,12 +81,9 @@
     <ClCompile Include="AssignmentParser.cpp" />
     <ClCompile Include="ASTNode.cpp" />
     <ClCompile Include="DesignExtractor.cpp" />
-    <ClCompile Include="ASTExprNode.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="PROCTable.cpp" />
     <ClCompile Include="SPAException.cpp" />
-    <ClCompile Include="ASTStmtLstNode.cpp" />
-    <ClCompile Include="ASTStmtNode.cpp" />
     <ClCompile Include="VARTable.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

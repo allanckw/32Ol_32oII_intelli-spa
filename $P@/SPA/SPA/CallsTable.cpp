@@ -13,6 +13,8 @@ unordered_map<PROC, vector<PROC>> optimizedCalledFrom;
 unordered_map<PROC, vector<PROC>> optimizedCalledByStar;
 unordered_map<PROC, vector<PROC>> optimizedCalledFromStar;
 
+unordered_map<PROC, vector<STMT>> stmtCall;
+
 set<STMT> analyseCallByStar(PROC);
 set<STMT> analyseCallFromStar(PROC);
 
@@ -131,6 +133,25 @@ bool CallsTable::isCalled(PROC p1, PROC p2)
 bool CallsTable::isCalledStar(PROC p1, PROC p2)
 {
 	return (originalCalledByStar.count(p1) > 0 && originalCalledByStar[p1].count(p2) > 0);
+}
+
+void CallsTable::insertStmtCall(STMT s, PROC p)
+{
+	if (stmtCall.count(p) > 0)
+		stmtCall[p].push_back(s);
+	else {
+		vector<STMT> stmt;
+		stmt.push_back(s);
+		stmtCall[p] = stmt;
+	}
+}
+
+vector<STMT> CallsTable::getStmtCall(PROC p)
+{
+	vector<STMT> answer;
+	if (stmtCall.count(p) > 0)
+		answer = stmtCall[p];
+	return answer;
 }
 
 //////////////////////////////////

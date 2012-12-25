@@ -12,17 +12,18 @@ private:
 	unordered_map<string, unordered_set<string>> components;
 	vector<unordered_set<string>> outputComponents;
 
-	void makeSet(string);
 	string find(string);
-	void makeComponent();
+	void makeComponents();
 
 public:
 	DisjointSet(void);
 	~DisjointSet(void);
+
+	void makeSet(string);
 	void setUnion(string, string);
 
 	vector<unordered_set<string>> getComponents();
-}
+};
 
 /*
 --------------------------

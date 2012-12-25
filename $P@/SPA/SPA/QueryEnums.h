@@ -20,7 +20,11 @@ public:
 
 	typedef enum QueryReladition { //relationship QueryEnums
 		Modifies,
+		ModifiesStmt,
+		ModifiesProc,
 		Uses,
+		UsesStmt,
+		UsesProc,
 		Calls,
 		CallsStar,
 		Follows,

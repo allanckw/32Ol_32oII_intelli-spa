@@ -16,6 +16,13 @@ string Helper::charToString(char c)
 	return ss.str();
 }
 
+int Helper::stringToInt(string s)
+{
+	int ans = 0;
+	for (int i = 0; i < s.size(); i++)
+		ans = ans * 10 + (s[i] - '0');
+	return ans;
+}
 
 bool Helper::isNumber(string s)
 {

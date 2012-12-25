@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include "StdAfx.h"
 
 class ModifiesTable

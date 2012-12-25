@@ -382,6 +382,7 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 
 		case ASTNode::Call: {
 			PKB::callTable.insert(currentStmtNumber);
+			PKB::calls.insertStmtCall(currentStmtNumber, (*currentStmtNode).getValue());
 			break; }
 
 		default: throw SPAException("Unhandled Node type");

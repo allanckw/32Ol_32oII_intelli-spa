@@ -30,10 +30,19 @@
     <ClInclude Include="DesignExtractor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ExprNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Parser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PROCTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StmtLstNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StmtNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="VARTable.h">
@@ -81,28 +90,46 @@
     <ClInclude Include="QueryCondNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ASTStmtLstNode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ASTStmtNode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ASTExprNode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="QuerySelNode.h">
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\QueryCluster.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\Helper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\ASTStmtNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\ASTExprNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\ASTStmtLstNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\QueryPatternNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\QueryLastSelNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\$p%40\spa\spa\querypatternnode.h">
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\QueryEvaluator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="QueryEvaluator.h">
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\DisjointSet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\MultiQueryEval.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\MultiQueryTree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\SynonymTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\RulesOfEngagement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\AnswerTable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -167,28 +194,43 @@
     <ClCompile Include="QueryCondNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\$P%40\SPA\SPA\QuerySelNode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ASTStmtNode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ASTStmtLstNode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ASTExprNode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\Helper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\$P%40\SPA\SPA\QueryLastSelNode.cpp">
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\ASTStmtNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\ASTExprNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\ASTStmtLstNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\QueryPatternNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="QueryEvaluator.cpp">
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\QueryLastSelNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\QueryEvaluator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\DisjointSet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\MultiQueryEval.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\MultiQueryTree.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\SynonymTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\RulesOfEngagement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\AnswerTable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

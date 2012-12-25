@@ -38,7 +38,7 @@ void DisjointSet::setUnion(string var1, string var2)
 	dirty = true;
 }
 
-void DisjointSet::makeComponent()
+void DisjointSet::makeComponents()
 {
 	components.clear();
 	outputComponents.clear();
@@ -46,13 +46,12 @@ void DisjointSet::makeComponent()
 		components[(*it).second].insert((*it).first);
 	for (auto it = components.begin(); it != components.end(); it++)
 		outputComponents.push_back((*it).second);
+	dirty = false
 }
 
 vector<unordered_set<string>> DisjointSet::getComponents()
 {
-	if (dirty) {
-		makeComponent();
-		dirty = false;
-	}
+	if (dirty)
+		makeComponents();
 	return outputComponents;
 }

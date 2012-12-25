@@ -23,4 +23,5 @@ ASTNode* ASTStmtLstNode::addChild(ASTNode* node)
 		children.push_back(node);
 	else
 		throw SPAException("Invalid Node Type as children, Expected Type While/If/Assign/Call");
+	return this;
 }

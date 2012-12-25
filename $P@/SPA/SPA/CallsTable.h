@@ -17,6 +17,9 @@ public:
 	bool isCalled(PROC, PROC);
 	bool isCalledStar(PROC, PROC);
 
+	void insertStmtCall(STMT, PROC);
+	vector<STMT> getStmtCall(PROC);
+
 	void optimizeCallsTable();
 
 	//Functions for testing purposes

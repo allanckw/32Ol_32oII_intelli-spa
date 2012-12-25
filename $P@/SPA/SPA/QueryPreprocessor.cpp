@@ -684,7 +684,7 @@ bool QueryPreprocessor::isName(string s) //first char of name cannot be digit
 {
 	//Check if first char of name is digit or character
 	string delimiters = " ,;:.()";
-	int result = s.find_first_of("!@$%^&*()_+{}|\][~`", 0);
+	int result = s.find_first_of("!@$%^&*()_+{}|\\][~`", 0);
 
 	return (!isdigit(s.at(0)) && delimiters.find(s) != 0 && (keywords.find(s) == keywords.end()) && result == string::npos);
 }

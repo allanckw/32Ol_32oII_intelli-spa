@@ -8,7 +8,7 @@ Select c such that Modifies(1, "a")
 2 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 constant c;
 Select c such that Modifies(2, "a")
-None
+
 5000
 3 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 constant c;
@@ -18,7 +18,7 @@ Select c such that Modifies(2, "z")
 4 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 constant c;
 Select c such that Modifies(103, "c")
-None
+
 5000
 5 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 constant c;
@@ -28,7 +28,7 @@ Select c such that Modifies(103, "n")
 6 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 constant c;
 Select c such that Modifies(157, "n")
-None
+
 5000
 7 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 constant c;
@@ -43,12 +43,12 @@ Select c such that Modifies(299, "l")
 9 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 constant c;
 Select c such that Modifies(s, t)
-None
+
 5000
 10 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 constant c;
 Select c such that Modifies("a", 100)
-None
+
 5000
 11 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 constant c; assign a;
@@ -58,77 +58,77 @@ Select c such that Modifies(1, "a") pattern a ("a", "b")
 12 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 constant c; assign a;
 Select c such that Modifies(1, "a") pattern a ("a", _"x"_)
-None
+
 5000
 13 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, variable v;
+stmt s; variable v;
 Select v such that Modifies(1, v)
-"a"
+a
 5000
 14 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, variable v;
+stmt s; variable v;
 Select v such that Modifies(103, v)
-"o", "t", "f", "h", "a", "n"
+o, t, f, h, a, n
 5000
 15 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, variable v;
+stmt s; variable v;
 Select v such that Modifies(115, v)
-"o", "t", "f", "h", "a", "n"
+o, t, f, h, a, n
 5000
 16 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, variable v;
+stmt s; variable v;
 Select v such that Modifies(157, v)
-"o", "t", "f"
+o, t, f
 5000
 17 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, variable v;
+stmt s; variable v;
 Select v such that Modifies(303, v)
-"n"
+n
 5000
 18 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, variable v;
+stmt s; variable v;
 Select v such that Modifies(312, v)
-"n"
+n
 5000
 19 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, variable v;
+stmt s; variable v;
 Select v such that Modifies(501, v)
-"s"
+s
 5000
 20 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t;
+stmt s; stmt t;
 Select s such that Modifies(s, "d")
 247, 257, 267, 277, 287, 297
 5000
 21 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t;
+stmt s; stmt t;
 Select s such that Modifies(s, "a")
 1, 7, 13, 19, 25, 31, 37, 43, 49, 55, 61, 67, 73, 79, 85, 91, 97, 103, 109, 115, 121, 127, 224, 226, 228, 230, 232, 234, 236, 238, 240, 242, 244, 246, 254, 256, 264, 266, 274, 276, 284, 286, 294, 296, 357, 362, 367, 372, 377, 382, 387, 392, 397, 402, 407, 412, 418, 424, 430, 436, 442, 448, 454, 460, 466, 472, 478, 484, 490, 496
 5000
 22 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t;
+stmt s; stmt t;
 Select s such that Modifies(s, "n")
 103, 109, 115, 121, 127, 225, 229, 233, 237, 241, 245, 255, 265, 275, 285, 295, 303, 304, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319, 320, 321, 322, 323, 324, 325, 326, 327, 328, 329, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 349, 350, 351, 352, 353, 354, 355, 356, 15, 21, 27, 3, 33, 39, 414, 420, 426, 432, 438, 444, 45, 450, 456, 462, 468, 474, 480, 486, 492, 498, 51, 57, 63, 69, 75, 81, 87, 9, 93, 99
 5000
 23 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t;
+stmt s; stmt t;
 Select s such that Modifies(s, "o")
 103, 104, 109, 110, 115, 116, 121, 122, 127, 128, 133, 134, 139, 140, 145, 146, 151, 152, 157, 158, 163, 164, 169, 170, 175, 176, 181, 182, 187, 188, 193, 194, 199, 200, 205, 206, 211, 212, 217, 218
 5000
 24 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t;
+stmt s; stmt t;
 Select s such that Modifies(s, "p")
 5, 11, 17, 23, 29, 35, 41, 47, 53, 59, 65, 71, 77, 83, 89, 95, 101, 416, 422, 428, 434, 440, 446, 452, 458, 464, 470, 476, 482, 488, 494, 500
 5000
 25 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t;
+stmt s; stmt t;
 Select s such that Modifies(s, "x")
-None
+
 5000
 26 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t;
+stmt s; stmt t;
 Select s such that Modifies(s, "y")
-None
+
 5000
 27 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 assign a;
@@ -153,7 +153,7 @@ Select a such that Modifies(a, "a") pattern a ("a", _"l"_)
 31 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 assign a;
 Select a such that Modifies(a, "a") pattern a ("b", _"l"_)
-None
+
 5000
 32 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 assign a;
@@ -168,12 +168,12 @@ Select a such that Modifies(a, "d") pattern a ("d", _)
 34 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 assign a;
 Select a such that Modifies(a, "a") pattern a (_, _"o"_)
-None
+
 5000
 35 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 assign a;
 Select a such that Modifies(a, "p") pattern a ("p", "i")
-None
+
 5000
 36 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 assign a;
@@ -188,15 +188,15 @@ Select a such that Modifies(a, "c") pattern a (_ , "d")
 38 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 assign a;
 Select a such that Modifies(a, "a") pattern a (a , "l")
-None
+
 5000
 39 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-while w, variable v;
+while w; variable v;
 Select v such that Modifies(w, v)
-"o", "t", "f", "h", "a", "n"
+o, t, f, h, a, n
 5000
 40 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 assign a; variable v;
 Select v such that Modifies(a, v)
-"a", "z", "n", "h", "p", "s", "o", "t", "f", "d", "u", "l", "e", "t", "c", "g", "i"
+a, z, n, h, p, s, o, t, f, d, u, l, e, c, g, i
 5000                

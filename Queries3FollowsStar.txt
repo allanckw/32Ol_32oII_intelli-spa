@@ -61,7 +61,7 @@ Select c such that Follows*(157, s)
 None
 5000
 13 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-constant c, stmt s, t;
+constant c; stmt s, t;
 Select c such that Follows*(s, t)
 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 5000
@@ -71,7 +71,7 @@ Select c such that Follows*(1, v)
 None
 5000
 15 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-constant c, variable v;
+constant c; variable v;
 Select c such that Follows*(1, "v")
 None
 5000
@@ -96,77 +96,77 @@ Select c such that Follows*(1, 2) pattern a ("a", _"x"_)
 None
 5000
 20 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t;
+stmt s; stmt t;
 Select s such that Follows*(104, s)
 105, 106, 107, 108, 109, 239, 240, 241, 242
 5000
 21 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t;
+stmt s; stmt t;
 Select s such that Follows*(158, s)
 159, 160, 161, 162, 163
 5000
 22 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t;
+stmt s; stmt t;
 Select s such that Follows*(304, s)
 305, 306, 307, 308, 309, 310, 311, 312, 321, 330, 339, 348
 5000
 23 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t;
+stmt s; stmt t;
 Select s such that Follows*(313, s)
 314, 315, 316, 317, 318, 319, 320
 5000
 24 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t;
+stmt s; stmt t;
 Select s such that Follows*(239, s)
 240, 241, 242
 5000
 25 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t;
+stmt s; stmt t;
 Select s such that Follows*(498, s)
 499, 500, 501
 5000
 26 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t;
+stmt s; stmt t;
 Select s such that Follows*(501, s)
 None
 5000
 27 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t;
+stmt s; stmt t;
 Select s such that Follows*(s, 4)
 1, 2, 3
 5000
 28 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t;
+stmt s; stmt t;
 Select s such that Follows*(s, 242)
 104, 105, 106, 107, 108, 109, 239, 240, 241
 5000
 29 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t;
+stmt s; stmt t;
 Select s such that Follows*(s, 238)
 110, 111, 112, 113, 114, 115,235, 236, 237
 5000
 30 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t;
+stmt s; stmt t;
 Select s such that Follows*(s, 175)
 170, 171, 172, 173, 174
 5000
 31 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t;
+stmt s; stmt t;
 Select s such that Follows*(s, 356)
 349, 350, 351, 352, 353, 354, 355
 5000
 32 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t;
+stmt s; stmt t;
 Select s such that Follows*(s, 348)
 304, 305, 306, 307, 308, 309, 310, 311, 312, 321, 330, 339
 5000
 33 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t;
+stmt s; stmt t;
 Select s such that Follows*(s, 1)
 None
 5000 
 34 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t; constant c
+stmt s; stmt t; constant c
 Select c such that Follows*(s, t)
 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 5000
@@ -221,7 +221,7 @@ Select a such that Follows*(a, 238)
 110, 111, 112, 113, 114, 235, 236, 237
 5000
 45 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-assign a, stmt s;
+assign a; stmt s;
 Select a such that Follows*(a, 175)
 170, 171, 172, 173, 174
 5000
@@ -359,4 +359,4 @@ Select w such that Follows*(w, 348)
 while w;
 Select w such that Follows*(w, 1)
 None
-5000                
+5000

@@ -3,7 +3,7 @@ cat: All Category
 1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 constant c;
 Select c such that Parent(1, 105)
-None
+
 5000 
 2 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 constant c;
@@ -23,7 +23,7 @@ Select c such that Parent(151, 152)
 5 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 constant c;
 Select c such that Parent(151, 158)
-None
+
 5000
 6 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 constant c;
@@ -33,47 +33,47 @@ Select c such that Parent(303, 348)
 7 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 constant c;
 Select c such that Parent(303, 357)
-None
+
 5000
 8 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 constant c;
 Select c such that Parent(303, 347)
-None
+
 5000
 9 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, constant c;
+stmt s; constant c;
 Select c such that Parent(163, s)
 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 5000
 10 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 constant c; variable v;
 Select c such that Parent(1, v)
-None
+
 5000
 11 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 constant c;
 Select c such that Parent(1, "v")
-None
+
 5000
 12 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 constant c; variable v;
 Select c such that Parent(v, 2)
-None
+
 5000
 13 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 constant c;
 Select c such that Parent("v", 2)
-None
+
 5000
 14 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 constant c; assign a;
 Select c such that Parent(1, 2) pattern a ("a", "b")
-None
+
 5000
 15 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 constant c; assign a;
 Select c such that Parent(103, 242) pattern a ("a", _"x"_)
-None
+
 5000
 16 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 constant c; assign a;
@@ -81,84 +81,84 @@ Select c such that Parent(103, 242) pattern a ("n", _"a"_)
 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 5000
 17 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t;
+stmt s; stmt t;
 Select s such that Parent(1, s)
-None
+
 5000
 18 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t;
+stmt s; stmt t;
 Select s such that Parent(103, s)
 104, 105, 106, 107, 108, 109, 239, 240, 241, 242
 5000
 19 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t;
+stmt s; stmt t;
 Select s such that Parent(115, s)
 116, 117, 118, 119, 120, 121, 231, 232, 233, 234
 5000
 20 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t;
+stmt s; stmt t;
 Select s such that Parent(157, s)
 158, 159, 160, 161, 162, 163
 5000
 21 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t;
+stmt s; stmt t;
 Select s such that Parent(303, s)
 304, 305, 306, 307, 308, 309, 310, 311, 312, 321, 330, 339, 348
 5000
 22 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t;
+stmt s; stmt t;
 Select s such that Parent(312, s)
 313, 314, 315, 316, 317, 318, 319, 320
 5000
 23 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t;
+stmt s; stmt t;
 Select s such that Parent(313, s)
-None
+
 5000
 24 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t;
+stmt s; stmt t;
 Select s such that Parent(s, 2)
-None
+
 5000
 25 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t;
+stmt s; stmt t;
 Select s such that Parent(s, 242)
 103
 5000
 26 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t;
+stmt s; stmt t;
 Select s such that Parent(s, 231)
 115
 5000
 27 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t;
+stmt s; stmt t;
 Select s such that Parent(s, 175)
 169
 5000
 28 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t;
+stmt s; stmt t;
 Select s such that Parent(s, 357)
-None
+
 5000
 29 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t;
+stmt s; stmt t;
 Select s such that Parent(s, 329)
 321
 5000
 30 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t;
+stmt s; stmt t;
 Select s such that Parent(s, 330)
 303
 5000 
 31 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s, stmt t; constant c
+stmt s; stmt t; constant c
 Select c such that Parent(s, t)
 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 5000 
 32 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 assign a;
 Select a such that Parent(1, a)
-None
+
 5000
 33 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 assign a;
@@ -188,22 +188,22 @@ Select a such that Parent(312, a)
 38 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 assign a;
 Select a such that Parent(313, a)
-None
+
 5000
 39 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 assign a;
 Select a such that Parent(a, 2)
-None
+
 5000
 40 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 assign a;
 Select a such that Parent(a, 242)
-None
+
 5000
 41 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 assign a;
 Select a such that Parent(103, a) pattern a ("t", "w")
-None
+
 5000
 42 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 assign a;
@@ -213,7 +213,7 @@ Select a such that Parent(103, a) pattern a ("t", _"w"_)
 43 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 assign a;
 Select a such that Parent(103, a) pattern a ("a", _"l"_)
-None
+
 5000
 44 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 assign a;
@@ -233,7 +233,7 @@ Select a such that Parent(303, a) pattern a ("n", _"b"_)
 51 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 while w;
 Select w such that Parent(1, w)
-None
+
 5000
 52 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 while w;
@@ -258,17 +258,17 @@ Select w such that Parent(303, w)
 56 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 while w;
 Select w such that Parent(312, w)
-None
+
 5000
 57 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 while w;
 Select w such that Parent(313, w)
-None
+
 5000
 58 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 while w;
 Select w such that Parent(w, 2)
-None
+
 5000
 59 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 while w;
@@ -288,7 +288,7 @@ Select w such that Parent(w, 175)
 62 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 while w;
 Select w such that Parent(w, 357)
-None
+
 5000
 63 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 while w;

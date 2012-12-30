@@ -308,7 +308,7 @@ ASTStmtNode* Parser::processWhile(int *i, int *j, Index procIdx)
 
 	VARIndex vi=PKB::variables.getVARIndex(varName);
 
-	ASTStmtNode* stmtNode = new ASTStmtNode(*line, ASTNode::NodeType::While, vi);
+	ASTStmtNode* stmtNode = new ASTStmtNode(*line, ASTNode::While, vi);
 	ASTStmtLstNode* stmtLstNode=new ASTStmtLstNode();
 
 	for(int idx=*index; idx<inner.size(); idx++)
@@ -412,7 +412,7 @@ ASTStmtNode* Parser::processCall(int *i, int *j, Index procIdx)
 		throw SPAException("Recursive Call is not allowed!");
 	}
 
-	ASTStmtNode* stmtCall=new ASTStmtNode(*i,ASTNode::NodeType::Call,pi);
+	ASTStmtNode* stmtCall=new ASTStmtNode(*i,ASTNode::Call,pi);
 	(*j)=(*j)+2;
 	return stmtCall;
 }
@@ -435,8 +435,8 @@ ASTStmtNode* Parser::processAssignment(int *i, int *j)
 		exIdx++;
 	}
 
-	ASTStmtNode* stmtAssign=new ASTStmtNode(*i,ASTNode::NodeType::Assign,vi);
-	ASTExprNode* leftNode = new ASTExprNode(ASTNode::NodeType::Variable, vi);
+	ASTStmtNode* stmtAssign=new ASTStmtNode(*i,ASTNode::Assign,vi);
+	ASTExprNode* leftNode = new ASTExprNode(ASTNode::Variable, vi);
 	ASTExprNode* rightNode = AssignmentParser::processAssignment(rightExpression);
 	stmtAssign->addChild(leftNode,1);
 	stmtAssign->addChild(rightNode,2);
@@ -458,7 +458,7 @@ ASTNode* Parser::processProcedure(int *i, int *j)
 
 	PROCIndex pi=PKB::procedures.getPROCIndex(procName);
 
-	ASTNode* procNode = new ASTNode(ASTNode::NodeType::Procedure, pi );
+	ASTNode* procNode = new ASTNode(ASTNode::Procedure, pi );
 	ASTStmtLstNode* stmtLstNode=new ASTStmtLstNode();
 	
 	for(int idx=*index; idx<inner.size(); idx++)

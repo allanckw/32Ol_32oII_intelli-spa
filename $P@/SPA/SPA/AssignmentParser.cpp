@@ -130,7 +130,7 @@ ASTExprNode* AssignmentParser::processAssignment(MathExpression expr)
 					operators.push(token); //if it is greater, push
 				} else { //else pop and form a sub tree
 					
-					ASTExprNode* oprNode = new ASTExprNode(ASTNode::NodeType::Operator, operators.top());
+					ASTExprNode* oprNode = new ASTExprNode(ASTNode::Operator, operators.top());
 					operators.pop();
 
 					ASTExprNode* rightChild = operands.top();
@@ -151,7 +151,7 @@ ASTExprNode* AssignmentParser::processAssignment(MathExpression expr)
 
 			if (Helper::isNumber(token)){ //Check that it is a constant, if it is create a constant node and push it into operand stack
 				int value = atoi(token.c_str());
-				ASTExprNode* constNode = new ASTExprNode(ASTNode::NodeType::Constant, value);
+				ASTExprNode* constNode = new ASTExprNode(ASTNode::Constant, value);
 				operands.push(constNode);
 			}
 			else { //not a const, then must be variable...
@@ -161,7 +161,7 @@ ASTExprNode* AssignmentParser::processAssignment(MathExpression expr)
 					throw SPAException("Variable cannot be found in assignment statement!");
 				}
 				else{ //create an variable node and push into operand stack
-					ASTExprNode* varNode = new ASTExprNode(ASTNode::NodeType::Variable, i);
+					ASTExprNode* varNode = new ASTExprNode(ASTNode::Variable, i);
 					operands.push(varNode);
 				}
 			} 
@@ -171,7 +171,7 @@ ASTExprNode* AssignmentParser::processAssignment(MathExpression expr)
 	//Build the complete right sub tree to be return to assignment node
 	while (!operators.empty())
 	{
-		ASTExprNode* oprNode = new ASTExprNode(ASTNode::NodeType::Operator, operators.top());
+		ASTExprNode* oprNode = new ASTExprNode(ASTNode::Operator, operators.top());
 					
 		ASTExprNode* rightChild = operands.top();
 		operands.pop();

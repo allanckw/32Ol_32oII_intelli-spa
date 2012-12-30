@@ -183,7 +183,7 @@ void ASTStmtNode::setValue(Index i)
 		{
 			this->value = i;
 			//Set first child after setting value
-			ASTExprNode* varNode = new ASTExprNode(ASTNode::NodeType::Variable, i);
+			ASTExprNode* varNode = new ASTExprNode(ASTNode::Variable, i);
 			this->addChild(varNode, 1);
 		}
 	}

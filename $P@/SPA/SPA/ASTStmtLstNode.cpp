@@ -4,7 +4,7 @@
 
 ASTStmtLstNode::ASTStmtLstNode()
 {
-	this->nodeType = ASTNode::NodeType::StmtLst;
+	this->nodeType = ASTNode::StmtLst;
 }
 
 

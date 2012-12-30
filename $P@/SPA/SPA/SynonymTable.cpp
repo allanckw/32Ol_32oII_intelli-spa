@@ -2,12 +2,9 @@
 #include "SynonymTable.h"
 #include "SPAException.h"
 
-SynonymTable::SynonymTable()
+int SynonymTable::size()
 {
-}
-
-SynonymTable::~SynonymTable()
-{
+	return synName.size();
 }
 
 void SynonymTable::insert(string name, QueryEnums::QueryVar type)
@@ -21,10 +18,8 @@ void SynonymTable::insert(string name, QueryEnums::QueryVar type)
 	synType.push_back(type);
 	selected.push_back(false);
 	synClassIndex.push_back(-1);
-	synProcName.push_back("");
-	synVarName.push_back("");
-	synValue.push_back(-1);
-	synStmtNo.push_back(-1);
+	synAttributes.push_back(unordered_map<string, string>());
+	synSelfReference.push_back(unordered_set<QueryEnums::QueryReladition>());
 
 	stringToIndex[name] = index;
 	if (typeToIndices.count(type) > 0)
@@ -54,20 +49,21 @@ QueryEnums::QueryVar SynonymTable::getType(string name)
 	return synType[stringToIndex.at(name)];
 }
 
-int SynonymTable::size()
+int SynonymTable::synonymIndex(string name)
 {
-	return synName.size();
+	return stringToIndex.at(name);
+}
+
+void SynonymTable::changeType(string name, QueryEnums::QueryVar type)
+{
+	if (synType[stringToIndex.at(name)] == QueryEnums::Stmt && type == QueryEnums::Assign)
+		synType[stringToIndex.at(name)] = QueryEnums::Assign;
 }
 
 void SynonymTable::setSelected(string name)
 {
 	selected[stringToIndex.at(name)] = true;
 	selectedIndices.push_back(stringToIndex.at(name));
-}
-
-int SynonymTable::synonymIndex(string name)
-{
-	return stringToIndex.at(name);
 }
 
 vector<string> SynonymTable::getAllSelected()
@@ -93,54 +89,32 @@ int SynonymTable::inClass(string name)
 	return synClassIndex[stringToIndex.at(name)];
 }
 
-bool SynonymTable::setProcName(string name, string procName)
+bool SynonymTable::setAttribute(string name, string condition, string attribute)
 {
-	if (synProcName[stringToIndex.at(name)] != "")
-		return synProcName[stringToIndex.at(name)] == procName;
-	synProcName[stringToIndex.at(name)] = procName;
+	if (synAttributes[stringToIndex.at(name)].count(condition) > 0)
+		return synAttributes[stringToIndex.at(name)][condition] == attribute;
+	synAttributes[stringToIndex.at(name)][condition] = attribute;
 	return true;
 }
 
-string SynonymTable::getProcName(string name)
+string SynonymTable::getAttribute(string name, string condition)
 {
-	return synProcName[stringToIndex.at(name)];
+	if (synAttributes[stringToIndex.at(name)].count(condition) == 0)
+		return "";
+	return synAttributes[stringToIndex.at(name)][condition];
 }
 
-bool SynonymTable::setVarName(string name, string varName)
+unordered_map<string, string> SynonymTable::getAllAttributes(string name)
 {
-	if (synVarName[stringToIndex.at(name)] != "")
-		return synVarName[stringToIndex.at(name)] == varName;
-	synVarName[stringToIndex.at(name)] = varName;
-	return true;
+	return synAttributes[stringToIndex.at(name)];
 }
 
-string SynonymTable::getVarName(string name)
+void SynonymTable::setSelfReference(string name, QueryEnums::QueryReladition relation)
 {
-	return synVarName[stringToIndex.at(name)];
+	synSelfReference[stringToIndex.at(name)].insert(relation);
 }
 
-bool SynonymTable::setValue(string name, int value)
+unordered_set<QueryEnums::QueryReladition> SynonymTable::getAllSelfReferences(string name)
 {
-	if (synValue[stringToIndex.at(name)] != -1)
-		return synValue[stringToIndex.at(name)] == value;
-	synValue[stringToIndex.at(name)] = value;
-	return true;
-}
-
-int SynonymTable::getValue(string name)
-{
-	return synValue[stringToIndex.at(name)];
-}
-
-bool SynonymTable::setStmtNo(string name, int stmtNo)
-{
-	if (synStmtNo[stringToIndex.at(name)] != -1)
-		return synStmtNo[stringToIndex.at(name)] == stmtNo;
-	synStmtNo[stringToIndex.at(name)] = stmtNo;
-	return true;
-}
-
-int SynonymTable::getStmtNo(string name)
-{
-	return synStmtNo[stringToIndex.at(name)];
+	return synSelfReference[stringToIndex.at(name)];
 }

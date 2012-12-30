@@ -24,18 +24,3 @@ public:
 
 	vector<unordered_set<string>> getComponents();
 };
-
-/*
---------------------------
-for example
-Select <s1,s2> such that modifies(s1,v1) and uses(s2,v2)
-When we read  modifies(s1,v1)
-do: setUnion(s1,v1);
-When we read  uses(s2,v2)
-do: setUnion(s2,v2);
-
-star(s1)
-star(s2)
-Example OVER
---------------------------
-*/

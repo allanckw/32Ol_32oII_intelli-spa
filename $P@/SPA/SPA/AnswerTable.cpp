@@ -2,6 +2,7 @@
 #include "AnswerTable.h"
 #include "PKB.h"
 #include "QueryEnums.h"
+#include "Helper.h"
 
 AnswerTable::AnswerTable()
 {
@@ -14,27 +15,35 @@ AnswerTable::AnswerTable(SynonymTable synonymTable, string synonym)
 	bool unrestricted = true;
 
 	vector<int> table;
-	if (synonymTable.getStmtNo(synonym) != -1) {
-		table.push_back(synonymTable.getStmtNo(synonym));
+	unordered_map<string, string> attributes = synonymTable.getAllAttributes(synonym);
+	unordered_set<QueryEnums::QueryReladition> selfReferences = synonymTable.getAllSelfReferences(synonym);
+
+	if (attributes.count("stmtNo") > 0) {
+		table.push_back(Helper::stringToInt(attributes["stmtNo"]));
 		unrestricted = false;
 	}
 
-	if (unrestricted && synonymTable.getProcName(synonym) != "") {
+	if (unrestricted && attributes.count("procName") > 0) {
 		if (synonymTable.getType(synonym) == QueryEnums::Procedure)
-			table.push_back(PKB::procedures.getPROCIndex(synonymTable.getProcName(synonym)));
+			table.push_back(PKB::procedures.getPROCIndex(attributes["procName"]));
 		else if (synonymTable.getType(synonym) == QueryEnums::Calls)
 			table = PKB::calls.getStmtCall(
-			PKB::procedures.getPROCIndex(synonymTable.getProcName(synonym)));
+			PKB::procedures.getPROCIndex(attributes["procName"]));
 		unrestricted = false;
 	}
 
-	if (synonymTable.getVarName(synonym) != "") {
-		table.push_back(PKB::variables.getVARIndex(synonymTable.getVarName(synonym)));
+	if (attributes.count("varName") > 0) {
+		table.push_back(PKB::variables.getVARIndex(attributes["varName"]));
 		unrestricted = false;
 	}
 
-	if (synonymTable.getValue(synonym) != -1) {
-		table.push_back(synonymTable.getValue(synonym));
+	if (attributes.count("value") > 0) {
+		table.push_back(Helper::stringToInt(attributes["value"]));
+		unrestricted = false;
+	}
+
+	if (selfReferences.size() > 0) {
+		table.empty();
 		unrestricted = false;
 	}
 
@@ -82,6 +91,24 @@ void AnswerTable::prune(string firstSynonym,
 	for (auto it = answers.begin(); it != answers.end(); it++)
 		if (rel((*it)[firstRelIndex], (*it)[secondRelIndex]))
 			newTable.push_back(*it);
+	answers = newTable;
+}
+
+void AnswerTable::patternPrune(string synonym, bool modifiesIsSynonym,
+	int modifies, string uses)
+{
+	int firstRelIndex = synonymPosition[synonym];
+
+	vector<vector<int>> newTable;
+	if (modifiesIsSynonym) {
+		for (auto it = answers.begin(); it != answers.end(); it++)
+			if (RulesOfEngagement::satisfyPattern((*it)[firstRelIndex], (*it)[modifies], uses))
+				newTable.push_back(*it);
+	} else {
+		for (auto it = answers.begin(); it != answers.end(); it++)
+			if (RulesOfEngagement::satisfyPattern((*it)[firstRelIndex], modifies, uses))
+				newTable.push_back(*it);
+	}
 	answers = newTable;
 }
 

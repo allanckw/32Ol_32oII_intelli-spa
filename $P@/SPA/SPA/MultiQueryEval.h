@@ -10,12 +10,16 @@ class MultiQueryEval
 {
 private:
 	static string getToken(string, int& pos);
+	static void matchToken(string, int& pos, string match);
 
 	MultiQueryEval(string query);
 
 	SynonymTable synonymTable;
 	DisjointSet disjointSet;
 	bool selectBOOLEAN;
+	//{synonym, modifiesIsASynonym, modifiesVar, usesVar>
+	vector<tuple<string, bool, string, string>> patterns;
+
 	unordered_map<string, int> inWhichTable; //can incorporate in synonym table
 	vector<string> finalanswer;
 

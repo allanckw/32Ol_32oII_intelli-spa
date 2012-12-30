@@ -17,6 +17,7 @@
 #include <algorithm>
 #include <stack>
 #include <queue>
+#include <tuple>
 
 using namespace std;
 // TODO: reference additional headers your program requires here

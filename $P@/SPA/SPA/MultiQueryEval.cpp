@@ -7,7 +7,8 @@
 #include "AnswerTable.h"
 //#include "../AutoTester/source/AbstractWrapper.h"
 
-string MultiQueryEval::getToken(string query, int& pos) {
+string MultiQueryEval::getToken(string query, int& pos)
+{
 	int first = query.find_first_not_of(' ', pos);
 	if (first == string::npos)
 		return "";
@@ -19,10 +20,19 @@ string MultiQueryEval::getToken(string query, int& pos) {
 	return query.substr(first, pos - first);
 }
 
+void MultiQueryEval::matchToken(string query, int& pos, string match)
+{
+	if (getToken(query, pos) != match)
+		throw new SPAException("Error in parsing query");
+}
+
 
 vector<string> MultiQueryEval::evaluateQuery(string query)
 {
-	return MultiQueryEval(query).finalanswer;
+	MultiQueryEval temp(query);
+	if (temp.selectBOOLEAN && temp.finalanswer.empty())
+		temp.finalanswer.push_back("FALSE");
+	return temp.finalanswer;
 }
 
 MultiQueryEval::MultiQueryEval(string query)
@@ -95,7 +105,7 @@ MultiQueryEval::MultiQueryEval(string query)
 	vector<int> relClass;
 	unordered_map<string, vector<int>> relFirstToIndices;
 
-	//parse relations, conditions and pattern
+	//parse relations, conditions and patterns
 	int clauseType = -1; //-1 undefined, 0 such that, 1 with, 2 pattern
 	int tempVars = 0;
 	while (true) {
@@ -146,9 +156,7 @@ MultiQueryEval::MultiQueryEval(string query)
 			else
 				throw new SPAException("Error in parsing query");
 
-			string openBracket = getToken(query, pos);
-			if (openBracket != "(")
-				throw new SPAException("Error in parsing query");
+			matchToken(query, pos, "(");
 
 			string firstRel = getToken(query, pos);
 			if (firstRel == "_") {
@@ -168,14 +176,14 @@ MultiQueryEval::MultiQueryEval(string query)
 					|| type == QueryEnums::Parent || type == QueryEnums::ParentStar) {*/
 				if ((type == QueryEnums::Modifies || type == QueryEnums::Uses) && (!Helper::isNumber(input))) { //then "must" be procedure (if not illegal)
 					synonymTable.insert(firstRel, QueryEnums::Procedure);
-					synonymTable.setProcName(firstRel, input.substr(1, input.length() - 2));
+					synonymTable.setAttribute(firstRel, "procName", input.substr(1, input.length() - 2));
 					if (type == QueryEnums::Modifies)
 						type = QueryEnums::ModifiesProc;
 					else
 						type = QueryEnums::UsesProc;
 				} else {
 					synonymTable.insert(firstRel, QueryEnums::Stmt);
-					synonymTable.setStmtNo(firstRel, Helper::stringToInt(input));
+					synonymTable.setAttribute(firstRel, "stmtNo", input);
 					if (type == QueryEnums::Modifies)
 						type = QueryEnums::ModifiesStmt;
 					else if (type == QueryEnums::Uses)
@@ -193,9 +201,7 @@ MultiQueryEval::MultiQueryEval(string query)
 					type = QueryEnums::UsesStmt;
 			}
 
-			string comma = getToken(query, pos);
-			if (comma != ",")
-				throw new SPAException("Error in parsing query");
+			matchToken(query, pos, ",");
 			
 			string secondRel = getToken(query, pos);
 			if (secondRel == "_") {
@@ -216,17 +222,21 @@ MultiQueryEval::MultiQueryEval(string query)
 				if (type == QueryEnums::ModifiesProc || type == QueryEnums::ModifiesStmt ||
 					type == QueryEnums::UsesProc || type == QueryEnums::UsesStmt) {
 						synonymTable.insert(secondRel, QueryEnums::Variable); //hardcoding here
-						synonymTable.setVarName(secondRel, input.substr(1, input.length() - 2));
+						synonymTable.setAttribute(secondRel, "varName", input.substr(1, input.length() - 2));
 				} else /*(type == QueryEnums::Follows || type == QueryEnums::FollowsStar //hardcoding here
 					|| type == QueryEnums::Parent || type == QueryEnums::ParentStar)*/ {
 					synonymTable.insert(secondRel, QueryEnums::Stmt);
-					synonymTable.setStmtNo(secondRel, Helper::stringToInt(input));
+					synonymTable.setAttribute(secondRel, "stmtNo", input);
 				}
 			}
 
-			string closeBracket = getToken(query, pos);
-			if (closeBracket != ")")
-				throw new SPAException("Error in parsing query");
+			matchToken(query, pos, ")");
+
+			//handle self-reference
+			if (firstRel == secondRel) {
+				synonymTable.setSelfReference(firstRel, type);
+				break;
+			}
 
 			if (relFirstToIndices.count(firstRel) > 0)
 				relFirstToIndices[firstRel].push_back(relType.size());
@@ -249,36 +259,88 @@ MultiQueryEval::MultiQueryEval(string query)
 			if (!synonymTable.isInTable(synonym))
 				throw new SPAException("Error in parsing query");
 
-			string dot = getToken(query, pos);
-			if (dot != ".")
-				throw new SPAException("Error in parsing query");
-
-			string attribute = getToken(query, pos);
-
-			string equals = getToken(query, pos);
-			if (dot != "=")
-				throw new SPAException("Error in parsing query");
+			matchToken(query, pos, ".");
 
 			string condition = getToken(query, pos);
-			bool passed;
-			if (attribute == "procName")
-				passed = synonymTable.setProcName(synonym, condition);
-			else if (attribute == "varName")
-				passed = synonymTable.setVarName(synonym, condition);
-			else if (attribute == "value")
-				passed = synonymTable.setValue(synonym, Helper::stringToInt(condition));
-			else if (attribute == "stmt#")
-				passed = synonymTable.setStmtNo(synonym, Helper::stringToInt(condition));
-			else if (attribute == "prog_line#")
-				passed = synonymTable.setStmtNo(synonym, Helper::stringToInt(condition)); //sure boh?
-			else
-				throw new SPAException("Error in parsing query");
+
+			matchToken(query, pos, "=");
+
+			string attribute = getToken(query, pos);
+			bool passed = synonymTable.setAttribute(synonym, condition, attribute);
 			if (!passed)
 				return;
 			break;
 			}
 		case 2: //pattern
-			//don't know, don't care
+			{
+				string synonym = getToken(query, pos);
+				if (synonymTable.getType(synonym) == QueryEnums::Stmt)
+					synonymTable.changeType(synonym, QueryEnums::Assign);
+				else if (synonymTable.getType(synonym) != QueryEnums::Assign)
+					throw new SPAException("Not valid type for pattern");
+
+				matchToken(query, pos, "(");
+
+				string modifiesVar = getToken(query, pos);
+				
+				matchToken(query, pos, ",");
+
+				string usesVar = getToken(query, pos);
+
+				if (modifiesVar == "_") {
+					if (usesVar != "_") {
+						string input = usesVar;
+						usesVar = "t" + Helper::intToString(++tempVars);
+						while (synonymTable.isInTable(usesVar))
+							usesVar = "t" + usesVar;
+						synonymTable.insert(usesVar, QueryEnums::Variable);
+						synonymTable.setAttribute(usesVar, "varName", input.substr(2, input.length() - 4));
+				
+						relFirstToIndices[synonym].push_back(relType.size());
+						relType.push_back(QueryEnums::UsesStmt); //TODO: change to patternUses
+						relFirst.push_back(synonym);
+						relSecond.push_back(usesVar);
+						relClass.push_back(-1);
+						disjointSet.setUnion(synonym, usesVar);
+					}
+				} else {
+					if (usesVar == "_") {
+						if (!synonymTable.isInTable(modifiesVar)) {
+							string input = modifiesVar;
+							modifiesVar = "t" + Helper::intToString(++tempVars);
+							while (synonymTable.isInTable(modifiesVar))
+								modifiesVar = "t" + modifiesVar;
+							synonymTable.insert(modifiesVar, QueryEnums::Variable); //hardcoding here
+							synonymTable.setAttribute(modifiesVar, "varName", input.substr(1, input.length() - 2));
+						}
+
+						if (relFirstToIndices.count(synonym) > 0)
+							relFirstToIndices[synonym].push_back(relType.size());
+						else {
+							vector<int> temp;
+							temp.push_back(relType.size());
+							relFirstToIndices[synonym] = temp;
+						}
+						relType.push_back(QueryEnums::ModifiesStmt);
+						relFirst.push_back(synonym);
+						relSecond.push_back(modifiesVar);
+						relClass.push_back(-1);
+
+						disjointSet.setUnion(synonym, modifiesVar);
+					} else {
+						if (synonymTable.isInTable(modifiesVar)) {
+							patterns.push_back(make_tuple(synonym, true, modifiesVar,
+							usesVar.substr(2, usesVar.length() - 4)));
+							disjointSet.setUnion(synonym, modifiesVar);
+						} else
+							patterns.push_back(make_tuple(synonym, false,
+							modifiesVar.substr(1, modifiesVar.length() - 2),
+							usesVar.substr(2, usesVar.length() - 4)));
+					}
+				}
+
+				matchToken(query, pos, ")");
+			}
 			break;
 		default:
 			throw new SPAException("Error in parsing query");
@@ -286,10 +348,9 @@ MultiQueryEval::MultiQueryEval(string query)
 	}
 
 	vector<unordered_set<string>> components = disjointSet.getComponents();
-	int classIndex = 1;
-	for (unsigned int i = 0; i < components.size(); i++)
-		for (auto it = components[i].begin(); it != components[i].end(); it++)
-			synonymTable.putIntoClass(*it, i + 1);
+	for (unsigned int classIndex = 0; classIndex < components.size(); classIndex++)
+		for (auto it = components[classIndex].begin(); it != components[classIndex].end(); it++)
+			synonymTable.putIntoClass(*it, classIndex + 1);
 	
 	for (auto it = relFirstToIndices.begin(); it != relFirstToIndices.end(); it++)
 		for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
@@ -331,7 +392,7 @@ MultiQueryEval::MultiQueryEval(string query)
 			}
 			break;
 		case 1:
-			if (inWhichTable.count(firstRel) >= 0) {
+			if (inWhichTable.count(firstRel) > 0) {
 				int firstRelIndex = inWhichTable[firstRel];
 
 				AnswerTable secondRelTable = AnswerTable(synonymTable, secondRel);
@@ -350,25 +411,24 @@ MultiQueryEval::MultiQueryEval(string query)
 					return;
 
 				int secondRelIndex = inWhichTable[secondRel];
-				tables[secondRelIndex].combine(secondRel, firstRelTable,
-					firstRel, RulesOfEngagement::getRelation(type));
-				if (tables[secondRelIndex].getSize() == 0)
+				firstRelTable.combine(firstRel, tables[secondRelIndex],
+					secondRel, RulesOfEngagement::getRelation(type));
+				if (firstRelTable.getSize() == 0)
 					return;
 
+				tables[secondRelIndex] = firstRelTable;
 				inWhichTable[firstRel] = secondRelIndex;
 			}
 			break;
 		case 2:
 			int firstRelIndex = inWhichTable[firstRel];
-			int secondRelIndex = inWhichTable[firstRel];
+			int secondRelIndex = inWhichTable[secondRel];
 			if (firstRelIndex == secondRelIndex) {
 				tables[firstRelIndex].prune(firstRel, secondRel,
 					RulesOfEngagement::getRelation(type));
 				if (tables[firstRelIndex].getSize() == 0)
 					return;
 			} else {
-				int firstRelIndex = inWhichTable[firstRel];
-				int secondRelIndex = inWhichTable[firstRel];
 				tables[firstRelIndex].combine(firstRel, tables[secondRelIndex],
 					secondRel, RulesOfEngagement::getRelation(type));
 				if (tables[firstRelIndex].getSize() == 0)
@@ -381,6 +441,104 @@ MultiQueryEval::MultiQueryEval(string query)
 		}
 		/*if (AbstractWrapper::GlobalStop)
 			return;*/
+	}
+
+	//evaluate patterns
+	for (auto it = patterns.begin(); it != patterns.end(); it++) {
+		string synonym = get<0>(*it);
+		bool modifiesIsSynonym = get<1>(*it);
+		string modifiesVar = get<2>(*it);
+		string usesVar = get<3>(*it);
+
+		if (modifiesIsSynonym) {
+			int matchNumberOfTables = 0;
+			if (inWhichTable.count(synonym) > 0)
+				matchNumberOfTables++;
+			if (inWhichTable.count(modifiesVar) > 0)
+				matchNumberOfTables++;
+
+			switch (matchNumberOfTables) {
+			case 0:
+				{
+					AnswerTable firstRelTable = AnswerTable(synonymTable, synonym);
+					if (firstRelTable.getSize() == 0)
+						return;
+
+					AnswerTable secondRelTable = AnswerTable(synonymTable, modifiesVar);
+					if (secondRelTable.getSize() == 0)
+						return;
+
+					firstRelTable.cartesian(secondRelTable);
+					firstRelTable.patternPrune(synonym, true, 1, usesVar);
+					if (firstRelTable.getSize() == 0)
+						return;
+
+					inWhichTable[synonym] = tables.size();
+					inWhichTable[modifiesVar] = tables.size();
+					tables.push_back(firstRelTable);
+				}
+				break;
+			case 1:
+				if (inWhichTable.count(synonym) > 0) {
+					int firstRelIndex = inWhichTable[synonym];
+
+					AnswerTable secondRelTable = AnswerTable(synonymTable, modifiesVar);
+					if (secondRelTable.getSize() == 0)
+						return;
+
+					tables[firstRelIndex].cartesian(secondRelTable);
+					tables[firstRelIndex].patternPrune(synonym, true,
+						tables[firstRelIndex].synonymPosition[modifiesVar], usesVar);
+					if (tables[firstRelIndex].getSize() == 0)
+						return;
+
+					inWhichTable[modifiesVar] = firstRelIndex;
+				} else {
+					AnswerTable firstRelTable = AnswerTable(synonymTable, synonym);
+					if (firstRelTable.getSize() == 0)
+						return;
+
+					int secondRelIndex = inWhichTable[modifiesVar];
+					tables[secondRelIndex].cartesian(firstRelTable);
+					tables[secondRelIndex].patternPrune(synonym, true,
+						tables[secondRelIndex].synonymPosition[modifiesVar], usesVar);
+					if (tables[secondRelIndex].getSize() == 0)
+						return;
+
+					inWhichTable[synonym] = secondRelIndex;
+				}
+				break;
+			case 2:
+				int firstRelIndex = inWhichTable[synonym];
+				int secondRelIndex = inWhichTable[modifiesVar];
+				if (firstRelIndex != secondRelIndex) {
+					tables[firstRelIndex].cartesian(tables[secondRelIndex]);
+
+					for (auto it = inWhichTable.begin(); it != inWhichTable.end(); it++)
+						if ((*it).second == secondRelIndex)
+							(*it).second = firstRelIndex;
+				}
+				tables[firstRelIndex].patternPrune(synonym, true,
+						tables[firstRelIndex].synonymPosition[modifiesVar], usesVar);
+				if (tables[firstRelIndex].getSize() == 0)
+					return;
+			}
+		} else {
+			if (inWhichTable.count(synonym) == 0) {
+				AnswerTable firstRelTable = AnswerTable(synonymTable, synonym);
+				if (firstRelTable.getSize() == 0)
+					return;
+
+				inWhichTable[synonym] = tables.size();
+				tables.push_back(firstRelTable);
+			}
+			int synonymIndex = inWhichTable[synonym];
+			int modifiesIndex = PKB::variables.getVARIndex(modifiesVar);
+
+			tables[synonymIndex].patternPrune(synonym, false, modifiesIndex, usesVar);
+			if (tables[synonymIndex].getSize() == 0)
+				return;
+		}
 	}
 
 	if (selectBOOLEAN) {
@@ -427,139 +585,3 @@ MultiQueryEval::MultiQueryEval(string query)
 		finalanswer.push_back(answer);
 	}
 }
-
-	/*for (auto it = qt.getTree().begin(); it != qt.getTree().end(); it++)
-	{
-		QueryCluster cluster = *it;
-
-		for (auto it = cluster.conditions.begin(); it != cluster.conditions.end(); it++) {
-			//each synonym should at most have one condition
-			set<int> table;
-			for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++) {
-				switch ((*it2).first) {
-				case QueryEnums::ProcName: //TODO: differentiate between call statement and actual proc
-					if((*it2).second < PKB::procedures.getSize());
-						table.insert((*it2).second);
-					break;
-				case QueryEnums::VarName:
-					if((*it2).second < PKB::variables.getSize());
-						table.insert((*it2).second);
-					break;
-				case QueryEnums::Value:
-					if (PKB::constantsTable.count((*it2).second) > 0)
-						table.insert(1);
-				case QueryEnums::StmtNo:
-					if((*it2).second <= PKB::maxProgLines);
-						table.insert((*it2).second);
-					break;
-				default:
-					throw SPAException("Invalid condition type");
-				}
-			}
-			stage.initIndividualTable((*it).first, table);
-		}
-
-		for (auto it = cluster.relations.begin(); it != cluster.relations.end(); it++) {
-			for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++) {
-				switch ((*it2).first) {
-				case QueryEnums::Assign:
-					stage.join(
-					break;
-				case QueryEnums::While:
-					for (auto it = PKB::whileTable.begin(); it != PKB::whileTable.end(); it++)
-						table.insert(*it);
-					break;
-				case QueryEnums::If:
-					for (auto it = PKB::ifTable.begin(); it != PKB::ifTable.end(); it++)
-						table.insert(*it);
-					break;
-				case QueryEnums::Call:
-					for (auto it = PKB::callTable.begin(); it != PKB::callTable.end(); it++)
-						table.insert(*it);
-					break;
-				case QueryEnums::Procedure: {
-					int size = PKB::procedures.getSize();
-					for (int i = 0; i < size; i++)
-						table.insert(i);
-					break; }
-				case QueryEnums::Stmt: {
-					int size = PKB::maxProgLines;
-					for (int i = 0; i < size; i++)
-						table.insert(i);
-					break; }
-				case QueryEnums::Variable: {
-					int size = PKB::variables.getSize();
-					for (int i = 0; i < size; i++)
-						table.insert(i);
-					break; }
-				case QueryEnums::Constant:
-					for(auto it = PKB::constantsTable.begin(); it != PKB::constantsTable.end(); it++)
-						table.insert((*it).first);
-					break;
-				case QueryEnums::WildCard:
-					break;
-				default:
-					throw SPAException("Invalid first relationship parameter type");
-				}
-			}
-
-		}/*
-		firstcase(answers, cluster[0]) //modifies(s1,s2) -> vector<IntOrString> <s1,s2> that satisfies me
-		done[0] = true;
-		while (still have unevaluated reladition in cluster) {
-			//get those relatditions (condiitions higher priority) that are in vector<IntOrString> (*), then get reladition where one is in, one is out
-			if (last one in unstared && !evaluateStarred(answers, reladition)) {
-				returnAll = false;
-				break; //fail
-			} else {
-				evaluateUnStarred(answers, reladition);
-				kill that reladition
-			}
-		}
-		if (marked)
-			bigAnswers.push_bacK(project(StarredInComponent, answers));*/
-	//}
-	
-	/*//cartesian product the answers in bigAnswers
-	vector<vector<IntOrString>>* accumulator = &bigAnswers[0];
-
-	if (bigAnswers.size() == 0) {
-		if (returnAll) {
-			accumulator = getAllVariables(select[0]);
-			for (int i = 1; i < select.size(); i++)
-				CartesianProduct(answers, getAllVariables(select[i]));
-		}
-	} else {
-		for (int i = 1; i < bigAnswers.size(); i++) {
-			vector<vector<IntOrString>> newanswers;
-			for (vector<IntOrString> t1 : accumulator)
-				for(vector<IntOrString> t2 : bigAnswers[i])
-					newanswers.push_back(make_vector<IntOrString>(t1, t2));
-			accumulator = &newanswers;
-		}
-	}
-
-	for (vector<IntOrString> t : accumulator) {
-		ostringstream ansss;
-		for (entries : t)
-			ans << entries << " ";
-		string ans = ans.str()
-		results.push_back(ans.substr(0, ans.size() - 1));
-	}*/
-
-//} //TADA!
-
-/*--------------------------
-Select <s1,v2,s3> such that modifies(s1,v1) and uses(s2,v2) and modifies(s1,v2) and uses(s3,v3) and modifies(totally,unrelated)
-{s1,v1,s2,v2)* , (s3,v3)* , (totally,unrelated)
-modifies(s1,v1)
-answers = <s1,v1>
-
-uses(s2,v2) (if (answersNameSet.count(s2) > 0 || answersNameSet.count(v2)) > 0 -> false)
-modifies(s1,v2) (if (answersNameSet.find(s1) || answersNameSet.find(v2)) -> true)
-answers = <s1,v1,v2>
-
-uses(s2,v2)  (if (answersNameSet.find(s2) || answersNameSet.find(v2)) -> true)
-answers = <s1,v1,v2,s2>
-Example OVER
---------------------------*/

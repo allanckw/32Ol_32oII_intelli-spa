@@ -90,6 +90,12 @@ bool RulesOfEngagement::is<Rel>(int x, int y)
 */
 //end relation map
 
+bool RulesOfEngagement::satisfyPattern(int index, int modifiesVar, string usesVar)
+{
+	return isModifiesStmt(index, modifiesVar)
+		&& isUsesStmt(index, PKB::variables.getVARIndex(usesVar)); //to be changed
+}
+
 //type map
 RulesOfEngagement::getAllTypes RulesOfEngagement::getType(QueryEnums::QueryVar type)
 {

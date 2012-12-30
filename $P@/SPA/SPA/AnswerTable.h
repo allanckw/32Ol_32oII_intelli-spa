@@ -18,6 +18,7 @@ public:
 	void combine(string ownSynonym, AnswerTable otherTable, string otherSynonym,
 		RulesOfEngagement::isRelation rel); //synonyms are all disjoint
 	void prune(string firstSynonym, string secondSynonym, RulesOfEngagement::isRelation rel);
+	void patternPrune(string synonym, bool, int modifies, string uses);
 	
 	AnswerTable project(vector<string> selection);
 	void cartesian(AnswerTable otherTable);

@@ -32,16 +32,18 @@ void TestWrapper::parse(std::string filename) {
 
 // method to evaluate a query
 void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
-	// Stuff Required to evaluate
-	vector<string> tokens; 
-	QueryPreprocessor preProcessor;
-	QueryParser qParser;
-	QueryTreeBuilder* queryTreeBuilder = new QueryTreeBuilder();
-	vector<pair<QueryEnums::QueryVar, string>> selected;
-	QueryTree qTree;
-	QueryEvaluator* queryEvaluator = new QueryEvaluator();
-
 	try{
+		vector<string> answers = MultiQueryEval::evaluateQuery(query);
+
+		/*// Stuff Required to evaluate
+		vector<string> tokens; 
+		QueryPreprocessor preProcessor;
+		QueryParser qParser;
+		QueryTreeBuilder* queryTreeBuilder = new QueryTreeBuilder();
+		vector<pair<QueryEnums::QueryVar, string>> selected;
+		QueryTree qTree;
+		QueryEvaluator* queryEvaluator = new QueryEvaluator();
+
 		// ...code to evaluate query...
 		tokens = qParser.tokenize(query);
 		preProcessor.preProcess(tokens);
@@ -49,7 +51,7 @@ void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
 										preProcessor.getRelationships(), preProcessor.getConditions(), preProcessor.getPatterns());
 	
 		qTree = queryTreeBuilder->getQueryTree();
-		vector<string> answers = queryEvaluator->evaluateQuery(qTree);
+		vector<string> answers = queryEvaluator->evaluateQuery(qTree);*/
 
 		if (AbstractWrapper::GlobalStop){
 			
@@ -75,6 +77,6 @@ void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
 	
 	//Clean up...
 
-	delete queryEvaluator;
-	delete queryTreeBuilder;
+	//delete queryEvaluator;
+	//delete queryTreeBuilder;
 }

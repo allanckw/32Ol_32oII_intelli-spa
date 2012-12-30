@@ -42,11 +42,11 @@ void DisjointSet::makeComponents()
 {
 	components.clear();
 	outputComponents.clear();
-	for (auto it = parent.begin(); it != parent.end(); it++)
-		components[(*it).second].insert((*it).first);
+	for (auto it = list.begin(); it != list.end(); it++)
+		components[find(*it)].insert(*it);
 	for (auto it = components.begin(); it != components.end(); it++)
 		outputComponents.push_back((*it).second);
-	dirty = false
+	dirty = false;
 }
 
 vector<unordered_set<string>> DisjointSet::getComponents()

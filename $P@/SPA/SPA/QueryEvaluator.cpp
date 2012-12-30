@@ -446,22 +446,18 @@ vector<string> QueryEvaluator::evaluateQuery(QueryTree qt)
 							answer.push_back("FALSE");
 					}
 
-					if (answer.empty())
-						answer.push_back("None");
-
 					return answer;
 				}
 				break;
 				case QueryTreeNode::Dummy: //Do nothing since this is just a dummy node, and is still a valid node type
-				break;
+					break;
 				default:
-				{
 					throw SPAException("Unidentified QT node");
-				}
-				break;
+					break;
 			}
 		}
 	}
+	return vector<string>();
 }
 
 void QueryEvaluator::populateVariableIndices(QueryEnums::QueryVar type, int index)

@@ -22,6 +22,8 @@
 #include "../../SPA/QueryEnums.h"
 #include "../../SPA/QueryProjectNode.h"
 
+#include "../../SPA/MultiQueryEval.h"
+
 #include "AbstractWrapper.h"
 
 class TestWrapper : public AbstractWrapper {

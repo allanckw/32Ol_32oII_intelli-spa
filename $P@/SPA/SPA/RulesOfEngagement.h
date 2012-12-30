@@ -6,6 +6,7 @@ class RulesOfEngagement
 public:
 	typedef bool(*isRelation)(int, int);
 	static isRelation getRelation(QueryEnums::QueryReladition rel);
+	static bool satisfyPattern(int index, int modifiesVar, string usesVar);
 
 	typedef vector<int>(*getAllTypes)();
 	static getAllTypes getType(QueryEnums::QueryVar type);

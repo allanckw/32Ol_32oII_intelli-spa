@@ -41,31 +41,13 @@ MultiQueryEval::MultiQueryEval(string query)
 	int pos = 0;
 	while (true) { //parse synonym declaration
 		string token = getToken(query, pos);
-		QueryEnums::QueryVar type;
+		RulesOfEngagement::QueryVar type;
 		if (token == "Select")
 			break;
-		if (token == "procedure")
-			type = QueryEnums::Procedure;
-		else if (token == "stmt")
-			type = QueryEnums::Stmt;
-		else if (token == "prog_line")
-			type = QueryEnums::Stmt; //Are you sure?
-		else if (token == "assign")
-			type = QueryEnums::Assign;
-		else if (token == "constant")
-			type = QueryEnums::Constant;
-		else if (token == "while")
-			type = QueryEnums::While;
-		else if (token == "variable")
-			type = QueryEnums::Variable;
-		//else if (token == "stmtLst")
-			//type = QueryEnums::Stmt; No idea what is this
-		else if (token == "call")
-			type = QueryEnums::Call;
-		else if (token == "if")
-			type = QueryEnums::If;
-		else
-			throw new SPAException("Error in parsing query");
+		if (RulesOfEngagement::tokenToType.count(token) == 0)
+			throw new SPAException("Error in parsing query - Unrecognised synonym declaration");
+		type = RulesOfEngagement::tokenToType[token];
+		
 		string next;
 		do {
 			next = getToken(query, pos);
@@ -99,7 +81,7 @@ MultiQueryEval::MultiQueryEval(string query)
 	}
 
 	//relationship table
-	vector<QueryEnums::QueryReladition> relType;
+	vector<RulesOfEngagement::QueryReladition> relType;
 	vector<string> relFirst;
 	vector<string> relSecond;
 	vector<int> relClass;
@@ -128,31 +110,31 @@ MultiQueryEval::MultiQueryEval(string query)
 		case 0:
 			{
 			string relation = getToken(query, pos);
-			QueryEnums::QueryReladition type;
+			RulesOfEngagement::QueryReladition type;
 			if (relation == "Calls")
-				type = QueryEnums::Calls;
+				type = RulesOfEngagement::Calls;
 			else if (relation == "Calls*")
-				type = QueryEnums::CallsStar;
+				type = RulesOfEngagement::CallsStar;
 			else if (relation == "Modifies")
-				type = QueryEnums::Modifies;
+				type = RulesOfEngagement::Modifies;
 			else if (relation == "Uses")
-				type = QueryEnums::Uses;
+				type = RulesOfEngagement::Uses;
 			else if (relation == "Parent")
-				type = QueryEnums::Parent;
+				type = RulesOfEngagement::Parent;
 			else if (relation == "Parent*")
-				type = QueryEnums::ParentStar;
+				type = RulesOfEngagement::ParentStar;
 			else if (relation == "Follows")
-				type = QueryEnums::Follows;
+				type = RulesOfEngagement::Follows;
 			else if (relation == "Follows*")
-				type = QueryEnums::FollowsStar;
+				type = RulesOfEngagement::FollowsStar;
 			else if (relation == "Next")
-				type = QueryEnums::Next;
+				type = RulesOfEngagement::Next;
 			else if (relation == "Next*")
-				type = QueryEnums::NextStar;
+				type = RulesOfEngagement::NextStar;
 			else if (relation == "Affects")
-				type = QueryEnums::Affects;
+				type = RulesOfEngagement::Affects;
 			else if (relation == "Affects*")
-				type = QueryEnums::AffectsStar;
+				type = RulesOfEngagement::AffectsStar;
 			else
 				throw new SPAException("Error in parsing query");
 
@@ -160,72 +142,81 @@ MultiQueryEval::MultiQueryEval(string query)
 
 			string firstRel = getToken(query, pos);
 			if (firstRel == "_") {
-				if (type == QueryEnums::Modifies || type == QueryEnums::Uses)
-					return;
+				if (RulesOfEngagement::allowableFirstArgument[type].count(RulesOfEngagement::WildCard) == 0)
+					throw new SPAException(type + " not allowed to have \"_\" as its first argument");
 				firstRel = "t" + Helper::intToString(++tempVars);
 				while (synonymTable.isInTable(firstRel))
 					firstRel = "t" + firstRel;
-				synonymTable.insert(firstRel, QueryEnums::Stmt);
-			} else if (!synonymTable.isInTable(firstRel)) {
+				synonymTable.insert(firstRel, RulesOfEngagement::Statement);
+			} else if (synonymTable.isInTable(firstRel)) {
+				if (RulesOfEngagement::allowableFirstArgument[type].count(synonymTable.getType(firstRel)) == 0)
+					throw new SPAException(type + " not allowed to have the type of " + firstRel + " as its first argument");
+
+				if (synonymTable.getType(firstRel) == RulesOfEngagement::Procedure) {
+					if (type == RulesOfEngagement::Modifies)
+						type = RulesOfEngagement::ModifiesProc;
+					else if (type == RulesOfEngagement::Uses)
+						type = RulesOfEngagement::UsesProc;
+				} else {
+					if (type == RulesOfEngagement::Modifies)
+						type = RulesOfEngagement::ModifiesStmt;
+					else if (type == RulesOfEngagement::Uses)
+						type = RulesOfEngagement::UsesStmt;
+				}
+			} else {
 				//do something smart(er)
 				string input = firstRel;
 				firstRel = "t" + Helper::intToString(++tempVars);
 				while (synonymTable.isInTable(firstRel))
 					firstRel = "t" + firstRel;
-				/*if (type == QueryEnums::Follows || type == QueryEnums::FollowsStar //hardcoding here
-					|| type == QueryEnums::Parent || type == QueryEnums::ParentStar) {*/
-				if ((type == QueryEnums::Modifies || type == QueryEnums::Uses) && (!Helper::isNumber(input))) { //then "must" be procedure (if not illegal)
-					synonymTable.insert(firstRel, QueryEnums::Procedure);
+				if ((type == RulesOfEngagement::Modifies || type == RulesOfEngagement::Uses)
+					&& (!Helper::isNumber(input))) { //then "must" be procedure (otherwise is illegal)
+					synonymTable.insert(firstRel, RulesOfEngagement::Procedure);
 					synonymTable.setAttribute(firstRel, "procName", input.substr(1, input.length() - 2));
-					if (type == QueryEnums::Modifies)
-						type = QueryEnums::ModifiesProc;
+					if (type == RulesOfEngagement::Modifies)
+						type = RulesOfEngagement::ModifiesProc;
 					else
-						type = QueryEnums::UsesProc;
+						type = RulesOfEngagement::UsesProc;
 				} else {
-					synonymTable.insert(firstRel, QueryEnums::Stmt);
+					synonymTable.insert(firstRel, RulesOfEngagement::Statement);
 					synonymTable.setAttribute(firstRel, "stmtNo", input);
-					if (type == QueryEnums::Modifies)
-						type = QueryEnums::ModifiesStmt;
-					else if (type == QueryEnums::Uses)
-						type = QueryEnums::UsesStmt;
+					if (type == RulesOfEngagement::Modifies)
+						type = RulesOfEngagement::ModifiesStmt;
+					else if (type == RulesOfEngagement::Uses)
+						type = RulesOfEngagement::UsesStmt;
 				}
-			} else if (synonymTable.getType(firstRel) == QueryEnums::Procedure) {
-				if (type == QueryEnums::Modifies)
-					type = QueryEnums::ModifiesProc;
-				else if (type == QueryEnums::Uses)
-					type = QueryEnums::UsesProc;
-			} else {
-				if (type == QueryEnums::Modifies)
-					type = QueryEnums::ModifiesStmt;
-				else if (type == QueryEnums::Uses)
-					type = QueryEnums::UsesStmt;
 			}
 
 			matchToken(query, pos, ",");
 			
 			string secondRel = getToken(query, pos);
 			if (secondRel == "_") {
+				if (RulesOfEngagement::allowableSecondArgument[type].count(RulesOfEngagement::WildCard) == 0)
+					throw new SPAException(type + " not allowed to have \"_\" as its second argument");
 				secondRel = "t" + Helper::intToString(++tempVars);
 				while (synonymTable.isInTable(secondRel))
 					secondRel = "t" + secondRel;
-				if (type == QueryEnums::ModifiesProc || type == QueryEnums::ModifiesStmt ||
-					type == QueryEnums::UsesProc || type == QueryEnums::UsesStmt)
-					synonymTable.insert(secondRel, QueryEnums::Variable);
+				if (type == RulesOfEngagement::ModifiesProc || type == RulesOfEngagement::ModifiesStmt ||
+					type == RulesOfEngagement::UsesProc || type == RulesOfEngagement::UsesStmt)
+					synonymTable.insert(secondRel, RulesOfEngagement::Variable);
 				else
-					synonymTable.insert(secondRel, QueryEnums::Stmt);
-			} else if (!synonymTable.isInTable(secondRel)) {
+					synonymTable.insert(secondRel, RulesOfEngagement::Statement);
+			} else if (synonymTable.isInTable(secondRel)) {
+				if (RulesOfEngagement::allowableSecondArgument[type].count(synonymTable.getType(secondRel)) == 0)
+					throw new SPAException(type + " not allowed to have the type of " + secondRel + " as its second argument");
+			} else {
 				//do something smart
 				string input = secondRel;
 				secondRel = "t" + Helper::intToString(++tempVars);
 				while (synonymTable.isInTable(secondRel))
 					secondRel = "t" + secondRel;
-				if (type == QueryEnums::ModifiesProc || type == QueryEnums::ModifiesStmt ||
-					type == QueryEnums::UsesProc || type == QueryEnums::UsesStmt) {
-						synonymTable.insert(secondRel, QueryEnums::Variable); //hardcoding here
+				if (type == RulesOfEngagement::ModifiesProc || type == RulesOfEngagement::ModifiesStmt ||
+					type == RulesOfEngagement::UsesProc || type == RulesOfEngagement::UsesStmt) {
+						synonymTable.insert(secondRel, RulesOfEngagement::Variable); //hardcoding here
 						synonymTable.setAttribute(secondRel, "varName", input.substr(1, input.length() - 2));
-				} else /*(type == QueryEnums::Follows || type == QueryEnums::FollowsStar //hardcoding here
-					|| type == QueryEnums::Parent || type == QueryEnums::ParentStar)*/ {
-					synonymTable.insert(secondRel, QueryEnums::Stmt);
+				} else /*(type == RulesOfEngagement::Follows || type == RulesOfEngagement::FollowsStar //hardcoding here
+					|| type == RulesOfEngagement::Parent || type == RulesOfEngagement::ParentStar)*/ {
+					synonymTable.insert(secondRel, RulesOfEngagement::Statement);
 					synonymTable.setAttribute(secondRel, "stmtNo", input);
 				}
 			}
@@ -274,9 +265,9 @@ MultiQueryEval::MultiQueryEval(string query)
 		case 2: //pattern
 			{
 				string synonym = getToken(query, pos);
-				if (synonymTable.getType(synonym) == QueryEnums::Stmt)
-					synonymTable.changeType(synonym, QueryEnums::Assign);
-				else if (synonymTable.getType(synonym) != QueryEnums::Assign)
+				if (synonymTable.getType(synonym) == RulesOfEngagement::Statement)
+					synonymTable.changeType(synonym, RulesOfEngagement::Assign);
+				else if (synonymTable.getType(synonym) != RulesOfEngagement::Assign)
 					throw new SPAException("Not valid type for pattern");
 
 				matchToken(query, pos, "(");
@@ -293,11 +284,11 @@ MultiQueryEval::MultiQueryEval(string query)
 						usesVar = "t" + Helper::intToString(++tempVars);
 						while (synonymTable.isInTable(usesVar))
 							usesVar = "t" + usesVar;
-						synonymTable.insert(usesVar, QueryEnums::Variable);
+						synonymTable.insert(usesVar, RulesOfEngagement::Variable);
 						synonymTable.setAttribute(usesVar, "varName", input.substr(2, input.length() - 4));
 				
 						relFirstToIndices[synonym].push_back(relType.size());
-						relType.push_back(QueryEnums::UsesStmt); //TODO: change to patternUses
+						relType.push_back(RulesOfEngagement::UsesStmt); //TODO: change to patternUses
 						relFirst.push_back(synonym);
 						relSecond.push_back(usesVar);
 						relClass.push_back(-1);
@@ -310,7 +301,7 @@ MultiQueryEval::MultiQueryEval(string query)
 							modifiesVar = "t" + Helper::intToString(++tempVars);
 							while (synonymTable.isInTable(modifiesVar))
 								modifiesVar = "t" + modifiesVar;
-							synonymTable.insert(modifiesVar, QueryEnums::Variable); //hardcoding here
+							synonymTable.insert(modifiesVar, RulesOfEngagement::Variable); //hardcoding here
 							synonymTable.setAttribute(modifiesVar, "varName", input.substr(1, input.length() - 2));
 						}
 
@@ -321,7 +312,7 @@ MultiQueryEval::MultiQueryEval(string query)
 							temp.push_back(relType.size());
 							relFirstToIndices[synonym] = temp;
 						}
-						relType.push_back(QueryEnums::ModifiesStmt);
+						relType.push_back(RulesOfEngagement::ModifiesStmt);
 						relFirst.push_back(synonym);
 						relSecond.push_back(modifiesVar);
 						relClass.push_back(-1);
@@ -359,7 +350,7 @@ MultiQueryEval::MultiQueryEval(string query)
 	vector<AnswerTable> tables;
 	
 	for (unsigned int rel = 0; rel < relType.size(); rel++) {
-		QueryEnums::QueryReladition type = relType[rel];
+		RulesOfEngagement::QueryReladition type = relType[rel];
 		string firstRel = relFirst[rel];
 		string secondRel = relSecond[rel];
 		int classIndex = relClass[rel];
@@ -572,10 +563,10 @@ MultiQueryEval::MultiQueryEval(string query)
 		vector<int> row = concatenated.getRow(i);
 		string answer;
 		for (unsigned int j = 0; j < header.size(); j++) {
-			QueryEnums::QueryVar type = synonymTable.getType(header[j]);
-			if (type == QueryEnums::Procedure)
+			RulesOfEngagement::QueryVar type = synonymTable.getType(header[j]);
+			if (type == RulesOfEngagement::Procedure)
 				answer += PKB::procedures.getPROCName(row[j]);
-			else if (type == QueryEnums::Variable)
+			else if (type == RulesOfEngagement::Variable)
 				answer += PKB::variables.getVARName(row[j]);
 			else
 				answer += Helper::intToString(row[j]);

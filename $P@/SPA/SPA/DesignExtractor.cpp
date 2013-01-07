@@ -260,6 +260,8 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 		switch ((*currentStmtNode).getType()) {
 		case ASTNode::Assign: {
 			PKB::assignTable.insert(currentStmtNumber);
+			PKB::assignNodes[currentStmtNumber] = currentStmtNode;
+
 			ASTExprNode* modifiesVarNode = (ASTExprNode*) (*currentStmtNode).getChild(0);
 			VAR modifiesVar = (*modifiesVarNode).getValue();
 

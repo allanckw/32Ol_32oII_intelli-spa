@@ -24,7 +24,7 @@ public:
 	void cartesian(AnswerTable otherTable);
 
 	vector<string> getHeader();
-	int getSize();
+	unsigned int getSize();
 	vector<int> getRow(int index);
 	//int getEntry(int index, string synonym);*/
 };

@@ -7,7 +7,7 @@ int SynonymTable::size()
 	return synName.size();
 }
 
-void SynonymTable::insert(string name, QueryEnums::QueryVar type)
+void SynonymTable::insert(string name, RulesOfEngagement::QueryVar type)
 {
 	if (stringToIndex.count(name) > 0)
 		throw new SPAException("Double declaration of synonym");
@@ -19,7 +19,7 @@ void SynonymTable::insert(string name, QueryEnums::QueryVar type)
 	selected.push_back(false);
 	synClassIndex.push_back(-1);
 	synAttributes.push_back(unordered_map<string, string>());
-	synSelfReference.push_back(unordered_set<QueryEnums::QueryReladition>());
+	synSelfReference.push_back(unordered_set<RulesOfEngagement::QueryReladition>());
 
 	stringToIndex[name] = index;
 	if (typeToIndices.count(type) > 0)
@@ -36,7 +36,7 @@ bool SynonymTable::isInTable(string name)
 	return (stringToIndex.count(name) > 0);
 }
 
-vector<string> SynonymTable::getAllOfType(QueryEnums::QueryVar type)
+vector<string> SynonymTable::getAllOfType(RulesOfEngagement::QueryVar type)
 {
 	vector<string> ans;
 	for (auto it = typeToIndices[type].begin(); it != typeToIndices[type].end(); it++)
@@ -44,7 +44,7 @@ vector<string> SynonymTable::getAllOfType(QueryEnums::QueryVar type)
 	return ans;
 }
 
-QueryEnums::QueryVar SynonymTable::getType(string name)
+RulesOfEngagement::QueryVar SynonymTable::getType(string name)
 {
 	return synType[stringToIndex.at(name)];
 }
@@ -54,10 +54,10 @@ int SynonymTable::synonymIndex(string name)
 	return stringToIndex.at(name);
 }
 
-void SynonymTable::changeType(string name, QueryEnums::QueryVar type)
+void SynonymTable::changeType(string name, RulesOfEngagement::QueryVar type)
 {
-	if (synType[stringToIndex.at(name)] == QueryEnums::Stmt && type == QueryEnums::Assign)
-		synType[stringToIndex.at(name)] = QueryEnums::Assign;
+	if (synType[stringToIndex.at(name)] == RulesOfEngagement::Statement && type == RulesOfEngagement::Assign)
+		synType[stringToIndex.at(name)] = RulesOfEngagement::Assign;
 }
 
 void SynonymTable::setSelected(string name)
@@ -91,6 +91,8 @@ int SynonymTable::inClass(string name)
 
 bool SynonymTable::setAttribute(string name, string condition, string attribute)
 {
+	if (RulesOfEngagement::allowableConditions[synType[stringToIndex.at(name)]].count(condition) == 0)
+		throw new SPAException("Synonym " + name + " has no such condition " + condition);
 	if (synAttributes[stringToIndex.at(name)].count(condition) > 0)
 		return synAttributes[stringToIndex.at(name)][condition] == attribute;
 	synAttributes[stringToIndex.at(name)][condition] = attribute;
@@ -109,12 +111,12 @@ unordered_map<string, string> SynonymTable::getAllAttributes(string name)
 	return synAttributes[stringToIndex.at(name)];
 }
 
-void SynonymTable::setSelfReference(string name, QueryEnums::QueryReladition relation)
+void SynonymTable::setSelfReference(string name, RulesOfEngagement::QueryReladition relation)
 {
 	synSelfReference[stringToIndex.at(name)].insert(relation);
 }
 
-unordered_set<QueryEnums::QueryReladition> SynonymTable::getAllSelfReferences(string name)
+unordered_set<RulesOfEngagement::QueryReladition> SynonymTable::getAllSelfReferences(string name)
 {
 	return synSelfReference[stringToIndex.at(name)];
 }

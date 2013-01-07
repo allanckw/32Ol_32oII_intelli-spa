@@ -16,7 +16,7 @@ AnswerTable::AnswerTable(SynonymTable synonymTable, string synonym)
 
 	vector<int> table;
 	unordered_map<string, string> attributes = synonymTable.getAllAttributes(synonym);
-	unordered_set<QueryEnums::QueryReladition> selfReferences = synonymTable.getAllSelfReferences(synonym);
+	unordered_set<RulesOfEngagement::QueryReladition> selfReferences = synonymTable.getAllSelfReferences(synonym);
 
 	if (attributes.count("stmtNo") > 0) {
 		table.push_back(Helper::stringToInt(attributes["stmtNo"]));
@@ -24,9 +24,9 @@ AnswerTable::AnswerTable(SynonymTable synonymTable, string synonym)
 	}
 
 	if (unrestricted && attributes.count("procName") > 0) {
-		if (synonymTable.getType(synonym) == QueryEnums::Procedure)
+		if (synonymTable.getType(synonym) == RulesOfEngagement::Procedure)
 			table.push_back(PKB::procedures.getPROCIndex(attributes["procName"]));
-		else if (synonymTable.getType(synonym) == QueryEnums::Calls)
+		else if (synonymTable.getType(synonym) == RulesOfEngagement::Calls)
 			table = PKB::calls.getStmtCall(
 			PKB::procedures.getPROCIndex(attributes["procName"]));
 		unrestricted = false;
@@ -158,7 +158,7 @@ vector<string> AnswerTable::getHeader()
 	return header;
 }
 
-int AnswerTable::getSize()
+unsigned int AnswerTable::getSize()
 {
 	return answers.size();
 }

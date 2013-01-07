@@ -1,31 +1,31 @@
 #pragma once
 #include "stdAfx.h"
-#include "QueryEnums.h"
+#include "RulesOfEngagement.h"
 
 class SynonymTable
 {
 private:
 	vector<string> synName;
-	vector<QueryEnums::QueryVar> synType;
+	vector<RulesOfEngagement::QueryVar> synType;
 	vector<bool> selected;
 	vector<int> synClassIndex;
 	vector<unordered_map<string, string>> synAttributes;
-	vector<unordered_set<QueryEnums::QueryReladition>> synSelfReference;
+	vector<unordered_set<RulesOfEngagement::QueryReladition>> synSelfReference;
 
 	unordered_map<string, int> stringToIndex;
-	unordered_map<QueryEnums::QueryVar, vector<int>> typeToIndices;
+	unordered_map<RulesOfEngagement::QueryVar, vector<int>> typeToIndices;
 
 	vector<int> selectedIndices;
 	
 public:
 	int size();
 
-	void insert(string name, QueryEnums::QueryVar type);
+	void insert(string name, RulesOfEngagement::QueryVar type);
 	bool isInTable(string name);
-	vector<string> getAllOfType(QueryEnums::QueryVar type);
-	QueryEnums::QueryVar getType(string);
+	vector<string> getAllOfType(RulesOfEngagement::QueryVar type);
+	RulesOfEngagement::QueryVar getType(string);
 	int synonymIndex(string name);
-	void changeType(string name, QueryEnums::QueryVar type);
+	void changeType(string name, RulesOfEngagement::QueryVar type);
 
 	void setSelected(string name);
 	vector<string> getAllSelected();
@@ -38,6 +38,6 @@ public:
 	string getAttribute(string name, string condition);
 	unordered_map<string, string> getAllAttributes(string name);
 
-	void setSelfReference(string name, QueryEnums::QueryReladition relation);
-	unordered_set<QueryEnums::QueryReladition> getAllSelfReferences(string name);
+	void setSelfReference(string name, RulesOfEngagement::QueryReladition relation);
+	unordered_set<RulesOfEngagement::QueryReladition> getAllSelfReferences(string name);
 };

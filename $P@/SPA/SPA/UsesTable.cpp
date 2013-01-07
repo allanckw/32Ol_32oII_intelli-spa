@@ -24,36 +24,32 @@ void UsesTable::insertProcUses(PROC p, VAR v)
 	originalUsesInProc[v].insert(p);
 }
 
-vector<STMT> UsesTable::getUsedByStmt(STMT s)
+vector<VAR> UsesTable::getUsedByStmt(STMT s)
 {
-	vector<PROC> answer;
 	if (optimizedUsedByStmt.count(s) > 0)
-		answer = optimizedUsedByStmt[s];
-	return answer;
+		return optimizedUsedByStmt[s];
+	return vector<VAR>();
 }
 
-vector<PROC> UsesTable::getUsedByProc(PROC p)
+vector<VAR> UsesTable::getUsedByProc(PROC p)
 {
-	vector<PROC> answer;
 	if (optimizedUsedByProc.count(p) > 0)
-		answer = optimizedUsedByProc[p];
-	return answer;
+		return optimizedUsedByProc[p];
+	return vector<VAR>();
 }
 
-vector<VAR> UsesTable::getUsedInStmt(VAR v)
+vector<STMT> UsesTable::getUsedInStmt(VAR v)
 {
-	vector<PROC> answer;
 	if (optimizedUsesInStmt.count(v) > 0)
-		answer = optimizedUsesInStmt[v];
-	return answer;
+		return optimizedUsesInStmt[v];
+	return vector<STMT>();
 }
 
-vector<VAR> UsesTable::getUsedInProc(VAR v)
+vector<PROC> UsesTable::getUsedInProc(VAR v)
 {
-	vector<PROC> answer;
 	if (optimizedUsesInProc.count(v) > 0)
-		answer = optimizedUsesInProc[v];
-	return answer;
+		return optimizedUsesInProc[v];
+	return vector<PROC>();
 }
 
 bool UsesTable::isUsedStmt(STMT s, VAR v)
@@ -67,7 +63,7 @@ bool UsesTable::isUsedProc(PROC p, VAR v)
 }
 
 void UsesTable::linkCallStmtToProcUses(STMT s, PROC p) {
-	callLinksUses[s] = p;
+	callLinksUses.insert(pair<STMT, PROC>(s, p));
 }
 
 //This function should be invoked once usestable has been fully populated by whoever is populating it
@@ -75,21 +71,28 @@ void UsesTable::optimizeUsesTable()
 {
 	for (auto it = originalUsedByStmt.begin(); it != originalUsedByStmt.end(); it++) {
 		STMT s = (*it).first;
+		vector<VAR>& optimizedUsedByStmtTable = optimizedUsedByStmt[s];
 		for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
-			optimizedUsedByStmt[s].push_back(*it2);
+			optimizedUsedByStmtTable.push_back(*it2);
 	}
 	for (auto it = originalUsedByProc.begin(); it != originalUsedByProc.end(); it++) {
 		PROC p = (*it).first;
+		vector<VAR>& optimizedUsedByProcTable = optimizedUsedByProc[p];
 		for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
-			optimizedUsedByProc[p].push_back(*it2);
+			optimizedUsedByProcTable.push_back(*it2);
 	}
 	for (auto it = callLinksUses.begin(); it != callLinksUses.end(); it++) {
 		STMT s = (*it).first;
 		PROC p = (*it).second;
-		originalUsedByStmt[s] = originalUsedByProc[p];
-		optimizedUsedByStmt[s] = optimizedUsedByProc[p];
 
-		for (auto it2 = optimizedUsedByStmt[s].begin(); it2 != optimizedUsedByStmt[s].end(); it2++) {
+		set<VAR>& originalUsedByStmtTable = originalUsedByStmt[s];
+		set<VAR>& originalUsedByProcTable = originalUsedByProc[p];
+		originalUsedByStmtTable.insert(originalUsedByProcTable.begin(), originalUsedByProcTable.end());
+		
+		vector<VAR>& optimizedUsedByStmtTable = optimizedUsedByStmt[s];
+		optimizedUsedByStmtTable.insert(optimizedUsedByStmtTable.begin(), originalUsedByStmtTable.begin(), originalUsedByStmtTable.end());
+		
+		for (auto it2 = optimizedUsedByStmtTable.begin(); it2 != optimizedUsedByStmtTable.end(); it2++) {
 			VAR v = *it2;
 			originalUsesInStmt[v].insert(s);
 			originalUsesInProc[v].insert(p);
@@ -97,13 +100,15 @@ void UsesTable::optimizeUsesTable()
 	}
 	for (auto it = originalUsesInStmt.begin(); it != originalUsesInStmt.end(); it++) {
 		VAR v = (*it).first;
+		vector<STMT>& optimizedUsesInStmtTable = optimizedUsesInStmt[v];
 		for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
-			optimizedUsesInStmt[v].push_back(*it2);
+			optimizedUsesInStmtTable.push_back(*it2);
 	}
 	for (auto it = originalUsesInProc.begin(); it != originalUsesInProc.end(); it++) {
 		VAR v = (*it).first;
+		vector<PROC>& optimizedUsesInProcTable = optimizedUsesInProc[v];
 		for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
-			optimizedUsesInProc[v].push_back(*it2);
+			optimizedUsesInProcTable.push_back(*it2);
 	}
 }
 

@@ -17,20 +17,20 @@ FollowsTable::~FollowsTable()
 //Worst: O(c) <= O(r), where c is the number of relationships in the table
 void FollowsTable::insertFollows(STMT s1, STMT s2)
 {
-	followsTo[s1] = s2;
-	followsFrom[s2] = s1;
+	followsTo.insert(pair<STMT, STMT>(s1, s2));
+	followsFrom.insert(pair<STMT, STMT>(s2, s1));
 }
 
 //O(1)
 bool FollowsTable::isFollows(STMT s1, STMT s2)
 {
-	return (followsTo.count(s1) && followsTo[s1] == s2);
+	return (followsTo.count(s1) > 0 && followsTo[s1] == s2);
 }
 
 //O(1)
 STMT FollowsTable::getFollowsBy(STMT s1) 
 {
-	if (followsTo.count(s1))
+	if (followsTo.count(s1) > 0)
 		return followsTo[s1];
 	else
 		return -1;
@@ -39,7 +39,7 @@ STMT FollowsTable::getFollowsBy(STMT s1)
 //O(1)
 STMT FollowsTable::getFollowsFrom(STMT s2) 
 {
-	if (followsFrom.count(s2))
+	if (followsFrom.count(s2) > 0)
 		return followsFrom[s2];
 	else
 		return -1;
@@ -50,7 +50,7 @@ bool FollowsTable::isFollowsStar(STMT s1, STMT s2)
 {
 	STMT follows = s1;
 	do {
-		if (followsTo.count(follows))
+		if (followsTo.count(follows) > 0)
 			follows = followsTo[follows];
 		else
 			return false;
@@ -64,7 +64,7 @@ vector <STMT> FollowsTable::getFollowsStarBy(STMT s1)
 	vector<STMT> output;
 	STMT follows = s1;
 	do {
-		if (followsTo.count(follows)) {
+		if (followsTo.count(follows) > 0) {
 			follows = followsTo[follows];
 			output.push_back(follows);
 		} else
@@ -78,7 +78,7 @@ vector <STMT> FollowsTable::getFollowsStarFrom(STMT s2)
 	vector<STMT> output;
 	STMT follows = s2;
 	do {
-		if (followsFrom.count(follows)) {
+		if (followsFrom.count(follows) > 0) {
 			follows = followsFrom[follows];
 			output.push_back(follows);
 		} else

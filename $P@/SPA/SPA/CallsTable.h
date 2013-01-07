@@ -5,6 +5,20 @@ class CallsTable
 {
 
 private:
+	unordered_map<PROC, set<PROC>> originalCalledBy;
+	unordered_map<PROC, set<PROC>> originalCalledFrom;
+	unordered_map<PROC, set<PROC>> originalCalledByStar;
+	unordered_map<PROC, set<PROC>> originalCalledFromStar;
+
+	unordered_map<PROC, vector<PROC>> optimizedCalledBy;
+	unordered_map<PROC, vector<PROC>> optimizedCalledFrom;
+	unordered_map<PROC, vector<PROC>> optimizedCalledByStar;
+	unordered_map<PROC, vector<PROC>> optimizedCalledFromStar;
+
+	unordered_map<PROC, vector<STMT>> stmtCall;
+
+	set<STMT> analyseCallByStar(PROC);
+	set<STMT> analyseCallFromStar(PROC);
 
 public:
 	CallsTable();

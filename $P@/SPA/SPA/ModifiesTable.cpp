@@ -26,34 +26,30 @@ void ModifiesTable::insertProcModifies(PROC p, VAR v)
 
 vector<VAR> ModifiesTable::getModifiedByStmt(STMT s)
 {
-	vector<PROC> answer;
 	if (optimizedModifiedByStmt.count(s) > 0)
-		answer = optimizedModifiedByStmt[s];
-	return answer;
+		return optimizedModifiedByStmt[s];
+	return vector<VAR>();
 }
 
 vector<VAR> ModifiesTable::getModifiedByProc(PROC p)
 {
-	vector<PROC> answer;
 	if (optimizedModifiedByProc.count(p) > 0)
-		answer = optimizedModifiedByProc[p];
-	return answer;
+		return optimizedModifiedByProc[p];
+	return vector<VAR>();
 }
 
 vector<STMT> ModifiesTable::getModifiesStmt(VAR v)
 {
-	vector<PROC> answer;
 	if (optimizedModifiesStmt.count(v) > 0)
-		answer = optimizedModifiesStmt[v];
-	return answer;
+		return optimizedModifiesStmt[v];
+	return vector<STMT>();
 }
 
 vector<PROC> ModifiesTable::getModifiesProc(VAR v)
 {
-	vector<PROC> answer;
 	if (optimizedModifiesProc.count(v) > 0)
-		answer = optimizedModifiesProc[v];
-	return answer;
+		return optimizedModifiesProc[v];
+	return vector<PROC>();
 }
 
 bool ModifiesTable::isModifiedStmt(STMT s, VAR v)
@@ -75,21 +71,28 @@ void ModifiesTable::optimizeModifiesTable()
 {
 	for (auto it = originalModifiedByStmt.begin(); it != originalModifiedByStmt.end(); it++) {
 		STMT s = (*it).first;
+		vector<VAR>& table = optimizedModifiedByStmt[s];
 		for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
-			optimizedModifiedByStmt[s].push_back(*it2);
+			table.push_back(*it2);
 	}
 	for (auto it = originalModifiedByProc.begin(); it != originalModifiedByProc.end(); it++) {
 		PROC p = (*it).first;
+		vector<VAR>& table = optimizedModifiedByProc[p];
 		for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
-			optimizedModifiedByProc[p].push_back(*it2);
+			table.push_back(*it2);
 	}
 	for (auto it = callLinksModifies.begin(); it != callLinksModifies.end(); it++) {
 		STMT s = (*it).first;
 		PROC p = (*it).second;
-		originalModifiedByStmt[s] = originalModifiedByProc[p];
-		optimizedModifiedByStmt[s] = optimizedModifiedByProc[p];
 
-		for (auto it2 = optimizedModifiedByStmt[s].begin(); it2 != optimizedModifiedByStmt[s].end(); it2++) {
+		set<VAR>& originalModifiedByStmtTable = originalModifiedByStmt[s];
+		set<VAR>& originalModifiedByProcTable = originalModifiedByProc[p];
+		originalModifiedByStmtTable.insert(originalModifiedByProcTable.begin(), originalModifiedByProcTable.end());
+
+		vector<VAR>& optimizedModifiedByStmtTable = optimizedModifiedByStmt[s];
+		optimizedModifiedByStmtTable.insert(optimizedModifiedByStmtTable.begin(), originalModifiedByStmtTable.begin(), originalModifiedByStmtTable.end());
+
+		for (auto it2 = optimizedModifiedByStmtTable.begin(); it2 != optimizedModifiedByStmtTable.end(); it2++) {
 			VAR v = *it2;
 			originalModifiesStmt[v].insert(s);
 			originalModifiesProc[v].insert(p);
@@ -97,13 +100,15 @@ void ModifiesTable::optimizeModifiesTable()
 	}
 	for (auto it = originalModifiesStmt.begin(); it != originalModifiesStmt.end(); it++) {
 		VAR v = (*it).first;
+		vector<STMT>& optimizedModifiesStmtTable = optimizedModifiesStmt[v];
 		for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
-			optimizedModifiesStmt[v].push_back(*it2);
+			optimizedModifiesStmtTable.push_back(*it2);
 	}
 	for (auto it = originalModifiesProc.begin(); it != originalModifiesProc.end(); it++) {
 		VAR v = (*it).first;
+		vector<PROC>& optimizedModifiesProcTable = optimizedModifiesProc[v];
 		for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
-			optimizedModifiesProc[v].push_back(*it2);
+			optimizedModifiesProcTable.push_back(*it2);
 	}
 }
 

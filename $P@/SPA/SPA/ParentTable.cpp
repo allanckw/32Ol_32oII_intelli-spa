@@ -18,7 +18,7 @@ void ParentTable::insertParent(STMT s1, STMT s2)
 	parentTo[s1].first.insert(s2);
 	parentTo[s1].second.push_back(s2); //assume the s2's will be distinct
 
-	parentFrom[s2] = s1;
+	parentFrom.insert(pair<STMT, STMT>(s2, s1));
 }
 
 //O(1)
@@ -32,9 +32,7 @@ vector<STMT> ParentTable::getChildren(STMT s1)
 {
 	if (parentTo.count(s1) > 0)
 		return parentTo[s1].second;
-	
-	vector<STMT> output;
-	return output;
+	return vector<STMT>();
 }
 
 //O(1)
@@ -42,8 +40,7 @@ STMT ParentTable:: getParent(STMT s2)
 {
 	if (parentFrom.count(s2) > 0)
 		return parentFrom[s2];
-	else
-		return -1;
+	return -1;
 }
 
 //O(n) <= O(r), where n is the depth of s2

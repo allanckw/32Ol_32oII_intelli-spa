@@ -36,7 +36,7 @@ bool AssignmentParser::isValidExpr(vector<string> expr)
 	stack<string> brackets;
 	int expect = 0; //0=constant or number, 1 = opr
 
-	for(int i=0; i<expr.size(); i++) {
+	for(unsigned int i=0; i<expr.size(); i++) {
 
 		if (i == expr.size() - 1)
 			break;
@@ -90,13 +90,13 @@ ASTExprNode* AssignmentParser::processAssignment(MathExpression expr)
 		//before we actually build the tree, check that if it is even valid, if it is not valid
 		//then there is no point going thru the shunting yard algorithm
 		string msg;
-		for (int i = 0; i < expr.size(); i++) {
+		for (unsigned int i = 0; i < expr.size(); i++) {
 			msg += expr.at(i);
 		}
 		throw SPAException(msg + " is an invalid expression");
 	}
 
-	for ( int i = 0; i < expr.size(); i++ ) {
+	for (unsigned int i = 0; i < expr.size(); i++ ) {
 		string token = expr[i]; 
 		if (token == "/" || token == "^" || token == "%")
 			throw SPAException("Operator not supported, use '+', '-' or '*' only");

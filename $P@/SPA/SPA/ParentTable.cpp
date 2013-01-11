@@ -22,6 +22,12 @@ void ParentTable::insertParent(STMT s1, STMT s2)
 }
 
 //O(1)
+bool ParentTable::empty()
+{
+	return parentTo.empty();
+}
+
+//O(1)
 bool ParentTable::isParent(STMT s1, STMT s2)
 {
 	return (parentTo.count(s1) > 0 && parentTo[s1].first.count(s2) > 0);

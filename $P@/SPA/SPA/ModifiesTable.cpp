@@ -62,8 +62,13 @@ bool ModifiesTable::isModifiedProc(PROC p, VAR v)
 	return (originalModifiedByProc.count(p) > 0 && originalModifiedByProc[p].count(v) > 0);
 }
 
+bool ModifiesTable::empty()
+{
+	return originalModifiedByProc.empty();
+}
+
 void ModifiesTable::linkCallStmtToProcModifies(STMT s, PROC p) {
-	callLinksModifies[s] = p;
+	callLinksModifies.insert(pair<STMT, PROC>(s, p));
 }
 
 //This function should be invoked once modifies has been fully populated by whoever is populating it

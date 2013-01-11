@@ -112,6 +112,11 @@ bool CallsTable::isCalledStar(PROC p1, PROC p2)
 	return (originalCalledByStar.count(p1) > 0 && originalCalledByStar[p1].count(p2) > 0);
 }
 
+bool CallsTable::empty()
+{
+	return originalCalledBy.empty();
+}
+
 void CallsTable::insertStmtCall(STMT s, PROC p)
 {
 	if (stmtCall.count(p) > 0)
@@ -119,7 +124,7 @@ void CallsTable::insertStmtCall(STMT s, PROC p)
 	else {
 		vector<STMT> stmt;
 		stmt.push_back(s);
-		stmtCall[p] = stmt;
+		stmtCall.insert(pair<PROC, vector<STMT>>(p, stmt));
 	}
 }
 

@@ -1,5 +1,4 @@
 #pragma once
-#include "QueryEnums.h"
 #include "ASTNode.h"
 
 class RulesOfEngagement
@@ -17,8 +16,9 @@ public:
 		If,
 		Variable,
 		ProgLine,
-		//Expression,
-		WildCard
+		WildCard,
+		Integer,
+		String
 	};
 
 	enum QueryReladition { //relationship QueryEnums
@@ -41,20 +41,25 @@ public:
 		Pattern
 	};
 	
-	static unordered_map<string, QueryVar> tokenToType;
+	static unordered_map<string, QueryReladition> tokenToRel;
+	static unordered_map<string, QueryVar> tokenToVar;
 	static unordered_map<QueryVar, set<string>> allowableConditions;
 	static unordered_map<QueryReladition, set<QueryVar>> allowableFirstArgument;
+	static unordered_map<QueryReladition, QueryVar> privilegedFirstArgument;
 	static unordered_map<QueryReladition, set<QueryVar>> allowableSecondArgument;
+	static unordered_map<QueryReladition, QueryVar> privilegedSecondArgument;
+	static unordered_set<QueryReladition> allowableSelfReference;
+
+	static int convertArgumentToInteger(QueryReladition& type, const bool first, const string& arg);
 
 	typedef bool(*isRelation)(int, int);
 	static isRelation getRelation(QueryReladition rel);
-	static bool satisfyPattern(int index, int modifiesVar, string usesVar);
-private:
-	static bool tryMatch(ASTNode* testedNode, string targetVar,vector<string> incCodes, bool isSubsTree);
-public:
+	static unordered_map<QueryReladition, bool> emptyRel;
+
 	typedef vector<int>(*getAllTypes)();
 	static getAllTypes getType(QueryVar type);
 
+private:
 	static unordered_map<QueryReladition, isRelation> relationMap;
 	static bool isModifiesStmt(int x, int y);
 	static bool isModifiesProc(int x, int y);
@@ -82,4 +87,9 @@ public:
 	/*template
 	static vector<int> getAll<Type>();
 	*/
+	
+public:
+	static bool satisfyPattern(int index, int modifiesVar, string usesVar);
+private:
+	static bool tryMatch(ASTNode* testedNode, string targetVar,vector<string> incCodes, bool isSubsTree);
 };

@@ -1,7 +1,6 @@
 #pragma once
 #include "AnswerTable.h"
 #include "PKB.h"
-#include "QueryEnums.h"
 #include "Helper.h"
 
 AnswerTable::AnswerTable()
@@ -11,12 +10,20 @@ AnswerTable::AnswerTable()
 AnswerTable::AnswerTable(SynonymTable synonymTable, string synonym)
 {
 	header.push_back(synonym);
-	synonymPosition[synonym] = 0;
+	synonymPosition.insert(pair<string, int>(synonym, 0));
 	bool unrestricted = true;
 
 	vector<int> table;
 	unordered_map<string, string> attributes = synonymTable.getAllAttributes(synonym);
 	unordered_set<RulesOfEngagement::QueryReladition> selfReferences = synonymTable.getAllSelfReferences(synonym);
+	vector<pair<RulesOfEngagement::QueryReladition, RulesOfEngagement::QueryVar>> firstGeneric =
+		synonymTable.getAllFirstGeneric(synonym);
+	vector<pair<RulesOfEngagement::QueryReladition, string>> firstSpecific =
+		synonymTable.getAllFirstSpecific(synonym);
+	vector<pair<RulesOfEngagement::QueryReladition, RulesOfEngagement::QueryVar>> secondGeneric =
+		synonymTable.getAllSecondGeneric(synonym);
+	vector<pair<RulesOfEngagement::QueryReladition, string>> secondSpecific =
+		synonymTable.getAllSecondSpecific(synonym);
 
 	if (attributes.count("stmtNo") > 0) {
 		table.push_back(Helper::stringToInt(attributes["stmtNo"]));
@@ -42,13 +49,67 @@ AnswerTable::AnswerTable(SynonymTable synonymTable, string synonym)
 		unrestricted = false;
 	}
 
-	if (selfReferences.size() > 0) {
-		table.empty();
-		unrestricted = false;
-	}
-
 	if (unrestricted)
 		table = RulesOfEngagement::getType(synonymTable.getType(synonym))();
+
+	for (auto it = selfReferences.begin(); it != selfReferences.end(); it++) {
+		RulesOfEngagement::isRelation rel = RulesOfEngagement::getRelation(*it);
+		vector<int> table2;
+		for (auto it2 = table.begin(); it2 != table.end(); it2++)
+			if (rel(*it2, *it2))
+				table2.push_back(*it2);
+		table = table2;
+	}
+
+	for (auto it = firstGeneric.begin(); it != firstGeneric.end(); it++) {
+		//to optimise
+		RulesOfEngagement::isRelation rel = RulesOfEngagement::getRelation((*it).first);
+		vector<int> table2 = RulesOfEngagement::getType((*it).second)();
+		vector<int> newTable;
+		for (auto it2 = table.begin(); it2 != table.end(); it2++)
+			for (auto it3 = table2.begin(); it3 != table2.end(); it3++)
+				if (rel(*it2, *it3)) {
+					newTable.push_back(*it2);
+					break;
+				}
+		table = newTable;
+	}
+
+	for (auto it = firstSpecific.begin(); it != firstSpecific.end(); it++) {
+		//to optimise
+		RulesOfEngagement::isRelation rel = RulesOfEngagement::getRelation((*it).first);
+		int arg = RulesOfEngagement::convertArgumentToInteger((*it).first, false, (*it).second);
+		vector<int> newTable;
+		for (auto it2 = table.begin(); it2 != table.end(); it2++)
+			if (rel(*it2, arg))
+				newTable.push_back(*it2);
+		table = newTable;
+	}
+
+	for (auto it = secondGeneric.begin(); it != secondGeneric.end(); it++) {
+		//to optimise
+		RulesOfEngagement::isRelation rel = RulesOfEngagement::getRelation((*it).first);
+		vector<int> table2 = RulesOfEngagement::getType((*it).second)();
+		vector<int> newTable;
+		for (auto it2 = table.begin(); it2 != table.end(); it2++)
+			for (auto it3 = table2.begin(); it3 != table2.end(); it3++)
+				if (rel(*it3, *it2)) {
+					newTable.push_back(*it2);
+					break;
+				}
+		table = newTable;
+	}
+
+	for (auto it = secondSpecific.begin(); it != secondSpecific.end(); it++) {
+		//to optimise
+		RulesOfEngagement::isRelation rel = RulesOfEngagement::getRelation((*it).first);
+		int arg = RulesOfEngagement::convertArgumentToInteger((*it).first, true, (*it).second);
+		vector<int> newTable;
+		for (auto it2 = table.begin(); it2 != table.end(); it2++)
+			if (rel(arg, *it2))
+				newTable.push_back(*it2);
+		table = newTable;
+	}
 
 	//convert vector<int> to vector<vector<int>>
 	for (auto it = table.begin(); it != table.end(); it++) {
@@ -76,7 +137,7 @@ void AnswerTable::combine(string ownSynonym, AnswerTable otherTable,
 	answers = newTable;
 
 	for (auto it = otherTable.header.begin(); it != otherTable.header.end(); it++) {
-		synonymPosition[*it] = header.size();
+		synonymPosition.insert(pair<string, int>(*it, header.size()));
 		header.push_back(*it);
 	}
 }
@@ -148,7 +209,7 @@ void AnswerTable::cartesian(AnswerTable otherTable)
 	answers = newTable;
 
 	for (auto it = otherTable.header.begin(); it != otherTable.header.end(); it++) {
-		synonymPosition[*it] = header.size();
+		synonymPosition.insert(pair<string, int>(*it, header.size()));
 		header.push_back(*it);
 	}
 }

@@ -22,6 +22,12 @@ void FollowsTable::insertFollows(STMT s1, STMT s2)
 }
 
 //O(1)
+bool FollowsTable::empty()
+{
+	return followsTo.empty();
+}
+
+//O(1)
 bool FollowsTable::isFollows(STMT s1, STMT s2)
 {
 	return (followsTo.count(s1) > 0 && followsTo[s1] == s2);

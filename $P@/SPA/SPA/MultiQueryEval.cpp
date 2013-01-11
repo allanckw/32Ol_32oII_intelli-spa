@@ -1,13 +1,12 @@
 #pragma once
 #include "MultiQueryEval.h"
 #include "Helper.h"
-#include "QueryEnums.h"
 #include "PKB.h"
 #include "RulesOfEngagement.h"
 #include "AnswerTable.h"
 //#include "../AutoTester/source/AbstractWrapper.h"
 
-string MultiQueryEval::getToken(string query, int& pos)
+string MultiQueryEval::getToken(const string& query, int& pos)
 {
 	int first = query.find_first_not_of(' ', pos);
 	if (first == string::npos)
@@ -20,14 +19,13 @@ string MultiQueryEval::getToken(string query, int& pos)
 	return query.substr(first, pos - first);
 }
 
-void MultiQueryEval::matchToken(string query, int& pos, string match)
+void MultiQueryEval::matchToken(const string& query, int& pos, const string& match)
 {
 	if (getToken(query, pos) != match)
 		throw new SPAException("Error in parsing query");
 }
 
-
-vector<string> MultiQueryEval::evaluateQuery(string query)
+vector<string> MultiQueryEval::evaluateQuery(const string& query)
 {
 	MultiQueryEval temp(query);
 	if (temp.selectBOOLEAN && temp.finalanswer.empty())
@@ -35,8 +33,11 @@ vector<string> MultiQueryEval::evaluateQuery(string query)
 	return temp.finalanswer;
 }
 
-MultiQueryEval::MultiQueryEval(string query)
+MultiQueryEval::MultiQueryEval(const string& query)
 {
+	SynonymTable synonymTable;
+	DisjointSet disjointSet;
+	
 	//parse the query statement
 	int pos = 0;
 	while (true) { //parse synonym declaration
@@ -44,9 +45,9 @@ MultiQueryEval::MultiQueryEval(string query)
 		RulesOfEngagement::QueryVar type;
 		if (token == "Select")
 			break;
-		if (RulesOfEngagement::tokenToType.count(token) == 0)
+		if (RulesOfEngagement::tokenToVar.count(token) == 0)
 			throw new SPAException("Error in parsing query - Unrecognised synonym declaration");
-		type = RulesOfEngagement::tokenToType[token];
+		type = RulesOfEngagement::tokenToVar[token];
 		
 		string next;
 		do {
@@ -57,6 +58,9 @@ MultiQueryEval::MultiQueryEval(string query)
 		if (next != ";")
 			throw new SPAException("Error in parsing query");
 	}
+
+	//{synonym, modifiesIsASynonym, modifiesVar, usesVar>
+	vector<tuple<string, bool, string, string>> patterns;
 
 	//parse selected variables
 	string selected = getToken(query, pos);
@@ -110,48 +114,173 @@ MultiQueryEval::MultiQueryEval(string query)
 		case 0:
 			{
 			string relation = getToken(query, pos);
-			RulesOfEngagement::QueryReladition type;
-			if (relation == "Calls")
-				type = RulesOfEngagement::Calls;
-			else if (relation == "Calls*")
-				type = RulesOfEngagement::CallsStar;
-			else if (relation == "Modifies")
-				type = RulesOfEngagement::Modifies;
-			else if (relation == "Uses")
-				type = RulesOfEngagement::Uses;
-			else if (relation == "Parent")
-				type = RulesOfEngagement::Parent;
-			else if (relation == "Parent*")
-				type = RulesOfEngagement::ParentStar;
-			else if (relation == "Follows")
-				type = RulesOfEngagement::Follows;
-			else if (relation == "Follows*")
-				type = RulesOfEngagement::FollowsStar;
-			else if (relation == "Next")
-				type = RulesOfEngagement::Next;
-			else if (relation == "Next*")
-				type = RulesOfEngagement::NextStar;
-			else if (relation == "Affects")
-				type = RulesOfEngagement::Affects;
-			else if (relation == "Affects*")
-				type = RulesOfEngagement::AffectsStar;
-			else
-				throw new SPAException("Error in parsing query");
-
 			matchToken(query, pos, "(");
-
 			string firstRel = getToken(query, pos);
+			matchToken(query, pos, ",");			
+			string secondRel = getToken(query, pos);
+			matchToken(query, pos, ")");
+
+			RulesOfEngagement::QueryReladition type = RulesOfEngagement::tokenToRel[relation];
+
+			//count number of synonyms and verify acceptability of argument
+			int numOfSynonyms = 0;
+			bool firstIsSynonym = false;
 			if (firstRel == "_") {
 				if (RulesOfEngagement::allowableFirstArgument[type].count(RulesOfEngagement::WildCard) == 0)
 					throw new SPAException(type + " not allowed to have \"_\" as its first argument");
-				firstRel = "t" + Helper::intToString(++tempVars);
-				while (synonymTable.isInTable(firstRel))
-					firstRel = "t" + firstRel;
-				synonymTable.insert(firstRel, RulesOfEngagement::Statement);
 			} else if (synonymTable.isInTable(firstRel)) {
 				if (RulesOfEngagement::allowableFirstArgument[type].count(synonymTable.getType(firstRel)) == 0)
 					throw new SPAException(type + " not allowed to have the type of " + firstRel + " as its first argument");
+				numOfSynonyms++;
+				firstIsSynonym = true;
+			} else if (Helper::isNumber(firstRel)) {
+				if (RulesOfEngagement::allowableFirstArgument[type].count(RulesOfEngagement::Integer) == 0)
+					throw new SPAException(type + " not allowed to have an integer as its first argument");
+			} else if (firstRel.at(0) == '\"' && firstRel.at(firstRel.length() - 1) == '\"') {
+				if (RulesOfEngagement::allowableFirstArgument[type].count(RulesOfEngagement::String) == 0)
+					throw new SPAException(type + " not allowed to have a string as its first argument");
+			} else
+				throw new SPAException("Could not parse the first argument");
 
+			if (secondRel == "_") {
+				if (RulesOfEngagement::allowableSecondArgument[type].count(RulesOfEngagement::WildCard) == 0)
+					throw new SPAException(type + " not allowed to have \"_\" as its second argument");
+			} else if (synonymTable.isInTable(secondRel)) {
+				if (RulesOfEngagement::allowableSecondArgument[type].count(synonymTable.getType(secondRel)) == 0)
+					throw new SPAException(type + " not allowed to have the type of " + firstRel + " as its second argument");
+				numOfSynonyms++;
+			} else if (Helper::isNumber(secondRel)) {
+				if (RulesOfEngagement::allowableSecondArgument[type].count(RulesOfEngagement::Integer) == 0)
+					throw new SPAException(type + " not allowed to have an integer as its second argument");
+			} else if (secondRel.at(0) == '\"' && secondRel.at(secondRel.length() - 1) == '\"') {
+				if (RulesOfEngagement::allowableSecondArgument[type].count(RulesOfEngagement::String) == 0)
+					throw new SPAException(type + " not allowed to have a string as its second argument");
+			} else
+				throw new SPAException("Could not parse the second argument");
+
+			switch (numOfSynonyms) {
+			case 0: //handle 0 synonym, 3 cases
+				//Case 1: rel( _ , _ ) -> On the spot test if the relationship is ever true
+				//Case 2: rel( _ ,"1") -> rel(_,s) with s.stmtNo = 1 -> treat as a condition on s
+				//Case 3: rel("1","2") -> On the spot test
+				if (firstRel == "_") {
+					if (secondRel == "_") { //Case 1: rel(_,_)
+						if (RulesOfEngagement::emptyRel[type])
+							return;
+					} else { //Case 2: rel(_,"1")
+						//hardcoding
+						string sugar = "t" + Helper::intToString(++tempVars);
+						while (synonymTable.isInTable(sugar))
+							sugar = "t" + sugar;
+						switch (type) {
+						case RulesOfEngagement::Modifies:
+						case RulesOfEngagement::Uses:
+							throw new SPAException("Not allowed to have _ as first argument");
+						case RulesOfEngagement::Calls:
+						case RulesOfEngagement::CallsStar:
+							if (secondRel.at(0) != '\"' || secondRel.at(secondRel.size() - 1) != '\"')
+								throw new SPAException("Error in parsing argument");
+							synonymTable.insert(sugar, RulesOfEngagement::Procedure);
+							synonymTable.setAttribute(sugar, "procName", secondRel.substr(1, secondRel.length() - 2));
+							break;
+						default:
+							if (!Helper::isNumber(secondRel))
+								throw new SPAException("Error in parsing argument");
+							synonymTable.insert(sugar, RulesOfEngagement::Statement);
+							synonymTable.setAttribute(sugar, "stmtNo", secondRel);
+						}
+						synonymTable.setSecondGeneric(sugar, type, RulesOfEngagement::privilegedFirstArgument[type]);
+					}
+				} else {
+					if (secondRel == "_") { //Case 2: rel("1",_)
+						//hardcoding
+						string sugar = "t" + Helper::intToString(++tempVars);
+						while (synonymTable.isInTable(sugar))
+							sugar = "t" + sugar;
+						switch (type) {
+						case RulesOfEngagement::Modifies:
+						case RulesOfEngagement::Uses:
+							if (Helper::isNumber(firstRel)) {
+								synonymTable.insert(sugar, RulesOfEngagement::Statement);
+								synonymTable.setAttribute(sugar, "stmtNo", firstRel);
+								if (type == RulesOfEngagement::Modifies)
+									type = RulesOfEngagement::ModifiesStmt;
+								else
+									type = RulesOfEngagement::UsesStmt;
+							} else if (firstRel.at(0) != '\"' || secondRel.at(firstRel.size() - 1) != '\"')
+								throw new SPAException("Error in parsing argument");
+							else {
+								synonymTable.insert(sugar, RulesOfEngagement::Procedure);
+								synonymTable.setAttribute(sugar, "procName", firstRel.substr(1, firstRel.length() - 2));
+								if (type == RulesOfEngagement::Modifies)
+									type = RulesOfEngagement::ModifiesProc;
+								else
+									type = RulesOfEngagement::UsesProc;
+							}
+							break;
+						case RulesOfEngagement::Calls:
+						case RulesOfEngagement::CallsStar:
+							if (firstRel.at(0) != '\"' || firstRel.at(firstRel.size() - 1) != '\"')
+								throw new SPAException("Error in parsing argument");
+							synonymTable.insert(sugar, RulesOfEngagement::Procedure);
+							synonymTable.setAttribute(sugar, "procName", firstRel.substr(1, firstRel.length() - 2));
+							break;
+						default:
+							if (!Helper::isNumber(firstRel))
+								throw new SPAException("Error in parsing argument");
+							synonymTable.insert(sugar, RulesOfEngagement::Statement);
+							synonymTable.setAttribute(sugar, "stmtNo", firstRel);
+						}
+						synonymTable.setFirstGeneric(sugar, type, RulesOfEngagement::privilegedSecondArgument[type]);
+					} else { //Case 3: rel("1","2") 
+						int first = RulesOfEngagement::convertArgumentToInteger(type, true, firstRel);
+						int second = RulesOfEngagement::convertArgumentToInteger(type, false, secondRel);
+						if (!RulesOfEngagement::getRelation(type)(first, second))
+							return;
+					}
+				}
+				break;
+
+			case 1: //handle 1 synonym: put as a condition
+				//Case 1: rel(s, _ ) -> put in generic(first)
+				//Case 2: rel(s,"1") -> put in specific(first)
+				if (firstIsSynonym) {
+					if (type == RulesOfEngagement::Modifies) {
+						if (synonymTable.getType(firstRel) == RulesOfEngagement::Procedure)
+							type = RulesOfEngagement::ModifiesProc;
+						else
+							type = RulesOfEngagement::ModifiesStmt;
+					} else if (type == RulesOfEngagement::Uses) {
+						if (synonymTable.getType(firstRel) == RulesOfEngagement::Procedure)
+							type = RulesOfEngagement::UsesProc;
+						else
+							type = RulesOfEngagement::UsesStmt;
+					}
+					if (secondRel == "_")
+						synonymTable.setFirstGeneric(firstRel, type, RulesOfEngagement::privilegedSecondArgument[type]);
+					else
+						synonymTable.setFirstSpecific(firstRel, type, secondRel);
+				} else {
+					if (firstRel == "_")
+						synonymTable.setSecondGeneric(secondRel, type, RulesOfEngagement::privilegedFirstArgument[type]);
+					else {
+						if (type == RulesOfEngagement::Modifies) {
+							if (Helper::isNumber(firstRel))
+								type = RulesOfEngagement::ModifiesStmt;
+							else
+								type = RulesOfEngagement::ModifiesProc;
+						} else if (type == RulesOfEngagement::Uses) {
+							if (Helper::isNumber(firstRel))
+								type = RulesOfEngagement::UsesStmt;
+							else
+								type = RulesOfEngagement::UsesProc;
+						}
+						synonymTable.setSecondSpecific(secondRel, type, firstRel);
+					}
+				}
+				break;
+
+			case 2: //handle both synonyms
 				if (synonymTable.getType(firstRel) == RulesOfEngagement::Procedure) {
 					if (type == RulesOfEngagement::Modifies)
 						type = RulesOfEngagement::ModifiesProc;
@@ -163,87 +292,35 @@ MultiQueryEval::MultiQueryEval(string query)
 					else if (type == RulesOfEngagement::Uses)
 						type = RulesOfEngagement::UsesStmt;
 				}
-			} else {
-				//do something smart(er)
-				string input = firstRel;
-				firstRel = "t" + Helper::intToString(++tempVars);
-				while (synonymTable.isInTable(firstRel))
-					firstRel = "t" + firstRel;
-				if ((type == RulesOfEngagement::Modifies || type == RulesOfEngagement::Uses)
-					&& (!Helper::isNumber(input))) { //then "must" be procedure (otherwise is illegal)
-					synonymTable.insert(firstRel, RulesOfEngagement::Procedure);
-					synonymTable.setAttribute(firstRel, "procName", input.substr(1, input.length() - 2));
-					if (type == RulesOfEngagement::Modifies)
-						type = RulesOfEngagement::ModifiesProc;
-					else
-						type = RulesOfEngagement::UsesProc;
-				} else {
-					synonymTable.insert(firstRel, RulesOfEngagement::Statement);
-					synonymTable.setAttribute(firstRel, "stmtNo", input);
-					if (type == RulesOfEngagement::Modifies)
-						type = RulesOfEngagement::ModifiesStmt;
-					else if (type == RulesOfEngagement::Uses)
-						type = RulesOfEngagement::UsesStmt;
+
+				//handle self-reference
+				if (firstRel == secondRel) {
+					if (RulesOfEngagement::allowableSelfReference.count(type) > 0) {
+						synonymTable.setSelfReference(firstRel, type);
+						break;
+					} else
+						return;
 				}
-			}
 
-			matchToken(query, pos, ",");
-			
-			string secondRel = getToken(query, pos);
-			if (secondRel == "_") {
-				if (RulesOfEngagement::allowableSecondArgument[type].count(RulesOfEngagement::WildCard) == 0)
-					throw new SPAException(type + " not allowed to have \"_\" as its second argument");
-				secondRel = "t" + Helper::intToString(++tempVars);
-				while (synonymTable.isInTable(secondRel))
-					secondRel = "t" + secondRel;
-				if (type == RulesOfEngagement::ModifiesProc || type == RulesOfEngagement::ModifiesStmt ||
-					type == RulesOfEngagement::UsesProc || type == RulesOfEngagement::UsesStmt)
-					synonymTable.insert(secondRel, RulesOfEngagement::Variable);
-				else
-					synonymTable.insert(secondRel, RulesOfEngagement::Statement);
-			} else if (synonymTable.isInTable(secondRel)) {
-				if (RulesOfEngagement::allowableSecondArgument[type].count(synonymTable.getType(secondRel)) == 0)
-					throw new SPAException(type + " not allowed to have the type of " + secondRel + " as its second argument");
-			} else {
-				//do something smart
-				string input = secondRel;
-				secondRel = "t" + Helper::intToString(++tempVars);
-				while (synonymTable.isInTable(secondRel))
-					secondRel = "t" + secondRel;
-				if (type == RulesOfEngagement::ModifiesProc || type == RulesOfEngagement::ModifiesStmt ||
-					type == RulesOfEngagement::UsesProc || type == RulesOfEngagement::UsesStmt) {
-						synonymTable.insert(secondRel, RulesOfEngagement::Variable); //hardcoding here
-						synonymTable.setAttribute(secondRel, "varName", input.substr(1, input.length() - 2));
-				} else /*(type == RulesOfEngagement::Follows || type == RulesOfEngagement::FollowsStar //hardcoding here
-					|| type == RulesOfEngagement::Parent || type == RulesOfEngagement::ParentStar)*/ {
-					synonymTable.insert(secondRel, RulesOfEngagement::Statement);
-					synonymTable.setAttribute(secondRel, "stmtNo", input);
+				if (relFirstToIndices.count(firstRel) > 0)
+					relFirstToIndices[firstRel].push_back(relType.size());
+				else {
+					vector<int> temp;
+					temp.push_back(relType.size());
+					relFirstToIndices[firstRel] = temp;
 				}
-			}
+				relType.push_back(type);
+				relFirst.push_back(firstRel);
+				relSecond.push_back(secondRel);
+				relClass.push_back(-1);
 
-			matchToken(query, pos, ")");
-
-			//handle self-reference
-			if (firstRel == secondRel) {
-				synonymTable.setSelfReference(firstRel, type);
+				disjointSet.setUnion(firstRel, secondRel);
 				break;
+			default:
+				throw new SPAException("Error in parsing query");
 			}
-
-			if (relFirstToIndices.count(firstRel) > 0)
-				relFirstToIndices[firstRel].push_back(relType.size());
-			else {
-				vector<int> temp;
-				temp.push_back(relType.size());
-				relFirstToIndices[firstRel] = temp;
 			}
-			relType.push_back(type);
-			relFirst.push_back(firstRel);
-			relSecond.push_back(secondRel);
-			relClass.push_back(-1);
-
-			disjointSet.setUnion(firstRel, secondRel);
 			break;
-			}
 		case 1:
 			{
 			string synonym = getToken(query, pos);
@@ -260,8 +337,8 @@ MultiQueryEval::MultiQueryEval(string query)
 			bool passed = synonymTable.setAttribute(synonym, condition, attribute);
 			if (!passed)
 				return;
-			break;
 			}
+			break;
 		case 2: //pattern
 			{
 				string synonym = getToken(query, pos);
@@ -348,6 +425,8 @@ MultiQueryEval::MultiQueryEval(string query)
 			relClass[*it2] = synonymTable.inClass((*it).first);
 	
 	vector<AnswerTable> tables;
+	//could have incorporated in synonym table, but was not because it is implentation dependent
+	unordered_map<string, int> inWhichTable;
 	
 	for (unsigned int rel = 0; rel < relType.size(); rel++) {
 		RulesOfEngagement::QueryReladition type = relType[rel];
@@ -531,6 +610,19 @@ MultiQueryEval::MultiQueryEval(string query)
 				return;
 		}
 	}
+
+	//examine table sizes
+	vector<string>& synonyms = synonymTable.getAllNames();
+	for (auto it = synonyms.begin(); it != synonyms.end(); it++)
+		if (inWhichTable.count(*it) == 0) {
+			AnswerTable table = AnswerTable(synonymTable, *it);
+			if (table.getSize() == 0)
+				return;
+			if (synonymTable.isSelected(*it)) {
+				inWhichTable[*it] = tables.size();
+				tables.push_back(table);
+			}
+		}
 
 	if (selectBOOLEAN) {
 		finalanswer.push_back("TRUE");

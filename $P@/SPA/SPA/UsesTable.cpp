@@ -62,6 +62,11 @@ bool UsesTable::isUsedProc(PROC p, VAR v)
 	return (originalUsedByProc.count(p) > 0 && originalUsedByProc[p].count(v) > 0);
 }
 
+bool UsesTable::empty()
+{
+	return originalUsedByProc.empty();
+}
+
 void UsesTable::linkCallStmtToProcUses(STMT s, PROC p) {
 	callLinksUses.insert(pair<STMT, PROC>(s, p));
 }

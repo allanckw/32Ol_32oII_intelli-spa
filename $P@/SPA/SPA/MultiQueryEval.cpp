@@ -64,10 +64,12 @@ MultiQueryEval::MultiQueryEval(const string& query)
 
 	//parse selected variables
 	string selected = getToken(query, pos);
+	vector<string> selects;
 	if (selected.at(0) == '<') { //tuple -> multiple selected variables
 		selected = getToken(query, pos);
 		while (true) {
 			synonymTable.setSelected(selected);
+			selects.push_back(selected);
 			selected = getToken(query, pos);
 			if (selected == ",")
 				selected = getToken(query, pos);
@@ -81,6 +83,7 @@ MultiQueryEval::MultiQueryEval(const string& query)
 		selectBOOLEAN = true;
 	} else {
 		synonymTable.setSelected(selected);
+		selects.push_back(selected);
 		selectBOOLEAN = false;
 	}
 
@@ -648,21 +651,25 @@ MultiQueryEval::MultiQueryEval(const string& query)
 	for (unsigned int i = firstNonEmpty + 1; i < components.size(); i++)
 		if (!projections[i].empty())
 			concatenated.cartesian(tables[i].project(projections[i]));
+
+	vector<int> orderOfSelection;
+	for (auto it = selects.begin(); it != selects.end(); it++)
+		orderOfSelection.push_back(concatenated.synonymPosition[*it]);
 	
 	//convert vector of vector of int to vector of string
 	vector<string> header = concatenated.getHeader();
 	for (unsigned int i = 0; i < concatenated.getSize(); i++) {
 		vector<int> row = concatenated.getRow(i);
 		string answer;
-		for (unsigned int j = 0; j < header.size(); j++) {
-			RulesOfEngagement::QueryVar type = synonymTable.getType(header[j]);
+		for (auto it = orderOfSelection.begin(); it != orderOfSelection.end(); it++) {
+			RulesOfEngagement::QueryVar type = synonymTable.getType(header[*it]);
 			if (type == RulesOfEngagement::Procedure)
-				answer += PKB::procedures.getPROCName(row[j]);
+				answer += PKB::procedures.getPROCName(row[*it]);
 			else if (type == RulesOfEngagement::Variable)
-				answer += PKB::variables.getVARName(row[j]);
+				answer += PKB::variables.getVARName(row[*it]);
 			else
-				answer += Helper::intToString(row[j]);
-			if (j + 1 < header.size())
+				answer += Helper::intToString(row[*it]);
+			if (it + 1 != orderOfSelection.end())
 				answer += " ";
 		}
 		finalanswer.push_back(answer);

@@ -7,10 +7,10 @@
 class MultiQueryEval
 {
 private:
-	static string getToken(const string& query, int& pos);
-	static void matchToken(const string& query, int& pos, const string& match);
+	static string getToken(string query, int& pos);
+	static void matchToken(string query, int& pos, const string& match);
 
-	MultiQueryEval(const string& query);
+	MultiQueryEval(string query);
 
 	bool selectBOOLEAN;
 	vector<string> finalanswer;

@@ -8,7 +8,7 @@ AbstractWrapper* WrapperFactory::createWrapper() {
   return wrapper;
 }
 // Do not modify the following line
-volatile bool TestWrapper::GlobalStop = false;
+volatile bool TestWrapper::GlobalStop = false; //but it doesn't work!!
 
 // a default constructor
 TestWrapper::TestWrapper() {
@@ -22,8 +22,9 @@ void TestWrapper::parse(std::string filename) {
 	try{
 		Parser* p = new Parser(filename);
 		p->buildAST();
-		DesignExtractor::extractDesign();
 		delete p;
+		DesignExtractor::extractDesign();
+		RulesOfEngagement::initialise();
 	}catch (exception& e){
 		cout<< e.what();
 	}

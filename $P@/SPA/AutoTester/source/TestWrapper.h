@@ -14,13 +14,13 @@
 #include "../../SPA/AssignmentParser.h"
 #include "../../SPA/DesignExtractor.h"
 
-#include "../../SPA/QueryParser.h"
+/*#include "../../SPA/QueryParser.h"
 #include "../../SPA/QueryPreprocessor.h"
 #include "../../SPA/QueryTreeBuilder.h"
 #include "../../SPA/QueryTreeNode.h"
 #include "../../SPA/QueryEvaluator.h"
 #include "../../SPA/QueryEnums.h"
-#include "../../SPA/QueryProjectNode.h"
+#include "../../SPA/QueryProjectNode.h"*/
 
 #include "../../SPA/MultiQueryEval.h"
 

@@ -30,19 +30,10 @@
     <ClInclude Include="DesignExtractor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ExprNode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Parser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PROCTable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="StmtLstNode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="StmtNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="VARTable.h">
@@ -82,9 +73,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\MultiQueryEval.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\$P%40\SPA\SPA\MultiQueryTree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\SynonymTable.h">

@@ -1,0 +1,9 @@
+<?xml-stylesheet type="text/xsl" href="analysis.xsl"?>
+<test_results>
+<info>
+<name>AutoTester</name><parsing_time_taken>4.000000</parsing_time_taken>
+</info>
+<queries>
+<category name=" All Category">
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the Parent (type while) of the statement in line number 7" >1</id>

@@ -6,7 +6,8 @@
 #include "AnswerTable.h"
 //#include "../AutoTester/source/AbstractWrapper.h"
 
-string MultiQueryEval::getToken(const string& query, int& pos)
+//string MultiQueryEval::getToken(const string& query, int& pos)
+string MultiQueryEval::getToken(string query, int& pos)
 {
 	int first = query.find_first_not_of(' ', pos);
 	if (first == string::npos)
@@ -19,7 +20,7 @@ string MultiQueryEval::getToken(const string& query, int& pos)
 	return query.substr(first, pos - first);
 }
 
-void MultiQueryEval::matchToken(const string& query, int& pos, const string& match)
+void MultiQueryEval::matchToken(string query, int& pos, const string& match)
 {
 	if (getToken(query, pos) != match)
 		throw new SPAException("Error in parsing query");
@@ -33,7 +34,7 @@ vector<string> MultiQueryEval::evaluateQuery(const string& query)
 	return temp.finalanswer;
 }
 
-MultiQueryEval::MultiQueryEval(const string& query)
+MultiQueryEval::MultiQueryEval(string query)
 {
 	SynonymTable synonymTable;
 	DisjointSet disjointSet;

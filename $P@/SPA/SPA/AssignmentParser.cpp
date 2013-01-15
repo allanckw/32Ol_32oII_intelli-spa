@@ -157,7 +157,7 @@ ASTExprNode* AssignmentParser::processAssignment(MathExpression expr)
 			else { //not a const, then must be variable...
 				VAR i = PKB::variables.getVARIndex(token);
 				if (i == -1){ //if variable cannot be found then error
-					cout << token << " cannot be found " << endl;
+					//cout << token << " cannot be found " << endl;
 					throw SPAException("Variable cannot be found in assignment statement!");
 				}
 				else{ //create an variable node and push into operand stack

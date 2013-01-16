@@ -13,7 +13,7 @@ Select s1 such that Follows(s1, 4)
 3 - ParentStar, Typed, ImplStmtLine ::
 stmt s1; 
 Select s1 such that Follows(10, s1)
-None
+
 500
 4 - FollowsStar, Typed, ImplStmtLine ::
 stmt s1; 
@@ -38,7 +38,7 @@ Select s1 such that Parent*(2, s1)
 8 - CallsStar, Typed ::
 stmt s1; 
 Select s1 such that Parent(s1, 8)
-None
+
 500
 9 - Typed, Next, ImplStmtLine ::
 stmt s1; 
@@ -46,12 +46,12 @@ Select s1 such that Modifies(s1, "x")
 1, 2, 5, 6, 8, 10
 500
 10 - NextStar, Typed, ImplStmtLine ::
-proc s1; 
-Select s1 such that Modifies(s1, "x")
+procedure p; 
+Select p such that Modifies(p, "x")
 lain, Noob
 500
 11 - Affects, Typed, ImplStmtLine ::
-var v; 
+variable v; 
 Select v such that Modifies(6, v)
 x
 500
@@ -61,22 +61,22 @@ Select s1 such that Uses(s1, "x")
 2, 4, 5, 6
 500
 13 - Pattern, Typed ::
-proc p1; 
+procedure p1; 
 Select p1 such that Uses(p1, "x")
 lain
 500
 14 - Pattern, Typed ::
-var v1; 
+variable v1; 
 Select v1 such that Uses(1, v1)
 y2s
 500
 15 - Pattern, Typed ::
-var v1; 
+variable v1; 
 Select v1 such that Uses("lain", v1)
 y2s, i, q, x, pika, z
 500
 16 - Typed, Modifies, With ::
-var v; 
+variable v; 
 Select v such that Modifies("lain", v)
 x, y2s, t, a, z
 500
@@ -86,17 +86,17 @@ Select s such that Follows(_,_)
 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
 500
 18 - Typed, ReturnBoolean, Calls, With, With-And ::
-var v; 
+variable v; 
 Select v such that Parent(_, _)
 a, i, pika, q, t, x, y2s, z
 500
 19 - Typed, FollowsStar, Modifies, Uses, With, And-Multi ::
-proc p; 
+procedure p; 
 Select p such that Modifies(_, _)
 An exception has occured: Modifies and Uses cannot have '_' as the first parameter
 500
 20 - Typed, NextStar, ParentStar, ImplStmtLine, And-Tuple ::
-proc p; 
+procedure p; 
 Select p such that Uses(_, _)
 An exception has occured: Modifies and Uses cannot have '_' as the first parameter
 500
@@ -118,12 +118,12 @@ Select a1 such that Follows(_, a2)
 24 - Typed, NextStar, ParentStar, ImplStmtLine, And-Tuple ::
 assign a1, a2; 
 Select a1 such that Follows(0, 1)
-None
+
 500
 25 - Typed, NextStar, ParentStar, ImplStmtLine, And-Tuple ::
 assign a1, a2; 
 Select a1 such that Follows(1, 0)
-None
+
 500
 26 - Typed, NextStar, ParentStar, ImplStmtLine, And-Tuple ::
 assign a1, a2; 

@@ -33,12 +33,12 @@ Select a such that Parent(11, a)
 7 - Parent, Typed, ImplStmtLine :: Which statements have statement 6 as its direct parent?
 stmt s;
 Select s such that Parent(6, s)
-None
+
 5000
 8 - Parent, Typed, ImplStmtLine :: Which statement is the parent of statement 38?
 stmt s;
 Select s such that Parent(s, 38)
-None
+
 5000
 9 - ParentStar, Typed, ImplStmtLine :: Which statements are the direct/indirect parents of statement 28?
 stmt s;
@@ -53,12 +53,12 @@ Select s such that Parent*(12, s)
 11 - ParentStar, Typed, ImplStmtLine :: Which statements are the direct/indirect parents of statement 5?
 stmt s;
 Select s such that Parent*(s, 5)
-None
+
 5000
 12 - ParentStar, Typed, ImplStmtLine :: Which statements have statement 24 as its direct/indirect parents?
 stmt s;
 Select s such that Parent*(24, s)
-None
+
 5000
 13 - Follows, Typed, ImplStmtLine :: Which statement follows statement 13?
 stmt s; 
@@ -73,17 +73,17 @@ Select s such that Follows(s, 25)
 15 - Follows, Typed, ImplStmtLine :: Which assignment is followed by statement 25?
 assign a;
 Select a such that Follows(a, 25)
-None
+
 5000
 16 - Follows, Typed, ImplStmtLine :: Which statement follows statement 33?
 stmt s;
 Select s such that Follows(33, s)
-None
+
 5000
 17 - Follows, Typed, ImplStmtLine :: Which statement is followed by statement 22?
 stmt s;
 Select s such that Follows(s, 22)
-None
+
 5000
 18 - FollowsStar, Typed, ImplStmtLine :: Which while statements directly/indirectly follow statement 6?
 while w;
@@ -163,7 +163,7 @@ Select a such that Modifies (a, v)
 33 - Modifies :: Which statements modifies 'i'?
 variable v;
 Select v such that Modifies (_, v)
-None: Modifies and Uses cannot have '_' as the first parameter
+: Modifies and Uses cannot have '_' as the first parameter
 5000
 34 - Follows* :: What are the while statements that is followed directly/indirectly by another while statements?
 while w1,w2;
@@ -218,7 +218,7 @@ Select a pattern a("m",_"i"_) such that Parent*(38,a)
 44 - AssignPattern, TwoClauses, Parent* :: What are the assignments with pattern 'm' on left side and 'i' on right side and is the direct/indirect children of 4?
 assign a; stmt s;
 Select a pattern a("m",_"i"_) such that Parent*(4,a)
-None
+
 5000
 45 - AssignPattern, TwoClauses, Modifies :: What are the  assignments that modifies 'm' and has 'k' on right side?
 assign a; variable v;
@@ -233,12 +233,12 @@ Select a pattern a(v,_"x"_) such that Uses(a,v)
 47 - AssignPattern, TwoClauses, Follows :: What are the assignments that have 'x' on left side and follows 5?
 assign a;
 Select a pattern a("x",_) such that Follows(5,a)
-None
+
 5000
 48 - AssignPattern, TwoClauses, Follows :: What are the assignments that have 'x' on left side and is followed by 5?
 assign a;
 Select a pattern a("x",_) such that Follows(a,5)
-None
+
 5000
 49 -AssignPattern,  TwoClauses, Follows :: What are the assignments that have 'y' on left side and is followed 5?
 assign a;
@@ -253,7 +253,7 @@ Select a pattern a(_,_"i"_) such that Follows(a,5)
 51 - AssignPattern, TwoClauses, Follows :: What are the assignments that have 'z' on right side and is followed by 5?
 assign a;
 Select a pattern a(_,_"z"_) such that Follows(a,5)
-None
+
 5000
 52 - AssignPattern, TwoClauses, Parent :: What are the parent of the assignments with 'x' on left side and 'y' on right side?
 assign a; stmt s;
@@ -373,7 +373,7 @@ Select c
 75 - Constant, AssignPattern :: What are the constants if there is a assignment with 'y' on the left and 'y' on the right?
 constant c; assign a;
 Select c pattern a (		"y",_"y"_)
-None
+
 5000
 76 - AssignPattern, TwoClauses, Modifies :: What are the variable that an assign with pattern ('x',_'x'_) modifies?
 variable v; assign a;
@@ -428,7 +428,7 @@ Select a pattern a("x",_"y"_) such that Parent*(5, 33)
 86 - AssignPattern, TwoClauses, Parent* :: What are the assignments with pattern ('x',_'y'_) if 65 is parent* of 70?
 assign a;
 Select a pattern a("x",_"y"_) such that Parent*(65, 70)
-None
+
 5000
 87 - AssignPattern, TwoClauses, Follows ::  What are while loop that is followed by another while loop if there is an assignment with pattern ('z',_'k'_)?
 assign a; while ww,www;
@@ -453,17 +453,17 @@ Select www pattern a("z",_"k"_) such that Follows*(ww,www)
 91 - AssignPattern, TwoClauses, Follows ::  What are while loop that is followed by another while loop if there is an assignment with pattern ('y',_'k'_)?
 assign a; while ww,www;
 Select ww pattern a("y",_"k"_) such that Follows(ww,www)
-None
+
 5000
 92 - AssignPattern, TwoClauses, Follows* ::  What are while loop that is directly or indirectly followed by another while loop if there is an assignment with pattern ('y',_'k'_)?
 assign a; while ww,www;
 Select ww pattern a("y",_"k"_) such that Follows*(ww,www)
-None
+
 5000
 93 - AssignPattern, TwoClauses, Follows ::  What are while loop that follows while loop if there is an assignment with pattern ('y',_'k'_)?
 assign a; while ww,www;
 Select www pattern a("y",_"k"_) such that Follows(ww,www)
-None
+
 5000
 94 - Variable, ImplStmtLine, Typed :: What are the variables?
 variable v;
@@ -478,17 +478,17 @@ Lain
 96 - Follows, ImplStmtLine, Typed :: Follows(1,0)
 assign a1, a2; 
 Select a1 such that Follows(1, 0)
-None
+
 5000
 97 - Follows, ImplStmtLine, Typed :: Follows(0,1)
 assign a1, a2; 
 Select a1 such that Follows(0, 1)
-None
+
 5000
 98 - Variable, ImplStmtLine, Typed :: What are the variables if Follows(1, 0) is true?
 variable v;
 Select v such that Follows(1, 0)
-None
+
 5000
 99 - Variable, ImplStmtLine, Typed :: What are the Constants if Follows(1,2) is true?
 constant c;
@@ -498,7 +498,7 @@ Select c such that Follows(1, 2)
 100 - Variable, TwoClauses, AssignPattern :: What are the variables if there is an assignment with pattern ('m',_'k'_) and it is followed by another statement?
 variable v; assign a; stmt s;
 Select v such that Follows(a,s) pattern a("m",_"k"_)
-None
+
 5000
 101 - Variable, TwoClauses, AssignPattern :: What are the variables if there is an assignment with pattern ('m',_'k'_) and it follows another statement?
 variable v; assign a; stmt s;
@@ -508,17 +508,17 @@ i,m,x,y,k,z
 102 - Follows :: What are the statements that follows itself?
 assign a;
 Select a such that Follows(a,a)
-None
+
 5000
 103 - Modifies :: Which variables are modified by statement 34?
 variable v;
 Select v such that Uses(34, v) 
-None
+
 5000
 104 - TwoClauses, AssignPattern :: What are the while statements if there is an assignment with 'k' on the left and 'i' on the right?
 while w; assign a;
 Select w pattern a("k", _"i"_)
-None
+
 5000
 105 - TwoClauses, AssignPattern, Follows :: What are the statements followed by another statement if there is an assignment with 'x' on the left and 'y' on the right?
 stmt s1, s2; assign a;
@@ -548,7 +548,7 @@ Select n such that Follows (n,_)
 110 - Uses, Underscore :: What are the variables if statement 24 uses some variable?
 variable v;
 Select v such that Uses (24,_)
-None
+
 5000
 111 - Uses, Underscore :: What are the variables if statement 27 uses some variable?
 variable v;
@@ -578,22 +578,22 @@ i, m, x, y, k, z
 116 - Follows :: What are the assignments that directly follow itself?
 assign a;
 Select a such that Follows(a, a)
-None
+
 5000
 117 - FollowsStar :: What are the assignments that directly/indirectly follow itself?
 assign a;
 Select a such that Follows*(a, a)
-None
+
 5000
 118 - Parent :: What are the while statements directly nested in itself?
 while w;
 Select w such that Parent(w, w)
-None
+
 5000
 119 - ParentStar :: What are the while statements directly/indirectly nested in itself?
 while w;
 Select w such that Parent*(w, w)
-None
+
 5000
 120 - TwoClauses, AssignPattern, FollowsStar :: What are the while statement that follows an assignment with 'x' on it left and right sides?
 assign a; while w;
@@ -603,7 +603,7 @@ Select w such that Follows*(a, w) pattern a("x", _"x"_)
 121 - TwoClauses, AssignPattern, Modifies :: What are the assignments that modifies 'i' and have 'm' on the left side?
 assign a1, a2;
 Select a1 such that Modifies(a1,"i") pattern a1("m",_)
-None
+
 5000
 122 - TwoClauses, AssignPattern, Modifies :: What are the assignments that modifies 'i' if there is another assignment have 'm' on the left side?
 assign a1, a2;
@@ -613,7 +613,7 @@ Select a1 such that Modifies(a1,"i") pattern a2("m",_)
 123 - TwoClauses, AssignPattern, Uses :: What are the statements if there is some while statement uses 'z' and an assignment with 'i' on the left, 'k' on the right?
 stmt s; while w; assign a; 
 Select s such that Uses (w,"z") pattern a("i",_"k"_)
-None
+
 5000
 124 - TwoClauses, AssignPattern, Modifies :: what are the variables modified by the assignment with the variable on its left side?
 assign a; variable v;
@@ -648,5 +648,5 @@ i,m,k,x,y,z
 130 - Bonus :: what are variables if there are assignments with 'k' on right side that is parent of a while loop which is followed by another while loop?
 assign a; variable v,vv;while w1,w2;
 Select vv pattern a(v,_"k"_) such that Parent(w1,a) and Follows(321,         29)
-None
+
 5000

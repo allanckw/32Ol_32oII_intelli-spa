@@ -375,7 +375,10 @@ ASTStmtNode* Parser::processWhile(int *i, int *j, Index procIdx)
 			if(keyword=="if")
 			{
 				//No implementation - Not required in CS3201
-				//stmtLstNode->addChild(processIf(line));
+				ASTStmtNode* ifNode=processIf(line, index, procIdx);
+				ifNode->setParent(stmtNode);
+				stmtLstNode->addChild(ifNode);
+				inner=Parser::tokenized_codes.at(*line);
 			}
 			
 			if(keyword=="="){
@@ -391,6 +394,195 @@ ASTStmtNode* Parser::processWhile(int *i, int *j, Index procIdx)
 		(*line)++;
 	}
 	
+	return NULL;
+}
+
+//Reason why i put procIdx is in a while there could be a call statement possibilities
+ASTStmtNode* Parser::processIf(int *i, int *j, Index procIdx)
+{
+	stack<char> brackets;
+	int state=0; //1 is 'then', 2 is 'else'
+	int currline =*i;
+	int tempindex= *j;
+	int* line=&currline;
+	int* index = &tempindex;
+
+	//Get Control Variable
+	vector<string> inner=Parser::tokenized_codes.at(*line);
+	(*index)++;
+	string varName = inner.at(*index);
+
+	VARIndex vi=PKB::variables.getVARIndex(varName);
+
+	ASTStmtNode* stmtNode = new ASTStmtNode(*line, ASTNode::NodeType::If, vi);
+	ASTStmtLstNode* thenStmtLstNode=new ASTStmtLstNode();
+	ASTStmtLstNode* elseStmtLstNode=new ASTStmtLstNode();
+	(*index)++;
+
+	state=1;
+	if (inner.at(*index)!="then"){				
+			//throw exception, procedure does not exist in procedure
+			throw SPAException("Invalid Source!Keyword 'Then' is expected!");
+	}
+
+	while(*line < Parser::tokenized_codes.size())
+	{
+		inner =  Parser::tokenized_codes.at(*line);
+
+		while(*index < inner.size())
+		{
+			string keyword=inner.at(*index);
+
+			if (keyword=="procedure"){				
+				//throw exception, procedure does not exist in procedure
+				throw SPAException("Procedure cannot appear in If!Invalid Source!");
+			}
+
+			//do bracket Matching
+			if (keyword=="{"){
+				brackets.push('{');
+				if (brackets.size()>1){
+					throw SPAException("Invalid Source!");
+				}
+			}
+
+			if (keyword=="}"){
+				brackets.pop();
+				if(brackets.size()==0){
+					(*i)=(*line);
+					(*j)=(*index);
+					if(thenStmtLstNode->isHasChildren()==false)
+					{
+						throw SPAException("Stmt Must have one or more child!");
+					}
+					stmtNode->addChild(thenStmtLstNode);
+					(*index)++;
+					state=2;
+					break;
+				}
+			}			
+				
+			if (keyword=="call"){
+				ASTStmtNode* callNode=processCall(line, index, procIdx);
+				callNode->setParent(stmtNode);
+				thenStmtLstNode->addChild(callNode);
+				//break;
+			}
+			
+			if(keyword=="while"){
+				ASTStmtNode* whileNode=processWhile(line, index, procIdx);
+				whileNode->setParent(stmtNode);
+				thenStmtLstNode->addChild(whileNode);
+				inner=Parser::tokenized_codes.at(*line);
+				//break;
+			}
+			
+			if(keyword=="if")
+			{
+				//No implementation - Not required in CS3201
+				ASTStmtNode* ifNode=processIf(line, index, procIdx);
+				ifNode->setParent(stmtNode);
+				thenStmtLstNode->addChild(ifNode);
+				inner=Parser::tokenized_codes.at(*line);
+			}
+			
+			if(keyword=="="){
+				//check for assignment Statement
+				//processAssignmentNode
+				ASTStmtNode* assignNode=processAssignment(line, index);
+				assignNode->setParent(stmtNode);
+				thenStmtLstNode->addChild(assignNode);
+			}
+			(*index)++;
+		}
+		if(state==1)
+		{
+		(*index)=0;
+		(*line)++;
+		}
+
+		if (state==2)
+			break;
+	}
+	
+	//Processing Else Statement
+	string NextKey=inner.at(*index);
+	if (NextKey!="else"){				
+			//throw exception, procedure does not exist in procedure
+			throw SPAException("Invalid Source!Keyword 'else' is expected!");
+	}
+
+	while(*line < Parser::tokenized_codes.size())
+	{
+		inner =  Parser::tokenized_codes.at(*line);
+
+		while(*index < inner.size())
+		{
+			string keyword=inner.at(*index);
+
+			if (keyword=="procedure"){				
+				//throw exception, procedure does not exist in procedure
+				throw SPAException("Procedure cannot appear in If!Invalid Source!");
+			}
+
+			//do bracket Matching
+			if (keyword=="{"){
+				brackets.push('{');
+				if (brackets.size()>1){
+					throw SPAException("Invalid Source!");
+				}
+			}
+
+			if (keyword=="}"){
+				brackets.pop();
+				if(brackets.size()==0){
+					(*i)=(*line);
+					(*j)=(*index);
+					if(elseStmtLstNode->isHasChildren()==false)
+					{
+						throw SPAException("Stmt Must have one or more child!");
+					}
+					stmtNode->addChild(elseStmtLstNode);
+					return stmtNode;
+				}
+			}
+
+			if (keyword=="call"){
+				ASTStmtNode* callNode=processCall(line, index, procIdx);
+				callNode->setParent(stmtNode);
+				elseStmtLstNode->addChild(callNode);
+				//break;
+			}
+			
+			if(keyword=="while"){
+				ASTStmtNode* whileNode=processWhile(line, index, procIdx);
+				whileNode->setParent(stmtNode);
+				elseStmtLstNode->addChild(whileNode);
+				inner=Parser::tokenized_codes.at(*line);
+				//break;
+			}
+			
+			if(keyword=="if")
+			{
+				//No implementation - Not required in CS3201
+				ASTStmtNode* ifNode=processIf(line, index, procIdx);
+				ifNode->setParent(stmtNode);
+				elseStmtLstNode->addChild(ifNode);
+				inner=Parser::tokenized_codes.at(*line);
+			}
+			
+			if(keyword=="="){
+				//check for assignment Statement
+				//processAssignmentNode
+				ASTStmtNode* assignNode=processAssignment(line, index);
+				assignNode->setParent(stmtNode);
+				elseStmtLstNode->addChild(assignNode);
+			}
+			(*index)++;
+		}
+		(*index)=0;
+		(*line)++;
+	}
 	return NULL;
 }
 
@@ -524,7 +716,10 @@ ASTNode* Parser::processProcedure(int *i, int *j)
 			if(keyword=="if")
 			{
 				//No implementation - Not required in CS3201
-				//stmtLstNode->addChild(processIf(line));
+				ASTStmtNode* ifNode=processIf(line, index, pi);
+				ifNode->setParent(procNode);
+				stmtLstNode->addChild(ifNode);
+				inner=Parser::tokenized_codes.at(*line);
 			}
 			
 			if(keyword=="="){

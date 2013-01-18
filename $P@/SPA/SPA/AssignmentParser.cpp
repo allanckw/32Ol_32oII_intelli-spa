@@ -27,8 +27,8 @@ int AssignmentParser::compareOprPrecedence(string opr1, string opr2)
 {    
 	 if (opr1 == ";" || opr2 == ";")
 		return -1;
-	 int weight = getOperatorWeight(opr1) - getOperatorWeight(opr2);
-	 return weight;
+	 else
+		return getOperatorWeight(opr1) - getOperatorWeight(opr2);
 }
 
 bool AssignmentParser::isValidExpr(vector<string> expr)
@@ -70,14 +70,11 @@ bool AssignmentParser::isValidExpr(vector<string> expr)
 	}
 	
 	return (brackets.size() == 0);
-
 }
 
-
+//Some References
 //http://www.engr.mun.ca/~theo/Misc/exp_parsing.htm
 //http://www.technical-recipes.com/2011/a-mathematical-expression-parser-in-java/
-//Shunting Yard Algorithm Tested to Work With No Brackets, Brackets May Contain Bugs as it is not Tested
-//But The General Idea is there 
 ASTExprNode* AssignmentParser::processAssignment(MathExpression expr)
 {
 	stack<string> operators; 
@@ -103,31 +100,45 @@ ASTExprNode* AssignmentParser::processAssignment(MathExpression expr)
 		
 		if (token == ";")
 			break; 
-		//Bracket For Shunting Yard, May Contain Bugs.. Not Tested
+
+		//Bracket For Shunting Yard
 		if (token == "("){
 			//Create the expression, in vector form until ")", ")" not found then Throw exception
 			subExprBrackets.push(token);
 		}
 		else if (subExprBrackets.size() > 0){
+
 			if (token == "("){
+			
 				subExprBrackets.push(token);
-				subExpr.push_back(token);
+
 			} else if (token == ")" && subExprBrackets.size() == 1) {
+
 				subExprBrackets.pop();
 				subExpr.push_back(";");
 				operands.push(AssignmentParser::processAssignment(subExpr));
+
 			} else if (token == ")" && subExprBrackets.size() > 1) {
+
 				subExprBrackets.pop();
+				
+			} else {
+
 				subExpr.push_back(token);
-			} 
+
+			}
 		}
 		else if (AssignmentParser::isOperator(token)) {
 			if (operators.empty()) {//if the operator stack is empty simply push
+
 				operators.push(token);
+			
 			} else {
 				//Compare the precedence of + with the top of the stack 
 				if (AssignmentParser::compareOprPrecedence(token, operators.top()) > 0)	{
+
 					operators.push(token); //if it is greater, push
+				
 				} else { //else pop and form a sub tree
 					
 					ASTExprNode* oprNode = new ASTExprNode(ASTNode::Operator, operators.top());
@@ -153,14 +164,14 @@ ASTExprNode* AssignmentParser::processAssignment(MathExpression expr)
 				int value = atoi(token.c_str());
 				ASTExprNode* constNode = new ASTExprNode(ASTNode::Constant, value);
 				operands.push(constNode);
-			}
-			else { //not a const, then must be variable...
+
+			} else { //not a const, then must be variable...
+
 				VAR i = PKB::variables.getVARIndex(token);
 				if (i == -1){ //if variable cannot be found then error
 					//cout << token << " cannot be found " << endl;
 					throw SPAException("Variable cannot be found in assignment statement!");
-				}
-				else{ //create an variable node and push into operand stack
+				} else { //create an variable node and push into operand stack
 					ASTExprNode* varNode = new ASTExprNode(ASTNode::Variable, i);
 					operands.push(varNode);
 				}
@@ -168,7 +179,7 @@ ASTExprNode* AssignmentParser::processAssignment(MathExpression expr)
 		}
 	}
 	
-	//Build the complete right sub tree to be return to assignment node
+	//Build the complete right sub tree to be returned to assign node
 	while (!operators.empty())
 	{
 		ASTExprNode* oprNode = new ASTExprNode(ASTNode::Operator, operators.top());

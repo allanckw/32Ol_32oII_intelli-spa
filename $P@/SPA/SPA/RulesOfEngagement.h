@@ -21,7 +21,7 @@ public:
 		String
 	};
 
-	enum QueryReladition { //relationship QueryEnums
+	enum QueryRelations { //relationship QueryEnums
 		Modifies,
 		ModifiesStmt,
 		ModifiesProc,
@@ -41,26 +41,26 @@ public:
 		Pattern
 	};
 	
-	static unordered_map<string, QueryReladition> tokenToRel;
+	static unordered_map<string, QueryRelations> tokenToRel;
 	static unordered_map<string, QueryVar> tokenToVar;
 	static unordered_map<QueryVar, set<string>> allowableConditions;
-	static unordered_map<QueryReladition, set<QueryVar>> allowableFirstArgument;
-	static unordered_map<QueryReladition, QueryVar> privilegedFirstArgument;
-	static unordered_map<QueryReladition, set<QueryVar>> allowableSecondArgument;
-	static unordered_map<QueryReladition, QueryVar> privilegedSecondArgument;
-	static unordered_set<QueryReladition> allowableSelfReference;
+	static unordered_map<QueryRelations, set<QueryVar>> allowableFirstArgument;
+	static unordered_map<QueryRelations, QueryVar> privilegedFirstArgument;
+	static unordered_map<QueryRelations, set<QueryVar>> allowableSecondArgument;
+	static unordered_map<QueryRelations, QueryVar> privilegedSecondArgument;
+	static unordered_set<QueryRelations> allowableSelfReference;
 
-	static int convertArgumentToInteger(QueryReladition& type, const bool first, const string& arg);
+	static int convertArgumentToInteger(QueryRelations& type, const bool first, const string& arg);
 
 	typedef bool(*isRelation)(int, int);
-	static isRelation getRelation(QueryReladition rel);
-	static unordered_map<QueryReladition, bool> emptyRel;
+	static isRelation getRelation(QueryRelations rel);
+	static unordered_map<QueryRelations, bool> emptyRel;
 
 	typedef vector<int>(*getAllTypes)();
 	static getAllTypes getType(QueryVar type);
 
 private:
-	static unordered_map<QueryReladition, isRelation> relationMap;
+	static unordered_map<QueryRelations, isRelation> relationMap;
 	static bool isModifiesStmt(int x, int y);
 	static bool isModifiesProc(int x, int y);
 	static bool isUsesStmt(int x, int y);

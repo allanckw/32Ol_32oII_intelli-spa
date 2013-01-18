@@ -27,6 +27,7 @@ int getOprType(string s)
 		return 2;
 }
 
+
 void TestAssnParser::testAssignmentParsing()
 {  
 
@@ -44,6 +45,9 @@ void TestAssnParser::testAssignmentParsing()
 	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Operator, opr->getType());
 	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Variable, opr->getChild(0)->getType());
 	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Variable, opr->getChild(1)->getType());
+
+	CPPUNIT_ASSERT_EQUAL(0, opr->getChild(0)->getValue());
+	CPPUNIT_ASSERT_EQUAL(1, opr->getChild(1)->getValue());
 
 	CPPUNIT_ASSERT_EQUAL(getOprType("+"), opr->getValue());
 
@@ -94,7 +98,7 @@ void TestAssnParser::testAssignmentParsing()
 
 	//					+
 	//				x		+
-	//					*		   *
+	//					 *		    *
 	//				yas		2	 3	   yas
 
 	//Sub Tree Root +
@@ -134,5 +138,61 @@ void TestAssnParser::testAssignmentParsing()
 	CPPUNIT_ASSERT_EQUAL(PKB::variables.getVARIndex("yas"), subTree2->getChild(1)->getChild(1)->getValue());
 	//End Sub Tree 3*y
 
+
+	//-------------------------------------------------------------------------------------------------------------------
+	//Bracket Assignment Testing
+	//-------------------------------------------------------------------------------------------------------------------
+	expr.clear();
+	expr.push_back("(");
+	expr.push_back("x");
+	expr.push_back("+");
+	expr.push_back("1");
+	expr.push_back(")");
+	expr.push_back(";");
+
+	opr = AssignmentParser::processAssignment(expr);
+
+	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Operator, opr->getType());
+	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Variable, opr->getChild(0)->getType());
+	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Constant, opr->getChild(1)->getType());
+
+	CPPUNIT_ASSERT_EQUAL(0, opr->getChild(0)->getValue());
+	CPPUNIT_ASSERT_EQUAL(1, opr->getChild(1)->getValue());
+
+	CPPUNIT_ASSERT_EQUAL(getOprType("+"), opr->getValue());
+
+
+	expr.clear();
+	//		*
+	//	+		2	
+	//x   yas	
+	
+	expr.push_back("(");
+	expr.push_back("x");
+	expr.push_back("+");
+	expr.push_back("yas");
+	expr.push_back(")");
+	expr.push_back("*");
+	expr.push_back("33");
+	expr.push_back(";");
+
+	opr = AssignmentParser::processAssignment(expr);
+	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Operator, opr->getType()); //*
+	CPPUNIT_ASSERT_EQUAL(getOprType("*"), opr->getValue());
+
+	ASTExprNode* plus = dynamic_cast<ASTExprNode* >(opr->getChild(0));
+	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Operator, plus->getType()); //+
+	CPPUNIT_ASSERT_EQUAL(getOprType("+"), plus->getValue());
+
+	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Constant,  opr->getChild(1)->getType());
+	CPPUNIT_ASSERT_EQUAL(33, opr->getChild(1)->getValue());
+
+	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Variable, plus->getChild(0)->getType()); 
+	CPPUNIT_ASSERT_EQUAL(PKB::variables.getVARIndex("x"), plus->getChild(0)->getValue());
+
+	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Variable, plus->getChild(1)->getType()); 
+	CPPUNIT_ASSERT_EQUAL(PKB::variables.getVARIndex("yas"), plus->getChild(1)->getValue());
 }
+
+
 

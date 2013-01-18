@@ -15,14 +15,14 @@ AnswerTable::AnswerTable(SynonymTable synonymTable, string synonym)
 
 	vector<int> table;
 	unordered_map<string, string> attributes = synonymTable.getAllAttributes(synonym);
-	unordered_set<RulesOfEngagement::QueryReladition> selfReferences = synonymTable.getAllSelfReferences(synonym);
-	vector<pair<RulesOfEngagement::QueryReladition, RulesOfEngagement::QueryVar>> firstGeneric =
+	unordered_set<RulesOfEngagement::QueryRelations> selfReferences = synonymTable.getAllSelfReferences(synonym);
+	vector<pair<RulesOfEngagement::QueryRelations, RulesOfEngagement::QueryVar>> firstGeneric =
 		synonymTable.getAllFirstGeneric(synonym);
-	vector<pair<RulesOfEngagement::QueryReladition, string>> firstSpecific =
+	vector<pair<RulesOfEngagement::QueryRelations, string>> firstSpecific =
 		synonymTable.getAllFirstSpecific(synonym);
-	vector<pair<RulesOfEngagement::QueryReladition, RulesOfEngagement::QueryVar>> secondGeneric =
+	vector<pair<RulesOfEngagement::QueryRelations, RulesOfEngagement::QueryVar>> secondGeneric =
 		synonymTable.getAllSecondGeneric(synonym);
-	vector<pair<RulesOfEngagement::QueryReladition, string>> secondSpecific =
+	vector<pair<RulesOfEngagement::QueryRelations, string>> secondSpecific =
 		synonymTable.getAllSecondSpecific(synonym);
 
 	if (attributes.count("stmtNo") > 0) {

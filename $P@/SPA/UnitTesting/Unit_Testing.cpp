@@ -10,9 +10,9 @@ int main(int argc, char* argv[])
 	CppUnit::TestSuite *unitSuite = new CppUnit::TestSuite( "All unit test" );
 	unitSuite->addTest(CppUnit::TestFactoryRegistry::getRegistry("TestVarTable").makeTest());	
 	unitSuite->addTest(CppUnit::TestFactoryRegistry::getRegistry("TestProcTable").makeTest());	
-	//unitSuite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ParserTest").makeTest());
-	//unitSuite->addTest(CppUnit::TestFactoryRegistry::getRegistry("QueryPreprocessorTest").makeTest());
-	//
+
+	unitSuite->addTest(CppUnit::TestFactoryRegistry::getRegistry("TestAssnParser").makeTest());	
+
 	CppUnit::TestFactoryRegistry::getRegistry().addTestToSuite(unitSuite);
 	CppUnit::TextUi::TestRunner runner;
 

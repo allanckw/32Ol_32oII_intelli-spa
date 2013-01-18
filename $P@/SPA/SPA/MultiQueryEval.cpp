@@ -89,7 +89,7 @@ MultiQueryEval::MultiQueryEval(string query)
 	}
 
 	//relationship table
-	vector<RulesOfEngagement::QueryReladition> relType;
+	vector<RulesOfEngagement::QueryRelations> relType;
 	vector<string> relFirst;
 	vector<string> relSecond;
 	vector<int> relClass;
@@ -124,7 +124,7 @@ MultiQueryEval::MultiQueryEval(string query)
 			string secondRel = getToken(query, pos);
 			matchToken(query, pos, ")");
 
-			RulesOfEngagement::QueryReladition type = RulesOfEngagement::tokenToRel[relation];
+			RulesOfEngagement::QueryRelations type = RulesOfEngagement::tokenToRel[relation];
 
 			//count number of synonyms and verify acceptability of argument
 			int numOfSynonyms = 0;
@@ -433,7 +433,7 @@ MultiQueryEval::MultiQueryEval(string query)
 	unordered_map<string, int> inWhichTable;
 	
 	for (unsigned int rel = 0; rel < relType.size(); rel++) {
-		RulesOfEngagement::QueryReladition type = relType[rel];
+		RulesOfEngagement::QueryRelations type = relType[rel];
 		string firstRel = relFirst[rel];
 		string secondRel = relSecond[rel];
 		int classIndex = relClass[rel];

@@ -8,7 +8,7 @@ AbstractWrapper* WrapperFactory::createWrapper() {
   return wrapper;
 }
 // Do not modify the following line
-volatile bool TestWrapper::GlobalStop = false; //but it doesn't work!!
+volatile bool TestWrapper::GlobalStop = false; 
 
 // a default constructor
 TestWrapper::TestWrapper() {
@@ -35,25 +35,6 @@ void TestWrapper::parse(std::string filename) {
 void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
 	try{
 		vector<string> answers = MultiQueryEval::evaluateQuery(query);
-
-		/*// Stuff Required to evaluate
-		vector<string> tokens; 
-		QueryPreprocessor preProcessor;
-		QueryParser qParser;
-		QueryTreeBuilder* queryTreeBuilder = new QueryTreeBuilder();
-		vector<pair<QueryEnums::QueryVar, string>> selected;
-		QueryTree qTree;
-		QueryEvaluator* queryEvaluator = new QueryEvaluator();
-
-		// ...code to evaluate query...
-		tokens = qParser.tokenize(query);
-		preProcessor.preProcess(tokens);
-		queryTreeBuilder->buildQueryTree(preProcessor.getUserVariables(), preProcessor.getSelectVariables(),
-										preProcessor.getRelationships(), preProcessor.getConditions(), preProcessor.getPatterns());
-	
-		qTree = queryTreeBuilder->getQueryTree();
-		vector<string> answers = queryEvaluator->evaluateQuery(qTree);*/
-
 		if (AbstractWrapper::GlobalStop){
 			
 		}
@@ -71,13 +52,4 @@ void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
 		//that you type in in your query, for example, you use a variable that you did not declare
 		results.push_back(e.what());
 	}
-
-	// store the answers to the query in the results list (it is initially empty)
-
-	// each result must be a string.
-	
-	//Clean up...
-
-	//delete queryEvaluator;
-	//delete queryTreeBuilder;
 }

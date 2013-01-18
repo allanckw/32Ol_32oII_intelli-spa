@@ -3,18 +3,18 @@
 #include "PKB.h"
 #include "Helper.h"
 
-unordered_map<string, RulesOfEngagement::QueryReladition> RulesOfEngagement::tokenToRel;
+unordered_map<string, RulesOfEngagement::QueryRelations> RulesOfEngagement::tokenToRel;
 unordered_map<string, RulesOfEngagement::QueryVar> RulesOfEngagement::tokenToVar;
 unordered_map<RulesOfEngagement::QueryVar, set<string>> RulesOfEngagement::allowableConditions;
-unordered_map<RulesOfEngagement::QueryReladition, set<RulesOfEngagement::QueryVar>> RulesOfEngagement::allowableFirstArgument;
-unordered_map<RulesOfEngagement::QueryReladition, RulesOfEngagement::QueryVar> RulesOfEngagement::privilegedFirstArgument;
-unordered_map<RulesOfEngagement::QueryReladition, set<RulesOfEngagement::QueryVar>> RulesOfEngagement::allowableSecondArgument;
-unordered_map<RulesOfEngagement::QueryReladition, RulesOfEngagement::QueryVar> RulesOfEngagement::privilegedSecondArgument;
-unordered_set<RulesOfEngagement::QueryReladition> RulesOfEngagement::allowableSelfReference;
+unordered_map<RulesOfEngagement::QueryRelations, set<RulesOfEngagement::QueryVar>> RulesOfEngagement::allowableFirstArgument;
+unordered_map<RulesOfEngagement::QueryRelations, RulesOfEngagement::QueryVar> RulesOfEngagement::privilegedFirstArgument;
+unordered_map<RulesOfEngagement::QueryRelations, set<RulesOfEngagement::QueryVar>> RulesOfEngagement::allowableSecondArgument;
+unordered_map<RulesOfEngagement::QueryRelations, RulesOfEngagement::QueryVar> RulesOfEngagement::privilegedSecondArgument;
+unordered_set<RulesOfEngagement::QueryRelations> RulesOfEngagement::allowableSelfReference;
 typedef bool(*isRelation)(int, int);
 typedef vector<int>(*getAllTypes)();
-unordered_map<RulesOfEngagement::QueryReladition, bool> RulesOfEngagement::emptyRel;
-unordered_map<RulesOfEngagement::QueryReladition, isRelation> RulesOfEngagement::relationMap;
+unordered_map<RulesOfEngagement::QueryRelations, bool> RulesOfEngagement::emptyRel;
+unordered_map<RulesOfEngagement::QueryRelations, isRelation> RulesOfEngagement::relationMap;
 unordered_map<RulesOfEngagement::QueryVar, getAllTypes> RulesOfEngagement::typeMap;
 
 void RulesOfEngagement::initialise()
@@ -60,8 +60,8 @@ void RulesOfEngagement::initialise()
 	allowableFirstArgument[Modifies].insert(If);
 	allowableFirstArgument[Modifies].insert(Integer);
 	allowableFirstArgument[Modifies].insert(String);
-	privilegedFirstArgument.insert(pair<QueryReladition, QueryVar>(ModifiesStmt, Statement));
-	privilegedFirstArgument.insert(pair<QueryReladition, QueryVar>(ModifiesProc, Procedure));
+	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(ModifiesStmt, Statement));
+	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(ModifiesProc, Procedure));
 	allowableSecondArgument[Modifies].insert(Variable);
 	allowableSecondArgument[Modifies].insert(WildCard);
 	allowableSecondArgument[Modifies].insert(String);
@@ -69,8 +69,8 @@ void RulesOfEngagement::initialise()
 	allowableSecondArgument[ModifiesStmt].insert(WildCard);
 	allowableSecondArgument[ModifiesProc].insert(Variable);
 	allowableSecondArgument[ModifiesProc].insert(WildCard);*/
-	privilegedSecondArgument.insert(pair<QueryReladition, QueryVar>(ModifiesStmt, Variable));
-	privilegedSecondArgument.insert(pair<QueryReladition, QueryVar>(ModifiesProc, Variable));
+	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(ModifiesStmt, Variable));
+	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(ModifiesProc, Variable));
 	
 	allowableFirstArgument[Uses].insert(Procedure);
 	allowableFirstArgument[Uses].insert(Statement);
@@ -80,8 +80,8 @@ void RulesOfEngagement::initialise()
 	allowableFirstArgument[Uses].insert(If);
 	allowableFirstArgument[Uses].insert(Integer);
 	allowableFirstArgument[Uses].insert(String);
-	privilegedFirstArgument.insert(pair<QueryReladition, QueryVar>(UsesStmt, Statement));
-	privilegedFirstArgument.insert(pair<QueryReladition, QueryVar>(UsesProc, Procedure));
+	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(UsesStmt, Statement));
+	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(UsesProc, Procedure));
 	allowableSecondArgument[Uses].insert(Variable);
 	allowableSecondArgument[Uses].insert(WildCard);
 	allowableSecondArgument[Uses].insert(String);
@@ -89,26 +89,26 @@ void RulesOfEngagement::initialise()
 	allowableSecondArgument[UsesStmt].insert(WildCard);
 	allowableSecondArgument[UsesProc].insert(Variable);
 	allowableSecondArgument[UsesProc].insert(WildCard);*/
-	privilegedSecondArgument.insert(pair<QueryReladition, QueryVar>(UsesStmt, Variable));
-	privilegedSecondArgument.insert(pair<QueryReladition, QueryVar>(UsesProc, Variable));
+	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(UsesStmt, Variable));
+	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(UsesProc, Variable));
 
 	allowableFirstArgument[Calls].insert(Procedure);
 	allowableFirstArgument[Calls].insert(WildCard);
 	allowableFirstArgument[Calls].insert(String);
-	privilegedFirstArgument.insert(pair<QueryReladition, QueryVar>(Calls, Procedure));
+	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(Calls, Procedure));
 	allowableSecondArgument[Calls].insert(Procedure);
 	allowableSecondArgument[Calls].insert(WildCard);
 	allowableSecondArgument[Calls].insert(String);
-	privilegedSecondArgument.insert(pair<QueryReladition, QueryVar>(Calls, Procedure));
+	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(Calls, Procedure));
 
 	allowableFirstArgument[CallsStar].insert(Procedure);
 	allowableFirstArgument[CallsStar].insert(WildCard);
 	allowableFirstArgument[CallsStar].insert(String);
-	privilegedFirstArgument.insert(pair<QueryReladition, QueryVar>(CallsStar, Procedure));
+	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(CallsStar, Procedure));
 	allowableSecondArgument[CallsStar].insert(Procedure);
 	allowableSecondArgument[CallsStar].insert(WildCard);
 	allowableSecondArgument[CallsStar].insert(String);
-	privilegedSecondArgument.insert(pair<QueryReladition, QueryVar>(CallsStar, Procedure));
+	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(CallsStar, Procedure));
 	
 	allowableFirstArgument[Parent].insert(Statement);
 	allowableFirstArgument[Parent].insert(Assign);
@@ -117,7 +117,7 @@ void RulesOfEngagement::initialise()
 	allowableFirstArgument[Parent].insert(If);
 	allowableFirstArgument[Parent].insert(WildCard);
 	allowableFirstArgument[Parent].insert(Integer);
-	privilegedFirstArgument.insert(pair<QueryReladition, QueryVar>(Parent, Statement));
+	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(Parent, Statement));
 	allowableSecondArgument[Parent].insert(Statement);
 	allowableSecondArgument[Parent].insert(Assign);
 	allowableSecondArgument[Parent].insert(Call);
@@ -125,7 +125,7 @@ void RulesOfEngagement::initialise()
 	allowableSecondArgument[Parent].insert(If);
 	allowableSecondArgument[Parent].insert(WildCard);
 	allowableSecondArgument[Parent].insert(Integer);
-	privilegedSecondArgument.insert(pair<QueryReladition, QueryVar>(Parent, Statement));
+	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(Parent, Statement));
 	
 	allowableFirstArgument[ParentStar].insert(Statement);
 	allowableFirstArgument[ParentStar].insert(Assign);
@@ -134,7 +134,7 @@ void RulesOfEngagement::initialise()
 	allowableFirstArgument[ParentStar].insert(If);
 	allowableFirstArgument[ParentStar].insert(WildCard);
 	allowableFirstArgument[ParentStar].insert(Integer);
-	privilegedFirstArgument.insert(pair<QueryReladition, QueryVar>(ParentStar, Statement));
+	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(ParentStar, Statement));
 	allowableSecondArgument[ParentStar].insert(Statement);
 	allowableSecondArgument[ParentStar].insert(Assign);
 	allowableSecondArgument[ParentStar].insert(Call);
@@ -142,7 +142,7 @@ void RulesOfEngagement::initialise()
 	allowableSecondArgument[ParentStar].insert(If);
 	allowableSecondArgument[ParentStar].insert(WildCard);
 	allowableSecondArgument[ParentStar].insert(Integer);
-	privilegedSecondArgument.insert(pair<QueryReladition, QueryVar>(ParentStar, Statement));
+	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(ParentStar, Statement));
 	
 	allowableFirstArgument[Follows].insert(Statement);
 	allowableFirstArgument[Follows].insert(Assign);
@@ -151,7 +151,7 @@ void RulesOfEngagement::initialise()
 	allowableFirstArgument[Follows].insert(If);
 	allowableFirstArgument[Follows].insert(WildCard);
 	allowableFirstArgument[Follows].insert(Integer);
-	privilegedFirstArgument.insert(pair<QueryReladition, QueryVar>(Follows, Statement));
+	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(Follows, Statement));
 	allowableSecondArgument[Follows].insert(Statement);
 	allowableSecondArgument[Follows].insert(Assign);
 	allowableSecondArgument[Follows].insert(Call);
@@ -159,7 +159,7 @@ void RulesOfEngagement::initialise()
 	allowableSecondArgument[Follows].insert(If);
 	allowableSecondArgument[Follows].insert(WildCard);
 	allowableSecondArgument[Follows].insert(Integer);
-	privilegedSecondArgument.insert(pair<QueryReladition, QueryVar>(Follows, Statement));
+	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(Follows, Statement));
 	
 	allowableFirstArgument[FollowsStar].insert(Statement);
 	allowableFirstArgument[FollowsStar].insert(Assign);
@@ -168,7 +168,7 @@ void RulesOfEngagement::initialise()
 	allowableFirstArgument[FollowsStar].insert(If);
 	allowableFirstArgument[FollowsStar].insert(WildCard);
 	allowableFirstArgument[FollowsStar].insert(Integer);
-	privilegedFirstArgument.insert(pair<QueryReladition, QueryVar>(FollowsStar, Statement));
+	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(FollowsStar, Statement));
 	allowableSecondArgument[FollowsStar].insert(Statement);
 	allowableSecondArgument[FollowsStar].insert(Assign);
 	allowableSecondArgument[FollowsStar].insert(Call);
@@ -176,7 +176,7 @@ void RulesOfEngagement::initialise()
 	allowableSecondArgument[FollowsStar].insert(If);
 	allowableSecondArgument[FollowsStar].insert(WildCard);
 	allowableSecondArgument[FollowsStar].insert(Integer);
-	privilegedSecondArgument.insert(pair<QueryReladition, QueryVar>(FollowsStar, Statement));
+	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(FollowsStar, Statement));
 	
 	allowableFirstArgument[Next].insert(Statement);
 	allowableFirstArgument[Next].insert(Assign);
@@ -185,7 +185,7 @@ void RulesOfEngagement::initialise()
 	allowableFirstArgument[Next].insert(If);
 	allowableFirstArgument[Next].insert(WildCard);
 	allowableFirstArgument[Next].insert(Integer);
-	privilegedFirstArgument.insert(pair<QueryReladition, QueryVar>(Next, Statement));
+	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(Next, Statement));
 	allowableSecondArgument[Next].insert(Statement);
 	allowableSecondArgument[Next].insert(Assign);
 	allowableSecondArgument[Next].insert(Call);
@@ -193,7 +193,7 @@ void RulesOfEngagement::initialise()
 	allowableSecondArgument[Next].insert(If);
 	allowableSecondArgument[Next].insert(WildCard);
 	allowableSecondArgument[Next].insert(Integer);
-	privilegedSecondArgument.insert(pair<QueryReladition, QueryVar>(Next, Statement));
+	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(Next, Statement));
 	
 	allowableFirstArgument[NextStar].insert(Statement);
 	allowableFirstArgument[NextStar].insert(Assign);
@@ -202,7 +202,7 @@ void RulesOfEngagement::initialise()
 	allowableFirstArgument[NextStar].insert(If);
 	allowableFirstArgument[NextStar].insert(WildCard);
 	allowableFirstArgument[NextStar].insert(Integer);
-	privilegedFirstArgument.insert(pair<QueryReladition, QueryVar>(Parent, Statement));
+	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(Parent, Statement));
 	allowableSecondArgument[NextStar].insert(Statement);
 	allowableSecondArgument[NextStar].insert(Assign);
 	allowableSecondArgument[NextStar].insert(Call);
@@ -210,29 +210,29 @@ void RulesOfEngagement::initialise()
 	allowableSecondArgument[NextStar].insert(If);
 	allowableSecondArgument[NextStar].insert(WildCard);
 	allowableSecondArgument[NextStar].insert(Integer);
-	privilegedSecondArgument.insert(pair<QueryReladition, QueryVar>(ParentStar, Statement));
+	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(ParentStar, Statement));
 	
 	allowableFirstArgument[Affects].insert(Statement);
 	allowableFirstArgument[Affects].insert(Assign);
 	allowableFirstArgument[Affects].insert(WildCard);
 	allowableFirstArgument[Affects].insert(Integer);
-	privilegedFirstArgument.insert(pair<QueryReladition, QueryVar>(Parent, Statement));
+	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(Parent, Statement));
 	allowableSecondArgument[Affects].insert(Statement);
 	allowableSecondArgument[Affects].insert(Assign);
 	allowableSecondArgument[Affects].insert(WildCard);
 	allowableSecondArgument[Affects].insert(Integer);
-	privilegedSecondArgument.insert(pair<QueryReladition, QueryVar>(ParentStar, Statement));
+	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(ParentStar, Statement));
 	
 	allowableFirstArgument[AffectsStar].insert(Statement);
 	allowableFirstArgument[AffectsStar].insert(Assign);
 	allowableFirstArgument[AffectsStar].insert(WildCard);
 	allowableFirstArgument[AffectsStar].insert(Integer);
-	privilegedFirstArgument.insert(pair<QueryReladition, QueryVar>(Parent, Statement));
+	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(Parent, Statement));
 	allowableSecondArgument[AffectsStar].insert(Statement);
 	allowableSecondArgument[AffectsStar].insert(Assign);
 	allowableSecondArgument[AffectsStar].insert(WildCard);
 	allowableSecondArgument[AffectsStar].insert(Integer);
-	privilegedSecondArgument.insert(pair<QueryReladition, QueryVar>(ParentStar, Statement));
+	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(ParentStar, Statement));
 
 	allowableSelfReference.insert(Next);
 
@@ -268,7 +268,7 @@ void RulesOfEngagement::initialise()
 	typeMap[Call] = &getAllCall;
 }
 
-int RulesOfEngagement::convertArgumentToInteger(RulesOfEngagement::QueryReladition& type,
+int RulesOfEngagement::convertArgumentToInteger(RulesOfEngagement::QueryRelations& type,
 	const bool first, const string& arg)
 {
 	if (first) {
@@ -317,7 +317,7 @@ int RulesOfEngagement::convertArgumentToInteger(RulesOfEngagement::QueryReladiti
 }
 
 //relation map
-RulesOfEngagement::isRelation RulesOfEngagement::getRelation(RulesOfEngagement::QueryReladition rel)
+RulesOfEngagement::isRelation RulesOfEngagement::getRelation(RulesOfEngagement::QueryRelations rel)
 {
 	return relationMap[rel];
 }

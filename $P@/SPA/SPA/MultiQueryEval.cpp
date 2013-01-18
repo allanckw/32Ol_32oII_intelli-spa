@@ -4,6 +4,10 @@
 #include "PKB.h"
 #include "RulesOfEngagement.h"
 #include "AnswerTable.h"
+#include "ASTStmtNode.h"
+#include "ASTStmtLstNode.h"
+#include "AssignmentParser.h"
+
 //#include "../AutoTester/source/AbstractWrapper.h"
 
 //string MultiQueryEval::getToken(const string& query, int& pos)
@@ -357,7 +361,27 @@ MultiQueryEval::MultiQueryEval(string query)
 				
 				matchToken(query, pos, ",");
 
-				string usesVar = getToken(query, pos);
+				vector<string> matcher;
+				matcher.push_back("\")");
+				matcher.push_back("_)");
+				//matcher.push_back("\"_)");
+				//string usesVar = getToken(query, pos,  matcher, 1);//getToken(query, pos);
+				string usesVar = getToken2(query, pos);
+				//nick
+
+				//remove white spaces
+				usesVar.erase(remove(usesVar.begin(), usesVar.end(), '\t'), usesVar.end());
+				usesVar.erase(remove(usesVar.begin(), usesVar.end(), ' '), usesVar.end());
+
+				
+				//
+				/*
+				if rhs not _ then just use use table
+				*/
+
+				EvaluatePattern((ASTNode::Assign), modifiesVar,usesVar);
+
+
 
 				if (modifiesVar == "_") {
 					if (usesVar != "_") {
@@ -675,4 +699,405 @@ MultiQueryEval::MultiQueryEval(string query)
 		}
 		finalanswer.push_back(answer);
 	}
+}
+
+
+void MultiQueryEval::EvaluatePattern(ASTNode::NodeType type, string PatternLHS, string PatternRHS)
+{
+	
+	
+	PattenLHSType LHS;
+	string LHSVarName;
+	if (PatternLHS.at(0) == '\"' && PatternLHS.at(PatternLHS.size() - 1) == '\"')
+	{
+		LHS = PLStringVariable;
+		if (PatternLHS.size() == 3)
+			LHSVarName = Helper::charToString(PatternLHS.at(1));
+		else
+			LHSVarName = PatternLHS.substr(1, PatternLHS.size() - 2);
+	}
+	else if(PatternLHS.compare("_") == 0)
+		LHS = PLWildcard;
+	else
+		throw SPAException("Error, Pattern Left Hand Side Invalid");
+
+	//vecMatch = QueryParser::tokenize(currentSecondVariableName);
+	/*typedef enum enumPatternLHSType { 
+		PLWildcard, PLStringVariable
+	} PattenLHSType;
+	typedef enum enumPatternRHSType { 
+		PRWildcard, PRSub, PRNoSub
+	} PattenRHSType;*/
+
+	PattenRHSType RHS;
+	string RHSVarName;
+
+	if(PatternRHS.at(0) == '_' && PatternRHS.size()== 1)
+	{
+		RHS = PRWildcard;
+		
+	}
+	else{
+
+		if(PatternRHS.at(0) == '_' && PatternRHS.at(PatternRHS.size() - 1) == '_' && PatternRHS.size() > 2)
+		{
+			RHS = PRSub;
+			
+			RHSVarName = PatternRHS.substr(1,PatternRHS.length()-2);
+			
+		}
+		else
+		{
+			RHSVarName = PatternRHS;
+			RHS = PRNoSub;
+		}
+
+		RHSVarName.erase(remove(RHSVarName.begin(), RHSVarName.end(), '\"'), RHSVarName.end());//get rid of the start " and end "
+
+	}
+
+	stack<ASTNode*> nodesStack;
+	PKB::rootNode;
+	PKB::variables;
+	PKB::procedures;
+
+	nodesStack.push(PKB::rootNode);
+
+	vector<int> stmtLineTrue;
+
+	ASTExprNode* RHSexprs;
+	int LHSvarnum = -1;
+
+	if(RHS != PRWildcard)
+	{
+		vector<string> tokenized = MiniTokenizer(RHSVarName);;
+		//tokenized.push_back(";");
+		RHSexprs = AssignmentParser::processAssignment(tokenized);
+		
+	}
+
+	if(LHS != PLWildcard)
+	{
+		LHSvarnum = PKB::variables.getVARIndex(LHSVarName);
+	}
+
+	vector<string> ans;
+
+	//tokenize rhs first
+	while(nodesStack.size() > 0)
+	{
+		int tempchk = nodesStack.size();
+		if(nodesStack.top()->getType() == type)
+		{
+			ASTNode* temp = nodesStack.top();
+
+			ASTStmtNode* tempnode = (ASTStmtNode*)temp;
+
+
+			if(tempnode->getType() == ASTNode::NodeType::If ||tempnode->getType() == ASTNode::NodeType::While || TryMatch(temp,LHS,RHS,LHSvarnum,RHSexprs))//shld just throw LHSVarName, RHSVarName after rhs have been tokenize as they are emtpy if wildcard
+			{
+					ASTStmtNode* tempnode = (ASTStmtNode*)temp;
+					string tempstr = Helper::intToString(tempnode->getStmtNumber());//ans
+					ans.push_back(tempstr);
+							
+					
+			}
+			//QueryParser QP;
+			
+
+			//need to tokenize first
+		//	while(exIdx<RHSVarName.size())
+		//	{
+		//		/*rightExpression.push_back(RHSVarName.at(exIdx));
+		//
+		//		if(RHSVarName.at(exIdx)==";")
+		//			break;
+		//		exIdx++;*/
+		//	}
+
+			
+			//tokenize rhs if not wildcard
+			 //isSub is always true for now because we only need to handle _"hi"_ case
+			/*typedef enum enumPatternLHSType { 
+		PLWildcard, PLStringVariable
+	} PattenLHSType;
+
+	PattenLHSType LHS;*/
+			/*if (LHS == PLWildcard)
+			{*/
+				
+				
+			//else
+			//{
+			//	if(TryMatch(temp,firstVarName,vecMatch,sub))
+			//	{
+			//		ASTStmtNode* tempnode = (ASTStmtNode*)temp;
+			//		firstVariableAnswer.push_back(tempnode->getStmtNumber());//ans
+			//	}
+
+			//}
+			nodesStack.pop();
+			//remember to pop	
+		}
+		else
+		{
+			ASTNode* temp = nodesStack.top();
+			nodesStack.pop();
+			int counter = 0;
+
+			ASTStmtLstNode* t =	(ASTStmtLstNode*)temp;
+
+			for(int j=0;j<t->getSize();j++)
+			{
+				ASTNode* tempushnode = temp->getChild(j);
+				nodesStack.push(tempushnode);
+			}
+
+			/*while(true)
+			{
+				try
+				{
+				ASTStmtLstNode* t =	(ASTStmtLstNode*)temp;
+				if()
+				ASTNode* tempushnode = temp->getChild(counter);
+				
+
+				if(tempushnode == 0)
+					break;
+				nodesStack.push(tempushnode);
+				counter++;
+				}
+				catch (exception ex)
+				{
+					break;
+				}
+			}*/
+			//pop and push
+		}
+	}
+
+	ans;
+}
+
+////mini tokenizer
+vector<string> MultiQueryEval::MiniTokenizer(string line)
+{
+	/*string tempstr = " ";
+	line = tempstr.append(line);*/
+	vector<string> list;
+	string delimiter = " -+*;(){}=";//delimiters
+	int position = 0;//starting position
+	int startindex = -1;
+	int endindex = -1;
+
+	
+	do//loop thru the string
+	{
+		
+		startindex = line.find_first_not_of(delimiter,position);
+
+		
+
+		if(endindex != -1 && endindex<line.size())
+			{
+				string tempstr1; //temp str to store subset of currently working substring
+				if(startindex == -1)
+				{
+					tempstr1 = line.substr(endindex,line.size() - endindex);
+				}
+				else
+				{
+					tempstr1 = line.substr(endindex,startindex - endindex);
+				}
+				for(unsigned int i=0;i<tempstr1.size();)
+				{
+					string tempstr2 = tempstr1.substr(0,1);
+					tempstr1 = tempstr1.substr(1,tempstr1.size()-1);
+					
+					if(tempstr2 != " " && tempstr2 != "")
+					list.push_back(tempstr2);
+					//	AddToList(list,tempstr2);
+						//AddTables(list,tempstr2);
+						//list.push_back(tempstr2);
+					
+				}
+			} else if(endindex == -1)
+			{
+				if(line.substr(0,startindex) != "")
+				list.push_back(line.substr(0,startindex));
+			}
+
+			endindex = line.find_first_of(delimiter,startindex);
+
+			position = endindex;
+		
+			if(startindex != -1 || line.size() == 1)
+			{
+				string tempstr;
+				if(line.size() == 1)
+					tempstr= line;
+				else
+					tempstr= line.substr(startindex,endindex-startindex);
+
+				if(tempstr != " " && tempstr != "")
+				list.push_back(tempstr);
+					//AddToList(list,tempstr);
+					//AddTables(list,tempstr);
+					//list.push_back(tempstr);			
+				
+			}
+
+	}while(startindex != -1 && position < line.size() && endindex != -1);
+	
+
+	//house keeping
+	/*if(Parser::tokenized_codes.size() > 1)
+	{
+		vector<string> temp_vec = Parser::tokenized_codes.at(0);
+		temp_vec.insert(temp_vec.end(), Parser::tokenized_codes.at(1).begin(),Parser::tokenized_codes.at(1).end());
+		Parser::tokenized_codes.erase(Parser::tokenized_codes.begin());
+		Parser::tokenized_codes.at(0) = temp_vec;
+	}*/
+
+	//if(list.size() > 0)
+	//Parser::tokenized_codes.push_back(list);
+
+	//vector<string> tokens;
+	return list;
+}
+
+//RHS for now handles patterns in the form of "a" or _"a"_
+bool MultiQueryEval::TryMatch(ASTNode* testedNode,PattenLHSType LHS, PattenRHSType RHS,  int LHSVarNum, ASTExprNode* RHSexpr)
+{
+	if(LHS == PLWildcard && RHS == PRWildcard)
+		return true;
+
+	if(LHS != PLWildcard && testedNode->getChild(0)->getValue() != LHSVarNum)
+		return false;
+
+	//at this pt LHS sure pass
+	/////////////////////////////////////
+
+	//just need verify rhs which at this pt no longer a wildcard
+	///////////////////////////////////////
+
+
+
+	ASTNode* head= testedNode->getChild(1);
+
+	
+	//int rightInt = PKB::variables.getVARIndex(incCodes.at(0));
+
+	//if(!isSubsTree)//if not a subtree, since we only handle 1 variable so right side must be a variable if is true
+	//{
+	//	if(head->getType() != ASTNode::Variable)//right node is not a variable = auto fail
+	//		return false;
+	//	else if(rightInt == head->getValue()) //right side value is same as rightint
+	//		return true;
+	//	else
+	//		return false; //if not equal return false
+	//}
+	stack<ASTNode*> nodesStack; 
+
+	//nodesStack.push(head->getChild(0));
+
+	//nodesStack.push(head->getChild(1));
+	
+	nodesStack.push(head);
+	bool result = false;//default
+	ASTNode* pattern = RHSexpr;
+
+	bool isSub;
+		if(RHS == PRSub)
+			isSub = true;
+		else
+			isSub = false;
+
+	if(isSub == false)
+		result = MatcherTree(head,pattern);
+	else
+	{
+		while(nodesStack.size() > 0)
+		{
+
+			ASTNode* tempnode = nodesStack.top();
+			nodesStack.pop();
+							/*
+							ASTNode* temp = nodesStack.top();
+				nodesStack.pop();
+				int counter = 0;
+
+				ASTStmtLstNode* t =	(ASTStmtLstNode*)temp;
+
+				for(int j=0;j<t->getSize();j++)
+				{
+					ASTNode* tempushnode = temp->getChild(j);
+					nodesStack.push(tempushnode);
+				}
+							*/
+			//
+				//check here
+			//if()
+			//ASTNode* tempnode
+		
+			//RHSexpr->
+
+		
+
+			if(result == false && MatcherTree(tempnode,pattern))//,isSub))
+			{
+				result = true; 
+			}
+			//ASTExprNode* RHSexpr
+			//
+			//
+
+			if(tempnode->getType() == ASTNode::Operator)
+			{
+			
+				nodesStack.push(tempnode->getChild(1));//add right side in
+
+				nodesStack.push(tempnode->getChild(0));//add left side in
+			}
+			//else if(nodesStack.top()->getType() == ASTNode::Variable || nodesStack.top()->getType() == ASTNode::Constant)
+			//{
+			//	//assume is subtree
+
+			//	if(nodesStack.top()->getType() == ASTNode::Variable && rightInt == nodesStack.top()->getValue())
+			//	{
+			//		return true;
+			//	}
+			//	nodesStack.pop();
+			//}
+			//else
+			//{
+			//	throw SPAException("Error! invalid node kind in operator");
+			//}
+		}
+	}
+	return result;
+}
+
+bool MultiQueryEval::MatcherTree(ASTNode* Original,ASTNode* Pattern)//, bool isSub)
+{
+	bool NodeSame=false;
+	bool NodeLeftSame = false;
+	bool NodeRightSame = false;
+
+	if(Original->getType() == Pattern->getType() && Original->getValue() == Pattern->getValue())
+		NodeSame = true;
+	else 
+		return false;
+
+	if(Original->getType() == ASTNode::NodeType::Constant)
+		return true;
+	else if(Original->getType() == ASTNode::NodeType::Variable)
+		return true;
+	else if(Original->getType() == ASTNode::NodeType::Operator)
+	{
+		NodeLeftSame = MatcherTree(Original->getChild(0),Pattern->getChild(0));//, isSub);
+		NodeRightSame = MatcherTree(Original->getChild(1),Pattern->getChild(1));//, isSub);
+	}
+
+	return (NodeSame && NodeLeftSame && NodeRightSame);
 }

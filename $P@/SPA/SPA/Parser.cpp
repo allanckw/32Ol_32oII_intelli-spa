@@ -90,6 +90,8 @@ void Parser::AddTables(vector<string> list, string newtoken)
 
 	if(newtoken.size() == 0 || newtoken.compare("while") == 0 || newtoken.compare("if") == 0 || newtoken.compare("procedure") == 0 || 
 		newtoken.compare("+") == 0 || newtoken.compare("-") == 0 || 
+		newtoken.compare("(") == 0 ||
+		newtoken.compare(")") == 0 ||
 		newtoken.compare("*") == 0 ||  newtoken.compare("=") == 0 ||
 		newtoken.compare("call") == 0||newtoken.compare("then") == 0||
 		newtoken.compare("else") == 0||newtoken.compare(";") == 0)//found a reserve token
@@ -171,7 +173,7 @@ void Parser::AddToList(vector<string>& list, string str)
 void Parser::tokenizer(string line)//split the string into tokens
 {
 	vector<string> list;
-	string delimiter = " -+*;{}=";//delimiters
+	string delimiter = " ()-+*;{}=";//delimiters
 	int position = 0;//starting position
 	int startindex = -1;
 	int endindex = -1;
@@ -182,6 +184,10 @@ void Parser::tokenizer(string line)//split the string into tokens
 
 		startindex = line.find_first_not_of(delimiter,position);
 
+		if(startindex == 42)
+		{
+			int lolt = 1;
+		}
 		
 
 		if(endindex != -1 && endindex<line.size())

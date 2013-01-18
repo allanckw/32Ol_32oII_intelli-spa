@@ -14,6 +14,7 @@ private:
 	static int getConstantValue(string s);
 	static bool isValidExpr(vector<string> expr);
 
+
 public:
 	static ASTExprNode* processAssignment(MathExpression);
 	

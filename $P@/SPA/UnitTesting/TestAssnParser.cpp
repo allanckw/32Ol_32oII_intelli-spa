@@ -164,7 +164,7 @@ void TestAssnParser::testAssignmentParsing()
 
 	expr.clear();
 	//		*
-	//	+		2	
+	//	+		33	
 	//x   yas	
 	
 	expr.push_back("(");
@@ -192,7 +192,40 @@ void TestAssnParser::testAssignmentParsing()
 
 	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Variable, plus->getChild(1)->getType()); 
 	CPPUNIT_ASSERT_EQUAL(PKB::variables.getVARIndex("yas"), plus->getChild(1)->getValue());
+
+	expr.clear();
+	//x+(yas*(16+11*x))
+
+	expr.push_back("x");
+	expr.push_back("+");
+	expr.push_back("(");
+	expr.push_back("yas");
+	expr.push_back("*");
+	expr.push_back("(");
+	expr.push_back("16");
+	expr.push_back("+");
+	expr.push_back("11");
+	expr.push_back("*");
+	expr.push_back("x");
+	expr.push_back(")");
+	expr.push_back(")");
+	expr.push_back(";");
+
+	//		+
+	// x		*
+	//		yas		+
+	//			16		*
+	//				11		x
+
+	opr = AssignmentParser::processAssignment(expr);
+	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Operator, opr->getType()); //+
+	CPPUNIT_ASSERT_EQUAL(getOprType("+"), opr->getValue());
+
+	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Variable, opr->getChild(0)->getType());
+	CPPUNIT_ASSERT_EQUAL(PKB::variables.getVARIndex("x"), opr->getChild(0)->getValue());
+
+	times = dynamic_cast<ASTExprNode* >(opr->getChild(1));
+	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Operator, times->getType());
+	CPPUNIT_ASSERT_EQUAL(getOprType("*"), times->getValue());
+
 }
-
-
-

@@ -102,30 +102,28 @@ ASTExprNode* AssignmentParser::processAssignment(MathExpression expr)
 			break; 
 
 		//Bracket For Shunting Yard
-		if (token == "("){
-			//Create the expression, in vector form until ")", ")" not found then Throw exception
+		if (token == "(" && subExprBrackets.size() == 0){ //Create the expression, in vector form until ")", ")" not found then Throw exception
 			subExprBrackets.push(token);
-		}
-		else if (subExprBrackets.size() > 0){
+
+		} else if (subExprBrackets.size() > 0){
 
 			if (token == "("){
-			
 				subExprBrackets.push(token);
-
-			} else if (token == ")" && subExprBrackets.size() == 1) {
-
-				subExprBrackets.pop();
-				subExpr.push_back(";");
-				operands.push(AssignmentParser::processAssignment(subExpr));
-
-			} else if (token == ")" && subExprBrackets.size() > 1) {
-
-				subExprBrackets.pop();
-				
-			} else {
-
 				subExpr.push_back(token);
 
+			} else if (token == ")") {
+				
+				subExprBrackets.pop();
+
+				if (subExprBrackets.size() > 0){
+					subExpr.push_back(token);
+
+				} else if (subExprBrackets.size() == 0){
+					subExpr.push_back(";");
+					operands.push(AssignmentParser::processAssignment(subExpr));
+				}
+			} else {
+					subExpr.push_back(token);
 			}
 		}
 		else if (AssignmentParser::isOperator(token)) {
@@ -158,7 +156,7 @@ ASTExprNode* AssignmentParser::processAssignment(MathExpression expr)
 				}
 			}
 		}
-		else { //it is an operands
+		else { //it is an operand
 
 			if (Helper::isNumber(token)){ //Check that it is a constant, if it is create a constant node and push it into operand stack
 				int value = atoi(token.c_str());

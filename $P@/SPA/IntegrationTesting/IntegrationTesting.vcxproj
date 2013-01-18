@@ -68,10 +68,6 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\$P%40\SPA\IntegrationTesting\source\TestBuildAST.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\IntegrationTesting\TestDesignExtractor.cpp" />
-    <ClCompile Include="..\..\..\$P%40\SPA\IntegrationTesting\TestQueryEvaluator.cpp" />
-    <ClCompile Include="..\..\..\$P%40\SPA\IntegrationTesting\TestQueryParser.cpp" />
-    <ClCompile Include="..\..\..\$P%40\SPA\IntegrationTesting\TestQueryPreprocessor.cpp" />
-    <ClCompile Include="..\..\..\$P%40\SPA\IntegrationTesting\TestQueryTreeBuilder.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\IntegrationTesting\TestSingleQueryEvaluator.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\UnitTesting\TestProcTable.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\UnitTesting\TestVarTable.cpp" />
@@ -80,10 +76,6 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\$P%40\SPA\IntegrationTesting\source\TestBuildAST.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\IntegrationTesting\TestDesignExtractor.h" />
-    <ClInclude Include="..\..\..\$P%40\SPA\IntegrationTesting\TestQueryEvaluator.h" />
-    <ClInclude Include="..\..\..\$P%40\SPA\IntegrationTesting\TestQueryParser.h" />
-    <ClInclude Include="..\..\..\$P%40\SPA\IntegrationTesting\TestQueryPreprocessor.h" />
-    <ClInclude Include="..\..\..\$P%40\SPA\IntegrationTesting\TestQueryTreeBuilder.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\IntegrationTesting\TestSingleQueryEvaluator.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\UnitTesting\TestProcTable.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\UnitTesting\TestVarTable.h" />

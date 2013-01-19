@@ -31,52 +31,6 @@ int AssignmentParser::compareOprPrecedence(string opr1, string opr2)
 		return getOperatorWeight(opr1) - getOperatorWeight(opr2);
 }
 
-bool AssignmentParser::isValidExpr(vector<string> expr)
-{
-	stack<string> brackets;
-	int expect = 0; //0=constant or number, 1 = opr
-
-	for(unsigned int i=0; i<expr.size(); i++) {
-
-		if(i == 24)
-		{
-			int az = 1;
-		}
-		if (i == expr.size() - 1)
-			break;
-
-		if(expect == 1 &&  expr.at(i) == "("){
-			expect = 0;
-		} else if(expect == 0 &&  expr.at(i) == ")"){
-			return false;
-		}
-
-		if(expr.at(i) == "("){
-			brackets.push("(");
-		} else if (expr.at(i) == ")") {
-			if(brackets.size() == 0 || brackets.top() != "("){
-				return false;
-			}
-			brackets.pop();
-		} else {
-			if(AssignmentParser::isOperator(expr.at(i))) {
-				if(expect == 0){
-					return false;
-				}
-				expect = 0;
-			} else {//var or constant
-				if(expect == 1){
-					return false;
-				}
-				expect = 1;
-			}
-		}
-	}
-	
-	return (brackets.size() == 0);
-
-}
-
 //Some References
 //http://www.engr.mun.ca/~theo/Misc/exp_parsing.htm
 //http://www.technical-recipes.com/2011/a-mathematical-expression-parser-in-java/
@@ -87,15 +41,6 @@ ASTExprNode* AssignmentParser::processAssignment(MathExpression expr)
 
 	vector<string> subExpr;
 
-	if (!AssignmentParser::isValidExpr(expr)){
-		//before we actually build the tree, check that if it is even valid, if it is not valid
-		//then there is no point going thru the shunting yard algorithm
-		string msg;
-		for (unsigned int i = 0; i < expr.size(); i++) {
-			msg += expr.at(i);
-		}
-		throw SPAException(msg + " is an invalid expression");
-	}
 	for (unsigned int i = 0; i < expr.size(); i++ ) {
 		string token = expr[i]; 
 		if (token == "/" || token == "^" || token == "%")

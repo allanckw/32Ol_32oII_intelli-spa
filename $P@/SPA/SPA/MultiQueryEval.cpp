@@ -8,8 +8,6 @@
 #include "ASTStmtLstNode.h"
 #include "AssignmentParser.h"
 
-//#include "../AutoTester/source/AbstractWrapper.h"
-
 //string MultiQueryEval::getToken(const string& query, int& pos)
 string MultiQueryEval::getToken(string query, int& pos)
 {

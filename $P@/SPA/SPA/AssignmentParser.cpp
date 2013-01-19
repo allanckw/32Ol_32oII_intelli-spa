@@ -38,6 +38,10 @@ bool AssignmentParser::isValidExpr(vector<string> expr)
 
 	for(unsigned int i=0; i<expr.size(); i++) {
 
+		if(i == 24)
+		{
+			int az = 1;
+		}
 		if (i == expr.size() - 1)
 			break;
 
@@ -70,6 +74,7 @@ bool AssignmentParser::isValidExpr(vector<string> expr)
 	}
 	
 	return (brackets.size() == 0);
+
 }
 
 //Some References
@@ -77,36 +82,35 @@ bool AssignmentParser::isValidExpr(vector<string> expr)
 //http://www.technical-recipes.com/2011/a-mathematical-expression-parser-in-java/
 ASTExprNode* AssignmentParser::processAssignment(MathExpression expr)
 {
-	stack<string> operators; 
+	stack<string> operators, subExprBrackets; 
 	stack<ASTExprNode*> operands;
 
-	stack<string> subExprBrackets;
 	vector<string> subExpr;
 
-	if (!AssignmentParser::isValidExpr(expr)){
-		//before we actually build the tree, check that if it is even valid, if it is not valid
-		//then there is no point going thru the shunting yard algorithm
-		string msg;
-		for (unsigned int i = 0; i < expr.size(); i++) {
-			msg += expr.at(i);
-		}
-		throw SPAException(msg + " is an invalid expression");
-	}
-
+	//if (!AssignmentParser::isValidExpr(expr)){
+	//	//before we actually build the tree, check that if it is even valid, if it is not valid
+	//	//then there is no point going thru the shunting yard algorithm
+	//	string msg;
+	//	for (unsigned int i = 0; i < expr.size(); i++) {
+	//		msg += expr.at(i);
+	//	}
+	//	throw SPAException(msg + " is an invalid expression");
+	//}
 	for (unsigned int i = 0; i < expr.size(); i++ ) {
 		string token = expr[i]; 
 		if (token == "/" || token == "^" || token == "%")
 			throw SPAException("Operator not supported, use '+', '-' or '*' only");
 		
-		if (token == ";")
+		if (token == ";") //terminating sequence for assignment
 			break; 
 
-		//Bracket For Shunting Yard
-		if (token == "(" && subExprBrackets.size() == 0){ //Create the expression, in vector form until ")", ")" not found then Throw exception
+		if (token == ")" && subExprBrackets.size() == 0)
+			throw SPAException("Please check your expression, additional brackets are found!");
+
+		if (token == "(" && subExprBrackets.size() == 0){ 	//Bracket For Shunting Yard
 			subExprBrackets.push(token);
 
 		} else if (subExprBrackets.size() > 0){
-
 			if (token == "("){
 				subExprBrackets.push(token);
 				subExpr.push_back(token);
@@ -120,17 +124,17 @@ ASTExprNode* AssignmentParser::processAssignment(MathExpression expr)
 
 				} else if (subExprBrackets.size() == 0){
 					subExpr.push_back(";");
-					operands.push(AssignmentParser::processAssignment(subExpr));
+					operands.push(AssignmentParser::processAssignment(subExpr)); //recursive call here
+					subExpr.clear();
 				}
 			} else {
-					subExpr.push_back(token);
+				subExpr.push_back(token);
 			}
-		}
-		else if (AssignmentParser::isOperator(token)) {
+
+		} else if (AssignmentParser::isOperator(token)) {
 			if (operators.empty()) {//if the operator stack is empty simply push
 
 				operators.push(token);
-			
 			} else {
 				//Compare the precedence of + with the top of the stack 
 				if (AssignmentParser::compareOprPrecedence(token, operators.top()) > 0)	{
@@ -155,8 +159,7 @@ ASTExprNode* AssignmentParser::processAssignment(MathExpression expr)
 					operators.push(token);
 				}
 			}
-		}
-		else { //it is an operand
+		} else { //it is an operand
 
 			if (Helper::isNumber(token)){ //Check that it is a constant, if it is create a constant node and push it into operand stack
 				int value = atoi(token.c_str());
@@ -194,6 +197,5 @@ ASTExprNode* AssignmentParser::processAssignment(MathExpression expr)
 		operands.push(oprNode);
 		operators.pop();
 	}
-
 	return operands.top();
 }

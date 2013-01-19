@@ -373,16 +373,10 @@ MultiQueryEval::MultiQueryEval(string query)
 				usesVar.erase(remove(usesVar.begin(), usesVar.end(), '\t'), usesVar.end());
 				usesVar.erase(remove(usesVar.begin(), usesVar.end(), ' '), usesVar.end());
 
+				//if rhs not _ then just use use table
 				
-				//
-				/*
-				if rhs not _ then just use use table
-				*/
-
 				EvaluatePattern((ASTNode::Assign), modifiesVar,usesVar);
-
-
-
+				
 				if (modifiesVar == "_") {
 					if (usesVar != "_") {
 						string input = usesVar;
@@ -537,8 +531,6 @@ MultiQueryEval::MultiQueryEval(string query)
 						(*it).second = firstRelIndex;
 			}
 		}
-		/*if (AbstractWrapper::GlobalStop)
-			return;*/
 	}
 
 	//evaluate patterns
@@ -981,11 +973,8 @@ bool MultiQueryEval::TryMatch(ASTNode* testedNode,PattenLHSType LHS, PattenRHSTy
 	//just need verify rhs which at this pt no longer a wildcard
 	///////////////////////////////////////
 
-
-
 	ASTNode* head= testedNode->getChild(1);
 
-	
 	//int rightInt = PKB::variables.getVARIndex(incCodes.at(0));
 
 	//if(!isSubsTree)//if not a subtree, since we only handle 1 variable so right side must be a variable if is true
@@ -1042,8 +1031,6 @@ bool MultiQueryEval::TryMatch(ASTNode* testedNode,PattenLHSType LHS, PattenRHSTy
 		
 			//RHSexpr->
 
-		
-
 			if(result == false && MatcherTree(tempnode,pattern))//,isSub))
 			{
 				result = true; 
@@ -1054,7 +1041,6 @@ bool MultiQueryEval::TryMatch(ASTNode* testedNode,PattenLHSType LHS, PattenRHSTy
 
 			if(tempnode->getType() == ASTNode::Operator)
 			{
-			
 				nodesStack.push(tempnode->getChild(1));//add right side in
 
 				nodesStack.push(tempnode->getChild(0));//add left side in

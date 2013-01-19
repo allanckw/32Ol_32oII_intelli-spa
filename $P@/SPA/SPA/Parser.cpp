@@ -17,23 +17,20 @@ stack<char> brackets;
 Parser::Parser(string fileName)
 {
 	string codings;
-	//try{
-	  string line;
+	string line;
 	  
-	  ifstream myfile (fileName);//CS3201test6.txt");
+	ifstream myfile (fileName);
 
-	  if (myfile.is_open()) {
-		  while ( myfile.good() )		{		  
-	
-			  getline(myfile,line);
-			  codings.append(line);
-		  }
-
-		  myfile.close();
+	if (myfile.is_open()) {
+		while ( myfile.good() ) {		  
+			getline(myfile,line);
+			codings.append(line);
+		}
+		myfile.close();
 	  }else 
 		  cout << "Unable to open file"<<endl; 
-	  int currentline = 0;
 
+	  int currentline = 0;
 	  tokenizer(codings);
 
 	  if(brackets.size() != 0){
@@ -41,11 +38,6 @@ Parser::Parser(string fileName)
 	  }	else {
 		PKB::maxProgLines = currentline;
 	  }
-
-	// 
-	//}catch (exception& e) {
-	//	cout << e.what() << endl;
-	//} 
 }
 
 Parser::~Parser(void)
@@ -55,14 +47,12 @@ Parser::~Parser(void)
 bool Parser::isStrCheckNoSpecialChar(string newtoken)
  {
 	 int result = newtoken.find_first_of("!@#$%^&*()_+{}|\\][~`", 0);
-		 
 	 return result != string::npos;
  }
 
 bool Parser::isEmpty(string str)
 {
-	for(unsigned int index=0;index<str.size();index++)
-	{
+	for(unsigned int index=0;index<str.size();index++){
 		if(str.at(index)!= ' ')
 			return false;
 	}
@@ -80,7 +70,6 @@ string Parser::Trim(string str)
 {
 	str.erase(remove(str.begin(), str.end(), '\t'), str.end());
 	str.erase(remove(str.begin(), str.end(), ' '), str.end());
-
 	return str;
 }
 
@@ -97,32 +86,21 @@ void Parser::AddTables(vector<string> list, string newtoken)
 		newtoken.compare("else") == 0||newtoken.compare(";") == 0)//found a reserve token
 	{
 		return;
-	}
-	else if(newtoken[0] == '{' || newtoken[0] == '}')//found a bracket
-	{
+	}else if(newtoken[0] == '{' || newtoken[0] == '}'){ //found a bracket
 		
-		if(newtoken[0] == '{' )
-		{
+		if(newtoken[0] == '{' )	{
 			brackets.push('{');//push open braket to stack
-		}
-		else if(newtoken[0] == '}' )
-		{
+		}else if(newtoken[0] == '}' ){
 			
-			if(brackets.size() == 0)
-			{
+			if(brackets.size() == 0)	{
 				throw SPAException("Error during Parsing, Invalid Bracket matching");//error bracket matching
-				
 			}
-			else if(brackets.top() != '{')
-			{
+			else if(brackets.top() != '{'){
 				throw SPAException("Error during Parsing, Invalid Bracket matching"); //error bracket matching
 			}
 			brackets.pop();//pop the bracket from the stack
-			
 		}
-		
-	}
-	else if(!isdigit(newtoken[0]))//if currentoken is not a number hence may be a variable or procedure
+	}else if(!isdigit(newtoken[0]))//if currentoken is not a number hence may be a variable or procedure
 	{
 		if (isStrCheckNoSpecialChar(newtoken)) {
 			throw SPAException("Error invalid source Syntax");
@@ -133,9 +111,7 @@ void Parser::AddTables(vector<string> list, string newtoken)
 				PKB::variables.insertVAR(newtoken);
 			}
 		}
-	}
-	else
-	{
+	}else{
 		if(size != 0 && list.at(size-1) == "procedure")
 			throw SPAException("Error during Parsing, Invalid Procedure Starting Number");//error procedure start with a number
 		else if(!is_number(newtoken))
@@ -143,7 +119,6 @@ void Parser::AddTables(vector<string> list, string newtoken)
 			throw SPAException("Error during Parsing, Invalid Variable Starting Number");//error variable start with a number
 		}
 	}
-
 }
 
 void Parser::AddToList(vector<string>& list, string str)
@@ -177,18 +152,13 @@ void Parser::tokenizer(string line)//split the string into tokens
 	int position = 0;//starting position
 	int startindex = -1;
 	int endindex = -1;
-
 	
-	do//loop thru the string
-	{
-
+	do	{ //loop thru the string
 		startindex = line.find_first_not_of(delimiter,position);
 
-		if(startindex == 42)
-		{
+		if(startindex == 42) {
 			int lolt = 1;
 		}
-		
 
 		if(endindex != -1 && endindex<line.size())
 			{
@@ -201,43 +171,32 @@ void Parser::tokenizer(string line)//split the string into tokens
 				{
 					tempstr1 = line.substr(endindex,startindex - endindex);
 				}
-				for(unsigned int i=0;i<tempstr1.size();)
-				{
+				for(unsigned int i=0;i<tempstr1.size();) {
 					string tempstr2 = tempstr1.substr(0,1);
 					tempstr1 = tempstr1.substr(1,tempstr1.size()-1);
 					
 						AddToList(list,tempstr2);
-						//AddTables(list,tempstr2);
-						//list.push_back(tempstr2);
-					
 				}
 			}
 
 			endindex = line.find_first_of(delimiter,startindex);
-
 			position = endindex;
 		
-			if(startindex != -1 || line.size() == 1)
-			{
+			if(startindex != -1 || line.size() == 1) {
 				string tempstr;
 				if(line.size() == 1)
 					tempstr= line;
 				else
 					tempstr= line.substr(startindex,endindex-startindex);
 
-				
-					AddToList(list,tempstr);
-					//AddTables(list,tempstr);
-					//list.push_back(tempstr);			
+				AddToList(list,tempstr);
 				
 			}
 
 	}while(startindex != -1 && position < line.size() && endindex != -1);
-	
 
 	//house keeping
-	if(Parser::tokenized_codes.size() > 1)
-	{
+	if(Parser::tokenized_codes.size() > 1)	{
 		vector<string> temp_vec = Parser::tokenized_codes.at(0);
 		temp_vec.insert(temp_vec.end(), Parser::tokenized_codes.at(1).begin(),Parser::tokenized_codes.at(1).end());
 		Parser::tokenized_codes.erase(Parser::tokenized_codes.begin());
@@ -246,8 +205,6 @@ void Parser::tokenizer(string line)//split the string into tokens
 
 	if(list.size() > 0)
 	Parser::tokenized_codes.push_back(list);
-
-	
 }
 
 void Parser::buildAST()

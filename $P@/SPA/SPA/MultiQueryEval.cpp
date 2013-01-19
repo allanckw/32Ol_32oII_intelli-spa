@@ -24,6 +24,53 @@ string MultiQueryEval::getToken(string query, int& pos)
 	return query.substr(first, pos - first);
 }
 
+
+string MultiQueryEval::getToken2(string query, int& pos)
+{
+	int first = query.find_first_not_of(' ', pos);
+	if (first == string::npos)
+		return "";
+
+	stack<char> charstack;
+	int tempt = first;
+	while(true)
+	{
+		pos = query.find_first_of("\"()", tempt);
+		if(query.at(pos) == '\"')
+		{
+			
+			if(charstack.size() > 0 && charstack.top() == '\"')
+				charstack.pop();
+			else
+				charstack.push('\"');
+		}
+		else if(query.at(pos) == '(')
+		{
+			charstack.push('(');
+		}
+		else if(query.at(pos) == ')')
+		{
+			if(charstack.size() == 0)
+				break;
+			else if(charstack.size() > 0 && charstack.top() == '(')
+				charstack.pop();
+			else
+				throw new SPAException("Error in parsing query");
+		}
+		else
+			throw new SPAException("Error in parsing query");
+		tempt = pos+1;
+	}
+	if(charstack.size() != 0 )
+		throw new SPAException("Error in parsing query");
+
+	if (pos == first) {
+		pos++;
+		return query.substr(first, 1);
+	}
+	return query.substr(first, pos - first);
+}
+
 void MultiQueryEval::matchToken(string query, int& pos, const string& match)
 {
 	if (getToken(query, pos) != match)

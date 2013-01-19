@@ -87,15 +87,15 @@ ASTExprNode* AssignmentParser::processAssignment(MathExpression expr)
 
 	vector<string> subExpr;
 
-	//if (!AssignmentParser::isValidExpr(expr)){
-	//	//before we actually build the tree, check that if it is even valid, if it is not valid
-	//	//then there is no point going thru the shunting yard algorithm
-	//	string msg;
-	//	for (unsigned int i = 0; i < expr.size(); i++) {
-	//		msg += expr.at(i);
-	//	}
-	//	throw SPAException(msg + " is an invalid expression");
-	//}
+	if (!AssignmentParser::isValidExpr(expr)){
+		//before we actually build the tree, check that if it is even valid, if it is not valid
+		//then there is no point going thru the shunting yard algorithm
+		string msg;
+		for (unsigned int i = 0; i < expr.size(); i++) {
+			msg += expr.at(i);
+		}
+		throw SPAException(msg + " is an invalid expression");
+	}
 	for (unsigned int i = 0; i < expr.size(); i++ ) {
 		string token = expr[i]; 
 		if (token == "/" || token == "^" || token == "%")

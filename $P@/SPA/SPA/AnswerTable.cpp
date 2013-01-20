@@ -14,23 +14,30 @@ AnswerTable::AnswerTable(SynonymTable synonymTable, string synonym)
 	bool unrestricted = true;
 
 	vector<int> table;
-	unordered_map<string, string> attributes = synonymTable.getAllAttributes(synonym);
-	unordered_set<RulesOfEngagement::QueryRelations> selfReferences = synonymTable.getAllSelfReferences(synonym);
-	vector<pair<RulesOfEngagement::QueryRelations, RulesOfEngagement::QueryVar>> firstGeneric =
+	unordered_map<string, string>& attributes = synonymTable.getAllAttributes(synonym);
+	unordered_set<RulesOfEngagement::QueryRelations>& selfReferences = synonymTable.getAllSelfReferences(synonym);
+	vector<pair<RulesOfEngagement::QueryRelations, RulesOfEngagement::QueryVar>>& firstGeneric =
 		synonymTable.getAllFirstGeneric(synonym);
-	vector<pair<RulesOfEngagement::QueryRelations, string>> firstSpecific =
+	vector<pair<RulesOfEngagement::QueryRelations, string>>& firstSpecific =
 		synonymTable.getAllFirstSpecific(synonym);
-	vector<pair<RulesOfEngagement::QueryRelations, RulesOfEngagement::QueryVar>> secondGeneric =
+	vector<pair<RulesOfEngagement::QueryRelations, RulesOfEngagement::QueryVar>>& secondGeneric =
 		synonymTable.getAllSecondGeneric(synonym);
-	vector<pair<RulesOfEngagement::QueryRelations, string>> secondSpecific =
+	vector<pair<RulesOfEngagement::QueryRelations, string>>& secondSpecific =
 		synonymTable.getAllSecondSpecific(synonym);
 
 	if (attributes.count("stmtNo") > 0) {
-		table.push_back(Helper::stringToInt(attributes["stmtNo"]));
+		int stmtNo = Helper::stringToInt(attributes["stmtNo"]);
+		if (stmtNo > PKB::maxProgLines)
+			return;
+		table.push_back(stmtNo);
 		unrestricted = false;
 	}
 
 	if (unrestricted && attributes.count("procName") > 0) {
+		PROCIndex procIndex = PKB::procedures.getPROCIndex(attributes["procName"]);
+		if (procIndex == -1)
+			return;
+
 		if (synonymTable.getType(synonym) == RulesOfEngagement::Procedure)
 			table.push_back(PKB::procedures.getPROCIndex(attributes["procName"]));
 		else if (synonymTable.getType(synonym) == RulesOfEngagement::Calls)
@@ -40,12 +47,19 @@ AnswerTable::AnswerTable(SynonymTable synonymTable, string synonym)
 	}
 
 	if (attributes.count("varName") > 0) {
-		table.push_back(PKB::variables.getVARIndex(attributes["varName"]));
+		VARIndex varIndex = PKB::variables.getVARIndex(attributes["varName"]);
+		if (varIndex == -1)
+			return;
+
+		table.push_back(varIndex);
 		unrestricted = false;
 	}
 
 	if (attributes.count("value") > 0) {
-		table.push_back(Helper::stringToInt(attributes["value"]));
+		int value = Helper::stringToInt(attributes["value"]);
+		if (PKB::constantsTable.count(value) == 0)
+			return;
+		table.push_back(value);
 		unrestricted = false;
 	}
 
@@ -155,19 +169,21 @@ void AnswerTable::prune(string firstSynonym,
 	answers = newTable;
 }
 
-void AnswerTable::patternPrune(string synonym, bool modifiesIsSynonym,
-	int modifies, string uses)
-{
+void AnswerTable::patternPrune(string synonym, bool modifiesIsSynonym, int modifies,
+	RulesOfEngagement::PatternRHSType RHS, string RHSVarName, ASTExprNode* RHSexprs)
+{//TryMatch(temp,LHS,RHS,LHSvarnum,RHSexprs));
 	int firstRelIndex = synonymPosition[synonym];
 
 	vector<vector<int>> newTable;
 	if (modifiesIsSynonym) {
 		for (auto it = answers.begin(); it != answers.end(); it++)
-			if (RulesOfEngagement::satisfyPattern((*it)[firstRelIndex], (*it)[modifies], uses))
+			if (RulesOfEngagement::satisfyPattern((*it)[firstRelIndex],
+				(*it)[modifies], RHS, RHSVarName, RHSexprs))
 				newTable.push_back(*it);
 	} else {
 		for (auto it = answers.begin(); it != answers.end(); it++)
-			if (RulesOfEngagement::satisfyPattern((*it)[firstRelIndex], modifies, uses))
+			if (RulesOfEngagement::satisfyPattern((*it)[firstRelIndex],
+				modifies, RHS, RHSVarName, RHSexprs))
 				newTable.push_back(*it);
 	}
 	answers = newTable;

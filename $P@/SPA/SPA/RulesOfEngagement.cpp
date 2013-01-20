@@ -6,6 +6,7 @@
 unordered_map<string, RulesOfEngagement::QueryRelations> RulesOfEngagement::tokenToRel;
 unordered_map<string, RulesOfEngagement::QueryVar> RulesOfEngagement::tokenToVar;
 unordered_map<RulesOfEngagement::QueryVar, set<string>> RulesOfEngagement::allowableConditions;
+unordered_map<string, RulesOfEngagement::QueryVar> RulesOfEngagement::conditionTypes;
 unordered_map<RulesOfEngagement::QueryRelations, set<RulesOfEngagement::QueryVar>> RulesOfEngagement::allowableFirstArgument;
 unordered_map<RulesOfEngagement::QueryRelations, RulesOfEngagement::QueryVar> RulesOfEngagement::privilegedFirstArgument;
 unordered_map<RulesOfEngagement::QueryRelations, set<RulesOfEngagement::QueryVar>> RulesOfEngagement::allowableSecondArgument;
@@ -45,12 +46,17 @@ void RulesOfEngagement::initialise()
 	allowableConditions[Procedure].insert("procName");
 	allowableConditions[Call].insert("procName");
 	allowableConditions[Variable].insert("varName");
-	allowableConditions[Constant].insert("Value");
+	allowableConditions[Constant].insert("value");
 	allowableConditions[Statement].insert("stmtNo");
 	allowableConditions[Assign].insert("stmtNo");
 	allowableConditions[While].insert("stmtNo");
 	allowableConditions[If].insert("stmtNo");
 	allowableConditions[Call].insert("stmtNo");
+
+	conditionTypes["procName"] = String;
+	conditionTypes["varName"] = String;
+	conditionTypes["value"] = Integer;
+	conditionTypes["stmtNo"] = Integer;
 
 	allowableFirstArgument[Modifies].insert(Procedure);
 	allowableFirstArgument[Modifies].insert(Statement);
@@ -468,94 +474,122 @@ vector<int> RulesOfEngagement::getAll<Type>()
 //end type map
 
 //pattern
-bool RulesOfEngagement::satisfyPattern(int index, int modifiesVar, string usesVar)
+bool RulesOfEngagement::satisfyPattern(int index, int modifiesVar,
+	RulesOfEngagement::PatternRHSType RHS, string RHSVarName, ASTExprNode* RHSexprs)
 {
-	if (!isModifiesStmt(index, modifiesVar))
+	if (modifiesVar >= 0 && !isModifiesStmt(index, modifiesVar))
 		return false;
 
 	static unordered_map<int, unordered_map<string, bool>> map;
-	if (map.count(modifiesVar) > 0 && map[modifiesVar].count(usesVar) > 0)
-		return map[modifiesVar][usesVar];
-	return map[modifiesVar][usesVar] = tryMatch(PKB::assignNodes[index], usesVar, vector<string>(), false); //to be changed
+	if (map.count(index) > 0 && map[index].count(RHSVarName) > 0)
+		return map[index][RHSVarName];
+
+	return map[index][RHSVarName] = TryMatch(PKB::assignNodes[index], RHS, RHSexprs);
 }
 
 //RHS for now handles patterns in the form of "a" or _"a"_
-bool RulesOfEngagement::tryMatch(ASTNode* testedNode, string targetVar,vector<string> incCodes, bool isSubsTree)
+bool RulesOfEngagement::TryMatch(ASTNode* testedNode,
+	RulesOfEngagement::PatternRHSType RHS, ASTExprNode* RHSexpr)
 {
-	return true;
-	/*if(!(testedNode->getType() == ASTNode::Assign))
-		throw SPAException("Error, this node not an assignNode");
-
-	if(!testedNode->isHasChildren())
-		throw SPAException("Assignment no child error!");
-
-	bool leftTrue = true;
-
-	if(!allVarsFirst)
-	{
-		currentFirstVariableNo = PKB::variables.getVARIndex(targetVar);
-		if(!(targetVar.compare("_") == 0) && currentFirstVariableNo != testedNode->getChild(0)->getValue())
-		{
-			return false;
-		}
-		////////at this point left hand side is ok
-	}
 	ASTNode* head= testedNode->getChild(1);
 
-	bool rightTrue = false;
+	//int rightInt = PKB::variables.getVARIndex(incCodes.at(0));
 
-	if(incCodes.at(0).compare("_") == 0)
-		rightTrue = true;
+	//if(!isSubsTree)//if not a subtree, since we only handle 1 variable so right side must be a variable if is true
+	//{
+	//	if(head->getType() != ASTNode::Variable)//right node is not a variable = auto fail
+	//		return false;
+	//	else if(rightInt == head->getValue()) //right side value is same as rightint
+	//		return true;
+	//	else
+	//		return false; //if not equal return false
+	//}
+	stack<ASTNode*> nodesStack; 
 
-	if(leftTrue && rightTrue)
-		return true;
+	//nodesStack.push(head->getChild(0));
 
+	//nodesStack.push(head->getChild(1));
+	
+	nodesStack.push(head);
+	ASTNode* pattern = RHSexpr;
 
-	int rightInt = PKB::variables.getVARIndex(incCodes.at(0));
-
-	if(!isSubsTree)//if not a subtree, since we only handle 1 variable so right side must be a variable if is true
+	if(RHS != RulesOfEngagement::PRSub)
+		return MatcherTree(head,pattern);
+	else
 	{
-		if(head->getType() != ASTNode::Variable)//right node is not a variable = auto fail
-			return false;
-		else if(rightInt == head->getValue()) //right side value is same as rightint
-			return true;
-		else
-			return false; //if not equal return false
-	}
-	stack<ASTNode*> nodesStack; //if subtree = true
-
-	/*nodesStack.push(head->getChild(0));
-
-	nodesStack.push(head->getChild(1));
-	*/
-	/*nodesStack.push(head);
-
-	while(nodesStack.size() > 0)
-	{
-		if(nodesStack.top()->getType() == ASTNode::Operator)
+		while(nodesStack.size() > 0)
 		{
+
 			ASTNode* tempnode = nodesStack.top();
 			nodesStack.pop();
-			nodesStack.push(tempnode->getChild(1));//add right side in
+							/*
+							ASTNode* temp = nodesStack.top();
+				nodesStack.pop();
+				int counter = 0;
 
-			nodesStack.push(tempnode->getChild(0));//add left side in
-		}
-		else if(nodesStack.top()->getType() == ASTNode::Variable || nodesStack.top()->getType() == ASTNode::Constant)
-		{
-			//assume is subtree
+				ASTStmtLstNode* t =	(ASTStmtLstNode*)temp;
 
-			if(nodesStack.top()->getType() == ASTNode::Variable && rightInt == nodesStack.top()->getValue())
+				for(int j=0;j<t->getSize();j++)
+				{
+					ASTNode* tempushnode = temp->getChild(j);
+					nodesStack.push(tempushnode);
+				}
+							*/
+			//
+				//check here
+			//if()
+			//ASTNode* tempnode
+		
+			//RHSexpr->
+
+			if (MatcherTree(tempnode,pattern))//,isSub))
 			{
-				return true;
+				return true; 
 			}
-			nodesStack.pop();
-		}
-		else
-		{
-			throw SPAException("Error! invalid node kind in operator");
+			//ASTExprNode* RHSexpr
+			//
+			//
+
+			if(tempnode->getType() == ASTNode::Operator)
+			{
+				nodesStack.push(tempnode->getChild(1));//add right side in
+
+				nodesStack.push(tempnode->getChild(0));//add left side in
+			}
+			//else if(nodesStack.top()->getType() == ASTNode::Variable || nodesStack.top()->getType() == ASTNode::Constant)
+			//{
+			//	//assume is subtree
+
+			//	if(nodesStack.top()->getType() == ASTNode::Variable && rightInt == nodesStack.top()->getValue())
+			//	{
+			//		return true;
+			//	}
+			//	nodesStack.pop();
+			//}
+			//else
+			//{
+			//	throw SPAException("Error! invalid node kind in operator");
+			//}
 		}
 	}
+	return false;
+}
 
-	return false;*/
+bool RulesOfEngagement::MatcherTree(ASTNode* Original, ASTNode* Pattern)//, bool isSub)
+{
+	if (Original->getType() != Pattern->getType() || Original->getValue() != Pattern->getValue())
+		return false;
+
+	if (Original->getType() == ASTNode::NodeType::Constant)
+		return true;
+	else if (Original->getType() == ASTNode::NodeType::Variable)
+		return true;
+	else if (Original->getType() == ASTNode::NodeType::Operator) {
+		if (!MatcherTree(Original->getChild(0),Pattern->getChild(0)));//, isSub);
+			return false;
+		return MatcherTree(Original->getChild(1),Pattern->getChild(1));//, isSub);
+	}
+
+	return false;
 }
 //end pattern

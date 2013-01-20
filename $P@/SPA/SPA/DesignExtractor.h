@@ -14,6 +14,12 @@
 class DesignExtractor
 {
 private:
+	static int totalNumOfProcs;
+	static unordered_map <PROC, unordered_set<PROC> > toProcAdjList;
+	static unordered_map <PROC, unordered_set<PROC> > fromProcAdjList;
+	static unordered_map <PROC, int> procCount;
+	static unordered_map <PROC, vector< stack<ASTStmtNode*> > > savestate;
+
 	static void buildFirstRound();
 	static void buildOtherTables(PROC);
 	static void CompleteExtraction();

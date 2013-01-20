@@ -8,8 +8,7 @@
 #include "ASTStmtLstNode.h"
 #include "AssignmentParser.h"
 
-//string MultiQueryEval::getToken(const string& query, int& pos)
-string MultiQueryEval::getToken(string query, int& pos)
+string MultiQueryEval::getToken(const string& query, int& pos)
 {
 	int first = query.find_first_not_of(' ', pos);
 	if (first == string::npos)
@@ -21,7 +20,6 @@ string MultiQueryEval::getToken(string query, int& pos)
 	}
 	return query.substr(first, pos - first);
 }
-
 
 string MultiQueryEval::getToken2(string query, int& pos)
 {
@@ -69,7 +67,7 @@ string MultiQueryEval::getToken2(string query, int& pos)
 	return query.substr(first, pos - first);
 }
 
-void MultiQueryEval::matchToken(string query, int& pos, const string& match)
+void MultiQueryEval::matchToken(const string& query, int& pos, const string& match)
 {
 	if (getToken(query, pos) != match)
 		throw new SPAException("Error in parsing query");
@@ -83,7 +81,7 @@ vector<string> MultiQueryEval::evaluateQuery(const string& query)
 	return temp.finalanswer;
 }
 
-MultiQueryEval::MultiQueryEval(string query)
+MultiQueryEval::MultiQueryEval(const string& query)
 {
 	SynonymTable synonymTable;
 	DisjointSet disjointSet;
@@ -108,10 +106,7 @@ MultiQueryEval::MultiQueryEval(string query)
 		if (next != ";")
 			throw new SPAException("Error in parsing query");
 	}
-
-	//{synonym, modifiesIsASynonym, modifiesVar, usesVar>
-	vector<tuple<string, bool, string, string>> patterns;
-
+	
 	//parse selected variables
 	string selected = getToken(query, pos);
 	vector<string> selects;
@@ -143,6 +138,12 @@ MultiQueryEval::MultiQueryEval(string query)
 	vector<string> relSecond;
 	vector<int> relClass;
 	unordered_map<string, vector<int>> relFirstToIndices;
+
+	//pattern table
+	vector<string> patternSynonym;
+	vector<RulesOfEngagement::QueryVar> patternType;
+	vector<string> patternLHS;
+	vector<string> patternRHS;
 
 	//parse relations, conditions and patterns
 	int clauseType = -1; //-1 undefined, 0 such that, 1 with, 2 pattern
@@ -395,86 +396,68 @@ MultiQueryEval::MultiQueryEval(string query)
 		case 2: //pattern
 			{
 				string synonym = getToken(query, pos);
-				if (synonymTable.getType(synonym) == RulesOfEngagement::Statement)
-					synonymTable.changeType(synonym, RulesOfEngagement::Assign);
-				else if (synonymTable.getType(synonym) != RulesOfEngagement::Assign)
-					throw new SPAException("Not valid type for pattern");
+				switch (synonymTable.getType(synonym)) {
+				case RulesOfEngagement::Assign:
+					{
+					matchToken(query, pos, "(");
+					string modifiesVar = getToken(query, pos);
+					matchToken(query, pos, ",");
+					string usesVar = getToken2(query, pos);
+					matchToken(query, pos, ")");
 
-				matchToken(query, pos, "(");
+					//remove white spaces
+					usesVar.erase(remove(usesVar.begin(), usesVar.end(), '\t'), usesVar.end());
+					usesVar.erase(remove(usesVar.begin(), usesVar.end(), ' '), usesVar.end());
 
-				string modifiesVar = getToken(query, pos);
-				
-				matchToken(query, pos, ",");
-
-				vector<string> matcher;
-				matcher.push_back("\")");
-				matcher.push_back("_)");
-				//matcher.push_back("\"_)");
-				//string usesVar = getToken(query, pos,  matcher, 1);//getToken(query, pos);
-				string usesVar = getToken2(query, pos);
-				//nick
-
-				//remove white spaces
-				usesVar.erase(remove(usesVar.begin(), usesVar.end(), '\t'), usesVar.end());
-				usesVar.erase(remove(usesVar.begin(), usesVar.end(), ' '), usesVar.end());
-
-				//if rhs not _ then just use use table
-				
-				EvaluatePattern((ASTNode::Assign), modifiesVar,usesVar);
-				
-				if (modifiesVar == "_") {
-					if (usesVar != "_") {
-						string input = usesVar;
-						usesVar = "t" + Helper::intToString(++tempVars);
-						while (synonymTable.isInTable(usesVar))
-							usesVar = "t" + usesVar;
-						synonymTable.insert(usesVar, RulesOfEngagement::Variable);
-						synonymTable.setAttribute(usesVar, "varName", input.substr(2, input.length() - 4));
-				
-						relFirstToIndices[synonym].push_back(relType.size());
-						relType.push_back(RulesOfEngagement::UsesStmt); //TODO: change to patternUses
-						relFirst.push_back(synonym);
-						relSecond.push_back(usesVar);
-						relClass.push_back(-1);
-						disjointSet.setUnion(synonym, usesVar);
-					}
-				} else {
-					if (usesVar == "_") {
-						if (!synonymTable.isInTable(modifiesVar)) {
-							string input = modifiesVar;
-							modifiesVar = "t" + Helper::intToString(++tempVars);
-							while (synonymTable.isInTable(modifiesVar))
-								modifiesVar = "t" + modifiesVar;
-							synonymTable.insert(modifiesVar, RulesOfEngagement::Variable); //hardcoding here
-							synonymTable.setAttribute(modifiesVar, "varName", input.substr(1, input.length() - 2));
+					if (modifiesVar == "_") {
+						if (usesVar == "_") {
+							if (PKB::assignTable.size() == 0)
+								return;
+						} else {
+							patternSynonym.push_back(synonym);
+							patternType.push_back(synonymTable.getType(synonym));
+							patternLHS.push_back(modifiesVar);
+							patternRHS.push_back(usesVar);
 						}
-
-						if (relFirstToIndices.count(synonym) > 0)
-							relFirstToIndices[synonym].push_back(relType.size());
-						else {
-							vector<int> temp;
-							temp.push_back(relType.size());
-							relFirstToIndices[synonym] = temp;
-						}
-						relType.push_back(RulesOfEngagement::ModifiesStmt);
-						relFirst.push_back(synonym);
-						relSecond.push_back(modifiesVar);
-						relClass.push_back(-1);
-
-						disjointSet.setUnion(synonym, modifiesVar);
 					} else {
-						if (synonymTable.isInTable(modifiesVar)) {
-							patterns.push_back(make_tuple(synonym, true, modifiesVar,
-							usesVar.substr(2, usesVar.length() - 4)));
-							disjointSet.setUnion(synonym, modifiesVar);
-						} else
-							patterns.push_back(make_tuple(synonym, false,
-							modifiesVar.substr(1, modifiesVar.length() - 2),
-							usesVar.substr(2, usesVar.length() - 4)));
-					}
-				}
+						if (usesVar == "_") {
+							if (!synonymTable.isInTable(modifiesVar)) {
+								string input = modifiesVar;
+								modifiesVar = "t" + Helper::intToString(++tempVars);
+								while (synonymTable.isInTable(modifiesVar))
+									modifiesVar = "t" + modifiesVar;
+								synonymTable.insert(modifiesVar, RulesOfEngagement::Variable); //hardcoding here
+								synonymTable.setAttribute(modifiesVar, "varName", input.substr(1, input.length() - 2));
+							}
 
-				matchToken(query, pos, ")");
+							if (relFirstToIndices.count(synonym) > 0)
+								relFirstToIndices[synonym].push_back(relType.size());
+							else {
+								vector<int> temp;
+								temp.push_back(relType.size());
+								relFirstToIndices[synonym] = temp;
+							}
+							relType.push_back(RulesOfEngagement::ModifiesStmt);
+							relFirst.push_back(synonym);
+							relSecond.push_back(modifiesVar);
+							relClass.push_back(-1);
+
+							disjointSet.setUnion(synonym, modifiesVar);
+						} else {
+							patternSynonym.push_back(synonym);
+							patternType.push_back(synonymTable.getType(synonym));
+							patternLHS.push_back(modifiesVar);
+							patternRHS.push_back(usesVar);
+						}
+					}
+					}
+					break;
+				case RulesOfEngagement::If:
+				case RulesOfEngagement::While:
+					break;
+				default:
+					throw new SPAException("Not valid type for pattern");
+				}
 			}
 			break;
 		default:
@@ -579,13 +562,27 @@ MultiQueryEval::MultiQueryEval(string query)
 	}
 
 	//evaluate patterns
-	for (auto it = patterns.begin(); it != patterns.end(); it++) {
-		string synonym = get<0>(*it);
-		bool modifiesIsSynonym = get<1>(*it);
-		string modifiesVar = get<2>(*it);
-		string usesVar = get<3>(*it);
+	for (unsigned int i = 0; i < patternType.size(); i++) {
+		string synonym = patternSynonym[i];
+		RulesOfEngagement::QueryVar type = patternType[i];
+		string modifiesVar = patternLHS[i];
+		string usesVar = patternRHS[i];
+		
+		RulesOfEngagement::PatternRHSType RHS;
+		string RHSVarName;
+		if(usesVar.at(0) == '_' && usesVar.at(usesVar.size() - 1) == '_') {
+			RHS = RulesOfEngagement::PRSub;
+			RHSVarName = usesVar.substr(1, usesVar.length() - 2);
+		} else {
+			RHS = RulesOfEngagement::PRNoSub;
+			RHSVarName = usesVar;
+		}
+		if (RHSVarName.at(0) != '\"' || RHSVarName.at(RHSVarName.length() - 1) != '\"')
+			throw SPAException("Error, Pattern Right Hand Side Invalid");
+		RHSVarName = RHSVarName.substr(1, RHSVarName.length() - 2);
+		ASTExprNode* RHSexprs = AssignmentParser::processAssignment(MiniTokenizer(RHSVarName));
 
-		if (modifiesIsSynonym) {
+		if (synonymTable.isInTable(modifiesVar)) {
 			int matchNumberOfTables = 0;
 			if (inWhichTable.count(synonym) > 0)
 				matchNumberOfTables++;
@@ -604,7 +601,7 @@ MultiQueryEval::MultiQueryEval(string query)
 						return;
 
 					firstRelTable.cartesian(secondRelTable);
-					firstRelTable.patternPrune(synonym, true, 1, usesVar);
+					firstRelTable.patternPrune(synonym, true, 1, RHS, RHSVarName, RHSexprs);
 					if (firstRelTable.getSize() == 0)
 						return;
 
@@ -622,8 +619,7 @@ MultiQueryEval::MultiQueryEval(string query)
 						return;
 
 					tables[firstRelIndex].cartesian(secondRelTable);
-					tables[firstRelIndex].patternPrune(synonym, true,
-						tables[firstRelIndex].synonymPosition[modifiesVar], usesVar);
+					tables[firstRelIndex].patternPrune(synonym, true, 1, RHS, RHSVarName, RHSexprs);
 					if (tables[firstRelIndex].getSize() == 0)
 						return;
 
@@ -636,7 +632,7 @@ MultiQueryEval::MultiQueryEval(string query)
 					int secondRelIndex = inWhichTable[modifiesVar];
 					tables[secondRelIndex].cartesian(firstRelTable);
 					tables[secondRelIndex].patternPrune(synonym, true,
-						tables[secondRelIndex].synonymPosition[modifiesVar], usesVar);
+						tables[secondRelIndex].synonymPosition[modifiesVar], RHS, RHSVarName, RHSexprs);
 					if (tables[secondRelIndex].getSize() == 0)
 						return;
 
@@ -654,11 +650,11 @@ MultiQueryEval::MultiQueryEval(string query)
 							(*it).second = firstRelIndex;
 				}
 				tables[firstRelIndex].patternPrune(synonym, true,
-						tables[firstRelIndex].synonymPosition[modifiesVar], usesVar);
+						tables[firstRelIndex].synonymPosition[modifiesVar], RHS, RHSVarName, RHSexprs);
 				if (tables[firstRelIndex].getSize() == 0)
 					return;
 			}
-		} else {
+		} else { //modifiesVar is not a synonym
 			if (inWhichTable.count(synonym) == 0) {
 				AnswerTable firstRelTable = AnswerTable(synonymTable, synonym);
 				if (firstRelTable.getSize() == 0)
@@ -668,9 +664,16 @@ MultiQueryEval::MultiQueryEval(string query)
 				tables.push_back(firstRelTable);
 			}
 			int synonymIndex = inWhichTable[synonym];
-			int modifiesIndex = PKB::variables.getVARIndex(modifiesVar);
 
-			tables[synonymIndex].patternPrune(synonym, false, modifiesIndex, usesVar);
+			int modifiesIndex;
+			if (modifiesVar.at(0) == '\"' && modifiesVar.at(modifiesVar.size() - 1) == '\"') {
+				modifiesIndex = PKB::variables.getVARIndex(modifiesVar.substr(1, modifiesVar.size() - 2));
+			} else if (modifiesVar == "_") {
+				modifiesIndex = -1;
+			} else
+				throw SPAException("Error, Pattern Left Hand Side Invalid");
+
+			tables[synonymIndex].patternPrune(synonym, false, modifiesIndex, RHS, RHSVarName, RHSexprs);
 			if (tables[synonymIndex].getSize() == 0)
 				return;
 		}
@@ -736,184 +739,6 @@ MultiQueryEval::MultiQueryEval(string query)
 		}
 		finalanswer.push_back(answer);
 	}
-}
-
-
-void MultiQueryEval::EvaluatePattern(ASTNode::NodeType type, string PatternLHS, string PatternRHS)
-{
-	
-	
-	PattenLHSType LHS;
-	string LHSVarName;
-	if (PatternLHS.at(0) == '\"' && PatternLHS.at(PatternLHS.size() - 1) == '\"')
-	{
-		LHS = PLStringVariable;
-		if (PatternLHS.size() == 3)
-			LHSVarName = Helper::charToString(PatternLHS.at(1));
-		else
-			LHSVarName = PatternLHS.substr(1, PatternLHS.size() - 2);
-	}
-	else if(PatternLHS.compare("_") == 0)
-		LHS = PLWildcard;
-	else
-		throw SPAException("Error, Pattern Left Hand Side Invalid");
-
-	//vecMatch = QueryParser::tokenize(currentSecondVariableName);
-	/*typedef enum enumPatternLHSType { 
-		PLWildcard, PLStringVariable
-	} PattenLHSType;
-	typedef enum enumPatternRHSType { 
-		PRWildcard, PRSub, PRNoSub
-	} PattenRHSType;*/
-
-	PattenRHSType RHS;
-	string RHSVarName;
-
-	if(PatternRHS.at(0) == '_' && PatternRHS.size()== 1)
-	{
-		RHS = PRWildcard;
-		
-	}
-	else{
-
-		if(PatternRHS.at(0) == '_' && PatternRHS.at(PatternRHS.size() - 1) == '_' && PatternRHS.size() > 2)
-		{
-			RHS = PRSub;
-			
-			RHSVarName = PatternRHS.substr(1,PatternRHS.length()-2);
-			
-		}
-		else
-		{
-			RHSVarName = PatternRHS;
-			RHS = PRNoSub;
-		}
-
-		RHSVarName.erase(remove(RHSVarName.begin(), RHSVarName.end(), '\"'), RHSVarName.end());//get rid of the start " and end "
-
-	}
-
-	stack<ASTNode*> nodesStack;
-	PKB::rootNode;
-	PKB::variables;
-	PKB::procedures;
-
-	nodesStack.push(PKB::rootNode);
-
-	vector<int> stmtLineTrue;
-
-	ASTExprNode* RHSexprs;
-	int LHSvarnum = -1;
-
-	if(RHS != PRWildcard)
-	{
-		vector<string> tokenized = MiniTokenizer(RHSVarName);;
-		//tokenized.push_back(";");
-		RHSexprs = AssignmentParser::processAssignment(tokenized);
-		
-	}
-
-	if(LHS != PLWildcard)
-	{
-		LHSvarnum = PKB::variables.getVARIndex(LHSVarName);
-	}
-
-	vector<string> ans;
-
-	//tokenize rhs first
-	while(nodesStack.size() > 0)
-	{
-		int tempchk = nodesStack.size();
-		if(nodesStack.top()->getType() == type)
-		{
-			ASTNode* temp = nodesStack.top();
-
-			ASTStmtNode* tempnode = (ASTStmtNode*)temp;
-
-
-			if(tempnode->getType() == ASTNode::NodeType::If ||tempnode->getType() == ASTNode::NodeType::While || TryMatch(temp,LHS,RHS,LHSvarnum,RHSexprs))//shld just throw LHSVarName, RHSVarName after rhs have been tokenize as they are emtpy if wildcard
-			{
-					ASTStmtNode* tempnode = (ASTStmtNode*)temp;
-					string tempstr = Helper::intToString(tempnode->getStmtNumber());//ans
-					ans.push_back(tempstr);
-							
-					
-			}
-			//QueryParser QP;
-			
-
-			//need to tokenize first
-		//	while(exIdx<RHSVarName.size())
-		//	{
-		//		/*rightExpression.push_back(RHSVarName.at(exIdx));
-		//
-		//		if(RHSVarName.at(exIdx)==";")
-		//			break;
-		//		exIdx++;*/
-		//	}
-
-			
-			//tokenize rhs if not wildcard
-			 //isSub is always true for now because we only need to handle _"hi"_ case
-			/*typedef enum enumPatternLHSType { 
-		PLWildcard, PLStringVariable
-	} PattenLHSType;
-
-	PattenLHSType LHS;*/
-			/*if (LHS == PLWildcard)
-			{*/
-				
-				
-			//else
-			//{
-			//	if(TryMatch(temp,firstVarName,vecMatch,sub))
-			//	{
-			//		ASTStmtNode* tempnode = (ASTStmtNode*)temp;
-			//		firstVariableAnswer.push_back(tempnode->getStmtNumber());//ans
-			//	}
-
-			//}
-			nodesStack.pop();
-			//remember to pop	
-		}
-		else
-		{
-			ASTNode* temp = nodesStack.top();
-			nodesStack.pop();
-			int counter = 0;
-
-			ASTStmtLstNode* t =	(ASTStmtLstNode*)temp;
-
-			for(int j=0;j<t->getSize();j++)
-			{
-				ASTNode* tempushnode = temp->getChild(j);
-				nodesStack.push(tempushnode);
-			}
-
-			/*while(true)
-			{
-				try
-				{
-				ASTStmtLstNode* t =	(ASTStmtLstNode*)temp;
-				if()
-				ASTNode* tempushnode = temp->getChild(counter);
-				
-
-				if(tempushnode == 0)
-					break;
-				nodesStack.push(tempushnode);
-				counter++;
-				}
-				catch (exception ex)
-				{
-					break;
-				}
-			}*/
-			//pop and push
-		}
-	}
-
-	ans;
 }
 
 ////mini tokenizer
@@ -1001,134 +826,4 @@ vector<string> MultiQueryEval::MiniTokenizer(string line)
 
 	//vector<string> tokens;
 	return list;
-}
-
-//RHS for now handles patterns in the form of "a" or _"a"_
-bool MultiQueryEval::TryMatch(ASTNode* testedNode,PattenLHSType LHS, PattenRHSType RHS,  int LHSVarNum, ASTExprNode* RHSexpr)
-{
-	if(LHS == PLWildcard && RHS == PRWildcard)
-		return true;
-
-	if(LHS != PLWildcard && testedNode->getChild(0)->getValue() != LHSVarNum)
-		return false;
-
-	//at this pt LHS sure pass
-	/////////////////////////////////////
-
-	//just need verify rhs which at this pt no longer a wildcard
-	///////////////////////////////////////
-
-	ASTNode* head= testedNode->getChild(1);
-
-	//int rightInt = PKB::variables.getVARIndex(incCodes.at(0));
-
-	//if(!isSubsTree)//if not a subtree, since we only handle 1 variable so right side must be a variable if is true
-	//{
-	//	if(head->getType() != ASTNode::Variable)//right node is not a variable = auto fail
-	//		return false;
-	//	else if(rightInt == head->getValue()) //right side value is same as rightint
-	//		return true;
-	//	else
-	//		return false; //if not equal return false
-	//}
-	stack<ASTNode*> nodesStack; 
-
-	//nodesStack.push(head->getChild(0));
-
-	//nodesStack.push(head->getChild(1));
-	
-	nodesStack.push(head);
-	bool result = false;//default
-	ASTNode* pattern = RHSexpr;
-
-	bool isSub;
-		if(RHS == PRSub)
-			isSub = true;
-		else
-			isSub = false;
-
-	if(isSub == false)
-		result = MatcherTree(head,pattern);
-	else
-	{
-		while(nodesStack.size() > 0)
-		{
-
-			ASTNode* tempnode = nodesStack.top();
-			nodesStack.pop();
-							/*
-							ASTNode* temp = nodesStack.top();
-				nodesStack.pop();
-				int counter = 0;
-
-				ASTStmtLstNode* t =	(ASTStmtLstNode*)temp;
-
-				for(int j=0;j<t->getSize();j++)
-				{
-					ASTNode* tempushnode = temp->getChild(j);
-					nodesStack.push(tempushnode);
-				}
-							*/
-			//
-				//check here
-			//if()
-			//ASTNode* tempnode
-		
-			//RHSexpr->
-
-			if(result == false && MatcherTree(tempnode,pattern))//,isSub))
-			{
-				result = true; 
-			}
-			//ASTExprNode* RHSexpr
-			//
-			//
-
-			if(tempnode->getType() == ASTNode::Operator)
-			{
-				nodesStack.push(tempnode->getChild(1));//add right side in
-
-				nodesStack.push(tempnode->getChild(0));//add left side in
-			}
-			//else if(nodesStack.top()->getType() == ASTNode::Variable || nodesStack.top()->getType() == ASTNode::Constant)
-			//{
-			//	//assume is subtree
-
-			//	if(nodesStack.top()->getType() == ASTNode::Variable && rightInt == nodesStack.top()->getValue())
-			//	{
-			//		return true;
-			//	}
-			//	nodesStack.pop();
-			//}
-			//else
-			//{
-			//	throw SPAException("Error! invalid node kind in operator");
-			//}
-		}
-	}
-	return result;
-}
-
-bool MultiQueryEval::MatcherTree(ASTNode* Original,ASTNode* Pattern)//, bool isSub)
-{
-	bool NodeSame=false;
-	bool NodeLeftSame = false;
-	bool NodeRightSame = false;
-
-	if(Original->getType() == Pattern->getType() && Original->getValue() == Pattern->getValue())
-		NodeSame = true;
-	else 
-		return false;
-
-	if(Original->getType() == ASTNode::NodeType::Constant)
-		return true;
-	else if(Original->getType() == ASTNode::NodeType::Variable)
-		return true;
-	else if(Original->getType() == ASTNode::NodeType::Operator)
-	{
-		NodeLeftSame = MatcherTree(Original->getChild(0),Pattern->getChild(0));//, isSub);
-		NodeRightSame = MatcherTree(Original->getChild(1),Pattern->getChild(1));//, isSub);
-	}
-
-	return (NodeSame && NodeLeftSame && NodeRightSame);
 }

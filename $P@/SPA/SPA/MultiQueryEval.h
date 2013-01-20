@@ -9,32 +9,17 @@
 class MultiQueryEval
 {
 private:
-	typedef enum enumPatternLHSType { 
-		PLWildcard, PLStringVariable
-	} PattenLHSType;
-	typedef enum enumPatternRHSType { 
-		PRWildcard, PRSub, PRNoSub
-	} PattenRHSType;
-	static string getToken(string query, int& pos);
+	static string getToken(const string& query, int& pos);
 	static string getToken2(string query, int& pos);
+	string getToken(const string& query, int& pos, vector<string> matcher, int cutamt);//nick	
+	static void matchToken(const string& query, int& pos, const string& match);
 	
-	static void matchToken(string query, int& pos, const string& match);
-
-	string getToken(string query, int& pos, vector<string> matcher, int cutamt);//nick
-
-
-	MultiQueryEval(string query);
-
-	bool MatcherTree(ASTNode* Original,ASTNode* Pattern);//, bool isSub);
-
+	MultiQueryEval(const string& query);
+	
+	vector<string> MiniTokenizer(string line);
 
 	bool selectBOOLEAN;
 	vector<string> finalanswer;
-
-	void EvaluatePattern(ASTNode::NodeType type,string PatternLHS, string PatternRHS);
-	bool TryMatch(ASTNode* testedNode,PattenLHSType LHS, PattenRHSType RHS,  int LHSVarNum, ASTExprNode* RHSexpr);
-
-	vector<string> MiniTokenizer(string line);
 
 public:
 	static vector<string> evaluateQuery(const string& query);

@@ -1,12 +1,11 @@
 #pragma once
 #include "DesignExtractor.h"
 
-static int totalNumOfProcs;
-static unordered_map <PROC, unordered_set<PROC> > toProcAdjList;
-static unordered_map <PROC, unordered_set<PROC> > fromProcAdjList;
-static unordered_map <PROC, int> procCount;
-static unordered_map <PROC, vector< stack<ASTStmtNode*> > > savestate;
-
+int DesignExtractor::totalNumOfProcs;
+unordered_map <PROC, unordered_set<PROC> > DesignExtractor::toProcAdjList;
+unordered_map <PROC, unordered_set<PROC> > DesignExtractor::fromProcAdjList;
+unordered_map <PROC, int> DesignExtractor::procCount;
+unordered_map <PROC, vector< stack<ASTStmtNode*> > > DesignExtractor::savestate;
 
 void DesignExtractor::extractDesign()
 {
@@ -115,8 +114,7 @@ void DesignExtractor::buildFirstRound() {
 				else
 					procCount[calledProc]++;
 
-				savestate[(*currentStmtNode).getValue()].push_back(
-					DFSstack);
+				savestate[calledProc].push_back(DFSstack);
 				break; }
 										  
 			case ASTNode::Assign:
@@ -283,15 +281,17 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 			for (auto it = ancestors.begin(); it != ancestors.end(); it++) {
 				PROC ancestor = *it;
 				PKB::modifies.insertProcModifies(ancestor, modifiesVar);
-				vector< stack<ASTStmtNode*> > savestates = savestate[ancestor];
-				for (auto it2 = savestates.begin(); it2 != savestates.end(); it2++) {
-					stack<ASTStmtNode*> state = *it2;
-					while (!state.empty()) {
-						tempStmtNode = DFSstack.top();
-						DFSstack.pop();
-						STMT tempNumber = (*tempStmtNode).getStmtNumber();
-						PKB::modifies.insertStmtModifies(tempNumber, modifiesVar);
-					}
+			}
+			vector< stack<ASTStmtNode*> >& savestates = savestate[currentProc];
+			for (auto it2 = savestates.begin(); it2 != savestates.end(); it2++) {
+				stack<ASTStmtNode*> state = *it2;
+				while (!state.empty()) {
+					tempStmtNode = state.top();
+					state.pop();
+					STMT tempNumber = (*tempStmtNode).getStmtNumber();
+					if (PKB::modifies.isModifiedStmt(tempNumber, modifiesVar))
+						break;
+					PKB::modifies.insertStmtModifies(tempNumber, modifiesVar);
 				}
 			}
 
@@ -322,15 +322,15 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 					for (auto it = ancestors.begin(); it != ancestors.end(); it++) {
 						PROC ancestor = *it;
 						PKB::uses.insertProcUses(ancestor, usesVar);
-						vector< stack<ASTStmtNode*> > savestates = savestate[ancestor];
-						for (auto it2 = savestates.begin(); it2 != savestates.end(); it2++) {
-							stack<ASTStmtNode*> state = *it2;
-							while (!state.empty()) {
-								tempStmtNode = DFSstack.top();
-								DFSstack.pop();
-								STMT tempNumber = (*tempStmtNode).getStmtNumber();
-								PKB::uses.insertStmtUses(tempNumber, usesVar);
-							}
+					}
+					vector< stack<ASTStmtNode*> >& savestates = savestate[currentProc];
+					for (auto it2 = savestates.begin(); it2 != savestates.end(); it2++) {
+						stack<ASTStmtNode*> state = *it2;
+						while (!state.empty()) {
+							tempStmtNode = state.top();
+							state.pop();
+							STMT tempNumber = (*tempStmtNode).getStmtNumber();
+							PKB::uses.insertStmtUses(tempNumber, usesVar);
 						}
 					}
 				} else if ((*exprNode).getType() == ASTNode::Constant) {

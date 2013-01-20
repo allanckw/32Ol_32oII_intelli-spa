@@ -1,5 +1,6 @@
 #pragma once
 #include "ASTNode.h"
+#include "ASTExprNode.h"
 
 class RulesOfEngagement
 {
@@ -44,6 +45,7 @@ public:
 	static unordered_map<string, QueryRelations> tokenToRel;
 	static unordered_map<string, QueryVar> tokenToVar;
 	static unordered_map<QueryVar, set<string>> allowableConditions;
+	static unordered_map<string, QueryVar> conditionTypes;
 	static unordered_map<QueryRelations, set<QueryVar>> allowableFirstArgument;
 	static unordered_map<QueryRelations, QueryVar> privilegedFirstArgument;
 	static unordered_map<QueryRelations, set<QueryVar>> allowableSecondArgument;
@@ -89,7 +91,18 @@ private:
 	*/
 	
 public:
-	static bool satisfyPattern(int index, int modifiesVar, string usesVar);
+	enum PatternLHSType { 
+		PLWildcard, PLStringVariable
+	};
+
+	enum PatternRHSType { 
+		PRWildcard, PRSub, PRNoSub
+	};
+
+	static bool satisfyPattern(int index, int modifiesVar,
+		RulesOfEngagement::PatternRHSType RHS, string RHSVarName, ASTExprNode* RHSexprs);
 private:
-	static bool tryMatch(ASTNode* testedNode, string targetVar,vector<string> incCodes, bool isSubsTree);
+	static bool TryMatch(ASTNode* testedNode,
+		RulesOfEngagement::PatternRHSType RHS, ASTExprNode* RHSexpr);
+	static bool MatcherTree(ASTNode* Original, ASTNode* Pattern);//, bool isSub);
 };

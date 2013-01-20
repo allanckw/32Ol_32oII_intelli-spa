@@ -41,6 +41,16 @@ ASTExprNode* AssignmentParser::processAssignment(MathExpression expr)
 
 	vector<string> subExpr;
 
+	//before we actually build the tree, check that if it is even valid, if it is not valid
+	//then there is no point going thru the shunting yard algorithm
+	if (!AssignmentParser::isValidExpr(expr)){
+		string msg;
+		for (unsigned int i = 0; i < expr.size(); i++) {
+			msg += expr.at(i);
+		}
+		throw SPAException(msg + " is an invalid expression");
+	}
+
 	for (unsigned int i = 0; i < expr.size(); i++ ) {
 		string token = expr[i]; 
 		if (token == "/" || token == "^" || token == "%")
@@ -64,10 +74,10 @@ ASTExprNode* AssignmentParser::processAssignment(MathExpression expr)
 				
 				subExprBrackets.pop();
 
-				if (subExprBrackets.size() > 0){
+				if (subExprBrackets.size() > 0) {
 					subExpr.push_back(token);
 
-				} else if (subExprBrackets.size() == 0){
+				} else if (subExprBrackets.size() == 0) {
 					subExpr.push_back(";");
 					operands.push(AssignmentParser::processAssignment(subExpr)); //recursive call here
 					subExpr.clear();
@@ -78,10 +88,9 @@ ASTExprNode* AssignmentParser::processAssignment(MathExpression expr)
 
 		} else if (AssignmentParser::isOperator(token)) {
 			if (operators.empty()) {//if the operator stack is empty simply push
-
 				operators.push(token);
-			} else {
-				//Compare the precedence of + with the top of the stack 
+			
+			} else { //Compare the precedence of + with the top of the stack 
 				if (AssignmentParser::compareOprPrecedence(token, operators.top()) > 0)	{
 
 					operators.push(token); //if it is greater, push
@@ -126,8 +135,7 @@ ASTExprNode* AssignmentParser::processAssignment(MathExpression expr)
 	}
 	
 	//Build the complete right sub tree to be returned to assign node
-	while (!operators.empty())
-	{
+	while (!operators.empty()) {
 		ASTExprNode* oprNode = new ASTExprNode(ASTNode::Operator, operators.top());
 					
 		ASTExprNode* rightChild = operands.top();
@@ -143,4 +151,45 @@ ASTExprNode* AssignmentParser::processAssignment(MathExpression expr)
 		operators.pop();
 	}
 	return operands.top();
+}
+
+bool AssignmentParser::isValidExpr(MathExpression expr)
+{
+	stack<string> brackets;
+	int expect = 0; //0=constant or var, 1 = opr
+
+	for(unsigned int i=0; i<expr.size(); i++) {
+		string token = expr.at(i);
+
+		if (token == ";")  //terminating sequence for assignment
+			break;
+
+		else if(expect == 1 &&  token == "(")
+			expect = 0;
+		
+		else if(expect == 0 &&  token == ")")
+			return false;
+		
+		if(token == "("){
+			brackets.push(token);
+
+		} else if (token == ")") {
+			if(brackets.size() == 0 || brackets.top() != "(")
+				return false;
+			brackets.pop();
+
+		} else {
+			if(AssignmentParser::isOperator(token)) {
+				if(expect == 0)
+					return false;
+				expect = 0;
+			} else {//var or constant
+				if(expect == 1)
+					return false;
+				expect = 1;
+			}
+		}
+	}
+	return (brackets.size() == 0);
+
 }

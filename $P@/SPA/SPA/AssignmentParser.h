@@ -12,8 +12,8 @@ private:
 	static int compareOprPrecedence( string token1, string token2);
 	static void popOperator(string operators, string operands);
 	static int getConstantValue(string s);
-	//static bool isValidExpr(vector<string> expr);
-
+	
+	static bool isValidExpr(MathExpression expr);
 
 public:
 	static ASTExprNode* processAssignment(MathExpression);

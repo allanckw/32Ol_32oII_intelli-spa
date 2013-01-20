@@ -8,7 +8,6 @@
 // Registers the fixture into the 'registry'
 CPPUNIT_TEST_SUITE_REGISTRATION(TestAssnParser); // Note 4 
 
-
 void TestAssnParser::setUp()
 {
 }
@@ -26,7 +25,6 @@ int getOprType(string s)
 	else if (s=="*")
 		return 2;
 }
-
 
 void TestAssnParser::testAssignmentParsing()
 {  
@@ -137,8 +135,7 @@ void TestAssnParser::testAssignmentParsing()
 	CPPUNIT_ASSERT_EQUAL(ASTNode::NodeType::Variable, subTree2->getChild(1)->getChild(1)->getType()); 
 	CPPUNIT_ASSERT_EQUAL(PKB::variables.getVARIndex("yas"), subTree2->getChild(1)->getChild(1)->getValue());
 	//End Sub Tree 3*y
-
-
+	
 	//-------------------------------------------------------------------------------------------------------------------
 	//Bracket Assignment Testing
 	//-------------------------------------------------------------------------------------------------------------------
@@ -278,6 +275,7 @@ void TestAssnParser::testAssignmentParsing()
 	expr.push_back("yas");
 	expr.push_back(")");
 	expr.push_back(")");
+	expr.push_back(";");
 
 	//((x * 16) + (11 + yas)) - ((x - 19) + (4 * yas))
 	//				-

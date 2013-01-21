@@ -8,15 +8,19 @@
 #include "UsesTable.h"
 #include "FollowsTable.h"
 #include "ParentTable.h"
+#include "CFGNode.h"
 
 class PKB
 {
 public:
+	static ASTNode* rootNode;
+	static vector<pair<CFGNode*, PROC>> CFGHeads;
+
 	static int maxProgLines;
 
 	static PROCTable procedures;
 	static VARTable variables;
-	static ASTNode* rootNode;
+	
 
 	static UsesTable uses;
 	static ModifiesTable modifies;

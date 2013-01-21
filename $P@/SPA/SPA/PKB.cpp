@@ -1,7 +1,11 @@
 #pragma once
 #include "PKB.h"
 
+//Store the root of the AST
 ASTNode* PKB::rootNode;
+
+//For each procedure, there will be one CFGHead 
+vector<pair<CFGNode*, PROC>> PKB::CFGHeads;
 
 VARTable PKB::variables;
 PROCTable PKB::procedures;

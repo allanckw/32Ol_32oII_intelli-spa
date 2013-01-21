@@ -160,10 +160,13 @@ bool AssignmentParser::isValidExpr(MathExpression expr)
 
 	for(unsigned int i=0; i<expr.size(); i++) {
 		string token = expr.at(i);
-
-		if (token == ";")  //terminating sequence for assignment
+		
+		if (token == ";" && i == expr.size() - 1)  //terminating sequence for assignment
 			break;
 
+		else if (token == ";" && i < expr.size() - 1)
+			throw SPAException("Terminating Sequence found in the middle of mathematical expression");
+			
 		else if(expect == 1 &&  token == "(")
 			expect = 0;
 		

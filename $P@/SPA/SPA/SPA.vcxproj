@@ -16,6 +16,7 @@
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\ASTStmtLstNode.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\ASTStmtNode.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\CallsTable.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\CFGNode.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\DisjointSet.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\Helper.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\MultiQueryEval.h" />
@@ -41,6 +42,7 @@
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\ASTStmtLstNode.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\ASTStmtNode.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\CallsTable.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\CFGNode.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\DisjointSet.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\Helper.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\MultiQueryEval.cpp" />

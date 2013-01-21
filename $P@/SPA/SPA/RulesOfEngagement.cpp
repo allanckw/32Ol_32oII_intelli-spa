@@ -35,7 +35,7 @@ void RulesOfEngagement::initialise()
 
 	tokenToVar["procedure"] = Procedure;
 	tokenToVar["stmt"] = Statement;
-	tokenToVar["prog_line"] = Statement; //Lame, but prog_line and statement are interchangable
+	tokenToVar["prog_line"] = Statement; 
 	tokenToVar["assign"] = Assign;
 	tokenToVar["constant"] = Constant;
 	tokenToVar["while"] = While;

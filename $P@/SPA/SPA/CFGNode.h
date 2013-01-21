@@ -2,8 +2,6 @@
 #include "StdAfx.h"
 #include "SPAException.h"
 
-typedef int PROG_LINE ;
-
 class CFGNode
 {
 private:

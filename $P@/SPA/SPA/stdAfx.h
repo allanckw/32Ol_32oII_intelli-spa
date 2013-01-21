@@ -25,3 +25,4 @@ using namespace std;
 typedef int PROC;
 typedef int STMT;
 typedef int VAR;
+typedef int PROG_LINE;

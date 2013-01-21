@@ -444,6 +444,12 @@ MultiQueryEval::MultiQueryEval(const string& query)
 
 							disjointSet.setUnion(synonym, modifiesVar);
 						} else {
+							if (modifiesVar.at(0) != '\"') {
+								if (synonymTable.getType(modifiesVar) != RulesOfEngagement::Variable)
+									throw new SPAException("BOOBOOBAABAA");
+								disjointSet.setUnion(synonym, modifiesVar);
+							}
+
 							patternSynonym.push_back(synonym);
 							patternType.push_back(synonymTable.getType(synonym));
 							patternLHS.push_back(modifiesVar);
@@ -482,7 +488,6 @@ MultiQueryEval::MultiQueryEval(const string& query)
 		RulesOfEngagement::QueryRelations type = relType[rel];
 		string firstRel = relFirst[rel];
 		string secondRel = relSecond[rel];
-		int classIndex = relClass[rel];
 
 		int matchNumberOfTables = 0;
 		if (inWhichTable.count(firstRel) > 0)
@@ -619,7 +624,8 @@ MultiQueryEval::MultiQueryEval(const string& query)
 						return;
 
 					tables[firstRelIndex].cartesian(secondRelTable);
-					tables[firstRelIndex].patternPrune(synonym, true, 1, RHS, RHSVarName, RHSexprs);
+					tables[firstRelIndex].patternPrune(synonym, true,
+						tables[firstRelIndex].synonymPosition[modifiesVar], RHS, RHSVarName, RHSexprs);
 					if (tables[firstRelIndex].getSize() == 0)
 						return;
 

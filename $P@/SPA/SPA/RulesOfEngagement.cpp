@@ -585,9 +585,9 @@ bool RulesOfEngagement::MatcherTree(ASTNode* Original, ASTNode* Pattern)//, bool
 	else if (Original->getType() == ASTNode::NodeType::Variable)
 		return true;
 	else if (Original->getType() == ASTNode::NodeType::Operator) {
-		if (!MatcherTree(Original->getChild(0),Pattern->getChild(0)));//, isSub);
+		if (!MatcherTree(Original->getChild(0), Pattern->getChild(0)))
 			return false;
-		return MatcherTree(Original->getChild(1),Pattern->getChild(1));//, isSub);
+		return MatcherTree(Original->getChild(1), Pattern->getChild(1));
 	}
 
 	return false;

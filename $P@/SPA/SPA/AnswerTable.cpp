@@ -171,7 +171,7 @@ void AnswerTable::prune(string firstSynonym,
 
 void AnswerTable::patternPrune(string synonym, bool modifiesIsSynonym, int modifies,
 	RulesOfEngagement::PatternRHSType RHS, string RHSVarName, ASTExprNode* RHSexprs)
-{//TryMatch(temp,LHS,RHS,LHSvarnum,RHSexprs));
+{
 	int firstRelIndex = synonymPosition[synonym];
 
 	vector<vector<int>> newTable;

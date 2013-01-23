@@ -4,45 +4,56 @@
 
 class CFGNode
 {
-private:
-	bool isStart, isEnd;
-
-	PROG_LINE starting, ending;
-
-	CFGNode *nextNode, *prevNode;
-
-	PROC belongingTo;
-
 public:
-	CFGNode(PROG_LINE start, PROG_LINE end, PROC p);
+	typedef enum NodeType { 
+		StandardNode,
+		WhileNode,
+		IfNode,
+		DummyNode
+	};
+
+	CFGNode(NodeType, PROG_LINE start, PROG_LINE end, PROC p);
 
 	//link node1->node2 in the cfg
 	void setLink(CFGNode* node1, CFGNode* node2);
 
-	void setAsStartNode();
-	
-	void setAsEndNode();
+	void setEndProgramLine(PROG_LINE p);
+
+	void setStartNode();
 
 	bool isStartNode();
 
+	void setEndNode();
+
 	bool isEndNode();
 
-	void setNextNode(CFGNode* node);
+	bool isDummy();
 
-	void setPreviousNode(CFGNode* node);
+	void addNextNode(CFGNode* node);
 
-	CFGNode* getPreviousNode();
+	void addPreviousNode(CFGNode* node);
+
+	vector<CFGNode*> getPreviousNodes();
 
 	vector<CFGNode*> getAllPreviousNodes();
 
-	CFGNode* getNextNode();
+	vector<CFGNode*> getNextNodes();
 
 	vector<CFGNode*> getAllNextNodes();
 
 	PROC getProcedure();
 
 	vector<PROG_LINE> getProgramLines();
-	
-	~CFGNode(void);
+
+private:
+	PROG_LINE starting, ending;
+
+	vector<CFGNode*> nextNodes, prevNodes;
+
+	PROC belongingTo;
+
+	NodeType type;
+
+	bool isStart, isEnd;
 };
 

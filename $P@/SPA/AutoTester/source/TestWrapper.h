@@ -6,14 +6,7 @@
 #include <list>
 
 // include your other headers here
-#include "../../SPA/PKB.h"
-#include "../../SPA/Parser.h"
-#include "../../SPA/ASTNode.h"
-#include "../../SPA/ASTStmtLstNode.h"
-#include "../../SPA/ASTStmtNode.h"
-#include "../../SPA/AssignmentParser.h"
-#include "../../SPA/DesignExtractor.h"
-
+#include "../../SPA/PKBController.h"
 #include "../../SPA/MultiQueryEval.h"
 
 #include "AbstractWrapper.h"

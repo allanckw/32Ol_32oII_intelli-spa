@@ -87,6 +87,12 @@
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\CFGNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\CFGBuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\PKBController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ASTNode.cpp">
@@ -156,6 +162,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\CFGNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\CFGBuilder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\PKBController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

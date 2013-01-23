@@ -312,7 +312,7 @@ Select a pattern a(_,_"y"_) such that Follows*(w,a)
 5000
 63 - AssignPattern, TwoClauses, Follows* :: What are the assignments with 'z' on the right side and follows directly/indirectly a while statement?
 assign a; while w;
-Select 	a pattern a(_,_"z"_) such that Follows*(			w,a)
+Select            a pattern a(_,_"z"_) such that Follows*(                                   w,a)
 36
 5000
 64 - Parent* :: What are the direct/indirect children of 12?
@@ -372,7 +372,7 @@ Select c
 5000
 75 - Constant, AssignPattern :: What are the constants if there is a assignment with 'y' on the left and 'y' on the right?
 constant c; assign a;
-Select c pattern a (		"y",_"y"_)
+Select c pattern a ("y",            _"y"_                     )
 
 5000
 76 - AssignPattern, TwoClauses, Modifies :: What are the variable that an assign with pattern ('x',_'x'_) modifies?

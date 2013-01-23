@@ -16,6 +16,8 @@ public:
 
 	int getSize();
 
+	bool isExists(VARIndex);
+
 	
 private:
 	vector<string> vars;

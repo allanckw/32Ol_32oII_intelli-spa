@@ -8,9 +8,7 @@ SPAException::SPAException(){
 }
 
 SPAException::SPAException(string msg){
-	std::replace(msg.begin(),  msg.end(), '<', ' ');
-	std::replace(msg.begin(),  msg.end(), '>', ' ');
-	this->message = "None: " + msg;
+	this->message = msg;
 }
 
 const char* SPAException::what() const throw(){

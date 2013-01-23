@@ -49,3 +49,8 @@ VARIndex VARTable::getVARIndex(string VARName)
 	
 	return -1;
 }
+
+bool VARTable::isExists(VARIndex i)
+{
+	return (i >= 0 && i < vars.size());
+}

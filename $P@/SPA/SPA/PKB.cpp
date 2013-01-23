@@ -27,3 +27,29 @@ unordered_set<STMT> PKB::ifTable;
 vector<pair<STMT, STMT>> PKB::TheBeginningAndTheEnd;
 unordered_map<int, vector<STMT>> PKB::constantsTable;
 unordered_map<int, ASTNode*> PKB::assignNodes;
+
+void PKB::addToCFGList(CFGNode* start, PROC p)
+{
+	if (!start->isStartNode())
+		throw SPAException("The CFGNode must be of type StartNode to be added to CFGLists in the program!!!");
+
+	else if (PKB::procedures.isExists(p))
+		throw SPAException("Procedure not found in source!");
+
+	else{
+		pair<CFGNode*, PROC> p(start, p);
+		PKB::CFGHeads.push_back(p);
+	}
+}
+
+CFGNode* PKB::getCFGHead(PROC p)
+{
+	for (auto it = PKB::CFGHeads.begin() ; it != PKB::CFGHeads.end(); it++)
+	{
+		pair<CFGNode*, PROC> iten = *it;
+		if (iten.second == p)
+			return iten.first;
+	}
+
+	return NULL;
+}

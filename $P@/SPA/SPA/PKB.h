@@ -14,14 +14,13 @@ class PKB
 {
 public:
 	static ASTNode* rootNode;
-	static vector<pair<CFGNode*, PROC>> CFGHeads;
+	static void addToCFGList(CFGNode* start, PROC p);
 
 	static int maxProgLines;
 
 	static PROCTable procedures;
 	static VARTable variables;
 	
-
 	static UsesTable uses;
 	static ModifiesTable modifies;
 	static CallsTable calls;
@@ -37,5 +36,11 @@ public:
 	static vector<pair<STMT, STMT>> TheBeginningAndTheEnd;
 	static unordered_map<int, vector<STMT>> constantsTable;
 	static unordered_map<int, ASTNode*> assignNodes;
+
+	static CFGNode* getCFGHead(PROC p);
+
+private:
+	static vector<pair<CFGNode*, PROC>> CFGHeads;
+	
 };
 

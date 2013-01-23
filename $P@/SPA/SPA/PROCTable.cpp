@@ -5,7 +5,6 @@
 
 PROCTable::PROCTable(void)
 {
-	
 }
 
 
@@ -47,4 +46,9 @@ PROCIndex PROCTable::getPROCIndex(string PROCName)
 			return i;
 	}
 	return -1;
+}
+
+bool PROCTable::isExists(PROCIndex i)
+{
+	return (i >= 0 && i < procs.size());
 }

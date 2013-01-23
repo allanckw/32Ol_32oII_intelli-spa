@@ -11,6 +11,8 @@ public:
 	string getPROCName(PROCIndex);
 	PROCIndex getPROCIndex(string PROCName);
 
+	bool isExists(PROCIndex i);
+
 	int getSize();
 	
 

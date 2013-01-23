@@ -6,7 +6,7 @@ class ASTNode
 {
 public:
 		
-	typedef enum enumNodeType { 
+	typedef enum NodeType { 
 		Program, 
 		Procedure,
 		StmtLst,
@@ -19,7 +19,7 @@ public:
 		Operator,
 		Variable,
 		Constant
-	} NodeType;
+	};
 
 	
 	
@@ -39,11 +39,6 @@ public:
 	virtual ASTNode* addChild(ASTNode*);
 	virtual ASTNode* setParent(ASTNode * p);
 
-	//Removed as the index of children is a implicit right sibling table
-	//Child 1's right sibling is child 2.. etc
-	//virtual ASTNode* SetRightSibling(ASTNode * s);
-	//bool isHasRightSibling();
-
 	void setRoot(int);
 
 	ASTNode::NodeType getType();
@@ -59,7 +54,6 @@ protected:
 	int value;
 	ASTNode* parent;
 	vector<ASTNode*> children;
-	//ASTNode* rightSibling;
 	NodeType nodeType;
 
 private:

@@ -1,11 +1,11 @@
+#pragma once
 #include "CFGNode.h"
 
-//ToDo: Fill in the blank for CFG.
-
-CFGNode::CFGNode(PROG_LINE start, PROG_LINE end, PROC p){
+CFGNode::CFGNode(NodeType type, PROG_LINE start, PROG_LINE end, PROC p){
 	this->starting = start;
 	this->ending = end;
 	this->belongingTo = p;
+	this->type = type;
 }
 
 //link node1->node2 in the cfg
@@ -16,53 +16,61 @@ void setLink(CFGNode* node1, CFGNode* node2){
 		throw SPAException("Node2 cannot be a start node");
 	else if(node1->getProcedure() != node2->getProcedure())
 		throw SPAException("Nodes must be from the same procedure when linking them in a CFG!");
+	else if(node1->isStartNode() && node2->isStartNode() || node1->isEndNode() && node2->isEndNode())
+		throw SPAException("Invalid Node Types, please check your declarations!");
+
 	else {
-		node1->setNextNode(node2);
-		node2->setPreviousNode(node1);
+		node1->addNextNode(node2);
+		node2->addPreviousNode(node1);
 	}
 }
 
-void CFGNode::setAsStartNode(){
+void CFGNode::setStartNode(){
 	this->isStart = true;
 }
-	
-void CFGNode::setAsEndNode(){
-	this->isEnd = true;
-}
-	
+
 bool CFGNode::isStartNode(){
 	return this->isStart;
+}
+
+void CFGNode::setEndNode(){
+	this->isEnd = true;
 }
 
 bool CFGNode::isEndNode(){
 	return this->isEnd;
 }
 
-void CFGNode::setNextNode(CFGNode* node)
+bool CFGNode::isDummy(){
+	return this->type == CFGNode::DummyNode;
+}
+
+void CFGNode::addNextNode(CFGNode* node)
 {
-	this->nextNode = node;
+	this->nextNodes.push_back(node);
 }
 
-void CFGNode::setPreviousNode(CFGNode* node)
+void CFGNode::addPreviousNode(CFGNode* node)
 {
-	this->prevNode = node;
+	this->prevNodes.push_back(node);
 }
 
-CFGNode* CFGNode::getPreviousNode(){
-	return this->prevNode;
+vector<CFGNode*> CFGNode::getPreviousNodes(){
+	return this->prevNodes;
 }
 
+//To be traversed later
 vector<CFGNode*> CFGNode::getAllPreviousNodes(){
 	vector<CFGNode*> prevs;
 	//Recursively add previous nodes to the vector till the start?
-
 	return prevs;
 }
 
-CFGNode* CFGNode::getNextNode(){
-	return this->nextNode;
+vector<CFGNode*> CFGNode::getNextNodes(){
+	return this->nextNodes;
 }
 
+//To be traversed later
 vector<CFGNode*> CFGNode::getAllNextNodes(){
 	vector<CFGNode*> nexts;
 	//Recursively add next nodes to the vector till the end?
@@ -82,8 +90,4 @@ vector<PROG_LINE> CFGNode::getProgramLines(){
 	}
 
 	return progs;
-}
-
-CFGNode::~CFGNode(void){
-
 }

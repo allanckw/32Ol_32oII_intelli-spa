@@ -20,11 +20,7 @@ TestWrapper::TestWrapper() {
 void TestWrapper::parse(std::string filename) {
 	
 	try{
-		Parser* p = new Parser(filename);
-		p->buildAST();
-		delete p;
-		DesignExtractor::extractDesign();
-		RulesOfEngagement::initialise();
+		PKBController::initializePKB(filename);
 	}catch (exception& e){
 		cout<< e.what();
 	}

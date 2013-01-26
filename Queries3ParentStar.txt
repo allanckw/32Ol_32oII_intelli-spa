@@ -1,5 +1,25 @@
 58
 cat: All Category
+10 - Parent*, ImplStmtLine, Typed :: Exception expected
+constant c; variable v;
+Select c such that Parent*(1, v)
+
+5000
+11 - Parent*, ImplStmtLine, Typed :: Exception expected
+constant c;
+Select c such that Parent*(1, "v")
+
+5000
+12 - Parent*, ImplStmtLine, Typed :: Exception expected
+constant c; variable v;
+Select c such that Parent*(v, 2)
+
+5000
+13 - Parent*, ImplStmtLine, Typed :: Exception expected
+constant c;
+Select c such that Parent*("v", 2)
+
+5000
 1 - Parent*, ImplStmtLine, Typed :: Which is the Parent* (type while) of the statement in line number 7
 constant c;
 Select c such that Parent*(1, 105)
@@ -44,26 +64,6 @@ Select c such that Parent*(303, 347)
 stmt s; constant c;
 Select c such that Parent*(163, s)
 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
-5000
-10 - Parent*, ImplStmtLine, Typed :: Which is the Parent* (type while) of the statement in line number 7
-constant c; variable v;
-Select c such that Parent*(1, v)
-
-5000
-11 - Parent*, ImplStmtLine, Typed :: Which is the Parent* (type while) of the statement in line number 7
-constant c;
-Select c such that Parent*(1, "v")
-
-5000
-12 - Parent*, ImplStmtLine, Typed :: Which is the Parent* (type while) of the statement in line number 7
-constant c; variable v;
-Select c such that Parent*(v, 2)
-
-5000
-13 - Parent*, ImplStmtLine, Typed :: Which is the Parent* (type while) of the statement in line number 7
-constant c;
-Select c such that Parent*("v", 2)
-
 5000
 14 - Parent*, ImplStmtLine, Typed :: Which is the Parent* (type while) of the statement in line number 7
 constant c; assign a;

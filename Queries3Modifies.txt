@@ -1,5 +1,20 @@
 78
 cat: All Category
+9 - Parent, ImplStmtLine, Typed :: Exception expected
+constant c;
+Select c such that Modifies(s, t)
+
+5000
+10 - Parent, ImplStmtLine, Typed :: Exception expected
+constant c;
+Select c such that Modifies("a", 100)
+
+5000
+38 - Parent, ImplStmtLine, Typed :: Exception expected
+assign a;
+Select a such that Modifies(a, "a") pattern a (a , "l")
+
+5000
 1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 constant c;
 Select c such that Modifies(1, "a")
@@ -39,16 +54,6 @@ Select c such that Modifies(157, "o")
 constant c;
 Select c such that Modifies(299, "l")
 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
-5000
-9 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-constant c;
-Select c such that Modifies(s, t)
-
-5000
-10 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-constant c;
-Select c such that Modifies("a", 100)
-
 5000
 11 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 constant c; assign a;
@@ -184,11 +189,6 @@ Select a such that Modifies(a, "p") pattern a ("p", _"i"_)
 assign a;
 Select a such that Modifies(a, "c") pattern a (_ , "d")
 358, 363, 368, 373, 378, 383, 388, 393, 398, 403, 408
-5000
-38 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-assign a;
-Select a such that Modifies(a, "a") pattern a (a , "l")
-
 5000
 39 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 while w; variable v;

@@ -1,5 +1,25 @@
 79
 cat: All Category
+1 - Parent, ImplStmtLine, Typed :: Exception expected
+stmt s; stmt t; variable v;
+Select BOOLEAN such that Follows(1, v)
+
+5000
+1 - Parent, ImplStmtLine, Typed :: Exception expected
+stmt s; stmt t; variable v;
+Select BOOLEAN such that Follows(1, "v")
+
+5000
+1 - Parent, ImplStmtLine, Typed :: Exception expected
+stmt s; stmt t; variable v;
+Select BOOLEAN such that Follows(v, 2)
+
+5000
+1 - Parent, ImplStmtLine, Typed :: Exception expected
+stmt s; stmt t; variable v;
+Select BOOLEAN such that Follows("v", 2)
+
+5000
 1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 stmt s; stmt t;
 Select BOOLEAN such that Follows(1, 2)
@@ -44,26 +64,6 @@ FALSE
 stmt s; stmt t;
 Select BOOLEAN such that Follows(s, t)
 TRUE
-5000
-1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s; stmt t; variable v;
-Select BOOLEAN such that Follows(1, v)
-FALSE
-5000
-1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s; stmt t; variable v;
-Select BOOLEAN such that Follows(1, "v")
-FALSE
-5000
-1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s; stmt t; variable v;
-Select BOOLEAN such that Follows(v, 2)
-FALSE
-5000
-1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
-stmt s; stmt t; variable v;
-Select BOOLEAN such that Follows("v", 2)
-FALSE
 5000
 1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 stmt s; stmt t; assign a;

@@ -114,9 +114,9 @@ ASTNode::NodeType ASTNode::getType()
 	return this->nodeType;
 }
 
-ASTNode* ASTNode::getChild(int i)
+ASTNode* ASTNode::getChild(unsigned int i)
 {
-	if (i < 0 || i > children.size() -1)
+	if (i > children.size() -1)
 	{
 		throw SPAException("Index Out of Bound Exception, No Child at Index " + i);
 	}

@@ -19,6 +19,7 @@ private:
 	vector<string> MiniTokenizer(string line);
 
 	bool selectBOOLEAN;
+	bool earlyQuit;
 	vector<string> finalanswer;
 
 public:

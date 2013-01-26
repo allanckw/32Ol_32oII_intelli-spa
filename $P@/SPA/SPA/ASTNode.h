@@ -42,7 +42,7 @@ public:
 	void setRoot(int);
 
 	ASTNode::NodeType getType();
-	ASTNode* getChild(int);
+	ASTNode* getChild(unsigned int);
 	ASTNode* getParent();
 
 	int getValue();

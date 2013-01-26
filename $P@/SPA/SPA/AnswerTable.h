@@ -18,6 +18,8 @@ public:
 	void combine(string ownSynonym, AnswerTable otherTable, string otherSynonym,
 		RulesOfEngagement::isRelation rel); //synonyms are all disjoint
 	void prune(string firstSynonym, string secondSynonym, RulesOfEngagement::isRelation rel);
+	void patternPrune(string synonym,
+		RulesOfEngagement::PatternRHSType, string RHS, ASTExprNode* RHSexprs);
 	void patternPrune(string synonym, bool, int modifies,
 		RulesOfEngagement::PatternRHSType, string RHS, ASTExprNode* RHSexprs);
 	

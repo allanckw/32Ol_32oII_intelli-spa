@@ -11,6 +11,7 @@ public:
 		Constant,
 		Procedure,
 		Statement,
+		Prog_Line,
 		Assign,
 		Call,
 		While,
@@ -23,10 +24,10 @@ public:
 	};
 
 	enum QueryRelations { //relationship QueryEnums
-		Modifies,
+		//Modifies,
 		ModifiesStmt,
 		ModifiesProc,
-		Uses,
+		//Uses,
 		UsesStmt,
 		UsesProc,
 		Calls,
@@ -39,10 +40,11 @@ public:
 		NextStar,
 		Affects,
 		AffectsStar,
-		Pattern
+		PatternModifies,
+		PatternUses
 	};
 	
-	static unordered_map<string, QueryRelations> tokenToRel;
+	static unordered_map<string, unordered_set<QueryRelations>> tokenToRel;
 	static unordered_map<string, QueryVar> tokenToVar;
 	static unordered_map<QueryVar, set<string>> allowableConditions;
 	static unordered_map<string, QueryVar> conditionTypes;
@@ -52,7 +54,8 @@ public:
 	static unordered_map<QueryRelations, QueryVar> privilegedSecondArgument;
 	static unordered_set<QueryRelations> allowableSelfReference;
 
-	static int convertArgumentToInteger(QueryRelations& type, const bool first, const string& arg);
+	static int convertArgumentToInteger(const QueryRelations& type,
+		const bool first, const string& arg);
 
 	typedef bool(*isRelation)(int, int);
 	static isRelation getRelation(QueryRelations rel);
@@ -73,6 +76,7 @@ private:
 	static bool isFollowsStar(int x, int y);
 	static bool isParent(int x, int y);
 	static bool isParentStar(int x, int y);
+	static bool isPatternModifies(int x, int y);
 	/*template
 	static bool is<Rel>(int x, int y);
 	*/
@@ -98,11 +102,12 @@ public:
 	enum PatternRHSType { 
 		PRWildcard, PRSub, PRNoSub
 	};
-
+	
+	static bool satisfyPattern(int index,
+		RulesOfEngagement::PatternRHSType RHS, string RHSVarName, ASTExprNode* RHSexprs);
 	static bool satisfyPattern(int index, int modifiesVar,
 		RulesOfEngagement::PatternRHSType RHS, string RHSVarName, ASTExprNode* RHSexprs);
 private:
-	static bool TryMatch(ASTNode* testedNode,
-		RulesOfEngagement::PatternRHSType RHS, ASTExprNode* RHSexpr);
+	static bool TryMatch(ASTNode* testedNode, PatternRHSType RHS, ASTExprNode* RHSexpr);
 	static bool MatcherTree(ASTNode* Original, ASTNode* Pattern);//, bool isSub);
 };

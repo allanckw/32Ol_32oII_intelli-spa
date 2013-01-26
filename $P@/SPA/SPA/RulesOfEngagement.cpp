@@ -3,14 +3,19 @@
 #include "PKB.h"
 #include "Helper.h"
 
-unordered_map<string, RulesOfEngagement::QueryRelations> RulesOfEngagement::tokenToRel;
+unordered_map<string, unordered_set<RulesOfEngagement::QueryRelations>>
+	RulesOfEngagement::tokenToRel;
 unordered_map<string, RulesOfEngagement::QueryVar> RulesOfEngagement::tokenToVar;
 unordered_map<RulesOfEngagement::QueryVar, set<string>> RulesOfEngagement::allowableConditions;
 unordered_map<string, RulesOfEngagement::QueryVar> RulesOfEngagement::conditionTypes;
-unordered_map<RulesOfEngagement::QueryRelations, set<RulesOfEngagement::QueryVar>> RulesOfEngagement::allowableFirstArgument;
-unordered_map<RulesOfEngagement::QueryRelations, RulesOfEngagement::QueryVar> RulesOfEngagement::privilegedFirstArgument;
-unordered_map<RulesOfEngagement::QueryRelations, set<RulesOfEngagement::QueryVar>> RulesOfEngagement::allowableSecondArgument;
-unordered_map<RulesOfEngagement::QueryRelations, RulesOfEngagement::QueryVar> RulesOfEngagement::privilegedSecondArgument;
+unordered_map<RulesOfEngagement::QueryRelations, set<RulesOfEngagement::QueryVar>>
+	RulesOfEngagement::allowableFirstArgument;
+unordered_map<RulesOfEngagement::QueryRelations, RulesOfEngagement::QueryVar>
+	RulesOfEngagement::privilegedFirstArgument;
+unordered_map<RulesOfEngagement::QueryRelations, set<RulesOfEngagement::QueryVar>>
+	RulesOfEngagement::allowableSecondArgument;
+unordered_map<RulesOfEngagement::QueryRelations, RulesOfEngagement::QueryVar>
+	RulesOfEngagement::privilegedSecondArgument;
 unordered_set<RulesOfEngagement::QueryRelations> RulesOfEngagement::allowableSelfReference;
 typedef bool(*isRelation)(int, int);
 typedef vector<int>(*getAllTypes)();
@@ -20,18 +25,20 @@ unordered_map<RulesOfEngagement::QueryVar, getAllTypes> RulesOfEngagement::typeM
 
 void RulesOfEngagement::initialise()
 {
-	tokenToRel["Calls"] = Calls;
-	tokenToRel["Calls*"] = CallsStar;
-	tokenToRel["Modifies"] = Modifies;
-	tokenToRel["Uses"] = Uses;
-	tokenToRel["Parent"] = Parent;
-	tokenToRel["Parent*"] = ParentStar;
-	tokenToRel["Follows"] = Follows;
-	tokenToRel["Follows*"] = FollowsStar;
-	tokenToRel["Next"] = Next;
-	tokenToRel["Next*"] = NextStar;
-	tokenToRel["Affects"] = Affects;
-	tokenToRel["Affects*"] = AffectsStar;
+	tokenToRel["Calls"].insert(Calls);
+	tokenToRel["Calls*"].insert(CallsStar);
+	tokenToRel["Modifies"].insert(ModifiesStmt);
+	tokenToRel["Modifies"].insert(ModifiesProc);
+	tokenToRel["Uses"].insert(UsesStmt);
+	tokenToRel["Uses"].insert(UsesProc);
+	tokenToRel["Parent"].insert(Parent);
+	tokenToRel["Parent*"].insert(ParentStar);
+	tokenToRel["Follows"].insert(Follows);
+	tokenToRel["Follows*"].insert(FollowsStar);
+	tokenToRel["Next"].insert(Next);
+	tokenToRel["Next*"].insert(NextStar);
+	tokenToRel["Affects"].insert(Affects);
+	tokenToRel["Affects*"].insert(AffectsStar);
 
 	tokenToVar["procedure"] = Procedure;
 	tokenToVar["stmt"] = Statement;
@@ -58,44 +65,44 @@ void RulesOfEngagement::initialise()
 	conditionTypes["value"] = Integer;
 	conditionTypes["stmtNo"] = Integer;
 
-	allowableFirstArgument[Modifies].insert(Procedure);
-	allowableFirstArgument[Modifies].insert(Statement);
-	allowableFirstArgument[Modifies].insert(Assign);
-	allowableFirstArgument[Modifies].insert(Call);
-	allowableFirstArgument[Modifies].insert(While);
-	allowableFirstArgument[Modifies].insert(If);
-	allowableFirstArgument[Modifies].insert(Integer);
-	allowableFirstArgument[Modifies].insert(String);
+	allowableFirstArgument[ModifiesStmt].insert(Statement);
+	allowableFirstArgument[ModifiesStmt].insert(Assign);
+	allowableFirstArgument[ModifiesStmt].insert(Call);
+	allowableFirstArgument[ModifiesStmt].insert(While);
+	allowableFirstArgument[ModifiesStmt].insert(If);
+	allowableFirstArgument[ModifiesStmt].insert(Integer);
 	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(ModifiesStmt, Statement));
-	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(ModifiesProc, Procedure));
-	allowableSecondArgument[Modifies].insert(Variable);
-	allowableSecondArgument[Modifies].insert(WildCard);
-	allowableSecondArgument[Modifies].insert(String);
-	/*allowableSecondArgument[ModifiesStmt].insert(Variable);
+	allowableSecondArgument[ModifiesStmt].insert(Variable);
 	allowableSecondArgument[ModifiesStmt].insert(WildCard);
-	allowableSecondArgument[ModifiesProc].insert(Variable);
-	allowableSecondArgument[ModifiesProc].insert(WildCard);*/
+	allowableSecondArgument[ModifiesStmt].insert(String);
 	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(ModifiesStmt, Variable));
+
+	allowableFirstArgument[ModifiesProc].insert(Procedure);
+	allowableFirstArgument[ModifiesProc].insert(String);
+	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(ModifiesProc, Procedure));
+	allowableSecondArgument[ModifiesProc].insert(Variable);
+	allowableSecondArgument[ModifiesProc].insert(WildCard);
+	allowableSecondArgument[ModifiesProc].insert(String);
 	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(ModifiesProc, Variable));
 	
-	allowableFirstArgument[Uses].insert(Procedure);
-	allowableFirstArgument[Uses].insert(Statement);
-	allowableFirstArgument[Uses].insert(Assign);
-	allowableFirstArgument[Uses].insert(Call);
-	allowableFirstArgument[Uses].insert(While);
-	allowableFirstArgument[Uses].insert(If);
-	allowableFirstArgument[Uses].insert(Integer);
-	allowableFirstArgument[Uses].insert(String);
+	allowableFirstArgument[UsesStmt].insert(Statement);
+	allowableFirstArgument[UsesStmt].insert(Assign);
+	allowableFirstArgument[UsesStmt].insert(Call);
+	allowableFirstArgument[UsesStmt].insert(While);
+	allowableFirstArgument[UsesStmt].insert(If);
+	allowableFirstArgument[UsesStmt].insert(Integer);
 	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(UsesStmt, Statement));
-	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(UsesProc, Procedure));
-	allowableSecondArgument[Uses].insert(Variable);
-	allowableSecondArgument[Uses].insert(WildCard);
-	allowableSecondArgument[Uses].insert(String);
-	/*allowableSecondArgument[UsesStmt].insert(Variable);
+	allowableSecondArgument[UsesStmt].insert(Variable);
 	allowableSecondArgument[UsesStmt].insert(WildCard);
-	allowableSecondArgument[UsesProc].insert(Variable);
-	allowableSecondArgument[UsesProc].insert(WildCard);*/
+	allowableSecondArgument[UsesStmt].insert(String);
 	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(UsesStmt, Variable));
+
+	allowableFirstArgument[UsesProc].insert(Procedure);
+	allowableFirstArgument[UsesProc].insert(String);
+	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(UsesProc, Procedure));
+	allowableSecondArgument[UsesProc].insert(Variable);
+	allowableSecondArgument[UsesProc].insert(WildCard);
+	allowableSecondArgument[UsesProc].insert(String);
 	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(UsesProc, Variable));
 
 	allowableFirstArgument[Calls].insert(Procedure);
@@ -242,8 +249,10 @@ void RulesOfEngagement::initialise()
 
 	allowableSelfReference.insert(Next);
 
-	emptyRel[Modifies] = PKB::modifies.empty();
-	emptyRel[Uses] = PKB::uses.empty();
+	emptyRel[ModifiesStmt] = PKB::modifies.empty();
+	emptyRel[ModifiesProc] = PKB::modifies.empty();
+	emptyRel[UsesStmt] = PKB::uses.empty();
+	emptyRel[UsesProc] = PKB::uses.empty();
 	emptyRel[Calls] = emptyRel[CallsStar] = PKB::calls.empty();
 	emptyRel[Follows] = emptyRel[FollowsStar] = PKB::follows.empty();
 	emptyRel[Parent] = emptyRel[ParentStar] = PKB::parent.empty();
@@ -261,8 +270,8 @@ void RulesOfEngagement::initialise()
 	/*relationMap[Next] = &is<>;
 	relationMap[NextStar] = &is<>;
 	relationMap[Affects] = &is<>;
-	relationMap[AffectsStar] = &is<>;
-	relationMap[Pattern] = &is<>;*/
+	relationMap[AffectsStar] = &is<>;*/
+	relationMap[PatternModifies] = &isPatternModifies;
 	
 	typeMap[Statement] = &getAllStmt;
 	typeMap[Variable] = &getAllVar;
@@ -274,27 +283,11 @@ void RulesOfEngagement::initialise()
 	typeMap[Call] = &getAllCall;
 }
 
-int RulesOfEngagement::convertArgumentToInteger(RulesOfEngagement::QueryRelations& type,
+int RulesOfEngagement::convertArgumentToInteger(const RulesOfEngagement::QueryRelations& type,
 	const bool first, const string& arg)
 {
 	if (first) {
 		switch (type) {
-		case Modifies:
-			if (Helper::isNumber(arg)) {
-				type = ModifiesStmt;
-				return Helper::stringToInt(arg);
-			} else {
-				type = ModifiesProc;
-				return PKB::procedures.getPROCIndex(arg);
-			}
-		case Uses:
-			if (Helper::isNumber(arg)) {
-				type = UsesStmt;
-				return Helper::stringToInt(arg);
-			} else {
-				type = UsesProc;
-				return PKB::procedures.getPROCIndex(arg.substr(1, arg.length() - 2));
-			}
 		case ModifiesStmt:
 		case UsesStmt:
 			return Helper::stringToInt(arg);
@@ -376,6 +369,12 @@ bool RulesOfEngagement::isParent(int x, int y)
 bool RulesOfEngagement::isParentStar(int x, int y)
 {
 	return PKB::parent.isParentStar(x, y);
+}
+
+bool RulesOfEngagement::isPatternModifies(int x, int y)
+{
+	return false;
+	//return PKB::<table>.is<Rel>(x, y);
 }
 
 /*template
@@ -474,17 +473,27 @@ vector<int> RulesOfEngagement::getAll<Type>()
 //end type map
 
 //pattern
+bool RulesOfEngagement::satisfyPattern(int index,
+	RulesOfEngagement::PatternRHSType RHS, string RHSVarName, ASTExprNode* RHSexprs)
+{
+	/*static unordered_map<int, unordered_map<string, bool>> map;
+	if (map.count(index) > 0 && map[index].count(RHSVarName) > 0)
+		return map[index][RHSVarName];*/
+
+	return /*map[index][RHSVarName] = */TryMatch(PKB::assignNodes[index], RHS, RHSexprs);
+}
+
 bool RulesOfEngagement::satisfyPattern(int index, int modifiesVar,
 	RulesOfEngagement::PatternRHSType RHS, string RHSVarName, ASTExprNode* RHSexprs)
 {
 	if (modifiesVar >= 0 && !isModifiesStmt(index, modifiesVar))
 		return false;
 
-	static unordered_map<int, unordered_map<string, bool>> map;
+	/*static unordered_map<int, unordered_map<string, bool>> map;
 	if (map.count(index) > 0 && map[index].count(RHSVarName) > 0)
-		return map[index][RHSVarName];
+		return map[index][RHSVarName];*/
 
-	return map[index][RHSVarName] = TryMatch(PKB::assignNodes[index], RHS, RHSexprs);
+	return /*map[index][RHSVarName] = */TryMatch(PKB::assignNodes[index], RHS, RHSexprs);
 }
 
 //RHS for now handles patterns in the form of "a" or _"a"_
@@ -577,19 +586,12 @@ bool RulesOfEngagement::TryMatch(ASTNode* testedNode,
 
 bool RulesOfEngagement::MatcherTree(ASTNode* Original, ASTNode* Pattern)//, bool isSub)
 {
-	if (Original->getType() != Pattern->getType() || Original->getValue() != Pattern->getValue())
-		return false;
-
-	if (Original->getType() == ASTNode::NodeType::Constant)
-		return true;
-	else if (Original->getType() == ASTNode::NodeType::Variable)
-		return true;
-	else if (Original->getType() == ASTNode::NodeType::Operator) {
-		if (!MatcherTree(Original->getChild(0), Pattern->getChild(0)))
-			return false;
-		return MatcherTree(Original->getChild(1), Pattern->getChild(1));
-	}
-
-	return false;
+	return (Original->getType() == Pattern->getType() &&
+		Original->getValue() == Pattern->getValue() &&
+		(Original->getType() == ASTNode::Constant ||
+		Original->getType() == ASTNode::Variable ||
+		(Original->getType() == ASTNode::Operator &&
+			MatcherTree(Original->getChild(0), Pattern->getChild(0)) &&
+			MatcherTree(Original->getChild(1), Pattern->getChild(1)))));
 }
 //end pattern

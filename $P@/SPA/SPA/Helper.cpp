@@ -19,7 +19,7 @@ string Helper::charToString(char c)
 int Helper::stringToInt(string s)
 {
 	int ans = 0;
-	for (int i = 0; i < s.size(); i++)
+	for (unsigned int i = 0; i < s.size(); i++)
 		ans = ans * 10 + (s[i] - '0');
 	return ans;
 }

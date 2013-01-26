@@ -12,15 +12,15 @@ private:
 	vector<unordered_map<string, string>> synAttributes;
 	vector<unordered_set<RulesOfEngagement::QueryRelations>> synSelfReference;
 
-	//e.g. stmt s; procedure p; select s such that modifies(s, p) -> synRelFirst[s] = {procedure}
-	vector<vector<pair<RulesOfEngagement::QueryRelations, RulesOfEngagement::QueryVar>>>
-		synRelGenericFirst;
+	//e.g. stmt s; Select s such that modifies(s, _)
+	//-> stmt s; variable v; Select s such that modifies(s, v) (implicitly)
+	//-> synRelGenericFirst[s] = {modifies(, implicit)} //variable is implicit
+	vector<unordered_set<RulesOfEngagement::QueryRelations>> synRelGenericFirst;
 
 	//e.g. stmt s; select s such that follows(s, 2) -> synRelFirst[s] = {follows,2}
 	vector<vector<pair<RulesOfEngagement::QueryRelations, string>>> synRelSpecificFirst;
 
-	vector<vector<pair<RulesOfEngagement::QueryRelations, RulesOfEngagement::QueryVar>>>
-		synRelGenericSecond;
+	vector<unordered_set<RulesOfEngagement::QueryRelations>> synRelGenericSecond;
 	vector<vector<pair<RulesOfEngagement::QueryRelations, string>>> synRelSpecificSecond;
 
 	unordered_map<string, int> stringToIndex;
@@ -53,18 +53,14 @@ public:
 	void setSelfReference(string name, RulesOfEngagement::QueryRelations relation);
 	unordered_set<RulesOfEngagement::QueryRelations> getAllSelfReferences(string name);
 
-	void setFirstGeneric(string name, RulesOfEngagement::QueryRelations relation,
-		RulesOfEngagement::QueryVar specific);
-	vector<pair<RulesOfEngagement::QueryRelations, RulesOfEngagement::QueryVar>>
-		getAllFirstGeneric(string name);
+	void setFirstGeneric(string name, RulesOfEngagement::QueryRelations relation);
+	unordered_set<RulesOfEngagement::QueryRelations> getAllFirstGeneric(string name);
 
 	void setFirstSpecific(string name, RulesOfEngagement::QueryRelations relation, string specific);
 	vector<pair<RulesOfEngagement::QueryRelations, string>> getAllFirstSpecific(string name);
 
-	void setSecondGeneric(string name, RulesOfEngagement::QueryRelations relation,
-		RulesOfEngagement::QueryVar specific);
-	vector<pair<RulesOfEngagement::QueryRelations, RulesOfEngagement::QueryVar>>
-		getAllSecondGeneric(string name);
+	void setSecondGeneric(string name, RulesOfEngagement::QueryRelations relation);
+	unordered_set<RulesOfEngagement::QueryRelations> getAllSecondGeneric(string name);
 
 	void setSecondSpecific(string name, RulesOfEngagement::QueryRelations relation, string specific);
 	vector<pair<RulesOfEngagement::QueryRelations, string>> getAllSecondSpecific(string name);

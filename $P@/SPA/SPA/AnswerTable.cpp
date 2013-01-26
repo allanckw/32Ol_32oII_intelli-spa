@@ -15,12 +15,13 @@ AnswerTable::AnswerTable(SynonymTable synonymTable, string synonym)
 
 	vector<int> table;
 	unordered_map<string, string>& attributes = synonymTable.getAllAttributes(synonym);
-	unordered_set<RulesOfEngagement::QueryRelations>& selfReferences = synonymTable.getAllSelfReferences(synonym);
-	vector<pair<RulesOfEngagement::QueryRelations, RulesOfEngagement::QueryVar>>& firstGeneric =
+	unordered_set<RulesOfEngagement::QueryRelations>& selfReferences =
+		synonymTable.getAllSelfReferences(synonym);
+	unordered_set<RulesOfEngagement::QueryRelations>& firstGeneric =
 		synonymTable.getAllFirstGeneric(synonym);
 	vector<pair<RulesOfEngagement::QueryRelations, string>>& firstSpecific =
 		synonymTable.getAllFirstSpecific(synonym);
-	vector<pair<RulesOfEngagement::QueryRelations, RulesOfEngagement::QueryVar>>& secondGeneric =
+	unordered_set<RulesOfEngagement::QueryRelations>& secondGeneric =
 		synonymTable.getAllSecondGeneric(synonym);
 	vector<pair<RulesOfEngagement::QueryRelations, string>>& secondSpecific =
 		synonymTable.getAllSecondSpecific(synonym);
@@ -34,20 +35,23 @@ AnswerTable::AnswerTable(SynonymTable synonymTable, string synonym)
 	}
 
 	if (unrestricted && attributes.count("procName") > 0) {
-		PROCIndex procIndex = PKB::procedures.getPROCIndex(attributes["procName"]);
+		const string& procName = attributes["procName"];
+		PROCIndex procIndex = PKB::procedures.getPROCIndex(
+			procName.substr(1, procName.length() - 2));
 		if (procIndex == -1)
 			return;
 
 		if (synonymTable.getType(synonym) == RulesOfEngagement::Procedure)
-			table.push_back(PKB::procedures.getPROCIndex(attributes["procName"]));
+			table.push_back(procIndex);
 		else if (synonymTable.getType(synonym) == RulesOfEngagement::Calls)
-			table = PKB::calls.getStmtCall(
-			PKB::procedures.getPROCIndex(attributes["procName"]));
+			table = PKB::calls.getStmtCall(procIndex);
 		unrestricted = false;
 	}
 
 	if (attributes.count("varName") > 0) {
-		VARIndex varIndex = PKB::variables.getVARIndex(attributes["varName"]);
+		const string& varName = attributes["varName"];
+		VARIndex varIndex = PKB::variables.getVARIndex(
+			varName.substr(1, varName.length() - 2));
 		if (varIndex == -1)
 			return;
 
@@ -77,8 +81,9 @@ AnswerTable::AnswerTable(SynonymTable synonymTable, string synonym)
 
 	for (auto it = firstGeneric.begin(); it != firstGeneric.end(); it++) {
 		//to optimise
-		RulesOfEngagement::isRelation rel = RulesOfEngagement::getRelation((*it).first);
-		vector<int> table2 = RulesOfEngagement::getType((*it).second)();
+		RulesOfEngagement::isRelation rel = RulesOfEngagement::getRelation(*it);
+		vector<int> table2 = RulesOfEngagement::getType(
+			RulesOfEngagement::privilegedSecondArgument[*it])();
 		vector<int> newTable;
 		for (auto it2 = table.begin(); it2 != table.end(); it2++)
 			for (auto it3 = table2.begin(); it3 != table2.end(); it3++)
@@ -102,8 +107,9 @@ AnswerTable::AnswerTable(SynonymTable synonymTable, string synonym)
 
 	for (auto it = secondGeneric.begin(); it != secondGeneric.end(); it++) {
 		//to optimise
-		RulesOfEngagement::isRelation rel = RulesOfEngagement::getRelation((*it).first);
-		vector<int> table2 = RulesOfEngagement::getType((*it).second)();
+		RulesOfEngagement::isRelation rel = RulesOfEngagement::getRelation(*it);
+		vector<int> table2 = RulesOfEngagement::getType(
+			RulesOfEngagement::privilegedFirstArgument[*it])();
 		vector<int> newTable;
 		for (auto it2 = table.begin(); it2 != table.end(); it2++)
 			for (auto it3 = table2.begin(); it3 != table2.end(); it3++)
@@ -165,6 +171,18 @@ void AnswerTable::prune(string firstSynonym,
 	vector<vector<int>> newTable;
 	for (auto it = answers.begin(); it != answers.end(); it++)
 		if (rel((*it)[firstRelIndex], (*it)[secondRelIndex]))
+			newTable.push_back(*it);
+	answers = newTable;
+}
+
+void AnswerTable::patternPrune(string synonym,
+	RulesOfEngagement::PatternRHSType RHS, string RHSVarName, ASTExprNode* RHSexprs)
+{
+	int firstRelIndex = synonymPosition[synonym];
+
+	vector<vector<int>> newTable;
+	for (auto it = answers.begin(); it != answers.end(); it++)
+		if (RulesOfEngagement::satisfyPattern((*it)[firstRelIndex], RHS, RHSVarName, RHSexprs))
 			newTable.push_back(*it);
 	answers = newTable;
 }

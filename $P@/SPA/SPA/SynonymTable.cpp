@@ -9,8 +9,8 @@ int SynonymTable::size()
 
 void SynonymTable::insert(string name, RulesOfEngagement::QueryVar type)
 {
-	if (stringToIndex.count(name) > 0)
-		throw new SPAException("Double declaration of synonym");
+	//if (stringToIndex.count(name) > 0)
+		//throw new SPAException("Double declaration of synonym");
 
 	int index = synName.size();
 
@@ -20,9 +20,9 @@ void SynonymTable::insert(string name, RulesOfEngagement::QueryVar type)
 	synClassIndex.push_back(-1);
 	synAttributes.push_back(unordered_map<string, string>());
 	synSelfReference.push_back(unordered_set<RulesOfEngagement::QueryRelations>());
-	synRelGenericFirst.push_back(vector<pair<RulesOfEngagement::QueryRelations, RulesOfEngagement::QueryVar>>());
+	synRelGenericFirst.push_back(unordered_set<RulesOfEngagement::QueryRelations>());
 	synRelSpecificFirst.push_back(vector<pair<RulesOfEngagement::QueryRelations, string>>());
-	synRelGenericSecond.push_back(vector<pair<RulesOfEngagement::QueryRelations, RulesOfEngagement::QueryVar>>());
+	synRelGenericSecond.push_back(unordered_set<RulesOfEngagement::QueryRelations>());
 	synRelSpecificSecond.push_back(vector<pair<RulesOfEngagement::QueryRelations, string>>());
 
 	stringToIndex[name] = index;
@@ -130,13 +130,12 @@ unordered_set<RulesOfEngagement::QueryRelations> SynonymTable::getAllSelfReferen
 	return synSelfReference[stringToIndex.at(name)];
 }
 
-void SynonymTable::setFirstGeneric(string name, RulesOfEngagement::QueryRelations relation,
-		RulesOfEngagement::QueryVar specific)
+void SynonymTable::setFirstGeneric(string name, RulesOfEngagement::QueryRelations relation)
 {
-	synRelGenericFirst[stringToIndex.at(name)].push_back(pair<RulesOfEngagement::QueryRelations, RulesOfEngagement::QueryVar>(relation, specific));
+	synRelGenericFirst[stringToIndex.at(name)].insert(relation);
 }
 
-vector<pair<RulesOfEngagement::QueryRelations, RulesOfEngagement::QueryVar>> SynonymTable::getAllFirstGeneric(string name)
+unordered_set<RulesOfEngagement::QueryRelations> SynonymTable::getAllFirstGeneric(string name)
 {
 	return synRelGenericFirst[stringToIndex.at(name)];
 }
@@ -152,13 +151,12 @@ vector<pair<RulesOfEngagement::QueryRelations, string>> SynonymTable::getAllFirs
 	return synRelSpecificFirst[stringToIndex.at(name)];
 }
 
-void SynonymTable::setSecondGeneric(string name, RulesOfEngagement::QueryRelations relation,
-		RulesOfEngagement::QueryVar specific)
+void SynonymTable::setSecondGeneric(string name, RulesOfEngagement::QueryRelations relation)
 {
-	synRelGenericSecond[stringToIndex.at(name)].push_back(pair<RulesOfEngagement::QueryRelations, RulesOfEngagement::QueryVar>(relation, specific));
+	synRelGenericSecond[stringToIndex.at(name)].insert(relation);
 }
 
-vector<pair<RulesOfEngagement::QueryRelations, RulesOfEngagement::QueryVar>> SynonymTable::getAllSecondGeneric(string name)
+unordered_set<RulesOfEngagement::QueryRelations> SynonymTable::getAllSecondGeneric(string name)
 {
 	return synRelGenericSecond[stringToIndex.at(name)];
 }

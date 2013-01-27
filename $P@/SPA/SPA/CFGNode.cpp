@@ -6,6 +6,8 @@ CFGNode::CFGNode(NodeType type, PROG_LINE start, PROG_LINE end, PROC p){
 	this->ending = end;
 	this->belongingTo = p;
 	this->type = type;
+	this->isStart = false;
+	this->isEnd = false;
 }
 
 //link node1->node2 in the cfg
@@ -43,6 +45,10 @@ bool CFGNode::isEndNode(){
 
 bool CFGNode::isDummy(){
 	return this->type == CFGNode::DummyNode;
+}
+
+CFGNode::NodeType CFGNode::getType(){
+	return this->type;
 }
 
 void CFGNode::addNextNode(CFGNode* node)

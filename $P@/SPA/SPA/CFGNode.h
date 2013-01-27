@@ -29,6 +29,8 @@ public:
 
 	bool isDummy();
 
+	NodeType getType();
+
 	void addNextNode(CFGNode* node);
 
 	void addPreviousNode(CFGNode* node);

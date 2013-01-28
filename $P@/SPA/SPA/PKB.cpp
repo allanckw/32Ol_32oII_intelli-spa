@@ -33,8 +33,8 @@ void PKB::addToCFGList(CFGNode* start, PROC p)
 	if (!start->isStartNode())
 		throw SPAException("The CFGNode must be of type StartNode to be added to CFGLists in the program!!!");
 
-	else if (PKB::procedures.isExists(p))
-		throw SPAException("Procedure not found in source!");
+	else if (!PKB::procedures.isExists(p))
+		throw SPAException("Procedure not found in source!p");
 
 	else{
 		pair<CFGNode*, PROC> p(start, p);

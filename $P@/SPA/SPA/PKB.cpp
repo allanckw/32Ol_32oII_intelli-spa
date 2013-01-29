@@ -21,12 +21,16 @@ int PKB::maxProgLines;
 
 vector<ASTNode::NodeType> PKB::statementTable;
 unordered_set<STMT> PKB::assignTable;
+unordered_map<int, ASTNode*> PKB::assignNodes;
 unordered_set<STMT> PKB::callTable;
+unordered_map<int, ASTNode*> PKB::callNodes;
 unordered_set<STMT> PKB::whileTable;
+unordered_map<int, ASTNode*> PKB::whileNodes;
 unordered_set<STMT> PKB::ifTable;
+unordered_map<int, ASTNode*> PKB::ifNodes;
+vector<ASTNode*> PKB::statementNodes;
 vector<pair<STMT, STMT>> PKB::TheBeginningAndTheEnd;
 unordered_map<int, vector<STMT>> PKB::constantsTable;
-unordered_map<int, ASTNode*> PKB::assignNodes;
 
 void PKB::addToCFGList(CFGNode* start, PROC p)
 {

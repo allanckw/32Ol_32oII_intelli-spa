@@ -7,27 +7,27 @@ AnswerTable::AnswerTable()
 {
 }
 
-AnswerTable::AnswerTable(SynonymTable synonymTable, string synonym)
+AnswerTable::AnswerTable(const SynonymTable& synonymTable, const string& synonym)
 {
 	header.push_back(synonym);
 	synonymPosition.insert(pair<string, int>(synonym, 0));
 	bool unrestricted = true;
 
 	vector<int> table;
-	unordered_map<string, string>& attributes = synonymTable.getAllAttributes(synonym);
-	unordered_set<RulesOfEngagement::QueryRelations>& selfReferences =
+	const unordered_map<string, string>& attributes = synonymTable.getAllAttributes(synonym);
+	const unordered_set<RulesOfEngagement::QueryRelations>& selfReferences =
 		synonymTable.getAllSelfReferences(synonym);
-	unordered_set<RulesOfEngagement::QueryRelations>& firstGeneric =
+	const unordered_set<RulesOfEngagement::QueryRelations>& firstGeneric =
 		synonymTable.getAllFirstGeneric(synonym);
-	vector<pair<RulesOfEngagement::QueryRelations, string>>& firstSpecific =
+	const vector<pair<RulesOfEngagement::QueryRelations, string>>& firstSpecific =
 		synonymTable.getAllFirstSpecific(synonym);
-	unordered_set<RulesOfEngagement::QueryRelations>& secondGeneric =
+	const unordered_set<RulesOfEngagement::QueryRelations>& secondGeneric =
 		synonymTable.getAllSecondGeneric(synonym);
-	vector<pair<RulesOfEngagement::QueryRelations, string>>& secondSpecific =
+	const vector<pair<RulesOfEngagement::QueryRelations, string>>& secondSpecific =
 		synonymTable.getAllSecondSpecific(synonym);
 
 	if (attributes.count("stmtNo") > 0) {
-		int stmtNo = Helper::stringToInt(attributes["stmtNo"]);
+		const int stmtNo = Helper::stringToInt(attributes.at("stmtNo"));
 		if (stmtNo > PKB::maxProgLines)
 			return;
 		table.push_back(stmtNo);
@@ -35,8 +35,8 @@ AnswerTable::AnswerTable(SynonymTable synonymTable, string synonym)
 	}
 
 	if (unrestricted && attributes.count("procName") > 0) {
-		const string& procName = attributes["procName"];
-		PROCIndex procIndex = PKB::procedures.getPROCIndex(
+		const string& procName = attributes.at("procName");
+		const PROCIndex procIndex = PKB::procedures.getPROCIndex(
 			procName.substr(1, procName.length() - 2));
 		if (procIndex == -1)
 			return;
@@ -49,8 +49,8 @@ AnswerTable::AnswerTable(SynonymTable synonymTable, string synonym)
 	}
 
 	if (attributes.count("varName") > 0) {
-		const string& varName = attributes["varName"];
-		VARIndex varIndex = PKB::variables.getVARIndex(
+		const string& varName = attributes.at("varName");
+		const VARIndex varIndex = PKB::variables.getVARIndex(
 			varName.substr(1, varName.length() - 2));
 		if (varIndex == -1)
 			return;
@@ -60,7 +60,7 @@ AnswerTable::AnswerTable(SynonymTable synonymTable, string synonym)
 	}
 
 	if (attributes.count("value") > 0) {
-		int value = Helper::stringToInt(attributes["value"]);
+		const int value = Helper::stringToInt(attributes.at("value"));
 		if (PKB::constantsTable.count(value) == 0)
 			return;
 		table.push_back(value);
@@ -71,7 +71,7 @@ AnswerTable::AnswerTable(SynonymTable synonymTable, string synonym)
 		table = RulesOfEngagement::getType(synonymTable.getType(synonym))();
 
 	for (auto it = selfReferences.begin(); it != selfReferences.end(); it++) {
-		RulesOfEngagement::isRelation rel = RulesOfEngagement::getRelation(*it);
+		const RulesOfEngagement::isRelation rel = RulesOfEngagement::getRelation(*it);
 		vector<int> table2;
 		for (auto it2 = table.begin(); it2 != table.end(); it2++)
 			if (rel(*it2, *it2))
@@ -81,8 +81,8 @@ AnswerTable::AnswerTable(SynonymTable synonymTable, string synonym)
 
 	for (auto it = firstGeneric.begin(); it != firstGeneric.end(); it++) {
 		//to optimise
-		RulesOfEngagement::isRelation rel = RulesOfEngagement::getRelation(*it);
-		vector<int> table2 = RulesOfEngagement::getType(
+		const RulesOfEngagement::isRelation rel = RulesOfEngagement::getRelation(*it);
+		const vector<int>& table2 = RulesOfEngagement::getType(
 			RulesOfEngagement::privilegedSecondArgument[*it])();
 		vector<int> newTable;
 		for (auto it2 = table.begin(); it2 != table.end(); it2++)
@@ -96,8 +96,8 @@ AnswerTable::AnswerTable(SynonymTable synonymTable, string synonym)
 
 	for (auto it = firstSpecific.begin(); it != firstSpecific.end(); it++) {
 		//to optimise
-		RulesOfEngagement::isRelation rel = RulesOfEngagement::getRelation((*it).first);
-		int arg = RulesOfEngagement::convertArgumentToInteger((*it).first, false, (*it).second);
+		const RulesOfEngagement::isRelation rel = RulesOfEngagement::getRelation((*it).first);
+		const int arg = RulesOfEngagement::convertArgumentToInteger((*it).first, false, (*it).second);
 		vector<int> newTable;
 		for (auto it2 = table.begin(); it2 != table.end(); it2++)
 			if (rel(*it2, arg))
@@ -107,8 +107,8 @@ AnswerTable::AnswerTable(SynonymTable synonymTable, string synonym)
 
 	for (auto it = secondGeneric.begin(); it != secondGeneric.end(); it++) {
 		//to optimise
-		RulesOfEngagement::isRelation rel = RulesOfEngagement::getRelation(*it);
-		vector<int> table2 = RulesOfEngagement::getType(
+		const RulesOfEngagement::isRelation rel = RulesOfEngagement::getRelation(*it);
+		const vector<int>& table2 = RulesOfEngagement::getType(
 			RulesOfEngagement::privilegedFirstArgument[*it])();
 		vector<int> newTable;
 		for (auto it2 = table.begin(); it2 != table.end(); it2++)
@@ -122,8 +122,8 @@ AnswerTable::AnswerTable(SynonymTable synonymTable, string synonym)
 
 	for (auto it = secondSpecific.begin(); it != secondSpecific.end(); it++) {
 		//to optimise
-		RulesOfEngagement::isRelation rel = RulesOfEngagement::getRelation((*it).first);
-		int arg = RulesOfEngagement::convertArgumentToInteger((*it).first, true, (*it).second);
+		const RulesOfEngagement::isRelation rel = RulesOfEngagement::getRelation((*it).first);
+		const int arg = RulesOfEngagement::convertArgumentToInteger((*it).first, true, (*it).second);
 		vector<int> newTable;
 		for (auto it2 = table.begin(); it2 != table.end(); it2++)
 			if (rel(arg, *it2))
@@ -139,11 +139,11 @@ AnswerTable::AnswerTable(SynonymTable synonymTable, string synonym)
 	}
 }
 
-void AnswerTable::combine(string ownSynonym, AnswerTable otherTable,
-	string otherSynonym, RulesOfEngagement::isRelation rel)
+void AnswerTable::combine(const string& ownSynonym, const AnswerTable& otherTable,
+	const string& otherSynonym, const RulesOfEngagement::isRelation rel)
 {
-	int firstRelIndex = synonymPosition[ownSynonym];
-	int secondRelIndex = otherTable.synonymPosition[otherSynonym];
+	const int firstRelIndex = synonymPosition[ownSynonym];
+	const int secondRelIndex = otherTable.synonymPosition.at(otherSynonym);
 
 	vector<vector<int>> newTable;
 	for (auto it = answers.begin(); it != answers.end(); it++) {
@@ -162,11 +162,11 @@ void AnswerTable::combine(string ownSynonym, AnswerTable otherTable,
 	}
 }
 
-void AnswerTable::prune(string firstSynonym,
-	string secondSynonym, RulesOfEngagement::isRelation rel)
+void AnswerTable::prune(const string& firstSynonym,
+	const string& secondSynonym, const RulesOfEngagement::isRelation rel)
 {
-	int firstRelIndex = synonymPosition[firstSynonym];
-	int secondRelIndex = synonymPosition[secondSynonym];
+	const int firstRelIndex = synonymPosition[firstSynonym];
+	const int secondRelIndex = synonymPosition[secondSynonym];
 
 	vector<vector<int>> newTable;
 	for (auto it = answers.begin(); it != answers.end(); it++)
@@ -175,10 +175,27 @@ void AnswerTable::prune(string firstSynonym,
 	answers = newTable;
 }
 
-void AnswerTable::patternPrune(string synonym,
-	RulesOfEngagement::PatternRHSType RHS, string RHSVarName, ASTExprNode* RHSexprs)
+/*void AnswerTable::withPrune(const string& firstSynonym, const RulesOfEngagement::QueryVar firstVar,
+	const string& firstCondition, const string& secondSynonym,
+	const RulesOfEngagement::QueryVar secondVar, const string& secondCondition)
 {
-	int firstRelIndex = synonymPosition[synonym];
+	const int firstRelIndex = synonymPosition[firstSynonym];
+	
+	
+	const int secondRelIndex = synonymPosition[secondSynonym];
+
+
+	vector<vector<int>> newTable;
+	for (auto it = answers.begin(); it != answers.end(); it++)
+		if (RulesOfEngagement::satisfyPattern((*it)[firstRelIndex], RHS, RHSVarName, RHSexprs))
+			newTable.push_back(*it);
+	answers = newTable;
+}*/
+
+void AnswerTable::patternPrune(const string& synonym,
+	const RulesOfEngagement::PatternRHSType RHS, const string& RHSVarName, const ASTExprNode* RHSexprs)
+{
+	const int firstRelIndex = synonymPosition[synonym];
 
 	vector<vector<int>> newTable;
 	for (auto it = answers.begin(); it != answers.end(); it++)
@@ -187,7 +204,7 @@ void AnswerTable::patternPrune(string synonym,
 	answers = newTable;
 }
 
-void AnswerTable::patternPrune(string synonym, bool modifiesIsSynonym, int modifies,
+/*void AnswerTable::patternPrune(string synonym, bool modifiesIsSynonym, int modifies,
 	RulesOfEngagement::PatternRHSType RHS, string RHSVarName, ASTExprNode* RHSexprs)
 {
 	int firstRelIndex = synonymPosition[synonym];
@@ -205,9 +222,9 @@ void AnswerTable::patternPrune(string synonym, bool modifiesIsSynonym, int modif
 				newTable.push_back(*it);
 	}
 	answers = newTable;
-}
+}*/
 
-AnswerTable AnswerTable::project(vector<string> selection)
+AnswerTable AnswerTable::project(const vector<string>& selection)
 {
 	AnswerTable newTable;
 
@@ -230,7 +247,7 @@ AnswerTable AnswerTable::project(vector<string> selection)
 	return newTable;
 }
 
-void AnswerTable::cartesian(AnswerTable otherTable)
+void AnswerTable::cartesian(const AnswerTable& otherTable)
 {
 	vector<vector<int>> newTable;
 	for (auto it = answers.begin(); it != answers.end(); it++) {
@@ -248,17 +265,17 @@ void AnswerTable::cartesian(AnswerTable otherTable)
 	}
 }
 
-vector<string> AnswerTable::getHeader()
+vector<string> AnswerTable::getHeader() const
 {
 	return header;
 }
 
-unsigned int AnswerTable::getSize()
+unsigned int AnswerTable::getSize() const
 {
 	return answers.size();
 }
 
-vector<int> AnswerTable::getRow(int index)
+vector<int> AnswerTable::getRow(const int index) const
 {
 	return answers[index];
 }

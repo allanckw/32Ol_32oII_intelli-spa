@@ -30,12 +30,16 @@ public:
 
 	static vector<ASTNode::NodeType> statementTable;
 	static unordered_set<STMT> assignTable;
+	static unordered_map<STMT, ASTNode*> assignNodes;
 	static unordered_set<STMT> callTable;
+	static unordered_map<STMT, ASTNode*> callNodes;
 	static unordered_set<STMT> whileTable;
+	static unordered_map<STMT, ASTNode*> whileNodes;
 	static unordered_set<STMT> ifTable;
+	static unordered_map<STMT, ASTNode*> ifNodes;
+	static vector<ASTNode*> statementNodes;
 	static vector<pair<STMT, STMT>> TheBeginningAndTheEnd;
 	static unordered_map<int, vector<STMT>> constantsTable;
-	static unordered_map<int, ASTNode*> assignNodes;
 
 	static CFGNode* getCFGHead(PROC p);
 

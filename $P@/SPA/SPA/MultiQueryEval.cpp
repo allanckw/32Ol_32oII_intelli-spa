@@ -143,6 +143,7 @@ MultiQueryEval::MultiQueryEval(const string& query)
 	unordered_map<RulesOfEngagement::QueryRelations, unordered_map<string,
 		unordered_set<string>>> relationStore;
 	unordered_map<string, unordered_map<string, string>> conditionStore;
+	vector<tuple<string, string, string, string>> condition2Store;
 	unordered_map<string, unordered_set<string>> patternAssignUsesStore;
 	
 	//for new synonyms created due to synthetic sugaring
@@ -237,23 +238,53 @@ MultiQueryEval::MultiQueryEval(const string& query)
 
 				RulesOfEngagement::QueryVar type = stringToQueryVar[synonym];
 				string condition;
-				if (stringToQueryVar[synonym] == RulesOfEngagement::Prog_Line)
+				RulesOfEngagement::QueryVar LHSType;
+				if (stringToQueryVar[synonym] == RulesOfEngagement::Prog_Line) {
 					condition = "";
-				else {
+					LHSType = RulesOfEngagement::Integer;
+				} else {
 					matchToken(query, pos, ".");
 					condition = getToken(query, pos);
 					if (RulesOfEngagement::allowableConditions[type].count(condition) == 0)
 						throw new SPAException(synonym +
 						" does not have the " + condition + " condition");
+					LHSType = RulesOfEngagement::conditionTypes[condition];
 				}
 
 				matchToken(query, pos, "=");
-				string attribute = getToken(query, pos);
+				//either c.value = 10 OR c.value = s.stmt#
+				string token = getToken(query, pos);
+				if (stringToQueryVar.count(token) == 0) { //c.value = 10
+					if (LHSType == RulesOfEngagement::Integer) {
+						if (!Helper::isNumber(token))
+							throw new SPAException("Unable to parse with part");
+					} else if (LHSType == RulesOfEngagement::String) {
+						if (token.at(0) != '"' || token.at(token.length() - 1) != '"')
+							throw new SPAException("Unable to parse with part");
+					} else
+						throw new SPAException("Unable to parse with part");
 
-				if (conditionStore[synonym].count(condition) > 0)
-					earlyQuit |= (conditionStore[synonym][condition] == attribute);
-				stringCount[synonym]++;
-				conditionStore[synonym].insert(pair<string, string>(condition, attribute));
+					if (conditionStore[synonym].count(condition) > 0)
+						earlyQuit |= (conditionStore[synonym][condition] == token);
+					stringCount[synonym]++;
+					conditionStore[synonym].insert(pair<string, string>(condition, token));
+				} else { //c.value = s.stmt#
+					matchToken(query, pos, ".");
+					string condition2 = getToken(query, pos);
+
+					if (synonym == token && condition == condition2)
+						break;
+
+					if (RulesOfEngagement::allowableConditions[type].count(condition) == 0)
+						throw new SPAException(synonym +
+						" does not have the " + condition + " condition");
+					RulesOfEngagement::QueryVar RHSType =
+						RulesOfEngagement::conditionTypes[condition2];
+					if (LHSType != RHSType)
+						throw new SPAException("Left and right hand side of with are not of same type");
+					condition2Store.push_back(tuple<string, string, string, string>
+						(synonym, condition, token, condition2));
+				}
 			}
 			break;
 
@@ -309,10 +340,22 @@ MultiQueryEval::MultiQueryEval(const string& query)
 				case RulesOfEngagement::If:
 				case RulesOfEngagement::While:
 					matchToken(query, pos, ",");
-					matchToken(query, pos, "\"_\"");
+					matchToken(query, pos, "_");
 					matchToken(query, pos, ",");
-					matchToken(query, pos, "\"_\"");
+					matchToken(query, pos, "_");
 					matchToken(query, pos, ")");
+
+					if (firstRel != "_") {
+						stringCount[synonym]++;
+						if (stringToQueryVar.count(firstRel) > 0) {
+							if (stringToQueryVar[firstRel] != RulesOfEngagement::Variable)
+								throw new SPAException("The first argument of pattern must be a variable");
+							stringCount[firstRel]++;
+						}
+						else if (firstRel.at(0) != '\"' || firstRel.at(firstRel.length() - 1) != '\"')
+							throw new SPAException("Could not parse the first argument");
+						relationStore[RulesOfEngagement::PatternModifies][synonym].insert(firstRel);
+					}
 					break;
 
 				default:
@@ -537,7 +580,7 @@ MultiQueryEval::MultiQueryEval(const string& query)
 	DisjointSet disjointSet;
 
 	//analyse synonyms. those with count of 1 and are not selected can be folded in
-	unordered_set<string> toFold;
+	unordered_set<string> toFold; //todo:: alias synonyms
 	for (auto it = stringCount.begin(); it != stringCount.end(); it++) {
 		const string& synonym = it->first;
 		const int count = it->second;
@@ -550,6 +593,16 @@ MultiQueryEval::MultiQueryEval(const string& query)
 			disjointSet.makeSet(synonym);
 		} else if (count == 1)
 			toFold.insert(synonym);
+	}
+
+	//parse equality of attributes
+	for (auto it = condition2Store.begin(); it != condition2Store.end(); it++) {
+		string firstRel = get<0>(*it);
+		string firstCondition = get<1>(*it);
+		string secondRel = get<2>(*it);
+		string secondCondition = get<3>(*it);
+
+		disjointSet.setUnion(firstRel, secondRel);
 	}
 	
 	//relationship table
@@ -728,6 +781,110 @@ MultiQueryEval::MultiQueryEval(const string& query)
 	vector<AnswerTable> tables;
 	//could have incorporated in synonym table, but was not because it is implentation dependent
 	unordered_map<string, int> inWhichTable;
+
+	/*//evaluate equality of attributes
+	for (auto it = condition2Store.begin(); it != condition2Store.end(); it++) {
+		string firstRel = get<0>(*it);
+		string firstCondition = get<1>(*it);
+		string secondRel = get<2>(*it);
+		string secondCondition = get<3>(*it);
+
+		int matchNumberOfTables = 0;
+		if (inWhichTable.count(firstRel) > 0)
+			matchNumberOfTables++;
+		if (inWhichTable.count(secondRel) > 0)
+			matchNumberOfTables++;
+
+		switch (matchNumberOfTables) {
+		case 0:
+			{
+				AnswerTable firstRelTable = AnswerTable(synonymTable, firstRel);
+				if (firstRelTable.getSize() == 0) {
+					earlyQuit = true;
+					return;
+				}
+
+				AnswerTable secondRelTable = AnswerTable(synonymTable, secondRel);
+				if (secondRelTable.getSize() == 0) {
+					earlyQuit = true;
+					return;
+				}
+
+				firstRelTable.withPrune
+
+				firstRelTable.combine(firstRel, secondRelTable,
+					secondRel, RulesOfEngagement::getRelation(type));
+				if (firstRelTable.getSize() == 0) {
+					earlyQuit = true;
+					return;
+				}
+
+				inWhichTable[firstRel] = tables.size();
+				inWhichTable[secondRel] = tables.size();
+				tables.push_back(firstRelTable);
+			}
+			break;
+		case 1:
+			if (inWhichTable.count(firstRel) > 0) {
+				int firstRelIndex = inWhichTable[firstRel];
+
+				AnswerTable secondRelTable = AnswerTable(synonymTable, secondRel);
+				if (secondRelTable.getSize() == 0) {
+					earlyQuit = true;
+					return;
+				}
+
+				tables[firstRelIndex].combine(firstRel, secondRelTable,
+					secondRel, RulesOfEngagement::getRelation(type));
+				if (tables[firstRelIndex].getSize() == 0) {
+					earlyQuit = true;
+					return;
+				}
+
+				inWhichTable[secondRel] = firstRelIndex;
+			} else {
+				AnswerTable firstRelTable = AnswerTable(synonymTable, firstRel);
+				if (firstRelTable.getSize() == 0) {
+					earlyQuit = true;
+					return;
+				}
+
+				int secondRelIndex = inWhichTable[secondRel];
+				firstRelTable.combine(firstRel, tables[secondRelIndex],
+					secondRel, RulesOfEngagement::getRelation(type));
+				if (firstRelTable.getSize() == 0) {
+					earlyQuit = true;
+					return;
+				}
+
+				tables[secondRelIndex] = firstRelTable;
+				inWhichTable[firstRel] = secondRelIndex;
+			}
+			break;
+		case 2:
+			int firstRelIndex = inWhichTable[firstRel];
+			int secondRelIndex = inWhichTable[secondRel];
+			if (firstRelIndex == secondRelIndex) {
+				tables[firstRelIndex].prune(firstRel, secondRel,
+					RulesOfEngagement::getRelation(type));
+				if (tables[firstRelIndex].getSize() == 0) {
+					earlyQuit = true;
+					return;
+				}
+			} else {
+				tables[firstRelIndex].combine(firstRel, tables[secondRelIndex],
+					secondRel, RulesOfEngagement::getRelation(type));
+				if (tables[firstRelIndex].getSize() == 0) {
+					earlyQuit = true;
+					return;
+				}
+
+				for (auto it = inWhichTable.begin(); it != inWhichTable.end(); it++)
+					if ((*it).second == secondRelIndex)
+						(*it).second = firstRelIndex;
+			}
+		}
+	}*/
 	
 	for (unsigned int rel = 0; rel < relType.size(); rel++) {
 		RulesOfEngagement::QueryRelations type = relType[rel];
@@ -847,7 +1004,13 @@ MultiQueryEval::MultiQueryEval(const string& query)
 				RHSVarName = usesVar;
 			}
 			RHSVarName = RHSVarName.substr(1, RHSVarName.length() - 2);
-			ASTExprNode* RHSexprs = AssignmentParser::processAssignment(MiniTokenizer(RHSVarName));
+			ASTExprNode* RHSexprs;
+			try {
+				RHSexprs = AssignmentParser::processAssignment(MiniTokenizer(RHSVarName));
+			} catch (SPAException& e) {	//exception indicates that the right hand side
+				earlyQuit = true;		//is not correct, probably due to it containing
+				return;					//a variable that is not actually present.
+			}
 
 			if (inWhichTable.count(synonym) == 0) {
 				AnswerTable firstRelTable = AnswerTable(synonymTable, synonym);
@@ -1051,7 +1214,7 @@ MultiQueryEval::MultiQueryEval(const string& query)
 }
 
 ////mini tokenizer
-vector<string> MultiQueryEval::MiniTokenizer(string line)
+vector<string> MultiQueryEval::MiniTokenizer(const string& line)
 {
 	/*string tempstr = " ";
 	line = tempstr.append(line);*/

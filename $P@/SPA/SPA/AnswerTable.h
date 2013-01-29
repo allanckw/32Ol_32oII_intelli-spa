@@ -14,20 +14,21 @@ private:
 public:
 	unordered_map<string, int> synonymPosition;
 
-	AnswerTable(SynonymTable synonymTable, string synonym);
-	void combine(string ownSynonym, AnswerTable otherTable, string otherSynonym,
-		RulesOfEngagement::isRelation rel); //synonyms are all disjoint
-	void prune(string firstSynonym, string secondSynonym, RulesOfEngagement::isRelation rel);
-	void patternPrune(string synonym,
-		RulesOfEngagement::PatternRHSType, string RHS, ASTExprNode* RHSexprs);
-	void patternPrune(string synonym, bool, int modifies,
-		RulesOfEngagement::PatternRHSType, string RHS, ASTExprNode* RHSexprs);
+	AnswerTable(const SynonymTable& synonymTable, const string& synonym);
+	void combine(const string& ownSynonym, const AnswerTable& otherTable, const string& otherSynonym,
+		const RulesOfEngagement::isRelation rel); //synonyms are all disjoint
+	void prune(const string& firstSynonym, const string& secondSynonym, const RulesOfEngagement::isRelation rel);
+	//void withPrune(const string& firstSynonym, const string& firstCondition, const string& secondSynonym, const string& secondCondition);
+	void patternPrune(const string& synonym,
+		const RulesOfEngagement::PatternRHSType, const string& RHS, const ASTExprNode* RHSexprs);
+	/*void patternPrune(const string& synonym, const bool, const int modifies,
+		const RulesOfEngagement::PatternRHSType, const string& RHS, const ASTExprNode* RHSexprs);*/
 	
-	AnswerTable project(vector<string> selection);
-	void cartesian(AnswerTable otherTable);
+	AnswerTable project(const vector<string>& selection);
+	void cartesian(const AnswerTable& otherTable);
 
-	vector<string> getHeader();
-	unsigned int getSize();
-	vector<int> getRow(int index);
+	vector<string> getHeader() const;
+	unsigned int getSize() const;
+	vector<int> getRow(const int index) const;
 	//int getEntry(int index, string synonym);*/
 };

@@ -103,11 +103,11 @@ public:
 		PRWildcard, PRSub, PRNoSub
 	};
 	
-	static bool satisfyPattern(int index,
-		RulesOfEngagement::PatternRHSType RHS, string RHSVarName, ASTExprNode* RHSexprs);
-	static bool satisfyPattern(int index, int modifiesVar,
-		RulesOfEngagement::PatternRHSType RHS, string RHSVarName, ASTExprNode* RHSexprs);
+	static bool satisfyPattern(const int index, const RulesOfEngagement::PatternRHSType RHS,
+		const string& RHSVarName, const ASTExprNode* RHSexprs);
+	/*static bool satisfyPattern(int index, int modifiesVar,
+		RulesOfEngagement::PatternRHSType RHS, string RHSVarName, ASTExprNode* RHSexprs);*/
 private:
-	static bool TryMatch(ASTNode* testedNode, PatternRHSType RHS, ASTExprNode* RHSexpr);
-	static bool MatcherTree(ASTNode* Original, ASTNode* Pattern);//, bool isSub);
+	static bool TryMatch(ASTNode* testedNode, PatternRHSType RHS, const ASTExprNode* RHSexpr);
+	static bool MatcherTree(const ASTNode* Original, const ASTNode* Pattern);//, bool isSub);
 };

@@ -11,12 +11,11 @@ class MultiQueryEval
 private:
 	static string getToken(const string& query, int& pos);
 	static string getToken2(string query, int& pos);
-	string getToken(const string& query, int& pos, vector<string> matcher, int cutamt);//nick	
 	static void matchToken(const string& query, int& pos, const string& match);
 	
 	MultiQueryEval(const string& query);
 	
-	vector<string> MiniTokenizer(string line);
+	static vector<string> MiniTokenizer(const string& line);
 
 	bool selectBOOLEAN;
 	bool earlyQuit;

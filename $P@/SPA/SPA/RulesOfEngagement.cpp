@@ -215,7 +215,7 @@ void RulesOfEngagement::initialise()
 	allowableFirstArgument[NextStar].insert(If);
 	allowableFirstArgument[NextStar].insert(WildCard);
 	allowableFirstArgument[NextStar].insert(Integer);
-	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(Parent, Statement));
+	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(NextStar, Statement));
 	allowableSecondArgument[NextStar].insert(Statement);
 	allowableSecondArgument[NextStar].insert(Assign);
 	allowableSecondArgument[NextStar].insert(Call);
@@ -223,29 +223,31 @@ void RulesOfEngagement::initialise()
 	allowableSecondArgument[NextStar].insert(If);
 	allowableSecondArgument[NextStar].insert(WildCard);
 	allowableSecondArgument[NextStar].insert(Integer);
-	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(ParentStar, Statement));
+	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(NextStar, Statement));
 	
 	allowableFirstArgument[Affects].insert(Statement);
 	allowableFirstArgument[Affects].insert(Assign);
 	allowableFirstArgument[Affects].insert(WildCard);
 	allowableFirstArgument[Affects].insert(Integer);
-	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(Parent, Statement));
+	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(Affects, Statement));
 	allowableSecondArgument[Affects].insert(Statement);
 	allowableSecondArgument[Affects].insert(Assign);
 	allowableSecondArgument[Affects].insert(WildCard);
 	allowableSecondArgument[Affects].insert(Integer);
-	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(ParentStar, Statement));
+	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(Affects, Statement));
 	
 	allowableFirstArgument[AffectsStar].insert(Statement);
 	allowableFirstArgument[AffectsStar].insert(Assign);
 	allowableFirstArgument[AffectsStar].insert(WildCard);
 	allowableFirstArgument[AffectsStar].insert(Integer);
-	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(Parent, Statement));
+	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(AffectsStar, Statement));
 	allowableSecondArgument[AffectsStar].insert(Statement);
 	allowableSecondArgument[AffectsStar].insert(Assign);
 	allowableSecondArgument[AffectsStar].insert(WildCard);
 	allowableSecondArgument[AffectsStar].insert(Integer);
-	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(ParentStar, Statement));
+	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(AffectsStar, Statement));
+	
+	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(PatternModifies, Variable));
 
 	allowableSelfReference.insert(Next);
 
@@ -373,8 +375,7 @@ bool RulesOfEngagement::isParentStar(int x, int y)
 
 bool RulesOfEngagement::isPatternModifies(int x, int y)
 {
-	return false;
-	//return PKB::<table>.is<Rel>(x, y);
+	return PKB::statementNodes[x]->getChild(0)->getValue() == y;
 }
 
 /*template
@@ -473,8 +474,9 @@ vector<int> RulesOfEngagement::getAll<Type>()
 //end type map
 
 //pattern
-bool RulesOfEngagement::satisfyPattern(int index,
-	RulesOfEngagement::PatternRHSType RHS, string RHSVarName, ASTExprNode* RHSexprs)
+
+bool RulesOfEngagement::satisfyPattern(const int index, const RulesOfEngagement::PatternRHSType RHS,
+	const string& RHSVarName, const ASTExprNode* RHSexprs)
 {
 	/*static unordered_map<int, unordered_map<string, bool>> map;
 	if (map.count(index) > 0 && map[index].count(RHSVarName) > 0)
@@ -483,7 +485,7 @@ bool RulesOfEngagement::satisfyPattern(int index,
 	return /*map[index][RHSVarName] = */TryMatch(PKB::assignNodes[index], RHS, RHSexprs);
 }
 
-bool RulesOfEngagement::satisfyPattern(int index, int modifiesVar,
+/*bool RulesOfEngagement::satisfyPattern(int index, int modifiesVar,
 	RulesOfEngagement::PatternRHSType RHS, string RHSVarName, ASTExprNode* RHSexprs)
 {
 	if (modifiesVar >= 0 && !isModifiesStmt(index, modifiesVar))
@@ -491,100 +493,38 @@ bool RulesOfEngagement::satisfyPattern(int index, int modifiesVar,
 
 	/*static unordered_map<int, unordered_map<string, bool>> map;
 	if (map.count(index) > 0 && map[index].count(RHSVarName) > 0)
-		return map[index][RHSVarName];*/
+		return map[index][RHSVarName];*//*
 
-	return /*map[index][RHSVarName] = */TryMatch(PKB::assignNodes[index], RHS, RHSexprs);
-}
+	return /*map[index][RHSVarName] = *//*TryMatch(PKB::assignNodes[index], RHS, RHSexprs);
+}*/
 
 //RHS for now handles patterns in the form of "a" or _"a"_
 bool RulesOfEngagement::TryMatch(ASTNode* testedNode,
-	RulesOfEngagement::PatternRHSType RHS, ASTExprNode* RHSexpr)
+	RulesOfEngagement::PatternRHSType RHS, const ASTExprNode* pattern)
 {
-	ASTNode* head= testedNode->getChild(1);
-
-	//int rightInt = PKB::variables.getVARIndex(incCodes.at(0));
-
-	//if(!isSubsTree)//if not a subtree, since we only handle 1 variable so right side must be a variable if is true
-	//{
-	//	if(head->getType() != ASTNode::Variable)//right node is not a variable = auto fail
-	//		return false;
-	//	else if(rightInt == head->getValue()) //right side value is same as rightint
-	//		return true;
-	//	else
-	//		return false; //if not equal return false
-	//}
-	stack<ASTNode*> nodesStack; 
-
-	//nodesStack.push(head->getChild(0));
-
-	//nodesStack.push(head->getChild(1));
-	
+	ASTNode* head = testedNode->getChild(1);
+	stack<ASTNode*> nodesStack;
 	nodesStack.push(head);
-	ASTNode* pattern = RHSexpr;
 
-	if(RHS != RulesOfEngagement::PRSub)
-		return MatcherTree(head,pattern);
-	else
-	{
-		while(nodesStack.size() > 0)
-		{
-
-			ASTNode* tempnode = nodesStack.top();
+	if(RHS == RulesOfEngagement::PRSub) {
+		while(nodesStack.size() > 0) {
+			const ASTNode* tempnode = nodesStack.top();
 			nodesStack.pop();
-							/*
-							ASTNode* temp = nodesStack.top();
-				nodesStack.pop();
-				int counter = 0;
 
-				ASTStmtLstNode* t =	(ASTStmtLstNode*)temp;
-
-				for(int j=0;j<t->getSize();j++)
-				{
-					ASTNode* tempushnode = temp->getChild(j);
-					nodesStack.push(tempushnode);
-				}
-							*/
-			//
-				//check here
-			//if()
-			//ASTNode* tempnode
-		
-			//RHSexpr->
-
-			if (MatcherTree(tempnode,pattern))//,isSub))
-			{
+			if (MatcherTree(tempnode,pattern))
 				return true; 
-			}
-			//ASTExprNode* RHSexpr
-			//
-			//
 
-			if(tempnode->getType() == ASTNode::Operator)
-			{
+			if(tempnode->getType() == ASTNode::Operator) {
 				nodesStack.push(tempnode->getChild(1));//add right side in
-
 				nodesStack.push(tempnode->getChild(0));//add left side in
 			}
-			//else if(nodesStack.top()->getType() == ASTNode::Variable || nodesStack.top()->getType() == ASTNode::Constant)
-			//{
-			//	//assume is subtree
-
-			//	if(nodesStack.top()->getType() == ASTNode::Variable && rightInt == nodesStack.top()->getValue())
-			//	{
-			//		return true;
-			//	}
-			//	nodesStack.pop();
-			//}
-			//else
-			//{
-			//	throw SPAException("Error! invalid node kind in operator");
-			//}
 		}
-	}
-	return false;
+		return false;
+	} else
+		return MatcherTree(head,pattern);
 }
 
-bool RulesOfEngagement::MatcherTree(ASTNode* Original, ASTNode* Pattern)//, bool isSub)
+bool RulesOfEngagement::MatcherTree(const ASTNode* Original, const ASTNode* Pattern)//, bool isSub)
 {
 	return (Original->getType() == Pattern->getType() &&
 		Original->getValue() == Pattern->getValue() &&

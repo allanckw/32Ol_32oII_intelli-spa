@@ -34,7 +34,7 @@ ASTNode::ASTNode(NodeType type, PROC p)
 	root = false;
 }
 
-int ASTNode::getValue()
+int ASTNode::getValue() const
 {
 	return this->value;
 }
@@ -109,12 +109,12 @@ bool ASTNode::isHasChildren()
 }
 
 
-ASTNode::NodeType ASTNode::getType()
+ASTNode::NodeType ASTNode::getType() const
 {
 	return this->nodeType;
 }
 
-ASTNode* ASTNode::getChild(unsigned int i)
+ASTNode* ASTNode::getChild(unsigned int i) const
 {
 	if (i > children.size() -1)
 	{

@@ -41,11 +41,11 @@ public:
 
 	void setRoot(int);
 
-	ASTNode::NodeType getType();
-	ASTNode* getChild(unsigned int);
+	ASTNode::NodeType getType() const;
+	ASTNode* getChild(unsigned int) const;
 	ASTNode* getParent();
 
-	int getValue();
+	int getValue() const;
  
 	bool isHasChildren();
 	bool isRoot();

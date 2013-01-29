@@ -33,6 +33,7 @@ void DesignExtractor::extractDesign()
 	//type before typecasting. Not sure whether to do so at all or not
 
 	totalNumOfProcs = PKB::procedures.getSize();
+	PKB::statementNodes.push_back(0); //statements start from 1, so put dummy node in index 0
 
 	buildFirstRound(); //will build call table, statement and subtables (call, assign, while, if lists)
 	
@@ -255,10 +256,11 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 	bool haveNextChildren = true;
 
 	while (haveNextChildren) {
+		PKB::statementNodes.push_back(currentStmtNode);
 		switch ((*currentStmtNode).getType()) {
 		case ASTNode::Assign: {
 			PKB::assignTable.insert(currentStmtNumber);
-			PKB::assignNodes[currentStmtNumber] = currentStmtNode;
+			PKB::assignNodes.insert(pair<STMT, ASTNode*>(currentStmtNumber, currentStmtNode));
 
 			ASTExprNode* modifiesVarNode = (ASTExprNode*) (*currentStmtNode).getChild(0);
 			VAR modifiesVar = (*modifiesVarNode).getValue();
@@ -344,10 +346,13 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 
 		case ASTNode::While:
 		case ASTNode::If: {
-			if ((*currentStmtNode).getType() == ASTNode::While)
+			if ((*currentStmtNode).getType() == ASTNode::While) {
 				PKB::whileTable.insert(currentStmtNumber);
-			else
+				PKB::whileNodes.insert(pair<STMT, ASTNode*>(currentStmtNumber, currentStmtNode));
+			} else {
 				PKB::ifTable.insert(currentStmtNumber);
+				PKB::ifNodes.insert(pair<STMT, ASTNode*>(currentStmtNumber, currentStmtNode));
+			}
 
 			ASTExprNode* usesVarNode = (ASTExprNode*) (*currentStmtNode).getChild(0);
 			VAR usesVar = (*usesVarNode).getValue(); 
@@ -384,6 +389,7 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 
 		case ASTNode::Call: {
 			PKB::callTable.insert(currentStmtNumber);
+			PKB::callNodes.insert(pair<STMT, ASTNode*>(currentStmtNumber, currentStmtNode));
 			PKB::calls.insertStmtCall(currentStmtNumber, (*currentStmtNode).getValue());
 			break; }
 

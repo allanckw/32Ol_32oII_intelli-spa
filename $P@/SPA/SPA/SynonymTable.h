@@ -9,7 +9,9 @@ private:
 	vector<RulesOfEngagement::QueryVar> synType;
 	vector<bool> selected;
 	vector<int> synClassIndex;
-	vector<unordered_map<string, string>> synAttributes;
+	vector<unordered_map<string, string>> synAttributesSpecific;
+	vector<unordered_map<string, unordered_map<RulesOfEngagement::QueryVar, string>>>
+		synAttributesGeneric;
 	vector<unordered_set<RulesOfEngagement::QueryRelations>> synSelfReference;
 
 	//e.g. stmt s; Select s such that modifies(s, _)
@@ -31,7 +33,7 @@ private:
 public:
 	int size() const;
 
-	void insert(string name, RulesOfEngagement::QueryVar type);
+	void insert(const string& name, RulesOfEngagement::QueryVar type);
 	vector<string> getAllNames() const;
 	bool isInTable(string name) const;
 	vector<string> getAllOfType(RulesOfEngagement::QueryVar type) const;
@@ -46,9 +48,14 @@ public:
 	void putIntoClass(string name, int classIndex);
 	int inClass(string name) const;
 
-	bool setAttribute(string name, string condition, string attribute);
-	string getAttribute(string name, string condition) const;
-	unordered_map<string, string> getAllAttributes(const string& name) const;
+	bool setSpecificAttribute(string name, string condition, string attribute);
+	//string getSpecificAttribute(string name, string condition) const;
+	unordered_map<string, string> getAllSpecificAttributes(const string& name) const;
+
+	void setGenericAttribute(string name, string ownAttribute,
+		RulesOfEngagement::QueryVar otherVariable, string otherAttribute);
+	unordered_map<string, unordered_map<RulesOfEngagement::QueryVar, string>>
+		getAllGenericAttributes(const string& name) const;
 
 	void setSelfReference(string name, RulesOfEngagement::QueryRelations relation);
 	unordered_set<RulesOfEngagement::QueryRelations> getAllSelfReferences(string name) const;

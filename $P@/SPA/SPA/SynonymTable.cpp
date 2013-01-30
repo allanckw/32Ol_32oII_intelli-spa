@@ -7,9 +7,10 @@ int SynonymTable::size() const
 	return synName.size();
 }
 
-void SynonymTable::insert(string name, RulesOfEngagement::QueryVar type)
+void SynonymTable::insert(const string& name, RulesOfEngagement::QueryVar type)
 {
-	//if (stringToIndex.count(name) > 0)
+	if (stringToIndex.count(name) > 0)
+		return;
 		//throw new SPAException("Double declaration of synonym");
 
 	int index = synName.size();
@@ -18,7 +19,9 @@ void SynonymTable::insert(string name, RulesOfEngagement::QueryVar type)
 	synType.push_back(type);
 	selected.push_back(false);
 	synClassIndex.push_back(-1);
-	synAttributes.push_back(unordered_map<string, string>());
+	synAttributesSpecific.push_back(unordered_map<string, string>());
+	synAttributesGeneric.push_back(unordered_map<string, unordered_map<
+		RulesOfEngagement::QueryVar, string>>());
 	synSelfReference.push_back(unordered_set<RulesOfEngagement::QueryRelations>());
 	synRelGenericFirst.push_back(unordered_set<RulesOfEngagement::QueryRelations>());
 	synRelSpecificFirst.push_back(vector<pair<RulesOfEngagement::QueryRelations, string>>());
@@ -99,26 +102,43 @@ int SynonymTable::inClass(string name) const
 	return synClassIndex.at(stringToIndex.at(name));
 }
 
-bool SynonymTable::setAttribute(string name, string condition, string attribute)
+bool SynonymTable::setSpecificAttribute(string name, string condition, string attribute)
 {
-	if (RulesOfEngagement::allowableConditions[synType.at(stringToIndex.at(name))].count(condition) == 0)
+	if (RulesOfEngagement::allowableConditions[
+		synType.at(stringToIndex.at(name))].count(condition) == 0)
 		throw new SPAException("Synonym " + name + " has no such condition " + condition);
-	if (synAttributes.at(stringToIndex.at(name)).count(condition) > 0)
-		return synAttributes.at(stringToIndex.at(name))[condition] == attribute;
-	synAttributes.at(stringToIndex.at(name))[condition] = attribute;
+	if (synAttributesSpecific.at(stringToIndex.at(name)).count(condition) > 0)
+		return synAttributesSpecific.at(stringToIndex.at(name))[condition] == attribute;
+	synAttributesSpecific.at(stringToIndex.at(name)).insert(
+		pair<string, string>(condition, attribute));
 	return true;
 }
 
-string SynonymTable::getAttribute(string name, string condition) const
+/*string SynonymTable::getAttribute(string name, string condition) const
 {
 	if (synAttributes.at(stringToIndex.at(name)).count(condition) == 0)
 		return "";
 	return synAttributes.at(stringToIndex.at(name)).at(condition);
+}*/
+
+unordered_map<string, string> SynonymTable::getAllSpecificAttributes(const string& name) const
+{
+	return synAttributesSpecific.at(stringToIndex.at(name));
 }
 
-unordered_map<string, string> SynonymTable::getAllAttributes(const string& name) const
+void SynonymTable::setGenericAttribute(string name, string ownAttribute,
+	RulesOfEngagement::QueryVar otherVariable, string otherAttribute)
 {
-	return synAttributes.at(stringToIndex.at(name));
+	//if (RulesOfEngagement::allowableConditions[otherVariable].count(otherAttribute) == 0)
+		//throw new SPAException(variable + " has no such condition " + otherAttribute);
+	synAttributesGeneric.at(stringToIndex.at(name))[ownAttribute].insert(
+		pair<RulesOfEngagement::QueryVar, string>(otherVariable, otherAttribute));
+}
+
+unordered_map<string, unordered_map<RulesOfEngagement::QueryVar, string>>
+	SynonymTable::getAllGenericAttributes(const string& name) const
+{
+	return synAttributesGeneric.at(stringToIndex.at(name));
 }
 
 void SynonymTable::setSelfReference(string name, RulesOfEngagement::QueryRelations relation)

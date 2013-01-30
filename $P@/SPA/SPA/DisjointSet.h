@@ -12,7 +12,6 @@ private:
 	unordered_map<string, unordered_set<string>> components;
 	vector<unordered_set<string>> outputComponents;
 
-	string find(string);
 	void makeComponents();
 
 public:
@@ -21,6 +20,7 @@ public:
 
 	void makeSet(string);
 	void setUnion(string, string);
-
+	
+	string find(string);
 	vector<unordered_set<string>> getComponents();
 };

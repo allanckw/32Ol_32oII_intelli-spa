@@ -257,16 +257,15 @@ MultiQueryEval::MultiQueryEval(const string& query)
 				if (stringToQueryVar.count(token) == 0) { //c.value = 10
 					if (LHSType == RulesOfEngagement::Integer) {
 						if (!Helper::isNumber(token))
-							throw new SPAException("Unable to parse with part");
+							throw new SPAException("Unable to parse with");
 					} else if (LHSType == RulesOfEngagement::String) {
 						if (token.at(0) != '"' || token.at(token.length() - 1) != '"')
-							throw new SPAException("Unable to parse with part");
+							throw new SPAException("Unable to parse with");
 					} else
-						throw new SPAException("Unable to parse with part");
+						throw new SPAException("Unable to parse with");
 
 					if (conditionStore[synonym].count(condition) > 0)
 						earlyQuit |= (conditionStore[synonym][condition] == token);
-					stringCount[synonym]++;
 					conditionStore[synonym].insert(pair<string, string>(condition, token));
 				} else { //c.value = s.stmt#
 					matchToken(query, pos, ".");
@@ -284,6 +283,8 @@ MultiQueryEval::MultiQueryEval(const string& query)
 						throw new SPAException("Left and right hand side of with are not of same type");
 					condition2Store.push_back(tuple<string, string, string, string>
 						(synonym, condition, token, condition2));
+					stringCount[synonym]++;
+					stringCount[token]++;
 				}
 			}
 			break;
@@ -576,33 +577,100 @@ MultiQueryEval::MultiQueryEval(const string& query)
 	//end special rules
 
 	//second stage
-	SynonymTable synonymTable;
-	DisjointSet disjointSet;
-
-	//analyse synonyms. those with count of 1 and are not selected can be folded in
+	//analyse synonyms part 1. look for those with count of 1 to be folded in
 	unordered_set<string> toFold; //todo:: alias synonyms
+	for (auto it = stringCount.begin(); it != stringCount.end(); it++)
+		if (selects.count(it->first) == 0 && it->second == 1)
+			toFold.insert(it->first);
+
+	//parse equality of attributes, alias those that can be aliased
+	SynonymTable synonymTable;
+	DisjointSet dsSynonym;
+	DisjointSet dsAlias;
+
+	//condition, with double synonyms, table
+	vector<string> condFirstRel;
+	vector<string> condFirstCondition;
+	vector<string> condSecondRel;
+	vector<string> condSecondCondition;
+	for (auto it = condition2Store.begin(); it != condition2Store.end(); it++) {
+		string& firstRel = get<0>(*it);
+		string& firstCondition = get<1>(*it);
+		string& secondRel = get<2>(*it);
+		string& secondCondition = get<3>(*it);
+
+		if (firstCondition == secondCondition) { // a.cond = b.cond
+			if (firstRel == secondRel) // s.cond = s.cond -> skip //todo: must check if s exists
+				continue;
+			if (firstCondition == "stmt#") { // a.stmt# = b.stmt#
+				if (stringToQueryVar[firstRel] == RulesOfEngagement::Statement) { // s.stmt# = b.stmt#
+					if (stringToQueryVar[secondRel] != RulesOfEngagement::Statement) // s.stmt# = b.stmt#, b.type != statement
+						stringToQueryVar[firstRel] = stringToQueryVar[secondRel]; //-> a1.stmt# = a2.stmt#
+				} else { // b.stmt# = s.stmt#
+					if (stringToQueryVar[secondRel] == RulesOfEngagement::Statement) // b.stmt# = s.stmt#, b.type != statement
+						stringToQueryVar[secondRel] = stringToQueryVar[firstRel]; //-> a1.stmt# = a2.stmt#, a1.type = a2.type
+					else { // a.stmt# = b.stmt#, a.type != b.type
+						earlyQuit = true;
+						return;
+					}
+				}
+				//at this point, either quit already, else firstRel.type = secondRel.type
+			}
+			if (stringToQueryVar[firstRel] == stringToQueryVar[secondRel]) { // s1.cond = s2.cond
+				dsAlias.setUnion(firstRel, secondRel);
+				string& firstRelParent = dsAlias.find(firstRel);
+				int firstRelCount = stringCount[firstRelParent];
+				string& secondRelParent = dsAlias.find(secondRel);
+				int secondRelCount = stringCount[secondRelParent];
+				stringCount[firstRelParent] = stringCount[secondRelParent] =
+					firstRelCount + secondRelCount - 2;
+				continue;
+			}
+		}
+		
+		//Fold in conditions if possible (optimisation)
+		//stmt s1, s2; constant c; Select s1 with s2.stmt# = c.value -> no idea how to fold
+		//stmt s; constant c; Select s with s.stmt# = c.value -> fold in (constant, value) into s
+		if (selects.count(firstRel) == 0 && stringCount[firstRel] == 1) {
+			if (selects.count(secondRel) == 0 && stringCount[secondRel] == 1) { //don't fold
+				stringCount[firstRel] = stringCount[secondRel] = 1 << 16;
+			} else { //stmt s; constant c; Select s with c.value = s.stmt#
+				synonymTable.insert(secondRel, stringToQueryVar[secondRel]);
+				synonymTable.setGenericAttribute(secondRel,
+					secondCondition, stringToQueryVar[firstRel], firstCondition);
+				stringCount[firstRel]--;
+				stringCount[secondRel]--;
+			}
+		} else {
+			if (selects.count(secondRel) == 0 && stringCount[secondRel] == 1) { //stmt s; constant c; Select s with s.stmt# = c.value
+				synonymTable.insert(firstRel, stringToQueryVar[firstRel]);
+				synonymTable.setGenericAttribute(firstRel,
+					firstCondition, stringToQueryVar[secondRel], secondCondition);
+				stringCount[firstRel]--;
+				stringCount[secondRel]--;
+			} else { //stmt s; constant c; Select <s,c> with s.stmt# = c.value
+				condFirstRel.push_back(firstRel);
+				condFirstCondition.push_back(firstCondition);
+				condSecondRel.push_back(secondRel);
+				condSecondCondition.push_back(secondCondition);
+				dsSynonym.setUnion(firstRel, secondRel);
+			}
+		}
+
+	}
+	
+	//analyse synonyms part 2. those selected and with count of more than 1 are put into the synonym table
 	for (auto it = stringCount.begin(); it != stringCount.end(); it++) {
 		const string& synonym = it->first;
 		const int count = it->second;
 		if (selects.count(synonym) > 0) {
 			synonymTable.insert(synonym, stringToQueryVar[synonym]);
-			disjointSet.makeSet(synonym);
+			dsSynonym.makeSet(synonym);
 			synonymTable.setSelected(synonym);
 		} else if (count > 1) {
 			synonymTable.insert(synonym, stringToQueryVar[synonym]);
-			disjointSet.makeSet(synonym);
-		} else if (count == 1)
-			toFold.insert(synonym);
-	}
-
-	//parse equality of attributes
-	for (auto it = condition2Store.begin(); it != condition2Store.end(); it++) {
-		string firstRel = get<0>(*it);
-		string firstCondition = get<1>(*it);
-		string secondRel = get<2>(*it);
-		string secondCondition = get<3>(*it);
-
-		disjointSet.setUnion(firstRel, secondRel);
+			dsSynonym.makeSet(synonym);
+		}
 	}
 	
 	//relationship table
@@ -630,7 +698,7 @@ MultiQueryEval::MultiQueryEval(const string& query)
 				else {
 					firstRel = it2->first;
 					synonymTable.insert(firstRel, stringToQueryVar[firstRel]);
-					disjointSet.makeSet(firstRel);
+					dsSynonym.makeSet(firstRel);
 				}
 			} else
 				firstRel = it2->first;
@@ -643,7 +711,7 @@ MultiQueryEval::MultiQueryEval(const string& query)
 					else {
 						secondRel = *it3;
 						synonymTable.insert(secondRel, stringToQueryVar[secondRel]);
-						disjointSet.makeSet(secondRel);
+						dsSynonym.makeSet(secondRel);
 					}
 				} else
 					secondRel = *it3;
@@ -677,7 +745,7 @@ MultiQueryEval::MultiQueryEval(const string& query)
 							
 							RulesOfEngagement::QueryVar secondArg = RulesOfEngagement::privilegedSecondArgument[type];
 							synonymTable.insert(sugar, secondArg);
-							synonymTable.setAttribute(sugar, *(RulesOfEngagement::allowableConditions[secondArg].begin()),
+							synonymTable.setSpecificAttribute(sugar, *(RulesOfEngagement::allowableConditions[secondArg].begin()),
 								secondRel);
 							synonymTable.setSecondGeneric(sugar, type);
 						}
@@ -689,7 +757,7 @@ MultiQueryEval::MultiQueryEval(const string& query)
 
 							RulesOfEngagement::QueryVar firstArg = RulesOfEngagement::privilegedFirstArgument[type];
 							synonymTable.insert(sugar, firstArg);
-							synonymTable.setAttribute(sugar, *(RulesOfEngagement::allowableConditions[firstArg].begin()),
+							synonymTable.setSpecificAttribute(sugar, *(RulesOfEngagement::allowableConditions[firstArg].begin()),
 								firstRel);
 							synonymTable.setFirstGeneric(sugar, type);
 						} else { //Case 3: rel("1","2") 
@@ -744,7 +812,7 @@ MultiQueryEval::MultiQueryEval(const string& query)
 					relSecond.push_back(secondRel);
 					relClass.push_back(-1);
 
-					disjointSet.setUnion(firstRel, secondRel);
+					dsSynonym.setUnion(firstRel, secondRel);
 					break;
 				}
 			}
@@ -752,7 +820,6 @@ MultiQueryEval::MultiQueryEval(const string& query)
 	}
 
 	//parse conditions
-	//unordered_map<string, unordered_map<string, string>> conditionStore;
 	for (auto it = conditionStore.begin(); it != conditionStore.end(); it++) {
 		const string& synonym = it->first;
 		const unordered_map<string, string>& itsecond = it->second;
@@ -761,7 +828,7 @@ MultiQueryEval::MultiQueryEval(const string& query)
 			const string& attribute = it2->second;
 			
 			//actual setting up of conditions
-			bool passed = synonymTable.setAttribute(synonym, condition, attribute);
+			bool passed = synonymTable.setSpecificAttribute(synonym, condition, attribute);
 			if (!passed) {
 				earlyQuit = true;
 				return;
@@ -769,7 +836,7 @@ MultiQueryEval::MultiQueryEval(const string& query)
 		}
 	}
 
-	vector<unordered_set<string>> components = disjointSet.getComponents();
+	vector<unordered_set<string>> components = dsSynonym.getComponents();
 	for (unsigned int classIndex = 0; classIndex < components.size(); classIndex++)
 		for (auto it = components[classIndex].begin(); it != components[classIndex].end(); it++)
 			synonymTable.putIntoClass(*it, classIndex + 1);
@@ -782,12 +849,12 @@ MultiQueryEval::MultiQueryEval(const string& query)
 	//could have incorporated in synonym table, but was not because it is implentation dependent
 	unordered_map<string, int> inWhichTable;
 
-	/*//evaluate equality of attributes
-	for (auto it = condition2Store.begin(); it != condition2Store.end(); it++) {
-		string firstRel = get<0>(*it);
-		string firstCondition = get<1>(*it);
-		string secondRel = get<2>(*it);
-		string secondCondition = get<3>(*it);
+	//evaluate equality of attributes
+	for (unsigned i = 0; i < condFirstRel.size(); i++) {
+		string& firstRel = condFirstRel[i];
+		string& firstCondition = condFirstCondition[i];
+		string& secondRel = condSecondRel[i];
+		string& secondCondition = condSecondCondition[i];
 
 		int matchNumberOfTables = 0;
 		if (inWhichTable.count(firstRel) > 0)
@@ -810,10 +877,8 @@ MultiQueryEval::MultiQueryEval(const string& query)
 					return;
 				}
 
-				firstRelTable.withPrune
-
-				firstRelTable.combine(firstRel, secondRelTable,
-					secondRel, RulesOfEngagement::getRelation(type));
+				firstRelTable.withCombine(synonymTable, firstRel,
+					firstCondition, secondRelTable, secondRel, secondCondition);
 				if (firstRelTable.getSize() == 0) {
 					earlyQuit = true;
 					return;
@@ -834,8 +899,8 @@ MultiQueryEval::MultiQueryEval(const string& query)
 					return;
 				}
 
-				tables[firstRelIndex].combine(firstRel, secondRelTable,
-					secondRel, RulesOfEngagement::getRelation(type));
+				tables[firstRelIndex].withCombine(synonymTable, firstRel,
+					firstCondition, secondRelTable, secondRel, secondCondition);
 				if (tables[firstRelIndex].getSize() == 0) {
 					earlyQuit = true;
 					return;
@@ -850,8 +915,8 @@ MultiQueryEval::MultiQueryEval(const string& query)
 				}
 
 				int secondRelIndex = inWhichTable[secondRel];
-				firstRelTable.combine(firstRel, tables[secondRelIndex],
-					secondRel, RulesOfEngagement::getRelation(type));
+				firstRelTable.withCombine(synonymTable, firstRel,
+					firstCondition, tables[secondRelIndex], secondRel, secondCondition);
 				if (firstRelTable.getSize() == 0) {
 					earlyQuit = true;
 					return;
@@ -865,15 +930,15 @@ MultiQueryEval::MultiQueryEval(const string& query)
 			int firstRelIndex = inWhichTable[firstRel];
 			int secondRelIndex = inWhichTable[secondRel];
 			if (firstRelIndex == secondRelIndex) {
-				tables[firstRelIndex].prune(firstRel, secondRel,
-					RulesOfEngagement::getRelation(type));
+				tables[firstRelIndex].withPrune(synonymTable,
+					firstRel, firstCondition, secondRel, secondCondition);
 				if (tables[firstRelIndex].getSize() == 0) {
 					earlyQuit = true;
 					return;
 				}
 			} else {
-				tables[firstRelIndex].combine(firstRel, tables[secondRelIndex],
-					secondRel, RulesOfEngagement::getRelation(type));
+				tables[firstRelIndex].withCombine(synonymTable, firstRel,
+					firstCondition, tables[secondRelIndex], secondRel, secondCondition);
 				if (tables[firstRelIndex].getSize() == 0) {
 					earlyQuit = true;
 					return;
@@ -884,7 +949,7 @@ MultiQueryEval::MultiQueryEval(const string& query)
 						(*it).second = firstRelIndex;
 			}
 		}
-	}*/
+	}
 	
 	for (unsigned int rel = 0; rel < relType.size(); rel++) {
 		RulesOfEngagement::QueryRelations type = relType[rel];
@@ -1031,123 +1096,6 @@ MultiQueryEval::MultiQueryEval(const string& query)
 			}
 		}
 	}
-	/*for (unsigned int i = 0; i < patternType.size(); i++) {
-		string synonym = patternSynonym[i];
-		RulesOfEngagement::QueryVar type = patternType[i];
-		string modifiesVar = patternLHS[i];
-		string usesVar = patternRHS[i];
-		
-		RulesOfEngagement::PatternRHSType RHS;
-		string RHSVarName;
-		if (usesVar.at(0) == '_' && usesVar.at(usesVar.size() - 1) == '_') {
-			RHS = RulesOfEngagement::PRSub;
-			RHSVarName = usesVar.substr(1, usesVar.length() - 2);
-		} else {
-			RHS = RulesOfEngagement::PRNoSub;
-			RHSVarName = usesVar;
-		}
-		if (RHSVarName.at(0) != '\"' || RHSVarName.at(RHSVarName.length() - 1) != '\"')
-			throw SPAException("Error, Pattern Right Hand Side Invalid");
-		RHSVarName = RHSVarName.substr(1, RHSVarName.length() - 2);
-		ASTExprNode* RHSexprs = AssignmentParser::processAssignment(MiniTokenizer(RHSVarName));
-
-		if (synonymTable.isInTable(modifiesVar)) {
-			int matchNumberOfTables = 0;
-			if (inWhichTable.count(synonym) > 0)
-				matchNumberOfTables++;
-			if (inWhichTable.count(modifiesVar) > 0)
-				matchNumberOfTables++;
-
-			switch (matchNumberOfTables) {
-			case 0:
-				{
-					AnswerTable firstRelTable = AnswerTable(synonymTable, synonym);
-					if (firstRelTable.getSize() == 0)
-						return;
-
-					AnswerTable secondRelTable = AnswerTable(synonymTable, modifiesVar);
-					if (secondRelTable.getSize() == 0)
-						return;
-
-					firstRelTable.cartesian(secondRelTable);
-					firstRelTable.patternPrune(synonym, true, 1, RHS, RHSVarName, RHSexprs);
-					if (firstRelTable.getSize() == 0)
-						return;
-
-					inWhichTable[synonym] = tables.size();
-					inWhichTable[modifiesVar] = tables.size();
-					tables.push_back(firstRelTable);
-				}
-				break;
-			case 1:
-				if (inWhichTable.count(synonym) > 0) {
-					int firstRelIndex = inWhichTable[synonym];
-
-					AnswerTable secondRelTable = AnswerTable(synonymTable, modifiesVar);
-					if (secondRelTable.getSize() == 0)
-						return;
-
-					tables[firstRelIndex].cartesian(secondRelTable);
-					tables[firstRelIndex].patternPrune(synonym, true,
-						tables[firstRelIndex].synonymPosition[modifiesVar], RHS, RHSVarName, RHSexprs);
-					if (tables[firstRelIndex].getSize() == 0)
-						return;
-
-					inWhichTable[modifiesVar] = firstRelIndex;
-				} else {
-					AnswerTable firstRelTable = AnswerTable(synonymTable, synonym);
-					if (firstRelTable.getSize() == 0)
-						return;
-
-					int secondRelIndex = inWhichTable[modifiesVar];
-					tables[secondRelIndex].cartesian(firstRelTable);
-					tables[secondRelIndex].patternPrune(synonym, true,
-						tables[secondRelIndex].synonymPosition[modifiesVar], RHS, RHSVarName, RHSexprs);
-					if (tables[secondRelIndex].getSize() == 0)
-						return;
-
-					inWhichTable[synonym] = secondRelIndex;
-				}
-				break;
-			case 2:
-				int firstRelIndex = inWhichTable[synonym];
-				int secondRelIndex = inWhichTable[modifiesVar];
-				if (firstRelIndex != secondRelIndex) {
-					tables[firstRelIndex].cartesian(tables[secondRelIndex]);
-
-					for (auto it = inWhichTable.begin(); it != inWhichTable.end(); it++)
-						if ((*it).second == secondRelIndex)
-							(*it).second = firstRelIndex;
-				}
-				tables[firstRelIndex].patternPrune(synonym, true,
-						tables[firstRelIndex].synonymPosition[modifiesVar], RHS, RHSVarName, RHSexprs);
-				if (tables[firstRelIndex].getSize() == 0)
-					return;
-			}
-		} else { //modifiesVar is not a synonym
-			if (inWhichTable.count(synonym) == 0) {
-				AnswerTable firstRelTable = AnswerTable(synonymTable, synonym);
-				if (firstRelTable.getSize() == 0)
-					return;
-
-				inWhichTable[synonym] = tables.size();
-				tables.push_back(firstRelTable);
-			}
-			int synonymIndex = inWhichTable[synonym];
-
-			int modifiesIndex;
-			if (modifiesVar.at(0) == '\"' && modifiesVar.at(modifiesVar.size() - 1) == '\"') {
-				modifiesIndex = PKB::variables.getVARIndex(modifiesVar.substr(1, modifiesVar.size() - 2));
-			} else if (modifiesVar == "_") {
-				modifiesIndex = -1;
-			} else
-				throw SPAException("Error, Pattern Left Hand Side Invalid");
-
-			tables[synonymIndex].patternPrune(synonym, false, modifiesIndex, RHS, RHSVarName, RHSexprs);
-			if (tables[synonymIndex].getSize() == 0)
-				return;
-		}
-	}*/
 
 	//examine table sizes
 	vector<string>& synonyms = synonymTable.getAllNames();

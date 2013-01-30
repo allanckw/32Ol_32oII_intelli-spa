@@ -41,29 +41,30 @@ void RulesOfEngagement::initialise()
 	tokenToRel["Affects*"].insert(AffectsStar);
 
 	tokenToVar["procedure"] = Procedure;
+	tokenToVar["stmtLst"] = Statement_List;
 	tokenToVar["stmt"] = Statement;
-	tokenToVar["prog_line"] = Statement; 
 	tokenToVar["assign"] = Assign;
-	tokenToVar["constant"] = Constant;
-	tokenToVar["while"] = While;
-	tokenToVar["variable"] = Variable;
 	tokenToVar["call"] = Call;
+	tokenToVar["while"] = While;
 	tokenToVar["if"] = If;
+	tokenToVar["prog_line"] = Statement; 
+	tokenToVar["variable"] = Variable;
+	tokenToVar["constant"] = Constant;
 
 	allowableConditions[Procedure].insert("procName");
 	allowableConditions[Call].insert("procName");
 	allowableConditions[Variable].insert("varName");
 	allowableConditions[Constant].insert("value");
-	allowableConditions[Statement].insert("stmtNo");
-	allowableConditions[Assign].insert("stmtNo");
-	allowableConditions[While].insert("stmtNo");
-	allowableConditions[If].insert("stmtNo");
-	allowableConditions[Call].insert("stmtNo");
+	allowableConditions[Statement].insert("stmt#");
+	allowableConditions[Assign].insert("stmt#");
+	allowableConditions[While].insert("stmt#");
+	allowableConditions[If].insert("stmt#");
+	allowableConditions[Call].insert("stmt#");
 
 	conditionTypes["procName"] = String;
 	conditionTypes["varName"] = String;
 	conditionTypes["value"] = Integer;
-	conditionTypes["stmtNo"] = Integer;
+	conditionTypes["stmt#"] = Integer;
 
 	allowableFirstArgument[ModifiesStmt].insert(Statement);
 	allowableFirstArgument[ModifiesStmt].insert(Assign);

@@ -8,16 +8,16 @@ public:
 	static void initialise();
 
 	enum QueryVar { //variable QueryEnums
-		Constant,
 		Procedure,
+		Statement_List,
 		Statement,
-		Prog_Line,
 		Assign,
 		Call,
 		While,
 		If,
+		Prog_Line,
 		Variable,
-		ProgLine,
+		Constant,
 		WildCard,
 		Integer,
 		String

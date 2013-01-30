@@ -17,8 +17,13 @@ public:
 	AnswerTable(const SynonymTable& synonymTable, const string& synonym);
 	void combine(const string& ownSynonym, const AnswerTable& otherTable, const string& otherSynonym,
 		const RulesOfEngagement::isRelation rel); //synonyms are all disjoint
-	void prune(const string& firstSynonym, const string& secondSynonym, const RulesOfEngagement::isRelation rel);
-	//void withPrune(const string& firstSynonym, const string& firstCondition, const string& secondSynonym, const string& secondCondition);
+	void prune(const string& firstSynonym,
+		const string& secondSynonym, const RulesOfEngagement::isRelation rel);
+	void withCombine(const SynonymTable& synonymTable, const string& firstSynonym, 
+		const string& firstCondition, const AnswerTable& otherTable,
+		const string& secondSynonym, const string& secondCondition);
+	void withPrune(const SynonymTable& synonymTable, const string& firstSynonym,
+		const string& firstCondition, const string& secondSynonym, const string& secondCondition);
 	void patternPrune(const string& synonym,
 		const RulesOfEngagement::PatternRHSType, const string& RHS, const ASTExprNode* RHSexprs);
 	/*void patternPrune(const string& synonym, const bool, const int modifies,

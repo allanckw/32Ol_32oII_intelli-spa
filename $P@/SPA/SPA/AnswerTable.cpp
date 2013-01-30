@@ -14,7 +14,10 @@ AnswerTable::AnswerTable(const SynonymTable& synonymTable, const string& synonym
 	bool unrestricted = true;
 
 	vector<int> table;
-	const unordered_map<string, string>& attributes = synonymTable.getAllAttributes(synonym);
+	const unordered_map<string, string>& specificAttributes =
+		synonymTable.getAllSpecificAttributes(synonym);
+	const unordered_map<string, unordered_map<RulesOfEngagement::QueryVar, string>>&
+		genericAttributes = synonymTable.getAllGenericAttributes(synonym);
 	const unordered_set<RulesOfEngagement::QueryRelations>& selfReferences =
 		synonymTable.getAllSelfReferences(synonym);
 	const unordered_set<RulesOfEngagement::QueryRelations>& firstGeneric =
@@ -26,16 +29,16 @@ AnswerTable::AnswerTable(const SynonymTable& synonymTable, const string& synonym
 	const vector<pair<RulesOfEngagement::QueryRelations, string>>& secondSpecific =
 		synonymTable.getAllSecondSpecific(synonym);
 
-	if (attributes.count("stmtNo") > 0) {
-		const int stmtNo = Helper::stringToInt(attributes.at("stmtNo"));
+	if (specificAttributes.count("stmt#") > 0) {
+		const int stmtNo = Helper::stringToInt(specificAttributes.at("stmt#"));
 		if (stmtNo > PKB::maxProgLines)
 			return;
 		table.push_back(stmtNo);
 		unrestricted = false;
 	}
 
-	if (unrestricted && attributes.count("procName") > 0) {
-		const string& procName = attributes.at("procName");
+	if (unrestricted && specificAttributes.count("procName") > 0) {
+		const string& procName = specificAttributes.at("procName");
 		const PROCIndex procIndex = PKB::procedures.getPROCIndex(
 			procName.substr(1, procName.length() - 2));
 		if (procIndex == -1)
@@ -48,8 +51,8 @@ AnswerTable::AnswerTable(const SynonymTable& synonymTable, const string& synonym
 		unrestricted = false;
 	}
 
-	if (attributes.count("varName") > 0) {
-		const string& varName = attributes.at("varName");
+	if (specificAttributes.count("varName") > 0) {
+		const string& varName = specificAttributes.at("varName");
 		const VARIndex varIndex = PKB::variables.getVARIndex(
 			varName.substr(1, varName.length() - 2));
 		if (varIndex == -1)
@@ -59,8 +62,8 @@ AnswerTable::AnswerTable(const SynonymTable& synonymTable, const string& synonym
 		unrestricted = false;
 	}
 
-	if (attributes.count("value") > 0) {
-		const int value = Helper::stringToInt(attributes.at("value"));
+	if (specificAttributes.count("value") > 0) {
+		const int value = Helper::stringToInt(specificAttributes.at("value"));
 		if (PKB::constantsTable.count(value) == 0)
 			return;
 		table.push_back(value);
@@ -69,6 +72,65 @@ AnswerTable::AnswerTable(const SynonymTable& synonymTable, const string& synonym
 
 	if (unrestricted)
 		table = RulesOfEngagement::getType(synonymTable.getType(synonym))();
+
+	for (auto it = genericAttributes.begin(); it != genericAttributes.end(); it++) {
+		const string& firstCondition = it->first;
+		const unordered_map<RulesOfEngagement::QueryVar, string>& itsecond = it->second;
+		for (auto it2 = itsecond.begin(); it2 != itsecond.end(); it2++) {
+			const RulesOfEngagement::QueryVar secondVar = it2->first;
+			const string& secondCondition = it2->second;
+
+			const RulesOfEngagement::QueryVar attributeType =
+				RulesOfEngagement::conditionTypes[firstCondition];
+			const vector<int>& table2 = RulesOfEngagement::getType(secondVar)();
+
+			vector<int> newTable;
+			switch (attributeType) {
+			case RulesOfEngagement::Integer:
+				for (auto it3 = table.begin(); it3 != table.end(); it3++)
+					for (auto it4 = table2.begin(); it4 != table2.end(); it4++)
+						if (*it3 == *it4) {
+							newTable.push_back(*it3);
+							break;
+						}
+				break;
+		
+			case RulesOfEngagement::String:
+			{
+				vector<string> RHSequivs;
+				for (auto it3 = table2.begin(); it3 != table2.end(); it3++) {
+					string RHSequiv;
+					switch (secondVar) {
+					case RulesOfEngagement::Procedure: //procName
+						RHSequiv = PKB::procedures.getPROCName(*it3);
+					case RulesOfEngagement::Variable: //varName
+						RHSequiv = PKB::variables.getVARName(*it3);
+					}
+				}
+
+				for (auto it3 = table.begin(); it3 != table.end(); it3++) {
+					string LHSequiv;
+					switch (synonymTable.getType(synonym)) {
+					case RulesOfEngagement::Procedure: //procName
+						LHSequiv = PKB::procedures.getPROCName(*it3);
+					case RulesOfEngagement::Variable: //varName
+						LHSequiv = PKB::variables.getVARName(*it3);
+					}
+
+					auto it4 = table2.begin();
+					auto it5 = RHSequivs.begin();
+					for (; it4 != table2.end(); it4++, it5++) {
+						if (LHSequiv == *it5) {
+							newTable.push_back(*it3);
+							break;
+						}
+					} //end table2 iteration
+				} //end table iteration
+			} //end case if comparing strings
+			} //end switch of comparison type
+			table = newTable;
+		}
+	} //end generic attributes
 
 	for (auto it = selfReferences.begin(); it != selfReferences.end(); it++) {
 		const RulesOfEngagement::isRelation rel = RulesOfEngagement::getRelation(*it);
@@ -146,14 +208,13 @@ void AnswerTable::combine(const string& ownSynonym, const AnswerTable& otherTabl
 	const int secondRelIndex = otherTable.synonymPosition.at(otherSynonym);
 
 	vector<vector<int>> newTable;
-	for (auto it = answers.begin(); it != answers.end(); it++) {
+	for (auto it = answers.begin(); it != answers.end(); it++)
 		for (auto it2 = otherTable.answers.begin(); it2 != otherTable.answers.end(); it2++)
 			if (rel((*it)[firstRelIndex], (*it2)[secondRelIndex])) {
 				vector<int> newRow(*it);
 				newRow.insert(newRow.end(), (*it2).begin(), (*it2).end());
 				newTable.push_back(newRow);
 			}
-	}
 	answers = newTable;
 
 	for (auto it = otherTable.header.begin(); it != otherTable.header.end(); it++) {
@@ -175,22 +236,122 @@ void AnswerTable::prune(const string& firstSynonym,
 	answers = newTable;
 }
 
-/*void AnswerTable::withPrune(const string& firstSynonym, const RulesOfEngagement::QueryVar firstVar,
-	const string& firstCondition, const string& secondSynonym,
-	const RulesOfEngagement::QueryVar secondVar, const string& secondCondition)
+void AnswerTable::withCombine(const SynonymTable& synonymTable, const string& firstSynonym,
+	const string& firstCondition, const AnswerTable& otherTable,
+	const string& secondSynonym, const string& secondCondition)
 {
 	const int firstRelIndex = synonymPosition[firstSynonym];
-	
+	const RulesOfEngagement::QueryVar firstVar = synonymTable.getType(firstSynonym);
 	
 	const int secondRelIndex = synonymPosition[secondSynonym];
+	const RulesOfEngagement::QueryVar secondVar = synonymTable.getType(secondSynonym);
 
+	const RulesOfEngagement::QueryVar attributeType =
+		RulesOfEngagement::conditionTypes[firstCondition];
 
 	vector<vector<int>> newTable;
-	for (auto it = answers.begin(); it != answers.end(); it++)
-		if (RulesOfEngagement::satisfyPattern((*it)[firstRelIndex], RHS, RHSVarName, RHSexprs))
-			newTable.push_back(*it);
+	switch (attributeType) {
+	case RulesOfEngagement::Integer:
+		for (auto it = answers.begin(); it != answers.end(); it++)
+			for (auto it2 = otherTable.answers.begin(); it2 != otherTable.answers.end(); it2++)
+				if ((*it)[firstRelIndex] == (*it2)[secondRelIndex]) {
+					vector<int> newRow(*it);
+					newRow.insert(newRow.end(), (*it2).begin(), (*it2).end());
+					newTable.push_back(newRow);
+				}
+		break;
+		
+	case RulesOfEngagement::String:
+	{
+		vector<string> RHSequivs;
+		for (auto it2 = otherTable.answers.begin(); it2 != otherTable.answers.end(); it2++) {
+			int RHS = (*it2)[secondRelIndex];
+			string RHSequiv;
+			switch (secondVar) {
+			case RulesOfEngagement::Procedure: //procName
+				RHSequiv = PKB::procedures.getPROCName(RHS);
+			case RulesOfEngagement::Variable: //varName
+				RHSequiv = PKB::variables.getVARName(RHS);
+			}
+		}
+
+		for (auto it = answers.begin(); it != answers.end(); it++) {
+			int LHS = (*it)[firstRelIndex];
+			string LHSequiv;
+			switch (firstVar) {
+			case RulesOfEngagement::Procedure: //procName
+				LHSequiv = PKB::procedures.getPROCName(LHS);
+			case RulesOfEngagement::Variable: //varName
+				LHSequiv = PKB::variables.getVARName(LHS);
+			}
+
+			auto it2 = otherTable.answers.begin();
+			auto it3 = RHSequivs.begin();
+			for (; it2 != otherTable.answers.end(); it2++, it3++) {
+				
+				if (LHSequiv == *it3) {
+					vector<int> newRow(*it);
+					newRow.insert(newRow.end(), (*it2).begin(), (*it2).end());
+					newTable.push_back(newRow);
+				}
+			}
+		}
+	}
+	break;
+	}
 	answers = newTable;
-}*/
+
+	for (auto it = otherTable.header.begin(); it != otherTable.header.end(); it++) {
+		synonymPosition.insert(pair<string, int>(*it, header.size()));
+		header.push_back(*it);
+	}
+}
+
+void AnswerTable::withPrune(const SynonymTable& synonymTable, const string& firstSynonym,
+	const string& firstCondition, const string& secondSynonym, const string& secondCondition)
+{
+	const int firstRelIndex = synonymPosition[firstSynonym];
+	const RulesOfEngagement::QueryVar firstVar = synonymTable.getType(firstSynonym);
+	
+	const int secondRelIndex = synonymPosition[secondSynonym];
+	const RulesOfEngagement::QueryVar secondVar = synonymTable.getType(secondSynonym);
+
+	const RulesOfEngagement::QueryVar attributeType =
+		RulesOfEngagement::conditionTypes[firstCondition];
+
+	vector<vector<int>> newTable;
+	switch (attributeType) {
+	case RulesOfEngagement::Integer:
+		for (auto it = answers.begin(); it != answers.end(); it++)
+			if ((*it)[firstRelIndex] == (*it)[secondRelIndex])
+				newTable.push_back(*it);
+		break;
+		
+	case RulesOfEngagement::String:
+		for (auto it = answers.begin(); it != answers.end(); it++) {
+			int LHS = (*it)[firstRelIndex];
+			string LHSequiv;
+			switch (firstVar) {
+			case RulesOfEngagement::Procedure: //procName
+				LHSequiv = PKB::procedures.getPROCName(LHS);
+			case RulesOfEngagement::Variable: //varName
+				LHSequiv = PKB::variables.getVARName(LHS);
+			}
+
+			int RHS = (*it)[secondRelIndex];
+			string RHSequiv;
+			switch (secondVar) {
+			case RulesOfEngagement::Procedure: //procName
+				RHSequiv = PKB::procedures.getPROCName(RHS);
+			case RulesOfEngagement::Variable: //varName
+				RHSequiv = PKB::variables.getVARName(RHS);
+			}
+			if (LHSequiv == RHSequiv)
+				newTable.push_back(*it);
+		}
+	}
+	answers = newTable;
+}
 
 void AnswerTable::patternPrune(const string& synonym,
 	const RulesOfEngagement::PatternRHSType RHS, const string& RHSVarName, const ASTExprNode* RHSexprs)

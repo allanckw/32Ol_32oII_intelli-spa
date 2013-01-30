@@ -1,0 +1,172 @@
+
+cat: All Category
+1 - Calls, MultipleProcedures, MultiSelect ::
+procedure p1, p2;
+Select <p1,p2> such that Calls(p1,p2)
+p1 p2, p1 p3, p1 p4
+500
+2 - Modifies, MultipleProcedures, MultiSelect::
+stmt s; variable v; 
+Select <s,v> such that Modifies(s, v)
+1 x, 2 x, 3 y, 3 z, 4 y, 5 z, 6 x, 7 y, 8 z
+500
+3 - Modifies, MultipleProcedures, MultiSelect::
+stmt s; variable v; 
+Select <s,v> such that Uses(s, v)
+1 i, 1 a, 2 a, 3 j, 3 b, 3 c, 4 b, 5 c, 6 a, 7 b, 8 c
+500
+4 - Modifies, MultipleProcedures, MultiSelect::
+procedure p; variable v; 
+Select <p,v> such that Modifies(p, v)
+p1 x, p1 y, p1 z, p2 x, p3 y, p4 z
+500
+5 - Modifies, MultipleProcedures, MultiSelect::
+procedure p; variable v; 
+Select <p,v> such that Uses(p, v)
+p1 i, p1 a, p1 j, p1 b, p1 c, p2 a, p3 b, p4 c
+500
+6 - CallsStar, MultipleProcedures, MultiSelect ::
+procedure p1, p2;
+Select <p1,p2> such that Calls*(p1,p2)
+p1 p2, p1 p3, p1 p4
+500
+7 - with, MultipleProcedures ::
+procedure p;
+Select p with p.procName = "p2"
+p2
+500
+8 - with, MultipleProcedures ::
+procedure p;
+Select p with p.procName = "FAIL"
+
+500
+9 - with, MultipleProcedures ::
+variable v;
+Select v with v.varName = "x"
+x
+500
+10 - with, MultipleProcedures ::
+variable v;
+Select v with v.varName = "FAIL"
+
+500
+11 - with, MultipleProcedures ::
+constant c;
+Select c with c.value = 1
+1
+500
+12 - with, MultipleProcedures ::
+constant c;
+Select c with c.value = 1337
+
+500
+13 - with, MultipleProcedures ::
+stmt s;
+Select s with s.stmt# = 1
+1
+500
+13 - with, MultipleProcedures ::
+stmt s;
+Select s with s.stmt# = 1337
+
+500
+14 - pattern ::
+assign a;
+Select a pattern a(_,_"q*1"_)
+
+500
+14 - pattern ::
+assign a;
+Select a pattern a(_,_"a*1"_)
+6
+500
+15 - pattern ::
+assign a;
+Select a pattern a(_,_"a*2"_)
+
+500
+16 - pattern ::
+assign a;
+Select a pattern a(_,"a*2")
+
+500
+17 - pattern ::
+assign a;
+Select a pattern a(_,"a*1")
+6
+500
+18 - pattern ::
+assign a;
+Select a pattern a("x","a*1")
+6
+500
+19 - pattern ::
+assign a; variable v;
+Select a pattern a(v,"a*1")
+6
+500
+18 - pattern ::
+assign a;
+Select a pattern a("x",_"a*1"_)
+6
+500
+19 - pattern ::
+assign a; variable v;
+Select a pattern a(v,_"a*1"_)
+6
+500
+20 - pattern ::
+if i; variable v;
+Select i pattern i(v,_,_)
+3
+500
+21 - pattern ::
+if i; variable v;
+Select <i,v> pattern i(v,_,_)
+3 j
+500
+22 - pattern ::
+while w; variable v;
+Select w pattern w(v,_,_)
+1
+500
+23 - pattern ::
+while w; variable v;
+Select <w,v> pattern w(v,_,_)
+1 i
+500
+24 - with ::
+stmt s; constant c;
+Select s with s.stmt# = c.value
+1
+500
+24 - with ::
+stmt s; constant c;
+Select s with s.stmt# = c.value
+1
+500
+25 - with ::
+stmt s; constant c;
+Select <s,c> with s.stmt# = c.value
+1 1
+500
+26 - with ::
+constant c; stmt s1, s2;
+Select <s1,s2> with s1.stmt# = c.value and s2.stmt# = c.value
+1 1
+500
+27 - with ::
+constant c; stmt s1, s2;
+Select <s1,c> with s1.stmt# = c.value and s2.stmt# = c.value
+1 1
+500
+28 - with ::
+constant c; stmt s1, s2;
+Select <s1,s2,c> with s1.stmt# = c.value and s2.stmt# = c.value
+1 1 1
+500
+29 - Uses, Underscore ::
+variable v;
+Select v such that Uses (1,_)
+a, b, c, i, j, x, y, z
+5000

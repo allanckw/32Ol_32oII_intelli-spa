@@ -47,6 +47,8 @@ public:
 
 	vector<PROG_LINE> getProgramLines();
 
+	bool isNext(PROG_LINE p1, PROG_LINE p2);
+
 private:
 	PROG_LINE starting, ending;
 
@@ -57,5 +59,7 @@ private:
 	NodeType type;
 
 	bool isStart, isEnd;
+
+	bool isNext(PROG_LINE p1, PROG_LINE p2, CFGNode* nextNode);
 };
 

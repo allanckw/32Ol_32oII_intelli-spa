@@ -48,9 +48,11 @@ void CFGBuilder::buildCFG(){
 					else
 					{
 						rootCFG=stmtNode;
+						currCFG=stmtNode;
 						stmtNode->setStartNode();
 						isRootSet=true;
 					}
+					currCFG=stmtNode;
 				}
 			}
 			else if(currNode->getType()==ASTNode::While)
@@ -189,6 +191,8 @@ CFGNode* CFGBuilder::processWhile(ASTNode* procedureNode,int* s, ASTStmtNode *st
 				if (isFirstWhileCFGNodeSet==true)
 				{
 					CFGNode* stmtNode=new CFGNode(CFGNode::StandardNode,start,end,procedureNode->getValue());
+					stmtNode->addPreviousNode(currCFG);
+					currCFG->addNextNode(stmtNode);
 					currCFG=stmtNode;
 				}
 
@@ -197,6 +201,7 @@ CFGNode* CFGBuilder::processWhile(ASTNode* procedureNode,int* s, ASTStmtNode *st
 				//currCFG->addNextNode(ifNode);
 				currCFG=ifNode;
 				isFirstWhileCFGNodeSet=true;
+				start=(*currline)+1;
 			}
 		}
 	currCFG->addNextNode(whileNode);

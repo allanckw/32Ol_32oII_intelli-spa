@@ -92,9 +92,13 @@ void CFGBuilder::buildCFG(){
 			{
 				if(currNode->getStmtNumber() == firstNode->getStmtNumber())//if while is the first Node
 				{
-					CFGNode* ifNode = processIf(procedureNode,currline,currNode, NULL);
-					currCFG=ifNode;
+					CFGNode* ifNode = new CFGNode(CFGNode::IfNode,start,start,procedureNode->getValue());
+						//processIf(procedureNode,currline,currNode, NULL);
+					ifNode->setStartNode();
+					currCFG=processIf(procedureNode,currline,currNode,ifNode);
 					rootCFG=ifNode;
+					start=(*currline)+1;
+					isRootSet=true;
 				}
 				else
 				{
@@ -112,11 +116,14 @@ void CFGBuilder::buildCFG(){
 						isRootSet=true;
 					}
 					currCFG=stmtNode;
-					CFGNode* ifNode = processIf(procedureNode,currline,currNode,currCFG);
-					//ifNode->addPreviousNode(currCFG);
-					//currCFG->addNextNode(ifNode);
-					currCFG=ifNode;
-					start=*currline;
+					
+					start=currNode->getStmtNumber();
+					CFGNode* ifNode = new CFGNode(CFGNode::IfNode,start,start,procedureNode->getValue());
+						//processIf(procedureNode,currline,currNode, NULL);
+					currCFG->addNextNode(ifNode);
+					ifNode->addPreviousNode(currCFG);
+					currCFG=processIf(procedureNode,currline,currNode,ifNode);
+					start=(*currline)+1;
 				}
 			}
 		}
@@ -196,10 +203,12 @@ CFGNode* CFGBuilder::processWhile(ASTNode* procedureNode,int* s, ASTStmtNode *st
 					currCFG=stmtNode;
 				}
 
-				CFGNode* ifNode = processIf(procedureNode,currline,currNode,currCFG);
-				//ifNode->addPreviousNode(currCFG);
-				//currCFG->addNextNode(ifNode);
-				currCFG=ifNode;
+				start=currNode->getStmtNumber();
+				CFGNode* ifInternalNode = new CFGNode(CFGNode::IfNode,start,start,procedureNode->getValue());
+				//processIf(procedureNode,currline,currNode, NULL);
+				currCFG->addNextNode(ifInternalNode);
+				ifInternalNode->addPreviousNode(currCFG);
+				currCFG=processIf(procedureNode,currline,currNode,ifInternalNode);
 				isFirstWhileCFGNodeSet=true;
 				start=(*currline)+1;
 			}
@@ -209,7 +218,7 @@ CFGNode* CFGBuilder::processWhile(ASTNode* procedureNode,int* s, ASTStmtNode *st
 	return whileNode;
 }
 
-CFGNode* CFGBuilder::processIf(ASTNode* procedureNode, int *s, ASTStmtNode *stmtNode, CFGNode *prevNode)
+CFGNode* CFGBuilder::processIf(ASTNode* procedureNode, int *s, ASTStmtNode *stmtNode, CFGNode *ifNode)
 {
 	CFGNode* currCFG;
 	CFGNode* thencurrCFG;
@@ -219,14 +228,18 @@ CFGNode* CFGBuilder::processIf(ASTNode* procedureNode, int *s, ASTStmtNode *stmt
 	int end = start;
 	int* currline = &start;
 	bool isFirstIfCFGNodeSet=false;
-	CFGNode* ifNode=new CFGNode(CFGNode::WhileNode, start, start, procedureNode->getValue());
+	//CFGNode* ifNode=new CFGNode(CFGNode::WhileNode, start, start, procedureNode->getValue());
 	currCFG=ifNode;
 	
-	if(prevNode!=NULL)//if IfNode is not the first ASTNode in procedure
-	{
-		currCFG->addPreviousNode(prevNode);
-		prevNode->addNextNode(currCFG);
-	}
+	//if(prevNode!=NULL)//if IfNode is not the first ASTNode in procedure
+	//{
+	//	currCFG->addPreviousNode(prevNode);
+	//	prevNode->addNextNode(currCFG);
+	//}
+	//else
+	//{
+	//	currCFG->setStartNode();
+	//}
 
 	start++;
 	thencurrCFG=currCFG;
@@ -276,10 +289,11 @@ CFGNode* CFGBuilder::processIf(ASTNode* procedureNode, int *s, ASTStmtNode *stmt
 					thencurrCFG=stmtNode;
 				}
 
-				CFGNode* ifNode = processIf(procedureNode,currline,currNode,thencurrCFG);
-				//ifNode->addPreviousNode(thencurrCFG);
-				//thencurrCFG->addNextNode(ifNode);
-				thencurrCFG=ifNode;
+				CFGNode* ifInternalNode = new CFGNode(CFGNode::IfNode,start,start,procedureNode->getValue());
+				//processIf(procedureNode,currline,currNode, NULL);
+				thencurrCFG->addNextNode(ifInternalNode);
+				ifInternalNode->addPreviousNode(thencurrCFG);
+				thencurrCFG=processIf(procedureNode,currline,currNode,ifInternalNode);
 				start=(*currline)+1;
 				isFirstIfCFGNodeSet=true;
 			}
@@ -331,8 +345,11 @@ CFGNode* CFGBuilder::processIf(ASTNode* procedureNode, int *s, ASTStmtNode *stmt
 					elsecurrCFG=stmtNode;
 				}
 
-				CFGNode* ifNode = processIf(procedureNode,currline,currNode,elsecurrCFG);
-				elsecurrCFG=ifNode;
+				CFGNode* ifInternalNode = new CFGNode(CFGNode::IfNode,start,start,procedureNode->getValue());
+				//processIf(procedureNode,currline,currNode, NULL);
+				elsecurrCFG->addNextNode(ifInternalNode);
+				ifInternalNode->addPreviousNode(elsecurrCFG);
+				elsecurrCFG=processIf(procedureNode,currline,currNode,ifInternalNode);
 				start=(*currline)+1;
 				isFirstIfCFGNodeSet=true;
 			}

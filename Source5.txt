@@ -1,0 +1,44 @@
+procedure John{
+	i=1;
+	m=i;
+	x=i*m+2;
+	call Paul;
+	y=i+m;
+	call George;
+	y=i+m;
+	if i then{
+		k=m-x;
+		while z{
+			X=X+i;
+			Z=X+1;
+		}
+		m=x+i;
+	}
+	else{
+		m=x+i;
+		call George;
+		z=z-1;
+	}
+
+	callRingo;
+}
+
+procedure Ringo{
+	while z{
+		i=x*(5+3)*m;
+		call Paul;
+		z=z-1;
+	}
+	X=i;}
+
+procedure Paul {
+	if i then {
+		X = i  + 2;
+	}
+	else {
+		m=i*m+x+k*y;}
+	z=i+k+x;
+}
+
+procedure George{
+i=m+i;}

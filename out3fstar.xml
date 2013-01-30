@@ -1,0 +1,93 @@
+<?xml-stylesheet type="text/xsl" href="analysis.xsl"?>
+<test_results>
+<info>
+<name>AutoTester</name><parsing_time_taken>1004.000000</parsing_time_taken>
+</info>
+<queries>
+<category name=" All Category">
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >1</id><querystr><![CDATA[constant c; Select c such that Follows*(1, 2)]]></querystr>
+<stuans>1,8,0,3,2,4,5,6,7,9</stuans>
+<correct>0,1,2,3,4,5,6,7,8,9</correct>
+<time_taken>23.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >2</id><querystr><![CDATA[constant c; Select BOOLEAN such that Follows*(103, 243)]]></querystr>
+<stuans>TRUE</stuans>
+<correct>TRUE</correct>
+<time_taken>13.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >3</id><querystr><![CDATA[constant c; Select c such that Follows*(109, 239)]]></querystr>
+<stuans>1,8,0,3,2,4,5,6,7,9</stuans>
+<correct>0,1,2,3,4,5,6,7,8,9</correct>
+<time_taken>17.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >4</id><querystr><![CDATA[constant c; Select c such that Follows*(151, 152)]]></querystr>
+<stuans></stuans>
+<correct></correct>
+<time_taken>10.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >5</id><querystr><![CDATA[constant c; Select c such that Follows*(303, 357)]]></querystr>
+<stuans>1,8,0,3,2,4,5,6,7,9</stuans>
+<correct>0,1,2,3,4,5,6,7,8,9</correct>
+<time_taken>17.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >6</id><querystr><![CDATA[constant c; Select c such that Follows*(312, 321)]]></querystr>
+<stuans>1,8,0,3,2,4,5,6,7,9</stuans>
+<correct>0,1,2,3,4,5,6,7,8,9</correct>
+<time_taken>18.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >7</id><querystr><![CDATA[constant c; Select c such that Follows*(501, 502)]]></querystr>
+<stuans></stuans>
+<correct></correct>
+<time_taken>10.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >8</id><querystr><![CDATA[constant c; Select c such that Follows(1, 501)]]></querystr>
+<stuans></stuans>
+<correct></correct>
+<time_taken>9.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >9</id><querystr><![CDATA[constant c; Select c such that Follows*(1, 501)]]></querystr>
+<stuans>1,8,0,3,2,4,5,6,7,9</stuans>
+<correct>0,1,2,3,4,5,6,7,8,9</correct>
+<time_taken>24.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >10</id><querystr><![CDATA[constant c; Select c such that Follows(104, 321)]]></querystr>
+<stuans></stuans>
+<correct></correct>
+<time_taken>11.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >11</id><querystr><![CDATA[constant c; Select c such that Follows*(104, 321)]]></querystr>
+<stuans></stuans>
+<correct></correct>
+<time_taken>11.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >12</id><querystr><![CDATA[constant c; stmt s; Select c such that Follows*(157, s)]]></querystr>
+<stuans></stuans>
+<correct></correct>
+<time_taken>21.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >13</id><querystr><![CDATA[constant c; stmt s, t; Select c such that Follows*(s, t)]]></querystr>

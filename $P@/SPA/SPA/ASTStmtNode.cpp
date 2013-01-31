@@ -30,9 +30,7 @@ ASTStmtNode::ASTStmtNode(int stmtNo, NodeType nodeType, Index value)
 
 /**
 * This method will be used to add child under the AST Node
-* @param stmtNo The statement number
-* @param nodeType The AST NodeType of statement
-* @param value The Index could be PROC or VAR
+* @param c The Child of the ASTStmtNode
 */
 ASTNode* ASTStmtNode::addChild(ASTNode* c)
 {
@@ -63,6 +61,11 @@ ASTNode* ASTStmtNode::addChild(ASTNode* c)
 	return this;
 }
 
+/**
+* This method will be used to add child under the AST Node
+* @param c The Child of the ASTStatNode
+* @param childLoc The Index of the Child of the ASTStmtNode
+*/
 ASTNode* ASTStmtNode::addChild(ASTNode* c, int childLoc)
 {
 	if(getType() == Call){
@@ -90,6 +93,11 @@ ASTNode* ASTStmtNode::addChild(ASTNode* c, int childLoc)
 	return this;
 }
 
+/**
+* This method will be used to add child under the AST While Node
+* @param c The Child of the AST While Node
+* @param childLoc The Index of the Child of the AST While Node
+*/
 void ASTStmtNode::addChildToWhile(ASTNode* c, int childLoc)
 {
 	if (childLoc == 1 && c->getType() != Variable) {
@@ -112,6 +120,11 @@ void ASTStmtNode::addChildToWhile(ASTNode* c, int childLoc)
 	}
 }
 
+/**
+* This method will be used to add child under the AST If Node
+* @param c The Child of the AST If Node
+* @param childLoc The Index of the Child of the AST If Node
+*/
 void ASTStmtNode::addChildToIF(ASTNode* c, int childLoc)
 {
 	if (childLoc == 1 && c->getType() != Variable) {
@@ -137,6 +150,11 @@ void ASTStmtNode::addChildToIF(ASTNode* c, int childLoc)
 	}
 }
 
+/**
+* This method will be used to add child under the AST Assignment Node
+* @param c The Child of the AST Assignment Node
+* @param childLoc The Index of the Child of the AST Assignment Node
+*/
 void ASTStmtNode::addChildToAssign(ASTNode* c, int childLoc)
 {
 	if (childLoc == 1 && c->getType() != Variable) {
@@ -159,16 +177,26 @@ void ASTStmtNode::addChildToAssign(ASTNode* c, int childLoc)
 	}
 }
 
+/**
+* This method will be used to create new AST Stmt Node with empty argument
+*/
 ASTStmtNode::~ASTStmtNode()
 {
 }
 
+/**
+* This method will be used to get statement number of the AST Stmt Node
+* @param i The Index of the VARIABLE
+*/
 int ASTStmtNode::getStmtNumber()
 {
 	return stmtNumber;
 }
 
-
+/**
+* This method will be used to set value for the AST Stmt Node
+* @param i The Index of the VARIABLE
+*/
 void ASTStmtNode::setValue(Index i)
 {
 	if (i < 0)

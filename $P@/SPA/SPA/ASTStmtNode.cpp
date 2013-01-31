@@ -6,6 +6,12 @@
 #include "ASTExprNode.h"
 #include "ASTStmtLstNode.h"
 
+/**
+* This method will be used to create a new ASTStmtNode
+* @param stmtNo The statement number
+* @param nodeType The AST NodeType of statement
+* @param value The Index could be PROC or VAR
+*/
 ASTStmtNode::ASTStmtNode(int stmtNo, NodeType nodeType, Index value)
 {
 	stmtNo = stmtNo + 1;
@@ -22,6 +28,12 @@ ASTStmtNode::ASTStmtNode(int stmtNo, NodeType nodeType, Index value)
 	}
 }
 
+/**
+* This method will be used to add child under the AST Node
+* @param stmtNo The statement number
+* @param nodeType The AST NodeType of statement
+* @param value The Index could be PROC or VAR
+*/
 ASTNode* ASTStmtNode::addChild(ASTNode* c)
 {
 	int childLoc=this->children.size()+1;

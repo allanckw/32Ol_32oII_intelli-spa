@@ -22,7 +22,6 @@
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\Helper.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\MultiQueryEval.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\PKBController.h" />
-    <ClInclude Include="..\..\..\$P%40\SPA\SPA\QueryOptimiser.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\RulesOfEngagement.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\SynonymTable.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\FollowsTable.h" />
@@ -51,7 +50,6 @@
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\Helper.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\MultiQueryEval.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\PKBController.cpp" />
-    <ClCompile Include="..\..\..\$P%40\SPA\SPA\QueryOptimiser.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\RulesOfEngagement.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\SynonymTable.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\FollowsTable.cpp" />

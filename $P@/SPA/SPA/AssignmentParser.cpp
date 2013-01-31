@@ -161,7 +161,7 @@ ASTExprNode* AssignmentParser::processAssignment(MathExpression expr)
 
 
 /**
-* This method will be used to determine wheather an expression is an valid mathematical expression
+* This method will be used to determine wheather an expression is a valid mathematical expression
 * @param expr the math expression being tested
 */
 bool AssignmentParser::isValidExpr(MathExpression expr)

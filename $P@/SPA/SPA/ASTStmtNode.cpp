@@ -7,7 +7,7 @@
 #include "ASTStmtLstNode.h"
 
 /**
-* This method will be used to create a new ASTStmtNode
+* Constructor: Used to create a new ASTStmtNode
 * @param stmtNo The statement number
 * @param nodeType The AST NodeType of statement
 * @param value The Index could be PROC or VAR
@@ -30,9 +30,7 @@ ASTStmtNode::ASTStmtNode(int stmtNo, NodeType nodeType, Index value)
 
 /**
 * This method will be used to add child under the AST Node
-* @param stmtNo The statement number
-* @param nodeType The AST NodeType of statement
-* @param value The Index could be PROC or VAR
+* @param c The AST Child Node to add
 */
 ASTNode* ASTStmtNode::addChild(ASTNode* c)
 {

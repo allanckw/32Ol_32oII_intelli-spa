@@ -34,8 +34,6 @@ public:
 	ASTNode(NodeType);
 	ASTNode(NodeType, PROC);
 
-	~ASTNode(void);
-
 	virtual ASTNode* addChild(ASTNode*);
 	virtual ASTNode* setParent(ASTNode * p);
 

@@ -7,9 +7,12 @@
 #include <sstream>
 
 /**
-* Process the mathematical expression to form an expression sub tree 
+* Constructor for the ASTExprNode, initiate the node’s type and the value as integer, usually used for constants.
 * @param nodeType	The nodeType of expression node (Constant, Operator and Variable)
-* @param value	The value of the Expression (+,-,* for operators, INTEGER for constant, VAR for variables)
+* @param value	The value of the Expression Represented, 
+* 0 for +, 1 for -, 2 for * for operator
+* Actual value for constant
+* VARIndex for variable
 */
 ASTExprNode::ASTExprNode(NodeType nodeType, int value)
 {
@@ -38,6 +41,14 @@ ASTExprNode::ASTExprNode(NodeType nodeType, int value)
 	}
 }
 
+/*Constructor for the ASTExprNode, initiate the node’s type and expression.
+* Throws Exception When NodeType is a constant, but value is not of type integer (DIGIT+) or
+* NodeType is Variable, but value is not cannot be found in VARTable or
+* NodeType is Operator, but value is not of ‘+’, ‘-‘ or ‘*’
+* @param nodeType	The nodeType of expression node (Constant, Operator and Variable)
+* @param value	The value of the Expression Represented
+* An expression can be a variable (e.g.: x), a constant (e.g.: 10), or a mathematical symbol “+”, “-“, “*”, etc
+*/
 ASTExprNode::ASTExprNode(NodeType nodeType, Expr value)
 {
 	this->nodeType = nodeType;
@@ -68,6 +79,12 @@ ASTExprNode::ASTExprNode(NodeType nodeType, Expr value)
 	}
 }
 
+/**
+* This method will be used to add child under the AST Node
+* @param c	The AST Child Node to add
+* @param childLoc	The Child Location, must be 1 or 2, 1 denotes left, 2 denotes right, other exception will be thrown
+* @return itself
+*/
 ASTNode* ASTExprNode::addChild(ASTNode* c, int childLoc){
 
 	if (childLoc <= 0 )
@@ -111,11 +128,11 @@ ASTNode* ASTExprNode::addChild(ASTNode* c, int childLoc){
 	return this;
 }
 
-
-ASTExprNode::~ASTExprNode(void)
-{
-}
-
+/**
+* This method will be used to match the value of the expression node
+* @param expr	the expression to test if it matches the value of the node
+* @Return true if the node is of the correct value, false otherwise
+*/
 bool ASTExprNode::isMatched(Expr expr)
 {
 	if (this->getType() == Variable)
@@ -140,27 +157,20 @@ bool ASTExprNode::isMatched(Expr expr)
 bool ASTExprNode::isVARMatched(string varName)
 {
 	int index = PKB::variables.getVARIndex(varName);
-	if (index == -1)
-	{
+	if (index == -1) {
 		cout << "Variable Not found!" << endl;
 		return false;
-	}
-	else
-	{
+	} else 	{
 		return (index == value);
 	}
-
 }
-
-
 
 bool ASTExprNode::isOPRMatched(string opr)
 {
-	if (opr !=  "+" || opr != "-" || opr != "*"){
+	if (opr !=  "+" || opr != "-" || opr != "*") {
 		cout << "Invalid Operator Type! Expected '+', '-' or '*' " << endl;
 		return false;
-	}
-	else{
+	} else {
 		return (opr == getOperator());
 	}
 }

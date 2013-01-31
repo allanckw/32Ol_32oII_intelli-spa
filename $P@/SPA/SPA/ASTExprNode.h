@@ -10,7 +10,6 @@ public:
 	ASTExprNode(NodeType, int);
 	ASTExprNode(NodeType, Expr);
 
-	~ASTExprNode(void);
 	bool isMatched(Expr);
 
 	virtual ASTNode* addChild(ASTNode* c, int childLoc);

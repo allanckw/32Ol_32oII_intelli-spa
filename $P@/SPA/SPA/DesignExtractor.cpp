@@ -7,6 +7,11 @@ unordered_map <PROC, unordered_set<PROC> > DesignExtractor::fromProcAdjList;
 unordered_map <PROC, int> DesignExtractor::procCount;
 unordered_map <PROC, vector< stack<ASTStmtNode*> > > DesignExtractor::savestate;
 
+
+/**
+* Extracts the design of the static root node in PKB Class and populate the respective tables
+* (Modifies, Uses, Follows, Parents, Calls)
+*/
 void DesignExtractor::extractDesign()
 {
 	//Do two traversals

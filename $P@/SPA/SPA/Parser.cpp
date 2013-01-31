@@ -625,6 +625,7 @@ ASTNode* Parser::processProcedure(int *i, int *j)
 			break;
 		}
 	}
+	int checkLeftChar = 0;
 
 	while(*line < Parser::tokenized_codes.size())
 	{
@@ -639,7 +640,7 @@ ASTNode* Parser::processProcedure(int *i, int *j)
 			}
 
 			//do bracket Matching
-			if (keyword=="{"){
+			else if (keyword=="{"){
 				brackets.push('{');
 				if (brackets.size()>1){
 					//throw exception
@@ -647,7 +648,7 @@ ASTNode* Parser::processProcedure(int *i, int *j)
 				}
 			}
 
-			if (keyword=="}"){
+			else if (keyword=="}"){
 				brackets.pop();
 				if(brackets.size()==0){
 					(*i)=(*line);
@@ -661,14 +662,18 @@ ASTNode* Parser::processProcedure(int *i, int *j)
 				}
 			}			
 				
-			if (keyword=="call"){
+			else if (keyword=="call"){
+				if(checkLeftChar > 0)
+					throw SPAException("Invalid Code!");
+
 				ASTStmtNode* callNode=processCall(line, index, pi);
 				callNode->setParent(procNode);
 				stmtLstNode->addChild(callNode);
+				checkLeftChar = 0;
 				//break;
 			}
 			
-			if(keyword=="while"){
+			else if(keyword=="while"){
 				ASTStmtNode* whileNode=processWhile(line, index, pi);
 				whileNode->setParent(procNode);
 				stmtLstNode->addChild(whileNode);
@@ -676,7 +681,7 @@ ASTNode* Parser::processProcedure(int *i, int *j)
 				//break;
 			}
 			
-			if(keyword=="if")
+			else if(keyword=="if")
 			{
 				//No implementation - Not required in CS3201
 				ASTStmtNode* ifNode=processIf(line, index, pi);
@@ -685,13 +690,31 @@ ASTNode* Parser::processProcedure(int *i, int *j)
 				inner=Parser::tokenized_codes.at(*line);
 			}
 			
-			if(keyword=="="){
+			else if(keyword=="="){
+				if(checkLeftChar > 1)
+					throw SPAException("Invalid Code!");
 				//check for assignment Statement
 				//processAssignmentNode
 				ASTStmtNode* assignNode=processAssignment(line, index);
 				assignNode->setParent(procNode);
 				stmtLstNode->addChild(assignNode);
+				checkLeftChar = 0;
+				//v=false;
 			}
+			/*else if(keyword == "callRingo")
+			{
+				int ll=1;
+			}*/
+			else if(keyword == ";")
+			{
+
+				if(checkLeftChar > 0)
+					throw SPAException("Invalid Code!");
+				checkLeftChar = 0;
+			}
+			else
+				checkLeftChar++;
+				
 			(*index)++;
 		}
 		(*index)=0;

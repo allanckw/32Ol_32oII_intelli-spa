@@ -14,6 +14,10 @@ vector<vector<string>> Parser::tokenized_codes;
 
 stack<char> brackets;
 
+/**
+* This method will be used to create a new parser with a source file
+* @param fileName The location of source file
+*/
 Parser::Parser(string fileName)
 {
 	string codings;
@@ -44,12 +48,20 @@ Parser::~Parser(void)
 {
 }
 
+/**
+* This method will check if the string for special character
+* @param newtoken string of token being tested
+*/
 bool Parser::isStrCheckNoSpecialChar(string newtoken)
  {
 	 int result = newtoken.find_first_of("!@#$%^&*()_+{}|\\][~`", 0);
 	 return result != string::npos;
  }
 
+/**
+* This method will be used to check for empty string in a string
+* @param str The string to be check for empty space
+*/
 bool Parser::isEmpty(string str)
 {
 	for(unsigned int index=0;index<str.size();index++){
@@ -59,6 +71,10 @@ bool Parser::isEmpty(string str)
 	return true;
 }
 
+/**
+* This method will be used to check whether the string is number
+* @param str The string to be check is it number
+*/
 bool Parser::is_number(const std::string& str)
 {
     std::string::const_iterator currentIterator = str.begin();
@@ -66,6 +82,10 @@ bool Parser::is_number(const std::string& str)
     return !str.empty() && currentIterator == str.end();
 }
 
+/**
+* This method will be used to trim string
+* @param str The string to be trimmed
+*/
 string Parser::Trim(string str)
 {
 	str.erase(remove(str.begin(), str.end(), '\t'), str.end());
@@ -73,6 +93,11 @@ string Parser::Trim(string str)
 	return str;
 }
 
+/**
+* This method will be used to add the token to its respective variable table of procedure table if needed
+* @param list the list of tokenized codes
+* @param newtoken the token being added
+*/
 void Parser::AddTables(vector<string> list, string newtoken)
 {
 	int size = list.size();
@@ -121,6 +146,11 @@ void Parser::AddTables(vector<string> list, string newtoken)
 	}
 }
 
+/**
+* This method will determine if a the token needs to be on the next line and add it into the list
+* @param list multiple list of codes where each line represent a program line
+* @param str the code being added
+*/
 void Parser::AddToList(vector<string>& list, string str)
 {//Parser::tokenized_codes.push_back(lststr);
 	str = Trim(str);
@@ -145,6 +175,10 @@ void Parser::AddToList(vector<string>& list, string str)
 	}
 }
 
+/**
+* This method will tokenize the code into a list of tokens
+* @param line the line of code being tokenized
+*/
 void Parser::tokenizer(string line)//split the string into tokens
 {
 	vector<string> list;
@@ -207,6 +241,9 @@ void Parser::tokenizer(string line)//split the string into tokens
 	Parser::tokenized_codes.push_back(list);
 }
 
+/**
+* This method will be used to buld AST Tree
+*/
 void Parser::buildAST()
 {
 
@@ -250,12 +287,21 @@ void Parser::buildAST()
 	}
 }
 
+/**
+* This method will be used to for name grammer rule
+* @param s The string to be checked
+*/
 bool Parser::isName(string s) //first char of name cannot be digit
 {
 	return (!isdigit(s.at(0)));
 }
 
-//Reason why i put procIdx is in a while there could be a call statement possibilities
+/**
+* This method will be used to process while statement and build While AST Node
+* @param *i A pointer to keep track of current line index
+* @param *j A pointer to keep track of current word index of the line
+* @param procIdx For checking of self call
+*/
 ASTStmtNode* Parser::processWhile(int *i, int *j, Index procIdx)
 {
 	stack<char> brackets;
@@ -360,7 +406,12 @@ ASTStmtNode* Parser::processWhile(int *i, int *j, Index procIdx)
 	return NULL;
 }
 
-//Reason why i put procIdx is in a while there could be a call statement possibilities
+/**
+* This method will be used to process If statement and build If AST Node
+* @param *i A pointer to keep track of current line index
+* @param *j A pointer to keep track of current word index of the line
+* @param procIdx For checking of self call
+*/
 ASTStmtNode* Parser::processIf(int *i, int *j, Index procIdx)
 {
 	stack<char> brackets;
@@ -549,7 +600,12 @@ ASTStmtNode* Parser::processIf(int *i, int *j, Index procIdx)
 	return NULL;
 }
 
-//Reason why i put procIdx is in a while there could not be a self call
+/**
+* This method will be used to process Call statement and build Call AST Node
+* @param *i A pointer to keep track of current line index
+* @param *j A pointer to keep track of current word index of the line
+* @param procIdx For checking of self call
+*/
 ASTStmtNode* Parser::processCall(int *i, int *j, Index procIdx)
 {
 	vector<string> inner=Parser::tokenized_codes.at(*i);
@@ -572,6 +628,11 @@ ASTStmtNode* Parser::processCall(int *i, int *j, Index procIdx)
 	return stmtCall;
 }
 
+/**
+* This method will be used to process Assignment statement and build Assignment AST Node
+* @param *i A pointer to keep track of current line index
+* @param *j A pointer to keep track of current word index of the line
+*/
 ASTStmtNode* Parser::processAssignment(int *i, int *j)
 {
 	vector<string> inner=Parser::tokenized_codes.at(*i);
@@ -599,6 +660,11 @@ ASTStmtNode* Parser::processAssignment(int *i, int *j)
 	return stmtAssign;
 }
 
+/**
+* This method will be used to process Procedure statement and build Procedure AST Node
+* @param *i A pointer to keep track of current line index
+* @param *j A pointer to keep track of current word index of the line
+*/
 ASTNode* Parser::processProcedure(int *i, int *j)
 {
 	stack<char> brackets;

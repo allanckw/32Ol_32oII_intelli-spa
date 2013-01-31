@@ -1,7 +1,9 @@
 #include "CFGBuilder.h"
 
 
-
+/**
+* This method will be used to build CFG Node
+*/
 void CFGBuilder::buildCFG(){
 	//Use PKB::TheBeginningAndTheEnd to find starting program line, and ending program line of a procedure
 	//pair<STMT, STMT> startAndEndProgLine = PKB::TheBeginningAndTheEnd.at(currentProc);
@@ -146,7 +148,13 @@ void CFGBuilder::buildCFG(){
 	}
 }
 
-CFGNode* CFGBuilder::processWhile(ASTNode* procedureNode,int* s, ASTStmtNode *stmtNode)
+/**
+* This method will be used to process While AST Node and build While CFG Node
+* @param procedureNode To 
+* @param s A pointer to keep 'Start' PROG_Line
+* @param stmtNode The while AST Node to be process
+*/
+CFGNode* CFGBuilder::processWhile(ASTNode* procedureNode,int* s, ASTStmtNode *stmtNode)	
 {
 	CFGNode* currCFG;
 	ASTStmtNode* currNode;
@@ -218,6 +226,13 @@ CFGNode* CFGBuilder::processWhile(ASTNode* procedureNode,int* s, ASTStmtNode *st
 	return whileNode;
 }
 
+/**
+* This method will be used to process If AST Node and build If CFG Node
+* @param procedureNode To 
+* @param s A pointer to keep 'Start' PROG_Line
+* @param stmtNode The while AST Node to be process
+* @param ifNode The 'if' CFGNode to link
+*/
 CFGNode* CFGBuilder::processIf(ASTNode* procedureNode, int *s, ASTStmtNode *stmtNode, CFGNode *ifNode)
 {
 	CFGNode* currCFG;

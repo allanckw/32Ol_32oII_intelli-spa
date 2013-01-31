@@ -5,12 +5,19 @@
 #include "Helper.h"
 #include <typeinfo.h>
 #include <sstream>
+
+/**
+* Process the mathematical expression to form an expression sub tree 
+* @param nodeType	The nodeType of expression node (Constant, Operator and Variable)
+* @param value	The value of the Expression (+,-,* for operators, INTEGER for constant, VAR for variables)
+*/
 ASTExprNode::ASTExprNode(NodeType nodeType, int value)
 {
-	if (nodeType != Constant && nodeType != Constant && nodeType != Variable){
+	if (nodeType != Constant && nodeType != Operator && nodeType != Variable){
 		throw SPAException("Invalid Type for Expression, Expected Constant/Variable/Operator");
-	}
-	else{
+	
+	} else {
+	
 		this->nodeType = nodeType;
 		if (this->getType() == Variable){
 			if (value < 0 || value > (PKB::variables.getSize() - 1))

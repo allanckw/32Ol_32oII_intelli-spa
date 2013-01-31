@@ -1,0 +1,402 @@
+\hypertarget{class_synonym_table}{\section{Synonym\-Table Class Reference}
+\label{class_synonym_table}\index{Synonym\-Table@{Synonym\-Table}}
+}
+
+
+{\ttfamily \#include $<$Synonym\-Table.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{class_synonym_table_a8cddc6773a55141179cc844d39ed1c1f}{size} () const 
+\item 
+void \hyperlink{class_synonym_table_abda36f6346220b4d99efc9e522f57ac1}{insert} (const string \&name, \hyperlink{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713ead}{Rules\-Of\-Engagement\-::\-Query\-Var} type)
+\item 
+vector$<$ string $>$ \hyperlink{class_synonym_table_acb150fae4c378832b51b514da7d85bc2}{get\-All\-Names} () const 
+\item 
+bool \hyperlink{class_synonym_table_a8387324a38f3c938a9865723bf248654}{is\-In\-Table} (string name) const 
+\item 
+vector$<$ string $>$ \hyperlink{class_synonym_table_ab43bd9f067e43b73afa7c096cb56f07a}{get\-All\-Of\-Type} (\hyperlink{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713ead}{Rules\-Of\-Engagement\-::\-Query\-Var} type) const 
+\item 
+\hyperlink{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713ead}{Rules\-Of\-Engagement\-::\-Query\-Var} \hyperlink{class_synonym_table_a197ba9df88293f6178d9319674204c74}{get\-Type} (string) const 
+\item 
+int \hyperlink{class_synonym_table_aff4785f5fca983d12c47b006c508f58c}{synonym\-Index} (string name) const 
+\item 
+void \hyperlink{class_synonym_table_a7b9f79a7ea12a5b7ae0ff0f44a7bad0d}{change\-Type} (string name, \hyperlink{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713ead}{Rules\-Of\-Engagement\-::\-Query\-Var} type)
+\item 
+void \hyperlink{class_synonym_table_a1610d6c9bf13c7da6682aecaa34e3035}{set\-Selected} (string name)
+\item 
+vector$<$ string $>$ \hyperlink{class_synonym_table_a10082dabe233a4cc136012604fdd0c99}{get\-All\-Selected} () const 
+\item 
+bool \hyperlink{class_synonym_table_adeb09b979a0bcd53d00bebf7fd92354f}{is\-Selected} (string name) const 
+\item 
+void \hyperlink{class_synonym_table_a461d53cb875fda3483d518a0a8a8427a}{put\-Into\-Class} (string name, int class\-Index)
+\item 
+int \hyperlink{class_synonym_table_a4e52969d9060d59eb5043116a4585557}{in\-Class} (string name) const 
+\item 
+bool \hyperlink{class_synonym_table_ac0c497004d152f96c11dad973661f0f4}{set\-Specific\-Attribute} (string name, string condition, string attribute)
+\item 
+unordered\-\_\-map$<$ string, string $>$ \hyperlink{class_synonym_table_aae3ea3b80a7c9d8527299bb709da36e7}{get\-All\-Specific\-Attributes} (const string \&name) const 
+\item 
+void \hyperlink{class_synonym_table_a85c04b706602d1ee0c3587bd6a81c4a4}{set\-Generic\-Attribute} (string name, string own\-Attribute, \hyperlink{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713ead}{Rules\-Of\-Engagement\-::\-Query\-Var} other\-Variable, string other\-Attribute)
+\item 
+unordered\-\_\-map$<$ string, \\*
+unordered\-\_\-map\\*
+$<$ \hyperlink{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713ead}{Rules\-Of\-Engagement\-::\-Query\-Var}, \\*
+string $>$ $>$ \hyperlink{class_synonym_table_a24fafd4eef36373854f0552639d1a23a}{get\-All\-Generic\-Attributes} (const string \&name) const 
+\item 
+void \hyperlink{class_synonym_table_a36b37e92292323e9456687723296a775}{set\-Self\-Reference} (string name, \hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817}{Rules\-Of\-Engagement\-::\-Query\-Relations} relation)
+\item 
+unordered\-\_\-set\\*
+$<$ \hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817}{Rules\-Of\-Engagement\-::\-Query\-Relations} $>$ \hyperlink{class_synonym_table_a575a9b37ab43fbea6db53d042c9e40f1}{get\-All\-Self\-References} (string name) const 
+\item 
+void \hyperlink{class_synonym_table_aee299da4aef681bd88aef87c3e32d0ae}{set\-First\-Generic} (string name, \hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817}{Rules\-Of\-Engagement\-::\-Query\-Relations} relation)
+\item 
+unordered\-\_\-set\\*
+$<$ \hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817}{Rules\-Of\-Engagement\-::\-Query\-Relations} $>$ \hyperlink{class_synonym_table_a1ce11124100f9c373d2f6ce8ddfddb17}{get\-All\-First\-Generic} (string name) const 
+\item 
+void \hyperlink{class_synonym_table_af4b3fd34501ea9f92dcebda98fbd2a75}{set\-First\-Specific} (string name, \hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817}{Rules\-Of\-Engagement\-::\-Query\-Relations} relation, string specific)
+\item 
+vector$<$ pair\\*
+$<$ \hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817}{Rules\-Of\-Engagement\-::\-Query\-Relations}, \\*
+string $>$ $>$ \hyperlink{class_synonym_table_a6b4336ed735c5c35523762d651d85717}{get\-All\-First\-Specific} (string name) const 
+\item 
+void \hyperlink{class_synonym_table_a0cf7b481bc92f4d3eb3c035972e2b10f}{set\-Second\-Generic} (string name, \hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817}{Rules\-Of\-Engagement\-::\-Query\-Relations} relation)
+\item 
+unordered\-\_\-set\\*
+$<$ \hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817}{Rules\-Of\-Engagement\-::\-Query\-Relations} $>$ \hyperlink{class_synonym_table_ae54541fe25ecfccc4f789a0d8e8ed965}{get\-All\-Second\-Generic} (string name) const 
+\item 
+void \hyperlink{class_synonym_table_af9b50ce5b3b83f1804ce0a19c9a5affc}{set\-Second\-Specific} (string name, \hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817}{Rules\-Of\-Engagement\-::\-Query\-Relations} relation, string specific)
+\item 
+vector$<$ pair\\*
+$<$ \hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817}{Rules\-Of\-Engagement\-::\-Query\-Relations}, \\*
+string $>$ $>$ \hyperlink{class_synonym_table_ae43db38b70a46ebb35f4a2392a40ef64}{get\-All\-Second\-Specific} (string name) const 
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 5 of file Synonym\-Table.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_synonym_table_a7b9f79a7ea12a5b7ae0ff0f44a7bad0d}{\index{Synonym\-Table@{Synonym\-Table}!change\-Type@{change\-Type}}
+\index{change\-Type@{change\-Type}!SynonymTable@{Synonym\-Table}}
+\subsubsection[{change\-Type}]{\setlength{\rightskip}{0pt plus 5cm}void Synonym\-Table\-::change\-Type (
+\begin{DoxyParamCaption}
+\item[{string}]{name, }
+\item[{{\bf Rules\-Of\-Engagement\-::\-Query\-Var}}]{type}
+\end{DoxyParamCaption}
+)}}\label{class_synonym_table_a7b9f79a7ea12a5b7ae0ff0f44a7bad0d}
+
+
+Definition at line 70 of file Synonym\-Table.\-cpp.
+
+\hypertarget{class_synonym_table_a1ce11124100f9c373d2f6ce8ddfddb17}{\index{Synonym\-Table@{Synonym\-Table}!get\-All\-First\-Generic@{get\-All\-First\-Generic}}
+\index{get\-All\-First\-Generic@{get\-All\-First\-Generic}!SynonymTable@{Synonym\-Table}}
+\subsubsection[{get\-All\-First\-Generic}]{\setlength{\rightskip}{0pt plus 5cm}unordered\-\_\-set$<$ {\bf Rules\-Of\-Engagement\-::\-Query\-Relations} $>$ Synonym\-Table\-::get\-All\-First\-Generic (
+\begin{DoxyParamCaption}
+\item[{string}]{name}
+\end{DoxyParamCaption}
+) const}}\label{class_synonym_table_a1ce11124100f9c373d2f6ce8ddfddb17}
+
+
+Definition at line 159 of file Synonym\-Table.\-cpp.
+
+\hypertarget{class_synonym_table_a6b4336ed735c5c35523762d651d85717}{\index{Synonym\-Table@{Synonym\-Table}!get\-All\-First\-Specific@{get\-All\-First\-Specific}}
+\index{get\-All\-First\-Specific@{get\-All\-First\-Specific}!SynonymTable@{Synonym\-Table}}
+\subsubsection[{get\-All\-First\-Specific}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ pair$<$ {\bf Rules\-Of\-Engagement\-::\-Query\-Relations}, string $>$ $>$ Synonym\-Table\-::get\-All\-First\-Specific (
+\begin{DoxyParamCaption}
+\item[{string}]{name}
+\end{DoxyParamCaption}
+) const}}\label{class_synonym_table_a6b4336ed735c5c35523762d651d85717}
+
+
+Definition at line 170 of file Synonym\-Table.\-cpp.
+
+\hypertarget{class_synonym_table_a24fafd4eef36373854f0552639d1a23a}{\index{Synonym\-Table@{Synonym\-Table}!get\-All\-Generic\-Attributes@{get\-All\-Generic\-Attributes}}
+\index{get\-All\-Generic\-Attributes@{get\-All\-Generic\-Attributes}!SynonymTable@{Synonym\-Table}}
+\subsubsection[{get\-All\-Generic\-Attributes}]{\setlength{\rightskip}{0pt plus 5cm}unordered\-\_\-map$<$ string, unordered\-\_\-map$<$ {\bf Rules\-Of\-Engagement\-::\-Query\-Var}, string $>$ $>$ Synonym\-Table\-::get\-All\-Generic\-Attributes (
+\begin{DoxyParamCaption}
+\item[{const string \&}]{name}
+\end{DoxyParamCaption}
+) const}}\label{class_synonym_table_a24fafd4eef36373854f0552639d1a23a}
+
+
+Definition at line 139 of file Synonym\-Table.\-cpp.
+
+\hypertarget{class_synonym_table_acb150fae4c378832b51b514da7d85bc2}{\index{Synonym\-Table@{Synonym\-Table}!get\-All\-Names@{get\-All\-Names}}
+\index{get\-All\-Names@{get\-All\-Names}!SynonymTable@{Synonym\-Table}}
+\subsubsection[{get\-All\-Names}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ string $>$ Synonym\-Table\-::get\-All\-Names (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_synonym_table_acb150fae4c378832b51b514da7d85bc2}
+
+
+Definition at line 41 of file Synonym\-Table.\-cpp.
+
+\hypertarget{class_synonym_table_ab43bd9f067e43b73afa7c096cb56f07a}{\index{Synonym\-Table@{Synonym\-Table}!get\-All\-Of\-Type@{get\-All\-Of\-Type}}
+\index{get\-All\-Of\-Type@{get\-All\-Of\-Type}!SynonymTable@{Synonym\-Table}}
+\subsubsection[{get\-All\-Of\-Type}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ string $>$ Synonym\-Table\-::get\-All\-Of\-Type (
+\begin{DoxyParamCaption}
+\item[{{\bf Rules\-Of\-Engagement\-::\-Query\-Var}}]{type}
+\end{DoxyParamCaption}
+) const}}\label{class_synonym_table_ab43bd9f067e43b73afa7c096cb56f07a}
+
+
+Definition at line 51 of file Synonym\-Table.\-cpp.
+
+\hypertarget{class_synonym_table_ae54541fe25ecfccc4f789a0d8e8ed965}{\index{Synonym\-Table@{Synonym\-Table}!get\-All\-Second\-Generic@{get\-All\-Second\-Generic}}
+\index{get\-All\-Second\-Generic@{get\-All\-Second\-Generic}!SynonymTable@{Synonym\-Table}}
+\subsubsection[{get\-All\-Second\-Generic}]{\setlength{\rightskip}{0pt plus 5cm}unordered\-\_\-set$<$ {\bf Rules\-Of\-Engagement\-::\-Query\-Relations} $>$ Synonym\-Table\-::get\-All\-Second\-Generic (
+\begin{DoxyParamCaption}
+\item[{string}]{name}
+\end{DoxyParamCaption}
+) const}}\label{class_synonym_table_ae54541fe25ecfccc4f789a0d8e8ed965}
+
+
+Definition at line 180 of file Synonym\-Table.\-cpp.
+
+\hypertarget{class_synonym_table_ae43db38b70a46ebb35f4a2392a40ef64}{\index{Synonym\-Table@{Synonym\-Table}!get\-All\-Second\-Specific@{get\-All\-Second\-Specific}}
+\index{get\-All\-Second\-Specific@{get\-All\-Second\-Specific}!SynonymTable@{Synonym\-Table}}
+\subsubsection[{get\-All\-Second\-Specific}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ pair$<$ {\bf Rules\-Of\-Engagement\-::\-Query\-Relations}, string $>$ $>$ Synonym\-Table\-::get\-All\-Second\-Specific (
+\begin{DoxyParamCaption}
+\item[{string}]{name}
+\end{DoxyParamCaption}
+) const}}\label{class_synonym_table_ae43db38b70a46ebb35f4a2392a40ef64}
+
+
+Definition at line 191 of file Synonym\-Table.\-cpp.
+
+\hypertarget{class_synonym_table_a10082dabe233a4cc136012604fdd0c99}{\index{Synonym\-Table@{Synonym\-Table}!get\-All\-Selected@{get\-All\-Selected}}
+\index{get\-All\-Selected@{get\-All\-Selected}!SynonymTable@{Synonym\-Table}}
+\subsubsection[{get\-All\-Selected}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ string $>$ Synonym\-Table\-::get\-All\-Selected (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_synonym_table_a10082dabe233a4cc136012604fdd0c99}
+
+
+Definition at line 82 of file Synonym\-Table.\-cpp.
+
+\hypertarget{class_synonym_table_a575a9b37ab43fbea6db53d042c9e40f1}{\index{Synonym\-Table@{Synonym\-Table}!get\-All\-Self\-References@{get\-All\-Self\-References}}
+\index{get\-All\-Self\-References@{get\-All\-Self\-References}!SynonymTable@{Synonym\-Table}}
+\subsubsection[{get\-All\-Self\-References}]{\setlength{\rightskip}{0pt plus 5cm}unordered\-\_\-set$<$ {\bf Rules\-Of\-Engagement\-::\-Query\-Relations} $>$ Synonym\-Table\-::get\-All\-Self\-References (
+\begin{DoxyParamCaption}
+\item[{string}]{name}
+\end{DoxyParamCaption}
+) const}}\label{class_synonym_table_a575a9b37ab43fbea6db53d042c9e40f1}
+
+
+Definition at line 149 of file Synonym\-Table.\-cpp.
+
+\hypertarget{class_synonym_table_aae3ea3b80a7c9d8527299bb709da36e7}{\index{Synonym\-Table@{Synonym\-Table}!get\-All\-Specific\-Attributes@{get\-All\-Specific\-Attributes}}
+\index{get\-All\-Specific\-Attributes@{get\-All\-Specific\-Attributes}!SynonymTable@{Synonym\-Table}}
+\subsubsection[{get\-All\-Specific\-Attributes}]{\setlength{\rightskip}{0pt plus 5cm}unordered\-\_\-map$<$ string, string $>$ Synonym\-Table\-::get\-All\-Specific\-Attributes (
+\begin{DoxyParamCaption}
+\item[{const string \&}]{name}
+\end{DoxyParamCaption}
+) const}}\label{class_synonym_table_aae3ea3b80a7c9d8527299bb709da36e7}
+
+
+Definition at line 124 of file Synonym\-Table.\-cpp.
+
+\hypertarget{class_synonym_table_a197ba9df88293f6178d9319674204c74}{\index{Synonym\-Table@{Synonym\-Table}!get\-Type@{get\-Type}}
+\index{get\-Type@{get\-Type}!SynonymTable@{Synonym\-Table}}
+\subsubsection[{get\-Type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Rules\-Of\-Engagement\-::\-Query\-Var} Synonym\-Table\-::get\-Type (
+\begin{DoxyParamCaption}
+\item[{string}]{name}
+\end{DoxyParamCaption}
+) const}}\label{class_synonym_table_a197ba9df88293f6178d9319674204c74}
+
+
+Definition at line 60 of file Synonym\-Table.\-cpp.
+
+\hypertarget{class_synonym_table_a4e52969d9060d59eb5043116a4585557}{\index{Synonym\-Table@{Synonym\-Table}!in\-Class@{in\-Class}}
+\index{in\-Class@{in\-Class}!SynonymTable@{Synonym\-Table}}
+\subsubsection[{in\-Class}]{\setlength{\rightskip}{0pt plus 5cm}int Synonym\-Table\-::in\-Class (
+\begin{DoxyParamCaption}
+\item[{string}]{name}
+\end{DoxyParamCaption}
+) const}}\label{class_synonym_table_a4e52969d9060d59eb5043116a4585557}
+
+
+Definition at line 100 of file Synonym\-Table.\-cpp.
+
+\hypertarget{class_synonym_table_abda36f6346220b4d99efc9e522f57ac1}{\index{Synonym\-Table@{Synonym\-Table}!insert@{insert}}
+\index{insert@{insert}!SynonymTable@{Synonym\-Table}}
+\subsubsection[{insert}]{\setlength{\rightskip}{0pt plus 5cm}void Synonym\-Table\-::insert (
+\begin{DoxyParamCaption}
+\item[{const string \&}]{name, }
+\item[{{\bf Rules\-Of\-Engagement\-::\-Query\-Var}}]{type}
+\end{DoxyParamCaption}
+)}}\label{class_synonym_table_abda36f6346220b4d99efc9e522f57ac1}
+
+
+Definition at line 10 of file Synonym\-Table.\-cpp.
+
+\hypertarget{class_synonym_table_a8387324a38f3c938a9865723bf248654}{\index{Synonym\-Table@{Synonym\-Table}!is\-In\-Table@{is\-In\-Table}}
+\index{is\-In\-Table@{is\-In\-Table}!SynonymTable@{Synonym\-Table}}
+\subsubsection[{is\-In\-Table}]{\setlength{\rightskip}{0pt plus 5cm}bool Synonym\-Table\-::is\-In\-Table (
+\begin{DoxyParamCaption}
+\item[{string}]{name}
+\end{DoxyParamCaption}
+) const}}\label{class_synonym_table_a8387324a38f3c938a9865723bf248654}
+
+
+Definition at line 46 of file Synonym\-Table.\-cpp.
+
+\hypertarget{class_synonym_table_adeb09b979a0bcd53d00bebf7fd92354f}{\index{Synonym\-Table@{Synonym\-Table}!is\-Selected@{is\-Selected}}
+\index{is\-Selected@{is\-Selected}!SynonymTable@{Synonym\-Table}}
+\subsubsection[{is\-Selected}]{\setlength{\rightskip}{0pt plus 5cm}bool Synonym\-Table\-::is\-Selected (
+\begin{DoxyParamCaption}
+\item[{string}]{name}
+\end{DoxyParamCaption}
+) const}}\label{class_synonym_table_adeb09b979a0bcd53d00bebf7fd92354f}
+
+
+Definition at line 90 of file Synonym\-Table.\-cpp.
+
+\hypertarget{class_synonym_table_a461d53cb875fda3483d518a0a8a8427a}{\index{Synonym\-Table@{Synonym\-Table}!put\-Into\-Class@{put\-Into\-Class}}
+\index{put\-Into\-Class@{put\-Into\-Class}!SynonymTable@{Synonym\-Table}}
+\subsubsection[{put\-Into\-Class}]{\setlength{\rightskip}{0pt plus 5cm}void Synonym\-Table\-::put\-Into\-Class (
+\begin{DoxyParamCaption}
+\item[{string}]{name, }
+\item[{int}]{class\-Index}
+\end{DoxyParamCaption}
+)}}\label{class_synonym_table_a461d53cb875fda3483d518a0a8a8427a}
+
+
+Definition at line 95 of file Synonym\-Table.\-cpp.
+
+\hypertarget{class_synonym_table_aee299da4aef681bd88aef87c3e32d0ae}{\index{Synonym\-Table@{Synonym\-Table}!set\-First\-Generic@{set\-First\-Generic}}
+\index{set\-First\-Generic@{set\-First\-Generic}!SynonymTable@{Synonym\-Table}}
+\subsubsection[{set\-First\-Generic}]{\setlength{\rightskip}{0pt plus 5cm}void Synonym\-Table\-::set\-First\-Generic (
+\begin{DoxyParamCaption}
+\item[{string}]{name, }
+\item[{{\bf Rules\-Of\-Engagement\-::\-Query\-Relations}}]{relation}
+\end{DoxyParamCaption}
+)}}\label{class_synonym_table_aee299da4aef681bd88aef87c3e32d0ae}
+
+
+Definition at line 154 of file Synonym\-Table.\-cpp.
+
+\hypertarget{class_synonym_table_af4b3fd34501ea9f92dcebda98fbd2a75}{\index{Synonym\-Table@{Synonym\-Table}!set\-First\-Specific@{set\-First\-Specific}}
+\index{set\-First\-Specific@{set\-First\-Specific}!SynonymTable@{Synonym\-Table}}
+\subsubsection[{set\-First\-Specific}]{\setlength{\rightskip}{0pt plus 5cm}void Synonym\-Table\-::set\-First\-Specific (
+\begin{DoxyParamCaption}
+\item[{string}]{name, }
+\item[{{\bf Rules\-Of\-Engagement\-::\-Query\-Relations}}]{relation, }
+\item[{string}]{specific}
+\end{DoxyParamCaption}
+)}}\label{class_synonym_table_af4b3fd34501ea9f92dcebda98fbd2a75}
+
+
+Definition at line 164 of file Synonym\-Table.\-cpp.
+
+\hypertarget{class_synonym_table_a85c04b706602d1ee0c3587bd6a81c4a4}{\index{Synonym\-Table@{Synonym\-Table}!set\-Generic\-Attribute@{set\-Generic\-Attribute}}
+\index{set\-Generic\-Attribute@{set\-Generic\-Attribute}!SynonymTable@{Synonym\-Table}}
+\subsubsection[{set\-Generic\-Attribute}]{\setlength{\rightskip}{0pt plus 5cm}void Synonym\-Table\-::set\-Generic\-Attribute (
+\begin{DoxyParamCaption}
+\item[{string}]{name, }
+\item[{string}]{own\-Attribute, }
+\item[{{\bf Rules\-Of\-Engagement\-::\-Query\-Var}}]{other\-Variable, }
+\item[{string}]{other\-Attribute}
+\end{DoxyParamCaption}
+)}}\label{class_synonym_table_a85c04b706602d1ee0c3587bd6a81c4a4}
+
+
+Definition at line 129 of file Synonym\-Table.\-cpp.
+
+\hypertarget{class_synonym_table_a0cf7b481bc92f4d3eb3c035972e2b10f}{\index{Synonym\-Table@{Synonym\-Table}!set\-Second\-Generic@{set\-Second\-Generic}}
+\index{set\-Second\-Generic@{set\-Second\-Generic}!SynonymTable@{Synonym\-Table}}
+\subsubsection[{set\-Second\-Generic}]{\setlength{\rightskip}{0pt plus 5cm}void Synonym\-Table\-::set\-Second\-Generic (
+\begin{DoxyParamCaption}
+\item[{string}]{name, }
+\item[{{\bf Rules\-Of\-Engagement\-::\-Query\-Relations}}]{relation}
+\end{DoxyParamCaption}
+)}}\label{class_synonym_table_a0cf7b481bc92f4d3eb3c035972e2b10f}
+
+
+Definition at line 175 of file Synonym\-Table.\-cpp.
+
+\hypertarget{class_synonym_table_af9b50ce5b3b83f1804ce0a19c9a5affc}{\index{Synonym\-Table@{Synonym\-Table}!set\-Second\-Specific@{set\-Second\-Specific}}
+\index{set\-Second\-Specific@{set\-Second\-Specific}!SynonymTable@{Synonym\-Table}}
+\subsubsection[{set\-Second\-Specific}]{\setlength{\rightskip}{0pt plus 5cm}void Synonym\-Table\-::set\-Second\-Specific (
+\begin{DoxyParamCaption}
+\item[{string}]{name, }
+\item[{{\bf Rules\-Of\-Engagement\-::\-Query\-Relations}}]{relation, }
+\item[{string}]{specific}
+\end{DoxyParamCaption}
+)}}\label{class_synonym_table_af9b50ce5b3b83f1804ce0a19c9a5affc}
+
+
+Definition at line 185 of file Synonym\-Table.\-cpp.
+
+\hypertarget{class_synonym_table_a1610d6c9bf13c7da6682aecaa34e3035}{\index{Synonym\-Table@{Synonym\-Table}!set\-Selected@{set\-Selected}}
+\index{set\-Selected@{set\-Selected}!SynonymTable@{Synonym\-Table}}
+\subsubsection[{set\-Selected}]{\setlength{\rightskip}{0pt plus 5cm}void Synonym\-Table\-::set\-Selected (
+\begin{DoxyParamCaption}
+\item[{string}]{name}
+\end{DoxyParamCaption}
+)}}\label{class_synonym_table_a1610d6c9bf13c7da6682aecaa34e3035}
+
+
+Definition at line 76 of file Synonym\-Table.\-cpp.
+
+\hypertarget{class_synonym_table_a36b37e92292323e9456687723296a775}{\index{Synonym\-Table@{Synonym\-Table}!set\-Self\-Reference@{set\-Self\-Reference}}
+\index{set\-Self\-Reference@{set\-Self\-Reference}!SynonymTable@{Synonym\-Table}}
+\subsubsection[{set\-Self\-Reference}]{\setlength{\rightskip}{0pt plus 5cm}void Synonym\-Table\-::set\-Self\-Reference (
+\begin{DoxyParamCaption}
+\item[{string}]{name, }
+\item[{{\bf Rules\-Of\-Engagement\-::\-Query\-Relations}}]{relation}
+\end{DoxyParamCaption}
+)}}\label{class_synonym_table_a36b37e92292323e9456687723296a775}
+
+
+Definition at line 144 of file Synonym\-Table.\-cpp.
+
+\hypertarget{class_synonym_table_ac0c497004d152f96c11dad973661f0f4}{\index{Synonym\-Table@{Synonym\-Table}!set\-Specific\-Attribute@{set\-Specific\-Attribute}}
+\index{set\-Specific\-Attribute@{set\-Specific\-Attribute}!SynonymTable@{Synonym\-Table}}
+\subsubsection[{set\-Specific\-Attribute}]{\setlength{\rightskip}{0pt plus 5cm}bool Synonym\-Table\-::set\-Specific\-Attribute (
+\begin{DoxyParamCaption}
+\item[{string}]{name, }
+\item[{string}]{condition, }
+\item[{string}]{attribute}
+\end{DoxyParamCaption}
+)}}\label{class_synonym_table_ac0c497004d152f96c11dad973661f0f4}
+
+
+Definition at line 105 of file Synonym\-Table.\-cpp.
+
+\hypertarget{class_synonym_table_a8cddc6773a55141179cc844d39ed1c1f}{\index{Synonym\-Table@{Synonym\-Table}!size@{size}}
+\index{size@{size}!SynonymTable@{Synonym\-Table}}
+\subsubsection[{size}]{\setlength{\rightskip}{0pt plus 5cm}int Synonym\-Table\-::size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_synonym_table_a8cddc6773a55141179cc844d39ed1c1f}
+
+
+Definition at line 5 of file Synonym\-Table.\-cpp.
+
+\hypertarget{class_synonym_table_aff4785f5fca983d12c47b006c508f58c}{\index{Synonym\-Table@{Synonym\-Table}!synonym\-Index@{synonym\-Index}}
+\index{synonym\-Index@{synonym\-Index}!SynonymTable@{Synonym\-Table}}
+\subsubsection[{synonym\-Index}]{\setlength{\rightskip}{0pt plus 5cm}int Synonym\-Table\-::synonym\-Index (
+\begin{DoxyParamCaption}
+\item[{string}]{name}
+\end{DoxyParamCaption}
+) const}}\label{class_synonym_table_aff4785f5fca983d12c47b006c508f58c}
+
+
+Definition at line 65 of file Synonym\-Table.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+F\-:/3201\-\_\-3202/\-S\-P\-A/\$\-P@/\-S\-P\-A/\-S\-P\-A/\hyperlink{_synonym_table_8h}{Synonym\-Table.\-h}\item 
+F\-:/3201\-\_\-3202/\-S\-P\-A/\$\-P@/\-S\-P\-A/\-S\-P\-A/\hyperlink{_synonym_table_8cpp}{Synonym\-Table.\-cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,203 @@
+\hypertarget{class_uses_table}{\section{Uses\-Table Class Reference}
+\label{class_uses_table}\index{Uses\-Table@{Uses\-Table}}
+}
+
+
+{\ttfamily \#include $<$Uses\-Table.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_uses_table_a22b7102c56cfa8e9fa4d806c3ad4c586}{Uses\-Table} ()
+\item 
+void \hyperlink{class_uses_table_ae29b8e5db64f12f6966916c62d4f911b}{insert\-Stmt\-Uses} (\hyperlink{std_afx_8h_a4a876b28ac3f59cecb39c2d2d76e4e7a}{S\-T\-M\-T}, \hyperlink{std_afx_8h_a3112e3faf0465bb5d85272a347b7f2f1}{V\-A\-R})
+\item 
+void \hyperlink{class_uses_table_a6d7e75d504e79223fa6f9676fb81963a}{insert\-Proc\-Uses} (\hyperlink{std_afx_8h_aa07ea1d188c7b45668f1bd82ffd6d87e}{P\-R\-O\-C}, \hyperlink{std_afx_8h_a3112e3faf0465bb5d85272a347b7f2f1}{V\-A\-R})
+\item 
+vector$<$ \hyperlink{std_afx_8h_a3112e3faf0465bb5d85272a347b7f2f1}{V\-A\-R} $>$ \hyperlink{class_uses_table_ae6da24dd1e776a415bb74255635b1731}{get\-Used\-By\-Stmt} (\hyperlink{std_afx_8h_a4a876b28ac3f59cecb39c2d2d76e4e7a}{S\-T\-M\-T})
+\item 
+vector$<$ \hyperlink{std_afx_8h_a3112e3faf0465bb5d85272a347b7f2f1}{V\-A\-R} $>$ \hyperlink{class_uses_table_a606a8c1dc8c9cc3b783e765c09e6891a}{get\-Used\-By\-Proc} (\hyperlink{std_afx_8h_aa07ea1d188c7b45668f1bd82ffd6d87e}{P\-R\-O\-C})
+\item 
+vector$<$ \hyperlink{std_afx_8h_a4a876b28ac3f59cecb39c2d2d76e4e7a}{S\-T\-M\-T} $>$ \hyperlink{class_uses_table_ae9bc0a7a3183df114286107f0ad72b8b}{get\-Used\-In\-Stmt} (\hyperlink{std_afx_8h_a3112e3faf0465bb5d85272a347b7f2f1}{V\-A\-R})
+\item 
+vector$<$ \hyperlink{std_afx_8h_aa07ea1d188c7b45668f1bd82ffd6d87e}{P\-R\-O\-C} $>$ \hyperlink{class_uses_table_aaedcc22a6cb307cb6c851e7c64815371}{get\-Used\-In\-Proc} (\hyperlink{std_afx_8h_a3112e3faf0465bb5d85272a347b7f2f1}{V\-A\-R})
+\item 
+bool \hyperlink{class_uses_table_a0efe799acfbeea3b597258408896ca12}{is\-Used\-Stmt} (\hyperlink{std_afx_8h_a4a876b28ac3f59cecb39c2d2d76e4e7a}{S\-T\-M\-T}, \hyperlink{std_afx_8h_a3112e3faf0465bb5d85272a347b7f2f1}{V\-A\-R})
+\item 
+bool \hyperlink{class_uses_table_a53a4e37ac552ca2d7b8c7cfc56d3b3db}{is\-Used\-Proc} (\hyperlink{std_afx_8h_aa07ea1d188c7b45668f1bd82ffd6d87e}{P\-R\-O\-C}, \hyperlink{std_afx_8h_a3112e3faf0465bb5d85272a347b7f2f1}{V\-A\-R})
+\item 
+bool \hyperlink{class_uses_table_a614dc66288e6d06a5fd48a1ec5c0a3bd}{is\-Empty} ()
+\item 
+void \hyperlink{class_uses_table_a8a3c75dcaa454948816182d1ce301649}{link\-Call\-Stmt\-To\-Proc\-Uses} (\hyperlink{std_afx_8h_a4a876b28ac3f59cecb39c2d2d76e4e7a}{S\-T\-M\-T}, \hyperlink{std_afx_8h_aa07ea1d188c7b45668f1bd82ffd6d87e}{P\-R\-O\-C})
+\item 
+void \hyperlink{class_uses_table_a3c9dfd512e58af4d15a9471dcc7521cd}{optimize\-Uses\-Table} ()
+\item 
+void \hyperlink{class_uses_table_a4bfa9a051b7e791a9b8715a6237f068f}{display\-Uses\-Tables} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 4 of file Uses\-Table.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_uses_table_a22b7102c56cfa8e9fa4d806c3ad4c586}{\index{Uses\-Table@{Uses\-Table}!Uses\-Table@{Uses\-Table}}
+\index{Uses\-Table@{Uses\-Table}!UsesTable@{Uses\-Table}}
+\subsubsection[{Uses\-Table}]{\setlength{\rightskip}{0pt plus 5cm}Uses\-Table\-::\-Uses\-Table (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_uses_table_a22b7102c56cfa8e9fa4d806c3ad4c586}
+
+
+Definition at line 8 of file Uses\-Table.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_uses_table_a4bfa9a051b7e791a9b8715a6237f068f}{\index{Uses\-Table@{Uses\-Table}!display\-Uses\-Tables@{display\-Uses\-Tables}}
+\index{display\-Uses\-Tables@{display\-Uses\-Tables}!UsesTable@{Uses\-Table}}
+\subsubsection[{display\-Uses\-Tables}]{\setlength{\rightskip}{0pt plus 5cm}void Uses\-Table\-::display\-Uses\-Tables (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_uses_table_a4bfa9a051b7e791a9b8715a6237f068f}
+
+
+Definition at line 123 of file Uses\-Table.\-cpp.
+
+\hypertarget{class_uses_table_a606a8c1dc8c9cc3b783e765c09e6891a}{\index{Uses\-Table@{Uses\-Table}!get\-Used\-By\-Proc@{get\-Used\-By\-Proc}}
+\index{get\-Used\-By\-Proc@{get\-Used\-By\-Proc}!UsesTable@{Uses\-Table}}
+\subsubsection[{get\-Used\-By\-Proc}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ {\bf V\-A\-R} $>$ Uses\-Table\-::get\-Used\-By\-Proc (
+\begin{DoxyParamCaption}
+\item[{{\bf P\-R\-O\-C}}]{p}
+\end{DoxyParamCaption}
+)}}\label{class_uses_table_a606a8c1dc8c9cc3b783e765c09e6891a}
+
+
+Definition at line 34 of file Uses\-Table.\-cpp.
+
+\hypertarget{class_uses_table_ae6da24dd1e776a415bb74255635b1731}{\index{Uses\-Table@{Uses\-Table}!get\-Used\-By\-Stmt@{get\-Used\-By\-Stmt}}
+\index{get\-Used\-By\-Stmt@{get\-Used\-By\-Stmt}!UsesTable@{Uses\-Table}}
+\subsubsection[{get\-Used\-By\-Stmt}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ {\bf V\-A\-R} $>$ Uses\-Table\-::get\-Used\-By\-Stmt (
+\begin{DoxyParamCaption}
+\item[{{\bf S\-T\-M\-T}}]{s}
+\end{DoxyParamCaption}
+)}}\label{class_uses_table_ae6da24dd1e776a415bb74255635b1731}
+
+
+Definition at line 27 of file Uses\-Table.\-cpp.
+
+\hypertarget{class_uses_table_aaedcc22a6cb307cb6c851e7c64815371}{\index{Uses\-Table@{Uses\-Table}!get\-Used\-In\-Proc@{get\-Used\-In\-Proc}}
+\index{get\-Used\-In\-Proc@{get\-Used\-In\-Proc}!UsesTable@{Uses\-Table}}
+\subsubsection[{get\-Used\-In\-Proc}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ {\bf P\-R\-O\-C} $>$ Uses\-Table\-::get\-Used\-In\-Proc (
+\begin{DoxyParamCaption}
+\item[{{\bf V\-A\-R}}]{v}
+\end{DoxyParamCaption}
+)}}\label{class_uses_table_aaedcc22a6cb307cb6c851e7c64815371}
+
+
+Definition at line 48 of file Uses\-Table.\-cpp.
+
+\hypertarget{class_uses_table_ae9bc0a7a3183df114286107f0ad72b8b}{\index{Uses\-Table@{Uses\-Table}!get\-Used\-In\-Stmt@{get\-Used\-In\-Stmt}}
+\index{get\-Used\-In\-Stmt@{get\-Used\-In\-Stmt}!UsesTable@{Uses\-Table}}
+\subsubsection[{get\-Used\-In\-Stmt}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ {\bf S\-T\-M\-T} $>$ Uses\-Table\-::get\-Used\-In\-Stmt (
+\begin{DoxyParamCaption}
+\item[{{\bf V\-A\-R}}]{v}
+\end{DoxyParamCaption}
+)}}\label{class_uses_table_ae9bc0a7a3183df114286107f0ad72b8b}
+
+
+Definition at line 41 of file Uses\-Table.\-cpp.
+
+\hypertarget{class_uses_table_a6d7e75d504e79223fa6f9676fb81963a}{\index{Uses\-Table@{Uses\-Table}!insert\-Proc\-Uses@{insert\-Proc\-Uses}}
+\index{insert\-Proc\-Uses@{insert\-Proc\-Uses}!UsesTable@{Uses\-Table}}
+\subsubsection[{insert\-Proc\-Uses}]{\setlength{\rightskip}{0pt plus 5cm}void Uses\-Table\-::insert\-Proc\-Uses (
+\begin{DoxyParamCaption}
+\item[{{\bf P\-R\-O\-C}}]{p, }
+\item[{{\bf V\-A\-R}}]{v}
+\end{DoxyParamCaption}
+)}}\label{class_uses_table_a6d7e75d504e79223fa6f9676fb81963a}
+
+
+Definition at line 21 of file Uses\-Table.\-cpp.
+
+\hypertarget{class_uses_table_ae29b8e5db64f12f6966916c62d4f911b}{\index{Uses\-Table@{Uses\-Table}!insert\-Stmt\-Uses@{insert\-Stmt\-Uses}}
+\index{insert\-Stmt\-Uses@{insert\-Stmt\-Uses}!UsesTable@{Uses\-Table}}
+\subsubsection[{insert\-Stmt\-Uses}]{\setlength{\rightskip}{0pt plus 5cm}void Uses\-Table\-::insert\-Stmt\-Uses (
+\begin{DoxyParamCaption}
+\item[{{\bf S\-T\-M\-T}}]{s, }
+\item[{{\bf V\-A\-R}}]{v}
+\end{DoxyParamCaption}
+)}}\label{class_uses_table_ae29b8e5db64f12f6966916c62d4f911b}
+
+
+Definition at line 12 of file Uses\-Table.\-cpp.
+
+\hypertarget{class_uses_table_a614dc66288e6d06a5fd48a1ec5c0a3bd}{\index{Uses\-Table@{Uses\-Table}!is\-Empty@{is\-Empty}}
+\index{is\-Empty@{is\-Empty}!UsesTable@{Uses\-Table}}
+\subsubsection[{is\-Empty}]{\setlength{\rightskip}{0pt plus 5cm}bool Uses\-Table\-::is\-Empty (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_uses_table_a614dc66288e6d06a5fd48a1ec5c0a3bd}
+
+
+Definition at line 65 of file Uses\-Table.\-cpp.
+
+\hypertarget{class_uses_table_a53a4e37ac552ca2d7b8c7cfc56d3b3db}{\index{Uses\-Table@{Uses\-Table}!is\-Used\-Proc@{is\-Used\-Proc}}
+\index{is\-Used\-Proc@{is\-Used\-Proc}!UsesTable@{Uses\-Table}}
+\subsubsection[{is\-Used\-Proc}]{\setlength{\rightskip}{0pt plus 5cm}bool Uses\-Table\-::is\-Used\-Proc (
+\begin{DoxyParamCaption}
+\item[{{\bf P\-R\-O\-C}}]{p, }
+\item[{{\bf V\-A\-R}}]{v}
+\end{DoxyParamCaption}
+)}}\label{class_uses_table_a53a4e37ac552ca2d7b8c7cfc56d3b3db}
+
+
+Definition at line 60 of file Uses\-Table.\-cpp.
+
+\hypertarget{class_uses_table_a0efe799acfbeea3b597258408896ca12}{\index{Uses\-Table@{Uses\-Table}!is\-Used\-Stmt@{is\-Used\-Stmt}}
+\index{is\-Used\-Stmt@{is\-Used\-Stmt}!UsesTable@{Uses\-Table}}
+\subsubsection[{is\-Used\-Stmt}]{\setlength{\rightskip}{0pt plus 5cm}bool Uses\-Table\-::is\-Used\-Stmt (
+\begin{DoxyParamCaption}
+\item[{{\bf S\-T\-M\-T}}]{s, }
+\item[{{\bf V\-A\-R}}]{v}
+\end{DoxyParamCaption}
+)}}\label{class_uses_table_a0efe799acfbeea3b597258408896ca12}
+
+
+Definition at line 55 of file Uses\-Table.\-cpp.
+
+\hypertarget{class_uses_table_a8a3c75dcaa454948816182d1ce301649}{\index{Uses\-Table@{Uses\-Table}!link\-Call\-Stmt\-To\-Proc\-Uses@{link\-Call\-Stmt\-To\-Proc\-Uses}}
+\index{link\-Call\-Stmt\-To\-Proc\-Uses@{link\-Call\-Stmt\-To\-Proc\-Uses}!UsesTable@{Uses\-Table}}
+\subsubsection[{link\-Call\-Stmt\-To\-Proc\-Uses}]{\setlength{\rightskip}{0pt plus 5cm}void Uses\-Table\-::link\-Call\-Stmt\-To\-Proc\-Uses (
+\begin{DoxyParamCaption}
+\item[{{\bf S\-T\-M\-T}}]{s, }
+\item[{{\bf P\-R\-O\-C}}]{p}
+\end{DoxyParamCaption}
+)}}\label{class_uses_table_a8a3c75dcaa454948816182d1ce301649}
+
+
+Definition at line 70 of file Uses\-Table.\-cpp.
+
+\hypertarget{class_uses_table_a3c9dfd512e58af4d15a9471dcc7521cd}{\index{Uses\-Table@{Uses\-Table}!optimize\-Uses\-Table@{optimize\-Uses\-Table}}
+\index{optimize\-Uses\-Table@{optimize\-Uses\-Table}!UsesTable@{Uses\-Table}}
+\subsubsection[{optimize\-Uses\-Table}]{\setlength{\rightskip}{0pt plus 5cm}void Uses\-Table\-::optimize\-Uses\-Table (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_uses_table_a3c9dfd512e58af4d15a9471dcc7521cd}
+
+
+Definition at line 75 of file Uses\-Table.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+F\-:/3201\-\_\-3202/\-S\-P\-A/\$\-P@/\-S\-P\-A/\-S\-P\-A/\hyperlink{_uses_table_8h}{Uses\-Table.\-h}\item 
+F\-:/3201\-\_\-3202/\-S\-P\-A/\$\-P@/\-S\-P\-A/\-S\-P\-A/\hyperlink{_uses_table_8cpp}{Uses\-Table.\-cpp}\end{DoxyCompactItemize}

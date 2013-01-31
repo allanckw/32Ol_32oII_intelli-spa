@@ -34,6 +34,12 @@ int AssignmentParser::compareOprPrecedence(string opr1, string opr2)
 //Some References
 //http://www.engr.mun.ca/~theo/Misc/exp_parsing.htm
 //http://www.technical-recipes.com/2011/a-mathematical-expression-parser-in-java/
+
+/**
+* Process the mathematical expression to form an expression sub tree 
+* @param expr	The Mathematical expression to parse
+* @return The Expression Sub Tree
+*/
 ASTExprNode* AssignmentParser::processAssignment(MathExpression expr)
 {
 	stack<string> operators, subExprBrackets; 

@@ -1,0 +1,304 @@
+\hypertarget{class_a_s_t_node}{\section{A\-S\-T\-Node Class Reference}
+\label{class_a_s_t_node}\index{A\-S\-T\-Node@{A\-S\-T\-Node}}
+}
+
+
+{\ttfamily \#include $<$A\-S\-T\-Node.\-h$>$}
+
+Inheritance diagram for A\-S\-T\-Node\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_a_s_t_node}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859}{Node\-Type} \{ \\*
+\hyperlink{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859a677c3ce5f7357040776de23f9999fb32}{Program}, 
+\hyperlink{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859a96afa6f10aedf44a6e509b83015d8196}{Procedure}, 
+\hyperlink{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859a3268f5ccc42956fa2011adac0700803d}{Stmt\-Lst}, 
+\hyperlink{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859abc11d3cef1a08db1d7489c8a70c73c75}{Assign}, 
+\\*
+\hyperlink{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859a20e38466c592b716e5ac11969753de1c}{Call}, 
+\hyperlink{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859a57ddbd1d98e862fd5deaeec85c5483c4}{While}, 
+\hyperlink{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859a2c6c2af563ff11ef2e968214c790593c}{If}, 
+\hyperlink{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859a4ea10d7791557fbcf1057136cf012e16}{Operator}, 
+\\*
+\hyperlink{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859ad1626bafffaf48dc7bd22f2f13f5a50a}{Variable}, 
+\hyperlink{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859a114b1c32de0827e6ee5ff81613b5bb19}{Constant}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_a_s_t_node_a1196ed4f19c0b62cdc42fe35946b91d2}{A\-S\-T\-Node} ()
+\item 
+\hyperlink{class_a_s_t_node_a512c4363de4ceef82b6189e1dbd34ec1}{A\-S\-T\-Node} (\hyperlink{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859}{Node\-Type})
+\item 
+\hyperlink{class_a_s_t_node_a97d3345ffb311a0582a8bf1478722a70}{A\-S\-T\-Node} (\hyperlink{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859}{Node\-Type}, \hyperlink{std_afx_8h_aa07ea1d188c7b45668f1bd82ffd6d87e}{P\-R\-O\-C})
+\item 
+\hyperlink{class_a_s_t_node_a075d226c6382610b649193f72902faf7}{$\sim$\-A\-S\-T\-Node} (void)
+\item 
+virtual \hyperlink{class_a_s_t_node}{A\-S\-T\-Node} $\ast$ \hyperlink{class_a_s_t_node_a595fb15c3e37a7a9e443742dca6483ca}{add\-Child} (\hyperlink{class_a_s_t_node}{A\-S\-T\-Node} $\ast$)
+\item 
+virtual \hyperlink{class_a_s_t_node}{A\-S\-T\-Node} $\ast$ \hyperlink{class_a_s_t_node_a70e8aa10baa353684ae8288f3460a5fc}{set\-Parent} (\hyperlink{class_a_s_t_node}{A\-S\-T\-Node} $\ast$p)
+\item 
+void \hyperlink{class_a_s_t_node_a940adeca834d8d00d6d9fa70be68bc0f}{set\-Root} (int)
+\item 
+\hyperlink{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859}{A\-S\-T\-Node\-::\-Node\-Type} \hyperlink{class_a_s_t_node_afa85380e2e00c7b3166d61ae696b8365}{get\-Type} () const 
+\item 
+\hyperlink{class_a_s_t_node}{A\-S\-T\-Node} $\ast$ \hyperlink{class_a_s_t_node_a68ef18e60e551c9ba047e3d1809d8620}{get\-Child} (unsigned int) const 
+\item 
+\hyperlink{class_a_s_t_node}{A\-S\-T\-Node} $\ast$ \hyperlink{class_a_s_t_node_a62e103d706cfbace82cf124bbd080c3e}{get\-Parent} ()
+\item 
+int \hyperlink{class_a_s_t_node_a899c8bb0314158fc8ca7d5688b89e165}{get\-Value} () const 
+\item 
+bool \hyperlink{class_a_s_t_node_ae26a0a4a3beebf3ef460ff603cbc3a97}{is\-Has\-Children} ()
+\item 
+bool \hyperlink{class_a_s_t_node_aba44d4dd6234cab7a2c3f153b65bd97f}{is\-Root} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{class_a_s_t_node_a136d1712e8cfdeb4908aceb22abc3de7}{value}
+\item 
+\hyperlink{class_a_s_t_node}{A\-S\-T\-Node} $\ast$ \hyperlink{class_a_s_t_node_aaa1e479bfeb485d93a4866f9c2daf171}{parent}
+\item 
+vector$<$ \hyperlink{class_a_s_t_node}{A\-S\-T\-Node} $\ast$ $>$ \hyperlink{class_a_s_t_node_af8f4491cf9294805337542d5873c85b2}{children}
+\item 
+\hyperlink{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859}{Node\-Type} \hyperlink{class_a_s_t_node_a15fcdbd8403a1169b06d948a827fde55}{node\-Type}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 5 of file A\-S\-T\-Node.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859}{\index{A\-S\-T\-Node@{A\-S\-T\-Node}!Node\-Type@{Node\-Type}}
+\index{Node\-Type@{Node\-Type}!ASTNode@{A\-S\-T\-Node}}
+\subsubsection[{Node\-Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf A\-S\-T\-Node\-::\-Node\-Type}}}\label{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Program@{Program}!A\-S\-T\-Node@{A\-S\-T\-Node}}\index{A\-S\-T\-Node@{A\-S\-T\-Node}!Program@{Program}}\item[{\em 
+\hypertarget{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859a677c3ce5f7357040776de23f9999fb32}{Program}\label{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859a677c3ce5f7357040776de23f9999fb32}
+}]\index{Procedure@{Procedure}!A\-S\-T\-Node@{A\-S\-T\-Node}}\index{A\-S\-T\-Node@{A\-S\-T\-Node}!Procedure@{Procedure}}\item[{\em 
+\hypertarget{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859a96afa6f10aedf44a6e509b83015d8196}{Procedure}\label{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859a96afa6f10aedf44a6e509b83015d8196}
+}]\index{Stmt\-Lst@{Stmt\-Lst}!A\-S\-T\-Node@{A\-S\-T\-Node}}\index{A\-S\-T\-Node@{A\-S\-T\-Node}!Stmt\-Lst@{Stmt\-Lst}}\item[{\em 
+\hypertarget{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859a3268f5ccc42956fa2011adac0700803d}{Stmt\-Lst}\label{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859a3268f5ccc42956fa2011adac0700803d}
+}]\index{Assign@{Assign}!A\-S\-T\-Node@{A\-S\-T\-Node}}\index{A\-S\-T\-Node@{A\-S\-T\-Node}!Assign@{Assign}}\item[{\em 
+\hypertarget{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859abc11d3cef1a08db1d7489c8a70c73c75}{Assign}\label{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859abc11d3cef1a08db1d7489c8a70c73c75}
+}]\index{Call@{Call}!A\-S\-T\-Node@{A\-S\-T\-Node}}\index{A\-S\-T\-Node@{A\-S\-T\-Node}!Call@{Call}}\item[{\em 
+\hypertarget{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859a20e38466c592b716e5ac11969753de1c}{Call}\label{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859a20e38466c592b716e5ac11969753de1c}
+}]\index{While@{While}!A\-S\-T\-Node@{A\-S\-T\-Node}}\index{A\-S\-T\-Node@{A\-S\-T\-Node}!While@{While}}\item[{\em 
+\hypertarget{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859a57ddbd1d98e862fd5deaeec85c5483c4}{While}\label{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859a57ddbd1d98e862fd5deaeec85c5483c4}
+}]\index{If@{If}!A\-S\-T\-Node@{A\-S\-T\-Node}}\index{A\-S\-T\-Node@{A\-S\-T\-Node}!If@{If}}\item[{\em 
+\hypertarget{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859a2c6c2af563ff11ef2e968214c790593c}{If}\label{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859a2c6c2af563ff11ef2e968214c790593c}
+}]\index{Operator@{Operator}!A\-S\-T\-Node@{A\-S\-T\-Node}}\index{A\-S\-T\-Node@{A\-S\-T\-Node}!Operator@{Operator}}\item[{\em 
+\hypertarget{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859a4ea10d7791557fbcf1057136cf012e16}{Operator}\label{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859a4ea10d7791557fbcf1057136cf012e16}
+}]\index{Variable@{Variable}!A\-S\-T\-Node@{A\-S\-T\-Node}}\index{A\-S\-T\-Node@{A\-S\-T\-Node}!Variable@{Variable}}\item[{\em 
+\hypertarget{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859ad1626bafffaf48dc7bd22f2f13f5a50a}{Variable}\label{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859ad1626bafffaf48dc7bd22f2f13f5a50a}
+}]\index{Constant@{Constant}!A\-S\-T\-Node@{A\-S\-T\-Node}}\index{A\-S\-T\-Node@{A\-S\-T\-Node}!Constant@{Constant}}\item[{\em 
+\hypertarget{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859a114b1c32de0827e6ee5ff81613b5bb19}{Constant}\label{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859a114b1c32de0827e6ee5ff81613b5bb19}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 9 of file A\-S\-T\-Node.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_a_s_t_node_a1196ed4f19c0b62cdc42fe35946b91d2}{\index{A\-S\-T\-Node@{A\-S\-T\-Node}!A\-S\-T\-Node@{A\-S\-T\-Node}}
+\index{A\-S\-T\-Node@{A\-S\-T\-Node}!ASTNode@{A\-S\-T\-Node}}
+\subsubsection[{A\-S\-T\-Node}]{\setlength{\rightskip}{0pt plus 5cm}A\-S\-T\-Node\-::\-A\-S\-T\-Node (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_a_s_t_node_a1196ed4f19c0b62cdc42fe35946b91d2}
+
+
+Definition at line 5 of file A\-S\-T\-Node.\-cpp.
+
+\hypertarget{class_a_s_t_node_a512c4363de4ceef82b6189e1dbd34ec1}{\index{A\-S\-T\-Node@{A\-S\-T\-Node}!A\-S\-T\-Node@{A\-S\-T\-Node}}
+\index{A\-S\-T\-Node@{A\-S\-T\-Node}!ASTNode@{A\-S\-T\-Node}}
+\subsubsection[{A\-S\-T\-Node}]{\setlength{\rightskip}{0pt plus 5cm}A\-S\-T\-Node\-::\-A\-S\-T\-Node (
+\begin{DoxyParamCaption}
+\item[{{\bf Node\-Type}}]{type}
+\end{DoxyParamCaption}
+)}}\label{class_a_s_t_node_a512c4363de4ceef82b6189e1dbd34ec1}
+
+
+Definition at line 10 of file A\-S\-T\-Node.\-cpp.
+
+\hypertarget{class_a_s_t_node_a97d3345ffb311a0582a8bf1478722a70}{\index{A\-S\-T\-Node@{A\-S\-T\-Node}!A\-S\-T\-Node@{A\-S\-T\-Node}}
+\index{A\-S\-T\-Node@{A\-S\-T\-Node}!ASTNode@{A\-S\-T\-Node}}
+\subsubsection[{A\-S\-T\-Node}]{\setlength{\rightskip}{0pt plus 5cm}A\-S\-T\-Node\-::\-A\-S\-T\-Node (
+\begin{DoxyParamCaption}
+\item[{{\bf Node\-Type}}]{type, }
+\item[{{\bf P\-R\-O\-C}}]{p}
+\end{DoxyParamCaption}
+)}}\label{class_a_s_t_node_a97d3345ffb311a0582a8bf1478722a70}
+
+
+Definition at line 23 of file A\-S\-T\-Node.\-cpp.
+
+\hypertarget{class_a_s_t_node_a075d226c6382610b649193f72902faf7}{\index{A\-S\-T\-Node@{A\-S\-T\-Node}!$\sim$\-A\-S\-T\-Node@{$\sim$\-A\-S\-T\-Node}}
+\index{$\sim$\-A\-S\-T\-Node@{$\sim$\-A\-S\-T\-Node}!ASTNode@{A\-S\-T\-Node}}
+\subsubsection[{$\sim$\-A\-S\-T\-Node}]{\setlength{\rightskip}{0pt plus 5cm}A\-S\-T\-Node\-::$\sim$\-A\-S\-T\-Node (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{class_a_s_t_node_a075d226c6382610b649193f72902faf7}
+
+
+Definition at line 131 of file A\-S\-T\-Node.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_a_s_t_node_a595fb15c3e37a7a9e443742dca6483ca}{\index{A\-S\-T\-Node@{A\-S\-T\-Node}!add\-Child@{add\-Child}}
+\index{add\-Child@{add\-Child}!ASTNode@{A\-S\-T\-Node}}
+\subsubsection[{add\-Child}]{\setlength{\rightskip}{0pt plus 5cm}{\bf A\-S\-T\-Node} $\ast$ A\-S\-T\-Node\-::add\-Child (
+\begin{DoxyParamCaption}
+\item[{{\bf A\-S\-T\-Node} $\ast$}]{c}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_a_s_t_node_a595fb15c3e37a7a9e443742dca6483ca}
+
+
+Reimplemented in \hyperlink{class_a_s_t_stmt_node_a0396498d6bbccecd8a71a4251d237380}{A\-S\-T\-Stmt\-Node}, and \hyperlink{class_a_s_t_stmt_lst_node_a5424fe2ed759c533a1c26e6172dae45f}{A\-S\-T\-Stmt\-Lst\-Node}.
+
+
+
+Definition at line 55 of file A\-S\-T\-Node.\-cpp.
+
+\hypertarget{class_a_s_t_node_a68ef18e60e551c9ba047e3d1809d8620}{\index{A\-S\-T\-Node@{A\-S\-T\-Node}!get\-Child@{get\-Child}}
+\index{get\-Child@{get\-Child}!ASTNode@{A\-S\-T\-Node}}
+\subsubsection[{get\-Child}]{\setlength{\rightskip}{0pt plus 5cm}{\bf A\-S\-T\-Node} $\ast$ A\-S\-T\-Node\-::get\-Child (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{i}
+\end{DoxyParamCaption}
+) const}}\label{class_a_s_t_node_a68ef18e60e551c9ba047e3d1809d8620}
+
+
+Definition at line 117 of file A\-S\-T\-Node.\-cpp.
+
+\hypertarget{class_a_s_t_node_a62e103d706cfbace82cf124bbd080c3e}{\index{A\-S\-T\-Node@{A\-S\-T\-Node}!get\-Parent@{get\-Parent}}
+\index{get\-Parent@{get\-Parent}!ASTNode@{A\-S\-T\-Node}}
+\subsubsection[{get\-Parent}]{\setlength{\rightskip}{0pt plus 5cm}{\bf A\-S\-T\-Node} $\ast$ A\-S\-T\-Node\-::get\-Parent (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_a_s_t_node_a62e103d706cfbace82cf124bbd080c3e}
+
+
+Definition at line 126 of file A\-S\-T\-Node.\-cpp.
+
+\hypertarget{class_a_s_t_node_afa85380e2e00c7b3166d61ae696b8365}{\index{A\-S\-T\-Node@{A\-S\-T\-Node}!get\-Type@{get\-Type}}
+\index{get\-Type@{get\-Type}!ASTNode@{A\-S\-T\-Node}}
+\subsubsection[{get\-Type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf A\-S\-T\-Node\-::\-Node\-Type} A\-S\-T\-Node\-::get\-Type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_a_s_t_node_afa85380e2e00c7b3166d61ae696b8365}
+
+
+Definition at line 112 of file A\-S\-T\-Node.\-cpp.
+
+\hypertarget{class_a_s_t_node_a899c8bb0314158fc8ca7d5688b89e165}{\index{A\-S\-T\-Node@{A\-S\-T\-Node}!get\-Value@{get\-Value}}
+\index{get\-Value@{get\-Value}!ASTNode@{A\-S\-T\-Node}}
+\subsubsection[{get\-Value}]{\setlength{\rightskip}{0pt plus 5cm}int A\-S\-T\-Node\-::get\-Value (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_a_s_t_node_a899c8bb0314158fc8ca7d5688b89e165}
+
+
+Definition at line 37 of file A\-S\-T\-Node.\-cpp.
+
+\hypertarget{class_a_s_t_node_ae26a0a4a3beebf3ef460ff603cbc3a97}{\index{A\-S\-T\-Node@{A\-S\-T\-Node}!is\-Has\-Children@{is\-Has\-Children}}
+\index{is\-Has\-Children@{is\-Has\-Children}!ASTNode@{A\-S\-T\-Node}}
+\subsubsection[{is\-Has\-Children}]{\setlength{\rightskip}{0pt plus 5cm}bool A\-S\-T\-Node\-::is\-Has\-Children (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_a_s_t_node_ae26a0a4a3beebf3ef460ff603cbc3a97}
+
+
+Definition at line 106 of file A\-S\-T\-Node.\-cpp.
+
+\hypertarget{class_a_s_t_node_aba44d4dd6234cab7a2c3f153b65bd97f}{\index{A\-S\-T\-Node@{A\-S\-T\-Node}!is\-Root@{is\-Root}}
+\index{is\-Root@{is\-Root}!ASTNode@{A\-S\-T\-Node}}
+\subsubsection[{is\-Root}]{\setlength{\rightskip}{0pt plus 5cm}bool A\-S\-T\-Node\-::is\-Root (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_a_s_t_node_aba44d4dd6234cab7a2c3f153b65bd97f}
+
+
+Definition at line 101 of file A\-S\-T\-Node.\-cpp.
+
+\hypertarget{class_a_s_t_node_a70e8aa10baa353684ae8288f3460a5fc}{\index{A\-S\-T\-Node@{A\-S\-T\-Node}!set\-Parent@{set\-Parent}}
+\index{set\-Parent@{set\-Parent}!ASTNode@{A\-S\-T\-Node}}
+\subsubsection[{set\-Parent}]{\setlength{\rightskip}{0pt plus 5cm}{\bf A\-S\-T\-Node} $\ast$ A\-S\-T\-Node\-::set\-Parent (
+\begin{DoxyParamCaption}
+\item[{{\bf A\-S\-T\-Node} $\ast$}]{p}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_a_s_t_node_a70e8aa10baa353684ae8288f3460a5fc}
+
+
+Definition at line 43 of file A\-S\-T\-Node.\-cpp.
+
+\hypertarget{class_a_s_t_node_a940adeca834d8d00d6d9fa70be68bc0f}{\index{A\-S\-T\-Node@{A\-S\-T\-Node}!set\-Root@{set\-Root}}
+\index{set\-Root@{set\-Root}!ASTNode@{A\-S\-T\-Node}}
+\subsubsection[{set\-Root}]{\setlength{\rightskip}{0pt plus 5cm}void A\-S\-T\-Node\-::set\-Root (
+\begin{DoxyParamCaption}
+\item[{int}]{P\-R\-O\-C\-Index}
+\end{DoxyParamCaption}
+)}}\label{class_a_s_t_node_a940adeca834d8d00d6d9fa70be68bc0f}
+
+
+Definition at line 91 of file A\-S\-T\-Node.\-cpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_a_s_t_node_af8f4491cf9294805337542d5873c85b2}{\index{A\-S\-T\-Node@{A\-S\-T\-Node}!children@{children}}
+\index{children@{children}!ASTNode@{A\-S\-T\-Node}}
+\subsubsection[{children}]{\setlength{\rightskip}{0pt plus 5cm}vector$<${\bf A\-S\-T\-Node}$\ast$$>$ A\-S\-T\-Node\-::children\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_a_s_t_node_af8f4491cf9294805337542d5873c85b2}
+
+
+Definition at line 56 of file A\-S\-T\-Node.\-h.
+
+\hypertarget{class_a_s_t_node_a15fcdbd8403a1169b06d948a827fde55}{\index{A\-S\-T\-Node@{A\-S\-T\-Node}!node\-Type@{node\-Type}}
+\index{node\-Type@{node\-Type}!ASTNode@{A\-S\-T\-Node}}
+\subsubsection[{node\-Type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Node\-Type} A\-S\-T\-Node\-::node\-Type\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_a_s_t_node_a15fcdbd8403a1169b06d948a827fde55}
+
+
+Definition at line 57 of file A\-S\-T\-Node.\-h.
+
+\hypertarget{class_a_s_t_node_aaa1e479bfeb485d93a4866f9c2daf171}{\index{A\-S\-T\-Node@{A\-S\-T\-Node}!parent@{parent}}
+\index{parent@{parent}!ASTNode@{A\-S\-T\-Node}}
+\subsubsection[{parent}]{\setlength{\rightskip}{0pt plus 5cm}{\bf A\-S\-T\-Node}$\ast$ A\-S\-T\-Node\-::parent\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_a_s_t_node_aaa1e479bfeb485d93a4866f9c2daf171}
+
+
+Definition at line 55 of file A\-S\-T\-Node.\-h.
+
+\hypertarget{class_a_s_t_node_a136d1712e8cfdeb4908aceb22abc3de7}{\index{A\-S\-T\-Node@{A\-S\-T\-Node}!value@{value}}
+\index{value@{value}!ASTNode@{A\-S\-T\-Node}}
+\subsubsection[{value}]{\setlength{\rightskip}{0pt plus 5cm}int A\-S\-T\-Node\-::value\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_a_s_t_node_a136d1712e8cfdeb4908aceb22abc3de7}
+
+
+Definition at line 54 of file A\-S\-T\-Node.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+F\-:/3201\-\_\-3202/\-S\-P\-A/\$\-P@/\-S\-P\-A/\-S\-P\-A/\hyperlink{_a_s_t_node_8h}{A\-S\-T\-Node.\-h}\item 
+F\-:/3201\-\_\-3202/\-S\-P\-A/\$\-P@/\-S\-P\-A/\-S\-P\-A/\hyperlink{_a_s_t_node_8cpp}{A\-S\-T\-Node.\-cpp}\end{DoxyCompactItemize}

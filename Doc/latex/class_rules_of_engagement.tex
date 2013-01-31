@@ -1,0 +1,397 @@
+\hypertarget{class_rules_of_engagement}{\section{Rules\-Of\-Engagement Class Reference}
+\label{class_rules_of_engagement}\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}}
+}
+
+
+{\ttfamily \#include $<$Rules\-Of\-Engagement.\-h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713ead}{Query\-Var} \{ \\*
+\hyperlink{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eadaab34e372c1b64076502beba90e0afaf9}{Procedure}, 
+\hyperlink{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eadaf2f49b1a5bb530fff2bb591349d850cd}{Statement\-\_\-\-List}, 
+\hyperlink{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eadaa8e11c65c22baf0626ac3993cd82f37c}{Statement}, 
+\hyperlink{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eada15e00fc67ee38d30f53a32bf2d6990e1}{Assign}, 
+\\*
+\hyperlink{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eada36c5ed1bbf1ea556a09749d743eb2b51}{Call}, 
+\hyperlink{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eadaea50c71b856bf8fa6b50ebd5bd1602b6}{While}, 
+\hyperlink{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eadae83e4c31ffaacea1cb82bb0c92ebec1f}{If}, 
+\hyperlink{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eada2cbcab2ebd1a31dfd75cf5f8ec2f9a83}{Prog\-\_\-\-Line}, 
+\\*
+\hyperlink{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eada22bb3bc5b545fb86bd4db389985f26a0}{Variable}, 
+\hyperlink{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eada50808eddb9dd64f550ed8a5d303c415e}{Constant}, 
+\hyperlink{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eada9e5c7c59bdbe22a0aa66d26d6d241bbb}{Wild\-Card}, 
+\hyperlink{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eadaa5f0e7dd40345ec4288b8faa4fb02216}{Integer}, 
+\\*
+\hyperlink{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eada6861f185780af85c0d245304aa6ff3e9}{String}
+ \}
+\item 
+enum \hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817}{Query\-Relations} \{ \\*
+\hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817abae4f52e1c993a6380df3dd62572c642}{Modifies\-Stmt}, 
+\hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817ab6fb0c84110b127d5c5fc1cf480e968f}{Modifies\-Proc}, 
+\hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817a3ce67a0e2e0b5f4e01ad7fdf44847e4b}{Uses\-Stmt}, 
+\hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817a59a7855fd0e89e86364b93e3a9f7195b}{Uses\-Proc}, 
+\\*
+\hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817adfcddba8719b17324edc73144ba7235b}{Calls}, 
+\hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817a5ebf10b197861c910dfbe6812907f54e}{Calls\-Star}, 
+\hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817acd9c6b3199ba1cc97d2457c420448229}{Parent}, 
+\hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817aeee940998c2b90aec52255948df63fd7}{Parent\-Star}, 
+\\*
+\hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817a177d6b0c4d14e6be26ad8816fb4ff648}{Follows}, 
+\hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817ac77b8ced2790f3c0a5be242c334cef2b}{Follows\-Star}, 
+\hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817a00579ec789f6ad28531037e00075e717}{Next}, 
+\hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817a9326ba3ff070cd1704e07a9130b54972}{Next\-Star}, 
+\\*
+\hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817a9c8683c88dcfe00106bc8b0b37217bbe}{Affects}, 
+\hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817a3222933186b8d29c1cafb28b56237299}{Affects\-Star}, 
+\hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817ab9e971b0219e177c3344a68cf17aa2fd}{Pattern\-Modifies}, 
+\hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817a2bfef6c7a0d6a15f89ff2e2e66c2569d}{Pattern\-Uses}
+ \}
+\item 
+enum \hyperlink{class_rules_of_engagement_adbb576232837064bb23c3f3564335079}{Pattern\-L\-H\-S\-Type} \{ \hyperlink{class_rules_of_engagement_adbb576232837064bb23c3f3564335079a83af3c000bcbddb7c2f85b1657cd97bd}{P\-L\-Wildcard}, 
+\hyperlink{class_rules_of_engagement_adbb576232837064bb23c3f3564335079aecba1553cf1b1e91cb699c87c2230d44}{P\-L\-String\-Variable}
+ \}
+\item 
+enum \hyperlink{class_rules_of_engagement_a97613ded2253a252de010070d7c54ac1}{Pattern\-R\-H\-S\-Type} \{ \hyperlink{class_rules_of_engagement_a97613ded2253a252de010070d7c54ac1ab823799dfda20af778a3848abfc46e84}{P\-R\-Wildcard}, 
+\hyperlink{class_rules_of_engagement_a97613ded2253a252de010070d7c54ac1a956642bd04a30d5d37ea95257f79d331}{P\-R\-Sub}, 
+\hyperlink{class_rules_of_engagement_a97613ded2253a252de010070d7c54ac1a106d4eaf9b0bc4cefdee0e20e244e06a}{P\-R\-No\-Sub}
+ \}
+\item 
+typedef bool($\ast$ \hyperlink{class_rules_of_engagement_aad838c0ef69d7c4ee9bef23a431ff6c1}{is\-Relation} )(int, int)
+\item 
+typedef vector$<$ int $>$($\ast$ \hyperlink{class_rules_of_engagement_a1a051f48865a7a4d7f07f0a89f16aafe}{get\-All\-Types} )()
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{class_rules_of_engagement_a4ffc088479ffe671fdcc3ff658faa973}{initialise} ()
+\item 
+static int \hyperlink{class_rules_of_engagement_af0e6596cfee9a230105c42e6d9ee5cca}{convert\-Argument\-To\-Integer} (const \hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817}{Query\-Relations} \&type, const bool first, const string \&arg)
+\item 
+static \hyperlink{class_rules_of_engagement_aad838c0ef69d7c4ee9bef23a431ff6c1}{is\-Relation} \hyperlink{class_rules_of_engagement_a18a80f1ce5bcf4c10fa520a0785c0922}{get\-Relation} (\hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817}{Query\-Relations} rel)
+\item 
+static \hyperlink{class_rules_of_engagement_a1a051f48865a7a4d7f07f0a89f16aafe}{get\-All\-Types} \hyperlink{class_rules_of_engagement_a2b4845903e7378ebf4955714da0d36bf}{get\-Type} (\hyperlink{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713ead}{Query\-Var} type)
+\item 
+static bool \hyperlink{class_rules_of_engagement_a6d82299f9e291ea53856f9eeff143451}{satisfy\-Pattern} (const int index, const \hyperlink{class_rules_of_engagement_a97613ded2253a252de010070d7c54ac1}{Rules\-Of\-Engagement\-::\-Pattern\-R\-H\-S\-Type} R\-H\-S, const string \&R\-H\-S\-Var\-Name, const \hyperlink{class_a_s_t_expr_node}{A\-S\-T\-Expr\-Node} $\ast$R\-H\-Sexprs)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static unordered\-\_\-map$<$ string, \\*
+unordered\-\_\-set$<$ \hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817}{Query\-Relations} $>$ $>$ \hyperlink{class_rules_of_engagement_ae9b3fd791855b69fdf746d47df2b2bdd}{token\-To\-Rel}
+\item 
+static unordered\-\_\-map$<$ string, \\*
+\hyperlink{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713ead}{Query\-Var} $>$ \hyperlink{class_rules_of_engagement_ab3e59955494f404502bf165417df74c9}{token\-To\-Var}
+\item 
+static unordered\-\_\-map$<$ \hyperlink{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713ead}{Query\-Var}, \\*
+set$<$ string $>$ $>$ \hyperlink{class_rules_of_engagement_af8095e34ef7cd49343e8d2dfd1f47e3e}{allowable\-Conditions}
+\item 
+static unordered\-\_\-map$<$ string, \\*
+\hyperlink{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713ead}{Query\-Var} $>$ \hyperlink{class_rules_of_engagement_a5f44ebe9fe8019b6415272f410673755}{condition\-Types}
+\item 
+static unordered\-\_\-map\\*
+$<$ \hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817}{Query\-Relations}, set\\*
+$<$ \hyperlink{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713ead}{Query\-Var} $>$ $>$ \hyperlink{class_rules_of_engagement_a0a16b8602e2522f007f54f157a0f1203}{allowable\-First\-Argument}
+\item 
+static unordered\-\_\-map\\*
+$<$ \hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817}{Query\-Relations}, \hyperlink{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713ead}{Query\-Var} $>$ \hyperlink{class_rules_of_engagement_a7dd292534cee25afe99b1187a6e07774}{privileged\-First\-Argument}
+\item 
+static unordered\-\_\-map\\*
+$<$ \hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817}{Query\-Relations}, set\\*
+$<$ \hyperlink{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713ead}{Query\-Var} $>$ $>$ \hyperlink{class_rules_of_engagement_a365f61557120f33a18021667e746f13e}{allowable\-Second\-Argument}
+\item 
+static unordered\-\_\-map\\*
+$<$ \hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817}{Query\-Relations}, \hyperlink{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713ead}{Query\-Var} $>$ \hyperlink{class_rules_of_engagement_acdc0a8ed701246134911b36aac249c6c}{privileged\-Second\-Argument}
+\item 
+static unordered\-\_\-set\\*
+$<$ \hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817}{Query\-Relations} $>$ \hyperlink{class_rules_of_engagement_a8c7c45f1c886563e1a9e62cd0c22866d}{allowable\-Self\-Reference}
+\item 
+static unordered\-\_\-map\\*
+$<$ \hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817}{Query\-Relations}, bool $>$ \hyperlink{class_rules_of_engagement_a343933b8d961a5dfab7a3cdd979820cf}{empty\-Rel}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 5 of file Rules\-Of\-Engagement.\-h.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{class_rules_of_engagement_a1a051f48865a7a4d7f07f0a89f16aafe}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!get\-All\-Types@{get\-All\-Types}}
+\index{get\-All\-Types@{get\-All\-Types}!RulesOfEngagement@{Rules\-Of\-Engagement}}
+\subsubsection[{get\-All\-Types}]{\setlength{\rightskip}{0pt plus 5cm}typedef vector$<$int$>$($\ast$ Rules\-Of\-Engagement\-::get\-All\-Types)()}}\label{class_rules_of_engagement_a1a051f48865a7a4d7f07f0a89f16aafe}
+
+
+Definition at line 64 of file Rules\-Of\-Engagement.\-h.
+
+\hypertarget{class_rules_of_engagement_aad838c0ef69d7c4ee9bef23a431ff6c1}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!is\-Relation@{is\-Relation}}
+\index{is\-Relation@{is\-Relation}!RulesOfEngagement@{Rules\-Of\-Engagement}}
+\subsubsection[{is\-Relation}]{\setlength{\rightskip}{0pt plus 5cm}typedef bool($\ast$ Rules\-Of\-Engagement\-::is\-Relation)(int, int)}}\label{class_rules_of_engagement_aad838c0ef69d7c4ee9bef23a431ff6c1}
+
+
+Definition at line 60 of file Rules\-Of\-Engagement.\-h.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_rules_of_engagement_adbb576232837064bb23c3f3564335079}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!Pattern\-L\-H\-S\-Type@{Pattern\-L\-H\-S\-Type}}
+\index{Pattern\-L\-H\-S\-Type@{Pattern\-L\-H\-S\-Type}!RulesOfEngagement@{Rules\-Of\-Engagement}}
+\subsubsection[{Pattern\-L\-H\-S\-Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Rules\-Of\-Engagement\-::\-Pattern\-L\-H\-S\-Type}}}\label{class_rules_of_engagement_adbb576232837064bb23c3f3564335079}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{P\-L\-Wildcard@{P\-L\-Wildcard}!Rules\-Of\-Engagement@{Rules\-Of\-Engagement}}\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!P\-L\-Wildcard@{P\-L\-Wildcard}}\item[{\em 
+\hypertarget{class_rules_of_engagement_adbb576232837064bb23c3f3564335079a83af3c000bcbddb7c2f85b1657cd97bd}{P\-L\-Wildcard}\label{class_rules_of_engagement_adbb576232837064bb23c3f3564335079a83af3c000bcbddb7c2f85b1657cd97bd}
+}]\index{P\-L\-String\-Variable@{P\-L\-String\-Variable}!Rules\-Of\-Engagement@{Rules\-Of\-Engagement}}\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!P\-L\-String\-Variable@{P\-L\-String\-Variable}}\item[{\em 
+\hypertarget{class_rules_of_engagement_adbb576232837064bb23c3f3564335079aecba1553cf1b1e91cb699c87c2230d44}{P\-L\-String\-Variable}\label{class_rules_of_engagement_adbb576232837064bb23c3f3564335079aecba1553cf1b1e91cb699c87c2230d44}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 98 of file Rules\-Of\-Engagement.\-h.
+
+\hypertarget{class_rules_of_engagement_a97613ded2253a252de010070d7c54ac1}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!Pattern\-R\-H\-S\-Type@{Pattern\-R\-H\-S\-Type}}
+\index{Pattern\-R\-H\-S\-Type@{Pattern\-R\-H\-S\-Type}!RulesOfEngagement@{Rules\-Of\-Engagement}}
+\subsubsection[{Pattern\-R\-H\-S\-Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Rules\-Of\-Engagement\-::\-Pattern\-R\-H\-S\-Type}}}\label{class_rules_of_engagement_a97613ded2253a252de010070d7c54ac1}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{P\-R\-Wildcard@{P\-R\-Wildcard}!Rules\-Of\-Engagement@{Rules\-Of\-Engagement}}\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!P\-R\-Wildcard@{P\-R\-Wildcard}}\item[{\em 
+\hypertarget{class_rules_of_engagement_a97613ded2253a252de010070d7c54ac1ab823799dfda20af778a3848abfc46e84}{P\-R\-Wildcard}\label{class_rules_of_engagement_a97613ded2253a252de010070d7c54ac1ab823799dfda20af778a3848abfc46e84}
+}]\index{P\-R\-Sub@{P\-R\-Sub}!Rules\-Of\-Engagement@{Rules\-Of\-Engagement}}\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!P\-R\-Sub@{P\-R\-Sub}}\item[{\em 
+\hypertarget{class_rules_of_engagement_a97613ded2253a252de010070d7c54ac1a956642bd04a30d5d37ea95257f79d331}{P\-R\-Sub}\label{class_rules_of_engagement_a97613ded2253a252de010070d7c54ac1a956642bd04a30d5d37ea95257f79d331}
+}]\index{P\-R\-No\-Sub@{P\-R\-No\-Sub}!Rules\-Of\-Engagement@{Rules\-Of\-Engagement}}\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!P\-R\-No\-Sub@{P\-R\-No\-Sub}}\item[{\em 
+\hypertarget{class_rules_of_engagement_a97613ded2253a252de010070d7c54ac1a106d4eaf9b0bc4cefdee0e20e244e06a}{P\-R\-No\-Sub}\label{class_rules_of_engagement_a97613ded2253a252de010070d7c54ac1a106d4eaf9b0bc4cefdee0e20e244e06a}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 102 of file Rules\-Of\-Engagement.\-h.
+
+\hypertarget{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!Query\-Relations@{Query\-Relations}}
+\index{Query\-Relations@{Query\-Relations}!RulesOfEngagement@{Rules\-Of\-Engagement}}
+\subsubsection[{Query\-Relations}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Rules\-Of\-Engagement\-::\-Query\-Relations}}}\label{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Modifies\-Stmt@{Modifies\-Stmt}!Rules\-Of\-Engagement@{Rules\-Of\-Engagement}}\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!Modifies\-Stmt@{Modifies\-Stmt}}\item[{\em 
+\hypertarget{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817abae4f52e1c993a6380df3dd62572c642}{Modifies\-Stmt}\label{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817abae4f52e1c993a6380df3dd62572c642}
+}]\index{Modifies\-Proc@{Modifies\-Proc}!Rules\-Of\-Engagement@{Rules\-Of\-Engagement}}\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!Modifies\-Proc@{Modifies\-Proc}}\item[{\em 
+\hypertarget{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817ab6fb0c84110b127d5c5fc1cf480e968f}{Modifies\-Proc}\label{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817ab6fb0c84110b127d5c5fc1cf480e968f}
+}]\index{Uses\-Stmt@{Uses\-Stmt}!Rules\-Of\-Engagement@{Rules\-Of\-Engagement}}\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!Uses\-Stmt@{Uses\-Stmt}}\item[{\em 
+\hypertarget{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817a3ce67a0e2e0b5f4e01ad7fdf44847e4b}{Uses\-Stmt}\label{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817a3ce67a0e2e0b5f4e01ad7fdf44847e4b}
+}]\index{Uses\-Proc@{Uses\-Proc}!Rules\-Of\-Engagement@{Rules\-Of\-Engagement}}\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!Uses\-Proc@{Uses\-Proc}}\item[{\em 
+\hypertarget{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817a59a7855fd0e89e86364b93e3a9f7195b}{Uses\-Proc}\label{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817a59a7855fd0e89e86364b93e3a9f7195b}
+}]\index{Calls@{Calls}!Rules\-Of\-Engagement@{Rules\-Of\-Engagement}}\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!Calls@{Calls}}\item[{\em 
+\hypertarget{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817adfcddba8719b17324edc73144ba7235b}{Calls}\label{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817adfcddba8719b17324edc73144ba7235b}
+}]\index{Calls\-Star@{Calls\-Star}!Rules\-Of\-Engagement@{Rules\-Of\-Engagement}}\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!Calls\-Star@{Calls\-Star}}\item[{\em 
+\hypertarget{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817a5ebf10b197861c910dfbe6812907f54e}{Calls\-Star}\label{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817a5ebf10b197861c910dfbe6812907f54e}
+}]\index{Parent@{Parent}!Rules\-Of\-Engagement@{Rules\-Of\-Engagement}}\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!Parent@{Parent}}\item[{\em 
+\hypertarget{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817acd9c6b3199ba1cc97d2457c420448229}{Parent}\label{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817acd9c6b3199ba1cc97d2457c420448229}
+}]\index{Parent\-Star@{Parent\-Star}!Rules\-Of\-Engagement@{Rules\-Of\-Engagement}}\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!Parent\-Star@{Parent\-Star}}\item[{\em 
+\hypertarget{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817aeee940998c2b90aec52255948df63fd7}{Parent\-Star}\label{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817aeee940998c2b90aec52255948df63fd7}
+}]\index{Follows@{Follows}!Rules\-Of\-Engagement@{Rules\-Of\-Engagement}}\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!Follows@{Follows}}\item[{\em 
+\hypertarget{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817a177d6b0c4d14e6be26ad8816fb4ff648}{Follows}\label{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817a177d6b0c4d14e6be26ad8816fb4ff648}
+}]\index{Follows\-Star@{Follows\-Star}!Rules\-Of\-Engagement@{Rules\-Of\-Engagement}}\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!Follows\-Star@{Follows\-Star}}\item[{\em 
+\hypertarget{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817ac77b8ced2790f3c0a5be242c334cef2b}{Follows\-Star}\label{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817ac77b8ced2790f3c0a5be242c334cef2b}
+}]\index{Next@{Next}!Rules\-Of\-Engagement@{Rules\-Of\-Engagement}}\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!Next@{Next}}\item[{\em 
+\hypertarget{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817a00579ec789f6ad28531037e00075e717}{Next}\label{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817a00579ec789f6ad28531037e00075e717}
+}]\index{Next\-Star@{Next\-Star}!Rules\-Of\-Engagement@{Rules\-Of\-Engagement}}\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!Next\-Star@{Next\-Star}}\item[{\em 
+\hypertarget{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817a9326ba3ff070cd1704e07a9130b54972}{Next\-Star}\label{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817a9326ba3ff070cd1704e07a9130b54972}
+}]\index{Affects@{Affects}!Rules\-Of\-Engagement@{Rules\-Of\-Engagement}}\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!Affects@{Affects}}\item[{\em 
+\hypertarget{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817a9c8683c88dcfe00106bc8b0b37217bbe}{Affects}\label{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817a9c8683c88dcfe00106bc8b0b37217bbe}
+}]\index{Affects\-Star@{Affects\-Star}!Rules\-Of\-Engagement@{Rules\-Of\-Engagement}}\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!Affects\-Star@{Affects\-Star}}\item[{\em 
+\hypertarget{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817a3222933186b8d29c1cafb28b56237299}{Affects\-Star}\label{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817a3222933186b8d29c1cafb28b56237299}
+}]\index{Pattern\-Modifies@{Pattern\-Modifies}!Rules\-Of\-Engagement@{Rules\-Of\-Engagement}}\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!Pattern\-Modifies@{Pattern\-Modifies}}\item[{\em 
+\hypertarget{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817ab9e971b0219e177c3344a68cf17aa2fd}{Pattern\-Modifies}\label{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817ab9e971b0219e177c3344a68cf17aa2fd}
+}]\index{Pattern\-Uses@{Pattern\-Uses}!Rules\-Of\-Engagement@{Rules\-Of\-Engagement}}\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!Pattern\-Uses@{Pattern\-Uses}}\item[{\em 
+\hypertarget{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817a2bfef6c7a0d6a15f89ff2e2e66c2569d}{Pattern\-Uses}\label{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817a2bfef6c7a0d6a15f89ff2e2e66c2569d}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 26 of file Rules\-Of\-Engagement.\-h.
+
+\hypertarget{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713ead}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!Query\-Var@{Query\-Var}}
+\index{Query\-Var@{Query\-Var}!RulesOfEngagement@{Rules\-Of\-Engagement}}
+\subsubsection[{Query\-Var}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Rules\-Of\-Engagement\-::\-Query\-Var}}}\label{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713ead}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Procedure@{Procedure}!Rules\-Of\-Engagement@{Rules\-Of\-Engagement}}\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!Procedure@{Procedure}}\item[{\em 
+\hypertarget{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eadaab34e372c1b64076502beba90e0afaf9}{Procedure}\label{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eadaab34e372c1b64076502beba90e0afaf9}
+}]\index{Statement\-\_\-\-List@{Statement\-\_\-\-List}!Rules\-Of\-Engagement@{Rules\-Of\-Engagement}}\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!Statement\-\_\-\-List@{Statement\-\_\-\-List}}\item[{\em 
+\hypertarget{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eadaf2f49b1a5bb530fff2bb591349d850cd}{Statement\-\_\-\-List}\label{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eadaf2f49b1a5bb530fff2bb591349d850cd}
+}]\index{Statement@{Statement}!Rules\-Of\-Engagement@{Rules\-Of\-Engagement}}\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!Statement@{Statement}}\item[{\em 
+\hypertarget{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eadaa8e11c65c22baf0626ac3993cd82f37c}{Statement}\label{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eadaa8e11c65c22baf0626ac3993cd82f37c}
+}]\index{Assign@{Assign}!Rules\-Of\-Engagement@{Rules\-Of\-Engagement}}\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!Assign@{Assign}}\item[{\em 
+\hypertarget{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eada15e00fc67ee38d30f53a32bf2d6990e1}{Assign}\label{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eada15e00fc67ee38d30f53a32bf2d6990e1}
+}]\index{Call@{Call}!Rules\-Of\-Engagement@{Rules\-Of\-Engagement}}\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!Call@{Call}}\item[{\em 
+\hypertarget{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eada36c5ed1bbf1ea556a09749d743eb2b51}{Call}\label{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eada36c5ed1bbf1ea556a09749d743eb2b51}
+}]\index{While@{While}!Rules\-Of\-Engagement@{Rules\-Of\-Engagement}}\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!While@{While}}\item[{\em 
+\hypertarget{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eadaea50c71b856bf8fa6b50ebd5bd1602b6}{While}\label{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eadaea50c71b856bf8fa6b50ebd5bd1602b6}
+}]\index{If@{If}!Rules\-Of\-Engagement@{Rules\-Of\-Engagement}}\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!If@{If}}\item[{\em 
+\hypertarget{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eadae83e4c31ffaacea1cb82bb0c92ebec1f}{If}\label{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eadae83e4c31ffaacea1cb82bb0c92ebec1f}
+}]\index{Prog\-\_\-\-Line@{Prog\-\_\-\-Line}!Rules\-Of\-Engagement@{Rules\-Of\-Engagement}}\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!Prog\-\_\-\-Line@{Prog\-\_\-\-Line}}\item[{\em 
+\hypertarget{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eada2cbcab2ebd1a31dfd75cf5f8ec2f9a83}{Prog\-\_\-\-Line}\label{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eada2cbcab2ebd1a31dfd75cf5f8ec2f9a83}
+}]\index{Variable@{Variable}!Rules\-Of\-Engagement@{Rules\-Of\-Engagement}}\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!Variable@{Variable}}\item[{\em 
+\hypertarget{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eada22bb3bc5b545fb86bd4db389985f26a0}{Variable}\label{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eada22bb3bc5b545fb86bd4db389985f26a0}
+}]\index{Constant@{Constant}!Rules\-Of\-Engagement@{Rules\-Of\-Engagement}}\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!Constant@{Constant}}\item[{\em 
+\hypertarget{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eada50808eddb9dd64f550ed8a5d303c415e}{Constant}\label{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eada50808eddb9dd64f550ed8a5d303c415e}
+}]\index{Wild\-Card@{Wild\-Card}!Rules\-Of\-Engagement@{Rules\-Of\-Engagement}}\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!Wild\-Card@{Wild\-Card}}\item[{\em 
+\hypertarget{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eada9e5c7c59bdbe22a0aa66d26d6d241bbb}{Wild\-Card}\label{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eada9e5c7c59bdbe22a0aa66d26d6d241bbb}
+}]\index{Integer@{Integer}!Rules\-Of\-Engagement@{Rules\-Of\-Engagement}}\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!Integer@{Integer}}\item[{\em 
+\hypertarget{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eadaa5f0e7dd40345ec4288b8faa4fb02216}{Integer}\label{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eadaa5f0e7dd40345ec4288b8faa4fb02216}
+}]\index{String@{String}!Rules\-Of\-Engagement@{Rules\-Of\-Engagement}}\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!String@{String}}\item[{\em 
+\hypertarget{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eada6861f185780af85c0d245304aa6ff3e9}{String}\label{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713eada6861f185780af85c0d245304aa6ff3e9}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 10 of file Rules\-Of\-Engagement.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_rules_of_engagement_af0e6596cfee9a230105c42e6d9ee5cca}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!convert\-Argument\-To\-Integer@{convert\-Argument\-To\-Integer}}
+\index{convert\-Argument\-To\-Integer@{convert\-Argument\-To\-Integer}!RulesOfEngagement@{Rules\-Of\-Engagement}}
+\subsubsection[{convert\-Argument\-To\-Integer}]{\setlength{\rightskip}{0pt plus 5cm}int Rules\-Of\-Engagement\-::convert\-Argument\-To\-Integer (
+\begin{DoxyParamCaption}
+\item[{const {\bf Query\-Relations} \&}]{type, }
+\item[{const bool}]{first, }
+\item[{const string \&}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_rules_of_engagement_af0e6596cfee9a230105c42e6d9ee5cca}
+
+
+Definition at line 289 of file Rules\-Of\-Engagement.\-cpp.
+
+\hypertarget{class_rules_of_engagement_a18a80f1ce5bcf4c10fa520a0785c0922}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!get\-Relation@{get\-Relation}}
+\index{get\-Relation@{get\-Relation}!RulesOfEngagement@{Rules\-Of\-Engagement}}
+\subsubsection[{get\-Relation}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Rules\-Of\-Engagement\-::is\-Relation} Rules\-Of\-Engagement\-::get\-Relation (
+\begin{DoxyParamCaption}
+\item[{{\bf Rules\-Of\-Engagement\-::\-Query\-Relations}}]{rel}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_rules_of_engagement_a18a80f1ce5bcf4c10fa520a0785c0922}
+
+
+Definition at line 322 of file Rules\-Of\-Engagement.\-cpp.
+
+\hypertarget{class_rules_of_engagement_a2b4845903e7378ebf4955714da0d36bf}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!get\-Type@{get\-Type}}
+\index{get\-Type@{get\-Type}!RulesOfEngagement@{Rules\-Of\-Engagement}}
+\subsubsection[{get\-Type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Rules\-Of\-Engagement\-::get\-All\-Types} Rules\-Of\-Engagement\-::get\-Type (
+\begin{DoxyParamCaption}
+\item[{{\bf Rules\-Of\-Engagement\-::\-Query\-Var}}]{type}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_rules_of_engagement_a2b4845903e7378ebf4955714da0d36bf}
+
+
+Definition at line 392 of file Rules\-Of\-Engagement.\-cpp.
+
+\hypertarget{class_rules_of_engagement_a4ffc088479ffe671fdcc3ff658faa973}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!initialise@{initialise}}
+\index{initialise@{initialise}!RulesOfEngagement@{Rules\-Of\-Engagement}}
+\subsubsection[{initialise}]{\setlength{\rightskip}{0pt plus 5cm}void Rules\-Of\-Engagement\-::initialise (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_rules_of_engagement_a4ffc088479ffe671fdcc3ff658faa973}
+
+
+Definition at line 26 of file Rules\-Of\-Engagement.\-cpp.
+
+\hypertarget{class_rules_of_engagement_a6d82299f9e291ea53856f9eeff143451}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!satisfy\-Pattern@{satisfy\-Pattern}}
+\index{satisfy\-Pattern@{satisfy\-Pattern}!RulesOfEngagement@{Rules\-Of\-Engagement}}
+\subsubsection[{satisfy\-Pattern}]{\setlength{\rightskip}{0pt plus 5cm}bool Rules\-Of\-Engagement\-::satisfy\-Pattern (
+\begin{DoxyParamCaption}
+\item[{const int}]{index, }
+\item[{const {\bf Rules\-Of\-Engagement\-::\-Pattern\-R\-H\-S\-Type}}]{R\-H\-S, }
+\item[{const string \&}]{R\-H\-S\-Var\-Name, }
+\item[{const {\bf A\-S\-T\-Expr\-Node} $\ast$}]{R\-H\-Sexprs}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_rules_of_engagement_a6d82299f9e291ea53856f9eeff143451}
+
+
+Definition at line 479 of file Rules\-Of\-Engagement.\-cpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_rules_of_engagement_af8095e34ef7cd49343e8d2dfd1f47e3e}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!allowable\-Conditions@{allowable\-Conditions}}
+\index{allowable\-Conditions@{allowable\-Conditions}!RulesOfEngagement@{Rules\-Of\-Engagement}}
+\subsubsection[{allowable\-Conditions}]{\setlength{\rightskip}{0pt plus 5cm}unordered\-\_\-map$<$ {\bf Rules\-Of\-Engagement\-::\-Query\-Var}, set$<$ string $>$ $>$ Rules\-Of\-Engagement\-::allowable\-Conditions\hspace{0.3cm}{\ttfamily [static]}}}\label{class_rules_of_engagement_af8095e34ef7cd49343e8d2dfd1f47e3e}
+
+
+Definition at line 49 of file Rules\-Of\-Engagement.\-h.
+
+\hypertarget{class_rules_of_engagement_a0a16b8602e2522f007f54f157a0f1203}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!allowable\-First\-Argument@{allowable\-First\-Argument}}
+\index{allowable\-First\-Argument@{allowable\-First\-Argument}!RulesOfEngagement@{Rules\-Of\-Engagement}}
+\subsubsection[{allowable\-First\-Argument}]{\setlength{\rightskip}{0pt plus 5cm}unordered\-\_\-map$<$ {\bf Rules\-Of\-Engagement\-::\-Query\-Relations}, set$<$ {\bf Rules\-Of\-Engagement\-::\-Query\-Var} $>$ $>$ Rules\-Of\-Engagement\-::allowable\-First\-Argument\hspace{0.3cm}{\ttfamily [static]}}}\label{class_rules_of_engagement_a0a16b8602e2522f007f54f157a0f1203}
+
+
+Definition at line 51 of file Rules\-Of\-Engagement.\-h.
+
+\hypertarget{class_rules_of_engagement_a365f61557120f33a18021667e746f13e}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!allowable\-Second\-Argument@{allowable\-Second\-Argument}}
+\index{allowable\-Second\-Argument@{allowable\-Second\-Argument}!RulesOfEngagement@{Rules\-Of\-Engagement}}
+\subsubsection[{allowable\-Second\-Argument}]{\setlength{\rightskip}{0pt plus 5cm}unordered\-\_\-map$<$ {\bf Rules\-Of\-Engagement\-::\-Query\-Relations}, set$<$ {\bf Rules\-Of\-Engagement\-::\-Query\-Var} $>$ $>$ Rules\-Of\-Engagement\-::allowable\-Second\-Argument\hspace{0.3cm}{\ttfamily [static]}}}\label{class_rules_of_engagement_a365f61557120f33a18021667e746f13e}
+
+
+Definition at line 53 of file Rules\-Of\-Engagement.\-h.
+
+\hypertarget{class_rules_of_engagement_a8c7c45f1c886563e1a9e62cd0c22866d}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!allowable\-Self\-Reference@{allowable\-Self\-Reference}}
+\index{allowable\-Self\-Reference@{allowable\-Self\-Reference}!RulesOfEngagement@{Rules\-Of\-Engagement}}
+\subsubsection[{allowable\-Self\-Reference}]{\setlength{\rightskip}{0pt plus 5cm}unordered\-\_\-set$<$ {\bf Rules\-Of\-Engagement\-::\-Query\-Relations} $>$ Rules\-Of\-Engagement\-::allowable\-Self\-Reference\hspace{0.3cm}{\ttfamily [static]}}}\label{class_rules_of_engagement_a8c7c45f1c886563e1a9e62cd0c22866d}
+
+
+Definition at line 55 of file Rules\-Of\-Engagement.\-h.
+
+\hypertarget{class_rules_of_engagement_a5f44ebe9fe8019b6415272f410673755}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!condition\-Types@{condition\-Types}}
+\index{condition\-Types@{condition\-Types}!RulesOfEngagement@{Rules\-Of\-Engagement}}
+\subsubsection[{condition\-Types}]{\setlength{\rightskip}{0pt plus 5cm}unordered\-\_\-map$<$ string, {\bf Rules\-Of\-Engagement\-::\-Query\-Var} $>$ Rules\-Of\-Engagement\-::condition\-Types\hspace{0.3cm}{\ttfamily [static]}}}\label{class_rules_of_engagement_a5f44ebe9fe8019b6415272f410673755}
+
+
+Definition at line 50 of file Rules\-Of\-Engagement.\-h.
+
+\hypertarget{class_rules_of_engagement_a343933b8d961a5dfab7a3cdd979820cf}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!empty\-Rel@{empty\-Rel}}
+\index{empty\-Rel@{empty\-Rel}!RulesOfEngagement@{Rules\-Of\-Engagement}}
+\subsubsection[{empty\-Rel}]{\setlength{\rightskip}{0pt plus 5cm}unordered\-\_\-map$<$ {\bf Rules\-Of\-Engagement\-::\-Query\-Relations}, bool $>$ Rules\-Of\-Engagement\-::empty\-Rel\hspace{0.3cm}{\ttfamily [static]}}}\label{class_rules_of_engagement_a343933b8d961a5dfab7a3cdd979820cf}
+
+
+Definition at line 62 of file Rules\-Of\-Engagement.\-h.
+
+\hypertarget{class_rules_of_engagement_a7dd292534cee25afe99b1187a6e07774}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!privileged\-First\-Argument@{privileged\-First\-Argument}}
+\index{privileged\-First\-Argument@{privileged\-First\-Argument}!RulesOfEngagement@{Rules\-Of\-Engagement}}
+\subsubsection[{privileged\-First\-Argument}]{\setlength{\rightskip}{0pt plus 5cm}unordered\-\_\-map$<$ {\bf Rules\-Of\-Engagement\-::\-Query\-Relations}, {\bf Rules\-Of\-Engagement\-::\-Query\-Var} $>$ Rules\-Of\-Engagement\-::privileged\-First\-Argument\hspace{0.3cm}{\ttfamily [static]}}}\label{class_rules_of_engagement_a7dd292534cee25afe99b1187a6e07774}
+
+
+Definition at line 52 of file Rules\-Of\-Engagement.\-h.
+
+\hypertarget{class_rules_of_engagement_acdc0a8ed701246134911b36aac249c6c}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!privileged\-Second\-Argument@{privileged\-Second\-Argument}}
+\index{privileged\-Second\-Argument@{privileged\-Second\-Argument}!RulesOfEngagement@{Rules\-Of\-Engagement}}
+\subsubsection[{privileged\-Second\-Argument}]{\setlength{\rightskip}{0pt plus 5cm}unordered\-\_\-map$<$ {\bf Rules\-Of\-Engagement\-::\-Query\-Relations}, {\bf Rules\-Of\-Engagement\-::\-Query\-Var} $>$ Rules\-Of\-Engagement\-::privileged\-Second\-Argument\hspace{0.3cm}{\ttfamily [static]}}}\label{class_rules_of_engagement_acdc0a8ed701246134911b36aac249c6c}
+
+
+Definition at line 54 of file Rules\-Of\-Engagement.\-h.
+
+\hypertarget{class_rules_of_engagement_ae9b3fd791855b69fdf746d47df2b2bdd}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!token\-To\-Rel@{token\-To\-Rel}}
+\index{token\-To\-Rel@{token\-To\-Rel}!RulesOfEngagement@{Rules\-Of\-Engagement}}
+\subsubsection[{token\-To\-Rel}]{\setlength{\rightskip}{0pt plus 5cm}unordered\-\_\-map$<$ string, unordered\-\_\-set$<$ {\bf Rules\-Of\-Engagement\-::\-Query\-Relations} $>$ $>$ Rules\-Of\-Engagement\-::token\-To\-Rel\hspace{0.3cm}{\ttfamily [static]}}}\label{class_rules_of_engagement_ae9b3fd791855b69fdf746d47df2b2bdd}
+
+
+Definition at line 47 of file Rules\-Of\-Engagement.\-h.
+
+\hypertarget{class_rules_of_engagement_ab3e59955494f404502bf165417df74c9}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!token\-To\-Var@{token\-To\-Var}}
+\index{token\-To\-Var@{token\-To\-Var}!RulesOfEngagement@{Rules\-Of\-Engagement}}
+\subsubsection[{token\-To\-Var}]{\setlength{\rightskip}{0pt plus 5cm}unordered\-\_\-map$<$ string, {\bf Rules\-Of\-Engagement\-::\-Query\-Var} $>$ Rules\-Of\-Engagement\-::token\-To\-Var\hspace{0.3cm}{\ttfamily [static]}}}\label{class_rules_of_engagement_ab3e59955494f404502bf165417df74c9}
+
+
+Definition at line 48 of file Rules\-Of\-Engagement.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+F\-:/3201\-\_\-3202/\-S\-P\-A/\$\-P@/\-S\-P\-A/\-S\-P\-A/\hyperlink{_rules_of_engagement_8h}{Rules\-Of\-Engagement.\-h}\item 
+F\-:/3201\-\_\-3202/\-S\-P\-A/\$\-P@/\-S\-P\-A/\-S\-P\-A/\hyperlink{_rules_of_engagement_8cpp}{Rules\-Of\-Engagement.\-cpp}\end{DoxyCompactItemize}

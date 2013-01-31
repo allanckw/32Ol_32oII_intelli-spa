@@ -475,7 +475,14 @@ vector<int> RulesOfEngagement::getAll<Type>()
 //end type map
 
 //pattern
-
+/**
+* This method will be used to check wheather this assignment is valid
+with the pattern being checked
+* @param index index of the assingent being checked
+* @param RHS the right hand side's type
+* @param RHSVarName right hand side's variable name
+* @param RHSexprs a right hand side expression tree
+*/
 bool RulesOfEngagement::satisfyPattern(const int index, const RulesOfEngagement::PatternRHSType RHS,
 	const string& RHSVarName, const ASTExprNode* RHSexprs)
 {
@@ -500,6 +507,14 @@ bool RulesOfEngagement::satisfyPattern(const int index, const RulesOfEngagement:
 }*/
 
 //RHS for now handles patterns in the form of "a" or _"a"_
+/**
+* this method will return the result if weather an AST node is valid
+with a pattern
+* @param testedNode the AST node being tested
+* @param RHS the right hand side's type
+* @param RHSVarName right hand side's variable name
+* @param RHSexprs a right hand side expression tree
+*/
 bool RulesOfEngagement::TryMatch(ASTNode* testedNode,
 	RulesOfEngagement::PatternRHSType RHS, const ASTExprNode* pattern)
 {
@@ -524,7 +539,12 @@ bool RulesOfEngagement::TryMatch(ASTNode* testedNode,
 	} else
 		return MatcherTree(head,pattern);
 }
-
+/**
+* This method will be used to check wheather an expression tree is
+identical or is a subtree of another expression tree
+* @param Original original expression tree
+* @param Original expression tree made from the pattern's expression
+*/
 bool RulesOfEngagement::MatcherTree(const ASTNode* Original, const ASTNode* Pattern)//, bool isSub)
 {
 	return (Original->getType() == Pattern->getType() &&

@@ -352,7 +352,14 @@ void AnswerTable::withPrune(const SynonymTable& synonymTable, const string& firs
 	}
 	answers = newTable;
 }
-
+/**
+* This method will be used to evaluate the pattern relation and return
+the assignment,if,while that re valid
+* @param synonym the pattern's LHS var
+* @param RHS the right hand side's type
+* @param RHSVarName right hand side's variable name
+* @param RHSexprs a right hand side expression tree
+*/
 void AnswerTable::patternPrune(const string& synonym,
 	const RulesOfEngagement::PatternRHSType RHS, const string& RHSVarName, const ASTExprNode* RHSexprs)
 {

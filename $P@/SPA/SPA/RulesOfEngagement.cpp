@@ -252,13 +252,13 @@ void RulesOfEngagement::initialise()
 
 	allowableSelfReference.insert(Next);
 
-	emptyRel[ModifiesStmt] = PKB::modifies.empty();
-	emptyRel[ModifiesProc] = PKB::modifies.empty();
-	emptyRel[UsesStmt] = PKB::uses.empty();
-	emptyRel[UsesProc] = PKB::uses.empty();
-	emptyRel[Calls] = emptyRel[CallsStar] = PKB::calls.empty();
-	emptyRel[Follows] = emptyRel[FollowsStar] = PKB::follows.empty();
-	emptyRel[Parent] = emptyRel[ParentStar] = PKB::parent.empty();
+	emptyRel[ModifiesStmt] = PKB::modifies.isEmpty();
+	emptyRel[ModifiesProc] = PKB::modifies.isEmpty();
+	emptyRel[UsesStmt] = PKB::uses.isEmpty();
+	emptyRel[UsesProc] = PKB::uses.isEmpty();
+	emptyRel[Calls] = emptyRel[CallsStar] = PKB::calls.isEmpty();
+	emptyRel[Follows] = emptyRel[FollowsStar] = PKB::follows.isEmpty();
+	emptyRel[Parent] = emptyRel[ParentStar] = PKB::parent.isEmpty();
 
 	relationMap[ModifiesStmt] = &isModifiesStmt;
 	relationMap[ModifiesProc] = &isModifiesProc;

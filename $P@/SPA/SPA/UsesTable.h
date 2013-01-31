@@ -25,7 +25,7 @@ public:
 	vector<PROC> getUsedInProc(VAR);
 	bool isUsedStmt(STMT, VAR);
 	bool isUsedProc(PROC, VAR);
-	bool empty();
+	bool isEmpty();
 
 	void linkCallStmtToProcUses(STMT, PROC);
 	void optimizeUsesTable();

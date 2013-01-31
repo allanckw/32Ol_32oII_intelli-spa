@@ -18,7 +18,7 @@ QueryOptimiser::QueryOptimiser(void)
 
 	//To replace int with a Query Relationship object
 
-	priority_queue<int,vector<int>,greater<int>() > q;
+	priority_queue<int,vector<int>,greater<int>> q;
     for( int i = 0; i != 10; ++i ) 
 		q.push(rand()%10);
     

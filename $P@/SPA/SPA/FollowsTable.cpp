@@ -22,7 +22,7 @@ void FollowsTable::insertFollows(STMT s1, STMT s2)
 }
 
 //O(1)
-bool FollowsTable::empty()
+bool FollowsTable::isEmpty()
 {
 	return followsTo.empty();
 }

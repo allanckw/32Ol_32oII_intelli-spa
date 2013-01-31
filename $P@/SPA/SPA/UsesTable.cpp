@@ -62,7 +62,7 @@ bool UsesTable::isUsedProc(PROC p, VAR v)
 	return (originalUsedByProc.count(p) > 0 && originalUsedByProc[p].count(v) > 0);
 }
 
-bool UsesTable::empty()
+bool UsesTable::isEmpty()
 {
 	return originalUsedByProc.empty();
 }

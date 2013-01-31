@@ -25,7 +25,7 @@ public:
 	vector<PROC> getModifiesProc(VAR);
 	bool isModifiedStmt(STMT, VAR);
 	bool isModifiedProc(PROC, VAR);
-	bool empty();
+	bool isEmpty();
 	
 	void linkCallStmtToProcModifies(STMT, PROC);
 	void optimizeModifiesTable();

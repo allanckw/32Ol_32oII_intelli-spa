@@ -30,7 +30,7 @@ public:
 	vector<PROC> getCalledFromStar(PROC);
 	bool isCalled(PROC, PROC);
 	bool isCalledStar(PROC, PROC);
-	bool empty();
+	bool isEmpty();
 
 	void insertStmtCall(STMT, PROC);
 	vector<STMT> getStmtCall(PROC);

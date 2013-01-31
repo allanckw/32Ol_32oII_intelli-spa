@@ -62,7 +62,7 @@ bool ModifiesTable::isModifiedProc(PROC p, VAR v)
 	return (originalModifiedByProc.count(p) > 0 && originalModifiedByProc[p].count(v) > 0);
 }
 
-bool ModifiesTable::empty()
+bool ModifiesTable::isEmpty()
 {
 	return originalModifiedByProc.empty();
 }

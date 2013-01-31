@@ -13,7 +13,7 @@ public:
 	ParentTable();
 	~ParentTable();
 	void insertParent(STMT s1, STMT s2); //constant time
-	bool empty(); //constant time
+	bool isEmpty(); //constant time
 
 	bool isParent(STMT s1, STMT s2); //constant time
 	vector<STMT> getChildren(STMT s1); //constant time

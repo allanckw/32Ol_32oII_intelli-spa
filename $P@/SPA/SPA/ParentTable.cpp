@@ -22,7 +22,7 @@ void ParentTable::insertParent(STMT s1, STMT s2)
 }
 
 //O(1)
-bool ParentTable::empty()
+bool ParentTable::isEmpty()
 {
 	return parentTo.empty();
 }

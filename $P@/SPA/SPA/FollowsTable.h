@@ -11,7 +11,7 @@ public:
 	FollowsTable();
 	~FollowsTable();
 	void insertFollows(STMT s1, STMT s2); //constant time
-	bool empty(); //constant time
+	bool isEmpty(); //constant time
 
 	bool isFollows(STMT s1, STMT s2); //constant time
 	STMT getFollowsBy(STMT s1); //constant time

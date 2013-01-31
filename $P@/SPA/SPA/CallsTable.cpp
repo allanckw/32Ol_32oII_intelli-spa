@@ -112,7 +112,7 @@ bool CallsTable::isCalledStar(PROC p1, PROC p2)
 	return (originalCalledByStar.count(p1) > 0 && originalCalledByStar[p1].count(p2) > 0);
 }
 
-bool CallsTable::empty()
+bool CallsTable::isEmpty()
 {
 	return originalCalledBy.empty();
 }

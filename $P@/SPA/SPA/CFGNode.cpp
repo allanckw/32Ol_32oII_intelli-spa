@@ -11,19 +11,19 @@ CFGNode::CFGNode(NodeType type, PROG_LINE start, PROG_LINE end, PROC p){
 }
 
 //link node1->node2 in the cfg
-void setLink(CFGNode* node1, CFGNode* node2){
-	if (node1->isEndNode())
+void CFGNode::setLink(CFGNode* node){
+	if (this->isEndNode())
 		throw SPAException("Node1 cannot be an end node");
-	else if (node2->isStartNode())
+	else if (node->isStartNode())
 		throw SPAException("Node2 cannot be a start node");
-	else if(node1->getProcedure() != node2->getProcedure())
+	else if(this->getProcedure() != node->getProcedure())
 		throw SPAException("Nodes must be from the same procedure when linking them in a CFG!");
-	else if(node1->isStartNode() && node2->isStartNode() || node1->isEndNode() && node2->isEndNode())
+	else if(this->isStartNode() && node->isStartNode() || this->isEndNode() && node->isEndNode())
 		throw SPAException("Invalid Node Types, please check your declarations!");
 
 	else {
-		node1->addNextNode(node2);
-		node2->addPreviousNode(node1);
+		this->addNextNode(node);
+		node->addPreviousNode(this);
 	}
 }
 

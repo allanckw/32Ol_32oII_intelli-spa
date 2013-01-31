@@ -15,7 +15,7 @@ public:
 	CFGNode(NodeType, PROG_LINE start, PROG_LINE end, PROC p);
 
 	//link node1->node2 in the cfg
-	void setLink(CFGNode* node1, CFGNode* node2);
+	void setLink(CFGNode* node);
 
 	void setEndProgramLine(PROG_LINE p);
 

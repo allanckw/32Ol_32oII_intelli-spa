@@ -15,7 +15,6 @@ var class_a_s_t_node =
     [ "ASTNode", "class_a_s_t_node.html#a1196ed4f19c0b62cdc42fe35946b91d2", null ],
     [ "ASTNode", "class_a_s_t_node.html#a512c4363de4ceef82b6189e1dbd34ec1", null ],
     [ "ASTNode", "class_a_s_t_node.html#a97d3345ffb311a0582a8bf1478722a70", null ],
-    [ "~ASTNode", "class_a_s_t_node.html#a075d226c6382610b649193f72902faf7", null ],
     [ "addChild", "class_a_s_t_node.html#a595fb15c3e37a7a9e443742dca6483ca", null ],
     [ "getChild", "class_a_s_t_node.html#a68ef18e60e551c9ba047e3d1809d8620", null ],
     [ "getParent", "class_a_s_t_node.html#a62e103d706cfbace82cf124bbd080c3e", null ],

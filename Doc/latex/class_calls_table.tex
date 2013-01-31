@@ -65,9 +65,9 @@ Definition at line 6 of file Calls\-Table.\-cpp.
 {}
 \end{DoxyParamCaption}
 )}}\label{class_calls_table_ae9c18d5f905d063cf912ebb2c1ce4cbd}
+This method will be used for testing purposes for viewing the content of call table 
 
-
-Definition at line 141 of file Calls\-Table.\-cpp.
+Definition at line 204 of file Calls\-Table.\-cpp.
 
 \hypertarget{class_calls_table_af50654db975ad7d3b9fa74f8547998eb}{\index{Calls\-Table@{Calls\-Table}!get\-Called\-By@{get\-Called\-By}}
 \index{get\-Called\-By@{get\-Called\-By}!CallsTable@{Calls\-Table}}
@@ -76,9 +76,14 @@ Definition at line 141 of file Calls\-Table.\-cpp.
 \item[{{\bf P\-R\-O\-C}}]{p}
 \end{DoxyParamCaption}
 )}}\label{class_calls_table_af50654db975ad7d3b9fa74f8547998eb}
+This method will be used to return the list of procedure called by procedure p 
+\begin{DoxyParams}{Parameters}
+{\em p} & target procedure \\
+\hline
+\end{DoxyParams}
 
 
-Definition at line 77 of file Calls\-Table.\-cpp.
+Definition at line 99 of file Calls\-Table.\-cpp.
 
 \hypertarget{class_calls_table_a71e96fb0576531152756c529c0bb666f}{\index{Calls\-Table@{Calls\-Table}!get\-Called\-By\-Star@{get\-Called\-By\-Star}}
 \index{get\-Called\-By\-Star@{get\-Called\-By\-Star}!CallsTable@{Calls\-Table}}
@@ -87,9 +92,14 @@ Definition at line 77 of file Calls\-Table.\-cpp.
 \item[{{\bf P\-R\-O\-C}}]{p}
 \end{DoxyParamCaption}
 )}}\label{class_calls_table_a71e96fb0576531152756c529c0bb666f}
+This method will be used to return the list of procedure will is indirectly called by procedure p 
+\begin{DoxyParams}{Parameters}
+{\em p} & target procedure \\
+\hline
+\end{DoxyParams}
 
 
-Definition at line 91 of file Calls\-Table.\-cpp.
+Definition at line 122 of file Calls\-Table.\-cpp.
 
 \hypertarget{class_calls_table_ade7109a5b16d953b66c49ddeef36eff1}{\index{Calls\-Table@{Calls\-Table}!get\-Called\-From@{get\-Called\-From}}
 \index{get\-Called\-From@{get\-Called\-From}!CallsTable@{Calls\-Table}}
@@ -98,9 +108,14 @@ Definition at line 91 of file Calls\-Table.\-cpp.
 \item[{{\bf P\-R\-O\-C}}]{p}
 \end{DoxyParamCaption}
 )}}\label{class_calls_table_ade7109a5b16d953b66c49ddeef36eff1}
+This method will be used to return the list of procedure called from procedure p 
+\begin{DoxyParams}{Parameters}
+{\em p} & target procedure \\
+\hline
+\end{DoxyParams}
 
 
-Definition at line 84 of file Calls\-Table.\-cpp.
+Definition at line 111 of file Calls\-Table.\-cpp.
 
 \hypertarget{class_calls_table_a3f984929213fdd181d904a9bcd8b99c2}{\index{Calls\-Table@{Calls\-Table}!get\-Called\-From\-Star@{get\-Called\-From\-Star}}
 \index{get\-Called\-From\-Star@{get\-Called\-From\-Star}!CallsTable@{Calls\-Table}}
@@ -109,9 +124,14 @@ Definition at line 84 of file Calls\-Table.\-cpp.
 \item[{{\bf P\-R\-O\-C}}]{p}
 \end{DoxyParamCaption}
 )}}\label{class_calls_table_a3f984929213fdd181d904a9bcd8b99c2}
+This method will be used to return the list of procedure will is indirectly called from procedure p 
+\begin{DoxyParams}{Parameters}
+{\em p} & target procedure \\
+\hline
+\end{DoxyParams}
 
 
-Definition at line 98 of file Calls\-Table.\-cpp.
+Definition at line 133 of file Calls\-Table.\-cpp.
 
 \hypertarget{class_calls_table_ad03ad8e545d3d1225d6388c97ab0d268}{\index{Calls\-Table@{Calls\-Table}!get\-Stmt\-Call@{get\-Stmt\-Call}}
 \index{get\-Stmt\-Call@{get\-Stmt\-Call}!CallsTable@{Calls\-Table}}
@@ -120,9 +140,14 @@ Definition at line 98 of file Calls\-Table.\-cpp.
 \item[{{\bf P\-R\-O\-C}}]{p}
 \end{DoxyParamCaption}
 )}}\label{class_calls_table_ad03ad8e545d3d1225d6388c97ab0d268}
+This method will be used to get the list of stmt which procedure p is called from 
+\begin{DoxyParams}{Parameters}
+{\em p} & the target procedure \\
+\hline
+\end{DoxyParams}
 
 
-Definition at line 131 of file Calls\-Table.\-cpp.
+Definition at line 190 of file Calls\-Table.\-cpp.
 
 \hypertarget{class_calls_table_a8a0b0e665281f2c0d23f255c03282a66}{\index{Calls\-Table@{Calls\-Table}!insert\-Calls@{insert\-Calls}}
 \index{insert\-Calls@{insert\-Calls}!CallsTable@{Calls\-Table}}
@@ -132,9 +157,16 @@ Definition at line 131 of file Calls\-Table.\-cpp.
 \item[{{\bf P\-R\-O\-C}}]{p2}
 \end{DoxyParamCaption}
 )}}\label{class_calls_table_a8a0b0e665281f2c0d23f255c03282a66}
+This method will be used to insert the call relation 
+\begin{DoxyParams}{Parameters}
+{\em p1} & procedure calling p2 \\
+\hline
+{\em p2} & procedure being called by p1 \\
+\hline
+\end{DoxyParams}
 
 
-Definition at line 10 of file Calls\-Table.\-cpp.
+Definition at line 15 of file Calls\-Table.\-cpp.
 
 \hypertarget{class_calls_table_a978f84e07ad7bafb1737c6a290c8527a}{\index{Calls\-Table@{Calls\-Table}!insert\-Stmt\-Call@{insert\-Stmt\-Call}}
 \index{insert\-Stmt\-Call@{insert\-Stmt\-Call}!CallsTable@{Calls\-Table}}
@@ -144,9 +176,14 @@ Definition at line 10 of file Calls\-Table.\-cpp.
 \item[{{\bf P\-R\-O\-C}}]{p}
 \end{DoxyParamCaption}
 )}}\label{class_calls_table_a978f84e07ad7bafb1737c6a290c8527a}
+This method will be used to insert calls made from stmt to procedure into the call table 
+\begin{DoxyParams}{Parameters}
+{\em s} & stmt which called the procedure p @param p procedure which is called by stmt s \\
+\hline
+\end{DoxyParams}
 
 
-Definition at line 120 of file Calls\-Table.\-cpp.
+Definition at line 174 of file Calls\-Table.\-cpp.
 
 \hypertarget{class_calls_table_a7533cb25ac6b5cfa990a4ab66caa7d84}{\index{Calls\-Table@{Calls\-Table}!is\-Called@{is\-Called}}
 \index{is\-Called@{is\-Called}!CallsTable@{Calls\-Table}}
@@ -156,9 +193,16 @@ Definition at line 120 of file Calls\-Table.\-cpp.
 \item[{{\bf P\-R\-O\-C}}]{p2}
 \end{DoxyParamCaption}
 )}}\label{class_calls_table_a7533cb25ac6b5cfa990a4ab66caa7d84}
+This method will be used to check if the procedure p1 call procedure p2 
+\begin{DoxyParams}{Parameters}
+{\em p1} & procedure called from \\
+\hline
+{\em p2} & procedure called to \\
+\hline
+\end{DoxyParams}
 
 
-Definition at line 105 of file Calls\-Table.\-cpp.
+Definition at line 145 of file Calls\-Table.\-cpp.
 
 \hypertarget{class_calls_table_a8355c71d51e270130651f17007d3b6a6}{\index{Calls\-Table@{Calls\-Table}!is\-Called\-Star@{is\-Called\-Star}}
 \index{is\-Called\-Star@{is\-Called\-Star}!CallsTable@{Calls\-Table}}
@@ -168,9 +212,16 @@ Definition at line 105 of file Calls\-Table.\-cpp.
 \item[{{\bf P\-R\-O\-C}}]{p2}
 \end{DoxyParamCaption}
 )}}\label{class_calls_table_a8355c71d51e270130651f17007d3b6a6}
+This method will be used to check if the procedure p1 indirectly call procedure p2 
+\begin{DoxyParams}{Parameters}
+{\em p1} & procedure called from \\
+\hline
+{\em p2} & procedure called to \\
+\hline
+\end{DoxyParams}
 
 
-Definition at line 110 of file Calls\-Table.\-cpp.
+Definition at line 155 of file Calls\-Table.\-cpp.
 
 \hypertarget{class_calls_table_a5d6f530110e6983be8cef4b6d12b9e78}{\index{Calls\-Table@{Calls\-Table}!is\-Empty@{is\-Empty}}
 \index{is\-Empty@{is\-Empty}!CallsTable@{Calls\-Table}}
@@ -179,9 +230,9 @@ Definition at line 110 of file Calls\-Table.\-cpp.
 {}
 \end{DoxyParamCaption}
 )}}\label{class_calls_table_a5d6f530110e6983be8cef4b6d12b9e78}
+This method will be used to check if the calls table is empty 
 
-
-Definition at line 115 of file Calls\-Table.\-cpp.
+Definition at line 163 of file Calls\-Table.\-cpp.
 
 \hypertarget{class_calls_table_a21decabd3099cd7adb4ebfcdbb6bad8d}{\index{Calls\-Table@{Calls\-Table}!optimize\-Calls\-Table@{optimize\-Calls\-Table}}
 \index{optimize\-Calls\-Table@{optimize\-Calls\-Table}!CallsTable@{Calls\-Table}}
@@ -190,9 +241,9 @@ Definition at line 115 of file Calls\-Table.\-cpp.
 {}
 \end{DoxyParamCaption}
 )}}\label{class_calls_table_a21decabd3099cd7adb4ebfcdbb6bad8d}
+This method will be used to optimized the populated call table for fast access 
 
-
-Definition at line 21 of file Calls\-Table.\-cpp.
+Definition at line 30 of file Calls\-Table.\-cpp.
 
 
 

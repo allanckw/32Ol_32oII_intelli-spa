@@ -460,101 +460,100 @@ $(document).ready(function(){initNavTree('_answer_table_8cpp_source.html','');})
 <div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;    }</div>
 <div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;    answers = newTable;</div>
 <div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;}</div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;</div>
-<div class="line"><a name="l00356"></a><span class="lineno"><a class="code" href="class_answer_table.html#a476cd4e95ee3dcd392d6d9bb66240cc5">  356</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_answer_table.html#a476cd4e95ee3dcd392d6d9bb66240cc5">AnswerTable::patternPrune</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; synonym,</div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;    <span class="keyword">const</span> <a class="code" href="class_rules_of_engagement.html#a97613ded2253a252de010070d7c54ac1">RulesOfEngagement::PatternRHSType</a> RHS, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; RHSVarName, <span class="keyword">const</span> <a class="code" href="class_a_s_t_expr_node.html">ASTExprNode</a>* RHSexprs)</div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;{</div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> firstRelIndex = <a class="code" href="class_answer_table.html#a53431094ba04eb9bc510e9cc63172fb1">synonymPosition</a>[synonym];</div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;</div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;    vector&lt;vector&lt;int&gt;&gt; newTable;</div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = answers.begin(); it != answers.end(); it++)</div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="class_rules_of_engagement.html#a6d82299f9e291ea53856f9eeff143451">RulesOfEngagement::satisfyPattern</a>((*it)[firstRelIndex], RHS, RHSVarName, RHSexprs))</div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;            newTable.push_back(*it);</div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;    answers = newTable;</div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;}</div>
+<div class="line"><a name="l00363"></a><span class="lineno"><a class="code" href="class_answer_table.html#a476cd4e95ee3dcd392d6d9bb66240cc5">  363</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_answer_table.html#a476cd4e95ee3dcd392d6d9bb66240cc5">AnswerTable::patternPrune</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; synonym,</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;    <span class="keyword">const</span> <a class="code" href="class_rules_of_engagement.html#a97613ded2253a252de010070d7c54ac1">RulesOfEngagement::PatternRHSType</a> RHS, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; RHSVarName, <span class="keyword">const</span> <a class="code" href="class_a_s_t_expr_node.html">ASTExprNode</a>* RHSexprs)</div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;{</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> firstRelIndex = <a class="code" href="class_answer_table.html#a53431094ba04eb9bc510e9cc63172fb1">synonymPosition</a>[synonym];</div>
 <div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;</div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;<span class="comment">/*void AnswerTable::patternPrune(string synonym, bool modifiesIsSynonym, int modifies,</span></div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;<span class="comment">    RulesOfEngagement::PatternRHSType RHS, string RHSVarName, ASTExprNode* RHSexprs)</span></div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;<span class="comment">{</span></div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;<span class="comment">    int firstRelIndex = synonymPosition[synonym];</span></div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;<span class="comment">    vector&lt;vector&lt;int&gt;&gt; newTable;</span></div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;<span class="comment">    if (modifiesIsSynonym) {</span></div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;<span class="comment">        for (auto it = answers.begin(); it != answers.end(); it++)</span></div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;<span class="comment">            if (RulesOfEngagement::satisfyPattern((*it)[firstRelIndex],</span></div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;<span class="comment">                (*it)[modifies], RHS, RHSVarName, RHSexprs))</span></div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;<span class="comment">                newTable.push_back(*it);</span></div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;<span class="comment">    } else {</span></div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;<span class="comment">        for (auto it = answers.begin(); it != answers.end(); it++)</span></div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;<span class="comment">            if (RulesOfEngagement::satisfyPattern((*it)[firstRelIndex],</span></div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;<span class="comment">                modifies, RHS, RHSVarName, RHSexprs))</span></div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;<span class="comment">                newTable.push_back(*it);</span></div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;<span class="comment">    }</span></div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;<span class="comment">    answers = newTable;</span></div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;<span class="comment">}*/</span></div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;</div>
-<div class="line"><a name="l00388"></a><span class="lineno"><a class="code" href="class_answer_table.html#a44d359653923049566c8815d7f0616b2">  388</a></span>&#160;<a class="code" href="class_answer_table.html">AnswerTable</a> <a class="code" href="class_answer_table.html#a44d359653923049566c8815d7f0616b2">AnswerTable::project</a>(<span class="keyword">const</span> vector&lt;string&gt;&amp; selection)</div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;{</div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;    <a class="code" href="class_answer_table.html">AnswerTable</a> newTable;</div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;</div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;    vector&lt;int&gt; indices;</div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = selection.begin(); it != selection.end(); it++)</div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;        indices.push_back(<a class="code" href="class_answer_table.html#a53431094ba04eb9bc510e9cc63172fb1">synonymPosition</a>[*it]);</div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;</div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = indices.begin(); it != indices.end(); it++) {</div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;        newTable.<a class="code" href="class_answer_table.html#a53431094ba04eb9bc510e9cc63172fb1">synonymPosition</a>[header[*it]] = newTable.header.size();</div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;        newTable.header.push_back(header[*it]);</div>
-<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;    }</div>
-<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;    </div>
-<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = answers.begin(); it != answers.end(); it++) {</div>
-<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;        vector&lt;int&gt; newRow;</div>
-<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it2 = indices.begin(); it2 != indices.end(); it2++)</div>
-<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;            newRow.push_back((*it)[*it2]);</div>
-<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;        newTable.answers.push_back(newRow);</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;    vector&lt;vector&lt;int&gt;&gt; newTable;</div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = answers.begin(); it != answers.end(); it++)</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="class_rules_of_engagement.html#a6d82299f9e291ea53856f9eeff143451">RulesOfEngagement::satisfyPattern</a>((*it)[firstRelIndex], RHS, RHSVarName, RHSexprs))</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;            newTable.push_back(*it);</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;    answers = newTable;</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;}</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;</div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;<span class="comment">/*void AnswerTable::patternPrune(string synonym, bool modifiesIsSynonym, int modifies,</span></div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;<span class="comment">    RulesOfEngagement::PatternRHSType RHS, string RHSVarName, ASTExprNode* RHSexprs)</span></div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;<span class="comment">{</span></div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;<span class="comment">    int firstRelIndex = synonymPosition[synonym];</span></div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;<span class="comment"></span></div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;<span class="comment">    vector&lt;vector&lt;int&gt;&gt; newTable;</span></div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;<span class="comment">    if (modifiesIsSynonym) {</span></div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;<span class="comment">        for (auto it = answers.begin(); it != answers.end(); it++)</span></div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;<span class="comment">            if (RulesOfEngagement::satisfyPattern((*it)[firstRelIndex],</span></div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;<span class="comment">                (*it)[modifies], RHS, RHSVarName, RHSexprs))</span></div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;<span class="comment">                newTable.push_back(*it);</span></div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;<span class="comment">    } else {</span></div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;<span class="comment">        for (auto it = answers.begin(); it != answers.end(); it++)</span></div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;<span class="comment">            if (RulesOfEngagement::satisfyPattern((*it)[firstRelIndex],</span></div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;<span class="comment">                modifies, RHS, RHSVarName, RHSexprs))</span></div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;<span class="comment">                newTable.push_back(*it);</span></div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;<span class="comment">    }</span></div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;<span class="comment">    answers = newTable;</span></div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;<span class="comment">}*/</span></div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;</div>
+<div class="line"><a name="l00395"></a><span class="lineno"><a class="code" href="class_answer_table.html#a44d359653923049566c8815d7f0616b2">  395</a></span>&#160;<a class="code" href="class_answer_table.html">AnswerTable</a> <a class="code" href="class_answer_table.html#a44d359653923049566c8815d7f0616b2">AnswerTable::project</a>(<span class="keyword">const</span> vector&lt;string&gt;&amp; selection)</div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;{</div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;    <a class="code" href="class_answer_table.html">AnswerTable</a> newTable;</div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;</div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;    vector&lt;int&gt; indices;</div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = selection.begin(); it != selection.end(); it++)</div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;        indices.push_back(<a class="code" href="class_answer_table.html#a53431094ba04eb9bc510e9cc63172fb1">synonymPosition</a>[*it]);</div>
+<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;</div>
+<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = indices.begin(); it != indices.end(); it++) {</div>
+<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;        newTable.<a class="code" href="class_answer_table.html#a53431094ba04eb9bc510e9cc63172fb1">synonymPosition</a>[header[*it]] = newTable.header.size();</div>
+<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;        newTable.header.push_back(header[*it]);</div>
 <div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;    }</div>
-<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;</div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;    <span class="keywordflow">return</span> newTable;</div>
-<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;}</div>
-<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;</div>
-<div class="line"><a name="l00411"></a><span class="lineno"><a class="code" href="class_answer_table.html#a6402136f56eccb33fd311b9c5208b884">  411</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_answer_table.html#a6402136f56eccb33fd311b9c5208b884">AnswerTable::cartesian</a>(<span class="keyword">const</span> <a class="code" href="class_answer_table.html">AnswerTable</a>&amp; otherTable)</div>
-<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;{</div>
-<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;    vector&lt;vector&lt;int&gt;&gt; newTable;</div>
-<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = answers.begin(); it != answers.end(); it++) {</div>
-<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it2 = otherTable.answers.begin(); it2 != otherTable.answers.end(); it2++) {</div>
-<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;            vector&lt;int&gt; newRow(*it);</div>
-<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;            newRow.insert(newRow.end(), (*it2).begin(), (*it2).end());</div>
-<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;            newTable.push_back(newRow);</div>
-<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;        }</div>
-<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;    }</div>
-<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;    answers = newTable;</div>
-<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;</div>
-<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = otherTable.header.begin(); it != otherTable.header.end(); it++) {</div>
-<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;        <a class="code" href="class_answer_table.html#a53431094ba04eb9bc510e9cc63172fb1">synonymPosition</a>.insert(pair&lt;string, int&gt;(*it, header.size()));</div>
-<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;        header.push_back(*it);</div>
-<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;    }</div>
-<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;}</div>
-<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;</div>
-<div class="line"><a name="l00429"></a><span class="lineno"><a class="code" href="class_answer_table.html#a7d8957160038486ced90cffc680d491c">  429</a></span>&#160;vector&lt;string&gt; <a class="code" href="class_answer_table.html#a7d8957160038486ced90cffc680d491c">AnswerTable::getHeader</a>()<span class="keyword"> const</span></div>
-<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;    <span class="keywordflow">return</span> header;</div>
-<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;}</div>
-<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;</div>
-<div class="line"><a name="l00434"></a><span class="lineno"><a class="code" href="class_answer_table.html#af97a334c1ffcd4b185ddf8d981ef91bf">  434</a></span>&#160;<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="class_answer_table.html#af97a334c1ffcd4b185ddf8d981ef91bf">AnswerTable::getSize</a>()<span class="keyword"> const</span></div>
-<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;    <span class="keywordflow">return</span> answers.size();</div>
-<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;}</div>
-<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;</div>
-<div class="line"><a name="l00439"></a><span class="lineno"><a class="code" href="class_answer_table.html#a28df331881ed15b3012b0d717109096c">  439</a></span>&#160;vector&lt;int&gt; <a class="code" href="class_answer_table.html#a28df331881ed15b3012b0d717109096c">AnswerTable::getRow</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> index)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;    <span class="keywordflow">return</span> answers[index];</div>
-<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;}</div>
+<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;    </div>
+<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = answers.begin(); it != answers.end(); it++) {</div>
+<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;        vector&lt;int&gt; newRow;</div>
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it2 = indices.begin(); it2 != indices.end(); it2++)</div>
+<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;            newRow.push_back((*it)[*it2]);</div>
+<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;        newTable.answers.push_back(newRow);</div>
+<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;    }</div>
+<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;</div>
+<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;    <span class="keywordflow">return</span> newTable;</div>
+<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;}</div>
+<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;</div>
+<div class="line"><a name="l00418"></a><span class="lineno"><a class="code" href="class_answer_table.html#a6402136f56eccb33fd311b9c5208b884">  418</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_answer_table.html#a6402136f56eccb33fd311b9c5208b884">AnswerTable::cartesian</a>(<span class="keyword">const</span> <a class="code" href="class_answer_table.html">AnswerTable</a>&amp; otherTable)</div>
+<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;{</div>
+<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;    vector&lt;vector&lt;int&gt;&gt; newTable;</div>
+<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = answers.begin(); it != answers.end(); it++) {</div>
+<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it2 = otherTable.answers.begin(); it2 != otherTable.answers.end(); it2++) {</div>
+<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;            vector&lt;int&gt; newRow(*it);</div>
+<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;            newRow.insert(newRow.end(), (*it2).begin(), (*it2).end());</div>
+<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;            newTable.push_back(newRow);</div>
+<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;        }</div>
+<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;    }</div>
+<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;    answers = newTable;</div>
+<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;</div>
+<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = otherTable.header.begin(); it != otherTable.header.end(); it++) {</div>
+<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;        <a class="code" href="class_answer_table.html#a53431094ba04eb9bc510e9cc63172fb1">synonymPosition</a>.insert(pair&lt;string, int&gt;(*it, header.size()));</div>
+<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;        header.push_back(*it);</div>
+<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;    }</div>
+<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;}</div>
+<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;</div>
+<div class="line"><a name="l00436"></a><span class="lineno"><a class="code" href="class_answer_table.html#a7d8957160038486ced90cffc680d491c">  436</a></span>&#160;vector&lt;string&gt; <a class="code" href="class_answer_table.html#a7d8957160038486ced90cffc680d491c">AnswerTable::getHeader</a>()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;    <span class="keywordflow">return</span> header;</div>
+<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;}</div>
+<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;</div>
+<div class="line"><a name="l00441"></a><span class="lineno"><a class="code" href="class_answer_table.html#af97a334c1ffcd4b185ddf8d981ef91bf">  441</a></span>&#160;<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="class_answer_table.html#af97a334c1ffcd4b185ddf8d981ef91bf">AnswerTable::getSize</a>()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;    <span class="keywordflow">return</span> answers.size();</div>
+<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;}</div>
+<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;</div>
+<div class="line"><a name="l00446"></a><span class="lineno"><a class="code" href="class_answer_table.html#a28df331881ed15b3012b0d717109096c">  446</a></span>&#160;vector&lt;int&gt; <a class="code" href="class_answer_table.html#a28df331881ed15b3012b0d717109096c">AnswerTable::getRow</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> index)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;    <span class="keywordflow">return</span> answers[index];</div>
+<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_3a581ba30d25676e4b797b1f96d53b45.html">F:</a></li><li class="navelem"><a class="el" href="dir_6102013b666d290f4cd4cc4cd1002dea.html">3201_3202</a></li><li class="navelem"><a class="el" href="dir_817c96b4df492589596cb28c4428f757.html">SPA</a></li><li class="navelem"><a class="el" href="dir_449ff6e35df8de38d91c565d05b67547.html">$P@</a></li><li class="navelem"><a class="el" href="dir_d0bddbc22dc12d2a9b0febed382bae15.html">SPA</a></li><li class="navelem"><a class="el" href="dir_99b35d1729cd47ef5c1303321f4ee3d2.html">SPA</a></li><li class="navelem"><a class="el" href="_answer_table_8cpp.html">AnswerTable.cpp</a></li>
-    <li class="footer">Generated on Thu Jan 31 2013 20:57:47 for SPA by
+    <li class="footer">Generated on Fri Feb 1 2013 01:44:22 for SPA by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3.1 </li>
   </ul>

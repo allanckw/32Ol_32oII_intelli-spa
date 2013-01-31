@@ -38,8 +38,6 @@ enum \hyperlink{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859}{Node\-Type} 
 \item 
 \hyperlink{class_a_s_t_node_a97d3345ffb311a0582a8bf1478722a70}{A\-S\-T\-Node} (\hyperlink{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859}{Node\-Type}, \hyperlink{std_afx_8h_aa07ea1d188c7b45668f1bd82ffd6d87e}{P\-R\-O\-C})
 \item 
-\hyperlink{class_a_s_t_node_a075d226c6382610b649193f72902faf7}{$\sim$\-A\-S\-T\-Node} (void)
-\item 
 virtual \hyperlink{class_a_s_t_node}{A\-S\-T\-Node} $\ast$ \hyperlink{class_a_s_t_node_a595fb15c3e37a7a9e443742dca6483ca}{add\-Child} (\hyperlink{class_a_s_t_node}{A\-S\-T\-Node} $\ast$)
 \item 
 virtual \hyperlink{class_a_s_t_node}{A\-S\-T\-Node} $\ast$ \hyperlink{class_a_s_t_node_a70e8aa10baa353684ae8288f3460a5fc}{set\-Parent} (\hyperlink{class_a_s_t_node}{A\-S\-T\-Node} $\ast$p)
@@ -121,9 +119,9 @@ Definition at line 9 of file A\-S\-T\-Node.\-h.
 {}
 \end{DoxyParamCaption}
 )}}\label{class_a_s_t_node_a1196ed4f19c0b62cdc42fe35946b91d2}
+Default Constructor for the \hyperlink{class_a_s_t_node}{A\-S\-T\-Node}, 
 
-
-Definition at line 5 of file A\-S\-T\-Node.\-cpp.
+Definition at line 7 of file A\-S\-T\-Node.\-cpp.
 
 \hypertarget{class_a_s_t_node_a512c4363de4ceef82b6189e1dbd34ec1}{\index{A\-S\-T\-Node@{A\-S\-T\-Node}!A\-S\-T\-Node@{A\-S\-T\-Node}}
 \index{A\-S\-T\-Node@{A\-S\-T\-Node}!ASTNode@{A\-S\-T\-Node}}
@@ -132,9 +130,14 @@ Definition at line 5 of file A\-S\-T\-Node.\-cpp.
 \item[{{\bf Node\-Type}}]{type}
 \end{DoxyParamCaption}
 )}}\label{class_a_s_t_node_a512c4363de4ceef82b6189e1dbd34ec1}
+Constructor for the \hyperlink{class_a_s_t_node}{A\-S\-T\-Node}, with type being initialized, type must be of type procedure or program otherwise an exception will be thrown as other Node Types uses inherited version of A\-S\-T\-Nodes 
+\begin{DoxyParams}{Parameters}
+{\em type} & The node type of the \hyperlink{class_a_s_t_node}{A\-S\-T\-Node} \\
+\hline
+\end{DoxyParams}
 
 
-Definition at line 10 of file A\-S\-T\-Node.\-cpp.
+Definition at line 17 of file A\-S\-T\-Node.\-cpp.
 
 \hypertarget{class_a_s_t_node_a97d3345ffb311a0582a8bf1478722a70}{\index{A\-S\-T\-Node@{A\-S\-T\-Node}!A\-S\-T\-Node@{A\-S\-T\-Node}}
 \index{A\-S\-T\-Node@{A\-S\-T\-Node}!ASTNode@{A\-S\-T\-Node}}
@@ -144,20 +147,16 @@ Definition at line 10 of file A\-S\-T\-Node.\-cpp.
 \item[{{\bf P\-R\-O\-C}}]{p}
 \end{DoxyParamCaption}
 )}}\label{class_a_s_t_node_a97d3345ffb311a0582a8bf1478722a70}
+Constructor for the \hyperlink{class_a_s_t_node}{A\-S\-T\-Node}, with type and procedure being initialized, used to create A\-S\-T\-Nodes for procedures 
+\begin{DoxyParams}{Parameters}
+{\em type} & The node type of the \hyperlink{class_a_s_t_node}{A\-S\-T\-Node} -\/ Procedure only, otherwise an exception will be thrown \\
+\hline
+{\em p} & the procedure of the \hyperlink{class_a_s_t_node}{A\-S\-T\-Node} \\
+\hline
+\end{DoxyParams}
 
 
-Definition at line 23 of file A\-S\-T\-Node.\-cpp.
-
-\hypertarget{class_a_s_t_node_a075d226c6382610b649193f72902faf7}{\index{A\-S\-T\-Node@{A\-S\-T\-Node}!$\sim$\-A\-S\-T\-Node@{$\sim$\-A\-S\-T\-Node}}
-\index{$\sim$\-A\-S\-T\-Node@{$\sim$\-A\-S\-T\-Node}!ASTNode@{A\-S\-T\-Node}}
-\subsubsection[{$\sim$\-A\-S\-T\-Node}]{\setlength{\rightskip}{0pt plus 5cm}A\-S\-T\-Node\-::$\sim$\-A\-S\-T\-Node (
-\begin{DoxyParamCaption}
-\item[{void}]{}
-\end{DoxyParamCaption}
-)}}\label{class_a_s_t_node_a075d226c6382610b649193f72902faf7}
-
-
-Definition at line 131 of file A\-S\-T\-Node.\-cpp.
+Definition at line 35 of file A\-S\-T\-Node.\-cpp.
 
 
 
@@ -169,13 +168,21 @@ Definition at line 131 of file A\-S\-T\-Node.\-cpp.
 \item[{{\bf A\-S\-T\-Node} $\ast$}]{c}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_a_s_t_node_a595fb15c3e37a7a9e443742dca6483ca}
+Add a child node to the \hyperlink{class_a_s_t_node}{A\-S\-T\-Node}, 
+\begin{DoxyParams}{Parameters}
+{\em c} & the child node to add, Type of child must be procedure when adding to a Program\-Node and type of child must be of type stmt\-Lst when adding to a procedure node \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+its reference 
+\end{DoxyReturn}
 
 
 Reimplemented in \hyperlink{class_a_s_t_stmt_node_a0396498d6bbccecd8a71a4251d237380}{A\-S\-T\-Stmt\-Node}, and \hyperlink{class_a_s_t_stmt_lst_node_a5424fe2ed759c533a1c26e6172dae45f}{A\-S\-T\-Stmt\-Lst\-Node}.
 
 
 
-Definition at line 55 of file A\-S\-T\-Node.\-cpp.
+Definition at line 81 of file A\-S\-T\-Node.\-cpp.
 
 \hypertarget{class_a_s_t_node_a68ef18e60e551c9ba047e3d1809d8620}{\index{A\-S\-T\-Node@{A\-S\-T\-Node}!get\-Child@{get\-Child}}
 \index{get\-Child@{get\-Child}!ASTNode@{A\-S\-T\-Node}}
@@ -184,9 +191,17 @@ Definition at line 55 of file A\-S\-T\-Node.\-cpp.
 \item[{unsigned int}]{i}
 \end{DoxyParamCaption}
 ) const}}\label{class_a_s_t_node_a68ef18e60e551c9ba047e3d1809d8620}
+Get the child \hyperlink{class_a_s_t_node}{A\-S\-T\-Node} at a specific index 
+\begin{DoxyParams}{Parameters}
+{\em the} & index of the child node, starts from 0, 0 denotes left most child \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the child \hyperlink{class_a_s_t_node}{A\-S\-T\-Node} 
+\end{DoxyReturn}
 
 
-Definition at line 117 of file A\-S\-T\-Node.\-cpp.
+Definition at line 163 of file A\-S\-T\-Node.\-cpp.
 
 \hypertarget{class_a_s_t_node_a62e103d706cfbace82cf124bbd080c3e}{\index{A\-S\-T\-Node@{A\-S\-T\-Node}!get\-Parent@{get\-Parent}}
 \index{get\-Parent@{get\-Parent}!ASTNode@{A\-S\-T\-Node}}
@@ -195,9 +210,12 @@ Definition at line 117 of file A\-S\-T\-Node.\-cpp.
 {}
 \end{DoxyParamCaption}
 )}}\label{class_a_s_t_node_a62e103d706cfbace82cf124bbd080c3e}
+Get the parent \hyperlink{class_a_s_t_node}{A\-S\-T\-Node} \begin{DoxyReturn}{Returns}
+the parent \hyperlink{class_a_s_t_node}{A\-S\-T\-Node} 
+\end{DoxyReturn}
 
 
-Definition at line 126 of file A\-S\-T\-Node.\-cpp.
+Definition at line 176 of file A\-S\-T\-Node.\-cpp.
 
 \hypertarget{class_a_s_t_node_afa85380e2e00c7b3166d61ae696b8365}{\index{A\-S\-T\-Node@{A\-S\-T\-Node}!get\-Type@{get\-Type}}
 \index{get\-Type@{get\-Type}!ASTNode@{A\-S\-T\-Node}}
@@ -206,9 +224,12 @@ Definition at line 126 of file A\-S\-T\-Node.\-cpp.
 {}
 \end{DoxyParamCaption}
 ) const}}\label{class_a_s_t_node_afa85380e2e00c7b3166d61ae696b8365}
+Get the Node type of the \hyperlink{class_a_s_t_node}{A\-S\-T\-Node} \begin{DoxyReturn}{Returns}
+the node type 
+\end{DoxyReturn}
 
 
-Definition at line 112 of file A\-S\-T\-Node.\-cpp.
+Definition at line 153 of file A\-S\-T\-Node.\-cpp.
 
 \hypertarget{class_a_s_t_node_a899c8bb0314158fc8ca7d5688b89e165}{\index{A\-S\-T\-Node@{A\-S\-T\-Node}!get\-Value@{get\-Value}}
 \index{get\-Value@{get\-Value}!ASTNode@{A\-S\-T\-Node}}
@@ -217,9 +238,16 @@ Definition at line 112 of file A\-S\-T\-Node.\-cpp.
 {}
 \end{DoxyParamCaption}
 ) const}}\label{class_a_s_t_node_a899c8bb0314158fc8ca7d5688b89e165}
+Returns the value of the \hyperlink{class_a_s_t_node}{A\-S\-T\-Node} 
+\begin{DoxyParams}{Parameters}
+{\em type} & The node type of the \hyperlink{class_a_s_t_node}{A\-S\-T\-Node} \\
+\hline
+{\em p} & the procedure of the \hyperlink{class_a_s_t_node}{A\-S\-T\-Node} \\
+\hline
+\end{DoxyParams}
 
 
-Definition at line 37 of file A\-S\-T\-Node.\-cpp.
+Definition at line 54 of file A\-S\-T\-Node.\-cpp.
 
 \hypertarget{class_a_s_t_node_ae26a0a4a3beebf3ef460ff603cbc3a97}{\index{A\-S\-T\-Node@{A\-S\-T\-Node}!is\-Has\-Children@{is\-Has\-Children}}
 \index{is\-Has\-Children@{is\-Has\-Children}!ASTNode@{A\-S\-T\-Node}}
@@ -228,9 +256,12 @@ Definition at line 37 of file A\-S\-T\-Node.\-cpp.
 {}
 \end{DoxyParamCaption}
 )}}\label{class_a_s_t_node_ae26a0a4a3beebf3ef460ff603cbc3a97}
+Check if the \hyperlink{class_a_s_t_node}{A\-S\-T\-Node} has children \begin{DoxyReturn}{Returns}
+return true if it has children, false otherwise 
+\end{DoxyReturn}
 
 
-Definition at line 106 of file A\-S\-T\-Node.\-cpp.
+Definition at line 143 of file A\-S\-T\-Node.\-cpp.
 
 \hypertarget{class_a_s_t_node_aba44d4dd6234cab7a2c3f153b65bd97f}{\index{A\-S\-T\-Node@{A\-S\-T\-Node}!is\-Root@{is\-Root}}
 \index{is\-Root@{is\-Root}!ASTNode@{A\-S\-T\-Node}}
@@ -239,9 +270,12 @@ Definition at line 106 of file A\-S\-T\-Node.\-cpp.
 {}
 \end{DoxyParamCaption}
 )}}\label{class_a_s_t_node_aba44d4dd6234cab7a2c3f153b65bd97f}
+Check if the \hyperlink{class_a_s_t_node}{A\-S\-T\-Node} is the root \begin{DoxyReturn}{Returns}
+return true if it is the root, false otherwise 
+\end{DoxyReturn}
 
 
-Definition at line 101 of file A\-S\-T\-Node.\-cpp.
+Definition at line 134 of file A\-S\-T\-Node.\-cpp.
 
 \hypertarget{class_a_s_t_node_a70e8aa10baa353684ae8288f3460a5fc}{\index{A\-S\-T\-Node@{A\-S\-T\-Node}!set\-Parent@{set\-Parent}}
 \index{set\-Parent@{set\-Parent}!ASTNode@{A\-S\-T\-Node}}
@@ -250,20 +284,33 @@ Definition at line 101 of file A\-S\-T\-Node.\-cpp.
 \item[{{\bf A\-S\-T\-Node} $\ast$}]{p}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_a_s_t_node_a70e8aa10baa353684ae8288f3460a5fc}
+Set parent to the node and return its reference 
+\begin{DoxyParams}{Parameters}
+{\em p} & the parent node to set \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+its reference 
+\end{DoxyReturn}
 
 
-Definition at line 43 of file A\-S\-T\-Node.\-cpp.
+Definition at line 64 of file A\-S\-T\-Node.\-cpp.
 
 \hypertarget{class_a_s_t_node_a940adeca834d8d00d6d9fa70be68bc0f}{\index{A\-S\-T\-Node@{A\-S\-T\-Node}!set\-Root@{set\-Root}}
 \index{set\-Root@{set\-Root}!ASTNode@{A\-S\-T\-Node}}
 \subsubsection[{set\-Root}]{\setlength{\rightskip}{0pt plus 5cm}void A\-S\-T\-Node\-::set\-Root (
 \begin{DoxyParamCaption}
-\item[{int}]{P\-R\-O\-C\-Index}
+\item[{int}]{p}
 \end{DoxyParamCaption}
 )}}\label{class_a_s_t_node_a940adeca834d8d00d6d9fa70be68bc0f}
+Set the root of an \hyperlink{class_a_s_t_node}{A\-S\-T\-Node}, the Node\-Type must be of type program or an exception will be thrown 
+\begin{DoxyParams}{Parameters}
+{\em p} & the first procedure index that will denote the value of the the root node \\
+\hline
+\end{DoxyParams}
 
 
-Definition at line 91 of file A\-S\-T\-Node.\-cpp.
+Definition at line 120 of file A\-S\-T\-Node.\-cpp.
 
 
 
@@ -273,28 +320,28 @@ Definition at line 91 of file A\-S\-T\-Node.\-cpp.
 \subsubsection[{children}]{\setlength{\rightskip}{0pt plus 5cm}vector$<${\bf A\-S\-T\-Node}$\ast$$>$ A\-S\-T\-Node\-::children\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_a_s_t_node_af8f4491cf9294805337542d5873c85b2}
 
 
-Definition at line 56 of file A\-S\-T\-Node.\-h.
+Definition at line 54 of file A\-S\-T\-Node.\-h.
 
 \hypertarget{class_a_s_t_node_a15fcdbd8403a1169b06d948a827fde55}{\index{A\-S\-T\-Node@{A\-S\-T\-Node}!node\-Type@{node\-Type}}
 \index{node\-Type@{node\-Type}!ASTNode@{A\-S\-T\-Node}}
 \subsubsection[{node\-Type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Node\-Type} A\-S\-T\-Node\-::node\-Type\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_a_s_t_node_a15fcdbd8403a1169b06d948a827fde55}
 
 
-Definition at line 57 of file A\-S\-T\-Node.\-h.
+Definition at line 55 of file A\-S\-T\-Node.\-h.
 
 \hypertarget{class_a_s_t_node_aaa1e479bfeb485d93a4866f9c2daf171}{\index{A\-S\-T\-Node@{A\-S\-T\-Node}!parent@{parent}}
 \index{parent@{parent}!ASTNode@{A\-S\-T\-Node}}
 \subsubsection[{parent}]{\setlength{\rightskip}{0pt plus 5cm}{\bf A\-S\-T\-Node}$\ast$ A\-S\-T\-Node\-::parent\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_a_s_t_node_aaa1e479bfeb485d93a4866f9c2daf171}
 
 
-Definition at line 55 of file A\-S\-T\-Node.\-h.
+Definition at line 53 of file A\-S\-T\-Node.\-h.
 
 \hypertarget{class_a_s_t_node_a136d1712e8cfdeb4908aceb22abc3de7}{\index{A\-S\-T\-Node@{A\-S\-T\-Node}!value@{value}}
 \index{value@{value}!ASTNode@{A\-S\-T\-Node}}
 \subsubsection[{value}]{\setlength{\rightskip}{0pt plus 5cm}int A\-S\-T\-Node\-::value\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_a_s_t_node_a136d1712e8cfdeb4908aceb22abc3de7}
 
 
-Definition at line 54 of file A\-S\-T\-Node.\-h.
+Definition at line 52 of file A\-S\-T\-Node.\-h.
 
 
 

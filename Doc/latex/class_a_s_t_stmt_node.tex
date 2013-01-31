@@ -44,9 +44,18 @@ Definition at line 7 of file A\-S\-T\-Stmt\-Node.\-h.
 \item[{{\bf Index}}]{value}
 \end{DoxyParamCaption}
 )}}\label{class_a_s_t_stmt_node_abf3ac4ab701786816ee76defcdb3c328}
+Constructor\-: Used to create a new \hyperlink{class_a_s_t_stmt_node}{A\-S\-T\-Stmt\-Node} 
+\begin{DoxyParams}{Parameters}
+{\em stmt\-No} & The statement number \\
+\hline
+{\em node\-Type} & The A\-S\-T Node\-Type of statement \\
+\hline
+{\em value} & The Index could be P\-R\-O\-C or V\-A\-R \\
+\hline
+\end{DoxyParams}
 
 
-Definition at line 9 of file A\-S\-T\-Stmt\-Node.\-cpp.
+Definition at line 15 of file A\-S\-T\-Stmt\-Node.\-cpp.
 
 \hypertarget{class_a_s_t_stmt_node_ac80a1656c17e5e55dff7285fd37dc313}{\index{A\-S\-T\-Stmt\-Node@{A\-S\-T\-Stmt\-Node}!$\sim$\-A\-S\-T\-Stmt\-Node@{$\sim$\-A\-S\-T\-Stmt\-Node}}
 \index{$\sim$\-A\-S\-T\-Stmt\-Node@{$\sim$\-A\-S\-T\-Stmt\-Node}!ASTStmtNode@{A\-S\-T\-Stmt\-Node}}
@@ -55,9 +64,9 @@ Definition at line 9 of file A\-S\-T\-Stmt\-Node.\-cpp.
 {}
 \end{DoxyParamCaption}
 )}}\label{class_a_s_t_stmt_node_ac80a1656c17e5e55dff7285fd37dc313}
+This method will be used to create new A\-S\-T Stmt Node with empty argument 
 
-
-Definition at line 150 of file A\-S\-T\-Stmt\-Node.\-cpp.
+Definition at line 183 of file A\-S\-T\-Stmt\-Node.\-cpp.
 
 
 
@@ -69,13 +78,18 @@ Definition at line 150 of file A\-S\-T\-Stmt\-Node.\-cpp.
 \item[{{\bf A\-S\-T\-Node} $\ast$}]{c}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_a_s_t_stmt_node_a0396498d6bbccecd8a71a4251d237380}
+This method will be used to add child under the A\-S\-T Node 
+\begin{DoxyParams}{Parameters}
+{\em c} & The Child of the \hyperlink{class_a_s_t_stmt_node}{A\-S\-T\-Stmt\-Node} \\
+\hline
+\end{DoxyParams}
 
 
 Reimplemented from \hyperlink{class_a_s_t_node_a595fb15c3e37a7a9e443742dca6483ca}{A\-S\-T\-Node}.
 
 
 
-Definition at line 25 of file A\-S\-T\-Stmt\-Node.\-cpp.
+Definition at line 35 of file A\-S\-T\-Stmt\-Node.\-cpp.
 
 \hypertarget{class_a_s_t_stmt_node_aa265b32dab6bb7fcb8b7f1e8a9687f9a}{\index{A\-S\-T\-Stmt\-Node@{A\-S\-T\-Stmt\-Node}!add\-Child@{add\-Child}}
 \index{add\-Child@{add\-Child}!ASTStmtNode@{A\-S\-T\-Stmt\-Node}}
@@ -85,9 +99,16 @@ Definition at line 25 of file A\-S\-T\-Stmt\-Node.\-cpp.
 \item[{int}]{child\-Loc}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_a_s_t_stmt_node_aa265b32dab6bb7fcb8b7f1e8a9687f9a}
+This method will be used to add child under the A\-S\-T Node 
+\begin{DoxyParams}{Parameters}
+{\em c} & The Child of the A\-S\-T\-Stat\-Node \\
+\hline
+{\em child\-Loc} & The Index of the Child of the \hyperlink{class_a_s_t_stmt_node}{A\-S\-T\-Stmt\-Node} \\
+\hline
+\end{DoxyParams}
 
 
-Definition at line 54 of file A\-S\-T\-Stmt\-Node.\-cpp.
+Definition at line 69 of file A\-S\-T\-Stmt\-Node.\-cpp.
 
 \hypertarget{class_a_s_t_stmt_node_a7ccabe8c03f4ba0eb31ac4850725c4e2}{\index{A\-S\-T\-Stmt\-Node@{A\-S\-T\-Stmt\-Node}!get\-Stmt\-Number@{get\-Stmt\-Number}}
 \index{get\-Stmt\-Number@{get\-Stmt\-Number}!ASTStmtNode@{A\-S\-T\-Stmt\-Node}}
@@ -96,9 +117,14 @@ Definition at line 54 of file A\-S\-T\-Stmt\-Node.\-cpp.
 {}
 \end{DoxyParamCaption}
 )}}\label{class_a_s_t_stmt_node_a7ccabe8c03f4ba0eb31ac4850725c4e2}
+This method will be used to get statement number of the A\-S\-T Stmt Node 
+\begin{DoxyParams}{Parameters}
+{\em i} & The Index of the V\-A\-R\-I\-A\-B\-L\-E \\
+\hline
+\end{DoxyParams}
 
 
-Definition at line 154 of file A\-S\-T\-Stmt\-Node.\-cpp.
+Definition at line 191 of file A\-S\-T\-Stmt\-Node.\-cpp.
 
 
 

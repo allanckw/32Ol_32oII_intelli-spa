@@ -15,6 +15,7 @@ PROCTable::~PROCTable(void)
 /**
 * This method will be used to insert procedure name into the procedure table
 * @param PROCName the Procedure name being inserted
+* @return The index of the procedure in the proc table
 */
 PROCIndex PROCTable::insertPROC(string PROCName)
 {
@@ -29,6 +30,7 @@ PROCIndex PROCTable::insertPROC(string PROCName)
 
 /**
 * This method will be used to get the number of procedure in the procedure table 
+* @return The size of the  proc table
 */
 int PROCTable::getSize()
 {
@@ -38,6 +40,7 @@ int PROCTable::getSize()
 /**
 * This method will be used to get the procedure name via the index of the procedure table
 * @param i the index of the procedure table being requested
+* @return the actual string of the variable at index i
 */
 string PROCTable::getPROCName(PROCIndex i)
 {
@@ -52,6 +55,7 @@ string PROCTable::getPROCName(PROCIndex i)
 /**
 * This method will be used to get the index of the procedure name in the procedure table
 * @param PROCName the proecure name being requested for
+* @return The index of the procedure in the proc table
 */
 PROCIndex PROCTable::getPROCIndex(string PROCName)
 {
@@ -66,6 +70,7 @@ PROCIndex PROCTable::getPROCIndex(string PROCName)
 /**
 * This method will be used to check wheather an index is a valid index for the procedure table
 * @param i the index being tested for
+* @return true if the procedure index exists, false otherwise
 */
 bool PROCTable::isExists(PROCIndex i)
 {

@@ -118,27 +118,26 @@ $(document).ready(function(){initNavTree('_a_s_t_expr_node_8h_source.html','');}
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <a class="code" href="class_a_s_t_expr_node.html#ab239cadd56dc305eba5352a91a8a5499">ASTExprNode</a>(<a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859">NodeType</a>, <span class="keywordtype">int</span>);</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <a class="code" href="class_a_s_t_expr_node.html#ab239cadd56dc305eba5352a91a8a5499">ASTExprNode</a>(<a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859">NodeType</a>, <a class="code" href="_a_s_t_expr_node_8h.html#a4f1a4923fbba2992d48ff9e103b110f5">Expr</a>);</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <a class="code" href="class_a_s_t_expr_node.html#a6ac628dd48fdff2a9fa0a4bcf8519897">~ASTExprNode</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_a_s_t_expr_node.html#aaf52939daade8e944719282e5d2ab56c">isMatched</a>(<a class="code" href="_a_s_t_expr_node_8h.html#a4f1a4923fbba2992d48ff9e103b110f5">Expr</a>);</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="class_a_s_t_node.html">ASTNode</a>* <a class="code" href="class_a_s_t_expr_node.html#a3cc0853d56a228c482fe322737e40d84">addChild</a>(<a class="code" href="class_a_s_t_node.html">ASTNode</a>* c, <span class="keywordtype">int</span> childLoc);</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordtype">bool</span> isVARMatched(<span class="keywordtype">string</span>);</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordtype">bool</span> isCONSTMatched(<span class="keywordtype">int</span>);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordtype">bool</span> isOPRMatched(<span class="keywordtype">string</span>);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordtype">string</span> getOperator();</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordtype">void</span> setOperator(<span class="keywordtype">string</span>);</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;};</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_a_s_t_expr_node.html#aaf52939daade8e944719282e5d2ab56c">isMatched</a>(<a class="code" href="_a_s_t_expr_node_8h.html#a4f1a4923fbba2992d48ff9e103b110f5">Expr</a>);</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="class_a_s_t_node.html">ASTNode</a>* <a class="code" href="class_a_s_t_expr_node.html#a3cc0853d56a228c482fe322737e40d84">addChild</a>(<a class="code" href="class_a_s_t_node.html">ASTNode</a>* c, <span class="keywordtype">int</span> childLoc);</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keywordtype">bool</span> isVARMatched(<span class="keywordtype">string</span>);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordtype">bool</span> isCONSTMatched(<span class="keywordtype">int</span>);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordtype">bool</span> isOPRMatched(<span class="keywordtype">string</span>);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordtype">string</span> getOperator();</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordtype">void</span> setOperator(<span class="keywordtype">string</span>);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;};</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_3a581ba30d25676e4b797b1f96d53b45.html">F:</a></li><li class="navelem"><a class="el" href="dir_6102013b666d290f4cd4cc4cd1002dea.html">3201_3202</a></li><li class="navelem"><a class="el" href="dir_817c96b4df492589596cb28c4428f757.html">SPA</a></li><li class="navelem"><a class="el" href="dir_449ff6e35df8de38d91c565d05b67547.html">$P@</a></li><li class="navelem"><a class="el" href="dir_d0bddbc22dc12d2a9b0febed382bae15.html">SPA</a></li><li class="navelem"><a class="el" href="dir_99b35d1729cd47ef5c1303321f4ee3d2.html">SPA</a></li><li class="navelem"><a class="el" href="_a_s_t_expr_node_8h.html">ASTExprNode.h</a></li>
-    <li class="footer">Generated on Thu Jan 31 2013 20:57:47 for SPA by
+    <li class="footer">Generated on Fri Feb 1 2013 01:44:22 for SPA by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3.1 </li>
   </ul>

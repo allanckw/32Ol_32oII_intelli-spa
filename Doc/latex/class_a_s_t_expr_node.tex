@@ -18,8 +18,6 @@ Inheritance diagram for A\-S\-T\-Expr\-Node\-:\begin{figure}[H]
 \item 
 \hyperlink{class_a_s_t_expr_node_a8f009ba4853cc2bbcfc05cd4ad026435}{A\-S\-T\-Expr\-Node} (\hyperlink{class_a_s_t_node_a4fd016b5f0e44ea6aca3542d27de3859}{Node\-Type}, \hyperlink{_a_s_t_expr_node_8h_a4f1a4923fbba2992d48ff9e103b110f5}{Expr})
 \item 
-\hyperlink{class_a_s_t_expr_node_a6ac628dd48fdff2a9fa0a4bcf8519897}{$\sim$\-A\-S\-T\-Expr\-Node} (void)
-\item 
 bool \hyperlink{class_a_s_t_expr_node_aaf52939daade8e944719282e5d2ab56c}{is\-Matched} (\hyperlink{_a_s_t_expr_node_8h_a4f1a4923fbba2992d48ff9e103b110f5}{Expr})
 \item 
 virtual \hyperlink{class_a_s_t_node}{A\-S\-T\-Node} $\ast$ \hyperlink{class_a_s_t_expr_node_a3cc0853d56a228c482fe322737e40d84}{add\-Child} (\hyperlink{class_a_s_t_node}{A\-S\-T\-Node} $\ast$c, int child\-Loc)
@@ -43,9 +41,16 @@ Definition at line 6 of file A\-S\-T\-Expr\-Node.\-h.
 \item[{int}]{value}
 \end{DoxyParamCaption}
 )}}\label{class_a_s_t_expr_node_ab239cadd56dc305eba5352a91a8a5499}
+Constructor for the \hyperlink{class_a_s_t_expr_node}{A\-S\-T\-Expr\-Node}, initiate the node’s type and the value as integer, usually used for constants. 
+\begin{DoxyParams}{Parameters}
+{\em node\-Type} & The node\-Type of expression node (Constant, Operator and Variable) \\
+\hline
+{\em value} & The value of the Expression Represented, 0 for +, 1 for -\/, 2 for $\ast$ for operator Actual value for constant V\-A\-R\-Index for variable \\
+\hline
+\end{DoxyParams}
 
 
-Definition at line 8 of file A\-S\-T\-Expr\-Node.\-cpp.
+Definition at line 17 of file A\-S\-T\-Expr\-Node.\-cpp.
 
 \hypertarget{class_a_s_t_expr_node_a8f009ba4853cc2bbcfc05cd4ad026435}{\index{A\-S\-T\-Expr\-Node@{A\-S\-T\-Expr\-Node}!A\-S\-T\-Expr\-Node@{A\-S\-T\-Expr\-Node}}
 \index{A\-S\-T\-Expr\-Node@{A\-S\-T\-Expr\-Node}!ASTExprNode@{A\-S\-T\-Expr\-Node}}
@@ -57,18 +62,7 @@ Definition at line 8 of file A\-S\-T\-Expr\-Node.\-cpp.
 )}}\label{class_a_s_t_expr_node_a8f009ba4853cc2bbcfc05cd4ad026435}
 
 
-Definition at line 34 of file A\-S\-T\-Expr\-Node.\-cpp.
-
-\hypertarget{class_a_s_t_expr_node_a6ac628dd48fdff2a9fa0a4bcf8519897}{\index{A\-S\-T\-Expr\-Node@{A\-S\-T\-Expr\-Node}!$\sim$\-A\-S\-T\-Expr\-Node@{$\sim$\-A\-S\-T\-Expr\-Node}}
-\index{$\sim$\-A\-S\-T\-Expr\-Node@{$\sim$\-A\-S\-T\-Expr\-Node}!ASTExprNode@{A\-S\-T\-Expr\-Node}}
-\subsubsection[{$\sim$\-A\-S\-T\-Expr\-Node}]{\setlength{\rightskip}{0pt plus 5cm}A\-S\-T\-Expr\-Node\-::$\sim$\-A\-S\-T\-Expr\-Node (
-\begin{DoxyParamCaption}
-\item[{void}]{}
-\end{DoxyParamCaption}
-)}}\label{class_a_s_t_expr_node_a6ac628dd48fdff2a9fa0a4bcf8519897}
-
-
-Definition at line 108 of file A\-S\-T\-Expr\-Node.\-cpp.
+Definition at line 52 of file A\-S\-T\-Expr\-Node.\-cpp.
 
 
 
@@ -81,9 +75,19 @@ Definition at line 108 of file A\-S\-T\-Expr\-Node.\-cpp.
 \item[{int}]{child\-Loc}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_a_s_t_expr_node_a3cc0853d56a228c482fe322737e40d84}
+This method will be used to add child under the A\-S\-T Node 
+\begin{DoxyParams}{Parameters}
+{\em c} & The A\-S\-T Child Node to add \\
+\hline
+{\em child\-Loc} & The Child Location, must be 1 or 2, 1 denotes left, 2 denotes right, other exception will be thrown \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+itself 
+\end{DoxyReturn}
 
 
-Definition at line 64 of file A\-S\-T\-Expr\-Node.\-cpp.
+Definition at line 88 of file A\-S\-T\-Expr\-Node.\-cpp.
 
 \hypertarget{class_a_s_t_expr_node_aaf52939daade8e944719282e5d2ab56c}{\index{A\-S\-T\-Expr\-Node@{A\-S\-T\-Expr\-Node}!is\-Matched@{is\-Matched}}
 \index{is\-Matched@{is\-Matched}!ASTExprNode@{A\-S\-T\-Expr\-Node}}
@@ -92,9 +96,14 @@ Definition at line 64 of file A\-S\-T\-Expr\-Node.\-cpp.
 \item[{{\bf Expr}}]{expr}
 \end{DoxyParamCaption}
 )}}\label{class_a_s_t_expr_node_aaf52939daade8e944719282e5d2ab56c}
+This method will be used to match the value of the expression node 
+\begin{DoxyParams}{Parameters}
+{\em expr} & the expression to test if it matches the value of the node  true if the node is of the correct value, false otherwise \\
+\hline
+\end{DoxyParams}
 
 
-Definition at line 112 of file A\-S\-T\-Expr\-Node.\-cpp.
+Definition at line 136 of file A\-S\-T\-Expr\-Node.\-cpp.
 
 
 

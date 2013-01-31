@@ -16,6 +16,7 @@ VARTable::~VARTable(void)
 /**
 * This method will be use to add variable into the variable table
 * @param VARName the variable being added
+* @return The index of the variable in the var table
 */
 VARIndex VARTable::insertVAR(string VARName)
 {
@@ -30,6 +31,7 @@ VARIndex VARTable::insertVAR(string VARName)
 
 /**
 * This method will be used to get the amount of variable in the variable table
+* @return The size of the  var table
 */
 int VARTable::getSize()
 {
@@ -39,6 +41,7 @@ int VARTable::getSize()
 /**
 * This method will be used to return the string of the variable at index i in the variable table
 * @param i the index of the variable being requested for
+* @return the actual string of the variable at index i
 */
 string VARTable::getVARName(VARIndex i)
 {
@@ -53,6 +56,7 @@ string VARTable::getVARName(VARIndex i)
 /**
 * This method will be used return the index of the VARName variable in the variable table
 * @param VARName the name of the variable being requested for
+* @return The index of the variable in the var table
 */
 VARIndex VARTable::getVARIndex(string VARName)
 {
@@ -68,6 +72,7 @@ VARIndex VARTable::getVARIndex(string VARName)
 /**
 * This method will be used to check if a index is a valid variable table index
 * @param i the index of the variable table which is being checked
+* @return true if the variable index exists, false otherwise
 */
 bool VARTable::isExists(VARIndex i)
 {

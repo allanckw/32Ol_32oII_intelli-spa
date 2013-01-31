@@ -142,41 +142,39 @@ $(document).ready(function(){initNavTree('_a_s_t_node_8h_source.html','');});
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <a class="code" href="class_a_s_t_node.html#a1196ed4f19c0b62cdc42fe35946b91d2">ASTNode</a>(<a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859">NodeType</a>);</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <a class="code" href="class_a_s_t_node.html#a1196ed4f19c0b62cdc42fe35946b91d2">ASTNode</a>(<a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859">NodeType</a>, <a class="code" href="std_afx_8h.html#aa07ea1d188c7b45668f1bd82ffd6d87e">PROC</a>);</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <a class="code" href="class_a_s_t_node.html#a075d226c6382610b649193f72902faf7">~ASTNode</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="class_a_s_t_node.html">ASTNode</a>* <a class="code" href="class_a_s_t_node.html#a595fb15c3e37a7a9e443742dca6483ca">addChild</a>(<a class="code" href="class_a_s_t_node.html">ASTNode</a>*);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="class_a_s_t_node.html">ASTNode</a>* <a class="code" href="class_a_s_t_node.html#a70e8aa10baa353684ae8288f3460a5fc">setParent</a>(<a class="code" href="class_a_s_t_node.html">ASTNode</a> * p);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="class_a_s_t_node.html">ASTNode</a>* <a class="code" href="class_a_s_t_node.html#a595fb15c3e37a7a9e443742dca6483ca">addChild</a>(<a class="code" href="class_a_s_t_node.html">ASTNode</a>*);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="class_a_s_t_node.html">ASTNode</a>* <a class="code" href="class_a_s_t_node.html#a70e8aa10baa353684ae8288f3460a5fc">setParent</a>(<a class="code" href="class_a_s_t_node.html">ASTNode</a> * p);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_a_s_t_node.html#a940adeca834d8d00d6d9fa70be68bc0f">setRoot</a>(<span class="keywordtype">int</span>);</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_a_s_t_node.html#a940adeca834d8d00d6d9fa70be68bc0f">setRoot</a>(<span class="keywordtype">int</span>);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859">ASTNode::NodeType</a> <a class="code" href="class_a_s_t_node.html#afa85380e2e00c7b3166d61ae696b8365">getType</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <a class="code" href="class_a_s_t_node.html">ASTNode</a>* <a class="code" href="class_a_s_t_node.html#a68ef18e60e551c9ba047e3d1809d8620">getChild</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="class_a_s_t_node.html">ASTNode</a>* <a class="code" href="class_a_s_t_node.html#a62e103d706cfbace82cf124bbd080c3e">getParent</a>();</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="class_a_s_t_node.html#a899c8bb0314158fc8ca7d5688b89e165">getValue</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_a_s_t_node.html#ae26a0a4a3beebf3ef460ff603cbc3a97">isHasChildren</a>();</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_a_s_t_node.html#aba44d4dd6234cab7a2c3f153b65bd97f">isRoot</a>();</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00054"></a><span class="lineno"><a class="code" href="class_a_s_t_node.html#a136d1712e8cfdeb4908aceb22abc3de7">   54</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="class_a_s_t_node.html#a136d1712e8cfdeb4908aceb22abc3de7">value</a>;</div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="code" href="class_a_s_t_node.html#aaa1e479bfeb485d93a4866f9c2daf171">   55</a></span>&#160;    <a class="code" href="class_a_s_t_node.html">ASTNode</a>* <a class="code" href="class_a_s_t_node.html#aaa1e479bfeb485d93a4866f9c2daf171">parent</a>;</div>
-<div class="line"><a name="l00056"></a><span class="lineno"><a class="code" href="class_a_s_t_node.html#af8f4491cf9294805337542d5873c85b2">   56</a></span>&#160;    vector&lt;ASTNode*&gt; <a class="code" href="class_a_s_t_node.html#af8f4491cf9294805337542d5873c85b2">children</a>;</div>
-<div class="line"><a name="l00057"></a><span class="lineno"><a class="code" href="class_a_s_t_node.html#a15fcdbd8403a1169b06d948a827fde55">   57</a></span>&#160;    <a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859">NodeType</a> <a class="code" href="class_a_s_t_node.html#a15fcdbd8403a1169b06d948a827fde55">nodeType</a>;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">bool</span> root;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;};</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859">ASTNode::NodeType</a> <a class="code" href="class_a_s_t_node.html#afa85380e2e00c7b3166d61ae696b8365">getType</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <a class="code" href="class_a_s_t_node.html">ASTNode</a>* <a class="code" href="class_a_s_t_node.html#a68ef18e60e551c9ba047e3d1809d8620">getChild</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <a class="code" href="class_a_s_t_node.html">ASTNode</a>* <a class="code" href="class_a_s_t_node.html#a62e103d706cfbace82cf124bbd080c3e">getParent</a>();</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="class_a_s_t_node.html#a899c8bb0314158fc8ca7d5688b89e165">getValue</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_a_s_t_node.html#ae26a0a4a3beebf3ef460ff603cbc3a97">isHasChildren</a>();</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_a_s_t_node.html#aba44d4dd6234cab7a2c3f153b65bd97f">isRoot</a>();</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="code" href="class_a_s_t_node.html#a136d1712e8cfdeb4908aceb22abc3de7">   52</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="class_a_s_t_node.html#a136d1712e8cfdeb4908aceb22abc3de7">value</a>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="code" href="class_a_s_t_node.html#aaa1e479bfeb485d93a4866f9c2daf171">   53</a></span>&#160;    <a class="code" href="class_a_s_t_node.html">ASTNode</a>* <a class="code" href="class_a_s_t_node.html#aaa1e479bfeb485d93a4866f9c2daf171">parent</a>;</div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="code" href="class_a_s_t_node.html#af8f4491cf9294805337542d5873c85b2">   54</a></span>&#160;    vector&lt;ASTNode*&gt; <a class="code" href="class_a_s_t_node.html#af8f4491cf9294805337542d5873c85b2">children</a>;</div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="code" href="class_a_s_t_node.html#a15fcdbd8403a1169b06d948a827fde55">   55</a></span>&#160;    <a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859">NodeType</a> <a class="code" href="class_a_s_t_node.html#a15fcdbd8403a1169b06d948a827fde55">nodeType</a>;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">bool</span> root;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;};</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_3a581ba30d25676e4b797b1f96d53b45.html">F:</a></li><li class="navelem"><a class="el" href="dir_6102013b666d290f4cd4cc4cd1002dea.html">3201_3202</a></li><li class="navelem"><a class="el" href="dir_817c96b4df492589596cb28c4428f757.html">SPA</a></li><li class="navelem"><a class="el" href="dir_449ff6e35df8de38d91c565d05b67547.html">$P@</a></li><li class="navelem"><a class="el" href="dir_d0bddbc22dc12d2a9b0febed382bae15.html">SPA</a></li><li class="navelem"><a class="el" href="dir_99b35d1729cd47ef5c1303321f4ee3d2.html">SPA</a></li><li class="navelem"><a class="el" href="_a_s_t_node_8h.html">ASTNode.h</a></li>
-    <li class="footer">Generated on Thu Jan 31 2013 20:57:47 for SPA by
+    <li class="footer">Generated on Fri Feb 1 2013 01:44:22 for SPA by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3.1 </li>
   </ul>

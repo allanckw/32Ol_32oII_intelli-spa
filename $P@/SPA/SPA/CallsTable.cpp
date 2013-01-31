@@ -7,6 +7,11 @@ CallsTable::CallsTable()
 {
 }
 
+/**
+* This method will be used to insert the call relation
+* @param p1 procedure calling p2
+* @param p2 procedure being called by p1
+*/
 void CallsTable::insertCalls(PROC p1, PROC p2)
 {
 	if (p1 == p2)
@@ -18,6 +23,10 @@ void CallsTable::insertCalls(PROC p1, PROC p2)
 
 //This function should be called after CallsTable is fully populated
 //Creates hash tables callsTable and callsTable star for fast access during queries
+
+/**
+* This method will be used to optimized the populated call table for fast access
+*/
 void CallsTable::optimizeCallsTable() {
 	for (auto it = originalCalledBy.begin(); it != originalCalledBy.end(); it++) {
 		PROC proc = (*it).first;
@@ -44,6 +53,11 @@ void CallsTable::optimizeCallsTable() {
 	}
 }
 
+
+/**
+* This method will be used to analyst the call table and return a set of stmt called by the procedure to be used for optimization  
+* @param proc procedure being anaylsted
+*/
 set<STMT> CallsTable::analyseCallByStar(PROC proc) {
 	if (originalCalledByStar.count(proc) == 0) {
 		set<PROC>& childrenStar = originalCalledByStar[proc];
@@ -58,7 +72,10 @@ set<STMT> CallsTable::analyseCallByStar(PROC proc) {
 	}
 	return originalCalledByStar[proc];
 }
-
+/**
+* This method will be used to analyst the call table and return a set of stmt called from the procedure to be used for optimization  
+* @param proc procedure being anaylsted
+*/
 set<STMT> CallsTable::analyseCallFromStar(PROC proc) {
 	if (originalCalledFromStar.count(proc) == 0) {
 		set<PROC>& parentsStar = originalCalledFromStar[proc];
@@ -74,6 +91,11 @@ set<STMT> CallsTable::analyseCallFromStar(PROC proc) {
 	return originalCalledFromStar[proc];
 }
 
+
+/**
+* This method will be used to return the list of procedure called by procedure p 
+* @param p target procedure
+*/
 vector<PROC> CallsTable::getCalledBy(PROC p)
 {
 	if (optimizedCalledBy.count(p) > 0)
@@ -81,6 +103,11 @@ vector<PROC> CallsTable::getCalledBy(PROC p)
 	return vector<PROC>();
 }
 
+
+/**
+* This method will be used to return the list of procedure called from procedure p
+* @param p target procedure
+*/
 vector<PROC> CallsTable::getCalledFrom(PROC p)
 {
 	if (optimizedCalledFrom.count(p) > 0)
@@ -88,6 +115,10 @@ vector<PROC> CallsTable::getCalledFrom(PROC p)
 	return vector<PROC>();
 }
 
+/**
+* This method will be used to return the list of procedure will is indirectly called by procedure p 
+* @param p target procedure
+*/
 vector<PROC> CallsTable::getCalledByStar(PROC p)
 {
 	if (optimizedCalledByStar.count(p) > 0)
@@ -95,6 +126,10 @@ vector<PROC> CallsTable::getCalledByStar(PROC p)
 	return vector<PROC>();
 }
 
+/**
+* This method will be used to return the list of procedure will is indirectly called from procedure p 
+* @param p target procedure
+*/
 vector<PROC> CallsTable::getCalledFromStar(PROC p)
 {
 	if (optimizedCalledFromStar.count(p) > 0)
@@ -102,21 +137,40 @@ vector<PROC> CallsTable::getCalledFromStar(PROC p)
 	return vector<PROC>();
 }
 
+/**
+* This method will be used to check if the procedure p1 call procedure p2
+* @param p1 procedure called from
+* @param p2 procedure called to
+*/
 bool CallsTable::isCalled(PROC p1, PROC p2)
 {
 	return (originalCalledBy.count(p1) > 0 && originalCalledBy[p1].count(p2) > 0);
 }
 
+/**
+* This method will be used to check if the procedure p1 indirectly call procedure p2
+* @param p1 procedure called from
+* @param p2 procedure called to
+*/
 bool CallsTable::isCalledStar(PROC p1, PROC p2)
 {
 	return (originalCalledByStar.count(p1) > 0 && originalCalledByStar[p1].count(p2) > 0);
 }
 
+/**
+* This method will be used to check if the calls table is empty
+*/
 bool CallsTable::isEmpty()
 {
 	return originalCalledBy.empty();
 }
 
+
+/**
+* This method will be used to insert calls made from stmt to procedure into the call table 
+* @param s stmt which called the procedure p
+@ @param p procedure which is called by stmt s
+*/
 void CallsTable::insertStmtCall(STMT s, PROC p)
 {
 	if (stmtCall.count(p) > 0)
@@ -128,6 +182,11 @@ void CallsTable::insertStmtCall(STMT s, PROC p)
 	}
 }
 
+
+/**
+* This method will be used to get the list of stmt which procedure p is called from
+* @param p the target procedure
+*/
 vector<STMT> CallsTable::getStmtCall(PROC p)
 {
 	if (stmtCall.count(p) > 0)
@@ -138,6 +197,10 @@ vector<STMT> CallsTable::getStmtCall(PROC p)
 //////////////////////////////////
 //Functions for Testing purposes//
 //////////////////////////////////
+
+/**
+* This method will be used for testing purposes for viewing the content of call table
+*/
 void CallsTable::displayCallsTables()
 {
 	cout << "OPTIMISED CALLSTABLE BY:" << endl;

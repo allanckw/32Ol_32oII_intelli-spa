@@ -82,7 +82,7 @@ ASTExprNode::ASTExprNode(NodeType nodeType, Expr value)
 /**
 * This method will be used to add child under the AST Node
 * @param c	The AST Child Node to add
-* @param childLoc	The Child Location, must be 1 or 2, 1 denotes left, 2 denotes right, other exception will be thrown
+* @param childLoc	The Child Location, must be 1 or 2, 1 denotes left, 2 denotes right, otherwise an exception will be thrown
 * @return itself
 */
 ASTNode* ASTExprNode::addChild(ASTNode* c, int childLoc){

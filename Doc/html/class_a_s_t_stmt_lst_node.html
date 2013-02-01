@@ -32,7 +32,7 @@
    <div id="projectname">SPA
    &#160;<span id="projectnumber">1</span>
    </div>
-   <div id="projectbrief">Static Program Analyzer - Team 11 CS3202</div>
+   <div id="projectbrief">Static Program Analyzer - Team 11 CS3202 AY12/13 S2</div>
   </td>
  </tr>
  </tbody>
@@ -127,8 +127,6 @@ Inheritance diagram for ASTStmtLstNode:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a12c10755015930be83b22f9edd75f610"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_s_t_stmt_lst_node.html#a12c10755015930be83b22f9edd75f610">ASTStmtLstNode</a> ()</td></tr>
 <tr class="separator:a12c10755015930be83b22f9edd75f610"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d5ab5a42f1b92642e14d15a03a2e4e3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_s_t_stmt_lst_node.html#a9d5ab5a42f1b92642e14d15a03a2e4e3">~ASTStmtLstNode</a> (void)</td></tr>
-<tr class="separator:a9d5ab5a42f1b92642e14d15a03a2e4e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a49f21aa9b4b7836943762aee8f5ffae0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_s_t_stmt_lst_node.html#a49f21aa9b4b7836943762aee8f5ffae0">getSize</a> ()</td></tr>
 <tr class="separator:a49f21aa9b4b7836943762aee8f5ffae0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5424fe2ed759c533a1c26e6172dae45f"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_a_s_t_node.html">ASTNode</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_s_t_stmt_lst_node.html#a5424fe2ed759c533a1c26e6172dae45f">addChild</a> (<a class="el" href="class_a_s_t_node.html">ASTNode</a> *)</td></tr>
@@ -202,27 +200,9 @@ Additional Inherited Members</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>This method will be used to create a new ASTStmtListNode </p>
+<p>Constructor for ASTStmtListNode </p>
 
 <p>Definition at line <a class="el" href="_a_s_t_stmt_lst_node_8cpp_source.html#l00008">8</a> of file <a class="el" href="_a_s_t_stmt_lst_node_8cpp_source.html">ASTStmtLstNode.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a9d5ab5a42f1b92642e14d15a03a2e4e3"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">ASTStmtLstNode::~ASTStmtLstNode </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_a_s_t_stmt_lst_node_8cpp_source.html#l00014">14</a> of file <a class="el" href="_a_s_t_stmt_lst_node_8cpp_source.html">ASTStmtLstNode.cpp</a>.</p>
 
 </div>
 </div>
@@ -248,17 +228,18 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>This method will be used to add child under the AST Stmt List Node </p>
+<p>This method will be used to add a child node in the the ASTStmtList Node </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">node</td><td>The Child of the AST Stmt List Node </td></tr>
+    <tr><td class="paramname">node</td><td>The Child node to add to the ASTStmtListNode, must be of type Assign / If / While / Call or an exception will be thrown </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>its reference </dd></dl>
 
 <p>Reimplemented from <a class="el" href="class_a_s_t_node.html#a595fb15c3e37a7a9e443742dca6483ca">ASTNode</a>.</p>
 
-<p>Definition at line <a class="el" href="_a_s_t_stmt_lst_node_8cpp_source.html#l00030">30</a> of file <a class="el" href="_a_s_t_stmt_lst_node_8cpp_source.html">ASTStmtLstNode.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_a_s_t_stmt_lst_node_8cpp_source.html#l00027">27</a> of file <a class="el" href="_a_s_t_stmt_lst_node_8cpp_source.html">ASTStmtLstNode.cpp</a>.</p>
 
 </div>
 </div>
@@ -274,9 +255,10 @@ Additional Inherited Members</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>This method will be used to get the number of children under it </p>
+<p>This method will be used to get the number of statements in the statement list </p>
+<dl class="section return"><dt>Returns</dt><dd>the number of statements in the statement list </dd></dl>
 
-<p>Definition at line <a class="el" href="_a_s_t_stmt_lst_node_8cpp_source.html#l00021">21</a> of file <a class="el" href="_a_s_t_stmt_lst_node_8cpp_source.html">ASTStmtLstNode.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_a_s_t_stmt_lst_node_8cpp_source.html#l00017">17</a> of file <a class="el" href="_a_s_t_stmt_lst_node_8cpp_source.html">ASTStmtLstNode.cpp</a>.</p>
 
 </div>
 </div>
@@ -290,7 +272,7 @@ Additional Inherited Members</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_a_s_t_stmt_lst_node.html">ASTStmtLstNode</a></li>
-    <li class="footer">Generated on Fri Feb 1 2013 01:44:23 for SPA by
+    <li class="footer">Generated on Fri Feb 1 2013 13:49:28 for SPA by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3.1 </li>
   </ul>

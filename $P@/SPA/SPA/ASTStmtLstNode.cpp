@@ -3,16 +3,11 @@
 #include "ASTStmtLstNode.h"
 
 /**
-* This method will be used to create a new ASTStmtListNode
+* Constructor for ASTStmtListNode
 */
 ASTStmtLstNode::ASTStmtLstNode()
 {
 	this->nodeType = ASTNode::StmtLst;
-}
-
-
-ASTStmtLstNode::~ASTStmtLstNode(void)
-{
 }
 
 /**

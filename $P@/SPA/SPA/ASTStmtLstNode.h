@@ -9,7 +9,6 @@ class ASTStmtLstNode :
 {
 public:
 	ASTStmtLstNode();
-	~ASTStmtLstNode(void);
 	int getSize();
 	virtual ASTNode* addChild(ASTNode*);
 };

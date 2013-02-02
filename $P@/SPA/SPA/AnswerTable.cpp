@@ -7,6 +7,10 @@ AnswerTable::AnswerTable()
 {
 }
 
+/**
+* Constructs the AnswerTable for the synonym. Values are those that satisfy all conditions.
+* This excludes all other relations.
+*/
 AnswerTable::AnswerTable(const SynonymTable& synonymTable, const string& synonym)
 {
 	header.push_back(synonym);
@@ -201,6 +205,10 @@ AnswerTable::AnswerTable(const SynonymTable& synonymTable, const string& synonym
 	}
 }
 
+/**
+* Scans through two AnswerTables and combine those rows where the synonyms in each Answertable
+* satisfy the relation.
+*/
 void AnswerTable::combine(const string& ownSynonym, const AnswerTable& otherTable,
 	const string& otherSynonym, const RulesOfEngagement::isRelation rel)
 {
@@ -223,6 +231,9 @@ void AnswerTable::combine(const string& ownSynonym, const AnswerTable& otherTabl
 	}
 }
 
+/**
+* Scans through the AnswerTable and keep those rows where the synonyms satisfy the relation.
+*/
 void AnswerTable::prune(const string& firstSynonym,
 	const string& secondSynonym, const RulesOfEngagement::isRelation rel)
 {
@@ -236,6 +247,10 @@ void AnswerTable::prune(const string& firstSynonym,
 	answers = newTable;
 }
 
+/**
+* Scans through two AnswerTables and combine those rows where the synonyms in each Answertable
+* satisfy the relation as defined with the 'with' keyword.
+*/
 void AnswerTable::withCombine(const SynonymTable& synonymTable, const string& firstSynonym,
 	const string& firstCondition, const AnswerTable& otherTable,
 	const string& secondSynonym, const string& secondCondition)
@@ -307,6 +322,10 @@ void AnswerTable::withCombine(const SynonymTable& synonymTable, const string& fi
 	}
 }
 
+/**
+* Scans through the AnswerTable and keep those rows where the synonyms satisfy the relation
+* as defined with the 'with' keyword.
+*/
 void AnswerTable::withPrune(const SynonymTable& synonymTable, const string& firstSynonym,
 	const string& firstCondition, const string& secondSynonym, const string& secondCondition)
 {
@@ -354,7 +373,7 @@ void AnswerTable::withPrune(const SynonymTable& synonymTable, const string& firs
 }
 /**
 * This method will be used to evaluate the pattern relation and return
-the assignment,if,while that re valid
+the assignment,if,while that are valid
 * @param synonym the pattern's LHS var
 * @param RHS the right hand side's type
 * @param RHSVarName right hand side's variable name
@@ -372,26 +391,11 @@ void AnswerTable::patternPrune(const string& synonym,
 	answers = newTable;
 }
 
-/*void AnswerTable::patternPrune(string synonym, bool modifiesIsSynonym, int modifies,
-	RulesOfEngagement::PatternRHSType RHS, string RHSVarName, ASTExprNode* RHSexprs)
-{
-	int firstRelIndex = synonymPosition[synonym];
 
-	vector<vector<int>> newTable;
-	if (modifiesIsSynonym) {
-		for (auto it = answers.begin(); it != answers.end(); it++)
-			if (RulesOfEngagement::satisfyPattern((*it)[firstRelIndex],
-				(*it)[modifies], RHS, RHSVarName, RHSexprs))
-				newTable.push_back(*it);
-	} else {
-		for (auto it = answers.begin(); it != answers.end(); it++)
-			if (RulesOfEngagement::satisfyPattern((*it)[firstRelIndex],
-				modifies, RHS, RHSVarName, RHSexprs))
-				newTable.push_back(*it);
-	}
-	answers = newTable;
-}*/
-
+/**
+* Creates a new AnswerTable with only the columns corresponding to the synonyms that are
+* required. The required synonyms are given in a vector given in the argument.
+*/
 AnswerTable AnswerTable::project(const vector<string>& selection)
 {
 	AnswerTable newTable;
@@ -415,6 +419,10 @@ AnswerTable AnswerTable::project(const vector<string>& selection)
 	return newTable;
 }
 
+/**
+* Forms a new AnswerTable created by taking the Cartesian Product of this AnswerTable
+* with the AnswerTable given in the argument.
+*/
 void AnswerTable::cartesian(const AnswerTable& otherTable)
 {
 	vector<vector<int>> newTable;
@@ -433,16 +441,25 @@ void AnswerTable::cartesian(const AnswerTable& otherTable)
 	}
 }
 
+/**
+* Returns a vector of the synonyms included in this AnswerTable.
+*/
 vector<string> AnswerTable::getHeader() const
 {
 	return header;
 }
 
+/**
+* Returns the number of synonyms in this AnswerTable.
+*/
 unsigned int AnswerTable::getSize() const
 {
 	return answers.size();
 }
 
+/**
+* Returns a particular row of this AnswerTable. The validity of the value given is not checked.
+*/
 vector<int> AnswerTable::getRow(const int index) const
 {
 	return answers[index];

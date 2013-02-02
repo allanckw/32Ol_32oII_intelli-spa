@@ -7,7 +7,6 @@ unordered_map <PROC, unordered_set<PROC> > DesignExtractor::fromProcAdjList;
 unordered_map <PROC, int> DesignExtractor::procCount;
 unordered_map <PROC, vector< stack<ASTStmtNode*> > > DesignExtractor::savestate;
 
-
 /**
 * Extracts the design of the static root node in PKB Class and populate the respective tables
 * (Modifies, Uses, Follows, Parents, Calls)
@@ -72,7 +71,10 @@ void DesignExtractor::extractDesign()
 	DesignExtractor::CompleteExtraction();
 }
 
-//Call all the optimization here...
+/**
+* Tables that require optimisation are called to do so here.
+* Various other data in PKB are set.
+*/
 void DesignExtractor::CompleteExtraction()
 {
 	PKB::maxProgLines = PKB::statementTable.size();
@@ -81,6 +83,9 @@ void DesignExtractor::CompleteExtraction()
 	PKB::uses.optimizeUsesTable();
 }
 
+/**
+* Traverse the entire AST and extracts the call relationship between procedures.
+*/
 void DesignExtractor::buildFirstRound() {
 
 	stack<ASTStmtNode*> DFSstack;
@@ -112,13 +117,15 @@ void DesignExtractor::buildFirstRound() {
 				PKB::uses.linkCallStmtToProcUses((*currentStmtNode).getStmtNumber(), calledProc);
 				PKB::modifies.linkCallStmtToProcModifies((*currentStmtNode).getStmtNumber(), calledProc);
 
-				toProcAdjList[currentProc].insert(calledProc);
-				fromProcAdjList[calledProc].insert(currentProc);
+				if (toProcAdjList[currentProc].count(calledProc) == 0) {
+					toProcAdjList[currentProc].insert(calledProc);
+					fromProcAdjList[calledProc].insert(currentProc);
 
-				if (procCount.count(calledProc) == 0)
-					procCount[calledProc] = 1;
-				else
-					procCount[calledProc]++;
+					if (procCount.count(calledProc) == 0)
+						procCount[calledProc] = 1;
+					else
+						procCount[calledProc]++;
+				}
 
 				savestate[calledProc].push_back(DFSstack);
 				break; }
@@ -203,6 +210,10 @@ void DesignExtractor::buildFirstRound() {
 	}
 }
 
+/**
+* Traverse the section of the AST concerning a single procedure.
+* All other tables are filled during this traversal.
+*/
 void DesignExtractor::buildOtherTables(PROC currentProc) {
 
 	//currently, not going to check nodes if it is of
@@ -409,9 +420,27 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 				DFSstmtLstStack.push(currentStmtListNode);
 				positionStack.push(currentPosition);
 
-				if ((*currentStmtNode).getType() == ASTNode::If)
+				if ((*currentStmtNode).getType() == ASTNode::If) {
+					//indicates is in the 'then' part of the if statement
 					traversingThenPartOfIfStack.push(true);
-				//indicates is in the 'then' part of the if statement
+
+					//add Parent and Follows relationship for children in 'else' part
+					ASTStmtLstNode* tempStmtListNode =
+						(ASTStmtLstNode*) (*currentStmtNode).getChild(2);
+					ASTStmtNode* olderChild = (ASTStmtNode*) (*tempStmtListNode).getChild(0);
+					STMT olderChildNumber = (*olderChild).getStmtNumber();
+					ASTStmtNode* youngerChild;
+					STMT youngerChildNumber;
+					PKB::parent.insertParent(currentStmtNumber, olderChildNumber);
+					for (int i = 1; i < (*tempStmtListNode).getSize(); i++) {
+						youngerChild = (ASTStmtNode*) (*tempStmtListNode).getChild(i);
+						youngerChildNumber = (*youngerChild).getStmtNumber();
+						PKB::parent.insertParent(currentStmtNumber, youngerChildNumber);
+						PKB::follows.insertFollows(olderChildNumber, youngerChildNumber);
+						olderChild = youngerChild;
+						olderChildNumber = youngerChildNumber;
+					}
+				}
 
 				currentStmtListNode = (ASTStmtLstNode*) (*currentStmtNode).getChild(1);
 				currentStmtNode = (ASTStmtNode*) (*currentStmtListNode).getChild(0);

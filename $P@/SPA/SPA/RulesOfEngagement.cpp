@@ -23,6 +23,9 @@ unordered_map<RulesOfEngagement::QueryRelations, bool> RulesOfEngagement::emptyR
 unordered_map<RulesOfEngagement::QueryRelations, isRelation> RulesOfEngagement::relationMap;
 unordered_map<RulesOfEngagement::QueryVar, getAllTypes> RulesOfEngagement::typeMap;
 
+/**
+* Stores all the tables with the relevant information.
+*/
 void RulesOfEngagement::initialise()
 {
 	tokenToRel["Calls"].insert(Calls);
@@ -286,6 +289,11 @@ void RulesOfEngagement::initialise()
 	typeMap[Call] = &getAllCall;
 }
 
+/**
+* Method that helps to convert an argument to the correct value to be stored in AnswerTable.
+* To be used for relations. Information needed is the type of relation, whether the
+* argument is the first or second argument, and the argument itself.
+*/
 int RulesOfEngagement::convertArgumentToInteger(const RulesOfEngagement::QueryRelations& type,
 	const bool first, const string& arg)
 {
@@ -308,6 +316,7 @@ int RulesOfEngagement::convertArgumentToInteger(const RulesOfEngagement::QueryRe
 		case ModifiesProc:
 		case UsesStmt:
 		case UsesProc:
+		case PatternModifies:
 			return PKB::variables.getVARIndex(arg.substr(1, arg.length() - 2));
 		case Calls:
 		case CallsStar:
@@ -319,6 +328,11 @@ int RulesOfEngagement::convertArgumentToInteger(const RulesOfEngagement::QueryRe
 }
 
 //relation map
+/**
+* The reason for the shortness of the code in MultiQueryEval.
+* Takes in the relation type and returns a function pointer that can be called to evaluate
+* the satisfiablilty of the two arguments.
+*/
 RulesOfEngagement::isRelation RulesOfEngagement::getRelation(RulesOfEngagement::QueryRelations rel)
 {
 	return relationMap[rel];
@@ -389,6 +403,10 @@ bool RulesOfEngagement::is<Rel>(int x, int y)
 //end relation map
 
 //type map
+/**
+* Takes in the synonym type and returns a function that when called, will produce all
+* values that are of that synonym type, in integer form.
+*/
 RulesOfEngagement::getAllTypes RulesOfEngagement::getType(RulesOfEngagement::QueryVar type)
 {
 
@@ -476,7 +494,7 @@ vector<int> RulesOfEngagement::getAll<Type>()
 
 //pattern
 /**
-* This method will be used to check wheather this assignment is valid
+* This method will be used to check whether this assignment is valid
 with the pattern being checked
 * @param index index of the assingent being checked
 * @param RHS the right hand side's type
@@ -493,22 +511,9 @@ bool RulesOfEngagement::satisfyPattern(const int index, const RulesOfEngagement:
 	return /*map[index][RHSVarName] = */TryMatch(PKB::assignNodes[index], RHS, RHSexprs);
 }
 
-/*bool RulesOfEngagement::satisfyPattern(int index, int modifiesVar,
-	RulesOfEngagement::PatternRHSType RHS, string RHSVarName, ASTExprNode* RHSexprs)
-{
-	if (modifiesVar >= 0 && !isModifiesStmt(index, modifiesVar))
-		return false;
-
-	/*static unordered_map<int, unordered_map<string, bool>> map;
-	if (map.count(index) > 0 && map[index].count(RHSVarName) > 0)
-		return map[index][RHSVarName];*//*
-
-	return /*map[index][RHSVarName] = *//*TryMatch(PKB::assignNodes[index], RHS, RHSexprs);
-}*/
-
 //RHS for now handles patterns in the form of "a" or _"a"_
 /**
-* this method will return the result if weather an AST node is valid
+* this method will return the result if whether an AST node is valid
 with a pattern
 * @param testedNode the AST node being tested
 * @param RHS the right hand side's type
@@ -539,8 +544,9 @@ bool RulesOfEngagement::TryMatch(ASTNode* testedNode,
 	} else
 		return MatcherTree(head,pattern);
 }
+
 /**
-* This method will be used to check wheather an expression tree is
+* This method will be used to check whether an expression tree is
 identical or is a subtree of another expression tree
 * @param Original original expression tree
 * @param Original expression tree made from the pattern's expression

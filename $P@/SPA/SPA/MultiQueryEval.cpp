@@ -13,11 +13,21 @@ string MultiQueryEval::getToken(const string& query, int& pos)
 	int first = query.find_first_not_of(' ', pos);
 	if (first == string::npos)
 		return "";
-	pos = query.find_first_of(" ;,<>().", first);
-	if (pos == first) {
-		pos++;
-		return query.substr(first, 1);
-	}
+	pos = first + 1;
+	if ((query.at(first) >= 'A' && query.at(first) <= 'Z') ||
+		(query.at(first) >= 'a' && query.at(first) <= 'z')) { //IDENT
+			while (pos < query.length() && ((query.at(pos) >= 'A' && query.at(pos) <= 'Z') ||
+				(query.at(pos) >= 'a' && query.at(pos) <= 'z') || //letter or
+				(query.at(pos) >= '0' && query.at(pos) <= '9') || query.at(pos) == '#' || //digit
+				(query.at(pos) == '*') || //relation star
+				(query.at(pos) == '_' && pos == first + 4 && query.substr(first, 4) == "prog")))
+				pos++;
+	} else if (query.at(first) >= '0' && query.at(first) <= '9') { //DIGIT
+		while (pos < query.length() && (query.at(pos) >= '0' && query.at(pos) <= '9'))
+			pos++;
+	} else if (query.at(first) == '\"')
+		pos = query.find_first_of('\"', pos) + 1;
+	//else return single character
 	return query.substr(first, pos - first);
 }
 
@@ -92,7 +102,7 @@ MultiQueryEval::MultiQueryEval(const string& query)
 
 	//parse synonym declaration
 	unordered_map<string, RulesOfEngagement::QueryVar> stringToQueryVar;
-	unordered_map<string, int> stringCount;
+	//unordered_map<string, int> stringCount;
 	while (true) {
 		string token = getToken(query, pos);
 		if (token == "Select")
@@ -107,7 +117,7 @@ MultiQueryEval::MultiQueryEval(const string& query)
 			if (stringToQueryVar.count(variable) > 0)
 				throw new SPAException("Double declaration of synonym - " + variable);
 			stringToQueryVar.insert(pair<string, RulesOfEngagement::QueryVar>(variable, type));
-			stringCount.insert(pair<string, int>(variable, 0));
+			//stringCount.insert(pair<string, int>(variable, 0));
 		} while ((variable = getToken(query, pos)) == ",");
 		if (variable != ";")
 			throw new SPAException("Error in parsing query");
@@ -216,7 +226,7 @@ MultiQueryEval::MultiQueryEval(const string& query)
 					throw new SPAException("The argument " + secondRel +
 					" was not valid for the second argument of " + relation);
 
-				if (stringToQueryVar.count(firstRel) > 0) {
+				/*if (stringToQueryVar.count(firstRel) > 0) {
 					if (stringToQueryVar.count(secondRel) > 0) {
 						if (firstRel != secondRel) {
 							stringCount[firstRel]++;
@@ -225,7 +235,7 @@ MultiQueryEval::MultiQueryEval(const string& query)
 					} else
 						stringCount[firstRel]++;
 				} else if (stringToQueryVar.count(secondRel) > 0)
-					stringCount[secondRel]++;
+					stringCount[secondRel]++;*/
 				relationStore[type][firstRel].insert(secondRel);
 			}
 			break;
@@ -267,6 +277,7 @@ MultiQueryEval::MultiQueryEval(const string& query)
 					if (conditionStore[synonym].count(condition) > 0)
 						earlyQuit |= (conditionStore[synonym][condition] == token);
 					conditionStore[synonym].insert(pair<string, string>(condition, token));
+					//stringCount[synonym]++;
 				} else { //c.value = s.stmt#
 					matchToken(query, pos, ".");
 					string condition2 = getToken(query, pos);
@@ -283,8 +294,8 @@ MultiQueryEval::MultiQueryEval(const string& query)
 						throw new SPAException("Left and right hand side of with are not of same type");
 					condition2Store.push_back(tuple<string, string, string, string>
 						(synonym, condition, token, condition2));
-					stringCount[synonym]++;
-					stringCount[token]++;
+					//stringCount[synonym]++;
+					//stringCount[token]++;
 				}
 			}
 			break;
@@ -303,11 +314,11 @@ MultiQueryEval::MultiQueryEval(const string& query)
 				case RulesOfEngagement::Assign:
 					{
 						if (firstRel != "_") {
-							stringCount[synonym]++;
+							//stringCount[synonym]++;
 							if (stringToQueryVar.count(firstRel) > 0) {
 								if (stringToQueryVar[firstRel] != RulesOfEngagement::Variable)
 									throw new SPAException("The first argument of pattern must be a variable");
-								stringCount[firstRel]++;
+								//stringCount[firstRel]++;
 							}
 							else if (firstRel.at(0) != '\"' || firstRel.at(firstRel.length() - 1) != '\"')
 								throw new SPAException("Could not parse the first argument");
@@ -332,7 +343,7 @@ MultiQueryEval::MultiQueryEval(const string& query)
 							} else if (secondRel.at(0) != '\"' || secondRel.at(length - 1) != '\"')
 								throw SPAException("Error, Pattern Right Hand Side Invalid");
 						
-							stringCount[synonym]++;
+							//stringCount[synonym]++;
 							patternAssignUsesStore[synonym].insert(secondRel);
 						}
 					}
@@ -347,11 +358,11 @@ MultiQueryEval::MultiQueryEval(const string& query)
 					matchToken(query, pos, ")");
 
 					if (firstRel != "_") {
-						stringCount[synonym]++;
+						//stringCount[synonym]++;
 						if (stringToQueryVar.count(firstRel) > 0) {
 							if (stringToQueryVar[firstRel] != RulesOfEngagement::Variable)
 								throw new SPAException("The first argument of pattern must be a variable");
-							stringCount[firstRel]++;
+							//stringCount[firstRel]++;
 						}
 						else if (firstRel.at(0) != '\"' || firstRel.at(firstRel.length() - 1) != '\"')
 							throw new SPAException("Could not parse the first argument");
@@ -578,10 +589,10 @@ MultiQueryEval::MultiQueryEval(const string& query)
 
 	//second stage
 	//analyse synonyms part 1. look for those with count of 1 to be folded in
-	unordered_set<string> toFold; //todo:: alias synonyms
+	/*unordered_set<string> toFold; //todo:: alias synonyms
 	for (auto it = stringCount.begin(); it != stringCount.end(); it++)
 		if (selects.count(it->first) == 0 && it->second == 1)
-			toFold.insert(it->first);
+			toFold.insert(it->first);*/
 
 	//parse equality of attributes, alias those that can be aliased
 	SynonymTable synonymTable;
@@ -619,11 +630,11 @@ MultiQueryEval::MultiQueryEval(const string& query)
 			if (stringToQueryVar[firstRel] == stringToQueryVar[secondRel]) { // s1.cond = s2.cond
 				dsAlias.setUnion(firstRel, secondRel);
 				string& firstRelParent = dsAlias.find(firstRel);
-				int firstRelCount = stringCount[firstRelParent];
+				//int firstRelCount = stringCount[firstRelParent];
 				string& secondRelParent = dsAlias.find(secondRel);
-				int secondRelCount = stringCount[secondRelParent];
-				stringCount[firstRelParent] = stringCount[secondRelParent] =
-					firstRelCount + secondRelCount - 2;
+				//int secondRelCount = stringCount[secondRelParent];
+				//stringCount[firstRelParent] = stringCount[secondRelParent] =
+					//firstRelCount + secondRelCount - 2;
 				continue;
 			}
 		}
@@ -631,7 +642,7 @@ MultiQueryEval::MultiQueryEval(const string& query)
 		//Fold in conditions if possible (optimisation)
 		//stmt s1, s2; constant c; Select s1 with s2.stmt# = c.value -> no idea how to fold
 		//stmt s; constant c; Select s with s.stmt# = c.value -> fold in (constant, value) into s
-		if (selects.count(firstRel) == 0 && stringCount[firstRel] == 1) {
+		/*if (selects.count(firstRel) == 0 && stringCount[firstRel] == 1) {
 			if (selects.count(secondRel) == 0 && stringCount[secondRel] == 1) { //don't fold
 				stringCount[firstRel] = stringCount[secondRel] = 1 << 16;
 			} else { //stmt s; constant c; Select s with c.value = s.stmt#
@@ -648,29 +659,31 @@ MultiQueryEval::MultiQueryEval(const string& query)
 					firstCondition, stringToQueryVar[secondRel], secondCondition);
 				stringCount[firstRel]--;
 				stringCount[secondRel]--;
-			} else { //stmt s; constant c; Select <s,c> with s.stmt# = c.value
+			} else { //stmt s; constant c; Select <s,c> with s.stmt# = c.value*/
 				condFirstRel.push_back(firstRel);
 				condFirstCondition.push_back(firstCondition);
 				condSecondRel.push_back(secondRel);
 				condSecondCondition.push_back(secondCondition);
 				dsSynonym.setUnion(firstRel, secondRel);
-			}
-		}
+			/*}
+		}*/
 
 	}
 	
 	//analyse synonyms part 2. those selected and with count of more than 1 are put into the synonym table
-	for (auto it = stringCount.begin(); it != stringCount.end(); it++) {
+	for (auto it = stringToQueryVar.begin(); it != stringToQueryVar.end(); it++) {
 		const string& synonym = it->first;
 		const int count = it->second;
+		synonymTable.insert(synonym, stringToQueryVar[synonym]);
+		dsSynonym.makeSet(synonym);
 		if (selects.count(synonym) > 0) {
-			synonymTable.insert(synonym, stringToQueryVar[synonym]);
-			dsSynonym.makeSet(synonym);
+			/*synonymTable.insert(synonym, stringToQueryVar[synonym]);
+			dsSynonym.makeSet(synonym);*/
 			synonymTable.setSelected(synonym);
-		} else if (count > 1) {
+		} /*else if (count > 1) {
 			synonymTable.insert(synonym, stringToQueryVar[synonym]);
 			dsSynonym.makeSet(synonym);
-		}
+		}*/
 	}
 	
 	//relationship table
@@ -691,7 +704,7 @@ MultiQueryEval::MultiQueryEval(const string& query)
 		const RulesOfEngagement::QueryRelations& type = it->first;
 		const unordered_map<string, unordered_set<string>>& itsecond = it->second;
 		for (auto it2 = itsecond.begin(); it2 != itsecond.end(); it2++) {
-			string firstRel;
+			/*string firstRel;
 			if (toFold.count(it2->first) > 0) {
 				if (stringToQueryVar[it2->first] == RulesOfEngagement::privilegedFirstArgument[type])
 					firstRel = "_";
@@ -701,10 +714,11 @@ MultiQueryEval::MultiQueryEval(const string& query)
 					dsSynonym.makeSet(firstRel);
 				}
 			} else
-				firstRel = it2->first;
+				firstRel = it2->first;*/
+			const string& firstRel= it2->first;
 			const unordered_set<string>& it2second = it2->second;
 			for (auto it3 = it2second.begin(); it3 != it2second.end(); it3++) {
-				string secondRel;
+				/*string secondRel;
 				if (toFold.count(*it3) > 0) {
 					if (stringToQueryVar[*it3] == RulesOfEngagement::privilegedSecondArgument[type])
 						secondRel = "_";
@@ -714,8 +728,8 @@ MultiQueryEval::MultiQueryEval(const string& query)
 						dsSynonym.makeSet(secondRel);
 					}
 				} else
-					secondRel = *it3;
-
+					secondRel = *it3;*/
+				const string& secondRel= *it3;
 				//actual setting up of relations
 				//count number of synonyms
 				int numOfSynonyms = 0;

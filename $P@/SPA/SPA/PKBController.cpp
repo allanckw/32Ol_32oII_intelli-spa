@@ -4,7 +4,6 @@
 /**
 * Method to initalize the PKB, builds the AST from a SIMPLE source file, builds the CFG and initialization for queries
 * @param	filename	the file name of the SIMPLE source file
-* @return the converted integer
 */
 void PKBController::initializePKB(string filename)
 {

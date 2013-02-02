@@ -1,6 +1,5 @@
 #include "CFGBuilder.h"
 
-
 /**
 * This method will be used to build the CFGs from the PKB::Root of the AST
 * At the end of a procedure, it will be added to a list that 

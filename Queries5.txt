@@ -1,0 +1,687 @@
+138
+cat: All Category
+1 - Parent, ImplStmtLine, Typed :: 
+stmt s, s1; prog_line n;
+Select s such that Parent(s, s1) with s1.stmt#=3
+
+5000 
+2 - Parent, ImplStmtLine, Typed :: 
+stmt s, s1; prog_line n;
+Select s such that Parent(s, s1) with s1.stmt#=10
+8
+5000
+3 - Parent, ImplStmtLine, Typed :: 
+stmt s, s1; prog_line n;
+Select s such that Parent(s, s1) with s1.stmt#=12
+10
+5000
+4 - Parent, ImplStmtLine, Typed :: 
+stmt s, s1; prog_line n;
+Select s such that Parent(s, s1) with s1.stmt#=20
+18
+5000
+5 - Parent, ImplStmtLine, Typed :: 
+stmt s;
+Select s such that Parent(s, 3)
+
+5000
+6 - Parent, ImplStmtLine, Typed :: 
+stmt s; 
+Select s such that Parent(s, 10)
+8
+5000
+7 - Parent, ImplStmtLine, Typed :: 
+stmt s; 
+Select s such that Parent(s, 12)
+10
+5000
+8 - Parent, ImplStmtLine, Typed :: 
+stmt s; 
+Select s such that Parent(s, 20)
+18
+5000
+9 - Parent, ImplStmtLine, Typed :: 
+stmt s; 
+Select s such that Parent(3, s)
+
+5000
+10 - Parent, ImplStmtLine, Typed :: 
+stmt s; 
+Select s such that Parent(8, s)
+9, 10, 13, 14, 15, 16
+5000
+11 - Parent, ImplStmtLine, Typed :: 
+stmt s; 
+Select s such that Parent(9, s)
+
+5000
+12 - Parent, ImplStmtLine, Typed :: 
+stmt s; 
+Select s such that Parent(24, s)
+
+5000
+13 - Parent, ImplStmtLine, Typed :: 
+stmt s; 
+Select s such that Parent*(s, 3)
+
+5000
+14 - Parent, ImplStmtLine, Typed :: 
+stmt s; 
+Select s such that Parent*(s, 10)
+8
+5000
+15 - Parent, ImplStmtLine, Typed :: 
+stmt s; 
+Select s such that Parent*(s, 12)
+8, 10
+5000
+16 - Parent, ImplStmtLine, Typed :: 
+stmt s; 
+Select s such that Parent*(s, 20)
+18
+5000
+17 - Parent, ImplStmtLine, Typed :: 
+while w; stmt s; 
+Select w such that Parent*(s, 3)
+
+5000
+18 - Parent, ImplStmtLine, Typed :: 
+while w; stmt s; 
+Select w such that Parent*(s, 10)
+10, 18
+5000
+19 - Parent, ImplStmtLine, Typed :: 
+while w; stmt s; 
+Select w such that Parent*(s, 12)
+10, 18
+5000
+20 - Parent, ImplStmtLine, Typed :: 
+while w; stmt s; 
+Select w such that Parent*(s, 20)
+10, 18
+5000
+21 - Parent, ImplStmtLine, Typed :: 
+while w; 
+Select w such that Parent*(w, 9)
+
+5000
+22 - Parent, ImplStmtLine, Typed :: 
+while w;
+Select w such that Parent*(w, 11)
+10
+5000
+23 - Parent, ImplStmtLine, Typed :: 
+while w;
+Select w such that Parent*(w, 13)
+
+5000
+24 - Parent, ImplStmtLine, Typed :: 
+while w;
+Select w such that Parent*(w, 21)
+18
+5000
+25 - Parent, ImplStmtLine, Typed :: 
+stmt s;
+Select s such that Follows(s, 1)
+
+5000
+26 - Parent, ImplStmtLine, Typed :: 
+stmt s;
+Select s such that Follows(s, 8)
+7
+5000
+27 - Parent, ImplStmtLine, Typed :: 
+stmt s;
+Select s such that Follows(s, 9)
+
+5000
+28 - Parent, ImplStmtLine, Typed :: 
+stmt s;
+Select s such that Follows(s, 10)
+9
+5000
+29 - Parent, ImplStmtLine, Typed :: 
+stmt s;
+Select s such that Follows(s, 12)
+11
+5000
+30 - Parent, ImplStmtLine, Typed :: 
+stmt s;
+Select s such that Follows(s, 13)
+10
+5000
+31 - Parent, ImplStmtLine, Typed :: 
+assign a;
+Select a such that Follows(a, 1)
+
+5000
+32 - Parent, ImplStmtLine, Typed :: 
+assign a;
+Select a such that Follows(a, 8)
+7
+5000 
+33 - Parent, ImplStmtLine, Typed :: 
+assign a;
+Select a such that Follows(a, 9)
+
+5000 
+34 - Parent, ImplStmtLine, Typed :: 
+assign a;
+Select a such that Follows(a, 10)
+9
+5000
+35 - Parent, ImplStmtLine, Typed :: 
+assign a;
+Select a such that Follows(a, 12)
+11
+5000
+36 - Parent, ImplStmtLine, Typed :: 
+assign a;
+Select a such that Follows(a, 13)
+
+5000
+37 - Parent, ImplStmtLine, Typed :: 
+while w; stmt s;
+Select w such that Follows*(s, w)
+10
+5000
+38 - Parent, ImplStmtLine, Typed :: 
+while w; stmt s;
+Select w such that Follows*(w, s)
+10, 18
+5000
+39 - Parent, ImplStmtLine, Typed :: 
+stmt s;
+Select s such that Follows*(s, 1)
+
+5000
+40 - Parent, ImplStmtLine, Typed :: 
+stmt s;
+Select s such that Follows*(s, 8)
+1, 2, 3, 4, 5, 6, 7
+5000
+41 - Parent, ImplStmtLine, Typed :: 
+stmt s;
+Select s such that Follows*(s, 9)
+
+5000
+42 - Parent, ImplStmtLine, Typed :: 
+stmt s;
+Select s such that Follows*(s, 13)
+9, 10
+5000
+43 - Parent, ImplStmtLine, Typed :: 
+stmt s;
+Select s such that Follows*(s, 19)
+
+5000
+44 - Parent, ImplStmtLine, Typed :: 
+stmt s;
+Select s such that Follows*(s, 22)
+18
+5000
+45 - Parent, ImplStmtLine, Typed :: 
+if ifstat;
+Select ifstat such that Follows*(ifstat, 8)
+
+5000
+46 - Parent, ImplStmtLine, Typed :: 
+if ifstat;
+Select ifstat such that Follows*(ifstat, 17)
+8
+5000
+47 - Parent, ImplStmtLine, Typed :: 
+if ifstat;
+Select ifstat such that Follows*(ifstat, 24)
+
+5000
+48 - Parent, ImplStmtLine, Typed :: 
+if ifstat;
+Select ifstat such that Follows*(ifstat, 26)
+23
+5000
+49 - Parent, ImplStmtLine, Typed :: 
+assign a;
+Select a such that Follows*(a, 6)
+1, 2, 3, 5
+5000
+50 - Parent, ImplStmtLine, Typed :: 
+assign a;
+Select a such that Follows*(a, 9)
+
+5000
+51 - Parent, ImplStmtLine, Typed :: 
+assign a;
+Select a such that Follows*(a, 10)
+9
+5000
+52 - Parent, ImplStmtLine, Typed :: 
+assign a;
+Select a such that Follows*(a, 12)
+11
+5000
+53 - Parent, ImplStmtLine, Typed :: 
+assign a;
+Select a such that Follows*(a, 17)
+1, 2, 3, 5, 7
+5000
+54 - Parent, ImplStmtLine, Typed :: 
+assign a;
+Select a such that Follows*(a, 27)
+
+5000
+55 - Parent, ImplStmtLine, Typed :: 
+variable v;
+Select v such that Modifies(3, v)
+"x"
+5000
+56 - Parent, ImplStmtLine, Typed :: 
+variable v;
+Select v such that Modifies(4, v)
+"X", "m", "z"
+5000
+57 - Parent, ImplStmtLine, Typed :: 
+variable v;
+Select v such that Modifies(6, v)
+"i"
+5000
+58 - Parent, ImplStmtLine, Typed :: 
+variable v;
+Select v such that Modifies(18, v)
+"i", "z", "X", "m"
+5000
+59 - Parent, ImplStmtLine, Typed :: 
+variable v;
+Select v such that Modifies(23, v)
+"X", "m"
+5000
+60 - Parent, ImplStmtLine, Typed :: 
+variable v;
+Select v such that Modifies(27, v)
+"i"
+5000
+61 - Parent, ImplStmtLine, Typed :: 
+while w;
+Select w such that Modifies(w, "x")
+
+5000
+62 - Parent, ImplStmtLine, Typed :: 
+while w;
+Select w such that Modifies(w, "z")
+21
+5000
+63 - Parent, ImplStmtLine, Typed :: 
+variable v;
+Select v such that Modifies("Ringo", v)
+"i", "z", "X", "m"
+5000
+64 - Parent, ImplStmtLine, Typed :: 
+stmt s;
+Select s such that Uses(s, "x")
+4, 8, 9, 13, 14, 17, 18, 19, 20, 23, 25, 26
+5000
+65 - Parent, ImplStmtLine, Typed :: 
+stmt s;
+Select s such that Uses(s, "z")
+10, 16, 17, 18, 21
+5000
+66 - Parent, ImplStmtLine, Typed :: 
+variable v;
+Select v such that Uses(10, v)
+"z", "X", "i"
+5000
+67 - Parent, ImplStmtLine, Typed :: 
+variable v;
+Select v such that Uses(18, v)
+"m", "z", "y", "i", "k", "x"
+5000
+68 - Parent, ImplStmtLine, Typed :: 
+variable v; assign a;
+Select v such that Uses(a, v)
+"i", "m", "x", "z", "k", "y", "X"
+5000
+69 - Parent, ImplStmtLine, Typed :: 
+assign a; variable v;
+Select a such that Modifies(a, v) and Uses(a, v)
+11, 16, 21, 25, 27
+5000
+70 - Parent, ImplStmtLine, Typed :: 
+assign a;
+Select a such that Modifies(a, "m") and Uses(a, "m")
+25
+5000
+71 - Parent, ImplStmtLine, Typed :: 
+assign a;
+Select a such that Modifies(a, "x") and Uses(a, "x")
+
+5000
+72 - Parent, ImplStmtLine, Typed :: 
+assign a;
+Select a such that Modifies(a, "y") and Uses(a, "y")
+
+5000
+73 - Parent, ImplStmtLine, Typed :: 
+assign a;
+Select a such that Modifies(a, "z") and Uses(a, "z")
+16, 21
+5000
+74 - Parent, ImplStmtLine, Typed :: 
+assign a; while w;
+Select a such that Modifies(a, "i") and Parent(w, a)
+19
+5000
+75 - Parent, ImplStmtLine, Typed :: 
+assign a; while w;
+Select a such that Parent(w, a) and Modifies(a, "i")
+19
+5000 
+76 - Parent, ImplStmtLine, Typed :: 
+assign a; while w;
+Select a such that Modifies(a, "i") such that Parent(w, a)
+19
+5000
+77 - Parent, ImplStmtLine, Typed :: 
+procedure p;
+Select p such that Calls*(p, "Paul")
+"John", "Ringo"
+5000
+78 - Parent, ImplStmtLine, Typed :: 
+procedure p;
+Select p such that Calls("John", p) and Modifies(p, "z") and Uses(p, "m")
+"Paul", "Ringo"
+5000
+79 - Parent, ImplStmtLine, Typed :: 
+procedure p;
+Select p such that Calls("John", p) and Modifies(p, "z")
+"Paul", "Ringo"
+5000
+80 - Parent, ImplStmtLine, Typed :: 
+assign a; 
+Select a pattern a ("x", _)
+3
+5000
+81 - Parent, ImplStmtLine, Typed :: 
+assign a; 
+Select a pattern a ("i", "3*m")
+
+5000
+82 - Parent, ImplStmtLine, Typed :: 
+assign a; while w;
+Select a pattern a ("m", _) such that Follows(w, a)
+13
+5000
+83 - Parent, ImplStmtLine, Typed :: 
+assign a; 
+Select a pattern a (_, "x+1")
+
+5000
+84 - Parent, ImplStmtLine, Typed :: 
+assign a; 
+Select a pattern a (_, "x*5+3")
+
+5000
+85 - Parent, ImplStmtLine, Typed :: 
+assign a; 
+Select a pattern a (_, _"x+k*y"_)
+
+5000
+86 - Parent, ImplStmtLine, Typed :: 
+assign a; 
+Select a pattern a (_, _"x+i"_)
+13, 14
+5000
+87 - Parent, ImplStmtLine, Typed :: 
+assign a; 
+Select a pattern a (_, _"k+x"_)
+
+5000
+88 - Parent, ImplStmtLine, Typed :: 
+assign a; 
+Select a pattern a (_, _"3*m"_)
+
+5000
+89 - Parent, ImplStmtLine, Typed :: 
+assign a; 
+Select a pattern a (_, _"5+3"_)
+19
+5000
+90 - Parent, ImplStmtLine, Typed :: 
+stmt s; constant c; 
+Select s with s.stmt#=c.value
+1, 2, 3, 5
+5000
+91 - Parent, ImplStmtLine, Typed :: 
+if ifstat; constant c; 
+Select BOOLEAN pattern ifstat ("i", _, _) with c.value=2
+TRUE
+5000
+93 - Parent, ImplStmtLine, Typed :: 
+prog_line n; 
+Select BOOLEAN such that Next(1, 2)
+TRUE
+5000
+94 - Parent, ImplStmtLine, Typed :: 
+prog_line n; 
+Select BOOLEAN such that Next(6, 8)
+FALSE
+5000
+95 - Parent, ImplStmtLine, Typed :: 
+prog_line n; 
+Select BOOLEAN such that Next(8, 9)
+TRUE
+5000
+96 - Parent, ImplStmtLine, Typed :: 
+prog_line n; 
+Select BOOLEAN such that Next(10, 11)
+TRUE
+5000
+97 - Parent, ImplStmtLine, Typed :: 
+prog_line n; 
+Select BOOLEAN such that Next(12, 10)
+TRUE
+5000
+98 - Parent, ImplStmtLine, Typed :: 
+prog_line n; 
+Select BOOLEAN such that Next(12, 11)
+FALSE
+5000
+99 - Parent, ImplStmtLine, Typed :: 
+prog_line n; 
+Select BOOLEAN such that Next(13, 14)
+FALSE
+5000
+100 - Parent, ImplStmtLine, Typed :: 
+prog_line n; 
+Select BOOLEAN such that Next(13, 17)
+TRUE
+5000
+101 - Parent, ImplStmtLine, Typed :: 
+prog_line n; 
+Select BOOLEAN such that Next(16, 17)
+TRUE
+5000
+102 - Parent, ImplStmtLine, Typed :: 
+prog_line n; 
+Select BOOLEAN such that Next(17, 18)
+FALSE
+5000
+103 - Parent, ImplStmtLine, Typed :: 
+prog_line n; 
+Select BOOLEAN such that Next*(9, 9)
+FALSE
+5000
+104 - Parent, ImplStmtLine, Typed :: 
+prog_line n; 
+Select BOOLEAN such that Next*(10, 10)
+TRUE
+5000
+105 - Parent, ImplStmtLine, Typed :: 
+prog_line n; 
+Select BOOLEAN such that Next*(12, 12)
+TRUE
+5000
+106 - Parent, ImplStmtLine, Typed :: 
+prog_line n; 
+Select BOOLEAN such that Next*(20, 20)
+TRUE
+5000
+107 - Parent, ImplStmtLine, Typed :: 
+assign a;
+Select BOOLEAN such that Affects(1, 2)
+TRUE
+5000
+108 - Parent, ImplStmtLine, Typed :: 
+assign a;
+Select BOOLEAN such that Affects(1, 3)
+TRUE
+5000
+109 - Parent, ImplStmtLine, Typed :: 
+assign a;
+Select BOOLEAN such that Affects(1, 4)
+FALSE
+5000
+110 - Parent, ImplStmtLine, Typed :: 
+assign a;
+Select BOOLEAN such that Affects(2, 5)
+FALSE
+5000
+111 - Parent, ImplStmtLine, Typed :: 
+assign a;
+Select BOOLEAN such that Affects(2, 7)
+FALSE
+5000
+112 - Parent, ImplStmtLine, Typed :: 
+assign a;
+Select BOOLEAN such that Affects(3, 11)
+FALSE
+5000
+113 - Parent, ImplStmtLine, Typed :: 
+assign a;
+Select BOOLEAN such that Affects(3, 12)
+FALSE
+5000
+114 - Parent, ImplStmtLine, Typed :: 
+assign a;
+Select BOOLEAN such that Affects(14, 27)
+FALSE
+5000
+115 - Parent, ImplStmtLine, Typed :: 
+assign a;
+Select BOOLEAN such that Affects(24, 25)
+FALSE
+5000
+116 - Parent, ImplStmtLine, Typed :: 
+assign a;
+Select BOOLEAN such that Affects(24, 26)
+FALSE
+5000 
+117 - Parent, ImplStmtLine, Typed :: 
+assign a1;
+Select a1 such that Affects(a1, 1)
+
+5000
+118 - Parent, ImplStmtLine, Typed :: 
+assign a1;
+Select a1 such that Affects(a1, 9)
+3
+5000
+119 - Parent, ImplStmtLine, Typed :: 
+assign a1;
+Select a1 such that Affects(a1, 22)
+19
+5000
+120 - Parent, ImplStmtLine, Typed :: 
+assign a1;
+Select a1 such that Affects(a1, 27)
+
+5000
+121 - Parent, ImplStmtLine, Typed :: 
+assign a2;
+Select a2 such that Affects(1, a2)
+2, 3, 4, 5
+5000
+122 - Parent, ImplStmtLine, Typed :: 
+assign a2;
+Select a2 such that Affects(12, a2)
+
+5000
+123 - Parent, ImplStmtLine, Typed :: 
+assign a2;
+Select a2 such that Affects(22, a2)
+
+5000
+124 - Parent, ImplStmtLine, Typed :: 
+assign a2;
+Select a2 such that Affects(27, a2)
+
+5000
+125 - Parent, ImplStmtLine, Typed :: 
+assign a;
+Select BOOLEAN such that Affects*(1, 2)
+TRUE
+5000
+126 - Parent, ImplStmtLine, Typed :: 
+assign a;
+Select BOOLEAN such that Affects*(1, 3)
+TRUE
+5000
+127 - Parent, ImplStmtLine, Typed :: 
+assign a;
+Select BOOLEAN such that Affects*(1, 5)
+TRUE
+5000
+128 - Parent, ImplStmtLine, Typed :: 
+assign a;
+Select BOOLEAN such that Affects*(1, 7)
+FALSE
+5000
+129 - Parent, ImplStmtLine, Typed :: 
+assign a;
+Select BOOLEAN such that Affects*(11, 11)
+FALSE
+5000
+130 - Parent, ImplStmtLine, Typed :: 
+assign a;
+Select BOOLEAN such that Affects*(11, 13)
+FALSE
+5000
+131 - Parent, ImplStmtLine, Typed :: 
+assign a1;
+Select a1 such that Affects*(a1, 11)
+
+5000
+132 - Parent, ImplStmtLine, Typed :: 
+assign a1;
+Select a1 such that Affects*(a1, 22)
+19
+5000
+133 - Parent, ImplStmtLine, Typed :: 
+assign a1;
+Select a1 such that Affects*(a1, 26)
+
+5000
+134 - Parent, ImplStmtLine, Typed :: 
+assign a1;
+Select a1 such that Affects*(a1, 27)
+
+5000
+135 - Parent, ImplStmtLine, Typed :: 
+assign a2;
+Select a2 such that Affects*(5, a2)
+
+5000
+136 - Parent, ImplStmtLine, Typed :: 
+assign a2;
+Select a2 such that Affects*(19, a2)
+19, 22
+5000
+137 - Parent, ImplStmtLine, Typed :: 
+assign a2;
+Select a2 such that Affects*(24, a2)
+
+5000
+138 - Parent, ImplStmtLine, Typed :: 
+assign a2;
+Select a2 such that Affects*(27, a2)
+
+5000

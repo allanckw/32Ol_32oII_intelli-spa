@@ -30,7 +30,7 @@ var searchData=
   ['getmodifiedbystmt',['getModifiedByStmt',['../class_modifies_table.html#ac22b398e6014719c45a3e7cdb64a9e7d',1,'ModifiesTable']]],
   ['getmodifiesproc',['getModifiesProc',['../class_modifies_table.html#ac008bce49680e1faf50112f70e955e61',1,'ModifiesTable']]],
   ['getmodifiesstmt',['getModifiesStmt',['../class_modifies_table.html#a7409a0061105a3b15e37304716f9fea0',1,'ModifiesTable']]],
-  ['getnextnodes',['getNextNodes',['../class_c_f_g_node.html#a715f4e65329fdd0948f39eaf44d37ebd',1,'CFGNode']]],
+  ['getnextnodes',['getNextNodes',['../class_c_f_g_node.html#aa25f0bc77360bee32f0e4393f7d612a8',1,'CFGNode']]],
   ['getparent',['getParent',['../class_a_s_t_node.html#a62e103d706cfbace82cf124bbd080c3e',1,'ASTNode::getParent()'],['../class_parent_table.html#ae53225a6ba566239960cca6783983a7b',1,'ParentTable::getParent()']]],
   ['getparentstar',['getParentStar',['../class_parent_table.html#a01f37ca19b8e3f56d86279f1884e5380',1,'ParentTable']]],
   ['getpreviousnodes',['getPreviousNodes',['../class_c_f_g_node.html#aa462795f2f35b263c5e6c3f39ab88e21',1,'CFGNode']]],

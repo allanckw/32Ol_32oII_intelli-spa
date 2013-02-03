@@ -312,17 +312,17 @@ Select a such that Modifies(a, "z") such that Parent(w, a)
 5000
 63 - Parent, ImplStmtLine, Typed :: 
 procedure p;
-Select p such that Calls*(p, "John")
-Bill, Mary
+Select p such that Calls*(p, "Allan")
+Natalie, Mary
 5000
 64 - Parent, ImplStmtLine, Typed :: 
 procedure p;
-Select p such that Calls("Bill", p) and Modifies(p, "i") and Uses(p, "x")
+Select p such that Calls("Natalie", p) and Modifies(p, "i") and Uses(p, "x")
 Mary
 5000
 65 - Parent, ImplStmtLine, Typed :: 
 procedure p;
-Select p such that Calls("Bill", p) and Modifies(p, "i")
+Select p such that Calls("Natalie", p) and Modifies(p, "i")
 Mary
 5000
 66 - Parent, ImplStmtLine, Typed :: 

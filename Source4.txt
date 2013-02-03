@@ -1,9 +1,9 @@
-procedure Bill {
+procedure Natalie {
 	z = 10;
 	x = z + 5;
 	y = x * z + 4;
 	d = x + y * 12;
-	call John;
+	call Allan;
 	d = d + z + x;
 	call Jane;
 	e = d + z * x;
@@ -24,7 +24,7 @@ procedure Bill {
 procedure Mary {
 	while i {
 		z = y*3 + 2*x;
-		call John;
+		call Allan;
 		i = i - 1; }
 	y = y + z + i; }
 
@@ -35,7 +35,7 @@ procedure Jane {
 		x = z + x; 
 }
 
-procedure John {
+procedure Allan {
 	while e {
 		if i then {
 			y = z + 1; }

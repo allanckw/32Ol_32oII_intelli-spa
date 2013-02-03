@@ -180,21 +180,8 @@ void ASTStmtNode::addChildToAssign(ASTNode* c, int childLoc)
 }
 
 /**
-<<<<<<< Updated upstream
-* This method will be used as deconstructer for AST Stmt Node
-*/
-ASTStmtNode::~ASTStmtNode()
-{
-}
-
-/**
-* This method will be used to get statement number of the AST Stmt Node
-* @Param i The Index of the VARIABLE
-* @Return the statement number
-=======
 * This method will be used to get statement number of the AST Stmt Node
 * @return the statement number of the node
->>>>>>> Stashed changes
 */
 int ASTStmtNode::getStmtNumber()
 {

@@ -6,17 +6,11 @@ DisjointSet::DisjointSet()
 	dirty = false;
 }
 
-<<<<<<< Updated upstream
-DisjointSet::~DisjointSet()
-{
-}
 
-/*
+/**
 * Initalises the element in the disjoint set.
 * @param var the name of the element
 */
-=======
->>>>>>> Stashed changes
 void DisjointSet::makeSet(string var)
 {
 	if (parent.count(var) == 0) {
@@ -27,7 +21,7 @@ void DisjointSet::makeSet(string var)
 	}
 }
 
-/*
+/**
 * Returns the name of the representative of the partition in which the element lies.
 * @param var the name of the element
 * @return the name of the representative
@@ -42,7 +36,7 @@ string DisjointSet::find(string var)
 	}
 }
 
-/*
+/**
 * Puts two elements in the same partition.
 * @param var1 the name of the first element
 * @param var2 the name of the second element
@@ -55,7 +49,7 @@ void DisjointSet::setUnion(string var1, string var2)
 	dirty = true;
 }
 
-/*
+/**
 * Identifies the elements belonging to each partition. Caches the result.
 */
 void DisjointSet::makeComponents()
@@ -69,7 +63,7 @@ void DisjointSet::makeComponents()
 	dirty = false;
 }
 
-/*
+/**
 * Returns a list of a set of all elements belonging to each partition.
 * @return the list in the form of a vector
 */

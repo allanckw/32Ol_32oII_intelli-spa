@@ -177,9 +177,9 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>This method will be used for testing purposes for viewing the content of call table </p>
+<p>This method will be used for testing purposes for viewing the content of the Call table </p>
 
-<p>Definition at line <a class="el" href="_calls_table_8cpp_source.html#l00204">204</a> of file <a class="el" href="_calls_table_8cpp_source.html">CallsTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_calls_table_8cpp_source.html#l00214">214</a> of file <a class="el" href="_calls_table_8cpp_source.html">CallsTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -196,15 +196,16 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>This method will be used to return the list of procedure called by procedure p </p>
+<p>This method will be used to return the list of procedures called by procedure p </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">p</td><td>target procedure </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>a vector of all procedures </dd></dl>
 
-<p>Definition at line <a class="el" href="_calls_table_8cpp_source.html#l00099">99</a> of file <a class="el" href="_calls_table_8cpp_source.html">CallsTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_calls_table_8cpp_source.html#l00102">102</a> of file <a class="el" href="_calls_table_8cpp_source.html">CallsTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -221,15 +222,16 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>This method will be used to return the list of procedure will is indirectly called by procedure p </p>
+<p>This method will be used to return the list of procedures call directly or indirectly by procedure p </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">p</td><td>target procedure </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>a vector of all procedures </dd></dl>
 
-<p>Definition at line <a class="el" href="_calls_table_8cpp_source.html#l00122">122</a> of file <a class="el" href="_calls_table_8cpp_source.html">CallsTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_calls_table_8cpp_source.html#l00127">127</a> of file <a class="el" href="_calls_table_8cpp_source.html">CallsTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -246,15 +248,16 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>This method will be used to return the list of procedure called from procedure p </p>
+<p>This method will be used to return the list of procedures called from procedure p </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">p</td><td>target procedure </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>a vector of all procedures </dd></dl>
 
-<p>Definition at line <a class="el" href="_calls_table_8cpp_source.html#l00111">111</a> of file <a class="el" href="_calls_table_8cpp_source.html">CallsTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_calls_table_8cpp_source.html#l00115">115</a> of file <a class="el" href="_calls_table_8cpp_source.html">CallsTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -271,15 +274,16 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>This method will be used to return the list of procedure will is indirectly called from procedure p </p>
+<p>This method will be used to return the list of procedure called directly or indirectly from procedure p </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">p</td><td>target procedure </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>a vector of all procedures </dd></dl>
 
-<p>Definition at line <a class="el" href="_calls_table_8cpp_source.html#l00133">133</a> of file <a class="el" href="_calls_table_8cpp_source.html">CallsTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_calls_table_8cpp_source.html#l00139">139</a> of file <a class="el" href="_calls_table_8cpp_source.html">CallsTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -303,8 +307,9 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>a vector of all statements </dd></dl>
 
-<p>Definition at line <a class="el" href="_calls_table_8cpp_source.html#l00190">190</a> of file <a class="el" href="_calls_table_8cpp_source.html">CallsTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_calls_table_8cpp_source.html#l00200">200</a> of file <a class="el" href="_calls_table_8cpp_source.html">CallsTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -331,7 +336,7 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>This method will be used to insert the call relation </p>
+<p>This method will be used to insert the Calls relation. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">p1</td><td>procedure calling p2 </td></tr>
@@ -370,12 +375,13 @@ Public Member Functions</h2></td></tr>
 <p>This method will be used to insert calls made from stmt to procedure into the call table </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">s</td><td>stmt which called the procedure p @param p procedure which is called by stmt s </td></tr>
+    <tr><td class="paramname">s</td><td>stmt which called the procedure p </td></tr>
+    <tr><td class="paramname">p</td><td>procedure which is called by stmt s </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_calls_table_8cpp_source.html#l00174">174</a> of file <a class="el" href="_calls_table_8cpp_source.html">CallsTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_calls_table_8cpp_source.html#l00183">183</a> of file <a class="el" href="_calls_table_8cpp_source.html">CallsTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -402,7 +408,7 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>This method will be used to check if the procedure p1 call procedure p2 </p>
+<p>This method will be used to check if the procedure p1 calls procedure p2 </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">p1</td><td>procedure called from </td></tr>
@@ -410,8 +416,9 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the procedure p1 calls procedure p2, and false otherwise </dd></dl>
 
-<p>Definition at line <a class="el" href="_calls_table_8cpp_source.html#l00145">145</a> of file <a class="el" href="_calls_table_8cpp_source.html">CallsTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_calls_table_8cpp_source.html#l00152">152</a> of file <a class="el" href="_calls_table_8cpp_source.html">CallsTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -438,7 +445,7 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>This method will be used to check if the procedure p1 indirectly call procedure p2 </p>
+<p>This method will be used to check if the procedure p1 directly or indirectly calls procedure p2 </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">p1</td><td>procedure called from </td></tr>
@@ -446,8 +453,9 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the procedure p1 directly or indirectly calls procedure p2, and false otherwise </dd></dl>
 
-<p>Definition at line <a class="el" href="_calls_table_8cpp_source.html#l00155">155</a> of file <a class="el" href="_calls_table_8cpp_source.html">CallsTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_calls_table_8cpp_source.html#l00163">163</a> of file <a class="el" href="_calls_table_8cpp_source.html">CallsTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -463,9 +471,10 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>This method will be used to check if the calls table is empty </p>
+<p>This method will be used to check if the Calls table is empty </p>
+<dl class="section return"><dt>Returns</dt><dd>true if the Calls table is empty, and false otherwise </dd></dl>
 
-<p>Definition at line <a class="el" href="_calls_table_8cpp_source.html#l00163">163</a> of file <a class="el" href="_calls_table_8cpp_source.html">CallsTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_calls_table_8cpp_source.html#l00172">172</a> of file <a class="el" href="_calls_table_8cpp_source.html">CallsTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -481,15 +490,15 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>This method will be used to optimized the populated call table for fast access </p>
+<p>This method will be used to optimise the populated call table for fast access </p>
 
 <p>Definition at line <a class="el" href="_calls_table_8cpp_source.html#l00030">30</a> of file <a class="el" href="_calls_table_8cpp_source.html">CallsTable.cpp</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>F:/3201_3202/SPA/$P@/SPA/SPA/<a class="el" href="_calls_table_8h_source.html">CallsTable.h</a></li>
-<li>F:/3201_3202/SPA/$P@/SPA/SPA/<a class="el" href="_calls_table_8cpp_source.html">CallsTable.cpp</a></li>
+<li>$P@/SPA/SPA/<a class="el" href="_calls_table_8h_source.html">CallsTable.h</a></li>
+<li>$P@/SPA/SPA/<a class="el" href="_calls_table_8cpp_source.html">CallsTable.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -497,7 +506,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_calls_table.html">CallsTable</a></li>
-    <li class="footer">Generated on Fri Feb 1 2013 13:49:28 for SPA by
+    <li class="footer">Generated on Mon Feb 4 2013 01:03:01 for SPA by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3.1 </li>
   </ul>

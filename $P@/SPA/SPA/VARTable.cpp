@@ -9,10 +9,6 @@ VARTable::VARTable(void)
 }
 
 
-VARTable::~VARTable(void)
-{
-}
-
 /**
 * This method will be use to add variable into the variable table
 * @param VARName the variable being added

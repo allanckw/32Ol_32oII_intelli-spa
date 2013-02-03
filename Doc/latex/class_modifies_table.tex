@@ -65,9 +65,9 @@ Definition at line 8 of file Modifies\-Table.\-cpp.
 {}
 \end{DoxyParamCaption}
 )}}\label{class_modifies_table_a6c3019c8072065c9a13531e9f81b7dbb}
+This method will be used for testing purposes for viewing the content of the Modifies table 
 
-
-Definition at line 123 of file Modifies\-Table.\-cpp.
+Definition at line 180 of file Modifies\-Table.\-cpp.
 
 \hypertarget{class_modifies_table_a9165ee107f7534642ad8c3d896a53f8f}{\index{Modifies\-Table@{Modifies\-Table}!get\-Modified\-By\-Proc@{get\-Modified\-By\-Proc}}
 \index{get\-Modified\-By\-Proc@{get\-Modified\-By\-Proc}!ModifiesTable@{Modifies\-Table}}
@@ -76,9 +76,17 @@ Definition at line 123 of file Modifies\-Table.\-cpp.
 \item[{{\bf P\-R\-O\-C}}]{p}
 \end{DoxyParamCaption}
 )}}\label{class_modifies_table_a9165ee107f7534642ad8c3d896a53f8f}
+This method returns a list of variables that are modified by the target procedure. 
+\begin{DoxyParams}{Parameters}
+{\em p} & target procedure \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a vector of all variables 
+\end{DoxyReturn}
 
 
-Definition at line 34 of file Modifies\-Table.\-cpp.
+Definition at line 54 of file Modifies\-Table.\-cpp.
 
 \hypertarget{class_modifies_table_ac22b398e6014719c45a3e7cdb64a9e7d}{\index{Modifies\-Table@{Modifies\-Table}!get\-Modified\-By\-Stmt@{get\-Modified\-By\-Stmt}}
 \index{get\-Modified\-By\-Stmt@{get\-Modified\-By\-Stmt}!ModifiesTable@{Modifies\-Table}}
@@ -87,9 +95,17 @@ Definition at line 34 of file Modifies\-Table.\-cpp.
 \item[{{\bf S\-T\-M\-T}}]{s}
 \end{DoxyParamCaption}
 )}}\label{class_modifies_table_ac22b398e6014719c45a3e7cdb64a9e7d}
+This method returns a list of variables that are modified by the target statement. 
+\begin{DoxyParams}{Parameters}
+{\em s} & target statement \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a vector of all variables 
+\end{DoxyReturn}
 
 
-Definition at line 27 of file Modifies\-Table.\-cpp.
+Definition at line 42 of file Modifies\-Table.\-cpp.
 
 \hypertarget{class_modifies_table_ac008bce49680e1faf50112f70e955e61}{\index{Modifies\-Table@{Modifies\-Table}!get\-Modifies\-Proc@{get\-Modifies\-Proc}}
 \index{get\-Modifies\-Proc@{get\-Modifies\-Proc}!ModifiesTable@{Modifies\-Table}}
@@ -98,9 +114,17 @@ Definition at line 27 of file Modifies\-Table.\-cpp.
 \item[{{\bf V\-A\-R}}]{v}
 \end{DoxyParamCaption}
 )}}\label{class_modifies_table_ac008bce49680e1faf50112f70e955e61}
+This method returns a list of procedures that are modified by the target variable. 
+\begin{DoxyParams}{Parameters}
+{\em v} & target variable \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a vector of all procedures 
+\end{DoxyReturn}
 
 
-Definition at line 48 of file Modifies\-Table.\-cpp.
+Definition at line 78 of file Modifies\-Table.\-cpp.
 
 \hypertarget{class_modifies_table_a7409a0061105a3b15e37304716f9fea0}{\index{Modifies\-Table@{Modifies\-Table}!get\-Modifies\-Stmt@{get\-Modifies\-Stmt}}
 \index{get\-Modifies\-Stmt@{get\-Modifies\-Stmt}!ModifiesTable@{Modifies\-Table}}
@@ -109,9 +133,17 @@ Definition at line 48 of file Modifies\-Table.\-cpp.
 \item[{{\bf V\-A\-R}}]{v}
 \end{DoxyParamCaption}
 )}}\label{class_modifies_table_a7409a0061105a3b15e37304716f9fea0}
+This method returns a list of statements that are modified by the target variable. 
+\begin{DoxyParams}{Parameters}
+{\em v} & target variable \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a vector of all statements 
+\end{DoxyReturn}
 
 
-Definition at line 41 of file Modifies\-Table.\-cpp.
+Definition at line 66 of file Modifies\-Table.\-cpp.
 
 \hypertarget{class_modifies_table_a7778040a756972c67fde562a11ff60cd}{\index{Modifies\-Table@{Modifies\-Table}!insert\-Proc\-Modifies@{insert\-Proc\-Modifies}}
 \index{insert\-Proc\-Modifies@{insert\-Proc\-Modifies}!ModifiesTable@{Modifies\-Table}}
@@ -121,9 +153,16 @@ Definition at line 41 of file Modifies\-Table.\-cpp.
 \item[{{\bf V\-A\-R}}]{v}
 \end{DoxyParamCaption}
 )}}\label{class_modifies_table_a7778040a756972c67fde562a11ff60cd}
+This method will be used to insert the Modifies relation, where the first argument of the relation is a procedure 
+\begin{DoxyParams}{Parameters}
+{\em p} & procedure that modifies v \\
+\hline
+{\em v} & variable that is modified by p \\
+\hline
+\end{DoxyParams}
 
 
-Definition at line 21 of file Modifies\-Table.\-cpp.
+Definition at line 31 of file Modifies\-Table.\-cpp.
 
 \hypertarget{class_modifies_table_a3e91bef9a2c4013c88d228a525a33cdc}{\index{Modifies\-Table@{Modifies\-Table}!insert\-Stmt\-Modifies@{insert\-Stmt\-Modifies}}
 \index{insert\-Stmt\-Modifies@{insert\-Stmt\-Modifies}!ModifiesTable@{Modifies\-Table}}
@@ -133,9 +172,16 @@ Definition at line 21 of file Modifies\-Table.\-cpp.
 \item[{{\bf V\-A\-R}}]{v}
 \end{DoxyParamCaption}
 )}}\label{class_modifies_table_a3e91bef9a2c4013c88d228a525a33cdc}
+This method will be used to insert the Modifies relation, where the first argument of the relation is a statement 
+\begin{DoxyParams}{Parameters}
+{\em s} & statement that modifies v \\
+\hline
+{\em v} & variable that is modified by s \\
+\hline
+\end{DoxyParams}
 
 
-Definition at line 12 of file Modifies\-Table.\-cpp.
+Definition at line 17 of file Modifies\-Table.\-cpp.
 
 \hypertarget{class_modifies_table_af8abc48c5108dd52ebb9347ec666d32a}{\index{Modifies\-Table@{Modifies\-Table}!is\-Empty@{is\-Empty}}
 \index{is\-Empty@{is\-Empty}!ModifiesTable@{Modifies\-Table}}
@@ -144,9 +190,12 @@ Definition at line 12 of file Modifies\-Table.\-cpp.
 {}
 \end{DoxyParamCaption}
 )}}\label{class_modifies_table_af8abc48c5108dd52ebb9347ec666d32a}
+This method will be used to check if the Modifies table is empty. \begin{DoxyReturn}{Returns}
+true if the Modifies table is empty, and false otherwise 
+\end{DoxyReturn}
 
 
-Definition at line 65 of file Modifies\-Table.\-cpp.
+Definition at line 111 of file Modifies\-Table.\-cpp.
 
 \hypertarget{class_modifies_table_a718a3b7236dc726cc77d7c2e2a9d0e0c}{\index{Modifies\-Table@{Modifies\-Table}!is\-Modified\-Proc@{is\-Modified\-Proc}}
 \index{is\-Modified\-Proc@{is\-Modified\-Proc}!ModifiesTable@{Modifies\-Table}}
@@ -156,9 +205,19 @@ Definition at line 65 of file Modifies\-Table.\-cpp.
 \item[{{\bf V\-A\-R}}]{v}
 \end{DoxyParamCaption}
 )}}\label{class_modifies_table_a718a3b7236dc726cc77d7c2e2a9d0e0c}
+This method will be used to check if the procedure p modifies variable v. 
+\begin{DoxyParams}{Parameters}
+{\em p} & procedure that modifies v \\
+\hline
+{\em v} & variable that is modified by s \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the procedure p modifies variable v. 
+\end{DoxyReturn}
 
 
-Definition at line 60 of file Modifies\-Table.\-cpp.
+Definition at line 102 of file Modifies\-Table.\-cpp.
 
 \hypertarget{class_modifies_table_ada8e10f591ad8b0eac97fac0590d8258}{\index{Modifies\-Table@{Modifies\-Table}!is\-Modified\-Stmt@{is\-Modified\-Stmt}}
 \index{is\-Modified\-Stmt@{is\-Modified\-Stmt}!ModifiesTable@{Modifies\-Table}}
@@ -168,9 +227,19 @@ Definition at line 60 of file Modifies\-Table.\-cpp.
 \item[{{\bf V\-A\-R}}]{v}
 \end{DoxyParamCaption}
 )}}\label{class_modifies_table_ada8e10f591ad8b0eac97fac0590d8258}
+This method will be used to check if the statement s modifies variable v. 
+\begin{DoxyParams}{Parameters}
+{\em s} & statement that modifies v \\
+\hline
+{\em v} & variable that is modified by s \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the statement s modifies variable v. 
+\end{DoxyReturn}
 
 
-Definition at line 55 of file Modifies\-Table.\-cpp.
+Definition at line 91 of file Modifies\-Table.\-cpp.
 
 \hypertarget{class_modifies_table_a6100167fc40b57e2b6601fea3a250749}{\index{Modifies\-Table@{Modifies\-Table}!link\-Call\-Stmt\-To\-Proc\-Modifies@{link\-Call\-Stmt\-To\-Proc\-Modifies}}
 \index{link\-Call\-Stmt\-To\-Proc\-Modifies@{link\-Call\-Stmt\-To\-Proc\-Modifies}!ModifiesTable@{Modifies\-Table}}
@@ -182,7 +251,7 @@ Definition at line 55 of file Modifies\-Table.\-cpp.
 )}}\label{class_modifies_table_a6100167fc40b57e2b6601fea3a250749}
 
 
-Definition at line 70 of file Modifies\-Table.\-cpp.
+Definition at line 121 of file Modifies\-Table.\-cpp.
 
 \hypertarget{class_modifies_table_aa4b0ed2a7410b71283cf777adb13736f}{\index{Modifies\-Table@{Modifies\-Table}!optimize\-Modifies\-Table@{optimize\-Modifies\-Table}}
 \index{optimize\-Modifies\-Table@{optimize\-Modifies\-Table}!ModifiesTable@{Modifies\-Table}}
@@ -191,13 +260,13 @@ Definition at line 70 of file Modifies\-Table.\-cpp.
 {}
 \end{DoxyParamCaption}
 )}}\label{class_modifies_table_aa4b0ed2a7410b71283cf777adb13736f}
+This method will be used to optimise the populated Modifies table for fast access 
 
-
-Definition at line 75 of file Modifies\-Table.\-cpp.
+Definition at line 129 of file Modifies\-Table.\-cpp.
 
 
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
 \item 
-F\-:/3201\-\_\-3202/\-S\-P\-A/\$\-P@/\-S\-P\-A/\-S\-P\-A/\hyperlink{_modifies_table_8h}{Modifies\-Table.\-h}\item 
-F\-:/3201\-\_\-3202/\-S\-P\-A/\$\-P@/\-S\-P\-A/\-S\-P\-A/\hyperlink{_modifies_table_8cpp}{Modifies\-Table.\-cpp}\end{DoxyCompactItemize}
+\$\-P@/\-S\-P\-A/\-S\-P\-A/\hyperlink{_modifies_table_8h}{Modifies\-Table.\-h}\item 
+\$\-P@/\-S\-P\-A/\-S\-P\-A/\hyperlink{_modifies_table_8cpp}{Modifies\-Table.\-cpp}\end{DoxyCompactItemize}

@@ -67,7 +67,7 @@ typedef vector$<$ int $>$($\ast$ \hyperlink{class_rules_of_engagement_a1a051f488
 \item 
 static void \hyperlink{class_rules_of_engagement_a4ffc088479ffe671fdcc3ff658faa973}{initialise} ()
 \item 
-static int \hyperlink{class_rules_of_engagement_af0e6596cfee9a230105c42e6d9ee5cca}{convert\-Argument\-To\-Integer} (const \hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817}{Query\-Relations} \&type, const bool first, const string \&arg)
+static int \hyperlink{class_rules_of_engagement_a82a4e55b543189f43f270cb32b7f9e49}{convert\-Argument\-To\-Integer} (const \hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817}{Query\-Relations} type, const bool first, const string \&arg)
 \item 
 static \hyperlink{class_rules_of_engagement_aad838c0ef69d7c4ee9bef23a431ff6c1}{is\-Relation} \hyperlink{class_rules_of_engagement_a18a80f1ce5bcf4c10fa520a0785c0922}{get\-Relation} (\hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817}{Query\-Relations} rel)
 \item 
@@ -256,18 +256,30 @@ Definition at line 10 of file Rules\-Of\-Engagement.\-h.
 
 
 \subsection{Member Function Documentation}
-\hypertarget{class_rules_of_engagement_af0e6596cfee9a230105c42e6d9ee5cca}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!convert\-Argument\-To\-Integer@{convert\-Argument\-To\-Integer}}
+\hypertarget{class_rules_of_engagement_a82a4e55b543189f43f270cb32b7f9e49}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!convert\-Argument\-To\-Integer@{convert\-Argument\-To\-Integer}}
 \index{convert\-Argument\-To\-Integer@{convert\-Argument\-To\-Integer}!RulesOfEngagement@{Rules\-Of\-Engagement}}
 \subsubsection[{convert\-Argument\-To\-Integer}]{\setlength{\rightskip}{0pt plus 5cm}int Rules\-Of\-Engagement\-::convert\-Argument\-To\-Integer (
 \begin{DoxyParamCaption}
-\item[{const {\bf Query\-Relations} \&}]{type, }
+\item[{const {\bf Query\-Relations}}]{type, }
 \item[{const bool}]{first, }
 \item[{const string \&}]{arg}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_rules_of_engagement_af0e6596cfee9a230105c42e6d9ee5cca}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_rules_of_engagement_a82a4e55b543189f43f270cb32b7f9e49}
+Method that helps to convert an argument to the correct value to be stored in \hyperlink{class_answer_table}{Answer\-Table}. To be used for relations. 
+\begin{DoxyParams}{Parameters}
+{\em type} & type of relation \\
+\hline
+{\em first} & whether the argument is the first or second argument \\
+\hline
+{\em arg} & argument to be converted \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the integer representing the argument 
+\end{DoxyReturn}
 
 
-Definition at line 289 of file Rules\-Of\-Engagement.\-cpp.
+Definition at line 300 of file Rules\-Of\-Engagement.\-cpp.
 
 \hypertarget{class_rules_of_engagement_a18a80f1ce5bcf4c10fa520a0785c0922}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!get\-Relation@{get\-Relation}}
 \index{get\-Relation@{get\-Relation}!RulesOfEngagement@{Rules\-Of\-Engagement}}
@@ -276,9 +288,17 @@ Definition at line 289 of file Rules\-Of\-Engagement.\-cpp.
 \item[{{\bf Rules\-Of\-Engagement\-::\-Query\-Relations}}]{rel}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [static]}}}\label{class_rules_of_engagement_a18a80f1ce5bcf4c10fa520a0785c0922}
+The reason for the shortness of the code in \hyperlink{class_multi_query_eval}{Multi\-Query\-Eval}. Takes in the relation type and returns a function pointer that can be called to evaluate the satisfiablilty of the two arguments. 
+\begin{DoxyParams}{Parameters}
+{\em rel} & type of relation \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the function pointer 
+\end{DoxyReturn}
 
 
-Definition at line 322 of file Rules\-Of\-Engagement.\-cpp.
+Definition at line 341 of file Rules\-Of\-Engagement.\-cpp.
 
 \hypertarget{class_rules_of_engagement_a2b4845903e7378ebf4955714da0d36bf}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!get\-Type@{get\-Type}}
 \index{get\-Type@{get\-Type}!RulesOfEngagement@{Rules\-Of\-Engagement}}
@@ -287,9 +307,17 @@ Definition at line 322 of file Rules\-Of\-Engagement.\-cpp.
 \item[{{\bf Rules\-Of\-Engagement\-::\-Query\-Var}}]{type}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [static]}}}\label{class_rules_of_engagement_a2b4845903e7378ebf4955714da0d36bf}
+Takes in the synonym type and returns a function that when called, will produce all values that are of that synonym type, in integer form. 
+\begin{DoxyParams}{Parameters}
+{\em rel} & type of variable \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the function pointer 
+\end{DoxyReturn}
 
 
-Definition at line 392 of file Rules\-Of\-Engagement.\-cpp.
+Definition at line 417 of file Rules\-Of\-Engagement.\-cpp.
 
 \hypertarget{class_rules_of_engagement_a4ffc088479ffe671fdcc3ff658faa973}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!initialise@{initialise}}
 \index{initialise@{initialise}!RulesOfEngagement@{Rules\-Of\-Engagement}}
@@ -298,9 +326,9 @@ Definition at line 392 of file Rules\-Of\-Engagement.\-cpp.
 {}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [static]}}}\label{class_rules_of_engagement_a4ffc088479ffe671fdcc3ff658faa973}
+Stores all the tables with the relevant information. 
 
-
-Definition at line 26 of file Rules\-Of\-Engagement.\-cpp.
+Definition at line 29 of file Rules\-Of\-Engagement.\-cpp.
 
 \hypertarget{class_rules_of_engagement_a6d82299f9e291ea53856f9eeff143451}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!satisfy\-Pattern@{satisfy\-Pattern}}
 \index{satisfy\-Pattern@{satisfy\-Pattern}!RulesOfEngagement@{Rules\-Of\-Engagement}}
@@ -312,7 +340,7 @@ Definition at line 26 of file Rules\-Of\-Engagement.\-cpp.
 \item[{const {\bf A\-S\-T\-Expr\-Node} $\ast$}]{R\-H\-Sexprs}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [static]}}}\label{class_rules_of_engagement_a6d82299f9e291ea53856f9eeff143451}
-This method will be used to check wheather this assignment is valid with the pattern being checked 
+This method will be used to check whether this assignment is valid with the pattern being checked 
 \begin{DoxyParams}{Parameters}
 {\em index} & index of the assingent being checked \\
 \hline
@@ -323,9 +351,12 @@ This method will be used to check wheather this assignment is valid with the pat
 {\em R\-H\-Sexprs} & a right hand side expression tree \\
 \hline
 \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the assignment satisfied the pattern, and false otherwise 
+\end{DoxyReturn}
 
 
-Definition at line 486 of file Rules\-Of\-Engagement.\-cpp.
+Definition at line 511 of file Rules\-Of\-Engagement.\-cpp.
 
 
 
@@ -404,5 +435,5 @@ Definition at line 48 of file Rules\-Of\-Engagement.\-h.
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
 \item 
-F\-:/3201\-\_\-3202/\-S\-P\-A/\$\-P@/\-S\-P\-A/\-S\-P\-A/\hyperlink{_rules_of_engagement_8h}{Rules\-Of\-Engagement.\-h}\item 
-F\-:/3201\-\_\-3202/\-S\-P\-A/\$\-P@/\-S\-P\-A/\-S\-P\-A/\hyperlink{_rules_of_engagement_8cpp}{Rules\-Of\-Engagement.\-cpp}\end{DoxyCompactItemize}
+\$\-P@/\-S\-P\-A/\-S\-P\-A/\hyperlink{_rules_of_engagement_8h}{Rules\-Of\-Engagement.\-h}\item 
+\$\-P@/\-S\-P\-A/\-S\-P\-A/\hyperlink{_rules_of_engagement_8cpp}{Rules\-Of\-Engagement.\-cpp}\end{DoxyCompactItemize}

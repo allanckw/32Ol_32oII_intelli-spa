@@ -6,6 +6,7 @@ DisjointSet::DisjointSet()
 	dirty = false;
 }
 
+<<<<<<< Updated upstream
 DisjointSet::~DisjointSet()
 {
 }
@@ -14,6 +15,8 @@ DisjointSet::~DisjointSet()
 * Initalises the element in the disjoint set.
 * @param var the name of the element
 */
+=======
+>>>>>>> Stashed changes
 void DisjointSet::makeSet(string var)
 {
 	if (parent.count(var) == 0) {

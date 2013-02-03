@@ -179,8 +179,8 @@ Public Types</h2></td></tr>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a4ffc088479ffe671fdcc3ff658faa973"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_rules_of_engagement.html#a4ffc088479ffe671fdcc3ff658faa973">initialise</a> ()</td></tr>
 <tr class="separator:a4ffc088479ffe671fdcc3ff658faa973"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af0e6596cfee9a230105c42e6d9ee5cca"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_rules_of_engagement.html#af0e6596cfee9a230105c42e6d9ee5cca">convertArgumentToInteger</a> (const <a class="el" href="class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817">QueryRelations</a> &amp;type, const bool first, const string &amp;arg)</td></tr>
-<tr class="separator:af0e6596cfee9a230105c42e6d9ee5cca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82a4e55b543189f43f270cb32b7f9e49"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_rules_of_engagement.html#a82a4e55b543189f43f270cb32b7f9e49">convertArgumentToInteger</a> (const <a class="el" href="class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817">QueryRelations</a> type, const bool first, const string &amp;arg)</td></tr>
+<tr class="separator:a82a4e55b543189f43f270cb32b7f9e49"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a18a80f1ce5bcf4c10fa520a0785c0922"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_rules_of_engagement.html#aad838c0ef69d7c4ee9bef23a431ff6c1">isRelation</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_rules_of_engagement.html#a18a80f1ce5bcf4c10fa520a0785c0922">getRelation</a> (<a class="el" href="class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817">QueryRelations</a> rel)</td></tr>
 <tr class="separator:a18a80f1ce5bcf4c10fa520a0785c0922"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b4845903e7378ebf4955714da0d36bf"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_rules_of_engagement.html#a1a051f48865a7a4d7f07f0a89f16aafe">getAllTypes</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_rules_of_engagement.html#a2b4845903e7378ebf4955714da0d36bf">getType</a> (<a class="el" href="class_rules_of_engagement.html#a5dd2b28fd0c906d9b08e29e371713ead">QueryVar</a> type)</td></tr>
@@ -389,7 +389,7 @@ set&lt; string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a c
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="af0e6596cfee9a230105c42e6d9ee5cca"></a>
+<a class="anchor" id="a82a4e55b543189f43f270cb32b7f9e49"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -399,7 +399,7 @@ set&lt; string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a c
         <tr>
           <td class="memname">int RulesOfEngagement::convertArgumentToInteger </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817">QueryRelations</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817">QueryRelations</a>&#160;</td>
           <td class="paramname"><em>type</em>, </td>
         </tr>
         <tr>
@@ -426,8 +426,18 @@ set&lt; string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a c
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method that helps to convert an argument to the correct value to be stored in <a class="el" href="class_answer_table.html">AnswerTable</a>. To be used for relations. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">type</td><td>type of relation </td></tr>
+    <tr><td class="paramname">first</td><td>whether the argument is the first or second argument </td></tr>
+    <tr><td class="paramname">arg</td><td>argument to be converted </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the integer representing the argument </dd></dl>
 
-<p>Definition at line <a class="el" href="_rules_of_engagement_8cpp_source.html#l00289">289</a> of file <a class="el" href="_rules_of_engagement_8cpp_source.html">RulesOfEngagement.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_rules_of_engagement_8cpp_source.html#l00300">300</a> of file <a class="el" href="_rules_of_engagement_8cpp_source.html">RulesOfEngagement.cpp</a>.</p>
 
 </div>
 </div>
@@ -452,8 +462,16 @@ set&lt; string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a c
   </tr>
 </table>
 </div><div class="memdoc">
+<p>The reason for the shortness of the code in <a class="el" href="class_multi_query_eval.html">MultiQueryEval</a>. Takes in the relation type and returns a function pointer that can be called to evaluate the satisfiablilty of the two arguments. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rel</td><td>type of relation </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the function pointer </dd></dl>
 
-<p>Definition at line <a class="el" href="_rules_of_engagement_8cpp_source.html#l00322">322</a> of file <a class="el" href="_rules_of_engagement_8cpp_source.html">RulesOfEngagement.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_rules_of_engagement_8cpp_source.html#l00341">341</a> of file <a class="el" href="_rules_of_engagement_8cpp_source.html">RulesOfEngagement.cpp</a>.</p>
 
 </div>
 </div>
@@ -478,8 +496,16 @@ set&lt; string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a c
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Takes in the synonym type and returns a function that when called, will produce all values that are of that synonym type, in integer form. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rel</td><td>type of variable </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the function pointer </dd></dl>
 
-<p>Definition at line <a class="el" href="_rules_of_engagement_8cpp_source.html#l00392">392</a> of file <a class="el" href="_rules_of_engagement_8cpp_source.html">RulesOfEngagement.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_rules_of_engagement_8cpp_source.html#l00417">417</a> of file <a class="el" href="_rules_of_engagement_8cpp_source.html">RulesOfEngagement.cpp</a>.</p>
 
 </div>
 </div>
@@ -503,8 +529,9 @@ set&lt; string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a c
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Stores all the tables with the relevant information. </p>
 
-<p>Definition at line <a class="el" href="_rules_of_engagement_8cpp_source.html#l00026">26</a> of file <a class="el" href="_rules_of_engagement_8cpp_source.html">RulesOfEngagement.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_rules_of_engagement_8cpp_source.html#l00029">29</a> of file <a class="el" href="_rules_of_engagement_8cpp_source.html">RulesOfEngagement.cpp</a>.</p>
 
 </div>
 </div>
@@ -551,7 +578,7 @@ set&lt; string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a c
   </tr>
 </table>
 </div><div class="memdoc">
-<p>This method will be used to check wheather this assignment is valid with the pattern being checked </p>
+<p>This method will be used to check whether this assignment is valid with the pattern being checked </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">index</td><td>index of the assingent being checked </td></tr>
@@ -561,8 +588,9 @@ set&lt; string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a c
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the assignment satisfied the pattern, and false otherwise </dd></dl>
 
-<p>Definition at line <a class="el" href="_rules_of_engagement_8cpp_source.html#l00486">486</a> of file <a class="el" href="_rules_of_engagement_8cpp_source.html">RulesOfEngagement.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_rules_of_engagement_8cpp_source.html#l00511">511</a> of file <a class="el" href="_rules_of_engagement_8cpp_source.html">RulesOfEngagement.cpp</a>.</p>
 
 </div>
 </div>
@@ -788,8 +816,8 @@ set&lt; string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a c
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>F:/3201_3202/SPA/$P@/SPA/SPA/<a class="el" href="_rules_of_engagement_8h_source.html">RulesOfEngagement.h</a></li>
-<li>F:/3201_3202/SPA/$P@/SPA/SPA/<a class="el" href="_rules_of_engagement_8cpp_source.html">RulesOfEngagement.cpp</a></li>
+<li>$P@/SPA/SPA/<a class="el" href="_rules_of_engagement_8h_source.html">RulesOfEngagement.h</a></li>
+<li>$P@/SPA/SPA/<a class="el" href="_rules_of_engagement_8cpp_source.html">RulesOfEngagement.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -797,7 +825,7 @@ set&lt; string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a c
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_rules_of_engagement.html">RulesOfEngagement</a></li>
-    <li class="footer">Generated on Fri Feb 1 2013 13:49:28 for SPA by
+    <li class="footer">Generated on Mon Feb 4 2013 01:03:01 for SPA by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3.1 </li>
   </ul>

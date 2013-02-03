@@ -9,7 +9,7 @@ private:
 
 public:
 	FollowsTable();
-	~FollowsTable();
+
 	void insertFollows(STMT s1, STMT s2); //constant time
 	bool isEmpty(); //constant time
 

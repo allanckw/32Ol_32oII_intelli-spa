@@ -5,7 +5,7 @@ class PROCTable
 {
 public:
 	PROCTable(void);
-	~PROCTable(void);
+
 	PROCIndex insertPROC(string PROCName);
 	
 	string getPROCName(PROCIndex);

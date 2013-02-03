@@ -16,7 +16,7 @@ private:
 
 public:
 	DisjointSet(void);
-	~DisjointSet(void);
+
 
 	void makeSet(string);
 	void setUnion(string, string);

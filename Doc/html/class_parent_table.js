@@ -1,7 +1,6 @@
 var class_parent_table =
 [
     [ "ParentTable", "class_parent_table.html#a3fa054014eba4cb913f1b9245263857d", null ],
-    [ "~ParentTable", "class_parent_table.html#ae9330cdc90ee1ca2ed5dcc205e5afcdc", null ],
     [ "getChildren", "class_parent_table.html#a86302e8f70ace7674fd2184654c156a8", null ],
     [ "getChildrenStar", "class_parent_table.html#af10014b72f9b69bc3e58f251ce7d60c0", null ],
     [ "getParent", "class_parent_table.html#ae53225a6ba566239960cca6783983a7b", null ],

@@ -44,9 +44,6 @@ Parser::Parser(string fileName)
 	  }
 }
 
-Parser::~Parser(void)
-{
-}
 
 /**
 * This method will check if the string for special character

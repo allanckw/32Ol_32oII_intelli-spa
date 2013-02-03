@@ -17,8 +17,6 @@ private:
 	static CFGNode* processProcedure(ASTNode* procedureNode);
 	static CFGNode* processWhile(ASTNode* procedureNode,int* s, ASTStmtNode *stmtNode);
 	static CFGNode* processIf(ASTNode* procedureNode,int* s, ASTStmtNode *stmtNode, CFGNode *ifNode);
-	//Process While Node
-	//Process If Node
 
 };
 

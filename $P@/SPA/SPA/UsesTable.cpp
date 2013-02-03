@@ -3,8 +3,6 @@
 #include "PKB.h"
 #include "UsesTable.h"
 
-
-
 UsesTable::UsesTable()
 {
 }
@@ -113,7 +111,7 @@ bool UsesTable::isEmpty()
 	return originalUsedByProc.empty();
 }
 
-/*
+/**
 * This method will be used to link a call statement to the procedure it calls.
 * @param s statement calling procedure p
 * @param p procedure called by statement s
@@ -122,7 +120,7 @@ void UsesTable::linkCallStmtToProcUses(STMT s, PROC p) {
 	callLinksUses.insert(pair<STMT, PROC>(s, p));
 }
 
-//This function should be invoked once usestable has been fully populated by whoever is populating it
+
 /**
 * This method will be used to optimise the populated Uses table for fast access
 */
@@ -171,9 +169,6 @@ void UsesTable::optimizeUsesTable()
 	}
 }
 
-//////////////////////////////////
-//Functions for testing purposes//
-//////////////////////////////////
 /**
 * This method will be used for testing purposes for viewing the content of the Uses table
 */

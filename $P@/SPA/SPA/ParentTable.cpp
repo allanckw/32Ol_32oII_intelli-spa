@@ -6,10 +6,6 @@ ParentTable::ParentTable()
 {
 }
 
-ParentTable::~ParentTable()
-{
-}
-
 /**
 * This method will be used to insert the Parent relation.
 * Let r be the number of relationships in ParentTable.

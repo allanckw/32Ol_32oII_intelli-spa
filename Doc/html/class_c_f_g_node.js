@@ -9,8 +9,6 @@ var class_c_f_g_node =
     [ "CFGNode", "class_c_f_g_node.html#addba1ddd8abe5f584389e05926251eaa", null ],
     [ "addNextNode", "class_c_f_g_node.html#ae3c039c5f6e2c55e50faa63b0941b11e", null ],
     [ "addPreviousNode", "class_c_f_g_node.html#ab2c09ac0d4d4700d7cc2bab9a2044c24", null ],
-    [ "getAllNextNodes", "class_c_f_g_node.html#a7392e9f7ad4f5cf935948d9695c586ab", null ],
-    [ "getAllPreviousNodes", "class_c_f_g_node.html#ab2efcbc2cbc05f0aed11ea57bf0f9357", null ],
     [ "getNextNodes", "class_c_f_g_node.html#a715f4e65329fdd0948f39eaf44d37ebd", null ],
     [ "getPreviousNodes", "class_c_f_g_node.html#aa462795f2f35b263c5e6c3f39ab88e21", null ],
     [ "getProcedure", "class_c_f_g_node.html#a2c9700b808aad05029293f0d1cd13b01", null ],

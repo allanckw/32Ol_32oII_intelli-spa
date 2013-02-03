@@ -53,9 +53,19 @@ Definition at line 6 of file Answer\-Table.\-h.
 \item[{const string \&}]{synonym}
 \end{DoxyParamCaption}
 )}}\label{class_answer_table_a01b3a71cd50d9ebd513068463650c34f}
+Constructs the \hyperlink{class_answer_table}{Answer\-Table} for the synonym. Values are those that satisfy all conditions. This excludes all other relations. 
+\begin{DoxyParams}{Parameters}
+{\em synonym\-Table} & contains all the information about the synonym \\
+\hline
+{\em synonym} & the name of the synonym to construct \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the \hyperlink{class_answer_table}{Answer\-Table} containing the one synonym 
+\end{DoxyReturn}
 
 
-Definition at line 10 of file Answer\-Table.\-cpp.
+Definition at line 17 of file Answer\-Table.\-cpp.
 
 
 
@@ -67,9 +77,17 @@ Definition at line 10 of file Answer\-Table.\-cpp.
 \item[{const {\bf Answer\-Table} \&}]{other\-Table}
 \end{DoxyParamCaption}
 )}}\label{class_answer_table_a6402136f56eccb33fd311b9c5208b884}
+Modifies this \hyperlink{class_answer_table}{Answer\-Table} by taking the Cartesian Product of this \hyperlink{class_answer_table}{Answer\-Table} with the \hyperlink{class_answer_table}{Answer\-Table} given in the argument. 
+\begin{DoxyParams}{Parameters}
+{\em other\-Table} & pointer to the other \hyperlink{class_answer_table}{Answer\-Table} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the \hyperlink{class_answer_table}{Answer\-Table} having been cartesianed with the other \hyperlink{class_answer_table}{Answer\-Table} 
+\end{DoxyReturn}
 
 
-Definition at line 418 of file Answer\-Table.\-cpp.
+Definition at line 452 of file Answer\-Table.\-cpp.
 
 \hypertarget{class_answer_table_ac5da4ad26b82eca376998313ada78da0}{\index{Answer\-Table@{Answer\-Table}!combine@{combine}}
 \index{combine@{combine}!AnswerTable@{Answer\-Table}}
@@ -81,9 +99,23 @@ Definition at line 418 of file Answer\-Table.\-cpp.
 \item[{const {\bf Rules\-Of\-Engagement\-::is\-Relation}}]{rel}
 \end{DoxyParamCaption}
 )}}\label{class_answer_table_ac5da4ad26b82eca376998313ada78da0}
+Scans through two Answer\-Tables and combine those rows where the synonyms in each Answertable satisfy the relation. 
+\begin{DoxyParams}{Parameters}
+{\em own\-Synonym} & name of synonym in this \hyperlink{class_answer_table}{Answer\-Table} \\
+\hline
+{\em other\-Table} & pointer to other \hyperlink{class_answer_table}{Answer\-Table} \\
+\hline
+{\em other\-Synonym} & name of synonym in the other \hyperlink{class_answer_table}{Answer\-Table} \\
+\hline
+{\em rel} & function pointer to method to evaluate satisfiability of relation \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the \hyperlink{class_answer_table}{Answer\-Table} having combined with the other \hyperlink{class_answer_table}{Answer\-Table} 
+\end{DoxyReturn}
 
 
-Definition at line 204 of file Answer\-Table.\-cpp.
+Definition at line 220 of file Answer\-Table.\-cpp.
 
 \hypertarget{class_answer_table_a7d8957160038486ced90cffc680d491c}{\index{Answer\-Table@{Answer\-Table}!get\-Header@{get\-Header}}
 \index{get\-Header@{get\-Header}!AnswerTable@{Answer\-Table}}
@@ -92,9 +124,12 @@ Definition at line 204 of file Answer\-Table.\-cpp.
 {}
 \end{DoxyParamCaption}
 ) const}}\label{class_answer_table_a7d8957160038486ced90cffc680d491c}
+Returns a vector of the synonyms included in this \hyperlink{class_answer_table}{Answer\-Table}. \begin{DoxyReturn}{Returns}
+the vector of the synonyms 
+\end{DoxyReturn}
 
 
-Definition at line 436 of file Answer\-Table.\-cpp.
+Definition at line 474 of file Answer\-Table.\-cpp.
 
 \hypertarget{class_answer_table_a28df331881ed15b3012b0d717109096c}{\index{Answer\-Table@{Answer\-Table}!get\-Row@{get\-Row}}
 \index{get\-Row@{get\-Row}!AnswerTable@{Answer\-Table}}
@@ -103,9 +138,17 @@ Definition at line 436 of file Answer\-Table.\-cpp.
 \item[{const int}]{index}
 \end{DoxyParamCaption}
 ) const}}\label{class_answer_table_a28df331881ed15b3012b0d717109096c}
+Returns a particular row of this \hyperlink{class_answer_table}{Answer\-Table}. The validity of the value given is not checked. 
+\begin{DoxyParams}{Parameters}
+{\em index} & index to the row \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the vector corresponding to the required row 
+\end{DoxyReturn}
 
 
-Definition at line 446 of file Answer\-Table.\-cpp.
+Definition at line 493 of file Answer\-Table.\-cpp.
 
 \hypertarget{class_answer_table_af97a334c1ffcd4b185ddf8d981ef91bf}{\index{Answer\-Table@{Answer\-Table}!get\-Size@{get\-Size}}
 \index{get\-Size@{get\-Size}!AnswerTable@{Answer\-Table}}
@@ -114,9 +157,12 @@ Definition at line 446 of file Answer\-Table.\-cpp.
 {}
 \end{DoxyParamCaption}
 ) const}}\label{class_answer_table_af97a334c1ffcd4b185ddf8d981ef91bf}
+Returns the number of synonyms in this \hyperlink{class_answer_table}{Answer\-Table}. \begin{DoxyReturn}{Returns}
+the number of synonyms 
+\end{DoxyReturn}
 
 
-Definition at line 441 of file Answer\-Table.\-cpp.
+Definition at line 483 of file Answer\-Table.\-cpp.
 
 \hypertarget{class_answer_table_a476cd4e95ee3dcd392d6d9bb66240cc5}{\index{Answer\-Table@{Answer\-Table}!pattern\-Prune@{pattern\-Prune}}
 \index{pattern\-Prune@{pattern\-Prune}!AnswerTable@{Answer\-Table}}
@@ -128,7 +174,7 @@ Definition at line 441 of file Answer\-Table.\-cpp.
 \item[{const {\bf A\-S\-T\-Expr\-Node} $\ast$}]{R\-H\-Sexprs}
 \end{DoxyParamCaption}
 )}}\label{class_answer_table_a476cd4e95ee3dcd392d6d9bb66240cc5}
-This method will be used to evaluate the pattern relation and return the assignment,if,while that re valid 
+This method will be used to evaluate the pattern relation and return the assignment,if,while that are valid 
 \begin{DoxyParams}{Parameters}
 {\em synonym} & the pattern's L\-H\-S var \\
 \hline
@@ -139,9 +185,12 @@ This method will be used to evaluate the pattern relation and return the assignm
 {\em R\-H\-Sexprs} & a right hand side expression tree \\
 \hline
 \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the \hyperlink{class_answer_table}{Answer\-Table} 
+\end{DoxyReturn}
 
 
-Definition at line 363 of file Answer\-Table.\-cpp.
+Definition at line 404 of file Answer\-Table.\-cpp.
 
 \hypertarget{class_answer_table_a44d359653923049566c8815d7f0616b2}{\index{Answer\-Table@{Answer\-Table}!project@{project}}
 \index{project@{project}!AnswerTable@{Answer\-Table}}
@@ -150,9 +199,17 @@ Definition at line 363 of file Answer\-Table.\-cpp.
 \item[{const vector$<$ string $>$ \&}]{selection}
 \end{DoxyParamCaption}
 )}}\label{class_answer_table_a44d359653923049566c8815d7f0616b2}
+Creates a new \hyperlink{class_answer_table}{Answer\-Table} with only the columns corresponding to the synonyms that are required. The required synonyms are given in a vector given in the argument. 
+\begin{DoxyParams}{Parameters}
+{\em selection} & list of synonyms to be projected out \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a new \hyperlink{class_answer_table}{Answer\-Table} with only the selected columns 
+\end{DoxyReturn}
 
 
-Definition at line 395 of file Answer\-Table.\-cpp.
+Definition at line 423 of file Answer\-Table.\-cpp.
 
 \hypertarget{class_answer_table_a5c3bbb34b61b0dc49edcf62c817c994a}{\index{Answer\-Table@{Answer\-Table}!prune@{prune}}
 \index{prune@{prune}!AnswerTable@{Answer\-Table}}
@@ -163,9 +220,21 @@ Definition at line 395 of file Answer\-Table.\-cpp.
 \item[{const {\bf Rules\-Of\-Engagement\-::is\-Relation}}]{rel}
 \end{DoxyParamCaption}
 )}}\label{class_answer_table_a5c3bbb34b61b0dc49edcf62c817c994a}
+Scans through the \hyperlink{class_answer_table}{Answer\-Table} and keep those rows where the synonyms satisfy the relation. 
+\begin{DoxyParams}{Parameters}
+{\em first\-Synonym} & name of first synonym \\
+\hline
+{\em second\-Synonym} & name of second synonym \\
+\hline
+{\em rel} & function pointer to method to evaluate satisfiability of relation \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the \hyperlink{class_answer_table}{Answer\-Table} 
+\end{DoxyReturn}
 
 
-Definition at line 226 of file Answer\-Table.\-cpp.
+Definition at line 249 of file Answer\-Table.\-cpp.
 
 \hypertarget{class_answer_table_affa20cce217db5e4618490224c32ad22}{\index{Answer\-Table@{Answer\-Table}!with\-Combine@{with\-Combine}}
 \index{with\-Combine@{with\-Combine}!AnswerTable@{Answer\-Table}}
@@ -179,9 +248,23 @@ Definition at line 226 of file Answer\-Table.\-cpp.
 \item[{const string \&}]{second\-Condition}
 \end{DoxyParamCaption}
 )}}\label{class_answer_table_affa20cce217db5e4618490224c32ad22}
+Scans through two Answer\-Tables and combine those rows where the synonyms in each Answertable satisfy the relation as defined with the 'with' keyword. 
+\begin{DoxyParams}{Parameters}
+{\em own\-Synonym} & name of synonym in this \hyperlink{class_answer_table}{Answer\-Table} \\
+\hline
+{\em other\-Table} & pointer to other \hyperlink{class_answer_table}{Answer\-Table} \\
+\hline
+{\em other\-Synonym} & name of synonym in the other \hyperlink{class_answer_table}{Answer\-Table} \\
+\hline
+{\em rel} & function pointer to method to evaluate satisfiability of relation \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the \hyperlink{class_answer_table}{Answer\-Table} having combined with the other \hyperlink{class_answer_table}{Answer\-Table} 
+\end{DoxyReturn}
 
 
-Definition at line 239 of file Answer\-Table.\-cpp.
+Definition at line 271 of file Answer\-Table.\-cpp.
 
 \hypertarget{class_answer_table_af420ffab72e6f473cd09f577aac7e518}{\index{Answer\-Table@{Answer\-Table}!with\-Prune@{with\-Prune}}
 \index{with\-Prune@{with\-Prune}!AnswerTable@{Answer\-Table}}
@@ -194,9 +277,21 @@ Definition at line 239 of file Answer\-Table.\-cpp.
 \item[{const string \&}]{second\-Condition}
 \end{DoxyParamCaption}
 )}}\label{class_answer_table_af420ffab72e6f473cd09f577aac7e518}
+Scans through the \hyperlink{class_answer_table}{Answer\-Table} and keep those rows where the synonyms satisfy the relation as defined with the 'with' keyword. 
+\begin{DoxyParams}{Parameters}
+{\em first\-Synonym} & name of first synonym \\
+\hline
+{\em second\-Synonym} & name of second synonym \\
+\hline
+{\em rel} & function pointer to method to evaluate satisfiability of relation \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the \hyperlink{class_answer_table}{Answer\-Table} 
+\end{DoxyReturn}
 
 
-Definition at line 310 of file Answer\-Table.\-cpp.
+Definition at line 350 of file Answer\-Table.\-cpp.
 
 
 
@@ -212,5 +307,5 @@ Definition at line 15 of file Answer\-Table.\-h.
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
 \item 
-F\-:/3201\-\_\-3202/\-S\-P\-A/\$\-P@/\-S\-P\-A/\-S\-P\-A/\hyperlink{_answer_table_8h}{Answer\-Table.\-h}\item 
-F\-:/3201\-\_\-3202/\-S\-P\-A/\$\-P@/\-S\-P\-A/\-S\-P\-A/\hyperlink{_answer_table_8cpp}{Answer\-Table.\-cpp}\end{DoxyCompactItemize}
+\$\-P@/\-S\-P\-A/\-S\-P\-A/\hyperlink{_answer_table_8h}{Answer\-Table.\-h}\item 
+\$\-P@/\-S\-P\-A/\-S\-P\-A/\hyperlink{_answer_table_8cpp}{Answer\-Table.\-cpp}\end{DoxyCompactItemize}

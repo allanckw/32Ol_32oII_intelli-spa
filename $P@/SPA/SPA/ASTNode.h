@@ -37,7 +37,7 @@ public:
 	virtual ASTNode* addChild(ASTNode*);
 	virtual ASTNode* setParent(ASTNode * p);
 
-	void setRoot(int);
+	void setRoot(PROC);
 
 	ASTNode::NodeType getType() const;
 	ASTNode* getChild(unsigned int) const;

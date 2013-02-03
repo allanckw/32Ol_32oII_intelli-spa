@@ -172,8 +172,17 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Constructs the <a class="el" href="class_answer_table.html">AnswerTable</a> for the synonym. Values are those that satisfy all conditions. This excludes all other relations. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">synonymTable</td><td>contains all the information about the synonym </td></tr>
+    <tr><td class="paramname">synonym</td><td>the name of the synonym to construct </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the <a class="el" href="class_answer_table.html">AnswerTable</a> containing the one synonym </dd></dl>
 
-<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00010">10</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00017">17</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -191,8 +200,16 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Modifies this <a class="el" href="class_answer_table.html">AnswerTable</a> by taking the Cartesian Product of this <a class="el" href="class_answer_table.html">AnswerTable</a> with the <a class="el" href="class_answer_table.html">AnswerTable</a> given in the argument. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">otherTable</td><td>pointer to the other <a class="el" href="class_answer_table.html">AnswerTable</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the <a class="el" href="class_answer_table.html">AnswerTable</a> having been cartesianed with the other <a class="el" href="class_answer_table.html">AnswerTable</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00418">418</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00452">452</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -231,8 +248,19 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Scans through two AnswerTables and combine those rows where the synonyms in each Answertable satisfy the relation. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ownSynonym</td><td>name of synonym in this <a class="el" href="class_answer_table.html">AnswerTable</a> </td></tr>
+    <tr><td class="paramname">otherTable</td><td>pointer to other <a class="el" href="class_answer_table.html">AnswerTable</a> </td></tr>
+    <tr><td class="paramname">otherSynonym</td><td>name of synonym in the other <a class="el" href="class_answer_table.html">AnswerTable</a> </td></tr>
+    <tr><td class="paramname">rel</td><td>function pointer to method to evaluate satisfiability of relation </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the <a class="el" href="class_answer_table.html">AnswerTable</a> having combined with the other <a class="el" href="class_answer_table.html">AnswerTable</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00204">204</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00220">220</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -248,8 +276,10 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Returns a vector of the synonyms included in this <a class="el" href="class_answer_table.html">AnswerTable</a>. </p>
+<dl class="section return"><dt>Returns</dt><dd>the vector of the synonyms </dd></dl>
 
-<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00436">436</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00474">474</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -266,8 +296,16 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Returns a particular row of this <a class="el" href="class_answer_table.html">AnswerTable</a>. The validity of the value given is not checked. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>index to the row </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the vector corresponding to the required row </dd></dl>
 
-<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00446">446</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00493">493</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -283,8 +321,10 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Returns the number of synonyms in this <a class="el" href="class_answer_table.html">AnswerTable</a>. </p>
+<dl class="section return"><dt>Returns</dt><dd>the number of synonyms </dd></dl>
 
-<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00441">441</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00483">483</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -323,7 +363,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>This method will be used to evaluate the pattern relation and return the assignment,if,while that re valid </p>
+<p>This method will be used to evaluate the pattern relation and return the assignment,if,while that are valid </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">synonym</td><td>the pattern's LHS var </td></tr>
@@ -333,8 +373,9 @@ Public Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>the <a class="el" href="class_answer_table.html">AnswerTable</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00363">363</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00404">404</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -351,8 +392,16 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Creates a new <a class="el" href="class_answer_table.html">AnswerTable</a> with only the columns corresponding to the synonyms that are required. The required synonyms are given in a vector given in the argument. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">selection</td><td>list of synonyms to be projected out </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a new <a class="el" href="class_answer_table.html">AnswerTable</a> with only the selected columns </dd></dl>
 
-<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00395">395</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00423">423</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -385,8 +434,18 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Scans through the <a class="el" href="class_answer_table.html">AnswerTable</a> and keep those rows where the synonyms satisfy the relation. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">firstSynonym</td><td>name of first synonym </td></tr>
+    <tr><td class="paramname">secondSynonym</td><td>name of second synonym </td></tr>
+    <tr><td class="paramname">rel</td><td>function pointer to method to evaluate satisfiability of relation </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the <a class="el" href="class_answer_table.html">AnswerTable</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00226">226</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00249">249</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -437,8 +496,19 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Scans through two AnswerTables and combine those rows where the synonyms in each Answertable satisfy the relation as defined with the 'with' keyword. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ownSynonym</td><td>name of synonym in this <a class="el" href="class_answer_table.html">AnswerTable</a> </td></tr>
+    <tr><td class="paramname">otherTable</td><td>pointer to other <a class="el" href="class_answer_table.html">AnswerTable</a> </td></tr>
+    <tr><td class="paramname">otherSynonym</td><td>name of synonym in the other <a class="el" href="class_answer_table.html">AnswerTable</a> </td></tr>
+    <tr><td class="paramname">rel</td><td>function pointer to method to evaluate satisfiability of relation </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the <a class="el" href="class_answer_table.html">AnswerTable</a> having combined with the other <a class="el" href="class_answer_table.html">AnswerTable</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00239">239</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00271">271</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -483,8 +553,18 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Scans through the <a class="el" href="class_answer_table.html">AnswerTable</a> and keep those rows where the synonyms satisfy the relation as defined with the 'with' keyword. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">firstSynonym</td><td>name of first synonym </td></tr>
+    <tr><td class="paramname">secondSynonym</td><td>name of second synonym </td></tr>
+    <tr><td class="paramname">rel</td><td>function pointer to method to evaluate satisfiability of relation </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the <a class="el" href="class_answer_table.html">AnswerTable</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00310">310</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00350">350</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -504,8 +584,8 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>F:/3201_3202/SPA/$P@/SPA/SPA/<a class="el" href="_answer_table_8h_source.html">AnswerTable.h</a></li>
-<li>F:/3201_3202/SPA/$P@/SPA/SPA/<a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a></li>
+<li>$P@/SPA/SPA/<a class="el" href="_answer_table_8h_source.html">AnswerTable.h</a></li>
+<li>$P@/SPA/SPA/<a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -513,7 +593,7 @@ Public Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_answer_table.html">AnswerTable</a></li>
-    <li class="footer">Generated on Fri Feb 1 2013 13:49:27 for SPA by
+    <li class="footer">Generated on Mon Feb 4 2013 01:03:00 for SPA by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3.1 </li>
   </ul>

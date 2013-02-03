@@ -23,7 +23,7 @@ var class_a_s_t_node =
     [ "isHasChildren", "class_a_s_t_node.html#ae26a0a4a3beebf3ef460ff603cbc3a97", null ],
     [ "isRoot", "class_a_s_t_node.html#aba44d4dd6234cab7a2c3f153b65bd97f", null ],
     [ "setParent", "class_a_s_t_node.html#a70e8aa10baa353684ae8288f3460a5fc", null ],
-    [ "setRoot", "class_a_s_t_node.html#a940adeca834d8d00d6d9fa70be68bc0f", null ],
+    [ "setRoot", "class_a_s_t_node.html#a05a02c02535ef19457cccaf511d594e7", null ],
     [ "children", "class_a_s_t_node.html#af8f4491cf9294805337542d5873c85b2", null ],
     [ "nodeType", "class_a_s_t_node.html#a15fcdbd8403a1169b06d948a827fde55", null ],
     [ "parent", "class_a_s_t_node.html#aaa1e479bfeb485d93a4866f9c2daf171", null ],

@@ -8,10 +8,6 @@ PROCTable::PROCTable(void)
 }
 
 
-PROCTable::~PROCTable(void)
-{
-}
-
 /**
 * This method will be used to insert procedure name into the procedure table
 * @param PROCName the Procedure name being inserted

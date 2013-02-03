@@ -118,8 +118,6 @@ $(document).ready(function(){initNavTree('class_follows_table.html','');});
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a3f8037760cee7e5dc50a2df832f6c4ad"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_follows_table.html#a3f8037760cee7e5dc50a2df832f6c4ad">FollowsTable</a> ()</td></tr>
 <tr class="separator:a3f8037760cee7e5dc50a2df832f6c4ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8cab8d2775cf2586e54e16fddc733ca2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_follows_table.html#a8cab8d2775cf2586e54e16fddc733ca2">~FollowsTable</a> ()</td></tr>
-<tr class="separator:a8cab8d2775cf2586e54e16fddc733ca2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7bea1745b1f8b37e9ed96f5159116b8b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_follows_table.html#a7bea1745b1f8b37e9ed96f5159116b8b">insertFollows</a> (<a class="el" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> s1, <a class="el" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> s2)</td></tr>
 <tr class="separator:a7bea1745b1f8b37e9ed96f5159116b8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0eaf7b1c70730a6f658be07d1c6d60c4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_follows_table.html#a0eaf7b1c70730a6f658be07d1c6d60c4">isEmpty</a> ()</td></tr>
@@ -158,23 +156,6 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a8cab8d2775cf2586e54e16fddc733ca2"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">FollowsTable::~FollowsTable </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_follows_table_8cpp_source.html#l00011">11</a> of file <a class="el" href="_follows_table_8cpp_source.html">FollowsTable.cpp</a>.</p>
-
-</div>
-</div>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="aac4f2858b050a35ae0b351d5d2baee7b"></a>
 <div class="memitem">
@@ -189,8 +170,16 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>This method returns the statement that follows from s1, or -1 if no such statement exists. O(1) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">s1</td><td>target statement </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the statement </dd></dl>
 
-<p>Definition at line <a class="el" href="_follows_table_8cpp_source.html#l00037">37</a> of file <a class="el" href="_follows_table_8cpp_source.html">FollowsTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_follows_table_8cpp_source.html#l00053">53</a> of file <a class="el" href="_follows_table_8cpp_source.html">FollowsTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -207,8 +196,16 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>This method returns the statement that s2 follows from, or -1 if no such statement exists. O(1) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">s2</td><td>target statement </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the statement </dd></dl>
 
-<p>Definition at line <a class="el" href="_follows_table_8cpp_source.html#l00046">46</a> of file <a class="el" href="_follows_table_8cpp_source.html">FollowsTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_follows_table_8cpp_source.html#l00067">67</a> of file <a class="el" href="_follows_table_8cpp_source.html">FollowsTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -225,8 +222,16 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>This method returns a list of statements that follows from s1, directly or indirectly. O(n) &lt;= O(r), where n is the number of siblings right of s1 </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">s1</td><td>target statement </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the vector </dd></dl>
 
-<p>Definition at line <a class="el" href="_follows_table_8cpp_source.html#l00068">68</a> of file <a class="el" href="_follows_table_8cpp_source.html">FollowsTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_follows_table_8cpp_source.html#l00100">100</a> of file <a class="el" href="_follows_table_8cpp_source.html">FollowsTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -243,8 +248,16 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>This method returns a list of statements that s2 follows from, directly or indirectly. O(n) &lt;= O(r), where n is the number of siblings left of s2 </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">s2</td><td>target statement </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the vector </dd></dl>
 
-<p>Definition at line <a class="el" href="_follows_table_8cpp_source.html#l00082">82</a> of file <a class="el" href="_follows_table_8cpp_source.html">FollowsTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_follows_table_8cpp_source.html#l00119">119</a> of file <a class="el" href="_follows_table_8cpp_source.html">FollowsTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -271,8 +284,16 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>This method will be used to insert the Follows relation. Let r be the number of relationships in <a class="el" href="class_follows_table.html">FollowsTable</a>. Armotised: O(1) (O(k) after k insertions) Worst: O(c) &lt;= O(r), where c is the number of relationships in the table </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">s1</td><td>statement followed by s2 </td></tr>
+    <tr><td class="paramname">s2</td><td>statement following s1 </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="_follows_table_8cpp_source.html#l00018">18</a> of file <a class="el" href="_follows_table_8cpp_source.html">FollowsTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_follows_table_8cpp_source.html#l00019">19</a> of file <a class="el" href="_follows_table_8cpp_source.html">FollowsTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -288,8 +309,10 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>This method will be used to check if the Follows table is empty. O(1) </p>
+<dl class="section return"><dt>Returns</dt><dd>true if the Follows table is empty, and false otherwise </dd></dl>
 
-<p>Definition at line <a class="el" href="_follows_table_8cpp_source.html#l00025">25</a> of file <a class="el" href="_follows_table_8cpp_source.html">FollowsTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_follows_table_8cpp_source.html#l00030">30</a> of file <a class="el" href="_follows_table_8cpp_source.html">FollowsTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -316,8 +339,17 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>This method will be used to check if statement s1 is followed by statement s2. O(1) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">s1</td><td>statement followed by s2 </td></tr>
+    <tr><td class="paramname">s2</td><td>statement following s1 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if statement s1 is followed by statement s2. </dd></dl>
 
-<p>Definition at line <a class="el" href="_follows_table_8cpp_source.html#l00031">31</a> of file <a class="el" href="_follows_table_8cpp_source.html">FollowsTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_follows_table_8cpp_source.html#l00042">42</a> of file <a class="el" href="_follows_table_8cpp_source.html">FollowsTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -344,14 +376,23 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>This method will be used to check if the statement s1 is followed by statement s2 directly or indirectly. O(n) &lt;= O(r), where n is the number of siblings right of s1 </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">s1</td><td>earlier statement </td></tr>
+    <tr><td class="paramname">s2</td><td>later statement </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if statement s1 is followed by statement s2 directly or indirectly. </dd></dl>
 
-<p>Definition at line <a class="el" href="_follows_table_8cpp_source.html#l00055">55</a> of file <a class="el" href="_follows_table_8cpp_source.html">FollowsTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_follows_table_8cpp_source.html#l00082">82</a> of file <a class="el" href="_follows_table_8cpp_source.html">FollowsTable.cpp</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>F:/3201_3202/SPA/$P@/SPA/SPA/<a class="el" href="_follows_table_8h_source.html">FollowsTable.h</a></li>
-<li>F:/3201_3202/SPA/$P@/SPA/SPA/<a class="el" href="_follows_table_8cpp_source.html">FollowsTable.cpp</a></li>
+<li>$P@/SPA/SPA/<a class="el" href="_follows_table_8h_source.html">FollowsTable.h</a></li>
+<li>$P@/SPA/SPA/<a class="el" href="_follows_table_8cpp_source.html">FollowsTable.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -359,7 +400,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_follows_table.html">FollowsTable</a></li>
-    <li class="footer">Generated on Fri Feb 1 2013 13:49:28 for SPA by
+    <li class="footer">Generated on Mon Feb 4 2013 01:03:01 for SPA by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3.1 </li>
   </ul>

@@ -7,5 +7,5 @@ var searchData=
   ['proctable',['PROCTable',['../class_p_r_o_c_table.html#ac5c90f5537fa8836aad4251a05fbdb6d',1,'PROCTable']]],
   ['project',['project',['../class_answer_table.html#a44d359653923049566c8815d7f0616b2',1,'AnswerTable']]],
   ['prune',['prune',['../class_answer_table.html#a5c3bbb34b61b0dc49edcf62c817c994a',1,'AnswerTable']]],
-  ['putintoclass',['putIntoClass',['../class_synonym_table.html#a461d53cb875fda3483d518a0a8a8427a',1,'SynonymTable']]]
+  ['putintoclass',['putIntoClass',['../class_synonym_table.html#a2f84ea7622341e430ccef2fe54cd0493',1,'SynonymTable']]]
 ];

@@ -7,7 +7,7 @@ class VARTable
 {
 public:
 	VARTable(void);
-	~VARTable(void);
+
 
 	VARIndex insertVAR(string VARName);
 	

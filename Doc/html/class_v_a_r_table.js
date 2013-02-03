@@ -1,7 +1,6 @@
 var class_v_a_r_table =
 [
     [ "VARTable", "class_v_a_r_table.html#ab4ffd9746e7bce05352a1dd60d0c503e", null ],
-    [ "~VARTable", "class_v_a_r_table.html#ad24e80818aa35cb9f2bbed38e1f7d736", null ],
     [ "getSize", "class_v_a_r_table.html#a90e1174adf4ace3d2353f07da6776a4d", null ],
     [ "getVARIndex", "class_v_a_r_table.html#a3d4abc9505bdbc02744dda496a9a464c", null ],
     [ "getVARName", "class_v_a_r_table.html#a9e1255a72f25a721c845fd02a7b6f7a8", null ],

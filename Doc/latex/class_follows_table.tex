@@ -10,8 +10,6 @@
 \item 
 \hyperlink{class_follows_table_a3f8037760cee7e5dc50a2df832f6c4ad}{Follows\-Table} ()
 \item 
-\hyperlink{class_follows_table_a8cab8d2775cf2586e54e16fddc733ca2}{$\sim$\-Follows\-Table} ()
-\item 
 void \hyperlink{class_follows_table_a7bea1745b1f8b37e9ed96f5159116b8b}{insert\-Follows} (\hyperlink{std_afx_8h_a4a876b28ac3f59cecb39c2d2d76e4e7a}{S\-T\-M\-T} s1, \hyperlink{std_afx_8h_a4a876b28ac3f59cecb39c2d2d76e4e7a}{S\-T\-M\-T} s2)
 \item 
 bool \hyperlink{class_follows_table_a0eaf7b1c70730a6f658be07d1c6d60c4}{is\-Empty} ()
@@ -49,17 +47,6 @@ Definition at line 4 of file Follows\-Table.\-h.
 
 Definition at line 6 of file Follows\-Table.\-cpp.
 
-\hypertarget{class_follows_table_a8cab8d2775cf2586e54e16fddc733ca2}{\index{Follows\-Table@{Follows\-Table}!$\sim$\-Follows\-Table@{$\sim$\-Follows\-Table}}
-\index{$\sim$\-Follows\-Table@{$\sim$\-Follows\-Table}!FollowsTable@{Follows\-Table}}
-\subsubsection[{$\sim$\-Follows\-Table}]{\setlength{\rightskip}{0pt plus 5cm}Follows\-Table\-::$\sim$\-Follows\-Table (
-\begin{DoxyParamCaption}
-{}
-\end{DoxyParamCaption}
-)}}\label{class_follows_table_a8cab8d2775cf2586e54e16fddc733ca2}
-
-
-Definition at line 11 of file Follows\-Table.\-cpp.
-
 
 
 \subsection{Member Function Documentation}
@@ -70,9 +57,17 @@ Definition at line 11 of file Follows\-Table.\-cpp.
 \item[{{\bf S\-T\-M\-T}}]{s1}
 \end{DoxyParamCaption}
 )}}\label{class_follows_table_aac4f2858b050a35ae0b351d5d2baee7b}
+This method returns the statement that follows from s1, or -\/1 if no such statement exists. O(1) 
+\begin{DoxyParams}{Parameters}
+{\em s1} & target statement \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the statement 
+\end{DoxyReturn}
 
 
-Definition at line 37 of file Follows\-Table.\-cpp.
+Definition at line 53 of file Follows\-Table.\-cpp.
 
 \hypertarget{class_follows_table_a66ba94980e93271d5a99efe43915db76}{\index{Follows\-Table@{Follows\-Table}!get\-Follows\-From@{get\-Follows\-From}}
 \index{get\-Follows\-From@{get\-Follows\-From}!FollowsTable@{Follows\-Table}}
@@ -81,9 +76,17 @@ Definition at line 37 of file Follows\-Table.\-cpp.
 \item[{{\bf S\-T\-M\-T}}]{s2}
 \end{DoxyParamCaption}
 )}}\label{class_follows_table_a66ba94980e93271d5a99efe43915db76}
+This method returns the statement that s2 follows from, or -\/1 if no such statement exists. O(1) 
+\begin{DoxyParams}{Parameters}
+{\em s2} & target statement \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the statement 
+\end{DoxyReturn}
 
 
-Definition at line 46 of file Follows\-Table.\-cpp.
+Definition at line 67 of file Follows\-Table.\-cpp.
 
 \hypertarget{class_follows_table_a016f03c806ce676c62b51c623d549659}{\index{Follows\-Table@{Follows\-Table}!get\-Follows\-Star\-By@{get\-Follows\-Star\-By}}
 \index{get\-Follows\-Star\-By@{get\-Follows\-Star\-By}!FollowsTable@{Follows\-Table}}
@@ -92,9 +95,17 @@ Definition at line 46 of file Follows\-Table.\-cpp.
 \item[{{\bf S\-T\-M\-T}}]{s1}
 \end{DoxyParamCaption}
 )}}\label{class_follows_table_a016f03c806ce676c62b51c623d549659}
+This method returns a list of statements that follows from s1, directly or indirectly. O(n) $<$= O(r), where n is the number of siblings right of s1 
+\begin{DoxyParams}{Parameters}
+{\em s1} & target statement \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the vector 
+\end{DoxyReturn}
 
 
-Definition at line 68 of file Follows\-Table.\-cpp.
+Definition at line 100 of file Follows\-Table.\-cpp.
 
 \hypertarget{class_follows_table_ab77cdda2c13684c54934884161a673c3}{\index{Follows\-Table@{Follows\-Table}!get\-Follows\-Star\-From@{get\-Follows\-Star\-From}}
 \index{get\-Follows\-Star\-From@{get\-Follows\-Star\-From}!FollowsTable@{Follows\-Table}}
@@ -103,9 +114,17 @@ Definition at line 68 of file Follows\-Table.\-cpp.
 \item[{{\bf S\-T\-M\-T}}]{s2}
 \end{DoxyParamCaption}
 )}}\label{class_follows_table_ab77cdda2c13684c54934884161a673c3}
+This method returns a list of statements that s2 follows from, directly or indirectly. O(n) $<$= O(r), where n is the number of siblings left of s2 
+\begin{DoxyParams}{Parameters}
+{\em s2} & target statement \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the vector 
+\end{DoxyReturn}
 
 
-Definition at line 82 of file Follows\-Table.\-cpp.
+Definition at line 119 of file Follows\-Table.\-cpp.
 
 \hypertarget{class_follows_table_a7bea1745b1f8b37e9ed96f5159116b8b}{\index{Follows\-Table@{Follows\-Table}!insert\-Follows@{insert\-Follows}}
 \index{insert\-Follows@{insert\-Follows}!FollowsTable@{Follows\-Table}}
@@ -115,9 +134,16 @@ Definition at line 82 of file Follows\-Table.\-cpp.
 \item[{{\bf S\-T\-M\-T}}]{s2}
 \end{DoxyParamCaption}
 )}}\label{class_follows_table_a7bea1745b1f8b37e9ed96f5159116b8b}
+This method will be used to insert the Follows relation. Let r be the number of relationships in \hyperlink{class_follows_table}{Follows\-Table}. Armotised\-: O(1) (O(k) after k insertions) Worst\-: O(c) $<$= O(r), where c is the number of relationships in the table 
+\begin{DoxyParams}{Parameters}
+{\em s1} & statement followed by s2 \\
+\hline
+{\em s2} & statement following s1 \\
+\hline
+\end{DoxyParams}
 
 
-Definition at line 18 of file Follows\-Table.\-cpp.
+Definition at line 19 of file Follows\-Table.\-cpp.
 
 \hypertarget{class_follows_table_a0eaf7b1c70730a6f658be07d1c6d60c4}{\index{Follows\-Table@{Follows\-Table}!is\-Empty@{is\-Empty}}
 \index{is\-Empty@{is\-Empty}!FollowsTable@{Follows\-Table}}
@@ -126,9 +152,12 @@ Definition at line 18 of file Follows\-Table.\-cpp.
 {}
 \end{DoxyParamCaption}
 )}}\label{class_follows_table_a0eaf7b1c70730a6f658be07d1c6d60c4}
+This method will be used to check if the Follows table is empty. O(1) \begin{DoxyReturn}{Returns}
+true if the Follows table is empty, and false otherwise 
+\end{DoxyReturn}
 
 
-Definition at line 25 of file Follows\-Table.\-cpp.
+Definition at line 30 of file Follows\-Table.\-cpp.
 
 \hypertarget{class_follows_table_abe6692baa87cd5982996dd33400db8c1}{\index{Follows\-Table@{Follows\-Table}!is\-Follows@{is\-Follows}}
 \index{is\-Follows@{is\-Follows}!FollowsTable@{Follows\-Table}}
@@ -138,9 +167,19 @@ Definition at line 25 of file Follows\-Table.\-cpp.
 \item[{{\bf S\-T\-M\-T}}]{s2}
 \end{DoxyParamCaption}
 )}}\label{class_follows_table_abe6692baa87cd5982996dd33400db8c1}
+This method will be used to check if statement s1 is followed by statement s2. O(1) 
+\begin{DoxyParams}{Parameters}
+{\em s1} & statement followed by s2 \\
+\hline
+{\em s2} & statement following s1 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if statement s1 is followed by statement s2. 
+\end{DoxyReturn}
 
 
-Definition at line 31 of file Follows\-Table.\-cpp.
+Definition at line 42 of file Follows\-Table.\-cpp.
 
 \hypertarget{class_follows_table_ad68f64135cb00d8a29919bd924519fc6}{\index{Follows\-Table@{Follows\-Table}!is\-Follows\-Star@{is\-Follows\-Star}}
 \index{is\-Follows\-Star@{is\-Follows\-Star}!FollowsTable@{Follows\-Table}}
@@ -150,13 +189,23 @@ Definition at line 31 of file Follows\-Table.\-cpp.
 \item[{{\bf S\-T\-M\-T}}]{s2}
 \end{DoxyParamCaption}
 )}}\label{class_follows_table_ad68f64135cb00d8a29919bd924519fc6}
+This method will be used to check if the statement s1 is followed by statement s2 directly or indirectly. O(n) $<$= O(r), where n is the number of siblings right of s1 
+\begin{DoxyParams}{Parameters}
+{\em s1} & earlier statement \\
+\hline
+{\em s2} & later statement \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if statement s1 is followed by statement s2 directly or indirectly. 
+\end{DoxyReturn}
 
 
-Definition at line 55 of file Follows\-Table.\-cpp.
+Definition at line 82 of file Follows\-Table.\-cpp.
 
 
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
 \item 
-F\-:/3201\-\_\-3202/\-S\-P\-A/\$\-P@/\-S\-P\-A/\-S\-P\-A/\hyperlink{_follows_table_8h}{Follows\-Table.\-h}\item 
-F\-:/3201\-\_\-3202/\-S\-P\-A/\$\-P@/\-S\-P\-A/\-S\-P\-A/\hyperlink{_follows_table_8cpp}{Follows\-Table.\-cpp}\end{DoxyCompactItemize}
+\$\-P@/\-S\-P\-A/\-S\-P\-A/\hyperlink{_follows_table_8h}{Follows\-Table.\-h}\item 
+\$\-P@/\-S\-P\-A/\-S\-P\-A/\hyperlink{_follows_table_8cpp}{Follows\-Table.\-cpp}\end{DoxyCompactItemize}

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.3.1"/>
-<title>SPA: F:/3201_3202/SPA/$P@/SPA/SPA/ASTStmtNode.cpp Source File</title>
+<title>SPA: $P@/SPA/SPA/ASTStmtNode.cpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -255,54 +255,50 @@ $(document).ready(function(){initNavTree('_a_s_t_stmt_node_8cpp_source.html','')
 <div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    }</div>
 <div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;}</div>
 <div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;</div>
-<div class="line"><a name="l00183"></a><span class="lineno"><a class="code" href="class_a_s_t_stmt_node.html#ac80a1656c17e5e55dff7285fd37dc313">  183</a></span>&#160;<a class="code" href="class_a_s_t_stmt_node.html#ac80a1656c17e5e55dff7285fd37dc313">ASTStmtNode::~ASTStmtNode</a>()</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;{</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;}</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;</div>
-<div class="line"><a name="l00191"></a><span class="lineno"><a class="code" href="class_a_s_t_stmt_node.html#a7ccabe8c03f4ba0eb31ac4850725c4e2">  191</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="class_a_s_t_stmt_node.html#a7ccabe8c03f4ba0eb31ac4850725c4e2">ASTStmtNode::getStmtNumber</a>()</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;{</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    <span class="keywordflow">return</span> stmtNumber;</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;}</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;<span class="keywordtype">void</span> ASTStmtNode::setValue(<a class="code" href="_a_s_t_stmt_node_8h.html#a4a0e50e01fef3e431767a928c2631cab">Index</a> i)</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;{</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    <span class="keywordflow">if</span> (i &lt; 0)</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="class_s_p_a_exception.html">SPAException</a>(<span class="stringliteral">&quot;Invalid Parameter, Index cannot be less than 0&quot;</span>);</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="class_a_s_t_node.html#afa85380e2e00c7b3166d61ae696b8365">getType</a>() == <a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859a20e38466c592b716e5ac11969753de1c">Call</a>)</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    {</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;        <span class="keywordflow">if</span> (i &gt; (<a class="code" href="class_p_k_b.html#ae426b49eef5572e594a3a465e6e462b3">PKB::procedures</a>.getSize() - 1))</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;        {</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="class_s_p_a_exception.html">SPAException</a>(<span class="stringliteral">&quot;Invalid Parameter, Procedure Index cannot be found!&quot;</span>);</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;        }</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;        <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00184"></a><span class="lineno"><a class="code" href="class_a_s_t_stmt_node.html#a7ccabe8c03f4ba0eb31ac4850725c4e2">  184</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="class_a_s_t_stmt_node.html#a7ccabe8c03f4ba0eb31ac4850725c4e2">ASTStmtNode::getStmtNumber</a>()</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;{</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    <span class="keywordflow">return</span> stmtNumber;</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;}</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;<span class="keywordtype">void</span> ASTStmtNode::setValue(<a class="code" href="_a_s_t_stmt_node_8h.html#a4a0e50e01fef3e431767a928c2631cab">Index</a> i)</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;{</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    <span class="keywordflow">if</span> (i &lt; 0)</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="class_s_p_a_exception.html">SPAException</a>(<span class="stringliteral">&quot;Invalid Parameter, Index cannot be less than 0&quot;</span>);</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="class_a_s_t_node.html#afa85380e2e00c7b3166d61ae696b8365">getType</a>() == <a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859a20e38466c592b716e5ac11969753de1c">Call</a>)</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    {</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;        <span class="keywordflow">if</span> (i &gt; (<a class="code" href="class_p_k_b.html#ae426b49eef5572e594a3a465e6e462b3">PKB::procedures</a>.getSize() - 1))</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;        {</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="class_s_p_a_exception.html">SPAException</a>(<span class="stringliteral">&quot;Invalid Parameter, Procedure Index cannot be found!&quot;</span>);</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;        }</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;        <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;        {</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;            this-&gt;<a class="code" href="class_a_s_t_node.html#a136d1712e8cfdeb4908aceb22abc3de7">value</a> = i; <span class="comment">//Sets the value of the CallNode to point to the Procedure Idx</span></div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;        }</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    }</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (this-&gt;<a class="code" href="class_a_s_t_node.html#afa85380e2e00c7b3166d61ae696b8365">getType</a>() == <a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859abc11d3cef1a08db1d7489c8a70c73c75">Assign</a> || this-&gt;<a class="code" href="class_a_s_t_node.html#afa85380e2e00c7b3166d61ae696b8365">getType</a>() == <a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859a57ddbd1d98e862fd5deaeec85c5483c4">While</a> || this-&gt;<a class="code" href="class_a_s_t_node.html#afa85380e2e00c7b3166d61ae696b8365">getType</a>() == <a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859a2c6c2af563ff11ef2e968214c790593c">If</a>)</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;    {</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;        <span class="keywordflow">if</span> (i &gt; (<a class="code" href="class_p_k_b.html#a04a10fef1b34afbe28d6e217e7e11d20">PKB::variables</a>.getSize() - 1))</div>
 <div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;        {</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;            this-&gt;<a class="code" href="class_a_s_t_node.html#a136d1712e8cfdeb4908aceb22abc3de7">value</a> = i; <span class="comment">//Sets the value of the CallNode to point to the Procedure Idx</span></div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="class_s_p_a_exception.html">SPAException</a>(<span class="stringliteral">&quot;Invalid Parameter, Variable Index cannot be found!&quot;</span>);</div>
 <div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        }</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;    }</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (this-&gt;<a class="code" href="class_a_s_t_node.html#afa85380e2e00c7b3166d61ae696b8365">getType</a>() == <a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859abc11d3cef1a08db1d7489c8a70c73c75">Assign</a> || this-&gt;<a class="code" href="class_a_s_t_node.html#afa85380e2e00c7b3166d61ae696b8365">getType</a>() == <a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859a57ddbd1d98e862fd5deaeec85c5483c4">While</a> || this-&gt;<a class="code" href="class_a_s_t_node.html#afa85380e2e00c7b3166d61ae696b8365">getType</a>() == <a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859a2c6c2af563ff11ef2e968214c790593c">If</a>)</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;    {</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;        <span class="keywordflow">if</span> (i &gt; (<a class="code" href="class_p_k_b.html#a04a10fef1b34afbe28d6e217e7e11d20">PKB::variables</a>.getSize() - 1))</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;        {</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="class_s_p_a_exception.html">SPAException</a>(<span class="stringliteral">&quot;Invalid Parameter, Variable Index cannot be found!&quot;</span>);</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;        <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        {</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;            this-&gt;<a class="code" href="class_a_s_t_node.html#a136d1712e8cfdeb4908aceb22abc3de7">value</a> = i;</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;            <span class="comment">//Set first child after setting value</span></div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;            <a class="code" href="class_a_s_t_expr_node.html">ASTExprNode</a>* varNode = <span class="keyword">new</span> <a class="code" href="class_a_s_t_expr_node.html">ASTExprNode</a>(<a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859ad1626bafffaf48dc7bd22f2f13f5a50a">ASTNode::Variable</a>, i);</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;            this-&gt;<a class="code" href="class_a_s_t_stmt_node.html#a0396498d6bbccecd8a71a4251d237380">addChild</a>(varNode, 1);</div>
 <div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;        }</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;        <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        {</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;            this-&gt;<a class="code" href="class_a_s_t_node.html#a136d1712e8cfdeb4908aceb22abc3de7">value</a> = i;</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;            <span class="comment">//Set first child after setting value</span></div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;            <a class="code" href="class_a_s_t_expr_node.html">ASTExprNode</a>* varNode = <span class="keyword">new</span> <a class="code" href="class_a_s_t_expr_node.html">ASTExprNode</a>(<a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859ad1626bafffaf48dc7bd22f2f13f5a50a">ASTNode::Variable</a>, i);</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;            this-&gt;<a class="code" href="class_a_s_t_stmt_node.html#a0396498d6bbccecd8a71a4251d237380">addChild</a>(varNode, 1);</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;        }</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    }</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    </div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;}</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    }</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    </div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_3a581ba30d25676e4b797b1f96d53b45.html">F:</a></li><li class="navelem"><a class="el" href="dir_6102013b666d290f4cd4cc4cd1002dea.html">3201_3202</a></li><li class="navelem"><a class="el" href="dir_817c96b4df492589596cb28c4428f757.html">SPA</a></li><li class="navelem"><a class="el" href="dir_449ff6e35df8de38d91c565d05b67547.html">$P@</a></li><li class="navelem"><a class="el" href="dir_d0bddbc22dc12d2a9b0febed382bae15.html">SPA</a></li><li class="navelem"><a class="el" href="dir_99b35d1729cd47ef5c1303321f4ee3d2.html">SPA</a></li><li class="navelem"><a class="el" href="_a_s_t_stmt_node_8cpp.html">ASTStmtNode.cpp</a></li>
-    <li class="footer">Generated on Fri Feb 1 2013 13:49:26 for SPA by
+    <li class="navelem"><a class="el" href="dir_28240f1e82be414ac37674cd3ff4adc3.html">$P@</a></li><li class="navelem"><a class="el" href="dir_f0a66c18035a04f3accc68e6ea4db1f5.html">SPA</a></li><li class="navelem"><a class="el" href="dir_9072de41565413c7baeba4ab62bcf7d0.html">SPA</a></li><li class="navelem"><a class="el" href="_a_s_t_stmt_node_8cpp.html">ASTStmtNode.cpp</a></li>
+    <li class="footer">Generated on Mon Feb 4 2013 01:02:59 for SPA by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3.1 </li>
   </ul>

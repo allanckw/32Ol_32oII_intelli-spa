@@ -11,7 +11,7 @@ private:
 
 public:
 	ParentTable();
-	~ParentTable();
+
 	void insertParent(STMT s1, STMT s2); //constant time
 	bool isEmpty(); //constant time
 

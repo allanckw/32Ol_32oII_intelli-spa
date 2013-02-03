@@ -1,7 +1,6 @@
 var class_follows_table =
 [
     [ "FollowsTable", "class_follows_table.html#a3f8037760cee7e5dc50a2df832f6c4ad", null ],
-    [ "~FollowsTable", "class_follows_table.html#a8cab8d2775cf2586e54e16fddc733ca2", null ],
     [ "getFollowsBy", "class_follows_table.html#aac4f2858b050a35ae0b351d5d2baee7b", null ],
     [ "getFollowsFrom", "class_follows_table.html#a66ba94980e93271d5a99efe43915db76", null ],
     [ "getFollowsStarBy", "class_follows_table.html#a016f03c806ce676c62b51c623d549659", null ],

@@ -8,7 +8,7 @@ public:
 	static vector<vector<string>> tokenized_codes;
 
 	Parser(string);
-	~Parser(void);
+
 
 	//Build AST Methods - JK
 	void buildAST();

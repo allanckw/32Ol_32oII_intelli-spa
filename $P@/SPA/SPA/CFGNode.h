@@ -37,11 +37,11 @@ public:
 
 	vector<CFGNode*> getPreviousNodes();
 
-	vector<CFGNode*> getAllPreviousNodes();
+	//vector<CFGNode*> getAllPreviousNodes();
 
 	vector<CFGNode*> getNextNodes();
 
-	vector<CFGNode*> getAllNextNodes();
+	//vector<CFGNode*> getAllNextNodes();
 
 	PROC getProcedure();
 

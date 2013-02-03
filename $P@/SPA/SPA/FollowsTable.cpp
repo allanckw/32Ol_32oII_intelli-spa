@@ -8,10 +8,6 @@ FollowsTable::FollowsTable()
 }
 
 
-FollowsTable::~FollowsTable()
-{
-}
-
 /**
 * This method will be used to insert the Follows relation.
 * Let r be the number of relationships in FollowsTable.

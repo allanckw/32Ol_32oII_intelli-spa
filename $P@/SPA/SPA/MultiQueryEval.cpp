@@ -8,6 +8,19 @@
 #include "ASTStmtLstNode.h"
 #include "AssignmentParser.h"
 
+/**
+* Gets a token, defined as
+* 1) LETTER (LETTER | DIGIT | #)*
+* 1a) RelationStar
+* 1b) prog_line
+* 2) DIGIT*
+* 3) Entire string enclosed on both sides by the quote character
+* 4) A single character
+* A token enclosed by the underscore character is obtained using getToken2()
+* @param query query string
+* @param pos position read until
+* @return a token
+*/
 string MultiQueryEval::getToken(const string& query, int& pos)
 {
 	int first = query.find_first_not_of(' ', pos);
@@ -31,6 +44,12 @@ string MultiQueryEval::getToken(const string& query, int& pos)
 	return query.substr(first, pos - first);
 }
 
+/**
+* Gets a token specially for use in the second argument of an assign pattern.
+* @param query query string
+* @param pos position read until
+* @return a token
+*/
 string MultiQueryEval::getToken2(string query, int& pos)
 {
 	int first = query.find_first_not_of(' ', pos);
@@ -77,12 +96,26 @@ string MultiQueryEval::getToken2(string query, int& pos)
 	return query.substr(first, pos - first);
 }
 
+/**
+* Checks that the next token is equal to the required string.
+* @param query query string
+* @param pos position read until
+* @param match string for token to match with
+* @return true if the token matched the required string, and false otherwise
+*/
 void MultiQueryEval::matchToken(const string& query, int& pos, const string& match)
 {
 	if (getToken(query, pos) != match)
 		throw new SPAException("Error in parsing query");
 }
 
+/**
+* Public method for evaluating queries.
+* Passes call to internal MultiQueryEval constructor. Only adds in the answer of FALSE
+* if the evaluation was returned early and the select was for a BOOLEAN.
+* @param query query string
+* @return the vector of strings of the answers to the query
+*/
 vector<string> MultiQueryEval::evaluateQuery(const string& query)
 {
 	//read through the query and make sure it is valid and also looking for possible optimisations
@@ -94,6 +127,11 @@ vector<string> MultiQueryEval::evaluateQuery(const string& query)
 	return result.finalanswer;
 }
 
+/**
+* Does all the query evaluation.
+* @param query query string
+* @return the MultiQueryEval object with answers if any
+*/
 MultiQueryEval::MultiQueryEval(const string& query)
 {
 	//parse the query statement
@@ -857,7 +895,7 @@ MultiQueryEval::MultiQueryEval(const string& query)
 	
 	for (auto it = relFirstToIndices.begin(); it != relFirstToIndices.end(); it++)
 		for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
-			relClass[*it2] = synonymTable.inClass((*it).first);
+			relClass[*it2] = synonymTable.getClass((*it).first);
 	
 	vector<AnswerTable> tables;
 	//could have incorporated in synonym table, but was not because it is implentation dependent
@@ -1133,21 +1171,16 @@ MultiQueryEval::MultiQueryEval(const string& query)
 
 	//project out selected variables
 	vector<string> selecteds = synonymTable.getAllSelected();
-	vector<vector<string>> projections(components.size());
-	int firstNonEmpty = components.size();
+	vector<vector<string>> projections(tables.size());
+	int firstNonEmpty = tables.size();
 	for (auto it = selecteds.begin(); it != selecteds.end(); it++) {
-		if (inWhichTable.count(*it) == 0) {
-			AnswerTable table = AnswerTable(synonymTable, *it);
-			inWhichTable[*it] = tables.size();
-			tables.push_back(table);
-		}
 		if (inWhichTable[*it] < firstNonEmpty)
 			firstNonEmpty = inWhichTable[*it];
 		projections[inWhichTable[*it]].push_back(*it);
 	}
 
 	AnswerTable concatenated = tables[firstNonEmpty].project(projections[firstNonEmpty]);
-	for (unsigned int i = firstNonEmpty + 1; i < components.size(); i++)
+	for (unsigned int i = firstNonEmpty + 1; i < tables.size(); i++)
 		if (!projections[i].empty())
 			concatenated.cartesian(tables[i].project(projections[i]));
 
@@ -1175,7 +1208,10 @@ MultiQueryEval::MultiQueryEval(const string& query)
 	}
 }
 
-////mini tokenizer
+/**
+* Reads a string of an expression, and converts it to a vector of tokens.
+* @param query expression string
+*/
 vector<string> MultiQueryEval::MiniTokenizer(const string& line)
 {
 	/*string tempstr = " ";

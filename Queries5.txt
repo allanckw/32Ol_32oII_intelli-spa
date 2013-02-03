@@ -273,32 +273,32 @@ Select a such that Follows*(a, 27)
 55 - Parent, ImplStmtLine, Typed :: 
 variable v;
 Select v such that Modifies(3, v)
-"x"
+x
 5000
 56 - Parent, ImplStmtLine, Typed :: 
 variable v;
 Select v such that Modifies(4, v)
-"X", "m", "z"
+X, m, z
 5000
 57 - Parent, ImplStmtLine, Typed :: 
 variable v;
 Select v such that Modifies(6, v)
-"i"
+i
 5000
 58 - Parent, ImplStmtLine, Typed :: 
 variable v;
 Select v such that Modifies(18, v)
-"i", "z", "X", "m"
+i, z, X, m
 5000
 59 - Parent, ImplStmtLine, Typed :: 
 variable v;
 Select v such that Modifies(23, v)
-"X", "m"
+X, m
 5000
 60 - Parent, ImplStmtLine, Typed :: 
 variable v;
 Select v such that Modifies(27, v)
-"i"
+i
 5000
 61 - Parent, ImplStmtLine, Typed :: 
 while w;
@@ -308,12 +308,12 @@ Select w such that Modifies(w, "x")
 62 - Parent, ImplStmtLine, Typed :: 
 while w;
 Select w such that Modifies(w, "z")
-21
+18
 5000
 63 - Parent, ImplStmtLine, Typed :: 
 variable v;
 Select v such that Modifies("Ringo", v)
-"i", "z", "X", "m"
+i, z, X, m
 5000
 64 - Parent, ImplStmtLine, Typed :: 
 stmt s;
@@ -323,22 +323,22 @@ Select s such that Uses(s, "x")
 65 - Parent, ImplStmtLine, Typed :: 
 stmt s;
 Select s such that Uses(s, "z")
-10, 16, 17, 18, 21
+8, 10, 16, 17, 18, 21
 5000
 66 - Parent, ImplStmtLine, Typed :: 
 variable v;
 Select v such that Uses(10, v)
-"z", "X", "i"
+z, X, i
 5000
 67 - Parent, ImplStmtLine, Typed :: 
 variable v;
 Select v such that Uses(18, v)
-"m", "z", "y", "i", "k", "x"
+m, z, y, i, k, x
 5000
 68 - Parent, ImplStmtLine, Typed :: 
 variable v; assign a;
 Select v such that Uses(a, v)
-"i", "m", "x", "z", "k", "y", "X"
+i, m, x, z, k, y, X
 5000
 69 - Parent, ImplStmtLine, Typed :: 
 assign a; variable v;
@@ -383,17 +383,17 @@ Select a such that Modifies(a, "i") such that Parent(w, a)
 77 - Parent, ImplStmtLine, Typed :: 
 procedure p;
 Select p such that Calls*(p, "Paul")
-"John", "Ringo"
+John, Ringo
 5000
 78 - Parent, ImplStmtLine, Typed :: 
 procedure p;
 Select p such that Calls("John", p) and Modifies(p, "z") and Uses(p, "m")
-"Paul", "Ringo"
+Paul, Ringo
 5000
 79 - Parent, ImplStmtLine, Typed :: 
 procedure p;
 Select p such that Calls("John", p) and Modifies(p, "z")
-"Paul", "Ringo"
+Paul, Ringo
 5000
 80 - Parent, ImplStmtLine, Typed :: 
 assign a; 

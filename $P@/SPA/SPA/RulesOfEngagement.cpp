@@ -291,10 +291,13 @@ void RulesOfEngagement::initialise()
 
 /**
 * Method that helps to convert an argument to the correct value to be stored in AnswerTable.
-* To be used for relations. Information needed is the type of relation, whether the
-* argument is the first or second argument, and the argument itself.
+* To be used for relations.
+* @param type type of relation
+* @param first whether the argument is the first or second argument
+* @param arg argument to be converted
+* @return the integer representing the argument
 */
-int RulesOfEngagement::convertArgumentToInteger(const RulesOfEngagement::QueryRelations& type,
+int RulesOfEngagement::convertArgumentToInteger(const RulesOfEngagement::QueryRelations type,
 	const bool first, const string& arg)
 {
 	if (first) {
@@ -332,6 +335,8 @@ int RulesOfEngagement::convertArgumentToInteger(const RulesOfEngagement::QueryRe
 * The reason for the shortness of the code in MultiQueryEval.
 * Takes in the relation type and returns a function pointer that can be called to evaluate
 * the satisfiablilty of the two arguments.
+* @param rel type of relation
+* @return the function pointer
 */
 RulesOfEngagement::isRelation RulesOfEngagement::getRelation(RulesOfEngagement::QueryRelations rel)
 {
@@ -406,10 +411,11 @@ bool RulesOfEngagement::is<Rel>(int x, int y)
 /**
 * Takes in the synonym type and returns a function that when called, will produce all
 * values that are of that synonym type, in integer form.
+* @param rel type of variable
+* @return the function pointer
 */
 RulesOfEngagement::getAllTypes RulesOfEngagement::getType(RulesOfEngagement::QueryVar type)
 {
-
 	return typeMap[type];
 }
 
@@ -500,6 +506,7 @@ with the pattern being checked
 * @param RHS the right hand side's type
 * @param RHSVarName right hand side's variable name
 * @param RHSexprs a right hand side expression tree
+* @return true if the assignment satisfied the pattern, and false otherwise
 */
 bool RulesOfEngagement::satisfyPattern(const int index, const RulesOfEngagement::PatternRHSType RHS,
 	const string& RHSVarName, const ASTExprNode* RHSexprs)
@@ -519,6 +526,7 @@ with a pattern
 * @param RHS the right hand side's type
 * @param RHSVarName right hand side's variable name
 * @param RHSexprs a right hand side expression tree
+* @return true if the assignment satisfied the pattern, and false otherwise
 */
 bool RulesOfEngagement::TryMatch(ASTNode* testedNode,
 	RulesOfEngagement::PatternRHSType RHS, const ASTExprNode* pattern)
@@ -550,6 +558,7 @@ bool RulesOfEngagement::TryMatch(ASTNode* testedNode,
 identical or is a subtree of another expression tree
 * @param Original original expression tree
 * @param Original expression tree made from the pattern's expression
+* @return true if the two expression trees are the same, and false otherwise
 */
 bool RulesOfEngagement::MatcherTree(const ASTNode* Original, const ASTNode* Pattern)//, bool isSub)
 {

@@ -10,6 +10,9 @@ AnswerTable::AnswerTable()
 /**
 * Constructs the AnswerTable for the synonym. Values are those that satisfy all conditions.
 * This excludes all other relations.
+* @param synonymTable contains all the information about the synonym
+* @param synonym the name of the synonym to construct
+* @return the AnswerTable containing the one synonym
 */
 AnswerTable::AnswerTable(const SynonymTable& synonymTable, const string& synonym)
 {
@@ -208,6 +211,11 @@ AnswerTable::AnswerTable(const SynonymTable& synonymTable, const string& synonym
 /**
 * Scans through two AnswerTables and combine those rows where the synonyms in each Answertable
 * satisfy the relation.
+* @param ownSynonym name of synonym in this AnswerTable
+* @param otherTable pointer to other AnswerTable
+* @param otherSynonym name of synonym in the other AnswerTable
+* @param rel function pointer to method to evaluate satisfiability of relation
+* @return the AnswerTable having combined with the other AnswerTable
 */
 void AnswerTable::combine(const string& ownSynonym, const AnswerTable& otherTable,
 	const string& otherSynonym, const RulesOfEngagement::isRelation rel)
@@ -233,6 +241,10 @@ void AnswerTable::combine(const string& ownSynonym, const AnswerTable& otherTabl
 
 /**
 * Scans through the AnswerTable and keep those rows where the synonyms satisfy the relation.
+* @param firstSynonym name of first synonym
+* @param secondSynonym name of second synonym
+* @param rel function pointer to method to evaluate satisfiability of relation
+* @return the AnswerTable
 */
 void AnswerTable::prune(const string& firstSynonym,
 	const string& secondSynonym, const RulesOfEngagement::isRelation rel)
@@ -250,6 +262,11 @@ void AnswerTable::prune(const string& firstSynonym,
 /**
 * Scans through two AnswerTables and combine those rows where the synonyms in each Answertable
 * satisfy the relation as defined with the 'with' keyword.
+* @param ownSynonym name of synonym in this AnswerTable
+* @param otherTable pointer to other AnswerTable
+* @param otherSynonym name of synonym in the other AnswerTable
+* @param rel function pointer to method to evaluate satisfiability of relation
+* @return the AnswerTable having combined with the other AnswerTable
 */
 void AnswerTable::withCombine(const SynonymTable& synonymTable, const string& firstSynonym,
 	const string& firstCondition, const AnswerTable& otherTable,
@@ -325,6 +342,10 @@ void AnswerTable::withCombine(const SynonymTable& synonymTable, const string& fi
 /**
 * Scans through the AnswerTable and keep those rows where the synonyms satisfy the relation
 * as defined with the 'with' keyword.
+* @param firstSynonym name of first synonym
+* @param secondSynonym name of second synonym
+* @param rel function pointer to method to evaluate satisfiability of relation
+* @return the AnswerTable
 */
 void AnswerTable::withPrune(const SynonymTable& synonymTable, const string& firstSynonym,
 	const string& firstCondition, const string& secondSynonym, const string& secondCondition)
@@ -378,6 +399,7 @@ the assignment,if,while that are valid
 * @param RHS the right hand side's type
 * @param RHSVarName right hand side's variable name
 * @param RHSexprs a right hand side expression tree
+* @return the AnswerTable
 */
 void AnswerTable::patternPrune(const string& synonym,
 	const RulesOfEngagement::PatternRHSType RHS, const string& RHSVarName, const ASTExprNode* RHSexprs)
@@ -395,6 +417,8 @@ void AnswerTable::patternPrune(const string& synonym,
 /**
 * Creates a new AnswerTable with only the columns corresponding to the synonyms that are
 * required. The required synonyms are given in a vector given in the argument.
+* @param selection list of synonyms to be projected out
+* @return a new AnswerTable with only the selected columns
 */
 AnswerTable AnswerTable::project(const vector<string>& selection)
 {
@@ -420,8 +444,10 @@ AnswerTable AnswerTable::project(const vector<string>& selection)
 }
 
 /**
-* Forms a new AnswerTable created by taking the Cartesian Product of this AnswerTable
+* Modifies this AnswerTable by taking the Cartesian Product of this AnswerTable
 * with the AnswerTable given in the argument.
+* @param otherTable pointer to the other AnswerTable
+* @return the AnswerTable having been cartesianed with the other AnswerTable
 */
 void AnswerTable::cartesian(const AnswerTable& otherTable)
 {
@@ -443,6 +469,7 @@ void AnswerTable::cartesian(const AnswerTable& otherTable)
 
 /**
 * Returns a vector of the synonyms included in this AnswerTable.
+* @return the vector of the synonyms
 */
 vector<string> AnswerTable::getHeader() const
 {
@@ -451,6 +478,7 @@ vector<string> AnswerTable::getHeader() const
 
 /**
 * Returns the number of synonyms in this AnswerTable.
+* @return the number of synonyms
 */
 unsigned int AnswerTable::getSize() const
 {
@@ -459,6 +487,8 @@ unsigned int AnswerTable::getSize() const
 
 /**
 * Returns a particular row of this AnswerTable. The validity of the value given is not checked.
+* @param index index to the row
+* @return the vector corresponding to the required row
 */
 vector<int> AnswerTable::getRow(const int index) const
 {

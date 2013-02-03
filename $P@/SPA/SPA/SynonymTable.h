@@ -31,44 +31,48 @@ private:
 	vector<int> selectedIndices;
 	
 public:
-	int size() const;
+	int getSize() const;
 
 	void insert(const string& name, RulesOfEngagement::QueryVar type);
 	vector<string> getAllNames() const;
-	bool isInTable(string name) const;
+	bool isInTable(const string& name) const;
 	vector<string> getAllOfType(RulesOfEngagement::QueryVar type) const;
-	RulesOfEngagement::QueryVar getType(string) const;
-	int synonymIndex(string name) const;
-	void changeType(string name, RulesOfEngagement::QueryVar type);
+	RulesOfEngagement::QueryVar getType(const string&) const;
+	int getSynonymIndex(const string& name) const;
+	//void changeType(string name, RulesOfEngagement::QueryVar type);
 
-	void setSelected(string name);
+	void setSelected(const string& name);
 	vector<string> getAllSelected() const;
-	bool isSelected(string name) const;
+	bool isSelected(const string& name) const;
 
-	void putIntoClass(string name, int classIndex);
-	int inClass(string name) const;
+	void putIntoClass(const string& name, int classIndex);
+	int getClass(const string& name) const;
 
-	bool setSpecificAttribute(string name, string condition, string attribute);
+	bool setSpecificAttribute(const string& name, const string& condition, const string& attribute);
 	//string getSpecificAttribute(string name, string condition) const;
 	unordered_map<string, string> getAllSpecificAttributes(const string& name) const;
 
-	void setGenericAttribute(string name, string ownAttribute,
-		RulesOfEngagement::QueryVar otherVariable, string otherAttribute);
+	void setGenericAttribute(const string& name, const string& ownAttribute,
+		RulesOfEngagement::QueryVar otherVariable, const string& otherAttribute);
 	unordered_map<string, unordered_map<RulesOfEngagement::QueryVar, string>>
 		getAllGenericAttributes(const string& name) const;
 
-	void setSelfReference(string name, RulesOfEngagement::QueryRelations relation);
-	unordered_set<RulesOfEngagement::QueryRelations> getAllSelfReferences(string name) const;
+	void setSelfReference(const string& name, RulesOfEngagement::QueryRelations relation);
+	unordered_set<RulesOfEngagement::QueryRelations> getAllSelfReferences(const string& name) const;
 
-	void setFirstGeneric(string name, RulesOfEngagement::QueryRelations relation);
-	unordered_set<RulesOfEngagement::QueryRelations> getAllFirstGeneric(string name) const;
+	void setFirstGeneric(const string& name, RulesOfEngagement::QueryRelations relation);
+	unordered_set<RulesOfEngagement::QueryRelations> getAllFirstGeneric(const string& name) const;
 
-	void setFirstSpecific(string name, RulesOfEngagement::QueryRelations relation, string specific);
-	vector<pair<RulesOfEngagement::QueryRelations, string>> getAllFirstSpecific(string name) const;
+	void setFirstSpecific(const string& name,
+		RulesOfEngagement::QueryRelations relation, const string& specific);
+	vector<pair<RulesOfEngagement::QueryRelations, string>>
+		getAllFirstSpecific(const string& name) const;
 
-	void setSecondGeneric(string name, RulesOfEngagement::QueryRelations relation);
-	unordered_set<RulesOfEngagement::QueryRelations> getAllSecondGeneric(string name) const;
+	void setSecondGeneric(const string& name, RulesOfEngagement::QueryRelations relation);
+	unordered_set<RulesOfEngagement::QueryRelations> getAllSecondGeneric(const string& name) const;
 
-	void setSecondSpecific(string name, RulesOfEngagement::QueryRelations relation, string specific);
-	vector<pair<RulesOfEngagement::QueryRelations, string>> getAllSecondSpecific(string name) const;
+	void setSecondSpecific(const string& name,
+		RulesOfEngagement::QueryRelations relation, const string& specific);
+	vector<pair<RulesOfEngagement::QueryRelations, string>>
+		getAllSecondSpecific(const string& name) const;
 };

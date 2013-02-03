@@ -9,6 +9,11 @@ UsesTable::UsesTable()
 {
 }
 
+/**
+* This method will be used to insert the Uses relation, where the first argument of the relation is a statement
+* @param s statement that uses v
+* @param v variable that is used by s
+*/
 void UsesTable::insertStmtUses(STMT s, VAR v)
 {
 	if (s <= 0)
@@ -18,12 +23,22 @@ void UsesTable::insertStmtUses(STMT s, VAR v)
 	originalUsesInStmt[v].insert(s);
 }
 
+/**
+* This method will be used to insert the Uses relation, where the first argument of the relation is a procedure
+* @param p procedure that uses v
+* @param v variable that is used by p
+*/
 void UsesTable::insertProcUses(PROC p, VAR v)
 {
 	originalUsedByProc[p].insert(v);
 	originalUsesInProc[v].insert(p);
 }
 
+/**
+* This method returns a list of variables that are used by the target statement.
+* @param s target statement
+* @return a vector of all variables
+*/
 vector<VAR> UsesTable::getUsedByStmt(STMT s)
 {
 	if (optimizedUsedByStmt.count(s) > 0)
@@ -31,6 +46,11 @@ vector<VAR> UsesTable::getUsedByStmt(STMT s)
 	return vector<VAR>();
 }
 
+/**
+* This method returns a list of variables that are used by the target procedure.
+* @param p target procedure
+* @return a vector of all variables
+*/
 vector<VAR> UsesTable::getUsedByProc(PROC p)
 {
 	if (optimizedUsedByProc.count(p) > 0)
@@ -38,6 +58,11 @@ vector<VAR> UsesTable::getUsedByProc(PROC p)
 	return vector<VAR>();
 }
 
+/**
+* This method returns a list of statements that are used by the target variable.
+* @param v target variable
+* @return a vector of all statements
+*/
 vector<STMT> UsesTable::getUsedInStmt(VAR v)
 {
 	if (optimizedUsesInStmt.count(v) > 0)
@@ -45,6 +70,11 @@ vector<STMT> UsesTable::getUsedInStmt(VAR v)
 	return vector<STMT>();
 }
 
+/**
+* This method returns a list of procedures that are used by the target variable.
+* @param v target variable
+* @return a vector of all procedures
+*/
 vector<PROC> UsesTable::getUsedInProc(VAR v)
 {
 	if (optimizedUsesInProc.count(v) > 0)
@@ -52,26 +82,50 @@ vector<PROC> UsesTable::getUsedInProc(VAR v)
 	return vector<PROC>();
 }
 
+/**
+* This method will be used to check if the statement s uses variable v.
+* @param s statement that uses v
+* @param v variable that is used by s
+* @return true if the statement s uses variable v.
+*/
 bool UsesTable::isUsedStmt(STMT s, VAR v)
 {
 	return (originalUsedByStmt.count(s) > 0 && originalUsedByStmt[s].count(v) > 0);
 }
 
+/**
+* This method will be used to check if the procedure p uses variable v.
+* @param p procedure that uses v
+* @param v variable that is used by s
+* @return true if the procedure p uses variable v.
+*/
 bool UsesTable::isUsedProc(PROC p, VAR v)
 {
 	return (originalUsedByProc.count(p) > 0 && originalUsedByProc[p].count(v) > 0);
 }
 
+/**
+* This method will be used to check if the Uses table is empty.
+* @return true if the Uses table is empty, and false otherwise
+*/
 bool UsesTable::isEmpty()
 {
 	return originalUsedByProc.empty();
 }
 
+/*
+* This method will be used to link a call statement to the procedure it calls.
+* @param s statement calling procedure p
+* @param p procedure called by statement s
+*/
 void UsesTable::linkCallStmtToProcUses(STMT s, PROC p) {
 	callLinksUses.insert(pair<STMT, PROC>(s, p));
 }
 
 //This function should be invoked once usestable has been fully populated by whoever is populating it
+/**
+* This method will be used to optimise the populated Uses table for fast access
+*/
 void UsesTable::optimizeUsesTable()
 {
 	for (auto it = originalUsedByStmt.begin(); it != originalUsedByStmt.end(); it++) {
@@ -120,6 +174,9 @@ void UsesTable::optimizeUsesTable()
 //////////////////////////////////
 //Functions for testing purposes//
 //////////////////////////////////
+/**
+* This method will be used for testing purposes for viewing the content of the Uses table
+*/
 void UsesTable::displayUsesTables()
 {
 	cout << "OPTIMISED USES BY (STMT):" << endl;

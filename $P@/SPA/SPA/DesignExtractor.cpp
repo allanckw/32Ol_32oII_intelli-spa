@@ -213,6 +213,7 @@ void DesignExtractor::buildFirstRound() {
 /**
 * Traverse the section of the AST concerning a single procedure.
 * All other tables are filled during this traversal.
+* @param currentProc procedure to be analysed
 */
 void DesignExtractor::buildOtherTables(PROC currentProc) {
 

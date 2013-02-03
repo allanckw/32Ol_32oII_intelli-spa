@@ -2,11 +2,20 @@
 #include "SynonymTable.h"
 #include "SPAException.h"
 
-int SynonymTable::size() const
+/*
+* Returns the number of synonyms in the SynonymTable
+* @return the number of synonyms
+*/
+int SynonymTable::getSize() const
 {
 	return synName.size();
 }
 
+/*
+* Inserts the synonym in the SynonymTable if it is not already present.
+* @param name name of synonym
+* @param type type of variable
+*/
 void SynonymTable::insert(const string& name, RulesOfEngagement::QueryVar type)
 {
 	if (stringToIndex.count(name) > 0)
@@ -38,16 +47,30 @@ void SynonymTable::insert(const string& name, RulesOfEngagement::QueryVar type)
 	}
 }
 
+/*
+* Returns a vector of all synonyms in SynonymTable.
+* @return the vector
+*/
 vector<string> SynonymTable::getAllNames() const
 {
 	return synName;
 }
 
-bool SynonymTable::isInTable(string name) const
+/*
+* Returns true if the synonym is in SynonymTable.
+* @param name name of synonym
+* @return true if the synonym is in SynonymTable, and false otherwise.
+*/
+bool SynonymTable::isInTable(const string& name) const
 {
 	return (stringToIndex.count(name) > 0);
 }
 
+/*
+* Returns a vector of all synonyms of the given type.
+* @param type type of variable
+* @return the vector
+*/
 vector<string> SynonymTable::getAllOfType(RulesOfEngagement::QueryVar type) const
 {
 	vector<string> ans;
@@ -57,28 +80,46 @@ vector<string> SynonymTable::getAllOfType(RulesOfEngagement::QueryVar type) cons
 	return ans;
 }
 
-RulesOfEngagement::QueryVar SynonymTable::getType(string name) const
+/*
+* Returns the type of the given synonym.
+* @param name name of synonym
+* @return the type
+*/
+RulesOfEngagement::QueryVar SynonymTable::getType(const string& name) const
 {
 	return synType.at(stringToIndex.at(name));
 }
 
-int SynonymTable::synonymIndex(string name) const
+/*
+* Returns the index in the SynonymTable, of the given synonym.
+* @param name name of synonym
+* @return the index
+*/
+int SynonymTable::getSynonymIndex(const string& name) const
 {
 	return stringToIndex.at(name);
 }
 
-void SynonymTable::changeType(string name, RulesOfEngagement::QueryVar type)
+/*void SynonymTable::changeType(string name, RulesOfEngagement::QueryVar type)
 {
 	if (synType.at(stringToIndex.at(name)) == RulesOfEngagement::Statement && type == RulesOfEngagement::Assign)
 		synType.at(stringToIndex.at(name)) = RulesOfEngagement::Assign;
-}
+}*/
 
-void SynonymTable::setSelected(string name)
+/*
+* Sets the synonym as one that is selected for.
+* @param name name of synonym
+*/
+void SynonymTable::setSelected(const string& name)
 {
 	selected.at(stringToIndex.at(name)) = true;
 	selectedIndices.push_back(stringToIndex.at(name));
 }
 
+/*
+* Returns a vector of all selected for synonyms.
+* @return the vector
+*/
 vector<string> SynonymTable::getAllSelected() const
 {
 	vector<string> ans;
@@ -87,22 +128,45 @@ vector<string> SynonymTable::getAllSelected() const
 	return ans;
 }
 
-bool SynonymTable::isSelected(string name) const
+/*
+* Returns true if the given synonym is selected for.
+* @param name name of synonym
+* @return true if the synonym is selected for, and false otherwise.
+*/
+bool SynonymTable::isSelected(const string& name) const
 {
 	return selected.at(stringToIndex.at(name));
 }
 
-void SynonymTable::putIntoClass(string name, int classIndex)
+/*
+* Sets the partition that the given synonym is in.
+* @param name name of synonym
+* @param classIndex index of the partition
+*/
+void SynonymTable::putIntoClass(const string& name, int classIndex)
 {
 	synClassIndex.at(stringToIndex.at(name)) = classIndex;
 }
 
-int SynonymTable::inClass(string name) const
+/*
+* Returns the partition that the given synonym is in.
+* @param name name of synonym
+* @return the partition
+*/
+int SynonymTable::getClass(const string& name) const
 {
 	return synClassIndex.at(stringToIndex.at(name));
 }
 
-bool SynonymTable::setSpecificAttribute(string name, string condition, string attribute)
+/*
+* Sets a specific condition on the synonym. It must be of the form name.condition = attribute.
+* @param name name of synonym
+* @param condition name of condition
+* @param attribute name of attribute
+* @return true if the condition has not been set before, and false otherwise.
+*/
+bool SynonymTable::setSpecificAttribute(const string& name,
+	const string& condition, const string& attribute)
 {
 	if (RulesOfEngagement::allowableConditions[
 		synType.at(stringToIndex.at(name))].count(condition) == 0)
@@ -121,13 +185,25 @@ bool SynonymTable::setSpecificAttribute(string name, string condition, string at
 	return synAttributes.at(stringToIndex.at(name)).at(condition);
 }*/
 
+/*
+* Returns all specific conditions on the synonym.
+* @param name name of synonym
+* @return an unordered map containing all the specific conditions
+*/
 unordered_map<string, string> SynonymTable::getAllSpecificAttributes(const string& name) const
 {
 	return synAttributesSpecific.at(stringToIndex.at(name));
 }
 
-void SynonymTable::setGenericAttribute(string name, string ownAttribute,
-	RulesOfEngagement::QueryVar otherVariable, string otherAttribute)
+/*
+* Sets a generic condition on the synonym. It must be of the form name.ownAttribute = type.attribute
+* @param name name of own synonym
+* @param ownAttribute name of own attribute
+* @param otherVariable name of other synonym
+* @param otherAttribute name of other attribute
+*/
+void SynonymTable::setGenericAttribute(const string& name, const string& ownAttribute,
+	RulesOfEngagement::QueryVar otherVariable, const string& otherAttribute)
 {
 	//if (RulesOfEngagement::allowableConditions[otherVariable].count(otherAttribute) == 0)
 		//throw new SPAException(variable + " has no such condition " + otherAttribute);
@@ -135,60 +211,127 @@ void SynonymTable::setGenericAttribute(string name, string ownAttribute,
 		pair<RulesOfEngagement::QueryVar, string>(otherVariable, otherAttribute));
 }
 
+/*
+* Returns all generic conditions on the synonym.
+* @param name name of own synonym
+* @return an unordered map containing all the generic conditions
+*/
 unordered_map<string, unordered_map<RulesOfEngagement::QueryVar, string>>
 	SynonymTable::getAllGenericAttributes(const string& name) const
 {
 	return synAttributesGeneric.at(stringToIndex.at(name));
 }
 
-void SynonymTable::setSelfReference(string name, RulesOfEngagement::QueryRelations relation)
+/*
+* Sets a self reference condition on the synonym. It must be of the form relation(name, name).
+* @param name name of own synonym
+* @param relation type of variable
+*/
+void SynonymTable::setSelfReference(const string& name,
+	RulesOfEngagement::QueryRelations relation)
 {
 	synSelfReference.at(stringToIndex.at(name)).insert(relation);
 }
 
-unordered_set<RulesOfEngagement::QueryRelations> SynonymTable::getAllSelfReferences(string name) const
+/*
+* Returns all self references on the synonym.
+* @param name name of own synonym
+* @return an unordered set containing all the self references
+*/
+unordered_set<RulesOfEngagement::QueryRelations>
+	SynonymTable::getAllSelfReferences(const string& name) const
 {
 	return synSelfReference.at(stringToIndex.at(name));
 }
 
-void SynonymTable::setFirstGeneric(string name, RulesOfEngagement::QueryRelations relation)
+/*
+* Sets a generic condition on the synonym (first argument). It must be of the form relation(name, _).
+* @param name name of own synonym
+* @param relation type of variable
+*/
+void SynonymTable::setFirstGeneric(const string& name,
+	RulesOfEngagement::QueryRelations relation)
 {
 	synRelGenericFirst.at(stringToIndex.at(name)).insert(relation);
 }
 
-unordered_set<RulesOfEngagement::QueryRelations> SynonymTable::getAllFirstGeneric(string name) const
+/*
+* Returns all generic conditions (synonym is first argument) on the synonym.
+* @param name name of own synonym
+* @return an unordered set containing all the generic conditions (synonym is first argument)
+*/
+unordered_set<RulesOfEngagement::QueryRelations>
+	SynonymTable::getAllFirstGeneric(const string& name) const
 {
 	return synRelGenericFirst.at(stringToIndex.at(name));
 }
 
-void SynonymTable::setFirstSpecific(string name, RulesOfEngagement::QueryRelations relation,
-	string specific)
+/*
+* Sets a specific condition on the synonym (first argument).
+* It must be of the form relation(name, specific).
+* @param name name of own synonym
+* @param relation type of variable
+* @param specific the specific attribute
+*/
+void SynonymTable::setFirstSpecific(const string& name,
+	RulesOfEngagement::QueryRelations relation, const string& specific)
 {
 	synRelSpecificFirst.at(stringToIndex.at(name)).push_back(pair<RulesOfEngagement::QueryRelations, string>(relation, specific));
 }
 
-vector<pair<RulesOfEngagement::QueryRelations, string>> SynonymTable::getAllFirstSpecific(string name) const
+/*
+* Returns all specific conditions (synonym is first argument) on the synonym.
+* @param name name of own synonym
+* @return an unordered set containing all the specific conditions (synonym is first argument)
+*/
+vector<pair<RulesOfEngagement::QueryRelations, string>>
+	SynonymTable::getAllFirstSpecific(const string& name) const
 {
 	return synRelSpecificFirst.at(stringToIndex.at(name));
 }
 
-void SynonymTable::setSecondGeneric(string name, RulesOfEngagement::QueryRelations relation)
+/*
+* Sets a generic condition on the synonym (second argument). It must be of the form relation(_, name).
+* @param name name of own synonym
+* @param relation type of variable
+*/
+void SynonymTable::setSecondGeneric(const string& name,
+	RulesOfEngagement::QueryRelations relation)
 {
 	synRelGenericSecond.at(stringToIndex.at(name)).insert(relation);
 }
 
-unordered_set<RulesOfEngagement::QueryRelations> SynonymTable::getAllSecondGeneric(string name) const
+/*
+* Returns all generic conditions (synonym is second argument) on the synonym.
+* @param name name of own synonym
+* @return an unordered set containing all the generic conditions (synonym is second argument)
+*/
+unordered_set<RulesOfEngagement::QueryRelations>
+	SynonymTable::getAllSecondGeneric(const string& name) const
 {
 	return synRelGenericSecond.at(stringToIndex.at(name));
 }
 
-void SynonymTable::setSecondSpecific(string name, RulesOfEngagement::QueryRelations relation,
-	string specific)
+/*
+* Sets a specific condition on the synonym (second argument).
+* It must be of the form relation(specific, name).
+* @param name name of own synonym
+* @param relation type of variable
+* @param specific the specific attribute
+*/
+void SynonymTable::setSecondSpecific(const string& name,
+	RulesOfEngagement::QueryRelations relation, const string& specific)
 {
 	synRelSpecificSecond.at(stringToIndex.at(name)).push_back(pair<RulesOfEngagement::QueryRelations, string>(relation, specific));
 }
 
-vector<pair<RulesOfEngagement::QueryRelations, string>> SynonymTable::getAllSecondSpecific(string name) const
+/*
+* Returns all specific conditions (synonym is second argument) on the synonym.
+* @param name name of own synonym
+* @return an unordered set containing all the specific conditions (synonym is second argument)
+*/
+vector<pair<RulesOfEngagement::QueryRelations, string>>
+	SynonymTable::getAllSecondSpecific(const string& name) const
 {
 	return synRelSpecificSecond.at(stringToIndex.at(name));
 }

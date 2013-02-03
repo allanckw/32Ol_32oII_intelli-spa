@@ -228,22 +228,22 @@ Select a such that Follows*(a, 22)
 46 - Parent, ImplStmtLine, Typed :: 
 variable v;
 Select v such that Modifies(3, v)
-"y"
+y
 5000
 47 - Parent, ImplStmtLine, Typed :: 
 variable v;
 Select v such that Modifies(5, v)
-"z", "y"
+z, y
 5000
 48 - Parent, ImplStmtLine, Typed :: 
 variable v;
 Select v such that Modifies(9, v)
-"e", "i", "y", "x", "z"
+e, i, y, x, z
 5000
 49 - Parent, ImplStmtLine, Typed :: 
 variable v;
 Select v such that Modifies(11, v)
-"i", "y", "x", "z"
+i, y, x, z
 5000
 50 - Parent, ImplStmtLine, Typed :: 
 while w;
@@ -258,12 +258,12 @@ Select w such that Modifies(w, "y")
 52 - Parent, ImplStmtLine, Typed :: 
 variable v;
 Select v such that Modifies("Mary", v)
-"z", "i", "y"
+z, i, y
 5000
 53 - Parent, ImplStmtLine, Typed :: 
 stmt s;
 Select s such that Uses(s, "i")
-9, 16, 19, 22, 23, 28, 11, 18, 21, 27
+5, 9, 16, 19, 22, 23, 28, 11, 18, 21, 27
 5000
 54 - Parent, ImplStmtLine, Typed :: 
 stmt s;
@@ -273,17 +273,17 @@ Select s such that Uses(s, "y")
 55 - Parent, ImplStmtLine, Typed :: 
 variable v;
 Select v such that Uses(10, v)
-"x", "y"
+x, y
 5000
 56 - Parent, ImplStmtLine, Typed :: 
 variable v;
 Select v such that Uses(18, v)
-"i", "z", "y", "e", "d", "x"
+i, z, y, e, d, x
 5000
 57 - Parent, ImplStmtLine, Typed :: 
 variable v; assign a;
 Select v such that Uses(a, v)
-"i", "z", "y", "e", "d", "x"
+i, z, y, e, d, x
 5000
 58 - Parent, ImplStmtLine, Typed :: 
 assign a;
@@ -313,17 +313,17 @@ Select a such that Modifies(a, "z") such that Parent(w, a)
 63 - Parent, ImplStmtLine, Typed :: 
 procedure p;
 Select p such that Calls*(p, "John")
-"Bill", "Mary"
+Bill, Mary
 5000
 64 - Parent, ImplStmtLine, Typed :: 
 procedure p;
 Select p such that Calls("Bill", p) and Modifies(p, "i") and Uses(p, "x")
-"Mary"
+Mary
 5000
 65 - Parent, ImplStmtLine, Typed :: 
 procedure p;
 Select p such that Calls("Bill", p) and Modifies(p, "i")
-"Mary", "John"
+Mary
 5000
 66 - Parent, ImplStmtLine, Typed :: 
 assign a; 

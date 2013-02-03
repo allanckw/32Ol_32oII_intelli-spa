@@ -54,7 +54,7 @@ public:
 	static unordered_map<QueryRelations, QueryVar> privilegedSecondArgument;
 	static unordered_set<QueryRelations> allowableSelfReference;
 
-	static int convertArgumentToInteger(const QueryRelations& type,
+	static int convertArgumentToInteger(const QueryRelations type,
 		const bool first, const string& arg);
 
 	typedef bool(*isRelation)(int, int);

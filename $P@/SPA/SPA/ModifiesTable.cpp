@@ -9,6 +9,11 @@ ModifiesTable::ModifiesTable()
 {
 }
 
+/**
+* This method will be used to insert the Modifies relation, where the first argument of the relation is a statement
+* @param s statement that modifies v
+* @param v variable that is modified by s
+*/
 void ModifiesTable::insertStmtModifies(STMT s, VAR v)
 {
 	if (s <= 0)
@@ -18,12 +23,22 @@ void ModifiesTable::insertStmtModifies(STMT s, VAR v)
 	originalModifiesStmt[v].insert(s);
 }
 
+/**
+* This method will be used to insert the Modifies relation, where the first argument of the relation is a procedure
+* @param p procedure that modifies v
+* @param v variable that is modified by p
+*/
 void ModifiesTable::insertProcModifies(PROC p, VAR v)
 {
 	originalModifiedByProc[p].insert(v);
 	originalModifiesProc[v].insert(p);
 }
 
+/**
+* This method returns a list of variables that are modified by the target statement.
+* @param s target statement
+* @return a vector of all variables
+*/
 vector<VAR> ModifiesTable::getModifiedByStmt(STMT s)
 {
 	if (optimizedModifiedByStmt.count(s) > 0)
@@ -31,6 +46,11 @@ vector<VAR> ModifiesTable::getModifiedByStmt(STMT s)
 	return vector<VAR>();
 }
 
+/**
+* This method returns a list of variables that are modified by the target procedure.
+* @param p target procedure
+* @return a vector of all variables
+*/
 vector<VAR> ModifiesTable::getModifiedByProc(PROC p)
 {
 	if (optimizedModifiedByProc.count(p) > 0)
@@ -38,6 +58,11 @@ vector<VAR> ModifiesTable::getModifiedByProc(PROC p)
 	return vector<VAR>();
 }
 
+/**
+* This method returns a list of statements that are modified by the target variable.
+* @param v target variable
+* @return a vector of all statements
+*/
 vector<STMT> ModifiesTable::getModifiesStmt(VAR v)
 {
 	if (optimizedModifiesStmt.count(v) > 0)
@@ -45,6 +70,11 @@ vector<STMT> ModifiesTable::getModifiesStmt(VAR v)
 	return vector<STMT>();
 }
 
+/**
+* This method returns a list of procedures that are modified by the target variable.
+* @param v target variable
+* @return a vector of all procedures
+*/
 vector<PROC> ModifiesTable::getModifiesProc(VAR v)
 {
 	if (optimizedModifiesProc.count(v) > 0)
@@ -52,26 +82,50 @@ vector<PROC> ModifiesTable::getModifiesProc(VAR v)
 	return vector<PROC>();
 }
 
+/**
+* This method will be used to check if the statement s modifies variable v.
+* @param s statement that modifies v
+* @param v variable that is modified by s
+* @return true if the statement s modifies variable v.
+*/
 bool ModifiesTable::isModifiedStmt(STMT s, VAR v)
 {
 	return (originalModifiedByStmt.count(s) > 0 && originalModifiedByStmt[s].count(v) > 0);
 }
 
+/**
+* This method will be used to check if the procedure p modifies variable v.
+* @param p procedure that modifies v
+* @param v variable that is modified by s
+* @return true if the procedure p modifies variable v.
+*/
 bool ModifiesTable::isModifiedProc(PROC p, VAR v)
 {
 	return (originalModifiedByProc.count(p) > 0 && originalModifiedByProc[p].count(v) > 0);
 }
 
+/**
+* This method will be used to check if the Modifies table is empty.
+* @return true if the Modifies table is empty, and false otherwise
+*/
 bool ModifiesTable::isEmpty()
 {
 	return originalModifiedByProc.empty();
 }
 
+/*
+* This method will be used to link a call statement to the procedure it calls.
+* @param s statement calling procedure p
+* @param p procedure called by statement s
+*/
 void ModifiesTable::linkCallStmtToProcModifies(STMT s, PROC p) {
 	callLinksModifies.insert(pair<STMT, PROC>(s, p));
 }
 
 //This function should be invoked once modifies has been fully populated by whoever is populating it
+/**
+* This method will be used to optimise the populated Modifies table for fast access
+*/
 void ModifiesTable::optimizeModifiesTable()
 {
 	for (auto it = originalModifiedByStmt.begin(); it != originalModifiedByStmt.end(); it++) {
@@ -120,6 +174,9 @@ void ModifiesTable::optimizeModifiesTable()
 //////////////////////////////////
 //Functions for testing purposes//
 //////////////////////////////////
+/**
+* This method will be used for testing purposes for viewing the content of the Modifies table
+*/
 void ModifiesTable::displayModifiesTables()
 {
 	cout << "OPTIMISED MODIFIED BY (STMT):" << endl;

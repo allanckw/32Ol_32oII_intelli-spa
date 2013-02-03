@@ -180,7 +180,7 @@ void ASTStmtNode::addChildToAssign(ASTNode* c, int childLoc)
 }
 
 /**
-* This method will be used to deconstruct AST Stmt Node
+* This method will be used as deconstructer for AST Stmt Node
 */
 ASTStmtNode::~ASTStmtNode()
 {

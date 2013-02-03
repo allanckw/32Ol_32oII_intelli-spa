@@ -20,7 +20,7 @@ procedure John{
 		z=z-1;
 	}
 
-	callRingo;
+	call Ringo;
 }
 
 procedure Ringo{

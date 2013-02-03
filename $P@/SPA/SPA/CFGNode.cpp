@@ -46,6 +46,7 @@ void CFGNode::setStartNode(){
 
 /**
 * This method will be used to get whether the node is a starting CFG node
+* @Return true if it is start node else false
 */
 bool CFGNode::isStartNode(){
 	return this->isStart;
@@ -60,6 +61,7 @@ void CFGNode::setEndNode(){
 
 /**
 * This method will be used to get whether the node is a ending CFG node
+* @Return true if it is end node else false
 */
 bool CFGNode::isEndNode(){
 	return this->isEnd;
@@ -67,6 +69,7 @@ bool CFGNode::isEndNode(){
 
 /**
 * This method will be used to get whether the node is a dummy CFG Node
+* @Return true if it is dummy node else false
 */
 bool CFGNode::isDummy(){
 	return this->type == CFGNode::DummyNode;
@@ -74,6 +77,7 @@ bool CFGNode::isDummy(){
 
 /**
 * This method will be used to return the Node Type
+* @Return the node type
 */
 CFGNode::NodeType CFGNode::getType(){
 	return this->type;
@@ -99,6 +103,7 @@ void CFGNode::addPreviousNode(CFGNode* node)
 
 /**
 * This method will be used to return a list of node that is before the Node
+* @Return List of CFGNode that is previous
 */
 vector<CFGNode*> CFGNode::getPreviousNodes(){
 	return this->prevNodes;
@@ -106,6 +111,7 @@ vector<CFGNode*> CFGNode::getPreviousNodes(){
 
 /**
 * This method will be used to return all list of node that is before the Node
+* @Return List of all CFGNode that is previous
 */
 vector<CFGNode*> CFGNode::getAllPreviousNodes(){
 	vector<CFGNode*> prevs;
@@ -115,6 +121,7 @@ vector<CFGNode*> CFGNode::getAllPreviousNodes(){
 
 /**
 * This method will be used to return a list of node that is after the Node
+* @Return List of CFGNode that is next
 */
 vector<CFGNode*> CFGNode::getNextNodes(){
 	return this->nextNodes;
@@ -122,6 +129,7 @@ vector<CFGNode*> CFGNode::getNextNodes(){
 
 /**
 * This method will be used to return all list of node that is after the Node
+* @Return List of all CFGNode that is next
 */
 vector<CFGNode*> CFGNode::getAllNextNodes(){
 	vector<CFGNode*> nexts;
@@ -131,6 +139,7 @@ vector<CFGNode*> CFGNode::getAllNextNodes(){
 
 /**
 * This method will be used to return the procedure these CFG node belong to
+* @Return the PROC that CFG is in
 */
 PROC CFGNode::getProcedure(){
 	return this->belongingTo;
@@ -138,6 +147,7 @@ PROC CFGNode::getProcedure(){
 
 /**
 * This method will be used to return PROG Line that it contains
+* @Return List of program lines
 */
 vector<PROG_LINE> CFGNode::getProgramLines(){
 	vector<PROG_LINE> progs;
@@ -154,6 +164,7 @@ vector<PROG_LINE> CFGNode::getProgramLines(){
 * This method will be used to return if PROG Line p1 is next to PROG Line p2
 * @Param p1 The PROG Line that is before p2
 * @Param p2 The PROG Line that is after p1
+* @Return bool Return the result(True or false)
 */
 bool CFGNode::isNext(PROG_LINE p1, PROG_LINE p2)
 {
@@ -185,7 +196,8 @@ bool CFGNode::isNext(PROG_LINE p1, PROG_LINE p2)
 * This method will be used to return if PROG Line p1 is next to PROG Line p2
 * @Param p1 The PROG Line that is before p2
 * @Param p2 The PROG Line that is after p1
-* @Param nextNode 
+* @Param nextNode Used for recursive call
+* @Return bool Return the result(True or false)
 */
 bool CFGNode::isNext(PROG_LINE p1, PROG_LINE p2, CFGNode* nextNode)
 {

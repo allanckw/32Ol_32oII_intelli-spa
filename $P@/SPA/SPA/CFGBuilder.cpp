@@ -128,9 +128,10 @@ void CFGBuilder::buildCFG(){
 
 /**
 * This method will be used to process While AST Node and build While CFG Node
-* @param procedureNode To 
-* @param s A pointer to keep 'Start' PROG_Line
-* @param stmtNode The while AST Node to be process
+* @Param procedureNode To 
+* @Param s A pointer to keep 'Start' PROG_Line
+* @Param stmtNode The while AST Node to be process
+* @Return the reference of while node that is build
 */
 CFGNode* CFGBuilder::processWhile(ASTNode* procedureNode,int* s, ASTStmtNode *stmtNode)	
 {
@@ -206,10 +207,11 @@ CFGNode* CFGBuilder::processWhile(ASTNode* procedureNode,int* s, ASTStmtNode *st
 
 /**
 * This method will be used to process If AST Node and build If CFG Node
-* @param procedureNode To 
-* @param s A pointer to keep 'Start' PROG_Line
-* @param stmtNode The while AST Node to be process
-* @param ifNode The 'if' CFGNode to link
+* @Param procedureNode To 
+* @Param s A pointer to keep 'Start' PROG_Line
+* @Param stmtNode The while AST Node to be process
+* @Param ifNode The 'if' CFGNode to link
+* @Return the reference of the last node of If
 */
 CFGNode* CFGBuilder::processIf(ASTNode* procedureNode, int *s, ASTStmtNode *stmtNode, CFGNode *ifNode)
 {

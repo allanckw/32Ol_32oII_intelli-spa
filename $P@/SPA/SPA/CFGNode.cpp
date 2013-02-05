@@ -109,17 +109,6 @@ vector<CFGNode*> CFGNode::getPreviousNodes(){
 	return this->prevNodes;
 }
 
-<<<<<<< Updated upstream
-/**
-* This method will be used to return all list of node that is before the Node
-* @Return List of all CFGNode that is previous
-*/
-vector<CFGNode*> CFGNode::getAllPreviousNodes(){
-	vector<CFGNode*> prevs;
-	//Recursively add previous nodes to the vector till the start?
-	return prevs;
-}
-=======
 ///**
 //* This method will be used to return all list of node that is before the Node
 //*/
@@ -128,7 +117,6 @@ vector<CFGNode*> CFGNode::getAllPreviousNodes(){
 //	//Recursively add previous nodes to the vector till the start?
 //	return prevs;
 //}
->>>>>>> Stashed changes
 
 /**
 * This method will be used to return a list of node that is after the Node
@@ -138,26 +126,6 @@ vector<CFGNode*> CFGNode::getNextNodes(){
 	return this->nextNodes;
 }
 
-<<<<<<< Updated upstream
-/**
-* This method will be used to return all list of node that is after the Node
-* @Return List of all CFGNode that is next
-*/
-vector<CFGNode*> CFGNode::getAllNextNodes(){
-	vector<CFGNode*> nexts;
-	//Recursively add next nodes to the vector till the end?
-	return nexts;
-}
-=======
-///**
-//* This method will be used to return all list of node that is after the Node
-//*/
-//vector<CFGNode*> CFGNode::getAllNextNodes(){
-//	vector<CFGNode*> nexts;
-//	//Recursively add next nodes to the vector till the end?
-//	return nexts;
-//}
->>>>>>> Stashed changes
 
 /**
 * This method will be used to return the procedure these CFG node belong to

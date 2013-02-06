@@ -31,15 +31,19 @@ bool AffectsTable::isAffects (STMT a1, STMT a2)
 		return false;
 
 	auto itr = this->affectsMap.find(a1);
-	vector<Affects*> nxtLst = (vector<Affects*>)itr->second;
+	if (itr == this->affectsMap.end()) {
+		vector<Affects*> nxtLst = itr->second;
 
-	for (unsigned int i = 0; i < nxtLst.size(); i++) {
-		if (nxtLst[i]->getA2() == a2 )
-			return nxtLst[i]->isAffected();
+		for (unsigned int i = 0; i < nxtLst.size(); i++) {
+			if (nxtLst[i]->getA2() == a2 )
+				return nxtLst[i]->isAffected();
+		}
 	}
 
 	//if not found, compute affects using PQLAffectsProcessor
 	//Fill in the blanks accordingly
+
+	return false;
 }
 
 //For Affects(a1, _)

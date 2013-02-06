@@ -25,7 +25,7 @@ bool NextTable::isNext (PROG_LINE p1, PROG_LINE p2)
 	auto itr = this->nextMap.find(p1);
 	if (itr != this->nextMap.end()){
 
-		vector<Next*> nxtLst = (vector<Next*>)itr->second;
+		vector<Next*> nxtLst = itr->second;
 	
 		for (unsigned int i = 0; i < nxtLst.size(); i++) {
 			if (nxtLst[i]->getP2() == p2 )
@@ -43,7 +43,7 @@ vector<PROG_LINE> NextTable::getNextBy(PROG_LINE p1)
 	auto itr = this->nextMap.find(p1);
 
 	if (itr != this->nextMap.end()){
-		vector<Next*> nxtLst = (vector<Next*>)itr->second;
+		vector<Next*> nxtLst = itr->second;
 	
 		for (unsigned int i = 0; i < nxtLst.size(); i++) {
 			progLines.push_back(nxtLst[i]->getP2());
@@ -59,7 +59,7 @@ vector<PROG_LINE> NextTable::getNextFrom(PROG_LINE p2)
 	vector<PROG_LINE> progLines;
 
 	for (auto itr = nextMap.begin(); itr != nextMap.end(); itr++) {
-		vector<Next*> nxtLst = (vector<Next*>)itr->second;
+		vector<Next*> nxtLst =  itr->second;
 
 		for (unsigned int i = 0; i < nxtLst.size(); i++) {
 			if (nxtLst[i]->getP2() == p2 && nxtLst[i]->isNext())
@@ -99,7 +99,7 @@ bool NextTable::isNextStar (PROG_LINE p1, PROG_LINE p2)
 	auto itr = this->nextStarMap.find(p1);
 	if (itr != this->nextStarMap.end()){
 
-		vector<Next*> nxtLst = (vector<Next*>)itr->second;
+		vector<Next*> nxtLst =  itr->second;
 	
 		for (unsigned int i = 0; i < nxtLst.size(); i++) {
 			if (nxtLst[i]->getP2() == p2 )

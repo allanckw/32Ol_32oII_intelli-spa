@@ -739,8 +739,8 @@ MultiQueryEval::MultiQueryEval(const string& query)
 
 
 	////////nick
-	vector<pair<string, string>> onesyno;
-	vector<pair<string, string>> twosyno;
+	vector<pair<RulesOfEngagement::QueryRelations,pair<string, string>>> onesyno;
+	vector<pair<RulesOfEngagement::QueryRelations,pair<string, string>>> twosyno;
 
 	//seperate all 
 	for (auto it = relationStore.begin(); it != relationStore.end(); it++) {
@@ -765,7 +765,8 @@ MultiQueryEval::MultiQueryEval(const string& query)
 				pair<string, unordered_set<string>> lol= pair<string, unordered_set<string>>(first,temp);
 				newcon.insert(lol);*/	
 
-				pair<string, string> lol= pair<string, string>(first,second);
+				//pair<string, string> lol= pair<string, string>(first,second);
+				pair<RulesOfEngagement::QueryRelations,pair<string, string>> lol = pair<RulesOfEngagement::QueryRelations,pair<string, string>>(type,pair<string, string>(first,second));
 
 				int amount_of_synoname=0;
 				if (synonymTable.isInTable(first))
@@ -789,19 +790,20 @@ MultiQueryEval::MultiQueryEval(const string& query)
 	bool newpool = true;
 	unordered_set<string> pool;
 
-	vector<pair<string, string>> newcontainer;
+	//vector<pair<string, string>> newcontainer;
+	vector<pair<RulesOfEngagement::QueryRelations,pair<string, string>>> newcontainer;
 
 	while(onesyno.size() > 0 || twosyno.size() > 0)
 	{
 		if(newpool == true && onesyno.size() > 0)
 		{
 			pool = unordered_set<string>();
-			pair<string, string> ones= onesyno.at(0);
+			pair<RulesOfEngagement::QueryRelations,pair<string, string>> ones= onesyno.at(0);
 
-			if(synonymTable.isInTable(ones.first))
-			{pool.insert(ones.first);}
-			if(synonymTable.isInTable(ones.second))
-			{pool.insert(ones.second);}
+			if(synonymTable.isInTable(ones.second.first))
+			{pool.insert(ones.second.first);}
+			if(synonymTable.isInTable(ones.second.second))
+			{pool.insert(ones.second.second);}
 
 			newcontainer.push_back(ones);
 			onesyno.erase(onesyno.begin());
@@ -810,12 +812,12 @@ MultiQueryEval::MultiQueryEval(const string& query)
 		else if(newpool == true && twosyno.size() > 0)
 		{
 			pool = unordered_set<string>();
-			pair<string, string> two= twosyno.at(0);
+			pair<RulesOfEngagement::QueryRelations,pair<string, string>> two= twosyno.at(0);
 
-			if(synonymTable.isInTable(two.first))
-			{pool.insert(two.first);}
-			if(synonymTable.isInTable(two.second))
-			{pool.insert(two.second);}
+			if(synonymTable.isInTable(two.second.first))
+			{pool.insert(two.second.first);}
+			if(synonymTable.isInTable(two.second.second))
+			{pool.insert(two.second.second);}
 
 			newcontainer.push_back(two);
 			twosyno.erase(twosyno.begin());
@@ -827,16 +829,16 @@ MultiQueryEval::MultiQueryEval(const string& query)
 		//loop two syno for once
 		for(int i=0;i<twosyno.size();i++)
 		{
-			unordered_set<string>::const_iterator got1 = pool.find(twosyno.at(i).first);
-			unordered_set<string>::const_iterator got2 = pool.find(twosyno.at(i).second);
+			unordered_set<string>::const_iterator got1 = pool.find(twosyno.at(i).second.first);
+			unordered_set<string>::const_iterator got2 = pool.find(twosyno.at(i).second.second);
 
 			if((!(got1 == pool.end())) || (!(got2 == pool.end())))
 			{//exist
 
 				newcontainer.push_back(twosyno.at(i));
 				//remove
-				pool.insert(twosyno.at(i).first);
-				pool.insert(twosyno.at(i).second);
+				pool.insert(twosyno.at(i).second.first);
+				pool.insert(twosyno.at(i).second.second);
 
 				twosyno.erase(twosyno.begin() + i);
 
@@ -855,24 +857,24 @@ MultiQueryEval::MultiQueryEval(const string& query)
 		for(int i=0;i<onesyno.size();i++)
 		{
 			bool toadd = false;
-			if(synonymTable.isInTable(onesyno.at(i).first))
+			if(synonymTable.isInTable(onesyno.at(i).second.first))
 			{
-				unordered_set<string>::const_iterator got1 = pool.find(onesyno.at(i).first);
+				unordered_set<string>::const_iterator got1 = pool.find(onesyno.at(i).second.first);
 				if(!(got1 == pool.end()))
 				{
 					//exist
 					toadd = true;
-					pool.insert(onesyno.at(i).first);
+					pool.insert(onesyno.at(i).second.first);
 				}
 			}
-			if(synonymTable.isInTable(onesyno.at(i).second))
+			if(synonymTable.isInTable(onesyno.at(i).second.second))
 			{
-				unordered_set<string>::const_iterator got2 = pool.find(onesyno.at(i).second);
+				unordered_set<string>::const_iterator got2 = pool.find(onesyno.at(i).second.second);
 				if(!(got2 == pool.end()))
 				{
 					//exist
 					toadd = true;
-					pool.insert(onesyno.at(i).second);
+					pool.insert(onesyno.at(i).second.second);
 				}
 			}
 			if(toadd)

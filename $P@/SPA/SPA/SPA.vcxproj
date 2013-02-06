@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\$p%40\spa\spa\affectstable.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\AnswerTable.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\ASTExprNode.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\ASTStmtLstNode.h" />
@@ -23,6 +24,8 @@
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\MultiQueryEval.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\NextTable.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\PKBController.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\PQLAffectsProcessor.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\PQLNextProcessor.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\RulesOfEngagement.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\SynonymTable.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\FollowsTable.h" />
@@ -40,6 +43,7 @@
     <ClInclude Include="VARTable.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\AffectsTable.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\AnswerTable.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\ASTExprNode.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\ASTStmtLstNode.cpp" />
@@ -52,6 +56,8 @@
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\MultiQueryEval.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\NextTable.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\PKBController.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\PQLAffectsProcessor.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\PQLNextProcessor.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\RulesOfEngagement.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\SynonymTable.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\FollowsTable.cpp" />

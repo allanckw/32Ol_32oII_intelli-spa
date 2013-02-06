@@ -62,7 +62,7 @@ vector<PROG_LINE> NextTable::getNextFrom(PROG_LINE p2)
 		vector<Next*> nxtLst = (vector<Next*>)itr->second;
 
 		for (unsigned int i = 0; i < nxtLst.size(); i++) {
-			if (nxtLst[i]->getP2() == p2)
+			if (nxtLst[i]->getP2() == p2 && nxtLst[i]->isNext())
 			{
 				progLines.push_back((PROG_LINE)itr->first);
 				break;
@@ -118,6 +118,8 @@ vector<PROG_LINE> NextTable::getNextByStar(PROG_LINE p1)
 {
 	vector<PROG_LINE> progLines;
 	//UP TO U TO IMPLEMENT, BUT DO USE PQLNEXTPROCESSOR
+
+
 	return progLines;
 }
 

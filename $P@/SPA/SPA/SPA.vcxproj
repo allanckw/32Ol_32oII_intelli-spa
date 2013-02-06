@@ -21,6 +21,7 @@
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\DisjointSet.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\Helper.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\MultiQueryEval.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\NextTable.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\PKBController.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\RulesOfEngagement.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\SynonymTable.h" />
@@ -49,6 +50,7 @@
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\DisjointSet.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\Helper.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\MultiQueryEval.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\NextTable.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\PKBController.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\RulesOfEngagement.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\SynonymTable.cpp" />

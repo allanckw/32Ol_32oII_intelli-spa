@@ -737,6 +737,168 @@ MultiQueryEval::MultiQueryEval(const string& query)
 	vector<string> patternLHS;
 	vector<string> patternRHS;*/
 
+
+	////////nick
+	vector<pair<string, string>> onesyno;
+	vector<pair<string, string>> twosyno;
+
+	//seperate all 
+	for (auto it = relationStore.begin(); it != relationStore.end(); it++) {
+		unordered_set<string> pool;
+		const RulesOfEngagement::QueryRelations& type = it->first;
+		const unordered_map<string, unordered_set<string>>& itsecond = it->second;
+
+		int fullsize=it->second.size();
+
+		
+		for (auto it2 = itsecond.begin(); it2 != itsecond.end();it2++) {
+
+			for (auto it3 = it2->second.begin(); it3 != it2->second.end();it3++) {
+				//if not a var dont add into pool
+				
+				string first = (it2->first);
+				string second =  it3->c_str();
+				
+				/*unordered_set<string> temp;
+				temp.insert(second);
+
+				pair<string, unordered_set<string>> lol= pair<string, unordered_set<string>>(first,temp);
+				newcon.insert(lol);*/	
+
+				pair<string, string> lol= pair<string, string>(first,second);
+
+				int amount_of_synoname=0;
+				if (synonymTable.isInTable(first))
+					amount_of_synoname++;
+				if (synonymTable.isInTable(second))
+					amount_of_synoname++;
+
+				if(amount_of_synoname == 1)
+					onesyno.push_back(lol);
+				else if(amount_of_synoname == 2)
+					twosyno.push_back(lol);
+					
+			}
+			
+		}
+
+		//it->second = newcon;
+		//
+	}
+
+	bool newpool = true;
+	unordered_set<string> pool;
+
+	vector<pair<string, string>> newcontainer;
+
+	while(onesyno.size() > 0 || twosyno.size() > 0)
+	{
+		if(newpool == true && onesyno.size() > 0)
+		{
+			pool = unordered_set<string>();
+			pair<string, string> ones= onesyno.at(0);
+
+			if(synonymTable.isInTable(ones.first))
+			{pool.insert(ones.first);}
+			if(synonymTable.isInTable(ones.second))
+			{pool.insert(ones.second);}
+
+			newcontainer.push_back(ones);
+			onesyno.erase(onesyno.begin());
+			newpool = false;
+		}
+		else if(newpool == true && twosyno.size() > 0)
+		{
+			pool = unordered_set<string>();
+			pair<string, string> two= twosyno.at(0);
+
+			if(synonymTable.isInTable(two.first))
+			{pool.insert(two.first);}
+			if(synonymTable.isInTable(two.second))
+			{pool.insert(two.second);}
+
+			newcontainer.push_back(two);
+			twosyno.erase(twosyno.begin());
+			newpool = false;
+		}
+
+		bool addedtwosyno = false;
+
+		//loop two syno for once
+		for(int i=0;i<twosyno.size();i++)
+		{
+			unordered_set<string>::const_iterator got1 = pool.find(twosyno.at(i).first);
+			unordered_set<string>::const_iterator got2 = pool.find(twosyno.at(i).second);
+
+			if((!(got1 == pool.end())) || (!(got2 == pool.end())))
+			{//exist
+
+				newcontainer.push_back(twosyno.at(i));
+				//remove
+				pool.insert(twosyno.at(i).first);
+				pool.insert(twosyno.at(i).second);
+
+				twosyno.erase(twosyno.begin() + i);
+
+				
+				addedtwosyno = true;
+				break;
+			}
+
+			/*if(i == twosyno.size() -1)
+			{newpool = true;}*/
+		}
+
+		
+
+		//loop one syno for all
+		for(int i=0;i<onesyno.size();i++)
+		{
+			bool toadd = false;
+			if(synonymTable.isInTable(onesyno.at(i).first))
+			{
+				unordered_set<string>::const_iterator got1 = pool.find(onesyno.at(i).first);
+				if(!(got1 == pool.end()))
+				{
+					//exist
+					toadd = true;
+					pool.insert(onesyno.at(i).first);
+				}
+			}
+			if(synonymTable.isInTable(onesyno.at(i).second))
+			{
+				unordered_set<string>::const_iterator got2 = pool.find(onesyno.at(i).second);
+				if(!(got2 == pool.end()))
+				{
+					//exist
+					toadd = true;
+					pool.insert(onesyno.at(i).second);
+				}
+			}
+			if(toadd)
+			{
+				//at this pt added to pool
+
+				//add to new container
+				newcontainer.push_back(onesyno.at(i));
+
+				//now need to remove from the twosyno
+				onesyno.erase(onesyno.begin() + i);
+			}
+
+			
+			
+
+		}
+
+		if(!addedtwosyno)
+			newpool = true;
+	}
+
+	//nicky
+	//now the best order is stored in newcontainer but with vector<string,string> instead
+
+
 	//parse relations
 	for (auto it = relationStore.begin(); it != relationStore.end(); it++) {
 		const RulesOfEngagement::QueryRelations& type = it->first;

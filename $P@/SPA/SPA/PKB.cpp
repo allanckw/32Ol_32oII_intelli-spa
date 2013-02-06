@@ -17,6 +17,9 @@ UsesTable PKB::uses;
 ModifiesTable PKB::modifies;
 CallsTable PKB::calls;
 
+AffectsTable PKB::affects;
+NextTable PKB::next;
+
 int PKB::maxProgLines;
 
 vector<ASTNode::NodeType> PKB::statementTable;

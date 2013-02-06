@@ -9,6 +9,8 @@
 #include "FollowsTable.h"
 #include "ParentTable.h"
 #include "CFGNode.h"
+#include "NextTable.h"
+#include "AffectsTable.h"
 
 class PKB
 {
@@ -27,6 +29,9 @@ public:
 
 	static FollowsTable follows;
 	static ParentTable parent;
+
+	static AffectsTable affects;
+	static NextTable next;
 
 	static vector<ASTNode::NodeType> statementTable;
 	static unordered_set<STMT> assignTable;

@@ -1,378 +1,130 @@
 #include "NextTable.h"
-#include "CFGBuilder.h"
-#include "PKB.h"
-#include "CFGNode.h"
 
-NextTable::NextTable(void)
+//DO NOT TOUCH NEXT, NEXT CAN BE PRE-COMPUTED BUT NOT NEXT* 
+void NextTable::insertNext (PROG_LINE p1, PROG_LINE p2, bool next)
 {
+	Next* n = new Next(p1, p2, next);
+	
+	auto itr = this->nextMap.find(p1);
+	
+	if (itr == this->nextMap.end()) {
+		vector<Next*> nextLst;
+		nextLst.push_back(n);
+		pair<PROG_LINE, vector<Next*>> newItem (p1, nextLst);
+		this->nextMap.insert(newItem);
+	} else {
+		this->nextMap.at(p1).push_back(n);
+	}
 }
 
-
-NextTable::~NextTable(void)
+bool NextTable::isNext (PROG_LINE p1, PROG_LINE p2)
 {
+	if (p1 <= 0 || p2 <= 0)
+		return false;
+
+	auto itr = this->nextMap.find(p1);
+	if (itr != this->nextMap.end()){
+
+		vector<Next*> nxtLst = (vector<Next*>)itr->second;
+	
+		for (unsigned int i = 0; i < nxtLst.size(); i++) {
+			if (nxtLst[i]->getP2() == p2 )
+				return nxtLst[i]->isNext();
+		}
+	}
+
+	return false;
 }
 
-	bool NextTable::isNextStar(STMT s1, STMT s2)
-	{
-		vector<STMT> temp;
-		stack<CFGNode*> nodesStack; 
+vector<PROG_LINE> NextTable::getNextBy(PROG_LINE p1)
+{
+	vector<PROG_LINE> progLines;
 
-		CFGNode* node = PKB::getCFGHead(0);
+	auto itr = this->nextMap.find(p1);
 
-		if(contains(node->getProgramLines(),s2) && s1 < s2)
-			return true;
-
-		
-		for(int i=0;i<node->getNextNodes().size();i++)
-		{
-			nodesStack.push(node->getNextNodes().at(i));//maybe change here
+	if (itr != this->nextMap.end()){
+		vector<Next*> nxtLst = (vector<Next*>)itr->second;
+	
+		for (unsigned int i = 0; i < nxtLst.size(); i++) {
+			progLines.push_back(nxtLst[i]->getP2());
 		}
-		while(nodesStack.size() > 0)
-		{
+	}
 
-			CFGNode* tempnode = nodesStack.top();
-			nodesStack.pop();
-							
+	return progLines;
 
-			//if (MatcherTree(tempnode,pattern))//,isSub))
-			//{
-			//	return true; 
-			//}
-			
-			
-			vector<CFGNode*> next = tempnode->getNextNodes();
+}
 
-			if(tempnode->getProgramLines().size() > 0)//chk not a dummy node
+vector<PROG_LINE> NextTable::getNextFrom(PROG_LINE p2)
+{
+	vector<PROG_LINE> progLines;
+
+	for (auto itr = nextMap.begin(); itr != nextMap.end(); itr++) {
+		vector<Next*> nxtLst = (vector<Next*>)itr->second;
+
+		for (unsigned int i = 0; i < nxtLst.size(); i++) {
+			if (nxtLst[i]->getP2() == p2)
 			{
-				STMT firstprogline = tempnode->getProgramLines().at(0);
-				
-				if(contains(temp,firstprogline))
-				{
-					continue;//been here before//eg visited node
-				}
-				else
-				{
-					for(int i=0;i<tempnode->getProgramLines().size();i++)
-					{
-						if(tempnode->getProgramLines().at(i) == s2)
-						{
-							return true;
-						}
-						temp.push_back(tempnode->getProgramLines().at(i));
-					}
-				}
+				progLines.push_back((PROG_LINE)itr->first);
+				break;
 			}
-
-			for(int i=0;i<next.size();i++)
-			{
-				nodesStack.push(next.at(i));//add right side in
-			}
-
-				
-			
-			
 		}
+	}
 
+	return progLines;
+}
+
+//USE PQLNEXTPROCESSOR TO COMPUTE
+//QUERYEVALUATOR WILL ONLY USE NEXT TABLE
+void NextTable::insertNextStar(PROG_LINE p1, PROG_LINE p2, bool next)
+{
+	Next* n = new Next(p1, p2, next);
+	
+	auto itr = this->nextStarMap.find(p1);
+	
+	if (itr == this->nextStarMap.end()) {
+		vector<Next*> nextLst;
+		nextLst.push_back(n);
+		pair<PROG_LINE, vector<Next*>> newItem (p1, nextLst);
+		this->nextStarMap.insert(newItem);
+	} else {
+		this->nextStarMap.at(p1).push_back(n);
+	}
+}
+
+bool NextTable::isNextStar (PROG_LINE p1, PROG_LINE p2)
+{
+	if (p1 <= 0 || p2 <= 0)
 		return false;
-	}
-	bool NextTable::isNext(STMT s1, STMT s2)
-	{
-		CFGNode* node = PKB::getCFGHead(0);
-		vector<CFGNode*> nextnodes = node->getNextNodes();
 
-		if(contains(node->getProgramLines(),s2) && s1+1 == s2)
-			return true;
+	auto itr = this->nextStarMap.find(p1);
+	if (itr != this->nextStarMap.end()){
 
-		for(int i = 0;i<nextnodes.size();i++)
-		{
-			CFGNode* node = nextnodes.at(i);
-			if(node->isDummy())
-			{
-				for(int j=0;j<node->getNextNodes().size();j++)
-				{
-					nextnodes.push_back(node->getNextNodes().at(j));
-				}
-
-				continue;
-				
-			}
-			vector<PROG_LINE> ProgLinesnextnodes = node->getProgramLines();
-			//vector<PROG_LINE> ProgLinesnextnodes = nextnodes.at(i)->getProgramLines();
-
-			if(ProgLinesnextnodes.size() > 0 && ProgLinesnextnodes.at(0) < s2 && (ProgLinesnextnodes.at(0)+ProgLinesnextnodes.size() - 1)>s2)
-				return true;
-			/*for(int j=0;j<ProgLinesnextnodes.size();j++)
-			{
-				if(ProgLinesnextnodes.at(j) == s2)
-					return true;
-			}*/
+		vector<Next*> nxtLst = (vector<Next*>)itr->second;
+	
+		for (unsigned int i = 0; i < nxtLst.size(); i++) {
+			if (nxtLst[i]->getP2() == p2 )
+				return nxtLst[i]->isNext();
 		}
-		return false;
 	}
 
-	bool NextTable::contains(vector<STMT> list, STMT s1)
-	{
-		if(std::find(list.begin(),list.end(), s1) != list.end())
-		{
-			return true;
-		}
-		return false;
-	}
+	//@NICK IF CANNOT FIND -> USE PQLNEXTPROCESSOR TO TRAVERSE DO NOT CODE HERE
+	//REMEMBER TO ADD BACK USING PKB::next::insertNextStar(p1, p2, true or false);
 
-	vector<STMT> NextTable::getNextStar(STMT s1)
-	{
-		vector<STMT> temp;
-		stack<CFGNode*> nodesStack; 
+	return false;
+}
 
-		CFGNode* node = PKB::getCFGHead(0);
+//USE FOR NEXT*(p1, _)
+vector<PROG_LINE> NextTable::getNextByStar(PROG_LINE p1)
+{
+	vector<PROG_LINE> progLines;
+	//UP TO U TO IMPLEMENT, BUT DO USE PQLNEXTPROCESSOR
+	return progLines;
+}
 
-		for(int i=0;i<node->getProgramLines().size();i++)
-		{
-			PROG_LINE tpl = node->getProgramLines().at(i);
-			if(tpl == s1)
-			{
-				if(i < node->getProgramLines().size())
-				{
-					for(int j=i+1;j<node->getProgramLines().size();j++)
-					{
-						temp.push_back(node->getProgramLines().at(j));
-					}
-				}
-				break;
-			}
-		}
-
-		for(int i=0;i<node->getNextNodes().size();i++)
-		{
-			nodesStack.push(node->getNextNodes().at(i));//maybe change here
-		}
-
-		while(nodesStack.size() > 0)
-		{
-
-			CFGNode* tempnode = nodesStack.top();
-			nodesStack.pop();
-							
-
-			//if (MatcherTree(tempnode,pattern))//,isSub))
-			//{
-			//	return true; 
-			//}
-			
-			
-			vector<CFGNode*> next = tempnode->getNextNodes();
-
-			if(tempnode->getProgramLines().size() > 0)//chk not a dummy node
-			{
-				STMT firstprogline = tempnode->getProgramLines().at(0);
-				
-				if(contains(temp,firstprogline))
-				{
-					continue;//been here before//eg visited node
-				}
-				else
-				{
-					for(int i=0;i<tempnode->getProgramLines().size();i++)
-					{
-						if(tempnode->getProgramLines().at(i) != -1)
-						temp.push_back(tempnode->getProgramLines().at(i));
-					}
-				}
-			}
-
-			for(int i=0;i<next.size();i++)
-			{
-				nodesStack.push(next.at(i));//add right side in
-			}
-
-				
-			
-			
-		}
-
-		return temp;
-	}
-	vector<STMT> NextTable::getPreviousStar(STMT s2)
-	{
-		vector<STMT> temp;
-		stack<CFGNode*> nodesStack; 
-
-		CFGNode* node = PKB::getCFGHead(0);
-
-		for(int i=0;i<node->getProgramLines().size();i++)
-		{
-			PROG_LINE tpl = node->getProgramLines().at(i);
-			if(tpl == s2)
-			{
-				if(i > 0)
-				{
-					for(int j=i-1;j>=0;j--)
-					{
-						temp.push_back(node->getProgramLines().at(j));
-					}
-				}
-				break;
-			}
-		}
-		
-		for(int i=0;i<node->getPreviousNodes().size();i++)
-		{
-			nodesStack.push(node->getPreviousNodes().at(i));//maybe change here
-		}
-		while(nodesStack.size() > 0)
-		{
-
-			CFGNode* tempnode = nodesStack.top();
-			nodesStack.pop();
-							
-
-			//if (MatcherTree(tempnode,pattern))//,isSub))
-			//{
-			//	return true; 
-			//}
-			
-			//tempnode->getAllNextNodes()
-			vector<CFGNode*> next = tempnode->getPreviousNodes();
-
-
-
-			if(tempnode->getProgramLines().size() > 0)//chk not a dummy node
-			{
-				STMT firstprogline = tempnode->getProgramLines().at(0);
-				
-				if(contains(temp,firstprogline))
-				{
-					continue;//been here before//eg visited node
-				}
-				else
-				{
-					for(int i=0;i<tempnode->getProgramLines().size();i++)
-					{
-						if(tempnode->getProgramLines().at(i) != -1)
-						temp.push_back(tempnode->getProgramLines().at(i));
-					}
-				}
-			}
-
-			for(int i=0;i<next.size();i++)
-			{
-				nodesStack.push(next.at(i));//add right side in
-			}
-
-				
-			
-			
-		}
-
-		return temp;
-	}
-	vector<STMT> NextTable::getNext(STMT s1)
-	{
-		vector<STMT> temp;
-
-		CFGNode* node = PKB::getCFGHead(0);
-		vector<CFGNode*> nextnodes = node->getNextNodes();
-
-		
-
-		for(int i=0;i<node->getProgramLines().size();i++)
-		{
-			PROG_LINE tpl = node->getProgramLines().at(i);
-			if(tpl == s1)
-			{
-				if(i < node->getProgramLines().size())
-				{
-					for(int j=i+1;j<node->getProgramLines().size();j++)
-					{
-						temp.push_back(node->getProgramLines().at(j));
-					}
-				}
-				break;
-			}
-		}
-
-
-		if(temp.size() > 0)
-			return temp;
-
-
-
-		for(int i = 0;i<nextnodes.size();i++)
-		{
-			CFGNode* node = nextnodes.at(i);
-			if(node->isDummy())
-			{
-				for(int j=0;j<node->getNextNodes().size();j++)
-				{
-					nextnodes.push_back(node->getNextNodes().at(j));
-				}
-
-				continue;
-				
-			}
-			vector<PROG_LINE> ProgLinesnextnodes = node->getProgramLines();
-
-
-
-			for(int j=0;j<ProgLinesnextnodes.size();j++)
-			{
-				temp.push_back(ProgLinesnextnodes.at(j));
-			}
-			
-		}
-		
-
-		return temp;
-	}
-	vector<STMT> NextTable::getPrevious(STMT s2)
-	{
-		vector<STMT> temp;
-
-		CFGNode* node = PKB::getCFGHead(0);
-		vector<CFGNode*> prevnodes = node->getPreviousNodes();
-
-		for(int i=0;i<node->getProgramLines().size();i++)
-		{
-			PROG_LINE tpl = node->getProgramLines().at(i);
-			if(tpl == s2)
-			{
-				if(i > 0)
-				{
-					for(int j=i-1;j>=0;j--)
-					{
-						temp.push_back(node->getProgramLines().at(j));
-					}
-				}
-				break;
-			}
-		}
-		
-		if(temp.size() > 0)
-			return temp;
-		for(int i = 0;i<prevnodes.size();i++)
-		{
-
-			CFGNode* node = prevnodes.at(i);
-			if(node->isDummy())
-			{
-				for(int j=0;j<node->getPreviousNodes().size();j++)
-				{
-					prevnodes.push_back(node->getPreviousNodes().at(j));
-				}
-
-				continue;
-				
-			}
-			vector<PROG_LINE> ProgLinesprevnodes = node->getProgramLines();
-			//vector<PROG_LINE> ProgLinesprevnodes = prevnodes.at(i)->getProgramLines();
-
-			for(int j=0;j<ProgLinesprevnodes.size();j++)
-			{
-				temp.push_back(ProgLinesprevnodes.at(j));
-			}
-			
-		}
-		
-
-		return temp;
-	}
+//USE FOR NEXT*(_, p2)
+vector<PROG_LINE> NextTable::getNextFromStar(PROG_LINE p2)
+{
+	vector<PROG_LINE> progLines;
+	//UP TO U TO IMPLEMENT, BUT DO USE PQLNEXTPROCESSOR
+	return progLines;
+}

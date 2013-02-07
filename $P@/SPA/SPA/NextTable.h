@@ -49,7 +49,7 @@ public:
 
 	void insertNextStar (PROG_LINE, PROG_LINE, bool);
 	bool isNextStar (PROG_LINE, PROG_LINE);
-	vector<PROG_LINE>  getNextByStar(PROG_LINE);
-	vector<PROG_LINE>  getNextFromStar(PROG_LINE);
+	vector<PROG_LINE>  getNextStar(PROG_LINE);
+	vector<PROG_LINE>  getPreviousStar(PROG_LINE);
 
 };

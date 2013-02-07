@@ -1,5 +1,7 @@
 #include "PQLAffectsProcessor.h"
 
+//@NICK IF CANNOT FIND -> USE PQLNEXTPROCESSOR TO TRAVERSE DO NOT CODE HERE
+//REMEMBER TO ADD BACK USING PKB::next::insertNextStar(p1, p2, true or false);
 bool PQLAffectsProcessor::computeAffects(STMT a1, STMT a2) {
 
 	if (a1 <= 0 || a2 <= 0) 

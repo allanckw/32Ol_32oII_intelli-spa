@@ -1,4 +1,5 @@
 #include "NextTable.h"
+#include "PQLNextProcessor.h"
 
 //DO NOT TOUCH NEXT, NEXT CAN BE PRE-COMPUTED BUT NOT NEXT* 
 void NextTable::insertNext (PROG_LINE p1, PROG_LINE p2, bool next)
@@ -17,7 +18,7 @@ void NextTable::insertNext (PROG_LINE p1, PROG_LINE p2, bool next)
 	}
 }
 
-bool NextTable::isNext (PROG_LINE p1, PROG_LINE p2)
+bool NextTable::isNext(PROG_LINE p1, PROG_LINE p2)
 {
 	if (p1 <= 0 || p2 <= 0)
 		return false;
@@ -107,26 +108,23 @@ bool NextTable::isNextStar (PROG_LINE p1, PROG_LINE p2)
 		}
 	}
 
-	//@NICK IF CANNOT FIND -> USE PQLNEXTPROCESSOR TO TRAVERSE DO NOT CODE HERE
-	//REMEMBER TO ADD BACK USING PKB::next::insertNextStar(p1, p2, true or false);
-
-	return false;
+	if (PQLNextProcessor::isNextStar(p1,p2)){
+		PKB::next.insertNextStar(p1, p2, true);
+		return true;
+	} else {
+		PKB::next.insertNextStar(p1, p2, false);
+		return false;
+	}
 }
 
 //USE FOR NEXT*(p1, _)
-vector<PROG_LINE> NextTable::getNextByStar(PROG_LINE p1)
+vector<PROG_LINE> NextTable::getNextStar(PROG_LINE p1)
 {
-	vector<PROG_LINE> progLines;
-	//UP TO U TO IMPLEMENT, BUT DO USE PQLNEXTPROCESSOR
-
-
-	return progLines;
+	return PQLNextProcessor::getNextStar(p1);
 }
 
 //USE FOR NEXT*(_, p2)
-vector<PROG_LINE> NextTable::getNextFromStar(PROG_LINE p2)
+vector<PROG_LINE> NextTable::getPreviousStar(PROG_LINE p2)
 {
-	vector<PROG_LINE> progLines;
-	//UP TO U TO IMPLEMENT, BUT DO USE PQLNEXTPROCESSOR
-	return progLines;
+	return PQLNextProcessor::getPreviousStar(p2);
 }

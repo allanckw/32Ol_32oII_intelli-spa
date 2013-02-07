@@ -49,11 +49,17 @@ bool AffectsTable::isAffects (STMT a1, STMT a2)
 //For Affects(a1, _)
 vector<STMT> AffectsTable::getAffectsBy(STMT a1)
 {
+	vector<STMT> affects;
+
+	return affects;
 }
 
 //For Affects (_, a2)
 vector<STMT> AffectsTable::getAffectsFrom(STMT a2)
 {
+	vector<STMT> affects;
+
+	return affects;
 }
 
 //planned for itr2 + 3
@@ -63,14 +69,21 @@ void AffectsTable::insertAffectsStar (STMT a1, STMT a2, bool isAffected)
 
 bool AffectsTable::isAffectsStar (STMT a1, STMT a2)
 {
+	return false;
 }
 
 vector<STMT>  AffectsTable::getAffectsByStar(STMT a1)
 {
+	vector<STMT> affects;
+
+	return affects;
 }
 
 vector<STMT>  AffectsTable::getAffectsFromStar(STMT a2)
 {
+	vector<STMT> affects;
+
+	return affects;
 }
 
 //planned for itr3 + 4
@@ -80,13 +93,20 @@ void AffectsTable::insertAffectsBip(STMT a1, STMT a2, bool isAffected)
 
 bool isAffectsBip (STMT a1, STMT a2)
 {
+	return false;
 }
 
 vector<STMT>  AffectsTable::getAffectsByBip(STMT a1)
 {
+	vector<STMT> affects;
+
+	return affects;
 }
 
 vector<STMT>  AffectsTable::getAffectsFromBip(STMT a2)
 {
+	vector<STMT> affects;
+
+	return affects;
 }
 

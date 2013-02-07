@@ -51,3 +51,11 @@ bool Helper::isNumber(string s)
 		it++;
     return !s.empty() && it == s.end();
 }
+
+bool Helper::contains(vector<PROG_LINE> list, PROG_LINE p1)
+{
+	if(std::find(list.begin(),list.end(), p1) != list.end())
+		return true;
+	else
+		return false;
+}

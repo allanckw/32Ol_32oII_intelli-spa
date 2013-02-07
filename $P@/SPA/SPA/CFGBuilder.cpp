@@ -351,3 +351,191 @@ CFGNode* CFGBuilder::processIf(ASTNode* procedureNode, int *s, ASTStmtNode *stmt
 	(*s)=(*currline);
 	return endIfDummyNode;
 }
+
+void CFGBuilder::transverseCFG()
+{
+	for (PROC currentProc = 0; currentProc < PKB::procedures.getSize(); currentProc++)
+	{
+		CFGNode* currNode=PKB::getCFGHead(currentProc);
+		PROG_LINE plStart=currNode->getStartLine();
+		while(currNode->isEndNode()==false)
+		{
+			if(currNode->getType()==CFGNode::StandardNode)
+			{
+				for(PROG_LINE pl=currNode->getStartLine();pl<currNode->getEndLine();pl++)
+				{
+					if(plStart!=pl)
+					{
+						PKB::next.insertNext(plStart,pl,true);
+						plStart=pl;
+					}
+				}
+				plStart=currNode->getEndLine();
+				currNode->getNextNodes().at(0);
+			}
+			else if(currNode->getType()==CFGNode::WhileNode)
+			{
+				if(currNode->isStartNode()==false)
+				{
+					PKB::next.insertNext(plStart,currNode->getStartLine(),true);
+				}
+
+				plStart=currNode->getStartLine();
+				PKB::next.insertNextStar(plStart,plStart,true);
+				transverseCFGWhile(currNode);
+				currNode->getNextNodes().at(1);
+			}
+			else if(currNode->getType()==CFGNode::IfNode)
+			{
+				if(currNode->isStartNode()==false)
+				{
+					PKB::next.insertNext(plStart,currNode->getStartLine(),true);
+				}
+				currNode=transverseCFGIf(currNode);
+				plStart=currNode->getStartLine();
+			}
+		}
+	}
+}
+
+void CFGBuilder::transverseCFGWhile(CFGNode* whileNode)
+{
+	CFGNode* currNode=whileNode->getNextNodes().at(0);
+	//PKB::next.insertNext(whileNode->getStartLine(),currNode->getStartLine());
+	PROG_LINE plStart=currNode->getStartLine();
+	while(currNode!=whileNode)
+	{
+		if(currNode->getType()==CFGNode::StandardNode)
+		{
+			for(PROG_LINE pl=currNode->getStartLine();pl<currNode->getEndLine();pl++)
+			{
+				if(plStart!=pl)
+				{
+					PKB::next.insertNext(plStart,pl,true);
+					plStart=pl;
+				}
+			}
+			plStart=currNode->getEndLine();
+			currNode->getNextNodes().at(0);
+		}
+		else if(currNode->getType()==CFGNode::WhileNode)
+		{
+			if(currNode->isStartNode()==false)
+			{
+				PKB::next.insertNext(plStart,currNode->getStartLine(),true);
+			}
+
+			plStart=currNode->getStartLine();
+			PKB::next.insertNextStar(plStart,plStart,true);
+			transverseCFGWhile(currNode);
+			currNode->getNextNodes().at(1);
+		}
+		else if(currNode->getType()==CFGNode::IfNode)
+		{
+			if(currNode->isStartNode()==false)
+			{
+				PKB::next.insertNext(plStart,currNode->getStartLine(),true);
+			}
+			currNode=transverseCFGIf(currNode);
+			plStart=currNode->getStartLine();
+		}
+	}
+}
+
+CFGNode* CFGBuilder::transverseCFGIf(CFGNode* ifNode)
+{
+	PROG_LINE plStartL=ifNode->getStartLine();
+	PROG_LINE plStartR=ifNode->getStartLine();
+	
+	CFGNode* leftCurrNode=ifNode->getNextNodes().at(0);
+	CFGNode* rightCurrNode=ifNode->getNextNodes().at(1);
+
+
+	while(leftCurrNode->isDummy()==false)
+	{
+		if(leftCurrNode->getType()==CFGNode::StandardNode)
+		{
+			for(PROG_LINE pl=leftCurrNode->getStartLine();pl<leftCurrNode->getEndLine();pl++)
+			{
+				if(plStartL!=pl)
+				{
+					PKB::next.insertNext(plStartL,pl,true);
+					plStartL=pl;
+				}
+			}
+			plStartL=leftCurrNode->getEndLine();
+			leftCurrNode->getNextNodes().at(0);
+		}
+		else if(leftCurrNode->getType()==CFGNode::WhileNode)
+		{
+			if(leftCurrNode->isStartNode()==false)
+			{
+				PKB::next.insertNext(plStartL,leftCurrNode->getStartLine(),true);
+			}
+
+			plStartL=leftCurrNode->getStartLine();
+			PKB::next.insertNextStar(plStartL,plStartL,true);
+			transverseCFGWhile(leftCurrNode);
+			leftCurrNode->getNextNodes().at(1);
+		}
+		else if(leftCurrNode->getType()==CFGNode::IfNode)
+		{
+			if(leftCurrNode->isStartNode()==false)
+			{
+				PKB::next.insertNext(plStartL,leftCurrNode->getStartLine(),true);
+			}
+			leftCurrNode=transverseCFGIf(leftCurrNode);
+		}
+	}
+
+	while(rightCurrNode->isDummy()==false)
+	{
+		if(rightCurrNode->getType()==CFGNode::StandardNode)
+		{
+			for(PROG_LINE pl=rightCurrNode->getStartLine();pl<rightCurrNode->getEndLine();pl++)
+			{
+				if(plStartR!=pl)
+				{
+					PKB::next.insertNext(plStartR,pl,true);
+					plStartR=pl;
+				}
+			}
+			plStartR=rightCurrNode->getEndLine();
+			rightCurrNode->getNextNodes().at(0);
+		}
+		else if(rightCurrNode->getType()==CFGNode::WhileNode)
+		{
+			if(rightCurrNode->isStartNode()==false)
+			{
+				PKB::next.insertNext(plStartR,rightCurrNode->getStartLine(),true);
+			}
+
+			plStartR=rightCurrNode->getStartLine();
+			PKB::next.insertNextStar(plStartR,plStartR,true);
+			transverseCFGWhile(rightCurrNode);
+			rightCurrNode->getNextNodes().at(1);
+		}
+		else if(rightCurrNode->getType()==CFGNode::IfNode)
+		{
+			if(rightCurrNode->isStartNode()==false)
+			{
+				PKB::next.insertNext(plStartR,rightCurrNode->getStartLine(),true);
+			}
+			rightCurrNode=transverseCFGIf(rightCurrNode);
+			plStartR=rightCurrNode->getStartLine();
+		}
+	}
+	
+	CFGNode* currNode=leftCurrNode;
+	while(currNode->isDummy() && currNode->isEndNode()==false)
+	{
+		currNode->getNextNodes().at(0);
+	}
+
+	if(currNode->isDummy()==false)
+	{
+		PKB::next.insertNext(plStartL,currNode->getStartLine(),true);
+		PKB::next.insertNext(plStartR,currNode->getStartLine(),true);
+	}
+	return currNode;
+}

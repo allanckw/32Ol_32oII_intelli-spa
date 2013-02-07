@@ -49,6 +49,10 @@ public:
 
 	bool isNext(PROG_LINE p1, PROG_LINE p2);
 
+	PROG_LINE getStartLine();
+
+	PROG_LINE getEndLine();
+
 private:
 	PROG_LINE starting, ending;
 

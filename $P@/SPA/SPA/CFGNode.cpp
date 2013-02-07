@@ -84,9 +84,25 @@ CFGNode::NodeType CFGNode::getType(){
 }
 
 /**
+* This method will be used to return starting PROG LINE
+* @Return the prog line
+*/
+PROG_LINE CFGNode::getStartLine(){
+	return this->starting;
+}
+
+/**
+* This method will be used to return ending PROG LINE
+* @Return the prog line
+*/
+PROG_LINE CFGNode::getEndLine(){
+	return this->ending;
+}
+/**
 * This method will be used to add the next CFG Node
 * @Param node the node that is next to the node
 */
+
 void CFGNode::addNextNode(CFGNode* node)
 {
 	this->nextNodes.push_back(node);

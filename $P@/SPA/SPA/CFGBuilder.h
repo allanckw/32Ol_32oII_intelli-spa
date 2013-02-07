@@ -13,10 +13,13 @@ class CFGBuilder
 public:
 
 	static void buildCFG();
+	static void transverseCFG();
 private:
 	static CFGNode* processProcedure(ASTNode* procedureNode);
 	static CFGNode* processWhile(ASTNode* procedureNode,int* s, ASTStmtNode *stmtNode);
 	static CFGNode* processIf(ASTNode* procedureNode,int* s, ASTStmtNode *stmtNode, CFGNode *ifNode);
 
+	static void transverseCFGWhile(CFGNode* whileNode);
+	static CFGNode* transverseCFGIf(CFGNode* ifNode);
 };
 

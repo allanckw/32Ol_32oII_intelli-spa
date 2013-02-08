@@ -897,7 +897,7 @@ MultiQueryEval::MultiQueryEval(const string& query)
 			newpool = true;
 	}
 
-	//nicky
+	                                                                                                                                                                                                                                                          
 	//now the best order is stored in newcontainer but with vector<string,string> instead
 
 

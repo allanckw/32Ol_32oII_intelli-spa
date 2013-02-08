@@ -17,11 +17,14 @@ unordered_map<RulesOfEngagement::QueryRelations, set<RulesOfEngagement::QueryVar
 unordered_map<RulesOfEngagement::QueryRelations, RulesOfEngagement::QueryVar>
 	RulesOfEngagement::privilegedSecondArgument;
 unordered_set<RulesOfEngagement::QueryRelations> RulesOfEngagement::allowableSelfReference;
-typedef bool(*isRelation)(int, int);
-typedef vector<int>(*getAllTypes)();
 unordered_map<RulesOfEngagement::QueryRelations, bool> RulesOfEngagement::emptyRel;
-unordered_map<RulesOfEngagement::QueryRelations, isRelation> RulesOfEngagement::relationMap;
-unordered_map<RulesOfEngagement::QueryVar, getAllTypes> RulesOfEngagement::typeMap;
+unordered_map<RulesOfEngagement::QueryRelations, RulesOfEngagement::isRelation>
+	RulesOfEngagement::relationMap;
+unordered_map<RulesOfEngagement::QueryRelations, RulesOfEngagement::relationFamily>
+	RulesOfEngagement::relationByMap;
+unordered_map<RulesOfEngagement::QueryRelations, RulesOfEngagement::relationFamily>
+	RulesOfEngagement::relationFromMap;
+unordered_map<RulesOfEngagement::QueryVar, RulesOfEngagement::getAllTypes> RulesOfEngagement::typeMap;
 
 /**
 * Stores all the tables with the relevant information.
@@ -273,10 +276,26 @@ void RulesOfEngagement::initialise()
 	relationMap[FollowsStar] = &isFollowsStar;
 	relationMap[Parent] = &isParent;
 	relationMap[ParentStar] = &isParentStar;
-	/*relationMap[Next] = &is<>;
-	relationMap[NextStar] = &is<>;
-	relationMap[Affects] = &is<>;
-	relationMap[AffectsStar] = &is<>;*/
+	relationMap[Next] = &isNext;
+	relationMap[NextStar] = &isNextStar;
+	relationMap[Affects] = &isAffects;
+	relationMap[AffectsStar] = &isAffectsStar;
+	relationMap[PatternModifies] = &isPatternModifies;
+
+	relationMap[ModifiesStmt] = &isModifiesStmt;
+	relationMap[ModifiesProc] = &isModifiesProc;
+	relationMap[UsesStmt] = &isUsesStmt;
+	relationMap[UsesProc] = &isUsesProc;
+	relationMap[Calls] = &isCalls;
+	relationMap[CallsStar] = &isCallsStar;
+	relationMap[Follows] = &isFollows;
+	relationMap[FollowsStar] = &isFollowsStar;
+	relationMap[Parent] = &isParent;
+	relationMap[ParentStar] = &isParentStar;
+	relationMap[Next] = &isNext;
+	relationMap[NextStar] = &isNextStar;
+	relationMap[Affects] = &isAffects;
+	relationMap[AffectsStar] = &isAffectsStar;
 	relationMap[PatternModifies] = &isPatternModifies;
 	
 	typeMap[Statement] = &getAllStmt;
@@ -398,6 +417,26 @@ bool RulesOfEngagement::isPatternModifies(int x, int y)
 	return PKB::statementNodes[x]->getChild(0)->getValue() == y;
 }
 
+bool RulesOfEngagement::isNext(int x, int y)
+{
+	return PKB::next.isNext(x, y);
+}
+
+bool RulesOfEngagement::isNextStar(int x, int y)
+{
+	return PKB::next.isNextStar(x, y);
+}
+
+bool RulesOfEngagement::isAffects(int x, int y)
+{
+	return PKB::affects.isAffects(x, y);
+}
+
+bool RulesOfEngagement::isAffectsStar(int x, int y)
+{
+	return PKB::affects.isAffectsStar(x, y);
+}
+
 /*template
 
 bool RulesOfEngagement::is<Rel>(int x, int y)
@@ -405,6 +444,172 @@ bool RulesOfEngagement::is<Rel>(int x, int y)
 	return PKB::<table>.is<Rel>(x, y);
 }
 */
+
+/**
+* The reason for the shortness of the code in MultiQueryEval.
+* Takes in the relation type and returns a function pointer that can be called to return
+* a list of values that satisfy the relation.
+* e.g. getRelationByFamily(rel)(x) -> list of y such that rel(x, y) is true
+* @param rel type of relation
+* @return the function pointer
+*/
+RulesOfEngagement::relationFamily RulesOfEngagement::getRelationByFamily(QueryRelations rel)
+{
+	return relationByMap[rel];
+}
+
+vector<int> RulesOfEngagement::modifiesStmtBy(int x)
+{
+	return PKB::modifies.getModifiedByStmt(x);
+}
+
+vector<int> RulesOfEngagement::modifiesProcBy(int x)
+{
+	return PKB::modifies.getModifiedByProc(x);
+}
+
+vector<int> RulesOfEngagement::usesStmtBy(int x)
+{
+	return PKB::uses.getUsedByStmt(x);
+}
+
+vector<int> RulesOfEngagement::usesProcBy(int x)
+{
+	return PKB::uses.getUsedByProc(x);
+}
+
+vector<int> RulesOfEngagement::callsBy(int x)
+{
+	return PKB::calls.getCalledBy(x);
+}
+
+vector<int> RulesOfEngagement::callsStarBy(int x)
+{
+	return PKB::calls.getCalledByStar(x);
+}
+
+vector<int> RulesOfEngagement::followsBy(int x)
+{
+	return vector<int>(PKB::follows.getFollowsBy(x));
+}
+
+vector<int> RulesOfEngagement::followsStarBy(int x)
+{
+	return PKB::follows.getFollowsStarBy(x);
+}
+
+vector<int> RulesOfEngagement::parentBy(int x)
+{
+	return PKB::parent.getChildren(x);
+}
+
+vector<int> RulesOfEngagement::parentStarBy(int x)
+{
+	return PKB::parent.getChildrenStar(x);
+}
+
+vector<int> RulesOfEngagement::nextBy(int x)
+{
+	return PKB::next.getNextBy(x);
+}
+
+vector<int> RulesOfEngagement::nextStarBy(int x)
+{
+	return PKB::next.getNextStar(x);
+}
+
+vector<int> RulesOfEngagement::affectsBy(int x)
+{
+	return PKB::affects.getAffectsBy(x);
+}
+
+vector<int> RulesOfEngagement::affectsStarBy(int x)
+{
+	return PKB::affects.getAffectsByStar(x);
+}
+
+/**
+* The reason for the shortness of the code in MultiQueryEval.
+* Takes in the relation type and returns a function pointer that can be called to return
+* a list of values that satisfy the relation.
+* e.g. getRelationFromFamily(rel)(y) -> list of x such that rel(x, y) is true
+* @param rel type of relation
+* @return the function pointer
+*/
+RulesOfEngagement::relationFamily RulesOfEngagement::getRelationFromFamily(QueryRelations rel)
+{
+	return relationFromMap[rel];
+}
+
+vector<int> RulesOfEngagement::modifiesStmtFrom(int y)
+{
+	return PKB::modifies.getModifiesStmt(y);
+}
+
+vector<int> RulesOfEngagement::modifiesProcFrom(int y)
+{
+	return PKB::modifies.getModifiesProc(y);
+}
+
+vector<int> RulesOfEngagement::usesStmtFrom(int y)
+{
+	return PKB::uses.getUsedInStmt(y);
+}
+
+vector<int> RulesOfEngagement::usesProcFrom(int y)
+{
+	return PKB::uses.getUsedInProc(y);
+}
+
+vector<int> RulesOfEngagement::callsFrom(int y)
+{
+	return PKB::calls.getCalledFrom(y);
+}
+
+vector<int> RulesOfEngagement::callsStarFrom(int y)
+{
+	return PKB::calls.getCalledFromStar(y);
+}
+
+vector<int> RulesOfEngagement::followsFrom(int y)
+{
+	return vector<int>(PKB::follows.getFollowsFrom(y));
+}
+
+vector<int> RulesOfEngagement::followsStarFrom(int y)
+{
+	return PKB::follows.getFollowsStarFrom(y);
+}
+
+vector<int> RulesOfEngagement::parentFrom(int y)
+{
+	return PKB::parent.getChildren(y);
+}
+
+vector<int> RulesOfEngagement::parentStarFrom(int y)
+{
+	return PKB::parent.getChildrenStar(y);
+}
+
+vector<int> RulesOfEngagement::nextFrom(int y)
+{
+	return PKB::next.getNextFrom(y);
+}
+
+vector<int> RulesOfEngagement::nextStarFrom(int y)
+{
+	return PKB::next.getNextStar(y);
+}
+
+vector<int> RulesOfEngagement::affectsFrom(int y)
+{
+	return PKB::affects.getAffectsFrom(y);
+}
+
+vector<int> RulesOfEngagement::affectsStarFrom(int y)
+{
+	return PKB::affects.getAffectsFromStar(y);
+}
 //end relation map
 
 //type map

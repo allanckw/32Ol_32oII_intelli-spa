@@ -214,23 +214,71 @@ AnswerTable::AnswerTable(const SynonymTable& synonymTable, const string& synonym
 * @param ownSynonym name of synonym in this AnswerTable
 * @param otherTable pointer to other AnswerTable
 * @param otherSynonym name of synonym in the other AnswerTable
-* @param rel function pointer to method to evaluate satisfiability of relation
+* @param rel relation type
 * @return the AnswerTable having combined with the other AnswerTable
 */
 void AnswerTable::combine(const string& ownSynonym, const AnswerTable& otherTable,
-	const string& otherSynonym, const RulesOfEngagement::isRelation rel)
+	const string& otherSynonym, const RulesOfEngagement::QueryRelations rel)
 {
 	const int firstRelIndex = synonymPosition[ownSynonym];
 	const int secondRelIndex = otherTable.synonymPosition.at(otherSynonym);
-
+	unordered_map<int, unordered_set<int>> memo;
 	vector<vector<int>> newTable;
-	for (auto it = answers.begin(); it != answers.end(); it++)
-		for (auto it2 = otherTable.answers.begin(); it2 != otherTable.answers.end(); it2++)
-			if (rel((*it)[firstRelIndex], (*it2)[secondRelIndex])) {
-				vector<int> newRow(*it);
-				newRow.insert(newRow.end(), (*it2).begin(), (*it2).end());
-				newTable.push_back(newRow);
+
+	RulesOfEngagement::relationFamily fn = RulesOfEngagement::getRelationByFamily(rel);
+	if (fn == 0) {
+		RulesOfEngagement::isRelation fn2 = RulesOfEngagement::getRelation(rel);
+		for (auto it = answers.begin(); it != answers.end(); it++)
+			for (auto it2 = otherTable.answers.begin(); it2 != otherTable.answers.end(); it2++)
+				if (fn2((*it)[firstRelIndex], (*it2)[secondRelIndex])) {
+					vector<int> newRow(*it);
+					newRow.insert(newRow.end(), (*it2).begin(), (*it2).end());
+					newTable.push_back(newRow);
+				}
+	} else {
+		if (answers.size() <= otherTable.answers.size()) {
+			vector<vector<int>> newTable;
+			for (auto it = answers.begin(); it != answers.end(); it++) {
+				int value1 = (*it)[firstRelIndex];
+				if (memo.count(value1) == 0) {
+					vector<int>& temp1 = fn(value1);
+					unordered_set<int> temp2(temp1.begin(), temp1.end());
+					memo.insert(pair<int, unordered_set<int>>(value1, temp2));
+				}
+				const unordered_set<int>& otherAnswers = memo[value1];
+
+				for (auto it2 = otherTable.answers.begin(); it2 != otherTable.answers.end(); it2++) {
+					int value2 = (*it2)[secondRelIndex];
+					if (otherAnswers.count(value2) > 0) {
+						vector<int> newRow(*it);
+						newRow.insert(newRow.end(), (*it2).begin(), (*it2).end());
+						newTable.push_back(newRow);
+					}
+				}
 			}
+		} else {
+			vector<vector<int>> newTable;
+			for (auto it2 = otherTable.answers.begin(); it2 != otherTable.answers.end(); it2++) {
+				int value2 = (*it2)[secondRelIndex];
+				if (memo.count(value2) == 0) {
+					vector<int>& temp1 = RulesOfEngagement::getRelationByFamily(rel)(value2);
+					unordered_set<int> temp2(temp1.begin(), temp1.end());
+					memo.insert(pair<int, unordered_set<int>>(value2, temp2));
+				}
+				const unordered_set<int>& otherAnswers = memo[value2];
+
+				for (auto it = answers.begin(); it != answers.end(); it++) {
+					int value1 = (*it)[firstRelIndex];
+					if (otherAnswers.count(value1) > 0) {
+						vector<int> newRow(*it);
+						newRow.insert(newRow.end(), (*it2).begin(), (*it2).end());
+						newTable.push_back(newRow);
+					}
+				}
+			}
+		}
+	}
+
 	answers = newTable;
 
 	for (auto it = otherTable.header.begin(); it != otherTable.header.end(); it++) {
@@ -479,6 +527,15 @@ vector<string> AnswerTable::getHeader() const
 /**
 * Returns the number of synonyms in this AnswerTable.
 * @return the number of synonyms
+*/
+unsigned int AnswerTable::getHeaderSize() const
+{
+	return header.size();
+}
+
+/**
+* Returns the number of results (tuples) in this AnswerTable.
+* @return the number of results
 */
 unsigned int AnswerTable::getSize() const
 {

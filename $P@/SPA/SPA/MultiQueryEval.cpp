@@ -471,158 +471,6 @@ MultiQueryEval::MultiQueryEval(const string& query)
 				}
 			}
 		}
-
-	/*const unordered_map<string, unordered_set<string>>& nextRel =
-		relationStore[RulesOfEngagement::Next];
-	const unordered_map<string, unordered_set<string>>& nextStarRel =
-		relationStore[RulesOfEngagement::NextStar];
-	bool specialForNext = false;
-	string specialSynonym;
-	vector<string> removeFirst;
-	vector<string> removeSecond;
-	vector<bool> removeFrom; //false = next, true = nextStar
-	for (auto it = nextRel.begin(); it != nextRel.end(); it++) {
-		const string& firstRel = it->first;
-		if (stringToQueryVar.count(firstRel) == 0)
-			continue;
-		const unordered_set<string>& secondRels = it->second;
-		for (auto it2 = secondRels.begin(); it2 != secondRels.end(); it2++) {
-			if (stringToQueryVar.count(*it2) == 0)
-				continue;
-			if (firstRel == *it2) {
-				if (!specialForNext) {
-					specialSynonym = "t" + Helper::intToString(++tempVars);
-					while (stringToQueryVar.count(specialSynonym))
-						specialSynonym = "t" + specialSynonym;
-					stringToQueryVar.insert(pair<string, RulesOfEngagement::QueryVar>
-						(specialSynonym, RulesOfEngagement::While));
-					specialForNext = true;
-				}
-				relationStore[RulesOfEngagement::ParentStar][specialSynonym].insert(firstRel);
-				removeFirst.push_back(firstRel);
-				removeSecond.push_back(firstRel);
-				removeFrom.push_back(false);
-				continue;
-			}
-			if (nextRel.at(*it2).count(firstRel) > 0) {
-				if (!specialForNext) {
-					specialSynonym = "t" + Helper::intToString(++tempVars);
-					while (stringToQueryVar.count(specialSynonym))
-						specialSynonym = "t" + specialSynonym;
-					stringToQueryVar.insert(pair<string, RulesOfEngagement::QueryVar>
-						(specialSynonym, RulesOfEngagement::While));
-					specialForNext = true;
-				}
-				relationStore[RulesOfEngagement::ParentStar][specialSynonym].insert(firstRel);
-				relationStore[RulesOfEngagement::ParentStar][specialSynonym].insert(*it2);
-				removeFirst.push_back(firstRel);
-				removeSecond.push_back(*it2);
-				removeFrom.push_back(false);
-				removeFirst.push_back(*it2);
-				removeSecond.push_back(firstRel);
-				removeFrom.push_back(false);
-				continue;
-			}
-			if (nextStarRel.at(*it2).count(firstRel) > 0) {
-				if (!specialForNext) {
-					specialSynonym = "t" + Helper::intToString(++tempVars);
-					while (stringToQueryVar.count(specialSynonym))
-						specialSynonym = "t" + specialSynonym;
-					stringToQueryVar.insert(pair<string, RulesOfEngagement::QueryVar>
-						(specialSynonym, RulesOfEngagement::While));
-					specialForNext = true;
-				}
-				relationStore[RulesOfEngagement::ParentStar][specialSynonym].insert(firstRel);
-				relationStore[RulesOfEngagement::ParentStar][specialSynonym].insert(*it2);
-				removeFirst.push_back(firstRel);
-				removeSecond.push_back(*it2);
-				removeFrom.push_back(false);
-				removeFirst.push_back(*it2);
-				removeSecond.push_back(firstRel);
-				removeFrom.push_back(true);
-				continue;
-			}
-		}
-	}
-	for (auto it = nextStarRel.begin(); it != nextStarRel.end(); it++) {
-		const string& firstRel = it->first;
-		if (stringToQueryVar.count(firstRel) == 0)
-			continue;
-		const unordered_set<string>& secondRels = it->second;
-		for (auto it2 = secondRels.begin(); it2 != secondRels.end(); it2++) {
-			if (stringToQueryVar.count(*it2) == 0)
-				continue;
-			if (firstRel == *it2) {
-				if (!specialForNext) {
-					specialSynonym = "t" + Helper::intToString(++tempVars);
-					while (stringToQueryVar.count(specialSynonym))
-						specialSynonym = "t" + specialSynonym;
-					stringToQueryVar.insert(pair<string, RulesOfEngagement::QueryVar>
-						(specialSynonym, RulesOfEngagement::While));
-					specialForNext = true;
-				}
-				relationStore[RulesOfEngagement::ParentStar][specialSynonym].insert(firstRel);
-				removeFirst.push_back(firstRel);
-				removeSecond.push_back(firstRel);
-				removeFrom.push_back(true);
-				continue;
-			}
-			if (nextRel.at(*it2).count(firstRel) > 0) {
-				if (!specialForNext) {
-					specialSynonym = "t" + Helper::intToString(++tempVars);
-					while (stringToQueryVar.count(specialSynonym))
-						specialSynonym = "t" + specialSynonym;
-					stringToQueryVar.insert(pair<string, RulesOfEngagement::QueryVar>
-						(specialSynonym, RulesOfEngagement::While));
-					specialForNext = true;
-				}
-				relationStore[RulesOfEngagement::ParentStar][specialSynonym].insert(firstRel);
-				relationStore[RulesOfEngagement::ParentStar][specialSynonym].insert(*it2);
-				removeFirst.push_back(firstRel);
-				removeSecond.push_back(*it2);
-				removeFrom.push_back(true);
-				removeFirst.push_back(*it2);
-				removeSecond.push_back(firstRel);
-				removeFrom.push_back(false);
-				continue;
-			}
-			if (nextStarRel.at(*it2).count(firstRel) > 0) {
-				if (!specialForNext) {
-					specialSynonym = "t" + Helper::intToString(++tempVars);
-					while (stringToQueryVar.count(specialSynonym))
-						specialSynonym = "t" + specialSynonym;
-					stringToQueryVar.insert(pair<string, RulesOfEngagement::QueryVar>
-						(specialSynonym, RulesOfEngagement::While));
-					specialForNext = true;
-				}
-				relationStore[RulesOfEngagement::ParentStar][specialSynonym].insert(firstRel);
-				relationStore[RulesOfEngagement::ParentStar][specialSynonym].insert(*it2);
-				removeFirst.push_back(firstRel);
-				removeSecond.push_back(*it2);
-				removeFrom.push_back(true);
-				removeFirst.push_back(*it2);
-				removeSecond.push_back(firstRel);
-				removeFrom.push_back(true);
-				continue;
-			}
-		}
-	}
-	for (unsigned int i = 0; i < removeFirst.size(); i++) {
-		unordered_map<string, unordered_set<string>>* tablePtr;
-		if (removeFrom[i]) //remove from nextStar
-			tablePtr = &relationStore[RulesOfEngagement::NextStar];
-		else //remove from next
-			tablePtr = &relationStore[RulesOfEngagement::Next];
-		string& firstRel = removeFirst[i];
-		string& secondRel = removeSecond[i];
-		(*tablePtr)[firstRel].erase(secondRel);
-		if ((*tablePtr)[firstRel].size() == 0)
-			(*tablePtr).erase(firstRel);
-		if (firstRel != secondRel) {
-			stringCount[firstRel]--;
-			stringCount[secondRel]--;
-		}
-	}*/
 	//end special rules
 
 	//second stage
@@ -738,174 +586,201 @@ MultiQueryEval::MultiQueryEval(const string& query)
 	vector<string> patternRHS;*/
 
 
-	////////nick
-	vector<pair<RulesOfEngagement::QueryRelations,pair<string, string>>> onesyno;
-	vector<pair<RulesOfEngagement::QueryRelations,pair<string, string>>> twosyno;
+	vector<pair<RulesOfEngagement::QueryRelations,pair<string, string>>> zerosyno;
+	list<pair<RulesOfEngagement::QueryRelations,pair<string, string>>> onesyno;
+	list<pair<RulesOfEngagement::QueryRelations,pair<string, string>>> twosyno;
 
-	//seperate all 
+	//separate all 
 	for (auto it = relationStore.begin(); it != relationStore.end(); it++) {
-		unordered_set<string> pool;
 		const RulesOfEngagement::QueryRelations& type = it->first;
 		const unordered_map<string, unordered_set<string>>& itsecond = it->second;
-
-		int fullsize=it->second.size();
-
 		
 		for (auto it2 = itsecond.begin(); it2 != itsecond.end();it2++) {
+			const string& first = it2->first;
+			int amount_of_synoname;
+			if (synonymTable.isInTable(first))
+				amount_of_synoname = 1;
+			else
+				amount_of_synoname = 0;
 
 			for (auto it3 = it2->second.begin(); it3 != it2->second.end();it3++) {
 				//if not a var dont add into pool
-				
-				string first = (it2->first);
-				string second =  it3->c_str();
-				
-				/*unordered_set<string> temp;
-				temp.insert(second);
-
-				pair<string, unordered_set<string>> lol= pair<string, unordered_set<string>>(first,temp);
-				newcon.insert(lol);*/	
-
-				//pair<string, string> lol= pair<string, string>(first,second);
-				pair<RulesOfEngagement::QueryRelations,pair<string, string>> lol = pair<RulesOfEngagement::QueryRelations,pair<string, string>>(type,pair<string, string>(first,second));
-
-				int amount_of_synoname=0;
-				if (synonymTable.isInTable(first))
-					amount_of_synoname++;
+				const string& second = *it3;
+				int amount_of_synoname2 = amount_of_synoname;
 				if (synonymTable.isInTable(second))
-					amount_of_synoname++;
+					amount_of_synoname2++;
 
-				if(amount_of_synoname == 1)
-					onesyno.push_back(lol);
-				else if(amount_of_synoname == 2)
-					twosyno.push_back(lol);
-					
+				switch (amount_of_synoname2) {
+				case 0:
+					zerosyno.push_back(pair<RulesOfEngagement::QueryRelations,pair<string, string>>(type,pair<string, string>(first,second)));
+					break;
+				case 1:
+					onesyno.push_back(pair<RulesOfEngagement::QueryRelations,pair<string, string>>(type,pair<string, string>(first,second)));
+					break;
+				case 2:
+					twosyno.push_back(pair<RulesOfEngagement::QueryRelations,pair<string, string>>(type,pair<string, string>(first,second)));
+					break;
+				}
 			}
 			
 		}
-
-		//it->second = newcon;
-		//
 	}
 
 	bool newpool = true;
 	unordered_set<string> pool;
 
-	//vector<pair<string, string>> newcontainer;
 	vector<pair<RulesOfEngagement::QueryRelations,pair<string, string>>> newcontainer;
 
-	while(onesyno.size() > 0 || twosyno.size() > 0)
+	while (onesyno.size() > 0 || twosyno.size() > 0)
 	{
-		if(newpool == true && onesyno.size() > 0)
-		{
-			pool = unordered_set<string>();
-			pair<RulesOfEngagement::QueryRelations,pair<string, string>> ones= onesyno.at(0);
+		if (newpool) {
+			if (onesyno.size() > 0) {
+				pool = unordered_set<string>();
+				pair<RulesOfEngagement::QueryRelations,pair<string, string>>& ones = onesyno.front();
 
-			if(synonymTable.isInTable(ones.second.first))
-			{pool.insert(ones.second.first);}
-			if(synonymTable.isInTable(ones.second.second))
-			{pool.insert(ones.second.second);}
+				if (synonymTable.isInTable(ones.second.first))
+					pool.insert(ones.second.first);
+				else //if (synonymTable.isInTable(ones.second))
+					pool.insert(ones.second.second);
 
-			newcontainer.push_back(ones);
-			onesyno.erase(onesyno.begin());
-			newpool = false;
-		}
-		else if(newpool == true && twosyno.size() > 0)
-		{
-			pool = unordered_set<string>();
-			pair<RulesOfEngagement::QueryRelations,pair<string, string>> two= twosyno.at(0);
+				newcontainer.push_back(ones);
+				onesyno.erase(onesyno.begin());
+				//newpool = false;
+			} else { //if (twosyno.size() > 0) {
+				pool = unordered_set<string>();
+				pair<RulesOfEngagement::QueryRelations,pair<string, string>>& two = twosyno.front();
 
-			if(synonymTable.isInTable(two.second.first))
-			{pool.insert(two.second.first);}
-			if(synonymTable.isInTable(two.second.second))
-			{pool.insert(two.second.second);}
+				pool.insert(two.second.first);
+				pool.insert(two.second.second);
 
-			newcontainer.push_back(two);
-			twosyno.erase(twosyno.begin());
+				newcontainer.push_back(two);
+				twosyno.erase(twosyno.begin());
+				//newpool = false;
+			}
 			newpool = false;
 		}
 
 		bool addedtwosyno = false;
 
 		//loop two syno for once
-		for(int i=0;i<twosyno.size();i++)
+		for (auto it = twosyno.begin(); it != twosyno.end(); it++)
 		{
-			unordered_set<string>::const_iterator got1 = pool.find(twosyno.at(i).second.first);
-			unordered_set<string>::const_iterator got2 = pool.find(twosyno.at(i).second.second);
+			unordered_set<string>::const_iterator got1 = pool.find(it->second.first);
+			unordered_set<string>::const_iterator got2;
+			if (got1 == pool.end())
+				got2 = pool.find(it->second.second);
 
-			if((!(got1 == pool.end())) || (!(got2 == pool.end())))
-			{//exist
-
-				newcontainer.push_back(twosyno.at(i));
+			if (got1 != pool.end() || got2 != pool.end()) { //exist
+				newcontainer.push_back(*it);
+				pool.insert(it->second.first);
+				pool.insert(it->second.second);
 				//remove
-				pool.insert(twosyno.at(i).second.first);
-				pool.insert(twosyno.at(i).second.second);
+				twosyno.erase(it);
 
-				twosyno.erase(twosyno.begin() + i);
-
-				
 				addedtwosyno = true;
 				break;
 			}
-
-			/*if(i == twosyno.size() -1)
-			{newpool = true;}*/
 		}
 
-		
-
 		//loop one syno for all
-		for(int i=0;i<onesyno.size();i++)
+		for (auto it = onesyno.begin(); it != onesyno.end();)
 		{
 			bool toadd = false;
-			if(synonymTable.isInTable(onesyno.at(i).second.first))
+			if (synonymTable.isInTable(it->second.first))
 			{
-				unordered_set<string>::const_iterator got1 = pool.find(onesyno.at(i).second.first);
-				if(!(got1 == pool.end()))
+				if (pool.find(it->second.first) != pool.end())
 				{
 					//exist
 					toadd = true;
-					pool.insert(onesyno.at(i).second.first);
+					pool.insert(it->second.first);
 				}
 			}
-			if(synonymTable.isInTable(onesyno.at(i).second.second))
+			else //if (synonymTable.isInTable(it->second))
 			{
-				unordered_set<string>::const_iterator got2 = pool.find(onesyno.at(i).second.second);
-				if(!(got2 == pool.end()))
+				if (pool.find(it->second.second) != pool.end())
 				{
 					//exist
 					toadd = true;
-					pool.insert(onesyno.at(i).second.second);
+					pool.insert(it->second.second);
 				}
 			}
-			if(toadd)
-			{
+
+			if (toadd) {
 				//at this pt added to pool
 
 				//add to new container
-				newcontainer.push_back(onesyno.at(i));
+				newcontainer.push_back(*it);
 
 				//now need to remove from the twosyno
-				onesyno.erase(onesyno.begin() + i);
-			}
-
-			
-			
-
+				auto it2 = it;
+				it2++;
+				onesyno.erase(it);
+				it = it2;
+			} else
+				it++;
 		}
 
 		if(!addedtwosyno)
 			newpool = true;
 	}
 
-	                                                                                                                                                                                                                                                          
 	//now the best order is stored in newcontainer but with vector<string,string> instead
 
 
 	//parse relations
-	for (auto it = relationStore.begin(); it != relationStore.end(); it++) {
+	//parse trivial relations
+	for (auto it = zerosyno.begin(); it != zerosyno.end(); it++) {
 		const RulesOfEngagement::QueryRelations& type = it->first;
-		const unordered_map<string, unordered_set<string>>& itsecond = it->second;
-		for (auto it2 = itsecond.begin(); it2 != itsecond.end(); it2++) {
+		const string& firstRel= it->second.first;
+		const string& secondRel= it->second.second;
+
+		if (firstRel == "_") {
+			if (secondRel == "_") { //Case 1: rel(_,_)
+				if (RulesOfEngagement::emptyRel[type]) {
+					earlyQuit = true;
+					return;
+				}
+			} else { //Case 2: rel(_,"1")
+				string sugar = "t" + Helper::intToString(++tempVars);
+				while (synonymTable.isInTable(sugar))
+					sugar = "t" + sugar;
+							
+				RulesOfEngagement::QueryVar secondArg = RulesOfEngagement::privilegedSecondArgument[type];
+				synonymTable.insert(sugar, secondArg);
+				synonymTable.setSpecificAttribute(sugar, *(RulesOfEngagement::allowableConditions[secondArg].begin()),
+					secondRel);
+				synonymTable.setSecondGeneric(sugar, type);
+			}
+		} else {
+			if (secondRel == "_") { //Case 2: rel("1",_)
+				string sugar = "t" + Helper::intToString(++tempVars);
+				while (synonymTable.isInTable(sugar))
+					sugar = "t" + sugar;
+
+				RulesOfEngagement::QueryVar firstArg = RulesOfEngagement::privilegedFirstArgument[type];
+				synonymTable.insert(sugar, firstArg);
+				synonymTable.setSpecificAttribute(sugar, *(RulesOfEngagement::allowableConditions[firstArg].begin()),
+					firstRel);
+				synonymTable.setFirstGeneric(sugar, type);
+			} else { //Case 3: rel("1","2") 
+				int first = RulesOfEngagement::convertArgumentToInteger(type, true, firstRel);
+				int second = RulesOfEngagement::convertArgumentToInteger(type, false, secondRel);
+				if (!RulesOfEngagement::getRelation(type)(first, second)) {
+					earlyQuit = true;
+					return;
+				}
+			}
+		}
+	}
+
+	//parse normal relations
+	for (auto it = newcontainer.begin(); it != newcontainer.end(); it++) {
+	//for (auto it = relationStore.begin(); it != relationStore.end(); it++) {
+		const RulesOfEngagement::QueryRelations& type = it->first;
+		const string& firstRel= it->second.first;
+		const string& secondRel= it->second.second;
+		//const unordered_map<string, unordered_set<string>>& itsecond = it->second;
+		//for (auto it2 = itsecond.begin(); it2 != itsecond.end(); it2++) {
 			/*string firstRel;
 			if (toFold.count(it2->first) > 0) {
 				if (stringToQueryVar[it2->first] == RulesOfEngagement::privilegedFirstArgument[type])
@@ -917,9 +792,9 @@ MultiQueryEval::MultiQueryEval(const string& query)
 				}
 			} else
 				firstRel = it2->first;*/
-			const string& firstRel= it2->first;
-			const unordered_set<string>& it2second = it2->second;
-			for (auto it3 = it2second.begin(); it3 != it2second.end(); it3++) {
+			//const string& firstRel= it2->first;
+			//const unordered_set<string>& it2second = it2->second;
+			//for (auto it3 = it2second.begin(); it3 != it2second.end(); it3++) {
 				/*string secondRel;
 				if (toFold.count(*it3) > 0) {
 					if (stringToQueryVar[*it3] == RulesOfEngagement::privilegedSecondArgument[type])
@@ -931,7 +806,7 @@ MultiQueryEval::MultiQueryEval(const string& query)
 					}
 				} else
 					secondRel = *it3;*/
-				const string& secondRel= *it3;
+				//const string& secondRel= *it3;
 				//actual setting up of relations
 				//count number of synonyms
 				int numOfSynonyms = 0;
@@ -944,7 +819,7 @@ MultiQueryEval::MultiQueryEval(const string& query)
 					numOfSynonyms++;
 
 				switch (numOfSynonyms) {
-				case 0: //handle 0 synonym, 3 cases
+				/*case 0: //handle 0 synonym, 3 cases
 					//Case 1: rel( _ , _ ) -> On the spot test if the relationship is ever true
 					//Case 2: rel( _ ,"1") -> rel(_,s) with s.stmtNo = 1 -> treat as a condition on s
 					//Case 3: rel("1","2") -> On the spot test
@@ -985,7 +860,7 @@ MultiQueryEval::MultiQueryEval(const string& query)
 							}
 						}
 					}
-					break;
+					break;*/
 
 				case 1: //handle 1 synonym: put as a condition
 					//Case 1: rel(s, _ ) -> put in generic(first)
@@ -1031,8 +906,8 @@ MultiQueryEval::MultiQueryEval(const string& query)
 					dsSynonym.setUnion(firstRel, secondRel);
 					break;
 				}
-			}
-		}
+			//}
+		//}
 	}
 
 	//parse conditions
@@ -1193,8 +1068,7 @@ MultiQueryEval::MultiQueryEval(const string& query)
 					return;
 				}
 
-				firstRelTable.combine(firstRel, secondRelTable,
-					secondRel, RulesOfEngagement::getRelation(type));
+				firstRelTable.combine(firstRel, secondRelTable, secondRel, type);
 				if (firstRelTable.getSize() == 0) {
 					earlyQuit = true;
 					return;
@@ -1215,8 +1089,7 @@ MultiQueryEval::MultiQueryEval(const string& query)
 					return;
 				}
 
-				tables[firstRelIndex].combine(firstRel, secondRelTable,
-					secondRel, RulesOfEngagement::getRelation(type));
+				tables[firstRelIndex].combine(firstRel, secondRelTable, secondRel, type);
 				if (tables[firstRelIndex].getSize() == 0) {
 					earlyQuit = true;
 					return;
@@ -1231,8 +1104,7 @@ MultiQueryEval::MultiQueryEval(const string& query)
 				}
 
 				int secondRelIndex = inWhichTable[secondRel];
-				firstRelTable.combine(firstRel, tables[secondRelIndex],
-					secondRel, RulesOfEngagement::getRelation(type));
+				firstRelTable.combine(firstRel, tables[secondRelIndex], secondRel, type);
 				if (firstRelTable.getSize() == 0) {
 					earlyQuit = true;
 					return;
@@ -1253,8 +1125,7 @@ MultiQueryEval::MultiQueryEval(const string& query)
 					return;
 				}
 			} else {
-				tables[firstRelIndex].combine(firstRel, tables[secondRelIndex],
-					secondRel, RulesOfEngagement::getRelation(type));
+				tables[firstRelIndex].combine(firstRel, tables[secondRelIndex], secondRel, type);
 				if (tables[firstRelIndex].getSize() == 0) {
 					earlyQuit = true;
 					return;

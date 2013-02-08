@@ -61,6 +61,10 @@ public:
 	static isRelation getRelation(QueryRelations rel);
 	static unordered_map<QueryRelations, bool> emptyRel;
 
+	typedef vector<int>(*relationFamily)(int);
+	static relationFamily getRelationByFamily(QueryRelations rel);
+	static relationFamily getRelationFromFamily(QueryRelations rel);
+
 	typedef vector<int>(*getAllTypes)();
 	static getAllTypes getType(QueryVar type);
 
@@ -76,9 +80,53 @@ private:
 	static bool isFollowsStar(int x, int y);
 	static bool isParent(int x, int y);
 	static bool isParentStar(int x, int y);
+	static bool isNext(int x, int y);
+	static bool isNextStar(int x, int y);
+	static bool isAffects(int x, int y);
+	static bool isAffectsStar(int x, int y);
 	static bool isPatternModifies(int x, int y);
 	/*template
 	static bool is<Rel>(int x, int y);
+	*/
+
+	static unordered_map<QueryRelations, relationFamily> relationByMap;
+	static vector<int> modifiesStmtBy(int x);
+	static vector<int> modifiesProcBy(int x);
+	static vector<int> usesStmtBy(int x);
+	static vector<int> usesProcBy(int x);
+	static vector<int> callsBy(int x);
+	static vector<int> callsStarBy(int x);
+	static vector<int> followsBy(int x);
+	static vector<int> followsStarBy(int x);
+	static vector<int> parentBy(int x);
+	static vector<int> parentStarBy(int x);
+	static vector<int> nextBy(int x);
+	static vector<int> nextStarBy(int x);
+	static vector<int> affectsBy(int x);
+	static vector<int> affectsStarBy(int x);
+	//static vector<int> patternModifiesBy(int x);
+	/*template
+	static vector<int> <relBy>(int x);
+	*/
+
+	static unordered_map<QueryRelations, relationFamily> relationFromMap;
+	static vector<int> modifiesStmtFrom(int y);
+	static vector<int> modifiesProcFrom(int y);
+	static vector<int> usesStmtFrom(int y);
+	static vector<int> usesProcFrom(int y);
+	static vector<int> callsFrom(int y);
+	static vector<int> callsStarFrom(int y);
+	static vector<int> followsFrom(int y);
+	static vector<int> followsStarFrom(int y);
+	static vector<int> parentFrom(int y);
+	static vector<int> parentStarFrom(int y);
+	static vector<int> nextFrom(int y);
+	static vector<int> nextStarFrom(int y);
+	static vector<int> affectsFrom(int y);
+	static vector<int> affectsStarFrom(int y);
+	//static vector<int> patternModifiesFrom(int y);
+	/*template
+	static vector<int> <relFrom>(int y);
 	*/
 
 	static unordered_map<QueryVar, getAllTypes> typeMap;

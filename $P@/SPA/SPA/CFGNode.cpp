@@ -146,15 +146,22 @@ PROC CFGNode::getProcedure(){
 * This method will be used to return PROG Line that it contains
 * @Return List of program lines
 */
-vector<PROG_LINE> CFGNode::getProgramLines(){
+vector<PROG_LINE> CFGNode::getProgramLines() {
 	vector<PROG_LINE> progs;
 
-	for (int i = this->starting; i <= this->ending; i++)
-	{
+	for (int i = this->starting; i <= this->ending; i++) {
 		progs.push_back(i);
 	}
-
 	return progs;
+}
+
+bool CFGNode::isProgLineBelongto(PROG_LINE p) {
+	for (int i = this->starting; i <= this->ending; i++) {
+		if (i == p)
+			return true;
+	}
+
+	return false;
 }
 
 ///**

@@ -120,10 +120,11 @@ void CFGBuilder::buildCFG(){
 			currCFG->setEndNode();
 		}
 		//At the end of the procedure, before moving on to the next procedure 
-		//call PKB::addToCFGList(<the first node of the cfg>, procedureNode->getValue());
 		//to add into the PKB cfg list
 		PKB::addToCFGList(rootCFG,procedureNode->getValue());
 	}
+
+	CFGBuilder::traverseCFG();
 }
 
 /**
@@ -352,7 +353,7 @@ CFGNode* CFGBuilder::processIf(ASTNode* procedureNode, int *s, ASTStmtNode *stmt
 	return endIfDummyNode;
 }
 
-void CFGBuilder::transverseCFG()
+void CFGBuilder::traverseCFG()
 {
 	for (PROC currentProc = 0; currentProc < PKB::procedures.getSize(); currentProc++)
 	{
@@ -382,7 +383,7 @@ void CFGBuilder::transverseCFG()
 
 				plStart=currNode->getStartLine();
 				PKB::next.insertNextStar(plStart,plStart,true);
-				transverseCFGWhile(currNode);
+				traverseCFGWhile(currNode);
 				currNode=currNode->getNextNodes().at(1);
 			}
 			else if(currNode->getType()==CFGNode::IfNode)
@@ -391,14 +392,14 @@ void CFGBuilder::transverseCFG()
 				{
 					PKB::next.insertNext(plStart,currNode->getStartLine(),true);
 				}
-				currNode=transverseCFGIf(currNode);
+				currNode=traverseCFGIf(currNode);
 				plStart=currNode->getStartLine();
 			}
 		}
 	}
 }
 
-void CFGBuilder::transverseCFGWhile(CFGNode* whileNode)
+void CFGBuilder::traverseCFGWhile(CFGNode* whileNode)
 {
 	CFGNode* currNode=whileNode->getNextNodes().at(0);
 	//PKB::next.insertNext(whileNode->getStartLine(),currNode->getStartLine());
@@ -428,7 +429,7 @@ void CFGBuilder::transverseCFGWhile(CFGNode* whileNode)
 
 			plStart=currNode->getStartLine();
 			PKB::next.insertNextStar(plStart,plStart,true);
-			transverseCFGWhile(currNode);
+			traverseCFGWhile(currNode);
 			currNode=currNode->getNextNodes().at(1);
 		}
 		else if(currNode->getType()==CFGNode::IfNode)
@@ -437,14 +438,14 @@ void CFGBuilder::transverseCFGWhile(CFGNode* whileNode)
 			{
 				PKB::next.insertNext(plStart,currNode->getStartLine(),true);
 			}
-			currNode=transverseCFGIf(currNode);
+			currNode=traverseCFGIf(currNode);
 			plStart=currNode->getStartLine();
 		}
 	}
 	PKB::next.insertNext(plStart,whileNode->getStartLine(),true);
 }
 
-CFGNode* CFGBuilder::transverseCFGIf(CFGNode* ifNode)
+CFGNode* CFGBuilder::traverseCFGIf(CFGNode* ifNode)
 {
 	PROG_LINE plStartL=ifNode->getStartLine();
 	PROG_LINE plStartR=ifNode->getStartLine();
@@ -477,7 +478,7 @@ CFGNode* CFGBuilder::transverseCFGIf(CFGNode* ifNode)
 
 			plStartL=leftCurrNode->getStartLine();
 			PKB::next.insertNextStar(plStartL,plStartL,true);
-			transverseCFGWhile(leftCurrNode);
+			traverseCFGWhile(leftCurrNode);
 			leftCurrNode=leftCurrNode->getNextNodes().at(1);
 		}
 		else if(leftCurrNode->getType()==CFGNode::IfNode)
@@ -486,7 +487,7 @@ CFGNode* CFGBuilder::transverseCFGIf(CFGNode* ifNode)
 			{
 				PKB::next.insertNext(plStartL,leftCurrNode->getStartLine(),true);
 			}
-			leftCurrNode=transverseCFGIf(leftCurrNode);
+			leftCurrNode=traverseCFGIf(leftCurrNode);
 		}
 	}
 
@@ -515,7 +516,7 @@ CFGNode* CFGBuilder::transverseCFGIf(CFGNode* ifNode)
 
 			plStartR=rightCurrNode->getStartLine();
 			PKB::next.insertNextStar(plStartR,plStartR,true);
-			transverseCFGWhile(rightCurrNode);
+			traverseCFGWhile(rightCurrNode);
 			rightCurrNode=rightCurrNode->getNextNodes().at(1);
 		}
 		else if(rightCurrNode->getType()==CFGNode::IfNode)
@@ -524,7 +525,7 @@ CFGNode* CFGBuilder::transverseCFGIf(CFGNode* ifNode)
 			{
 				PKB::next.insertNext(plStartR,rightCurrNode->getStartLine(),true);
 			}
-			rightCurrNode=transverseCFGIf(rightCurrNode);
+			rightCurrNode=traverseCFGIf(rightCurrNode);
 			plStartR=rightCurrNode->getStartLine();
 		}
 	}

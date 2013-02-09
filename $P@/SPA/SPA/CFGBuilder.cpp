@@ -366,6 +366,7 @@ void CFGBuilder::traverseCFGToPopulateNext()
 			{
 				for(PROG_LINE pl=currNode->getStartLine();pl<=currNode->getEndLine();pl++)
 				{
+					PKB::stmtRefMap[pl].setCFGNode(currNode);
 					if(plStart!=pl)
 					{
 						PKB::next.insertNext(plStart,pl,true);
@@ -381,7 +382,7 @@ void CFGBuilder::traverseCFGToPopulateNext()
 				{
 					PKB::next.insertNext(plStart,currNode->getStartLine(),true);
 				}
-
+				PKB::stmtRefMap[currNode->getStartLine()].setCFGNode(currNode);
 				plStart=currNode->getStartLine();
 				PKB::next.insertNextStar(plStart,plStart,true);
 				traverseCFGWhile(currNode);
@@ -393,6 +394,7 @@ void CFGBuilder::traverseCFGToPopulateNext()
 				{
 					PKB::next.insertNext(plStart,currNode->getStartLine(),true);
 				}
+				PKB::stmtRefMap[currNode->getStartLine()].setCFGNode(currNode);
 				currNode=traverseCFGIf(currNode);
 				plStart=currNode->getStartLine();
 			}
@@ -401,6 +403,7 @@ void CFGBuilder::traverseCFGToPopulateNext()
 		{
 			for(PROG_LINE pl=currNode->getStartLine();pl<=currNode->getEndLine();pl++)
 			{
+				PKB::stmtRefMap[pl].setCFGNode(currNode);
 				if(plStart!=pl)
 				{
 					PKB::next.insertNext(plStart,pl,true);
@@ -423,6 +426,7 @@ void CFGBuilder::traverseCFGWhile(CFGNode* whileNode)
 
 			for(PROG_LINE pl=currNode->getStartLine();pl<=currNode->getEndLine();pl++)
 			{	
+				PKB::stmtRefMap[pl].setCFGNode(currNode);
 				if(plStart!=pl)
 				{
 					PKB::next.insertNext(plStart,pl,true);
@@ -438,7 +442,7 @@ void CFGBuilder::traverseCFGWhile(CFGNode* whileNode)
 			{
 				PKB::next.insertNext(plStart,currNode->getStartLine(),true);
 			}
-
+			PKB::stmtRefMap[currNode->getStartLine()].setCFGNode(currNode);
 			plStart=currNode->getStartLine();
 			PKB::next.insertNextStar(plStart,plStart,true);
 			traverseCFGWhile(currNode);
@@ -450,6 +454,7 @@ void CFGBuilder::traverseCFGWhile(CFGNode* whileNode)
 			{
 				PKB::next.insertNext(plStart,currNode->getStartLine(),true);
 			}
+			PKB::stmtRefMap[currNode->getStartLine()].setCFGNode(currNode);
 			currNode=traverseCFGIf(currNode);
 			plStart=currNode->getStartLine();
 		}
@@ -472,6 +477,7 @@ CFGNode* CFGBuilder::traverseCFGIf(CFGNode* ifNode)
 		{
 			for(PROG_LINE pl=leftCurrNode->getStartLine();pl<=leftCurrNode->getEndLine();pl++)
 			{
+				PKB::stmtRefMap[pl].setCFGNode(leftCurrNode);
 				if(plStartL!=pl)
 				{
 					PKB::next.insertNext(plStartL,pl,true);	
@@ -487,7 +493,7 @@ CFGNode* CFGBuilder::traverseCFGIf(CFGNode* ifNode)
 			{
 				PKB::next.insertNext(plStartL,leftCurrNode->getStartLine(),true);
 			}
-
+			PKB::stmtRefMap[leftCurrNode->getStartLine()].setCFGNode(leftCurrNode);
 			plStartL=leftCurrNode->getStartLine();
 			PKB::next.insertNextStar(plStartL,plStartL,true);
 			traverseCFGWhile(leftCurrNode);
@@ -499,6 +505,7 @@ CFGNode* CFGBuilder::traverseCFGIf(CFGNode* ifNode)
 			{
 				PKB::next.insertNext(plStartL,leftCurrNode->getStartLine(),true);
 			}
+			PKB::stmtRefMap[leftCurrNode->getStartLine()].setCFGNode(leftCurrNode);
 			leftCurrNode=traverseCFGIf(leftCurrNode);
 		}
 	}
@@ -509,6 +516,7 @@ CFGNode* CFGBuilder::traverseCFGIf(CFGNode* ifNode)
 		{
 			for(PROG_LINE pl=rightCurrNode->getStartLine();pl<=rightCurrNode->getEndLine();pl++)
 			{
+				PKB::stmtRefMap[pl].setCFGNode(rightCurrNode);
 				if(plStartL!=pl)
 				{
 					PKB::next.insertNext(plStartR,pl,true);
@@ -525,7 +533,7 @@ CFGNode* CFGBuilder::traverseCFGIf(CFGNode* ifNode)
 			{
 				PKB::next.insertNext(plStartR,rightCurrNode->getStartLine(),true);
 			}
-
+			PKB::stmtRefMap[rightCurrNode->getStartLine()].setCFGNode(rightCurrNode);
 			plStartR=rightCurrNode->getStartLine();
 			PKB::next.insertNextStar(plStartR,plStartR,true);
 			traverseCFGWhile(rightCurrNode);
@@ -537,6 +545,7 @@ CFGNode* CFGBuilder::traverseCFGIf(CFGNode* ifNode)
 			{
 				PKB::next.insertNext(plStartR,rightCurrNode->getStartLine(),true);
 			}
+			PKB::stmtRefMap[rightCurrNode->getStartLine()].setCFGNode(rightCurrNode);
 			rightCurrNode=traverseCFGIf(rightCurrNode);
 			plStartR=rightCurrNode->getStartLine();
 		}
@@ -550,6 +559,7 @@ CFGNode* CFGBuilder::traverseCFGIf(CFGNode* ifNode)
 
 	if(currNode->isDummy()==false)
 	{
+		PKB::stmtRefMap[currNode->getStartLine()].setCFGNode(currNode);
 		PKB::next.insertNext(plStartL,currNode->getStartLine(),true);
 		PKB::next.insertNext(plStartR,currNode->getStartLine(),true);
 	}

@@ -125,6 +125,7 @@ vector<string> MultiQueryEval::evaluateQuery(const string& query)
 	if (result.selectBOOLEAN && result.earlyQuit)
 		result.finalanswer.push_back("FALSE");
 	return result.finalanswer;
+
 }
 
 /**
@@ -1260,10 +1261,7 @@ vector<string> MultiQueryEval::MiniTokenizer(const string& line)
 	
 	do//loop thru the string
 	{
-		
 		startindex = line.find_first_not_of(delimiter,position);
-
-		
 
 		if(endindex != -1 && endindex<line.size())
 			{

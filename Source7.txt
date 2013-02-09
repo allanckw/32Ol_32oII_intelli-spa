@@ -1,0 +1,129 @@
+procedure Natalie {
+	z = 10;
+	x = z + 5;
+	y = x * z + 4;
+	d = x + y * 12;
+	call Allan;
+	d = d + z + x;
+	call Jane;
+	e = d + z * x;
+	while i {
+		e = x - y;
+		if z then {
+			y = y + z;
+			i = y + 1; }
+		else {
+			x = y + z;
+			call Jane;
+			i = i - 1; }
+		x = y + z; 
+	}
+	call Mary; 
+}
+
+procedure Mary {
+	while i {
+		z = y*3 + 2*x;
+		call Allan;
+		i = i - 1; }
+	y = y + z + i; }
+
+procedure Jane {
+	while d {
+		z = x + z; 
+	}
+		x = z + x; 
+}
+
+procedure Alaina {
+	while e {
+		if i then {
+			y = z + 1; }
+		else {
+			z = z * x + y + e * d; } } }
+
+procedure Allan{	
+	i=1;
+	me=i;
+	sorry = i+me+2;
+	Natalie =    i+me;
+	while i{
+		k=me+x;
+		while z{
+			x = x+i;
+			z=x+1;}
+		me=x+1;
+		while me {
+			while i{
+				while z{
+					i= x+5+3+me;
+					z=z+1;
+					while me{
+						while y{
+							while k{
+								x = x+1;}
+							x=y;
+							while me {
+								while z{
+									while i{
+										me=3;}
+									while x{
+										x=x;
+										while z{
+											me = x+y;}}}}}
+						z=x+5+1+x+me+y+i+k;
+						z=x;
+						i=me+1;
+						me=i+me+x+k+y;}
+					while me{
+						i=1+5;}}
+				me=x+i;}			
+			z=z+1;
+			x=i;}}
+	while z{
+		me=i+me+x+k+y;}}
+
+procedure Leon{
+	i=1;
+	m=i;
+	x=i*m+2;
+	call Sorry;
+	y=i+m;
+	call George;
+	y=i+m;
+	if i then{
+		k=m-x;
+		while z{
+			X=X+i;
+			Z=X+1;
+		}
+		m=x+i;
+	}
+	else{
+		m=x+i;
+		call George;
+		z=z-1;
+	}
+
+	call Sky;
+}
+
+procedure Sky {
+	while z{
+		i=x*(5+3)*m;
+		call Sorry;
+		z=z-1;
+	}
+	X=i;}
+
+procedure Sorry {
+	if i then {
+		X = i  + 2;
+	}
+	else {
+		m=i*m+x+k*y;}
+	z=i+k+x;
+}
+
+procedure George {
+i=m+i;}

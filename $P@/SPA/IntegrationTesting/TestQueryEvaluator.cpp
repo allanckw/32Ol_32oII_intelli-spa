@@ -27,8 +27,6 @@ void TestQueryEvaluator::doon(string s)
 	vector<PROG_LINE> x = PKB::next.getNextStar(10);
 	vector<PROG_LINE> y = PKB::next.getPreviousStar(9);
 
-	
-
 	cout << s << endl;
 	try {
 		vector<string> answer = MultiQueryEval::evaluateQuery(s);

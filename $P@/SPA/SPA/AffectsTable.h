@@ -39,6 +39,8 @@ private:
 	unordered_map<STMT, vector<Affects*>> affectsStarMap;
 
 	unordered_map<STMT, vector<Affects*>> affectsBipMap;
+
+	static bool isDuplicate(vector<Affects*> v, Affects* n);
 public:
 	AffectsTable();
 	

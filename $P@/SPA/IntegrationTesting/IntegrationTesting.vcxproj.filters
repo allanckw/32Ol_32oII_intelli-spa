@@ -30,7 +30,7 @@
     <ClCompile Include="..\..\..\$P%40\SPA\IntegrationTesting\TestDesignExtractor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\$P%40\SPA\IntegrationTesting\TestSingleQueryEvaluator.cpp">
+    <ClCompile Include="TestQueryEvaluator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,7 +47,7 @@
     <ClInclude Include="..\..\..\$P%40\SPA\IntegrationTesting\TestDesignExtractor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\$P%40\SPA\IntegrationTesting\TestSingleQueryEvaluator.h">
+    <ClInclude Include="TestQueryEvaluator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

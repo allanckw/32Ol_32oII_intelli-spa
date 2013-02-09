@@ -11,27 +11,15 @@ StmtRef::StmtRef(PROG_LINE p, STMT s, ASTStmtNode* a, CFGNode* c)
 {
 	this->p = p;
 	this->s = s;
-	if (a->getStmtNumber() != this->getStmtNo()) {
-		throw SPAException("Stmt No. Does Not Match!");
-	} else {
-		this->astRef = a;
-	}
-
-	if (c->isProgLineBelongto(this->getProgLine()))
-		this->cfgRef = c;
-	else
-		throw SPAException("Program line Does Not Match!");
+	this->setASTStmtNode(a);
+	this->setCFGNode(c);
 }
 
 StmtRef::StmtRef(PROG_LINE p, STMT s, ASTStmtNode* a)
 {
 	this->p = p;
 	this->s = s;
-	if (a->getStmtNumber() != this->getStmtNo()) {
-		throw SPAException("Stmt No. Does Not Match!");
-	} else {
-		this->astRef = a;
-	}
+	this->setASTStmtNode(a);
 }
 
 void StmtRef::setASTStmtNode(ASTStmtNode* a)

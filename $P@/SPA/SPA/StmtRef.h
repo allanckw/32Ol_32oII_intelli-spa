@@ -1,12 +1,12 @@
 #pragma once
 #include "stdAfx.h"
-#include "ASTNode.h"
+#include "ASTStmtNode.h"
 #include "CFGNode.h"
 
 class StmtRef
 {
 private:
-	ASTNode* astRef;
+	ASTStmtNode* astRef;
 	CFGNode* cfgRef;
 
 	PROG_LINE p;
@@ -15,15 +15,15 @@ private:
 public:
 	StmtRef(PROG_LINE, STMT);
 
-	StmtRef(PROG_LINE, STMT, ASTNode*);
+	StmtRef(PROG_LINE, STMT, ASTStmtNode*);
 
-	StmtRef(PROG_LINE, STMT, ASTNode*, CFGNode*);
+	StmtRef(PROG_LINE, STMT, ASTStmtNode*, CFGNode*);
 
-	void setASTNode(ASTNode* n);
+	void setASTStmtNode(ASTStmtNode*);
 
-	void setCFGNode(CFGNode* n);
+	void setCFGNode(CFGNode*);
 
-	ASTNode* getASTNode();
+	ASTStmtNode* getASTStmtNode();
 
 	CFGNode* getCFGNode();
 

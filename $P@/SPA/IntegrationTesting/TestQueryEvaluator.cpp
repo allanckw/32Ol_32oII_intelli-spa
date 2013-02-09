@@ -24,8 +24,12 @@ void TestQueryEvaluator::TestQueryEvaluatorM()
 void TestQueryEvaluator::doon(string s)
 {
 	
-	vector<PROG_LINE> x = PKB::next.getNextStar(10);
-	vector<PROG_LINE> y = PKB::next.getPreviousStar(9);
+	/*vector<PROG_LINE> x = PKB::next.getNextStar(10);
+	vector<PROG_LINE> y = PKB::next.getPreviousStar(9);*/
+	cout << PKB::stmtRefMap.size() << endl;
+	for (int i = 0; i < PKB::stmtRefMap.size(); i++) {
+		cout << PKB::stmtRefMap.at(i).getProgLine();
+	}
 
 	cout << s << endl;
 	try {

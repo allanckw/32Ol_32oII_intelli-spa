@@ -1,5 +1,5 @@
 #include "StmtRef.h"
-#include "ASTStmtNode.h"
+
 
 StmtRef::StmtRef(PROG_LINE p, STMT s)
 {
@@ -7,48 +7,53 @@ StmtRef::StmtRef(PROG_LINE p, STMT s)
 	this->s = s;
 }
 
-StmtRef::StmtRef(PROG_LINE p, STMT s, ASTNode* a, CFGNode* c)
+StmtRef::StmtRef(PROG_LINE p, STMT s, ASTStmtNode* a, CFGNode* c)
 {
 	this->p = p;
 	this->s = s;
-	this->astRef = a;
-	this->cfgRef = c;
-}
-
-StmtRef::StmtRef(PROG_LINE p, STMT s, ASTNode* a)
-{
-	this->p = p;
-	this->s = s;
-	this->astRef = a;
-}
-
-void StmtRef::setASTNode(ASTNode* n)
-{
-	if (n->getType() != ASTNode::Assign || 	n->getType() != ASTNode::Call || 
-		n->getType() != ASTNode::If || 	n->getType() != ASTNode::While)
-	{
-		throw SPAException("Invalid Node Type!");
+	if (a->getStmtNumber() != this->getStmtNo()) {
+		throw SPAException("Stmt No. Does Not Match!");
+	} else {
+		this->astRef = a;
 	}
-	else
-	{
-		ASTStmtNode* stmtNode = dynamic_cast<ASTStmtNode*>(n);
-		if (stmtNode->getStmtNumber() != this->getStmtNo()) {
-			throw SPAException("Stmt No. Does Not Match!");
-		} else {
-			this->astRef = n;
-		}
-	}
-}
 
-void StmtRef::setCFGNode(CFGNode* n)
-{
-	if (n->isProgLineBelongto(this->getProgLine()))
-		this->cfgRef = n;
+	if (c->isProgLineBelongto(this->getProgLine()))
+		this->cfgRef = c;
 	else
 		throw SPAException("Program line Does Not Match!");
 }
 
-ASTNode* StmtRef::getASTNode()
+StmtRef::StmtRef(PROG_LINE p, STMT s, ASTStmtNode* a)
+{
+	this->p = p;
+	this->s = s;
+	if (a->getStmtNumber() != this->getStmtNo()) {
+		throw SPAException("Stmt No. Does Not Match!");
+	} else {
+		this->astRef = a;
+	}
+}
+
+void StmtRef::setASTStmtNode(ASTStmtNode* a)
+{
+
+	if (a->getStmtNumber() != this->getStmtNo()) {
+		throw SPAException("Stmt No. Does Not Match!");
+	} else {
+		this->astRef = a;
+	}
+	
+}
+
+void StmtRef::setCFGNode(CFGNode* c)
+{
+	if (c->isProgLineBelongto(this->getProgLine()))
+		this->cfgRef = c;
+	else
+		throw SPAException("Program line Does Not Match!");
+}
+
+ASTStmtNode* StmtRef::getASTStmtNode()
 {
 	return this->astRef;
 }

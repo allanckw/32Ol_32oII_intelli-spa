@@ -257,6 +257,7 @@ void RulesOfEngagement::initialise()
 	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(PatternModifies, Variable));
 
 	allowableSelfReference.insert(Next);
+	allowableSelfReference.insert(NextStar);
 
 	emptyRel[ModifiesStmt] = PKB::modifies.isEmpty();
 	emptyRel[ModifiesProc] = PKB::modifies.isEmpty();
@@ -282,21 +283,35 @@ void RulesOfEngagement::initialise()
 	relationMap[AffectsStar] = &isAffectsStar;
 	relationMap[PatternModifies] = &isPatternModifies;
 
-	relationMap[ModifiesStmt] = &isModifiesStmt;
-	relationMap[ModifiesProc] = &isModifiesProc;
-	relationMap[UsesStmt] = &isUsesStmt;
-	relationMap[UsesProc] = &isUsesProc;
-	relationMap[Calls] = &isCalls;
-	relationMap[CallsStar] = &isCallsStar;
-	relationMap[Follows] = &isFollows;
-	relationMap[FollowsStar] = &isFollowsStar;
-	relationMap[Parent] = &isParent;
-	relationMap[ParentStar] = &isParentStar;
-	relationMap[Next] = &isNext;
-	relationMap[NextStar] = &isNextStar;
-	relationMap[Affects] = &isAffects;
-	relationMap[AffectsStar] = &isAffectsStar;
-	relationMap[PatternModifies] = &isPatternModifies;
+	relationByMap[ModifiesStmt] = &modifiesStmtBy;
+	relationByMap[ModifiesProc] = &modifiesProcBy;
+	relationByMap[UsesStmt] = &usesStmtBy;
+	relationByMap[UsesProc] = &usesProcBy;
+	relationByMap[Calls] = &callsBy;
+	relationByMap[CallsStar] = &callsStarBy;
+	relationByMap[Follows] = &followsBy;
+	relationByMap[FollowsStar] = &followsStarBy;
+	relationByMap[Parent] = &parentBy;
+	relationByMap[ParentStar] = &parentStarBy;
+	relationByMap[Next] = &nextBy;
+	relationByMap[NextStar] = &nextStarBy;
+	relationByMap[Affects] = &affectsBy;
+	relationByMap[AffectsStar] = &affectsStarBy;
+
+	relationFromMap[ModifiesStmt] = &modifiesStmtFrom;
+	relationFromMap[ModifiesProc] = &modifiesProcFrom;
+	relationFromMap[UsesStmt] = &usesStmtFrom;
+	relationFromMap[UsesProc] = &usesProcFrom;
+	relationFromMap[Calls] = &callsFrom;
+	relationFromMap[CallsStar] = &callsStarFrom;
+	relationFromMap[Follows] = &followsFrom;
+	relationFromMap[FollowsStar] = &followsStarFrom;
+	relationFromMap[Parent] = &parentFrom;
+	relationFromMap[ParentStar] = &parentStarFrom;
+	relationFromMap[Next] = &nextFrom;
+	relationFromMap[NextStar] = &nextStarFrom;
+	relationFromMap[Affects] = &affectsFrom;
+	relationFromMap[AffectsStar] = &affectsStarFrom;
 	
 	typeMap[Statement] = &getAllStmt;
 	typeMap[Variable] = &getAllVar;
@@ -490,7 +505,11 @@ vector<int> RulesOfEngagement::callsStarBy(int x)
 
 vector<int> RulesOfEngagement::followsBy(int x)
 {
-	return vector<int>(PKB::follows.getFollowsBy(x));
+	int ans = PKB::follows.getFollowsBy(x);
+	if (ans >= 0)
+		return vector<int>(1, ans);
+	else
+		return vector<int>();
 }
 
 vector<int> RulesOfEngagement::followsStarBy(int x)
@@ -573,7 +592,11 @@ vector<int> RulesOfEngagement::callsStarFrom(int y)
 
 vector<int> RulesOfEngagement::followsFrom(int y)
 {
-	return vector<int>(PKB::follows.getFollowsFrom(y));
+	int ans = PKB::follows.getFollowsFrom(y);
+	if (ans >= 0)
+		return vector<int>(1, ans);
+	else
+		return vector<int>();
 }
 
 vector<int> RulesOfEngagement::followsStarFrom(int y)
@@ -583,12 +606,16 @@ vector<int> RulesOfEngagement::followsStarFrom(int y)
 
 vector<int> RulesOfEngagement::parentFrom(int y)
 {
-	return PKB::parent.getChildren(y);
+	int ans = PKB::parent.getParent(y);
+	if (ans >= 0)
+		return vector<int>(1, ans);
+	else
+		return vector<int>();
 }
 
 vector<int> RulesOfEngagement::parentStarFrom(int y)
 {
-	return PKB::parent.getChildrenStar(y);
+	return PKB::parent.getParentStar(y);
 }
 
 vector<int> RulesOfEngagement::nextFrom(int y)
@@ -598,7 +625,7 @@ vector<int> RulesOfEngagement::nextFrom(int y)
 
 vector<int> RulesOfEngagement::nextStarFrom(int y)
 {
-	return PKB::next.getNextStar(y);
+	return PKB::next.getPreviousStar(y);
 }
 
 vector<int> RulesOfEngagement::affectsFrom(int y)

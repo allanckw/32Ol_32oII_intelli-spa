@@ -36,26 +36,40 @@ AnswerTable::AnswerTable(const SynonymTable& synonymTable, const string& synonym
 	const vector<pair<RulesOfEngagement::QueryRelations, string>>& secondSpecific =
 		synonymTable.getAllSecondSpecific(synonym);
 
-	if (specificAttributes.count("stmt#") > 0) {
-		const int stmtNo = Helper::stringToInt(specificAttributes.at("stmt#"));
-		if (stmtNo > PKB::maxProgLines)
-			return;
-		table.push_back(stmtNo);
-		unrestricted = false;
-	}
-
-	if (unrestricted && specificAttributes.count("procName") > 0) {
+	if (specificAttributes.count("procName") > 0) {
 		const string& procName = specificAttributes.at("procName");
 		const PROCIndex procIndex = PKB::procedures.getPROCIndex(
 			procName.substr(1, procName.length() - 2));
 		if (procIndex == -1)
 			return;
-
+		
 		if (synonymTable.getType(synonym) == RulesOfEngagement::Procedure)
 			table.push_back(procIndex);
 		else if (synonymTable.getType(synonym) == RulesOfEngagement::Calls)
 			table = PKB::calls.getStmtCall(procIndex);
 		unrestricted = false;
+	}
+
+	if (specificAttributes.count("stmt#") > 0) {
+		const int stmtNo = Helper::stringToInt(specificAttributes.at("stmt#"));
+		if (stmtNo > PKB::maxProgLines)
+			return;
+
+		if (unrestricted) {
+			table.push_back(stmtNo);
+			unrestricted = false;
+		} else { //already a procName in there (must be call)
+			bool found = false;
+			for (auto it = table.begin(); it != table.end(); it++)
+				if (*it == stmtNo) {
+					found = true;
+					break;
+				}
+			if (found)
+				table = vector<int>(stmtNo);
+			else
+				table = vector<int>();
+		}
 	}
 
 	if (specificAttributes.count("varName") > 0) {
@@ -77,8 +91,164 @@ AnswerTable::AnswerTable(const SynonymTable& synonymTable, const string& synonym
 		unrestricted = false;
 	}
 
+	vector<vector<pair<RulesOfEngagement::QueryRelations, string>>::const_iterator>
+		skippedFirstSpecific;
+	for (auto it = firstSpecific.begin(); it != firstSpecific.end(); it++) {
+		const int arg = RulesOfEngagement::convertArgumentToInteger((*it).first, false, (*it).second);
+		RulesOfEngagement::relationFamily fn = RulesOfEngagement::getRelationFromFamily(it->first);
+		if (fn == 0) {
+			if (unrestricted) {
+				skippedFirstSpecific.push_back(it);
+				continue;
+			}
+			const RulesOfEngagement::isRelation rel = RulesOfEngagement::getRelation((*it).first);
+			vector<int> newTable;
+			for (auto it2 = table.begin(); it2 != table.end(); it2++)
+				if (rel(*it2, arg))
+					newTable.push_back(*it2);
+			table = newTable;
+		} else {
+			if (unrestricted) {
+				switch (synonymTable.getType(synonym)) {
+				case RulesOfEngagement::Assign: {
+					vector<int>& tentative = fn(arg);
+					for (auto it = tentative.begin(); it != tentative.end(); it++)
+						if (PKB::assignTable.count(*it) > 0)
+							table.push_back(*it); }
+					break;
+				case RulesOfEngagement::While: {
+					vector<int>& tentative = fn(arg);
+					for (auto it = tentative.begin(); it != tentative.end(); it++)
+						if (PKB::whileTable.count(*it) > 0)
+							table.push_back(*it); }
+					break;
+				case RulesOfEngagement::If: {
+					vector<int>& tentative = fn(arg);
+					for (auto it = tentative.begin(); it != tentative.end(); it++)
+						if (PKB::ifTable.count(*it) > 0)
+							table.push_back(*it); }
+					break;
+				case RulesOfEngagement::Call: {
+					vector<int>& tentative = fn(arg);
+					for (auto it = tentative.begin(); it != tentative.end(); it++)
+						if (PKB::callTable.count(*it) > 0)
+							table.push_back(*it); }
+					break;
+				default:
+					table = fn(arg);
+				}
+				unrestricted = false;
+			} else {
+				vector<int>& answers = fn(arg);
+				vector<int> newTable;
+				if (table.size() <= answers.size()) {
+					unordered_set<int> memo(answers.begin(), answers.end());
+					for (auto it2 = table.begin(); it2 != table.end(); it2++)
+						if (memo.count(*it2) > 0)
+							newTable.push_back(*it2);
+				} else {
+					unordered_set<int> memo(table.begin(), table.end());
+					for (auto it2 = answers.begin(); it2 != answers.end(); it2++)
+						if (memo.count(*it2) > 0)
+							newTable.push_back(*it2);
+				}
+				table = newTable;
+			}
+		}
+	}
+
+	vector<vector<pair<RulesOfEngagement::QueryRelations, string>>::const_iterator>
+		skippedSecondSpecific;
+	for (auto it = secondSpecific.begin(); it != secondSpecific.end(); it++) {
+		const int arg = RulesOfEngagement::convertArgumentToInteger(it->first, true, it->second);
+		RulesOfEngagement::relationFamily fn = RulesOfEngagement::getRelationByFamily(it->first);
+		if (fn == 0) {
+			if (unrestricted) {
+				skippedSecondSpecific.push_back(it);
+				continue;
+			}
+			const RulesOfEngagement::isRelation rel = RulesOfEngagement::getRelation((*it).first);
+			vector<int> newTable;
+			for (auto it2 = table.begin(); it2 != table.end(); it2++)
+				if (rel(arg, *it2))
+					newTable.push_back(*it2);
+			table = newTable;
+		} else {
+			if (unrestricted) {
+				switch (synonymTable.getType(synonym)) {
+				case RulesOfEngagement::Assign: {
+					vector<int>& tentative = fn(arg);
+					for (auto it = tentative.begin(); it != tentative.end(); it++)
+						if (PKB::assignTable.count(*it) > 0)
+							table.push_back(*it); }
+					break;
+				case RulesOfEngagement::While: {
+					vector<int>& tentative = fn(arg);
+					for (auto it = tentative.begin(); it != tentative.end(); it++)
+						if (PKB::whileTable.count(*it) > 0)
+							table.push_back(*it); }
+					break;
+				case RulesOfEngagement::If: {
+					vector<int>& tentative = fn(arg);
+					for (auto it = tentative.begin(); it != tentative.end(); it++)
+						if (PKB::ifTable.count(*it) > 0)
+							table.push_back(*it); }
+					break;
+				case RulesOfEngagement::Call: {
+					vector<int>& tentative = fn(arg);
+					for (auto it = tentative.begin(); it != tentative.end(); it++)
+						if (PKB::callTable.count(*it) > 0)
+							table.push_back(*it); }
+					break;
+				default:
+					table = fn(arg);
+				}
+				unrestricted = false;
+			} else {
+				vector<int>& answers = fn(arg);
+				vector<int> newTable;
+				if (table.size() <= answers.size()) {
+					unordered_set<int> memo(answers.begin(), answers.end());
+					for (auto it2 = table.begin(); it2 != table.end(); it2++)
+						if (memo.count(*it2) > 0)
+							newTable.push_back(*it2);
+				} else {
+					unordered_set<int> memo(table.begin(), table.end());
+					for (auto it2 = answers.begin(); it2 != answers.end(); it2++)
+						if (memo.count(*it2) > 0)
+							newTable.push_back(*it2);
+				}
+				table = newTable;
+			}
+		}
+	}
+
 	if (unrestricted)
 		table = RulesOfEngagement::getType(synonymTable.getType(synonym))();
+
+	for (auto it2 = skippedFirstSpecific.begin(); it2 != skippedFirstSpecific.end(); it2++) {
+		const auto it = *it2;
+		const int arg = RulesOfEngagement::convertArgumentToInteger((*it).first, false, (*it).second);
+		
+		const RulesOfEngagement::isRelation rel = RulesOfEngagement::getRelation((*it).first);
+		vector<int> newTable;
+		for (auto it2 = table.begin(); it2 != table.end(); it2++)
+			if (rel(*it2, arg))
+				newTable.push_back(*it2);
+		table = newTable;
+	}
+
+	for (auto it2 = skippedSecondSpecific.begin(); it2 != skippedSecondSpecific.end(); it2++) {
+		const auto it = *it2;
+		const int arg = RulesOfEngagement::convertArgumentToInteger((*it).first, false, (*it).second);
+		
+		const RulesOfEngagement::isRelation rel = RulesOfEngagement::getRelation((*it).first);
+		vector<int> newTable;
+		for (auto it2 = table.begin(); it2 != table.end(); it2++)
+			if (rel(arg, *it2))
+				newTable.push_back(*it2);
+		table = newTable;
+	}
 
 	for (auto it = genericAttributes.begin(); it != genericAttributes.end(); it++) {
 		const string& firstCondition = it->first;
@@ -140,11 +310,26 @@ AnswerTable::AnswerTable(const SynonymTable& synonymTable, const string& synonym
 	} //end generic attributes
 
 	for (auto it = selfReferences.begin(); it != selfReferences.end(); it++) {
-		const RulesOfEngagement::isRelation rel = RulesOfEngagement::getRelation(*it);
 		vector<int> table2;
-		for (auto it2 = table.begin(); it2 != table.end(); it2++)
-			if (rel(*it2, *it2))
-				table2.push_back(*it2);
+		if (*it == RulesOfEngagement::NextStar) { //commented out since not implemented yet
+			/*vector<int>& tentative = PKB::next.getNextStar(0);
+			if (table.size() <= tentative.size()) {
+				unordered_set<int> memo(tentative.begin(), tentative.end());
+				for (auto it2 = table.begin(); it2 != table.end(); it2++)
+					if (memo.count(*it2) > 0)
+						table2.push_back(*it2);
+			} else {
+				unordered_set<int> memo(table.begin(), table.end());
+				for (auto it2 = tentative.begin(); it2 != tentative.end(); it2++)
+					if (memo.count(*it2) > 0)
+						table2.push_back(*it2);
+			}*/
+		} else {
+			const RulesOfEngagement::isRelation rel = RulesOfEngagement::getRelation(*it);
+			for (auto it2 = table.begin(); it2 != table.end(); it2++)
+				if (rel(*it2, *it2))
+					table2.push_back(*it2);
+		}
 		table = table2;
 	}
 
@@ -163,17 +348,6 @@ AnswerTable::AnswerTable(const SynonymTable& synonymTable, const string& synonym
 		table = newTable;
 	}
 
-	for (auto it = firstSpecific.begin(); it != firstSpecific.end(); it++) {
-		//to optimise
-		const RulesOfEngagement::isRelation rel = RulesOfEngagement::getRelation((*it).first);
-		const int arg = RulesOfEngagement::convertArgumentToInteger((*it).first, false, (*it).second);
-		vector<int> newTable;
-		for (auto it2 = table.begin(); it2 != table.end(); it2++)
-			if (rel(*it2, arg))
-				newTable.push_back(*it2);
-		table = newTable;
-	}
-
 	for (auto it = secondGeneric.begin(); it != secondGeneric.end(); it++) {
 		//to optimise
 		const RulesOfEngagement::isRelation rel = RulesOfEngagement::getRelation(*it);
@@ -186,17 +360,6 @@ AnswerTable::AnswerTable(const SynonymTable& synonymTable, const string& synonym
 					newTable.push_back(*it2);
 					break;
 				}
-		table = newTable;
-	}
-
-	for (auto it = secondSpecific.begin(); it != secondSpecific.end(); it++) {
-		//to optimise
-		const RulesOfEngagement::isRelation rel = RulesOfEngagement::getRelation((*it).first);
-		const int arg = RulesOfEngagement::convertArgumentToInteger((*it).first, true, (*it).second);
-		vector<int> newTable;
-		for (auto it2 = table.begin(); it2 != table.end(); it2++)
-			if (rel(arg, *it2))
-				newTable.push_back(*it2);
 		table = newTable;
 	}
 
@@ -225,23 +388,23 @@ void AnswerTable::combine(const string& ownSynonym, const AnswerTable& otherTabl
 	unordered_map<int, unordered_set<int>> memo;
 	vector<vector<int>> newTable;
 
-	RulesOfEngagement::relationFamily fn = RulesOfEngagement::getRelationByFamily(rel);
-	if (fn == 0) {
-		RulesOfEngagement::isRelation fn2 = RulesOfEngagement::getRelation(rel);
+	RulesOfEngagement::relationFamily fn1 = RulesOfEngagement::getRelationByFamily(rel);
+	RulesOfEngagement::relationFamily fn2 = RulesOfEngagement::getRelationFromFamily(rel);
+	if (fn1 == 0 && fn2 == 0) {
+		RulesOfEngagement::isRelation fn3 = RulesOfEngagement::getRelation(rel);
 		for (auto it = answers.begin(); it != answers.end(); it++)
 			for (auto it2 = otherTable.answers.begin(); it2 != otherTable.answers.end(); it2++)
-				if (fn2((*it)[firstRelIndex], (*it2)[secondRelIndex])) {
+				if (fn3((*it)[firstRelIndex], (*it2)[secondRelIndex])) {
 					vector<int> newRow(*it);
 					newRow.insert(newRow.end(), (*it2).begin(), (*it2).end());
 					newTable.push_back(newRow);
 				}
 	} else {
-		if (answers.size() <= otherTable.answers.size()) {
-			vector<vector<int>> newTable;
+		if (answers.size() <= otherTable.answers.size() || fn2 == 0) {
 			for (auto it = answers.begin(); it != answers.end(); it++) {
 				int value1 = (*it)[firstRelIndex];
 				if (memo.count(value1) == 0) {
-					vector<int>& temp1 = fn(value1);
+					vector<int>& temp1 = fn1(value1);
 					unordered_set<int> temp2(temp1.begin(), temp1.end());
 					memo.insert(pair<int, unordered_set<int>>(value1, temp2));
 				}
@@ -257,11 +420,10 @@ void AnswerTable::combine(const string& ownSynonym, const AnswerTable& otherTabl
 				}
 			}
 		} else {
-			vector<vector<int>> newTable;
 			for (auto it2 = otherTable.answers.begin(); it2 != otherTable.answers.end(); it2++) {
 				int value2 = (*it2)[secondRelIndex];
 				if (memo.count(value2) == 0) {
-					vector<int>& temp1 = RulesOfEngagement::getRelationByFamily(rel)(value2);
+					vector<int>& temp1 = fn2(value2);
 					unordered_set<int> temp2(temp1.begin(), temp1.end());
 					memo.insert(pair<int, unordered_set<int>>(value2, temp2));
 				}

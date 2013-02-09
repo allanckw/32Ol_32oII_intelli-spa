@@ -38,6 +38,7 @@ void DesignExtractor::extractDesign()
 
 	totalNumOfProcs = PKB::procedures.getSize();
 	PKB::statementNodes.push_back(0); //statements start from 1, so put dummy node in index 0
+	PKB::bigBigTable.push_back(StmtRef(-1, -1, 0)); //dummy node
 
 	buildFirstRound(); //will build call table, statement and subtables (call, assign, while, if lists)
 	
@@ -274,6 +275,7 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 
 	while (haveNextChildren) {
 		PKB::statementNodes.push_back(currentStmtNode);
+		PKB::bigBigTable.push_back(StmtRef(currentStmtNumber, currentStmtNumber, currentStmtNode));
 		switch ((*currentStmtNode).getType()) {
 		case ASTNode::Assign: {
 			PKB::assignTable.insert(currentStmtNumber);

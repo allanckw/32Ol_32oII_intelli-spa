@@ -11,6 +11,7 @@
 #include "CFGNode.h"
 #include "NextTable.h"
 #include "AffectsTable.h"
+#include "StmtRef.h"
 
 class PKB
 {
@@ -43,6 +44,7 @@ public:
 	static unordered_set<STMT> ifTable;
 	static unordered_map<STMT, ASTNode*> ifNodes;
 	static vector<ASTNode*> statementNodes;
+	static vector<StmtRef> bigBigTable;
 	static vector<pair<STMT, STMT>> TheBeginningAndTheEnd;
 	static unordered_map<int, vector<STMT>> constantsTable;
 

@@ -396,6 +396,17 @@ void CFGBuilder::traverseCFG()
 				plStart=currNode->getStartLine();
 			}
 		}
+		if(currNode->isEndNode()==true && currNode->isDummy()==false)
+		{
+			for(PROG_LINE pl=currNode->getStartLine();pl<=currNode->getEndLine();pl++)
+			{
+				if(plStart!=pl)
+				{
+					PKB::next.insertNext(plStart,pl,true);
+					plStart=pl;
+				}
+			}
+		}
 	}
 }
 

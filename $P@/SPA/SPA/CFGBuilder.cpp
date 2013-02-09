@@ -124,7 +124,6 @@ void CFGBuilder::buildCFG(){
 		PKB::addToCFGList(rootCFG,procedureNode->getValue());
 	}
 
-	CFGBuilder::traverseCFG();
 }
 
 /**
@@ -353,7 +352,7 @@ CFGNode* CFGBuilder::processIf(ASTNode* procedureNode, int *s, ASTStmtNode *stmt
 	return endIfDummyNode;
 }
 
-void CFGBuilder::traverseCFG()
+void CFGBuilder::traverseCFGToPopulateNext()
 {
 	//PKB::stmtRefMap[<prog_line>].setCFGNode(); <- use this to put the reference
 

@@ -13,10 +13,10 @@ class CFGBuilder
 public:
 
 	static void buildCFG();
-	
+	static void traverseCFGToPopulateNext();
 
 private:
-	static void traverseCFG();
+	
 
 	static CFGNode* processProcedure(ASTNode* procedureNode);
 	static CFGNode* processWhile(ASTNode* procedureNode,int* s, ASTStmtNode *stmtNode);

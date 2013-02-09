@@ -1,5 +1,6 @@
 #pragma once
 #include "DesignExtractor.h"
+#include "CFGBuilder.h"
 
 int DesignExtractor::totalNumOfProcs;
 unordered_map <PROC, unordered_set<PROC> > DesignExtractor::toProcAdjList;
@@ -82,6 +83,8 @@ void DesignExtractor::CompleteExtraction()
 	PKB::calls.optimizeCallsTable();
 	PKB::modifies.optimizeModifiesTable();
 	PKB::uses.optimizeUsesTable();
+
+	CFGBuilder::traverseCFGToPopulateNext();
 }
 
 /**

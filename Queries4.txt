@@ -453,7 +453,7 @@ Select n1 such that Next(n1, 18)
 91 - Parent, ImplStmtLine, Typed :: 
 prog_line n1; 
 Select n1 such that Next(n1, 19)
-
+22
 5000 
 92 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 

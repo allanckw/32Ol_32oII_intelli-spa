@@ -37,7 +37,7 @@ bool NextTable::isNext(PROG_LINE p1, PROG_LINE p2)
 	return false;
 }
 
-vector<PROG_LINE> NextTable::getNextBy(PROG_LINE p1)
+vector<PROG_LINE> NextTable::getNext(PROG_LINE p1)
 {
 	vector<PROG_LINE> progLines;
 
@@ -55,7 +55,7 @@ vector<PROG_LINE> NextTable::getNextBy(PROG_LINE p1)
 
 }
 
-vector<PROG_LINE> NextTable::getNextFrom(PROG_LINE p2)
+vector<PROG_LINE> NextTable::getPrevious(PROG_LINE p2)
 {
 	vector<PROG_LINE> progLines;
 

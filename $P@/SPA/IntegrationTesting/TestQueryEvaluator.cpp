@@ -18,14 +18,14 @@ TestQueryEvaluator::~TestQueryEvaluator(void)
 void TestQueryEvaluator::TestQueryEvaluatorM()
 {  
 	PKBController::initializePKB("F:\\3201_3202\\SPA\\Source4.txt");
-	doon("prog_line n2;  Select n2 such that Next(9, n2)"); 
+	doon("prog_line n;  Select n such that Next*(10, n)"); 
 }
 
 void TestQueryEvaluator::doon(string s)
 {
 	
-	vector<PROG_LINE> x = PKB::next.getNextBy(9);
-	
+	vector<PROG_LINE> x = PKB::next.getNextStar(10);
+	vector<PROG_LINE> y = PKB::next.getPreviousStar(9);
 
 
 	cout << s << endl;

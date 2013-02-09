@@ -47,47 +47,64 @@ vector<PROG_LINE> PQLNextProcessor::getNextStar(PROG_LINE p1)
 {
 	vector<PROG_LINE> temp;
 	stack<CFGNode*> nodesStack; 
-	
-	CFGNode* node = PKB::getCFGHead(0); //TODO Change to get CFGNode from the PROGLINE-STMT-ASTNode-CFGNode Table
-	
-	for(int i=0;i<node->getProgramLines().size();i++) {
-		PROG_LINE tpl = node->getProgramLines().at(i);
+
+	if (p1 < 0 ) {
+
+	} else if (p1 == 0) { 
+		//Next*(n, n) or Next*(_, _) only applicable to while loops, only while loops can go back to themselves
+		//beware of nested whiles, they should also be inside..
 		
-		if(tpl == p1) {
-			if(i < node->getProgramLines().size()) {
-				for(int j=i+1;j<node->getProgramLines().size();j++) {
-						temp.push_back(node->getProgramLines().at(j));
+		for (PROC currentProc = 0; currentProc < PKB::procedures.getSize(); currentProc++) {
+			CFGNode* currNode=PKB::getCFGHead(currentProc);
+			while(currNode->isEndNode()==false)
+			{
+				if(currNode->getType()==CFGNode::WhileNode) { //Traverse all whiles nodes in the program 
+					//@NICK fill in the blank here
 				}
 			}
-			break;
 		}
-	}
-	for(int i=0;i<node->getNextNodes().size();i++) {
-			nodesStack.push(node->getNextNodes().at(i));//maybe change here
-	}
+	} else {
+		//Normal Case 
+		CFGNode* node = PKB::getCFGHead(0); //TODO Change to get CFGNode from the PROGLINE-STMT-ASTNode-CFGNode Table
+	
+		for(int i=0;i<node->getProgramLines().size();i++) {
+			PROG_LINE tpl = node->getProgramLines().at(i);
+		
+			if(tpl == p1) {
+				if(i < node->getProgramLines().size()) {
+					for(int j=i+1;j<node->getProgramLines().size();j++) {
+							temp.push_back(node->getProgramLines().at(j));
+					}
+				}
+				break;
+			}
+		}
+		for(int i=0;i<node->getNextNodes().size();i++) {
+				nodesStack.push(node->getNextNodes().at(i));//maybe change here
+		}
 
-	while(nodesStack.size() > 0){
-		CFGNode* tempnode = nodesStack.top();
-		nodesStack.pop();	 
+		while(nodesStack.size() > 0){
+			CFGNode* tempnode = nodesStack.top();
+			nodesStack.pop();	 
 			
-		vector<CFGNode*> next = tempnode->getNextNodes(); 
+			vector<CFGNode*> next = tempnode->getNextNodes(); 
 
-		if(tempnode->getProgramLines().size() > 0)//chk not a dummy node
-		{
-			PROG_LINE firstprogline = tempnode->getProgramLines().at(0);
+			if(tempnode->getProgramLines().size() > 0)//chk not a dummy node
+			{
+				PROG_LINE firstprogline = tempnode->getProgramLines().at(0);
 				
-			if(Helper::contains(temp,firstprogline)) {
-					continue;//been here before//eg visited node
-			} else {
-				for(int i=0;i<tempnode->getProgramLines().size();i++) {
-					if(tempnode->getProgramLines().at(i) != -1)
-						temp.push_back(tempnode->getProgramLines().at(i));
+				if(Helper::contains(temp,firstprogline)) {
+						continue;//been here before//eg visited node
+				} else {
+					for(int i=0;i<tempnode->getProgramLines().size();i++) {
+						if(tempnode->getProgramLines().at(i) != -1)
+							temp.push_back(tempnode->getProgramLines().at(i));
+					}
 				}
 			}
-		}
-
-		for(int i=0; i<next.size(); i++){
-				nodesStack.push(next.at(i));//add right side in
+			for(int i=0; i<next.size(); i++){
+					nodesStack.push(next.at(i));//add right side in
+			}
 		}
 	}
 

@@ -510,7 +510,7 @@ vector<int> RulesOfEngagement::parentStarBy(int x)
 
 vector<int> RulesOfEngagement::nextBy(int x)
 {
-	return PKB::next.getNextBy(x);
+	return PKB::next.getNext(x);
 }
 
 vector<int> RulesOfEngagement::nextStarBy(int x)
@@ -593,7 +593,7 @@ vector<int> RulesOfEngagement::parentStarFrom(int y)
 
 vector<int> RulesOfEngagement::nextFrom(int y)
 {
-	return PKB::next.getNextFrom(y);
+	return PKB::next.getPrevious(y);
 }
 
 vector<int> RulesOfEngagement::nextStarFrom(int y)

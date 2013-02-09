@@ -44,8 +44,8 @@ public:
 
 	void insertNext (PROG_LINE, PROG_LINE, bool);
 	bool isNext (PROG_LINE, PROG_LINE);
-	vector<PROG_LINE> getNextBy(PROG_LINE);
-	vector<PROG_LINE> getNextFrom(PROG_LINE);
+	vector<PROG_LINE> getNext(PROG_LINE);
+	vector<PROG_LINE> getPrevious(PROG_LINE);
 
 	void insertNextStar (PROG_LINE, PROG_LINE, bool);
 	bool isNextStar (PROG_LINE, PROG_LINE);

@@ -110,3 +110,42 @@ vector<STMT>  AffectsTable::getAffectsFromBip(STMT a2)
 	return affects;
 }
 
+bool AffectsTable::isAffectsEmpty()
+{
+	if (this->affectsMap.size() > 0)
+		return true;
+	else
+	{
+		//traverse until find smth and return
+	}
+	return false; //totally cannot find
+}
+
+//for Affects*(_, _) only
+bool AffectsTable::isAffectsStarEmpty()
+{
+	if (this->affectsMap.size() > 0)
+		return true;
+	else if (this->affectsStarMap.size() > 0)
+		return true;
+	else
+	{
+		//traverse until find smth and return
+	}
+	return false; //totally cannot find
+}
+
+bool AffectsTable::isAffectsBipEmpty()
+{
+	if (this->affectsMap.size() > 0)
+		return true;
+	else if (this->affectsStarMap.size() > 0)
+		return true;
+	else if (this->affectsBipMap.size() > 0)
+		return true;
+	else
+	{
+		//traverse until find smth and return
+	}
+	return false; //totally cannot find
+}

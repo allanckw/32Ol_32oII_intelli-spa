@@ -38,6 +38,8 @@ private:
 	unordered_map<PROG_LINE, vector<Next*>> nextMap;
 	unordered_map<PROG_LINE, vector<Next*>> nextStarMap;
 
+	static bool isDuplicate(vector<Next*> v, Next* n);
+
 public:
 	Next*Table();
 	
@@ -51,5 +53,8 @@ public:
 	bool isNextStar (PROG_LINE, PROG_LINE);
 	vector<PROG_LINE>  getNextStar(PROG_LINE);
 	vector<PROG_LINE>  getPreviousStar(PROG_LINE);
+
+	bool isNextEmpty();
+	bool isNextStarEmpty();
 
 };

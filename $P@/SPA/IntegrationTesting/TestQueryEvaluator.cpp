@@ -27,6 +27,7 @@ void TestQueryEvaluator::doon(string s)
 	vector<PROG_LINE> x = PKB::next.getNextStar(10);
 	vector<PROG_LINE> y = PKB::next.getPreviousStar(9);
 
+	bool z = PKB::next.isNextStarEmpty();
 
 	cout << s << endl;
 	try {

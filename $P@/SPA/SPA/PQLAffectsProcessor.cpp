@@ -26,7 +26,7 @@ bool PQLAffectsProcessor::computeAffects(STMT a1, STMT a2) {
 	VAR modifiedVar = a1ASTNode->getValue(); 
 
 	//if nextStar(a1, a2) and uses(a2, v) does not hold 
-	if ((PKB::next.isNextStar(a1, a2) && PKB::uses.isUsedStmt(a2, modifiedVar)) ) 
+	if (!(PKB::next.isNextStar(a1, a2) && PKB::uses.isUsedStmt(a2, modifiedVar))) 
 		return false;
 
 	//get list of cfgnextnodes of a1
@@ -41,6 +41,9 @@ bool PQLAffectsProcessor::computeAffectsStar(STMT a1, STMT a2) {
 	
 	if (a1 <= 0 || a2 <= 0) 
 		return false;
+
+	if (PKB::affects.isAffects(a1, a2)) //if it is already in affects, then affects* holds true~
+		return true;
 	
 	//Get Corresponding ASTNodes / CFGNodes from table..
 	ASTStmtNode* a1ASTNode = NULL; 
@@ -61,7 +64,7 @@ bool PQLAffectsProcessor::computeAffectsStar(STMT a1, STMT a2) {
 	VAR modifiedVar = a1ASTNode->getValue(); 
 
 	//if nextStar(a1, a2) and uses(a2, v) does not hold 
-	if ((PKB::next.isNextStar(a1, a2) && PKB::uses.isUsedStmt(a2, modifiedVar)) ) 
+	if (!(PKB::next.isNextStar(a1, a2) && PKB::uses.isUsedStmt(a2, modifiedVar)))
 		return false;
 
 	stack<PROG_LINE> visits;
@@ -85,13 +88,13 @@ bool PQLAffectsProcessor::computeAffectsBip(STMT a1, STMT a2) {
 	CFGNode* a1CFGNode = NULL;
 	CFGNode* a2CFGNode = NULL;
 
-	// Check if they are in the same procedure
-	if (a1CFGNode->getProcedure() == a2CFGNode->getProcedure())
-	//return affects star?
-
 	// return false if either line number is not assign
 	if (a1ASTNode->getType() != ASTNode::Assign || a2ASTNode->getType() != ASTNode::Assign)
 		return false;
+
+	// Check if they are in the same procedure
+	if (a1CFGNode->getProcedure() == a2CFGNode->getProcedure())
+		return PKB::affects.isAffectsStar(a1, a2); //if they are in the same procedure, then AffectsBip = Affects*? TBC
 
 	// get the variable being modified
 	VAR modifiedVar = a1ASTNode->getValue(); 

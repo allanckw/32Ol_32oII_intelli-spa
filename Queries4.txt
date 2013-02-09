@@ -580,3 +580,13 @@ assign a2;
 Select a2 such that Affects*(20, a2)
 
 5000
+117 - Parent, ImplStmtLine, Typed :: 
+prog_line p1, p2;
+Select <p1, p2> such that Next(p1, p2)
+
+5000
+118 - Parent, ImplStmtLine, Typed :: 
+prog_line p1, p2;
+Select <p1, p2> such that Next*(p1, p2)
+
+5000

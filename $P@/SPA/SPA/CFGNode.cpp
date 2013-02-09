@@ -125,15 +125,6 @@ vector<CFGNode*> CFGNode::getPreviousNodes(){
 	return this->prevNodes;
 }
 
-///**
-//* This method will be used to return all list of node that is before the Node
-//*/
-//vector<CFGNode*> CFGNode::getAllPreviousNodes(){
-//	vector<CFGNode*> prevs;
-//	//Recursively add previous nodes to the vector till the start?
-//	return prevs;
-//}
-
 /**
 * This method will be used to return a list of node that is after the Node
 * @Return List of CFGNode that is next
@@ -166,69 +157,69 @@ vector<PROG_LINE> CFGNode::getProgramLines(){
 	return progs;
 }
 
-/**
-* This method will be used to return if PROG Line p1 is next to PROG Line p2
-* @Param p1 The PROG Line that is before p2
-* @Param p2 The PROG Line that is after p1
-* @Return bool Return the result(True or false)
-*/
-bool CFGNode::isNext(PROG_LINE p1, PROG_LINE p2)
-{
-	if (this->isEndNode() && p2 > ending || //last node of a proc, and p2 > ending then no more 
-		this->getType() == CFGNode::DummyNode && this->isEndNode()) //dummy and end -> exit node
-		return false;
-
-	int x = p1 + 1;
-	if (p1 >= starting && p2 <= ending && x == p2){ //if in range and p1+1 = p2
-		return true;
-
-	} else if (p1 == ending) { 
-		//if p1 is the last number of a node, then its next node could be in its children list
-		for (unsigned int i = 0; i < getNextNodes().size(); i++){
-
-			if (this->getType() != CFGNode::DummyNode){
-				if (getNextNodes()[i]->starting == p2)
-					return true;
-			} else {
-				return isNext(p1, p2, this);
-			}
-		}
-		
-		return false;
-	}
-}
-
-/**
-* This method will be used to return if PROG Line p1 is next to PROG Line p2
-* @Param p1 The PROG Line that is before p2
-* @Param p2 The PROG Line that is after p1
-* @Param nextNode Used for recursive call
-* @Return bool Return the result(True or false)
-*/
-bool CFGNode::isNext(PROG_LINE p1, PROG_LINE p2, CFGNode* nextNode)
-{
-	if (nextNode->isEndNode() && p2 > ending || //last node of a proc, and p2 > ending then no more 
-		nextNode->getType() == CFGNode::DummyNode && nextNode->isEndNode()) //dummy and end -> exit node
-		return false;
-
-	for (unsigned int i = 0; i < getNextNodes().size(); i++){
-		CFGNode* next = getNextNodes()[i];
-
-		if (next->isEndNode() && p2 > ending){ //last node of a proc, and p2 > ending then no more 
-			return false;
-
-		} else if (next->getType() == CFGNode::DummyNode) { 
-
-			bool result = isNext(p1, p2, this);
-			if (result){ //true return, false need to carry on with loop
-				//this execution only happens when there are many many nested if
-				return true;
-			}
-		} else {
-			if (next->starting == p2)
-				return true;	
-		}
-	}
-
-	return false;
-}
+///**
+//* This method will be used to return if PROG Line p1 is next to PROG Line p2
+//* @Param p1 The PROG Line that is before p2
+//* @Param p2 The PROG Line that is after p1
+//* @Return bool Return the result(True or false)
+//*/
+//bool CFGNode::isNext(PROG_LINE p1, PROG_LINE p2)
+//{
+//	if (this->isEndNode() && p2 > ending || //last node of a proc, and p2 > ending then no more 
+//		this->getType() == CFGNode::DummyNode && this->isEndNode()) //dummy and end -> exit node
+//		return false;
+//
+//	int x = p1 + 1;
+//	if (p1 >= starting && p2 <= ending && x == p2){ //if in range and p1+1 = p2
+//		return true;
+//
+//	} else if (p1 == ending) { 
+//		//if p1 is the last number of a node, then its next node could be in its children list
+//		for (unsigned int i = 0; i < getNextNodes().size(); i++){
+//
+//			if (this->getType() != CFGNode::DummyNode){
+//				if (getNextNodes()[i]->starting == p2)
+//					return true;
+//			} else {
+//				return isNext(p1, p2, this);
+//			}
+//		}
+//		
+//		return false;
+//	}
+//}
+//
+///**
+//* This method will be used to return if PROG Line p1 is next to PROG Line p2
+//* @Param p1 The PROG Line that is before p2
+//* @Param p2 The PROG Line that is after p1
+//* @Param nextNode Used for recursive call
+//* @Return bool Return the result(True or false)
+//*/
+//bool CFGNode::isNext(PROG_LINE p1, PROG_LINE p2, CFGNode* nextNode)
+//{
+//	if (nextNode->isEndNode() && p2 > ending || //last node of a proc, and p2 > ending then no more 
+//		nextNode->getType() == CFGNode::DummyNode && nextNode->isEndNode()) //dummy and end -> exit node
+//		return false;
+//
+//	for (unsigned int i = 0; i < getNextNodes().size(); i++){
+//		CFGNode* next = getNextNodes()[i];
+//
+//		if (next->isEndNode() && p2 > ending){ //last node of a proc, and p2 > ending then no more 
+//			return false;
+//
+//		} else if (next->getType() == CFGNode::DummyNode) { 
+//
+//			bool result = isNext(p1, p2, this);
+//			if (result){ //true return, false need to carry on with loop
+//				//this execution only happens when there are many many nested if
+//				return true;
+//			}
+//		} else {
+//			if (next->starting == p2)
+//				return true;	
+//		}
+//	}
+//
+//	return false;
+//}

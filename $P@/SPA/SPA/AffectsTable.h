@@ -47,16 +47,19 @@ public:
 	bool isAffects (STMT, STMT);
 	vector<STMT> getAffectsBy(STMT);
 	vector<STMT> getAffectsFrom(STMT);
+	bool isAffectsEmpty();
 
 	//planned for itr2 + 3
 	void insertAffectsStar (STMT, STMT, bool);
 	bool isAffectsStar (STMT, STMT);
 	vector<STMT>  getAffectsByStar(STMT);
 	vector<STMT>  getAffectsFromStar(STMT);
+	bool isAffectsStarEmpty();
 
 	//planned for itr3 + 4
 	void insertAffectsBip(STMT, STMT, bool);
 	bool isAffectsBip (STMT, STMT);
 	vector<STMT>  getAffectsByBip(STMT);
 	vector<STMT>  getAffectsFromBip(STMT);
+	bool isAffectsBipEmpty();
 };

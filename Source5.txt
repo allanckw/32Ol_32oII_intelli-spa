@@ -1,8 +1,8 @@
-procedure John{
+procedure Leon{
 	i=1;
 	m=i;
 	x=i*m+2;
-	call Paul;
+	call Natalie;
 	y=i+m;
 	call George;
 	y=i+m;
@@ -20,18 +20,18 @@ procedure John{
 		z=z-1;
 	}
 
-	call Ringo;
+	call Allan;
 }
 
-procedure Ringo{
+procedure Allan{
 	while z{
 		i=x*(5+3)*m;
-		call Paul;
+		call Natalie;
 		z=z-1;
 	}
 	X=i;}
 
-procedure Paul {
+procedure Natalie {
 	if i then {
 		X = i  + 2;
 	}

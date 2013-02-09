@@ -32,7 +32,7 @@ unordered_map<int, ASTNode*> PKB::whileNodes;
 unordered_set<STMT> PKB::ifTable;
 unordered_map<int, ASTNode*> PKB::ifNodes;
 vector<ASTNode*> PKB::statementNodes;
-vector<StmtRef> PKB::bigBigTable;
+vector<StmtRef> PKB::stmtRefMap;
 vector<pair<STMT, STMT>> PKB::TheBeginningAndTheEnd;
 unordered_map<int, vector<STMT>> PKB::constantsTable;
 

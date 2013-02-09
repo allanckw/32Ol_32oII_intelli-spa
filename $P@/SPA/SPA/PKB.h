@@ -44,7 +44,7 @@ public:
 	static unordered_set<STMT> ifTable;
 	static unordered_map<STMT, ASTNode*> ifNodes;
 	static vector<ASTNode*> statementNodes;
-	static vector<StmtRef> bigBigTable;
+	static vector<StmtRef> stmtRefMap;
 	static vector<pair<STMT, STMT>> TheBeginningAndTheEnd;
 	static unordered_map<int, vector<STMT>> constantsTable;
 

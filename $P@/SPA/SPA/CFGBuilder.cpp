@@ -355,6 +355,8 @@ CFGNode* CFGBuilder::processIf(ASTNode* procedureNode, int *s, ASTStmtNode *stmt
 
 void CFGBuilder::traverseCFG()
 {
+	//PKB::stmtRefMap[<prog_line>].setCFGNode(); <- use this to put the reference
+
 	for (PROC currentProc = 0; currentProc < PKB::procedures.getSize(); currentProc++)
 	{
 		CFGNode* currNode=PKB::getCFGHead(currentProc);

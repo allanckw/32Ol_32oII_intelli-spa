@@ -312,7 +312,7 @@ Select w such that Modifies(w, "z")
 5000
 63 - Parent, ImplStmtLine, Typed :: 
 variable v;
-Select v such that Modifies("Ringo", v)
+Select v such that Modifies("Allan", v)
 i, z, X, m
 5000
 64 - Parent, ImplStmtLine, Typed :: 
@@ -382,18 +382,18 @@ Select a such that Modifies(a, "i") such that Parent(w, a)
 5000
 77 - Parent, ImplStmtLine, Typed :: 
 procedure p;
-Select p such that Calls*(p, "Paul")
-John, Ringo
+Select p such that Calls*(p, "Natalie")
+Leon, Allan
 5000
 78 - Parent, ImplStmtLine, Typed :: 
 procedure p;
-Select p such that Calls("John", p) and Modifies(p, "z") and Uses(p, "m")
-Paul, Ringo
+Select p such that Calls("Leon", p) and Modifies(p, "z") and Uses(p, "m")
+Natalie, Allan
 5000
 79 - Parent, ImplStmtLine, Typed :: 
 procedure p;
-Select p such that Calls("John", p) and Modifies(p, "z")
-Paul, Ringo
+Select p such that Calls("Leon", p) and Modifies(p, "z")
+Natalie, Allan
 5000
 80 - Parent, ImplStmtLine, Typed :: 
 assign a; 

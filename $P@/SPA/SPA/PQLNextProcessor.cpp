@@ -9,7 +9,7 @@ bool PQLNextProcessor::isNextStar(PROG_LINE p1, PROG_LINE p2)
 	vector<PROG_LINE> temp;
 	stack<CFGNode*> nodesStack; 
 
-	CFGNode* node = PKB::getCFGHead(0); //TODO Change to get CFGNode from the PROGLINE-STMT-ASTNode-CFGNode Table for p1
+	CFGNode* node = PKB::stmtRefMap.at(p1).getCFGNode(); 
 	
 	for(int i=0;i<node->getNextNodes().size();i++) {
 		nodesStack.push(node->getNextNodes().at(i));//maybe change here
@@ -69,7 +69,7 @@ vector<PROG_LINE> PQLNextProcessor::getNextStar(PROG_LINE p1)
 		}
 	} else {
 		//Normal Case 
-		CFGNode* node = PKB::getCFGHead(0); //TODO Change to get CFGNode from the PROGLINE-STMT-ASTNode-CFGNode Table
+		CFGNode* node = PKB::stmtRefMap.at(p1).getCFGNode(); 
 	
 		for(int i=0;i<node->getProgramLines().size();i++) { 
 			PROG_LINE tpl = node->getProgramLines().at(i);
@@ -87,7 +87,7 @@ vector<PROG_LINE> PQLNextProcessor::getNextStar(PROG_LINE p1)
 		}
 
 		for(int i=0;i<node->getNextNodes().size();i++) {
-				nodesStack.push(node->getNextNodes().at(i));//maybe change here
+				nodesStack.push(node->getNextNodes().at(i));
 		}
 
 		while(nodesStack.size() > 0){
@@ -126,7 +126,7 @@ vector<PROG_LINE> PQLNextProcessor::getPreviousStar(PROG_LINE p2)
 	vector<PROG_LINE> temp;
 	stack<CFGNode*> nodesStack; 
 
-	CFGNode* node = PKB::getCFGHead(0); //TODO Change to get CFGNode from the PROGLINE-STMT-ASTNode-CFGNode Table
+	CFGNode* node = PKB::stmtRefMap.at(p2).getCFGNode(); 
 	
 	for(int i=0;i<node->getProgramLines().size();i++) {
 		
@@ -143,7 +143,7 @@ vector<PROG_LINE> PQLNextProcessor::getPreviousStar(PROG_LINE p2)
 	}
 	for(int i=0;i<node->getPreviousNodes().size();i++) {
 	
-		nodesStack.push(node->getPreviousNodes().at(i));//maybe change here
+		nodesStack.push(node->getPreviousNodes().at(i));
 	}
 		
 	while(nodesStack.size() > 0) {

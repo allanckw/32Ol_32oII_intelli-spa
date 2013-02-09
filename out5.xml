@@ -1,7 +1,7 @@
 <?xml-stylesheet type="text/xsl" href="analysis.xsl"?>
 <test_results>
 <info>
-<name>AutoTester</name><parsing_time_taken>5.000000</parsing_time_taken>
+<name>AutoTester</name><parsing_time_taken>4.000000</parsing_time_taken>
 </info>
 <queries>
 <category name=" All Category">
@@ -16,7 +16,7 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >2</id><querystr><![CDATA[stmt s, s1; prog_line n; Select s such that Parent(s, s1) with s1.stmt#=10]]></querystr>
 <stuans>8</stuans>
 <correct>8</correct>
-<time_taken>9.000000</time_taken>
+<time_taken>10.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -30,28 +30,28 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >4</id><querystr><![CDATA[stmt s, s1; prog_line n; Select s such that Parent(s, s1) with s1.stmt#=20]]></querystr>
 <stuans>18</stuans>
 <correct>18</correct>
-<time_taken>9.000000</time_taken>
+<time_taken>8.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >5</id><querystr><![CDATA[stmt s; Select s such that Parent(s, 3)]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>8.000000</time_taken>
+<time_taken>7.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >6</id><querystr><![CDATA[stmt s;  Select s such that Parent(s, 10)]]></querystr>
 <stuans>8</stuans>
 <correct>8</correct>
-<time_taken>8.000000</time_taken>
+<time_taken>7.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >7</id><querystr><![CDATA[stmt s;  Select s such that Parent(s, 12)]]></querystr>
 <stuans>10</stuans>
 <correct>10</correct>
-<time_taken>10.000000</time_taken>
+<time_taken>9.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -65,28 +65,28 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >9</id><querystr><![CDATA[stmt s;  Select s such that Parent(3, s)]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>9.000000</time_taken>
+<time_taken>8.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >10</id><querystr><![CDATA[stmt s;  Select s such that Parent(8, s)]]></querystr>
-<stuans>9,10,13,14,15,16</stuans>
+<stuans>14,15,16,9,10,13</stuans>
 <correct>9,10,13,14,15,16</correct>
-<time_taken>11.000000</time_taken>
+<time_taken>10.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >11</id><querystr><![CDATA[stmt s;  Select s such that Parent(9, s)]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>9.000000</time_taken>
+<time_taken>8.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >12</id><querystr><![CDATA[stmt s;  Select s such that Parent(24, s)]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>9.000000</time_taken>
+<time_taken>8.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -105,7 +105,7 @@
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >15</id><querystr><![CDATA[stmt s;  Select s such that Parent*(s, 12)]]></querystr>
-<stuans>8,10</stuans>
+<stuans>10,8</stuans>
 <correct>8,10</correct>
 <time_taken>9.000000</time_taken>
 <passed/>
@@ -121,7 +121,7 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >17</id><querystr><![CDATA[while w; stmt s;  Select w such that Parent*(s, 3)]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>8.000000</time_taken>
+<time_taken>9.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -135,14 +135,14 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >19</id><querystr><![CDATA[while w; stmt s;  Select w such that Parent*(s, 12)]]></querystr>
 <stuans>18,10</stuans>
 <correct>10,18</correct>
-<time_taken>10.000000</time_taken>
+<time_taken>9.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >20</id><querystr><![CDATA[while w; stmt s;  Select w such that Parent*(s, 20)]]></querystr>
 <stuans>18,10</stuans>
 <correct>10,18</correct>
-<time_taken>10.000000</time_taken>
+<time_taken>9.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -156,14 +156,14 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >22</id><querystr><![CDATA[while w; Select w such that Parent*(w, 11)]]></querystr>
 <stuans>10</stuans>
 <correct>10</correct>
-<time_taken>10.000000</time_taken>
+<time_taken>9.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >23</id><querystr><![CDATA[while w; Select w such that Parent*(w, 13)]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>9.000000</time_taken>
+<time_taken>8.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -191,7 +191,7 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >27</id><querystr><![CDATA[stmt s; Select s such that Follows(s, 9)]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>9.000000</time_taken>
+<time_taken>8.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -205,7 +205,7 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >29</id><querystr><![CDATA[stmt s; Select s such that Follows(s, 12)]]></querystr>
 <stuans>11</stuans>
 <correct>11</correct>
-<time_taken>10.000000</time_taken>
+<time_taken>9.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -226,49 +226,49 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >32</id><querystr><![CDATA[assign a; Select a such that Follows(a, 8)]]></querystr>
 <stuans>7</stuans>
 <correct>7</correct>
-<time_taken>10.000000</time_taken>
+<time_taken>9.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >33</id><querystr><![CDATA[assign a; Select a such that Follows(a, 9)]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>9.000000</time_taken>
+<time_taken>8.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >34</id><querystr><![CDATA[assign a; Select a such that Follows(a, 10)]]></querystr>
 <stuans>9</stuans>
 <correct>9</correct>
-<time_taken>10.000000</time_taken>
+<time_taken>8.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >35</id><querystr><![CDATA[assign a; Select a such that Follows(a, 12)]]></querystr>
 <stuans>11</stuans>
 <correct>11</correct>
-<time_taken>9.000000</time_taken>
+<time_taken>8.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >36</id><querystr><![CDATA[assign a; Select a such that Follows(a, 13)]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>9.000000</time_taken>
+<time_taken>7.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >37</id><querystr><![CDATA[while w; stmt s; Select w such that Follows*(s, w)]]></querystr>
 <stuans>10</stuans>
 <correct>10</correct>
-<time_taken>9.000000</time_taken>
+<time_taken>10.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >38</id><querystr><![CDATA[while w; stmt s; Select w such that Follows*(w, s)]]></querystr>
 <stuans>18,10</stuans>
 <correct>10,18</correct>
-<time_taken>11.000000</time_taken>
+<time_taken>10.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -280,23 +280,23 @@
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >40</id><querystr><![CDATA[stmt s; Select s such that Follows*(s, 8)]]></querystr>
-<stuans>1,2,3,4,5,6,7</stuans>
+<stuans>7,6,5,4,3,2,1</stuans>
 <correct>1,2,3,4,5,6,7</correct>
-<time_taken>11.000000</time_taken>
+<time_taken>10.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >41</id><querystr><![CDATA[stmt s; Select s such that Follows*(s, 9)]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>9.000000</time_taken>
+<time_taken>8.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >42</id><querystr><![CDATA[stmt s; Select s such that Follows*(s, 13)]]></querystr>
-<stuans>9,10</stuans>
+<stuans>10,9</stuans>
 <correct>9,10</correct>
-<time_taken>9.000000</time_taken>
+<time_taken>10.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -310,7 +310,7 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >44</id><querystr><![CDATA[stmt s; Select s such that Follows*(s, 22)]]></querystr>
 <stuans>18</stuans>
 <correct>18</correct>
-<time_taken>10.000000</time_taken>
+<time_taken>8.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -324,7 +324,7 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >46</id><querystr><![CDATA[if ifstat; Select ifstat such that Follows*(ifstat, 17)]]></querystr>
 <stuans>8</stuans>
 <correct>8</correct>
-<time_taken>9.000000</time_taken>
+<time_taken>8.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -343,9 +343,9 @@
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >49</id><querystr><![CDATA[assign a; Select a such that Follows*(a, 6)]]></querystr>
-<stuans>1,2,3,5</stuans>
+<stuans>5,3,2,1</stuans>
 <correct>1,2,3,5</correct>
-<time_taken>12.000000</time_taken>
+<time_taken>9.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -359,19 +359,19 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >51</id><querystr><![CDATA[assign a; Select a such that Follows*(a, 10)]]></querystr>
 <stuans>9</stuans>
 <correct>9</correct>
-<time_taken>10.000000</time_taken>
+<time_taken>8.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >52</id><querystr><![CDATA[assign a; Select a such that Follows*(a, 12)]]></querystr>
 <stuans>11</stuans>
 <correct>11</correct>
-<time_taken>10.000000</time_taken>
+<time_taken>9.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >53</id><querystr><![CDATA[assign a; Select a such that Follows*(a, 17)]]></querystr>
-<stuans>1,2,3,5,7</stuans>
+<stuans>7,5,3,2,1</stuans>
 <correct>1,2,3,5,7</correct>
 <time_taken>10.000000</time_taken>
 <passed/>
@@ -387,7 +387,7 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >55</id><querystr><![CDATA[variable v; Select v such that Modifies(3, v)]]></querystr>
 <stuans>x</stuans>
 <correct>x</correct>
-<time_taken>8.000000</time_taken>
+<time_taken>9.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -401,7 +401,7 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >57</id><querystr><![CDATA[variable v; Select v such that Modifies(6, v)]]></querystr>
 <stuans>i</stuans>
 <correct>i</correct>
-<time_taken>9.000000</time_taken>
+<time_taken>8.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -436,56 +436,56 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >62</id><querystr><![CDATA[while w; Select w such that Modifies(w, "z")]]></querystr>
 <stuans>18</stuans>
 <correct>18</correct>
-<time_taken>10.000000</time_taken>
+<time_taken>9.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >63</id><querystr><![CDATA[variable v; Select v such that Modifies("Allan", v)]]></querystr>
 <stuans>i,m,z,X</stuans>
 <correct>i,z,X,m</correct>
-<time_taken>10.000000</time_taken>
+<time_taken>9.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >64</id><querystr><![CDATA[stmt s; Select s such that Uses(s, "x")]]></querystr>
 <stuans>4,8,9,13,14,17,18,19,20,23,25,26</stuans>
 <correct>4,8,9,13,14,17,18,19,20,23,25,26</correct>
-<time_taken>13.000000</time_taken>
+<time_taken>12.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >65</id><querystr><![CDATA[stmt s; Select s such that Uses(s, "z")]]></querystr>
 <stuans>8,10,16,17,18,21</stuans>
 <correct>8,10,16,17,18,21</correct>
-<time_taken>12.000000</time_taken>
+<time_taken>10.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >66</id><querystr><![CDATA[variable v; Select v such that Uses(10, v)]]></querystr>
 <stuans>i,z,X</stuans>
 <correct>z,X,i</correct>
-<time_taken>11.000000</time_taken>
+<time_taken>10.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >67</id><querystr><![CDATA[variable v; Select v such that Uses(18, v)]]></querystr>
 <stuans>i,m,x,y,k,z</stuans>
 <correct>m,z,y,i,k,x</correct>
-<time_taken>12.000000</time_taken>
+<time_taken>10.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >68</id><querystr><![CDATA[variable v; assign a; Select v such that Uses(a, v)]]></querystr>
-<stuans>m,x,i,i,X,i,m,i,x,i,m,i,m,X,i,x,z,i,m,m,x,z,i,i,i,m,x,y,k,i,x,k</stuans>
+<stuans>i,i,i,i,i,i,i,i,i,i,i,i,m,m,m,m,m,m,m,x,x,x,x,x,x,y,k,k,z,z,X,X</stuans>
 <correct>i,m,x,z,k,y,X</correct>
 <time_taken>14.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >69</id><querystr><![CDATA[assign a; variable v; Select a such that Modifies(a, v) and Uses(a, v)]]></querystr>
-<stuans>11,16,27,21,25</stuans>
+<stuans>27,25,16,21,11</stuans>
 <correct>11,16,21,25,27</correct>
-<time_taken>11.000000</time_taken>
+<time_taken>12.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -499,42 +499,42 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >71</id><querystr><![CDATA[assign a; Select a such that Modifies(a, "x") and Uses(a, "x")]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>9.000000</time_taken>
+<time_taken>8.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >72</id><querystr><![CDATA[assign a; Select a such that Modifies(a, "y") and Uses(a, "y")]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>12.000000</time_taken>
+<time_taken>9.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >73</id><querystr><![CDATA[assign a; Select a such that Modifies(a, "z") and Uses(a, "z")]]></querystr>
 <stuans>16,21</stuans>
 <correct>16,21</correct>
-<time_taken>22.000000</time_taken>
+<time_taken>9.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >74</id><querystr><![CDATA[assign a; while w; Select a such that Modifies(a, "i") and Parent(w, a)]]></querystr>
 <stuans>19</stuans>
 <correct>19</correct>
-<time_taken>11.000000</time_taken>
+<time_taken>8.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >75</id><querystr><![CDATA[assign a; while w; Select a such that Parent(w, a) and Modifies(a, "i")]]></querystr>
 <stuans>19</stuans>
 <correct>19</correct>
-<time_taken>13.000000</time_taken>
+<time_taken>9.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >76</id><querystr><![CDATA[assign a; while w; Select a such that Modifies(a, "i") such that Parent(w, a)]]></querystr>
 <stuans>19</stuans>
 <correct>19</correct>
-<time_taken>11.000000</time_taken>
+<time_taken>8.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -548,14 +548,14 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >78</id><querystr><![CDATA[procedure p; Select p such that Calls("Leon", p) and Modifies(p, "z") and Uses(p, "m")]]></querystr>
 <stuans>Allan,Natalie</stuans>
 <correct>Natalie,Allan</correct>
-<time_taken>10.000000</time_taken>
+<time_taken>9.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >79</id><querystr><![CDATA[procedure p; Select p such that Calls("Leon", p) and Modifies(p, "z")]]></querystr>
 <stuans>Allan,Natalie</stuans>
 <correct>Natalie,Allan</correct>
-<time_taken>10.000000</time_taken>
+<time_taken>9.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -569,14 +569,14 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >81</id><querystr><![CDATA[assign a;  Select a pattern a ("i", "3*m")]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>8.000000</time_taken>
+<time_taken>9.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >82</id><querystr><![CDATA[assign a; while w; Select a pattern a ("m", _) such that Follows(w, a)]]></querystr>
 <stuans>13</stuans>
 <correct>13</correct>
-<time_taken>9.000000</time_taken>
+<time_taken>8.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -632,21 +632,21 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >90</id><querystr><![CDATA[stmt s; constant c;  Select s with s.stmt#=c.value]]></querystr>
 <stuans>1,2,3,5</stuans>
 <correct>1,2,3,5</correct>
-<time_taken>10.000000</time_taken>
+<time_taken>11.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >91</id><querystr><![CDATA[if ifstat; constant c;  Select BOOLEAN pattern ifstat ("i", _, _) with c.value=2]]></querystr>
 <stuans>TRUE</stuans>
 <correct>TRUE</correct>
-<time_taken>9.000000</time_taken>
+<time_taken>11.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >93</id><querystr><![CDATA[prog_line n;  Select BOOLEAN such that Next(1, 2)]]></querystr>
 <stuans>TRUE</stuans>
 <correct>TRUE</correct>
-<time_taken>11.000000</time_taken>
+<time_taken>10.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -660,7 +660,7 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >95</id><querystr><![CDATA[prog_line n;  Select BOOLEAN such that Next(8, 9)]]></querystr>
 <stuans>TRUE</stuans>
 <correct>TRUE</correct>
-<time_taken>9.000000</time_taken>
+<time_taken>8.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -695,21 +695,21 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >100</id><querystr><![CDATA[prog_line n;  Select BOOLEAN such that Next(13, 17)]]></querystr>
 <stuans>TRUE</stuans>
 <correct>TRUE</correct>
-<time_taken>12.000000</time_taken>
+<time_taken>8.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >101</id><querystr><![CDATA[prog_line n;  Select BOOLEAN such that Next(16, 17)]]></querystr>
 <stuans>TRUE</stuans>
 <correct>TRUE</correct>
-<time_taken>10.000000</time_taken>
+<time_taken>8.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >102</id><querystr><![CDATA[prog_line n;  Select BOOLEAN such that Next(17, 18)]]></querystr>
 <stuans>FALSE</stuans>
 <correct>FALSE</correct>
-<time_taken>8.000000</time_taken>
+<time_taken>7.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -732,7 +732,7 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >104</id><querystr><![CDATA[prog_line n;  Select BOOLEAN such that Next*(10, 10)]]></querystr>
 <stuans>TRUE</stuans>
 <correct>TRUE</correct>
-<time_taken>7.000000</time_taken>
+<time_taken>9.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -762,7 +762,7 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >107</id><querystr><![CDATA[assign a; Select BOOLEAN such that Affects(1, 2)]]></querystr>
 <stuans>FALSE</stuans>
 <correct>TRUE</correct>
-<time_taken>8.000000</time_taken>
+<time_taken>7.000000</time_taken>
 <failed>
 <missing>TRUE</missing>
 <additional>FALSE</additional>
@@ -801,7 +801,7 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >110</id><querystr><![CDATA[assign a; Select BOOLEAN such that Affects(2, 5)]]></querystr>
 <stuans>FALSE</stuans>
 <correct>FALSE</correct>
-<time_taken>8.000000</time_taken>
+<time_taken>9.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -822,7 +822,7 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >113</id><querystr><![CDATA[assign a; Select BOOLEAN such that Affects(3, 12)]]></querystr>
 <stuans>FALSE</stuans>
 <correct>FALSE</correct>
-<time_taken>9.000000</time_taken>
+<time_taken>7.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -850,14 +850,14 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >117</id><querystr><![CDATA[assign a1; Select a1 such that Affects(a1, 1)]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>7.000000</time_taken>
+<time_taken>6.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >118</id><querystr><![CDATA[assign a1; Select a1 such that Affects(a1, 9)]]></querystr>
 <stuans></stuans>
 <correct>3</correct>
-<time_taken>8.000000</time_taken>
+<time_taken>7.000000</time_taken>
 <failed>
 <missing>3</missing>
 <additional></additional>
@@ -873,7 +873,7 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >119</id><querystr><![CDATA[assign a1; Select a1 such that Affects(a1, 22)]]></querystr>
 <stuans></stuans>
 <correct>19</correct>
-<time_taken>10.000000</time_taken>
+<time_taken>7.000000</time_taken>
 <failed>
 <missing>19</missing>
 <additional></additional>
@@ -889,14 +889,14 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >120</id><querystr><![CDATA[assign a1; Select a1 such that Affects(a1, 27)]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>9.000000</time_taken>
+<time_taken>7.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >121</id><querystr><![CDATA[assign a2; Select a2 such that Affects(1, a2)]]></querystr>
 <stuans></stuans>
 <correct>2,3,4,5</correct>
-<time_taken>8.000000</time_taken>
+<time_taken>7.000000</time_taken>
 <failed>
 <missing>2,3,4,5</missing>
 <additional></additional>
@@ -912,14 +912,14 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >122</id><querystr><![CDATA[assign a2; Select a2 such that Affects(12, a2)]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>8.000000</time_taken>
+<time_taken>7.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >123</id><querystr><![CDATA[assign a2; Select a2 such that Affects(22, a2)]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>9.000000</time_taken>
+<time_taken>7.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -949,7 +949,7 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >126</id><querystr><![CDATA[assign a; Select BOOLEAN such that Affects*(1, 3)]]></querystr>
 <stuans>FALSE</stuans>
 <correct>TRUE</correct>
-<time_taken>8.000000</time_taken>
+<time_taken>9.000000</time_taken>
 <failed>
 <missing>TRUE</missing>
 <additional>FALSE</additional>
@@ -995,21 +995,21 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >130</id><querystr><![CDATA[assign a; Select BOOLEAN such that Affects*(11, 13)]]></querystr>
 <stuans>FALSE</stuans>
 <correct>FALSE</correct>
-<time_taken>9.000000</time_taken>
+<time_taken>8.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >131</id><querystr><![CDATA[assign a1; Select a1 such that Affects*(a1, 11)]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>9.000000</time_taken>
+<time_taken>7.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >132</id><querystr><![CDATA[assign a1; Select a1 such that Affects*(a1, 22)]]></querystr>
 <stuans></stuans>
 <correct>19</correct>
-<time_taken>10.000000</time_taken>
+<time_taken>7.000000</time_taken>
 <failed>
 <missing>19</missing>
 <additional></additional>
@@ -1025,28 +1025,28 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >133</id><querystr><![CDATA[assign a1; Select a1 such that Affects*(a1, 26)]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>9.000000</time_taken>
+<time_taken>7.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >134</id><querystr><![CDATA[assign a1; Select a1 such that Affects*(a1, 27)]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>11.000000</time_taken>
+<time_taken>7.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >135</id><querystr><![CDATA[assign a2; Select a2 such that Affects*(5, a2)]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>11.000000</time_taken>
+<time_taken>7.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >136</id><querystr><![CDATA[assign a2; Select a2 such that Affects*(19, a2)]]></querystr>
 <stuans></stuans>
 <correct>19,22</correct>
-<time_taken>9.000000</time_taken>
+<time_taken>8.000000</time_taken>
 <failed>
 <missing>19,22</missing>
 <additional></additional>
@@ -1062,14 +1062,14 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >137</id><querystr><![CDATA[assign a2; Select a2 such that Affects*(24, a2)]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>9.000000</time_taken>
+<time_taken>7.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="" >138</id><querystr><![CDATA[assign a2; Select a2 such that Affects*(27, a2)]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>9.000000</time_taken>
+<time_taken>7.000000</time_taken>
 <passed/>
 </query>
 </category>

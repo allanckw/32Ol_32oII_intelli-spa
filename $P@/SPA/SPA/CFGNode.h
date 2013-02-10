@@ -37,17 +37,12 @@ public:
 
 	vector<CFGNode*> getPreviousNodes();
 
-	//vector<CFGNode*> getAllPreviousNodes();
-
 	vector<CFGNode*> getNextNodes();
-
-	//vector<CFGNode*> getAllNextNodes();
 
 	PROC getProcedure();
 
 	vector<PROG_LINE> getProgramLines();
-
-	//bool isNext(PROG_LINE p1, PROG_LINE p2);
+	vector<PROG_LINE> getNextProgramLines();
 
 	PROG_LINE getStartLine();
 

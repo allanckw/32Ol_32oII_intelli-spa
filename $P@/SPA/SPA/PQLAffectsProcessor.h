@@ -6,9 +6,12 @@
 
 class PQLAffectsProcessor
 {
+private:
+	static bool isSatifyAffects(STMT a1, STMT a2);
+
 public:
-	static bool computeAffects(STMT, STMT);
-	static bool computeAffectsStar(STMT, STMT);
-	static bool computeAffectsBip(STMT, STMT);
+	static bool isAffects(STMT, STMT);
+	static bool isAffectsStar(STMT, STMT);
+	static bool isAffectsBip(STMT, STMT);
 };
 

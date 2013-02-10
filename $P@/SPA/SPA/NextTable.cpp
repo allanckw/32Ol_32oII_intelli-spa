@@ -28,6 +28,9 @@ bool NextTable::isNext(PROG_LINE p1, PROG_LINE p2)
 	if (p1 <= 0 || p2 <= 0)
 		return false;
 
+	if (p1 == p2)
+		return false;
+
 	auto itr = this->nextMap.find(p1);
 	if (itr != this->nextMap.end()){
 

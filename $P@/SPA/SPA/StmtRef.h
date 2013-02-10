@@ -31,5 +31,8 @@ public:
 
 	STMT getStmtNo();
 
+	bool operator<( const StmtRef& val ) const { 
+    	return p < val.p; 
+    }
 };
 

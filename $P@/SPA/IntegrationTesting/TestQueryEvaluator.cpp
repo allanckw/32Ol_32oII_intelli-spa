@@ -23,13 +23,15 @@ void TestQueryEvaluator::TestQueryEvaluatorM()
 
 void TestQueryEvaluator::doon(string s)
 {
+	bool a = PKB::next.isNextStar(1, 3);
+	bool b = PKB::uses.isUsedStmt(3, 0);
+	cout << a << endl << b << endl;;
 	
-	vector<PROG_LINE> x = PKB::next.getNextStar(10);
-	vector<PROG_LINE> y = PKB::next.getPreviousStar(9);
-	cout << PKB::stmtRefMap.size() << endl;
-	//for (int i = 0; i < PKB::stmtRefMap.size(); i++) {
-	//	cout << PKB::stmtRefMap.at(i).getProgLine();
-	//}
+	bool x = PKB::affects.isAffects(1,3);//PKB::affects.isAffects(1,4);
+	bool y = PKB::affects.isAffects(9,12);
+	//vector<PROG_LINE> y = PKB::next.getPreviousStar(9);
+	cout << x << endl << y << endl;;
+
 
 	cout << s << endl;
 	try {

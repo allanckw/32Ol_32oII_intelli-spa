@@ -3,16 +3,27 @@
 
 bool PQLNextProcessor::isNextStar(PROG_LINE p1, PROG_LINE p2)
 {
-	if (PKB::next.isNext(p1, p2)) // if it is already isNext() then dont need compute
-		return true;
-
 	vector<PROG_LINE> temp;
 	stack<CFGNode*> nodesStack; 
 
 	CFGNode* node = PKB::stmtRefMap.at(p1).getCFGNode(); 
 	
+	for(int i=0;i<node->getProgramLines().size();i++) { 
+		PROG_LINE tpl = node->getProgramLines().at(i);
+		
+		if(tpl == p1) { 
+			if(i < node->getProgramLines().size()) { 
+				for(int j=i+1;j<node->getProgramLines().size();j++) {
+					PKB::next.insertNextStar(p1, node->getProgramLines().at(j), true);
+					return true;
+				}
+			}	
+			break; //break from for loop
+		}
+	}
+	
 	for(int i=0;i<node->getNextNodes().size();i++) {
-		nodesStack.push(node->getNextNodes().at(i));//maybe change here
+		nodesStack.push(node->getNextNodes().at(i));
 	}
 		
 	while(nodesStack.size() > 0) {
@@ -26,7 +37,7 @@ bool PQLNextProcessor::isNextStar(PROG_LINE p1, PROG_LINE p2)
 		{
 			PROG_LINE firstprogline = tempnode->getProgramLines().at(0);
 				
-			if(Helper::contains(temp,firstprogline)) {
+			if(Helper::contains(temp, firstprogline)) {
 				continue;//been here before//eg visited node
 			} else {
 				for(int i=0; i < tempnode->getProgramLines().size(); i++) {
@@ -94,10 +105,8 @@ vector<PROG_LINE> PQLNextProcessor::getNextStar(PROG_LINE p1)
 			CFGNode* tempnode = nodesStack.top();
 			nodesStack.pop();	 
 			
-			vector<CFGNode*> next = tempnode->getNextNodes(); 
-
-			if(tempnode->getType() != CFGNode::DummyNode)//chk not a dummy node
-			{
+			if(tempnode->getType() != CFGNode::DummyNode) {//chk not a dummy node
+			
 				PROG_LINE firstprogline = tempnode->getProgramLines().at(0);
 				
 				if(Helper::contains(temp,firstprogline)) {
@@ -111,6 +120,7 @@ vector<PROG_LINE> PQLNextProcessor::getNextStar(PROG_LINE p1)
 					}
 				}
 			}
+			vector<CFGNode*> next = tempnode->getNextNodes(); 
 			for(int i=0; i<next.size(); i++){
 					nodesStack.push(next.at(i));//add right side in
 			}

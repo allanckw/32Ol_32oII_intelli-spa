@@ -143,13 +143,28 @@ PROC CFGNode::getProcedure(){
 }
 
 /**
-* This method will be used to return PROG Line that it contains
+* This method is be use to get ALL PROG LINES associated with the CFGNode
 * @Return List of program lines
 */
 vector<PROG_LINE> CFGNode::getProgramLines() {
 	vector<PROG_LINE> progs;
 
 	for (int i = this->starting; i <= this->ending; i++) {
+		progs.push_back(i);
+	}
+	return progs;
+}
+
+/**
+* This method is be use to get PROG LINES in the node only to signify its next 
+* e.g. if node contains 1,2,3,4,5,6,7,8
+* Will Return 2,3,4,5,6,7,8
+* @Return List of program lines
+*/
+vector<PROG_LINE> CFGNode::getNextProgramLines() {
+	vector<PROG_LINE> progs;
+
+	for (int i = this->starting + 1; i <= this->ending; i++) {
 		progs.push_back(i);
 	}
 	return progs;

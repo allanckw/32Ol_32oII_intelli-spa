@@ -201,7 +201,9 @@ CFGNode* CFGBuilder::processWhile(ASTNode* procedureNode,int* s, ASTStmtNode *st
 			}
 		}
 	//currCFG->addNextNode(whileNode);
-	currCFG->setLink(whileNode);
+	//currCFG->setLink(whileNode);
+	currCFG->addNextNode(whileNode);
+	whileNode->addPreviousNode(currCFG);
 	(*s)=(*currline);
 	return whileNode;
 }

@@ -256,8 +256,9 @@ void RulesOfEngagement::initialise()
 	
 	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(PatternModifies, Variable));
 
-	allowableSelfReference.insert(Next);
 	allowableSelfReference.insert(NextStar);
+	allowableSelfReference.insert(Affects);
+	allowableSelfReference.insert(AffectsStar);
 
 	emptyRel[ModifiesStmt] = PKB::modifies.isEmpty();
 	emptyRel[ModifiesProc] = PKB::modifies.isEmpty();

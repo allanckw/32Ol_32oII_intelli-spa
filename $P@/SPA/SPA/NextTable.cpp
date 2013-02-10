@@ -4,6 +4,9 @@
 
 void NextTable::insertNext (PROG_LINE p1, PROG_LINE p2, bool next)
 {
+	if (p1 == p2) //impossibru case
+		return;
+
 	Next* n = new Next(p1, p2, next);
 	
 	auto itr = this->nextMap.find(p1);

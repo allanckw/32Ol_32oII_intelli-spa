@@ -8,11 +8,11 @@ bool PQLAffectsProcessor::computeAffects(STMT a1, STMT a2) {
 		return false;
 	
 	//Get Corresponding ASTNodes / CFGNodes from table..
-	ASTStmtNode* a1ASTNode = NULL; 
-	ASTStmtNode* a2ASTNode = NULL; 
+	ASTStmtNode* a1ASTNode = PKB::stmtRefMap.at(a1).getASTStmtNode();
+	ASTStmtNode* a2ASTNode = PKB::stmtRefMap.at(a2).getASTStmtNode();
 
-	CFGNode* a1CFGNode = NULL;
-	CFGNode* a2CFGNode = NULL;
+	CFGNode* a1CFGNode = PKB::stmtRefMap.at(a1).getCFGNode(); 
+	CFGNode* a2CFGNode = PKB::stmtRefMap.at(a2).getCFGNode(); 
 
 	// Check if they are in the same procedure
 	if (a1CFGNode->getProcedure() != a2CFGNode->getProcedure())
@@ -46,11 +46,11 @@ bool PQLAffectsProcessor::computeAffectsStar(STMT a1, STMT a2) {
 		return true;
 	
 	//Get Corresponding ASTNodes / CFGNodes from table..
-	ASTStmtNode* a1ASTNode = NULL; 
-	ASTStmtNode* a2ASTNode = NULL; 
+	ASTStmtNode* a1ASTNode = PKB::stmtRefMap.at(a1).getASTStmtNode();
+	ASTStmtNode* a2ASTNode = PKB::stmtRefMap.at(a2).getASTStmtNode();
 
-	CFGNode* a1CFGNode = NULL;
-	CFGNode* a2CFGNode = NULL;
+	CFGNode* a1CFGNode = PKB::stmtRefMap.at(a1).getCFGNode(); 
+	CFGNode* a2CFGNode = PKB::stmtRefMap.at(a2).getCFGNode(); 
 
 	// Check if they are in the same procedure
 	if (a1CFGNode->getProcedure() != a2CFGNode->getProcedure())
@@ -82,11 +82,11 @@ bool PQLAffectsProcessor::computeAffectsBip(STMT a1, STMT a2) {
 		return false;
 	
 	//Get Corresponding ASTNodes / CFGNodes from table..
-	ASTStmtNode* a1ASTNode = NULL; 
-	ASTStmtNode* a2ASTNode = NULL; 
+	ASTStmtNode* a1ASTNode = PKB::stmtRefMap.at(a1).getASTStmtNode();
+	ASTStmtNode* a2ASTNode = PKB::stmtRefMap.at(a2).getASTStmtNode();
 
-	CFGNode* a1CFGNode = NULL;
-	CFGNode* a2CFGNode = NULL;
+	CFGNode* a1CFGNode = PKB::stmtRefMap.at(a1).getCFGNode(); 
+	CFGNode* a2CFGNode = PKB::stmtRefMap.at(a2).getCFGNode(); 
 
 	// return false if either line number is not assign
 	if (a1ASTNode->getType() != ASTNode::Assign || a2ASTNode->getType() != ASTNode::Assign)

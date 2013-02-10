@@ -59,7 +59,6 @@ vector<PROG_LINE> NextTable::getNext(PROG_LINE p1)
 	}
 
 	return progLines;
-
 }
 
 vector<PROG_LINE> NextTable::getPrevious(PROG_LINE p2)
@@ -77,7 +76,6 @@ vector<PROG_LINE> NextTable::getPrevious(PROG_LINE p2)
 			}
 		}
 	}
-
 	return progLines;
 }
 
@@ -105,6 +103,9 @@ bool NextTable::isNextStar (PROG_LINE p1, PROG_LINE p2)
 	if (p1 <= 0 || p2 <= 0)
 		return false;
 
+	if (this->isNext(p1, p2))
+		return true;
+	
 	auto itr = this->nextStarMap.find(p1);
 
 	if (itr != this->nextStarMap.end()){

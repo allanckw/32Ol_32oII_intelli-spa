@@ -365,6 +365,23 @@ int RulesOfEngagement::convertArgumentToInteger(const RulesOfEngagement::QueryRe
 	}
 }
 
+/**
+* Method that determines if there exists any of assign/while/if in the program.
+* @param var type of variable
+* @return true if there exists such a variable
+*/
+bool RulesOfEngagement::isExistType(RulesOfEngagement::QueryVar var)
+{
+	switch (var) {
+	case Assign:
+		return (PKB::assignTable.size() > 0);
+	case If:
+		return (PKB::ifTable.size() > 0);
+	case While:
+		return (PKB::whileTable.size() > 0);
+	}
+}
+
 //relation map
 /**
 * The reason for the shortness of the code in MultiQueryEval.

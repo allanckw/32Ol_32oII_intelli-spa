@@ -12,11 +12,11 @@ private:
 	static string getToken(const string& query, int& pos);
 	static string getToken2(string query, int& pos);
 	static void matchToken(const string& query, int& pos, const string& match);
-	
+	static vector<string> MiniTokenizer(const string& line);
+	static void validate(const string& query);
+
 	MultiQueryEval(const string& query);
 	
-	static vector<string> MiniTokenizer(const string& line);
-
 	bool selectBOOLEAN;
 	bool earlyQuit;
 	vector<string> finalanswer;

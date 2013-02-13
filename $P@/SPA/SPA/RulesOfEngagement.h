@@ -57,6 +57,8 @@ public:
 	static int convertArgumentToInteger(const QueryRelations type,
 		const bool first, const string& arg);
 
+	static bool isExistType(QueryVar var);
+
 	typedef bool(*isRelation)(int, int);
 	static isRelation getRelation(QueryRelations rel);
 	static unordered_map<QueryRelations, bool> emptyRel;

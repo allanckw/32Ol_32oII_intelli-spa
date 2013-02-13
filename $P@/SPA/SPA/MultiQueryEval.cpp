@@ -121,6 +121,7 @@ vector<string> MultiQueryEval::evaluateQuery(const string& query)
 	//read through the query and make sure it is valid and also looking for possible optimisations
 	//then the optimisations
 	//finally evaluate the relationships in the optimal order
+	validate(query);
 	MultiQueryEval result(query);
 	if (result.selectBOOLEAN && result.earlyQuit)
 		result.finalanswer.push_back("FALSE");
@@ -129,19 +130,16 @@ vector<string> MultiQueryEval::evaluateQuery(const string& query)
 }
 
 /**
-* Does all the query evaluation.
+* Validates the query is in line with the PQL grammar. Throw an exception if it does not.
 * @param query query string
-* @return the MultiQueryEval object with answers if any
 */
-MultiQueryEval::MultiQueryEval(const string& query)
+void MultiQueryEval::validate(const string& query)
 {
 	//parse the query statement
 	int pos = 0;
-	earlyQuit = false;
 
 	//parse synonym declaration
 	unordered_map<string, RulesOfEngagement::QueryVar> stringToQueryVar;
-	//unordered_map<string, int> stringCount;
 	while (true) {
 		string token = getToken(query, pos);
 		if (token == "Select")
@@ -156,7 +154,6 @@ MultiQueryEval::MultiQueryEval(const string& query)
 			if (stringToQueryVar.count(variable) > 0)
 				throw new SPAException("Double declaration of synonym - " + variable);
 			stringToQueryVar.insert(pair<string, RulesOfEngagement::QueryVar>(variable, type));
-			//stringCount.insert(pair<string, int>(variable, 0));
 		} while ((variable = getToken(query, pos)) == ",");
 		if (variable != ";")
 			throw new SPAException("Error in parsing query");
@@ -164,39 +161,23 @@ MultiQueryEval::MultiQueryEval(const string& query)
 
 	//parse selected variables
 	string selected = getToken(query, pos);
-	unordered_set<string> selects;
 	if (selected.at(0) == '<') { //tuple -> multiple selected variables
 		do {
 			selected = getToken(query, pos);
 			if (stringToQueryVar.count(selected) == 0)
 				throw new SPAException("Selected variable is not recognised");
-			selects.insert(selected);
 			selected = getToken(query, pos);
 			if (selected == ">")
 				break;
 			else if (selected != ",")
 				throw new SPAException("Error in parsing query");
 		} while (true);
-		selectBOOLEAN = false;
-	} else if (selected == "BOOLEAN") {
-		selectBOOLEAN = true;
-	} else {
+	} else if (selected != "BOOLEAN") {
 		if (stringToQueryVar.count(selected) == 0)
 			throw new SPAException("Selected variable is not recognised");
-		selects.insert(selected);
-		selectBOOLEAN = false;
 	}
 
 	//parse relationships, conditions and pattern
-	//look for possible optimisations
-	unordered_map<RulesOfEngagement::QueryRelations, unordered_map<string,
-		unordered_set<string>>> relationStore;
-	unordered_map<string, unordered_map<string, string>> conditionStore;
-	vector<tuple<string, string, string, string>> condition2Store;
-	unordered_map<string, unordered_set<string>> patternAssignUsesStore;
-	
-	//for new synonyms created due to synthetic sugaring
-	int tempVars = 0;
 
 	enum Clauses { Undefined, Such_That, With, Pattern };
 	Clauses clauseType = Undefined;
@@ -224,6 +205,8 @@ MultiQueryEval::MultiQueryEval(const string& query)
 				string secondRel = getToken(query, pos);
 				matchToken(query, pos, ")");
 
+				if (RulesOfEngagement::tokenToRel.count(relation) == 0)
+					throw new SPAException("Unrecognised relationship " + relation);
 				unordered_set<RulesOfEngagement::QueryRelations>& types =
 					RulesOfEngagement::tokenToRel[relation];
 
@@ -264,18 +247,6 @@ MultiQueryEval::MultiQueryEval(const string& query)
 				if (RulesOfEngagement::allowableSecondArgument[type].count(secondRelType) == 0)
 					throw new SPAException("The argument " + secondRel +
 					" was not valid for the second argument of " + relation);
-
-				/*if (stringToQueryVar.count(firstRel) > 0) {
-					if (stringToQueryVar.count(secondRel) > 0) {
-						if (firstRel != secondRel) {
-							stringCount[firstRel]++;
-							stringCount[secondRel]++;
-						}
-					} else
-						stringCount[firstRel]++;
-				} else if (stringToQueryVar.count(secondRel) > 0)
-					stringCount[secondRel]++;*/
-				relationStore[type][firstRel].insert(secondRel);
 			}
 			break;
 
@@ -312,11 +283,6 @@ MultiQueryEval::MultiQueryEval(const string& query)
 							throw new SPAException("Unable to parse with");
 					} else
 						throw new SPAException("Unable to parse with");
-
-					if (conditionStore[synonym].count(condition) > 0)
-						earlyQuit |= (conditionStore[synonym][condition] == token);
-					conditionStore[synonym].insert(pair<string, string>(condition, token));
-					//stringCount[synonym]++;
 				} else { //c.value = s.stmt#
 					matchToken(query, pos, ".");
 					string condition2 = getToken(query, pos);
@@ -331,10 +297,6 @@ MultiQueryEval::MultiQueryEval(const string& query)
 						RulesOfEngagement::conditionTypes[condition2];
 					if (LHSType != RHSType)
 						throw new SPAException("Left and right hand side of with are not of same type");
-					condition2Store.push_back(tuple<string, string, string, string>
-						(synonym, condition, token, condition2));
-					//stringCount[synonym]++;
-					//stringCount[token]++;
 				}
 			}
 			break;
@@ -353,15 +315,12 @@ MultiQueryEval::MultiQueryEval(const string& query)
 				case RulesOfEngagement::Assign:
 					{
 						if (firstRel != "_") {
-							//stringCount[synonym]++;
 							if (stringToQueryVar.count(firstRel) > 0) {
 								if (stringToQueryVar[firstRel] != RulesOfEngagement::Variable)
 									throw new SPAException("The first argument of pattern must be a variable");
-								//stringCount[firstRel]++;
 							}
 							else if (firstRel.at(0) != '\"' || firstRel.at(firstRel.length() - 1) != '\"')
 								throw new SPAException("Could not parse the first argument");
-							relationStore[RulesOfEngagement::ModifiesStmt][synonym].insert(firstRel);
 						}
 						
 						matchToken(query, pos, ",");
@@ -381,7 +340,217 @@ MultiQueryEval::MultiQueryEval(const string& query)
 									throw SPAException("Error, Pattern Right Hand Side Invalid");
 							} else if (secondRel.at(0) != '\"' || secondRel.at(length - 1) != '\"')
 								throw SPAException("Error, Pattern Right Hand Side Invalid");
+						}
+					}
+					break;
+
+				case RulesOfEngagement::If:
+				case RulesOfEngagement::While:
+					matchToken(query, pos, ",");
+					matchToken(query, pos, "_");
+					matchToken(query, pos, ",");
+					matchToken(query, pos, "_");
+					matchToken(query, pos, ")");
+
+					if (firstRel != "_") {
+						if (stringToQueryVar.count(firstRel) > 0) {
+							if (stringToQueryVar[firstRel] != RulesOfEngagement::Variable)
+								throw new SPAException("The first argument of pattern must be a variable");
+						} else if (firstRel.at(0) != '\"' || firstRel.at(firstRel.length() - 1) != '\"')
+							throw new SPAException("Could not parse the first argument");
+					}
+					break;
+
+				default:
+					throw new SPAException("Pattern only valid on assign, if and while synonyms");
+				} //end switch of synonym type in pattern
+			} //end case of pattern
+		} //end switch of clauseType
+	}
+	//end of query validation
+}
+
+/**
+* Does all the query evaluation.
+* @param query query string
+* @return the MultiQueryEval object with answers if any
+*/
+MultiQueryEval::MultiQueryEval(const string& query)
+{
+	//parse the query statement
+	int pos = 0;
+	earlyQuit = false;
+
+	//parse synonym declaration
+	unordered_map<string, RulesOfEngagement::QueryVar> stringToQueryVar;
+	//unordered_map<string, int> stringCount;
+	while (true) {
+		string token = getToken(query, pos);
+		if (token == "Select")
+			break;
+		RulesOfEngagement::QueryVar type = RulesOfEngagement::tokenToVar[token];
+		
+		string variable;
+		do {
+			variable = getToken(query, pos);
+			stringToQueryVar.insert(pair<string, RulesOfEngagement::QueryVar>(variable, type));
+			//stringCount.insert(pair<string, int>(variable, 0));
+		} while ((variable = getToken(query, pos)) == ",");
+	}
+
+	//parse selected variables
+	string selected = getToken(query, pos);
+	unordered_set<string> selects;
+	if (selected.at(0) == '<') { //tuple -> multiple selected variables
+		do {
+			selected = getToken(query, pos);
+			selects.insert(selected);
+			selected = getToken(query, pos);
+			if (selected == ">")
+				break;
+		} while (true);
+		selectBOOLEAN = false;
+	} else if (selected == "BOOLEAN") {
+		selectBOOLEAN = true;
+	} else {
+		selects.insert(selected);
+		selectBOOLEAN = false;
+	}
+
+	//parse relationships, conditions and pattern
+	//look for possible optimisations
+	unordered_map<RulesOfEngagement::QueryRelations, unordered_map<string,
+		unordered_set<string>>> relationStore;
+	unordered_map<string, unordered_map<string, string>> conditionStore;
+	vector<tuple<string, string, string, string>> condition2Store;
+	unordered_map<string, unordered_set<string>> patternAssignUsesStore;
+	
+	//for new synonyms created due to synthetic sugaring
+	int tempVars = 0;
+
+	enum Clauses { Undefined, Such_That, With, Pattern };
+	Clauses clauseType = Undefined;
+	while (true) {
+		string clause = getToken(query, pos);
+		if (clause == "") {
+			break;
+		} else if (clause == "such") {
+			matchToken(query, pos, "that");
+			clauseType = Such_That;
+		} else if (clause == "with") {
+			clauseType = With;
+		} else if (clause == "pattern") {
+			clauseType = Pattern;
+		}
+
+		switch (clauseType) {
+		case Such_That:
+			{
+				string relation = getToken(query, pos);
+				matchToken(query, pos, "(");
+				string firstRel = getToken(query, pos);
+				matchToken(query, pos, ",");			
+				string secondRel = getToken(query, pos);
+				matchToken(query, pos, ")");
+
+				unordered_set<RulesOfEngagement::QueryRelations>& types =
+					RulesOfEngagement::tokenToRel[relation];
+
+				RulesOfEngagement::QueryVar firstRelType;
+				if (firstRel == "_")
+					firstRelType = RulesOfEngagement::WildCard;
+				else if (stringToQueryVar.count(firstRel) > 0)
+					firstRelType = stringToQueryVar[firstRel];
+				else if (firstRel.at(0) == '\"' && firstRel.at(firstRel.length() - 1) == '\"')
+					firstRelType = RulesOfEngagement::String;
+				else if (Helper::isNumber(firstRel))
+					firstRelType = RulesOfEngagement::Integer;
+
+				RulesOfEngagement::QueryRelations type = RulesOfEngagement::PatternUses; //sentinel value
+				for (auto it = types.begin(); it != types.end(); it++)
+					if (RulesOfEngagement::allowableFirstArgument[*it].count(firstRelType) > 0) {
+						type = *it;
+						break;
+					}
+
+				/*if (stringToQueryVar.count(firstRel) > 0) {
+					if (stringToQueryVar.count(secondRel) > 0) {
+						if (firstRel != secondRel) {
+							stringCount[firstRel]++;
+							stringCount[secondRel]++;
+						}
+					} else
+						stringCount[firstRel]++;
+				} else if (stringToQueryVar.count(secondRel) > 0)
+					stringCount[secondRel]++;*/
+				relationStore[type][firstRel].insert(secondRel);
+			}
+			break;
+
+		case With:
+			{
+				string synonym = getToken(query, pos);
+
+				RulesOfEngagement::QueryVar type = stringToQueryVar[synonym];
+				string condition;
+				RulesOfEngagement::QueryVar LHSType;
+				if (stringToQueryVar[synonym] == RulesOfEngagement::Prog_Line) {
+					condition = "";
+					LHSType = RulesOfEngagement::Integer;
+				} else {
+					matchToken(query, pos, ".");
+					condition = getToken(query, pos);
+					LHSType = RulesOfEngagement::conditionTypes[condition];
+				}
+
+				matchToken(query, pos, "=");
+				//either c.value = 10 OR c.value = s.stmt#
+				string token = getToken(query, pos);
+				if (stringToQueryVar.count(token) == 0) { //c.value = 10
+					if (conditionStore[synonym].count(condition) > 0)
+						earlyQuit |= (conditionStore[synonym][condition] == token);
+					conditionStore[synonym].insert(pair<string, string>(condition, token));
+					//stringCount[synonym]++;
+				} else { //c.value = s.stmt#
+					matchToken(query, pos, ".");
+					string condition2 = getToken(query, pos);
+
+					if (synonym == token && condition == condition2)
+						break;
+
+					condition2Store.push_back(tuple<string, string, string, string>
+						(synonym, condition, token, condition2));
+					//stringCount[synonym]++;
+					//stringCount[token]++;
+				}
+			}
+			break;
+
+		case Pattern:
+			{
+				string synonym = getToken(query, pos);
+				RulesOfEngagement::QueryVar type = stringToQueryVar[synonym];
+
+				matchToken(query, pos, "(");
+				string firstRel = getToken(query, pos);
+
+				switch (type) {
+				case RulesOfEngagement::Assign:
+					{
+						if (firstRel != "_") {
+							//stringCount[synonym]++;
+							relationStore[RulesOfEngagement::ModifiesStmt][synonym].insert(firstRel);
+						}
 						
+						matchToken(query, pos, ",");
+						string secondRel = getToken2(query, pos);
+						matchToken(query, pos, ")");
+
+						if (secondRel != "_") {
+							//remove white spaces
+							secondRel.erase(remove(secondRel.begin(), secondRel.end(), '\t'), secondRel.end());
+							secondRel.erase(remove(secondRel.begin(), secondRel.end(), ' '), secondRel.end());
+
 							//stringCount[synonym]++;
 							patternAssignUsesStore[synonym].insert(secondRel);
 						}
@@ -396,21 +565,13 @@ MultiQueryEval::MultiQueryEval(const string& query)
 					matchToken(query, pos, "_");
 					matchToken(query, pos, ")");
 
-					if (firstRel != "_") {
+					if (firstRel == "_")
+						earlyQuit |= !RulesOfEngagement::isExistType(type);
+					else {
 						//stringCount[synonym]++;
-						if (stringToQueryVar.count(firstRel) > 0) {
-							if (stringToQueryVar[firstRel] != RulesOfEngagement::Variable)
-								throw new SPAException("The first argument of pattern must be a variable");
-							//stringCount[firstRel]++;
-						}
-						else if (firstRel.at(0) != '\"' || firstRel.at(firstRel.length() - 1) != '\"')
-							throw new SPAException("Could not parse the first argument");
 						relationStore[RulesOfEngagement::PatternModifies][synonym].insert(firstRel);
 					}
 					break;
-
-				default:
-					throw new SPAException("Pattern only valid on assign, if and while synonyms");
 				} //end switch of synonym type in pattern
 			} //end case of pattern
 		} //end switch of clauseType

@@ -78,12 +78,12 @@ bool PQLAffectsProcessor::isAffects(STMT a1, STMT a2) {
 				// the variable is modified along the path
 				if (n->getType() == ASTNode::Call) {
 					if (PKB::modifies.isModifiedProc(n->getValue(), modifiedVar)){
-						break;
+						continue;
 					}
 				}
 				if (n->getType() == ASTNode::Assign) {
 					if (PKB::modifies.isModifiedStmt(n->getStmtNumber(), modifiedVar)){
-						break;
+						continue;
 					}
 				}
 			}

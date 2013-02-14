@@ -18,19 +18,19 @@ TestQueryEvaluator::~TestQueryEvaluator(void)
 void TestQueryEvaluator::TestQueryEvaluatorM()
 {  
 	PKBController::initializePKB("F:\\3201_3202\\SPA\\Source4.txt");
-	doon("prog_line n;  Select n such that Next*(10, n) and Next*(n, 1)"); 
+	doon("prog_line n;  Select n such that Next*(n, n)"); 
 }
 
 void TestQueryEvaluator::doon(string s)
 {
-	bool a = PKB::next.isNextStar(1, 3);
-	bool b = PKB::uses.isUsedStmt(3, 0);
-	cout << a << endl << b << endl;;
-	
-	bool x = PKB::affects.isAffects(1,3);//PKB::affects.isAffects(1,4);
-	bool y = PKB::affects.isAffects(9,12);
-	//vector<PROG_LINE> y = PKB::next.getPreviousStar(9);
-	cout << x << endl << y << endl;;
+	//bool a = PKB::next.isNextStar(1, 3);
+	//bool b = PKB::uses.isUsedStmt(3, 0);
+	//cout << a << endl << b << endl;;
+	//
+	//bool x = PKB::affects.isAffects(1,3);//PKB::affects.isAffects(1,4);
+	//bool y = PKB::affects.isAffects(9,12);
+	////vector<PROG_LINE> y = PKB::next.getPreviousStar(9);
+	//cout << x << endl << y << endl;;
 
 
 	cout << s << endl;

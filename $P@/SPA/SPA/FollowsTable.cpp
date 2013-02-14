@@ -5,6 +5,7 @@
 
 FollowsTable::FollowsTable()
 {
+	starSize = 0;
 }
 
 

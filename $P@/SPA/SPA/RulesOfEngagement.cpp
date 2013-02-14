@@ -296,8 +296,8 @@ void RulesOfEngagement::initialise()
 	relationByMap[ParentStar] = &parentStarBy;
 	relationByMap[Next] = &nextBy;
 	relationByMap[NextStar] = &nextStarBy;
-	relationByMap[Affects] = &affectsBy;
-	relationByMap[AffectsStar] = &affectsStarBy;
+	//relationByMap[Affects] = &affectsBy;
+	//relationByMap[AffectsStar] = &affectsStarBy;
 
 	relationFromMap[ModifiesStmt] = &modifiesStmtFrom;
 	relationFromMap[ModifiesProc] = &modifiesProcFrom;
@@ -311,8 +311,8 @@ void RulesOfEngagement::initialise()
 	relationFromMap[ParentStar] = &parentStarFrom;
 	relationFromMap[Next] = &nextFrom;
 	relationFromMap[NextStar] = &nextStarFrom;
-	relationFromMap[Affects] = &affectsFrom;
-	relationFromMap[AffectsStar] = &affectsStarFrom;
+	//relationFromMap[Affects] = &affectsFrom;
+	//relationFromMap[AffectsStar] = &affectsStarFrom;
 	
 	typeMap[Statement] = &getAllStmt;
 	typeMap[Variable] = &getAllVar;

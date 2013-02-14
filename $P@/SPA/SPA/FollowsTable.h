@@ -7,7 +7,7 @@ private:
 	unordered_map<STMT, STMT> followsTo;
 	unordered_map<STMT, STMT> followsFrom;
 
-	int starSize = 0;
+	int starSize;
 
 public:
 	FollowsTable();

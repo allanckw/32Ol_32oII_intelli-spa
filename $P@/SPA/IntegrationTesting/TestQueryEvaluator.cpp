@@ -18,7 +18,7 @@ TestQueryEvaluator::~TestQueryEvaluator(void)
 void TestQueryEvaluator::TestQueryEvaluatorM()
 {  
 	PKBController::initializePKB("F:\\3201_3202\\SPA\\Source4.txt");
-	doon("prog_line n;  Select n such that Next*(n, n)"); 
+	doon("assign a; Select BOOLEAN such that Affects(2, 8)"); 
 }
 
 void TestQueryEvaluator::doon(string s)

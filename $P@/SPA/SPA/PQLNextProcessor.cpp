@@ -3,23 +3,31 @@
 
 bool PQLNextProcessor::isNextStar(PROG_LINE p1, PROG_LINE p2)
 {
+
 	vector<PROG_LINE> temp;
 	stack<CFGNode*> nodesStack; 
+	
+	if (p1 == p2) {
+		temp = PQLNextProcessor::getNextStar(p1);
+		return Helper::contains(temp, p2);
+	}
+
 
 	CFGNode* node = PKB::stmtRefMap.at(p1).getCFGNode(); 
 	
 	for(int i=0;i<node->getProgramLines().size();i++) { 
 		PROG_LINE tpl = node->getProgramLines().at(i);
 		
-		if(tpl == p1) { 
-			if(i < node->getProgramLines().size()) { 
-				for(int j=i+1;j<node->getProgramLines().size();j++) {
-					PKB::next.insertNextStar(p1, node->getProgramLines().at(j), true);
+		if(i < node->getProgramLines().size()) { 
+			for(int j=i+1;j<node->getProgramLines().size();j++) {
+				if( node->getProgramLines().at(j) == p2){
+					PKB::next.insertNextStar(p1, p2, true);
 					return true;
 				}
-			}	
-			break; //break from for loop
-		}
+			}
+		}	
+		break; //break from for loop
+		
 	}
 	
 	for(int i=0;i<node->getNextNodes().size();i++) {
@@ -173,16 +181,6 @@ vector<PROG_LINE> PQLNextProcessor::getNextStar(PROG_LINE p1)
 
 
 	//}
-
-
-
-
-
-
-
-
-
-
 
 	if (p1 < 0 ) {
 

@@ -204,6 +204,16 @@ vector<STMT> CallsTable::getStmtCall(PROC p)
 	return vector<STMT>();
 }
 
+int CallsTable::getCallsSize()
+{
+	return this->optimizedCalledBy.size();
+}
+
+int CallsTable::getCallsStarSize()
+{
+	return this->originalCalledByStar.size();
+}
+
 //////////////////////////////////
 //Functions for Testing purposes//
 //////////////////////////////////

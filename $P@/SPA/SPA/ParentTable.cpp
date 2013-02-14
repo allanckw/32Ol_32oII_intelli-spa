@@ -132,3 +132,8 @@ vector <STMT> ParentTable::getParentStar(STMT s2)
 	return answer;
 }
 
+int ParentTable::getSize()
+{
+	 return this->parentFrom.size();
+}
+

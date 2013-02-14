@@ -171,6 +171,16 @@ void ModifiesTable::optimizeModifiesTable()
 	}
 }
 
+int ModifiesTable::getModProcSize()
+{
+	return this->optimizedModifiedByProc.size();
+}
+
+int ModifiesTable::getModStmtSize()
+{
+	return this->optimizedModifiedByStmt.size();
+}
+
 //////////////////////////////////
 //Functions for testing purposes//
 //////////////////////////////////

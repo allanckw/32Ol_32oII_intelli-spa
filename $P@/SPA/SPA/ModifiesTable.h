@@ -4,6 +4,7 @@
 class ModifiesTable
 {
 private:
+
 	unordered_map<STMT, set<VAR>> originalModifiedByStmt;
 	unordered_map<PROC, set<VAR>> originalModifiedByProc;
 	unordered_map<VAR, set<STMT>> originalModifiesStmt;
@@ -32,4 +33,7 @@ public:
 
 	//Functions for testing purposes
 	void displayModifiesTables();
+
+	int getModProcSize();
+	int getModStmtSize();
 };

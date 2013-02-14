@@ -43,56 +43,60 @@ bool PQLAffectsProcessor::isAffects(STMT a1, STMT a2) {
 
 	nodesQue.push(a1CFGNode);
 
-	for(int i=0;i<a1CFGNode->getNextNodes().size();i++) {
+	for(int i=0;i<a1CFGNode->getNextNodes().size();i++) 
 		nodesQue.push(a1CFGNode->getNextNodes().at(i));
-	}
 	
+	CFGNode* tempnode = nodesQue.front();
+
+	int i = 0;
+
 	while(nodesQue.size() > 0) {
 
-		CFGNode* tempnode = nodesQue.front();
-		nodesQue.pop();	
+		STMT curr = tempnode->getProgramLines()[i];
 		
 		if(tempnode->getType() != CFGNode::DummyNode) {//chk not a dummy node
+			i = i++;
+
+			ASTStmtNode* n = PKB::stmtRefMap.at(curr).getASTStmtNode();
 			
-			for (int i = 0; i < tempnode->getNextProgramLines().size(); i++) {
-				STMT curr;
-				if (tempnode == a1CFGNode)
-					curr = tempnode->getNextProgramLines()[i];
-				else
-					curr = tempnode->getProgramLines()[i];
-
-				ASTStmtNode* n = PKB::stmtRefMap.at(curr).getASTStmtNode();
-
-				if (visited.find(curr) != visited.end()) 
-					continue;
-
+			if (visited.find(curr) != visited.end()) continue;
+			
+			if (curr != a1)
 				visited.insert(curr);
+			
+			if (curr == a2) {
+				PKB::affects.insertAffects(a1, a2, true);
+				return true;
+			}
 
-				if (curr == a2) {
-					PKB::affects.insertAffects(a1, a2, true);
-					return true;
-				}
-
-				if (!PKB::next.isNextStar(a1, curr)) //if next* does not hold
+			if (!PKB::next.isNextStar(a1, curr)) //if next* does not hold
+				continue;
+			
+			if (n->getType() == ASTNode::Call) { // the variable is modified along the path
+				if (PKB::modifies.isModifiedProc(n->getValue(), modifiedVar)){
 					continue;
-				// the variable is modified along the path
-				if (n->getType() == ASTNode::Call) {
-					if (PKB::modifies.isModifiedProc(n->getValue(), modifiedVar)){
-						continue;
-					}
 				}
-				if (n->getType() == ASTNode::Assign) {
-					if (PKB::modifies.isModifiedStmt(n->getStmtNumber(), modifiedVar)){
-						continue;
-					}
+			}
+
+			if (n->getType() == ASTNode::Assign) {
+				if (PKB::modifies.isModifiedStmt(n->getStmtNumber(), modifiedVar)){
+					continue;
 				}
 			}
 		}
-		vector<CFGNode*> next = tempnode->getNextNodes(); 
-		for(int i=0; i<next.size(); i++){
-			if (next.at(i) != tempnode)
-				nodesQue.push(next.at(i));
+		
+		
+		if (i == tempnode->getProgramLines().size() - 1 ) {
+			vector<CFGNode*> next = tempnode->getNextNodes(); 
+			for(int i=0; i<next.size(); i++){
+				if (next.at(i) != tempnode)
+					nodesQue.push(next.at(i));
+			}
+			i = 0;
+			nodesQue.pop();
+			tempnode = nodesQue.front();
 		}
+		
 	}
 	return false;
 }
@@ -102,16 +106,6 @@ bool PQLAffectsProcessor::isAffectsStar(STMT a1, STMT a2) {
 	if (!isSatifyAffects(a1, a2)) 
 		return false;
 
-	ASTStmtNode* a1ASTNode = PKB::stmtRefMap.at(a1).getASTStmtNode();
-	VAR modifiedVar = a1ASTNode->getValue(); // get the variable being modified
-	CFGNode* a1CFGNode = PKB::stmtRefMap.at(a1).getCFGNode(); 
-
-	stack<STMT> stmtStack;
-	
-	//get list of cfgnextnodes of a1
-	const vector<CFGNode*>& nextNodes = a1CFGNode->getNextNodes();
-
-	//CFG Traversal and checking starts here
 
 	return false;
 }

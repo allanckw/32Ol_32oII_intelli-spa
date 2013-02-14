@@ -155,3 +155,9 @@ bool NextTable::isDuplicate(vector<Next*> v, Next* n)
 
 	return false;
 }
+
+
+int NextTable::getSize()
+{
+	return this->nextMap.size();
+}

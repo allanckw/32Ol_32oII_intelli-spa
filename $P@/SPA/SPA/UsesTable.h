@@ -4,6 +4,7 @@
 class UsesTable
 {
 private:
+
 	unordered_map<STMT, set<VAR>> originalUsedByStmt;
 	unordered_map<PROC, set<VAR>> originalUsedByProc;
 	unordered_map<VAR, set<STMT>> originalUsesInStmt;
@@ -32,4 +33,7 @@ public:
 
 	//Functions for testing purposes
 	void displayUsesTables();
+
+	int getUsesProcSize();
+	int getUsesStmtSize();
 };

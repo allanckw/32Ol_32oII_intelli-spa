@@ -20,6 +20,8 @@ private:
 	set<STMT> analyseCallByStar(PROC);
 	set<STMT> analyseCallFromStar(PROC);
 
+	int size;
+
 public:
 	CallsTable();
 
@@ -36,6 +38,9 @@ public:
 	vector<STMT> getStmtCall(PROC);
 
 	void optimizeCallsTable();
+
+	int getCallsSize();
+	int getCallsStarSize();
 
 	//Functions for testing purposes
 	void displayCallsTables();

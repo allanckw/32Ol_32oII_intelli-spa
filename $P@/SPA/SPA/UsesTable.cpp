@@ -169,6 +169,16 @@ void UsesTable::optimizeUsesTable()
 	}
 }
 
+int UsesTable::getUsesProcSize()
+{
+	return this->optimizedUsedByProc.size();
+}
+
+int UsesTable::getUsesStmtSize()
+{
+	return this->optimizedUsedByStmt.size();
+}
+
 /**
 * This method will be used for testing purposes for viewing the content of the Uses table
 */

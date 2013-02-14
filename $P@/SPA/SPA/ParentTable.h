@@ -22,5 +22,7 @@ public:
 	bool isParentStar(STMT s1, STMT s2); //linear time
 	vector<STMT> getChildrenStar(STMT s1); //time linear in output
 	vector<STMT> getParentStar(STMT s2); //time linear in output
+
+	int getSize();
 };
 

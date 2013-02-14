@@ -128,3 +128,9 @@ vector <STMT> FollowsTable::getFollowsStarFrom(STMT s2)
 			return output;
 	} while (true);
 }
+
+
+int FollowsTable::getSize()
+{
+	return this->followsFrom.size();
+}

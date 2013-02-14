@@ -52,7 +52,7 @@ bool Helper::isNumber(string s)
     return !s.empty() && it == s.end();
 }
 
-bool Helper::contains(vector<PROG_LINE> list, PROG_LINE p1)
+bool Helper::contains(vector<int> list, int p1)
 {
 	if(std::find(list.begin(),list.end(), p1) != list.end())
 		return true;

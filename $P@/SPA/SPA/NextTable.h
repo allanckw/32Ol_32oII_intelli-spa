@@ -57,4 +57,5 @@ public:
 	bool isNextEmpty();
 	bool isNextStarEmpty();
 
+	int NextTable::getSize();
 };

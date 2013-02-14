@@ -15,6 +15,9 @@ private:
 	unordered_map<PROC, vector<VAR>> optimizedUsedByProc;
 	unordered_map<VAR, vector<STMT>> optimizedUsesInStmt;
 	unordered_map<VAR, vector<PROC>> optimizedUsesInProc;
+
+	int procSize;
+	int stmtSize;
 public:
 	UsesTable();
 

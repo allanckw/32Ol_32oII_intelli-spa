@@ -21,6 +21,7 @@ private:
 	set<STMT> analyseCallFromStar(PROC);
 
 	int size;
+	int starSize;
 
 public:
 	CallsTable();

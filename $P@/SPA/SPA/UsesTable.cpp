@@ -126,17 +126,20 @@ void UsesTable::linkCallStmtToProcUses(STMT s, PROC p) {
 */
 void UsesTable::optimizeUsesTable()
 {
+	procSize = stmtSize = 0;
 	for (auto it = originalUsedByStmt.begin(); it != originalUsedByStmt.end(); it++) {
 		STMT s = (*it).first;
 		vector<VAR>& optimizedUsedByStmtTable = optimizedUsedByStmt[s];
 		for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
 			optimizedUsedByStmtTable.push_back(*it2);
+		stmtSize += (*it).second.size();
 	}
 	for (auto it = originalUsedByProc.begin(); it != originalUsedByProc.end(); it++) {
 		PROC p = (*it).first;
 		vector<VAR>& optimizedUsedByProcTable = optimizedUsedByProc[p];
 		for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
 			optimizedUsedByProcTable.push_back(*it2);
+		procSize += (*it).second.size();
 	}
 	for (auto it = callLinksUses.begin(); it != callLinksUses.end(); it++) {
 		STMT s = (*it).first;
@@ -171,12 +174,12 @@ void UsesTable::optimizeUsesTable()
 
 int UsesTable::getUsesProcSize()
 {
-	return this->optimizedUsedByProc.size();
+	return procSize;
 }
 
 int UsesTable::getUsesStmtSize()
 {
-	return this->optimizedUsedByStmt.size();
+	return stmtSize;
 }
 
 /**

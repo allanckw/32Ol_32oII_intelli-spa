@@ -7,6 +7,8 @@ private:
 	unordered_map<STMT, STMT> followsTo;
 	unordered_map<STMT, STMT> followsFrom;
 
+	int starSize = 0;
+
 public:
 	FollowsTable();
 
@@ -20,6 +22,8 @@ public:
 	bool isFollowsStar(STMT s1, STMT s2); //linear time
 	vector<STMT> getFollowsStarBy(STMT s1); //time linear in output
 	vector<STMT> getFollowsStarFrom(STMT s2); //time linear in output
-	int FollowsTable::getSize();
+
+	int getFollowsSize();
+	int getFollowsStarSize();
 };
 

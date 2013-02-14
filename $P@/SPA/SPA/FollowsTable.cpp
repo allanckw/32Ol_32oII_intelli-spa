@@ -130,7 +130,23 @@ vector <STMT> FollowsTable::getFollowsStarFrom(STMT s2)
 }
 
 
-int FollowsTable::getSize()
+int FollowsTable::getFollowsSize()
 {
-	return this->followsFrom.size();
+	return followsFrom.size();
+}
+
+int FollowsTable::getFollowsStarSize()
+{
+	if (starSize == 0) {
+		for (auto it = followsTo.begin(); it != followsTo.end(); it++) {
+			STMT follows = it->first;
+			do {
+				if (followsTo.count(follows) > 0) {
+					follows = followsTo[follows];
+					starSize++;
+				}
+			} while (true);
+		}
+	}
+	return starSize;
 }

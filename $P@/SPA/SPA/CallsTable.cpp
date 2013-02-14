@@ -28,16 +28,19 @@ void CallsTable::insertCalls(PROC p1, PROC p2)
 * This method will be used to optimise the populated call table for fast access
 */
 void CallsTable::optimizeCallsTable() {
+	size = starSize = 0;
 	for (auto it = originalCalledBy.begin(); it != originalCalledBy.end(); it++) {
 		PROC proc = (*it).first;
 		vector<PROC>& children = optimizedCalledBy[proc];
 		for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
 			children.push_back(*it2);
+		size += (*it).second.size();
 		
 		set<STMT> childrenStarSet = analyseCallByStar(proc);
 		vector<PROC>& childrenStarVector = optimizedCalledByStar[proc];
 		for (auto it2 = childrenStarSet.begin(); it2 != childrenStarSet.end(); it2++)
 			childrenStarVector.push_back(*it2);
+		starSize += childrenStarSet.size();
 	}
 	
 	for (auto it = originalCalledFrom.begin(); it != originalCalledFrom.end(); it++) {
@@ -206,12 +209,12 @@ vector<STMT> CallsTable::getStmtCall(PROC p)
 
 int CallsTable::getCallsSize()
 {
-	return this->optimizedCalledBy.size();
+	return size;
 }
 
 int CallsTable::getCallsStarSize()
 {
-	return this->originalCalledByStar.size();
+	return starSize;
 }
 
 //////////////////////////////////

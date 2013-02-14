@@ -47,6 +47,7 @@ bool PQLAffectsProcessor::isAffects(STMT a1, STMT a2) {
 		nodesQue.push(a1CFGNode->getNextNodes().at(i));
 	
 	CFGNode* tempnode = nodesQue.front();
+	int selfAffectsCount = 0;
 
 	int i = 0;
 
@@ -55,15 +56,19 @@ bool PQLAffectsProcessor::isAffects(STMT a1, STMT a2) {
 		STMT curr = tempnode->getProgramLines()[i];
 		
 		if(tempnode->getType() != CFGNode::DummyNode) {//chk not a dummy node
-			i = i++;
+			i += 1;
 
 			ASTStmtNode* n = PKB::stmtRefMap.at(curr).getASTStmtNode();
 			
-			if (visited.find(curr) != visited.end()) continue;
+			if (visited.find(curr) != visited.end() || selfAffectsCount >= 2)  //Self Affects = at least twice
+				continue;
 			
-			if (curr != a1)
+			if (curr != a1) {
 				visited.insert(curr);
-			
+			} else if (curr == a1)	{
+				selfAffectsCount += 1;
+			}
+
 			if (curr == a2) {
 				PKB::affects.insertAffects(a1, a2, true);
 				return true;

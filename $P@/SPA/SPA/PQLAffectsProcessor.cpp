@@ -53,9 +53,9 @@ bool PQLAffectsProcessor::isAffects(STMT a1, STMT a2) {
 
 	while(nodesQue.size() > 0) {
 
-		STMT curr = tempnode->getProgramLines()[i];
-		
 		if(tempnode->getType() != CFGNode::DummyNode) {//chk not a dummy node
+			STMT curr = tempnode->getProgramLines()[i];
+
 			i += 1;
 
 			ASTStmtNode* n = PKB::stmtRefMap.at(curr).getASTStmtNode();
@@ -65,7 +65,7 @@ bool PQLAffectsProcessor::isAffects(STMT a1, STMT a2) {
 			
 			if (curr != a1) {
 				visited.insert(curr);
-			} else if (curr == a1)	{
+			} else if (curr == a1 && a1 == a2)	{
 				selfAffectsCount += 1;
 			}
 
@@ -91,12 +91,15 @@ bool PQLAffectsProcessor::isAffects(STMT a1, STMT a2) {
 		}
 		
 		
-		if (i == tempnode->getProgramLines().size() - 1 ) {
+		if (tempnode->getType() == CFGNode::DummyNode || i == tempnode->getProgramLines().size() - 1 ) {
+			
 			vector<CFGNode*> next = tempnode->getNextNodes(); 
+			
 			for(int i=0; i<next.size(); i++){
 				if (next.at(i) != tempnode)
 					nodesQue.push(next.at(i));
 			}
+		
 			i = 0;
 			nodesQue.pop();
 			tempnode = nodesQue.front();
@@ -111,7 +114,61 @@ bool PQLAffectsProcessor::isAffectsStar(STMT a1, STMT a2) {
 	if (!isSatifyAffects(a1, a2)) 
 		return false;
 
+	ASTStmtNode* a1ASTNode = PKB::stmtRefMap.at(a1).getASTStmtNode();
+	CFGNode* a1CFGNode = PKB::stmtRefMap.at(a1).getCFGNode(); 
 
+	std::queue<CFGNode*> nodesQue;
+	set<STMT> visited;
+
+	nodesQue.push(a1CFGNode);
+
+	for(int i=0;i<a1CFGNode->getNextNodes().size();i++) 
+		nodesQue.push(a1CFGNode->getNextNodes().at(i));
+	
+	CFGNode* tempnode = nodesQue.front();
+
+	int i = 0;
+
+	while(nodesQue.size() > 0) {
+
+		if(tempnode->getType() != CFGNode::DummyNode) {//chk not a dummy node
+			STMT curr = tempnode->getProgramLines()[i];
+
+			i += 1;
+
+			ASTStmtNode* n = PKB::stmtRefMap.at(curr).getASTStmtNode();
+			
+			if (visited.find(curr) != visited.end())  //Self Affects = at least twice
+				continue;
+			
+			if (curr != a1) {
+				visited.insert(curr);
+			} 
+
+			if (!PKB::next.isNextStar(a1, curr)) //if next* does not hold
+				continue;
+			
+			if (PKB::affects.isAffects(a1, curr) && PKB::affects.isAffects(curr, a2)) { //transitive closure check
+				return true;
+			}
+		}
+		
+		
+		if (tempnode->getType() == CFGNode::DummyNode || i == tempnode->getProgramLines().size() - 1 ) {
+			
+			vector<CFGNode*> next = tempnode->getNextNodes(); 
+			
+			for(int i=0; i<next.size(); i++){
+				if (next.at(i) != tempnode)
+					nodesQue.push(next.at(i));
+			}
+		
+			i = 0;
+			nodesQue.pop();
+			tempnode = nodesQue.front();
+		}
+		
+	}
 	return false;
 }
 

@@ -92,6 +92,9 @@ bool AffectsTable::isAffectsStar (STMT s1, STMT s2)
 	if (s1 <= 0 || s2 <= 0)
 		return false;
 
+	if (PKB::affects.isAffects(s1, s2))
+		return true;
+
 	auto itr = this->affectsStarMap.find(s1);
 
 	if (itr != this->affectsStarMap.end()){
@@ -104,13 +107,12 @@ bool AffectsTable::isAffectsStar (STMT s1, STMT s2)
 		}
 	}
 
-	//TODO: Implement
-	//if (PQLAffectsProcessor::isAffectsStar(s1,s2)){
-	//	return true;
-	//} else {
-	//	PKB::affects.insertAffectsStar(s1, s2, false);
-	//	return false;
-	//}
+	if (PQLAffectsProcessor::isAffectsStar(s1,s2)){
+		return true;
+	} else {
+		PKB::affects.insertAffectsStar(s1, s2, false);
+		return false;
+	}
 
 	return false;
 }

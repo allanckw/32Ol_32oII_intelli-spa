@@ -104,8 +104,8 @@ private:
 	static vector<int> parentStarBy(int x);
 	static vector<int> nextBy(int x);
 	static vector<int> nextStarBy(int x);
-	static vector<int> affectsBy(int x);
-	static vector<int> affectsStarBy(int x);
+	//static vector<int> affectsBy(int x);
+	//static vector<int> affectsStarBy(int x);
 	//static vector<int> patternModifiesBy(int x);
 	/*template
 	static vector<int> <relBy>(int x);
@@ -124,8 +124,8 @@ private:
 	static vector<int> parentStarFrom(int y);
 	static vector<int> nextFrom(int y);
 	static vector<int> nextStarFrom(int y);
-	static vector<int> affectsFrom(int y);
-	static vector<int> affectsStarFrom(int y);
+	//static vector<int> affectsFrom(int y);
+	//static vector<int> affectsStarFrom(int y);
 	//static vector<int> patternModifiesFrom(int y);
 	/*template
 	static vector<int> <relFrom>(int y);

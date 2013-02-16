@@ -38,74 +38,54 @@ bool PQLAffectsProcessor::isAffects(STMT a1, STMT a2) {
 	VAR modifiedVar = a1ASTNode->getValue(); // get the variable being modified
 	CFGNode* a1CFGNode = PKB::stmtRefMap.at(a1).getCFGNode(); 
 
-	std::queue<CFGNode*> nodesQue;
+	stack<PROG_LINE> lines2visit;
 	set<STMT> visited;
 
-	nodesQue.push(a1CFGNode);
+	vector<PROG_LINE> nexts = a1CFGNode->getNextProgramLines(a1);
 
-	for(int i=0;i<a1CFGNode->getNextNodes().size();i++) 
-		nodesQue.push(a1CFGNode->getNextNodes().at(i));
-	
-	CFGNode* tempnode = nodesQue.front();
-	int selfAffectsCount = 0;
-
-	int i = 0;
-
-	while(nodesQue.size() > 0) {
-
-		if(tempnode->getType() != CFGNode::DummyNode) {//chk not a dummy node
-			STMT curr = tempnode->getProgramLines()[i];
-
-			i += 1;
-
-			ASTStmtNode* n = PKB::stmtRefMap.at(curr).getASTStmtNode();
-			
-			if (visited.find(curr) != visited.end() || selfAffectsCount >= 2)  //Self Affects = at least twice
-				continue;
-			
-			if (curr != a1) {
-				visited.insert(curr);
-			} else if (curr == a1 && a1 == a2)	{
-				selfAffectsCount += 1;
-			}
-
-			if (curr == a2) {
-				PKB::affects.insertAffects(a1, a2, true);
-				return true;
-			}
-
-			if (!PKB::next.isNextStar(a1, curr)) //if next* does not hold
-				continue;
-			
-			if (n->getType() == ASTNode::Call) { // the variable is modified along the path
-				if (PKB::modifies.isModifiedProc(n->getValue(), modifiedVar)){
-					continue;
-				}
-			}
-
-			if (n->getType() == ASTNode::Assign) {
-				if (PKB::modifies.isModifiedStmt(n->getStmtNumber(), modifiedVar)){
-					continue;
-				}
-			}
-		}
-		
-		
-		if (tempnode->getType() == CFGNode::DummyNode || i == tempnode->getProgramLines().size() - 1 ) {
-			
-			vector<CFGNode*> next = tempnode->getNextNodes(); 
-			
-			for(int i=0; i<next.size(); i++){
-				if (next.at(i) != tempnode)
-					nodesQue.push(next.at(i));
-			}
-		
-			i = 0;
-			nodesQue.pop();
-			tempnode = nodesQue.front();
-		}
-		
+	for (int i = 0; i < nexts.size(); i++) {
+		lines2visit.push(nexts.at(i));
 	}
+
+	while(lines2visit.size() > 0) {
+		
+		STMT curr = lines2visit.top();
+		lines2visit.pop();
+		
+		// visited?
+		if (visited.find(curr) != visited.end()) 
+			continue;
+
+		visited.insert(curr);
+
+		if (curr == a2) {
+			PKB::affects.insertAffects(a1, a2, true);
+			return true;
+		}
+
+		if (!PKB::next.isNextStar(a1, curr)) //if next* does not hold
+			continue;
+
+		ASTStmtNode* n = PKB::stmtRefMap.at(curr).getASTStmtNode();	
+		if (n->getType() == ASTNode::Call) { // the variable is modified along the path
+			if (PKB::modifies.isModifiedProc(n->getValue(), modifiedVar)){
+				continue;
+			}
+		}
+
+		if (n->getType() == ASTNode::Assign) {
+			if (PKB::modifies.isModifiedStmt(n->getStmtNumber(), modifiedVar)){
+				continue;
+			}
+		}
+
+		vector<PROG_LINE> temp = PKB::next.getNext(curr);
+
+		for (int k = 0; k < temp.size(); k++) {
+			lines2visit.push(temp.at(k));
+		}
+	}
+		
 	return false;
 }
 
@@ -115,67 +95,50 @@ bool PQLAffectsProcessor::isAffectsStar(STMT a1, STMT a2) {
 		return false;
 
 	ASTStmtNode* a1ASTNode = PKB::stmtRefMap.at(a1).getASTStmtNode();
+	VAR modifiedVar = a1ASTNode->getValue(); // get the variable being modified
 	CFGNode* a1CFGNode = PKB::stmtRefMap.at(a1).getCFGNode(); 
 
-	std::queue<CFGNode*> nodesQue;
+	stack<PROG_LINE> lines2visit;
 	set<STMT> visited;
 
-	nodesQue.push(a1CFGNode);
+	vector<PROG_LINE> nexts = a1CFGNode->getNextProgramLines(a1);
 
-	for(int i=0;i<a1CFGNode->getNextNodes().size();i++) 
-		nodesQue.push(a1CFGNode->getNextNodes().at(i));
-	
-	CFGNode* tempnode = nodesQue.front();
-
-	int i = 0;
-
-	while(nodesQue.size() > 0) {
-
-		if(tempnode->getType() != CFGNode::DummyNode) {//chk not a dummy node
-			STMT curr = tempnode->getProgramLines()[i];
-
-			i += 1;
-
-			ASTStmtNode* n = PKB::stmtRefMap.at(curr).getASTStmtNode();
-			
-			if (visited.find(curr) != visited.end())  //Self Affects = at least twice
-				continue;
-			
-			if (curr != a1) {
-				visited.insert(curr);
-			} 
-
-			if (!PKB::next.isNextStar(a1, curr)) //if next* does not hold
-				continue;
-			
-			if (PKB::affects.isAffects(a1, curr) && PKB::affects.isAffects(curr, a2)) { //transitive closure check
-				PKB::affects.insertAffectsStar(a1, a2, true);
-				return true;
-			}
-		}
-		
-		
-		if (tempnode->getType() == CFGNode::DummyNode || i == tempnode->getProgramLines().size() - 1 ) {
-			
-			vector<CFGNode*> next = tempnode->getNextNodes(); 
-			
-			for(int i=0; i<next.size(); i++){
-				if (next.at(i) != tempnode)
-					nodesQue.push(next.at(i));
-			}
-		
-			i = 0;
-			nodesQue.pop();
-			tempnode = nodesQue.front();
-		}
-		
+	for (int i = 0; i < nexts.size(); i++) {
+		lines2visit.push(nexts.at(i));
 	}
+
+	while(lines2visit.size() > 0) {
+		STMT curr = lines2visit.top();
+		lines2visit.pop();
+
+		// visited?
+		if (visited.find(curr) != visited.end()) 
+			continue;
+		visited.insert(curr);
+
+		if (!(PKB::next.isNextStar(curr, a2))) //if next* does not hold for the 2nd portion of transitive closure
+			continue;
+
+		if (PKB::affects.isAffects(a1, curr) && PKB::affects.isAffects(curr, a2)) { //transitive closure check
+			PKB::affects.insertAffectsStar(a1, a2, true);
+			return true;
+		}
+
+		vector<PROG_LINE> temp = PKB::stmtRefMap.at(curr).getCFGNode()->getNextProgramLines(curr);
+
+		for (int k = 0; k < temp.size(); k++) {
+			lines2visit.push(temp.at(k));
+		}
+	}
+
 	return false;
 }
 
 bool PQLAffectsProcessor::isAffectsBip(STMT a1, STMT a2) {
-
-
+	if (a1 <= 0 || a2 <= 0) 
+		return false;
+	
 	return false; 
 		
 }
+

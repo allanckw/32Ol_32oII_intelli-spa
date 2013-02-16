@@ -505,26 +505,6 @@ assign a;
 Select BOOLEAN such that Affects(3, 13)
 FALSE
 5000 
-102 - Parent, ImplStmtLine, Typed :: 
-assign a1;
-Select a1 such that Affects(a1, 1)
-
-5000
-103 - Parent, ImplStmtLine, Typed :: 
-assign a1;
-Select a1 such that Affects(a1, 10)
-12, 17
-5000
-104 - Parent, ImplStmtLine, Typed :: 
-assign a2;
-Select a2 such that Affects(1, a2)
-2, 3
-5000
-105 - Parent, ImplStmtLine, Typed :: 
-assign a2;
-Select a2 such that Affects(13, a2)
-16
-5000
 106 - Parent, ImplStmtLine, Typed :: 
 assign a;
 Select BOOLEAN such that Affects*(1, 2)
@@ -579,6 +559,26 @@ Select a2 such that Affects*(6, a2)
 assign a2;
 Select a2 such that Affects*(20, a2)
 
+5000
+102 - Parent, ImplStmtLine, Typed :: 
+assign a1;
+Select a1 such that Affects(a1, 1)
+
+5000
+103 - Parent, ImplStmtLine, Typed :: 
+assign a1;
+Select a1 such that Affects(a1, 10)
+12, 17
+5000
+104 - Parent, ImplStmtLine, Typed :: 
+assign a2;
+Select a2 such that Affects(1, a2)
+2, 3
+5000
+105 - Parent, ImplStmtLine, Typed :: 
+assign a2;
+Select a2 such that Affects(13, a2)
+16
 5000
 117 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 

@@ -22,7 +22,11 @@ SPAException::SPAException(string msg){
 * @return the error message that is thrown
 */
 const char* SPAException::what() const throw(){
-	return message.c_str();
+	
+	string s = message;
+	std::replace( s.begin(), s.end(), '<', '[');
+	std::replace( s.begin(), s.end(), '>', ']');
+	return s.c_str();
 }
 
 

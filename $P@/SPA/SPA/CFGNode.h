@@ -42,7 +42,7 @@ public:
 	PROC getProcedure();
 
 	vector<PROG_LINE> getProgramLines();
-	vector<PROG_LINE> getNextProgramLines();
+	//vector<PROG_LINE> getNextProgramLines(PROG_LINE);
 
 	PROG_LINE getStartLine();
 

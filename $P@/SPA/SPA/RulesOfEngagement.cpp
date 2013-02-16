@@ -555,7 +555,7 @@ vector<int> RulesOfEngagement::nextStarBy(int x)
 	return PKB::next.getNextStar(x);
 }
 
-vector<int> RulesOfEngagement::affectsBy(int x)
+/*vector<int> RulesOfEngagement::affectsBy(int x)
 {
 	return PKB::affects.getAffectsBy(x);
 }
@@ -563,7 +563,7 @@ vector<int> RulesOfEngagement::affectsBy(int x)
 vector<int> RulesOfEngagement::affectsStarBy(int x)
 {
 	return PKB::affects.getAffectsByStar(x);
-}
+}*/
 
 /**
 * The reason for the shortness of the code in MultiQueryEval.
@@ -646,7 +646,7 @@ vector<int> RulesOfEngagement::nextStarFrom(int y)
 	return PKB::next.getPreviousStar(y);
 }
 
-vector<int> RulesOfEngagement::affectsFrom(int y)
+/*vector<int> RulesOfEngagement::affectsFrom(int y)
 {
 	return PKB::affects.getAffectsFrom(y);
 }
@@ -654,7 +654,7 @@ vector<int> RulesOfEngagement::affectsFrom(int y)
 vector<int> RulesOfEngagement::affectsStarFrom(int y)
 {
 	return PKB::affects.getAffectsFromStar(y);
-}
+}*/
 //end relation map
 
 //type map

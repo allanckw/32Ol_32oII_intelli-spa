@@ -1,0 +1,7 @@
+procedure Nat {
+	while i {
+		y2s = q * 6;
+		t = x + t;
+		t = 5;	
+	}
+}

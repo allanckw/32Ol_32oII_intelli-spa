@@ -17,19 +17,19 @@ TestQueryEvaluator::~TestQueryEvaluator(void)
 
 void TestQueryEvaluator::TestQueryEvaluatorM()
 {  
-	PKBController::initializePKB("F:\\3201_3202\\SPA\\Source4.txt");
-	doon("assign a; Select BOOLEAN such that Affects(1, 2)"); 
-	doon("assign a; Select BOOLEAN such that Affects(1, 3)"); 
-	doon("assign a; Select BOOLEAN such that Affects(1, 5)"); 
-	doon("assign a; Select BOOLEAN such that Affects(2, 6)"); 
-	doon("assign a; Select BOOLEAN such that Affects(2, 8)"); 
-	doon("assign a; Select BOOLEAN such that Affects(3, 12)"); 
-	doon("assign a; Select BOOLEAN such that Affects(3, 13)"); 
-	doon("Select BOOLEAN such that Affects*(1, 8)"); 
-	doon("Select BOOLEAN such that Affects*(11, 14)"); 
-	doon("Select BOOLEAN such that Affects*(20, 20)"); 
+	PKBController::initializePKB("F:\\3201_3202\\SPA\\selfaffects.txt");
+	//doon("assign a; Select BOOLEAN such that Affects(1, 2)"); 
+	//doon("assign a; Select BOOLEAN such that Affects(1, 3)"); 
+	//doon("assign a; Select BOOLEAN such that Affects(1, 5)"); 
+	//doon("assign a; Select BOOLEAN such that Affects(2, 6)"); 
+	//doon("assign a; Select BOOLEAN such that Affects(2, 8)"); 
+	//doon("assign a; Select BOOLEAN such that Affects(3, 12)"); 
+	//doon("assign a; Select BOOLEAN such that Affects(3, 13)"); 
+	//doon("Select BOOLEAN such that Affects*(1, 8)"); 
+	//doon("Select BOOLEAN such that Affects*(11, 14)"); 
+	//doon("Select BOOLEAN such that Affects*(20, 20)"); 
 
-	doon("assign a1; Select a1 such that Affects*(6, a1)"); 
+	doon("assign a1; Select BOOLEAN such that Affects(3, 3)");
 }
 
 void TestQueryEvaluator::doon(string s)

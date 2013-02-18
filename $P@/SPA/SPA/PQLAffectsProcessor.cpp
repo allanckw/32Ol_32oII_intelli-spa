@@ -41,7 +41,9 @@ bool PQLAffectsProcessor::isAffects(STMT a1, STMT a2) {
 	stack<PROG_LINE> lines2visit;
 	set<STMT> visited;
 
-	vector<PROG_LINE> nexts = a1CFGNode->getNextProgramLines(a1);
+	bool selfAffects = (a1 == a2);
+
+	vector<PROG_LINE> nexts = PKB::next.getNext(a1);
 
 	for (int i = 0; i < nexts.size(); i++) {
 		lines2visit.push(nexts.at(i));
@@ -78,7 +80,7 @@ bool PQLAffectsProcessor::isAffects(STMT a1, STMT a2) {
 				continue;
 			}
 		}
-
+		
 		vector<PROG_LINE> temp = PKB::next.getNext(curr);
 
 		for (int k = 0; k < temp.size(); k++) {
@@ -101,7 +103,7 @@ bool PQLAffectsProcessor::isAffectsStar(STMT a1, STMT a2) {
 	stack<PROG_LINE> lines2visit;
 	set<STMT> visited;
 
-	vector<PROG_LINE> nexts = a1CFGNode->getNextProgramLines(a1);
+	vector<PROG_LINE> nexts = PKB::next.getNext(a1);
 
 	for (int i = 0; i < nexts.size(); i++) {
 		lines2visit.push(nexts.at(i));
@@ -119,18 +121,17 @@ bool PQLAffectsProcessor::isAffectsStar(STMT a1, STMT a2) {
 		if (!(PKB::next.isNextStar(curr, a2))) //if next* does not hold for the 2nd portion of transitive closure
 			continue;
 
-		if (PKB::affects.isAffects(a1, curr) && PKB::affects.isAffects(curr, a2)) { //transitive closure check
-			PKB::affects.insertAffectsStar(a1, a2, true);
-			return true;
-		}
+		//if (PKB::affects.isAffects(a1, curr) && PKB::affects.isAffects(curr, a2)) { //transitive closure check
+		//	PKB::affects.insertAffectsStar(a1, a2, true);
+		//	return true;
+		//}
 
-		vector<PROG_LINE> temp = PKB::stmtRefMap.at(curr).getCFGNode()->getNextProgramLines(curr);
+		vector<PROG_LINE> temp = PKB::next.getNext(curr);
 
 		for (int k = 0; k < temp.size(); k++) {
 			lines2visit.push(temp.at(k));
 		}
 	}
-
 	return false;
 }
 

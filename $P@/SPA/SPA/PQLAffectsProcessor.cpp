@@ -65,7 +65,7 @@ bool PQLAffectsProcessor::isAffects(STMT a1, STMT a2) {
 			return true;
 		}
 
-		if (!PKB::next.isNextStar(a1, curr)) //if next* does not hold
+		if (!PKB::next.isNextStar(a1, curr)) //if next* does not hold (i.e wrong branch)
 			continue;
 
 		ASTStmtNode* n = PKB::stmtRefMap.at(curr).getASTStmtNode();	
@@ -121,11 +121,15 @@ bool PQLAffectsProcessor::isAffectsStar(STMT a1, STMT a2) {
 		if (!(PKB::next.isNextStar(curr, a2))) //if next* does not hold for the 2nd portion of transitive closure
 			continue;
 
-		//if (PKB::affects.isAffects(a1, curr) && PKB::affects.isAffects(curr, a2)) { //transitive closure check
-		//	PKB::affects.insertAffectsStar(a1, a2, true);
-		//	return true;
-		//}
+		//@JK Compute Transitive Closure using pooling method
+		//http://www8.cs.umu.se/kurser/TDBAfl/VT06/algorithms/BOOK/BOOK4/NODE163.HTM
+		//The simplest algorithm just performs a breadth-first or depth-first search from each vertex and 
+		//keeps track of all vertices encountered.   Doing n such traversals gives an O(n (n+m) ) algorithm, 
+		//which degenerates to cubic time if the graph is dense. This algorithm is easily implemented, 
+		//runs well on sparse graphs, and is likely the right answer for your application.
 
+		//@JK DFS Completed, ur jod is to track of all vertices, the vertices are the variables being used in subsequent
+		//program lines..
 		vector<PROG_LINE> temp = PKB::next.getNext(curr);
 
 		for (int k = 0; k < temp.size(); k++) {

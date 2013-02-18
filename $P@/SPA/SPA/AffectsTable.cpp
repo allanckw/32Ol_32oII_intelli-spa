@@ -52,22 +52,6 @@ bool AffectsTable::isAffects (STMT s1, STMT s2)
 }
 
 
-//For Affects(s1, _)
-vector<STMT> AffectsTable::getAffectsBy(STMT s1)
-{
-	vector<STMT> affects;
-
-	return affects;
-}
-
-//For Affects (_, s2)
-vector<STMT> AffectsTable::getAffectsFrom(STMT s2)
-{
-	vector<STMT> affects;
-
-	return affects;
-}
-
 //planned for itr2 + 3
 void AffectsTable::insertAffectsStar (STMT s1, STMT s2, bool isAffected)
 {
@@ -117,20 +101,6 @@ bool AffectsTable::isAffectsStar (STMT s1, STMT s2)
 	return false;
 }
 
-vector<STMT>  AffectsTable::getAffectsByStar(STMT s1)
-{
-	vector<STMT> affects;
-
-	return affects;
-}
-
-vector<STMT>  AffectsTable::getAffectsFromStar(STMT s2)
-{
-	vector<STMT> affects;
-
-	return affects;
-}
-
 //planned for itr3 + 4
 void AffectsTable::insertAffectsBip(STMT s1, STMT s2, bool isAffected)
 {
@@ -173,20 +143,6 @@ bool AffectsTable::isAffectsBip (STMT s1, STMT s2)
 	//	PKB::affects.insertAffectsBip(s1, s2, false);
 	//	return false;
 	//}
-}
-
-vector<STMT>  AffectsTable::getAffectsByBip(STMT s1)
-{
-	vector<STMT> affects;
-
-	return affects;
-}
-
-vector<STMT>  AffectsTable::getAffectsFromBip(STMT s2)
-{
-	vector<STMT> affects;
-
-	return affects;
 }
 
 bool AffectsTable::isAffectsEmpty()

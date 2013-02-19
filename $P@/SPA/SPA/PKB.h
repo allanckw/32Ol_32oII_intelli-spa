@@ -12,10 +12,13 @@
 #include "NextTable.h"
 #include "AffectsTable.h"
 #include "StmtRef.h"
+#include "RulesOfEngagement.h"
 
 class PKB
 {
 public:
+	static vector<pair<RulesOfEngagement::QueryRelations, int>> sortorder;
+
 	static ASTNode* rootNode;
 	static void addToCFGList(CFGNode* start, PROC p);
 

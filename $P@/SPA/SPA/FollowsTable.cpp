@@ -146,6 +146,8 @@ int FollowsTable::getFollowsStarSize()
 					follows = followsTo[follows];
 					starSize++;
 				}
+				else
+					break;
 			} while (true);
 		}
 	}

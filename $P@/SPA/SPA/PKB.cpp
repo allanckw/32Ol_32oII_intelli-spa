@@ -1,6 +1,9 @@
 #pragma once
 #include "PKB.h"
 
+
+vector<pair<RulesOfEngagement::QueryRelations, int>> PKB::sortorder;
+
 //Store the root of the AST
 ASTNode* PKB::rootNode;
 

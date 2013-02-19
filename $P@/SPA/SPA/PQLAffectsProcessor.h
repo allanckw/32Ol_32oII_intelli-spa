@@ -13,5 +13,8 @@ public:
 	static bool isAffects(STMT, STMT);
 	static bool isAffectsStar(STMT, STMT);
 	static bool isAffectsBip(STMT, STMT);
+
+	static vector<STMT> AffectsBy(STMT);
+	static vector<STMT> AffectsFrom(STMT);
 };
 

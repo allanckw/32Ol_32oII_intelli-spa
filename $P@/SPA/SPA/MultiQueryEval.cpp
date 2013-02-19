@@ -447,6 +447,68 @@ MultiQueryEval::MultiQueryEval(const string& query)
 		}
 	}
 
+	//sort nick
+
+
+	list<pair<RulesOfEngagement::QueryRelations,pair<string, string>>> temponesyno;
+	list<pair<RulesOfEngagement::QueryRelations,pair<string, string>>> temptwosyno;
+
+	//sort
+	for(int i=0;i<PKB::sortorder.size();i++)
+	{
+		std::list<pair<RulesOfEngagement::QueryRelations,pair<string, string>>>::iterator j = onesyno.begin();
+		while (j != onesyno.end())
+		{
+			if(j->first == PKB::sortorder.at(i).first)
+			{
+				temponesyno.push_back(*j);
+				onesyno.erase(j++);
+			}
+			else
+			{
+				++j;
+			}
+			
+			
+		}
+		
+
+		j = twosyno.begin();
+		while (j != twosyno.end())
+		{
+			if(j->first == PKB::sortorder.at(i).first)
+			{
+				temptwosyno.push_back(*j);
+				twosyno.erase(j++);
+			}
+			else
+			{
+				++j;
+			}		
+		}
+	}
+	//add remaining back
+	std::list<pair<RulesOfEngagement::QueryRelations,pair<string, string>>>::iterator j = onesyno.begin();
+		while (j != onesyno.end())
+		{
+				temponesyno.push_back(*j);
+				++j;
+		}
+
+		j = twosyno.begin();
+		while (j != twosyno.end())
+		{
+				temptwosyno.push_back(*j);
+				++j;
+		}
+
+		onesyno = temponesyno;
+		twosyno = temptwosyno;
+	
+	/*
+	*/
+	//================================
+
 	bool newpool = true;
 	unordered_set<string> pool;
 

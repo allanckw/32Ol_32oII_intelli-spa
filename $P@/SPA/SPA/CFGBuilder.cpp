@@ -79,7 +79,8 @@ void CFGBuilder::buildCFG(){
 					whileNode->addPreviousNode(currCFG);
 					currCFG->addNextNode(whileNode);
 					currCFG=whileNode;
-					start=(*currline)+1;
+					if((i+1)<firstLevelStmtListNode->getSize())
+						start=(*currline)+1;
 				}
 			}
 			else if(currNode->getType()==ASTNode::If)
@@ -113,7 +114,8 @@ void CFGBuilder::buildCFG(){
 					currCFG->addNextNode(ifNode);
 					ifNode->addPreviousNode(currCFG);
 					currCFG=processIf(procedureNode,currline,currNode,ifNode);
-					start=(*currline)+1;
+					if((i+1)<firstLevelStmtListNode->getSize())
+						start=(*currline)+1;
 				}
 			}
 		}
@@ -158,7 +160,14 @@ CFGNode* CFGBuilder::processWhile(ASTNode* procedureNode,int* s, ASTStmtNode *st
 	ASTStmtNode* firstNode=(ASTStmtNode*)WhileStatementListNode->getChild(0);
 	for(int i=0; i<WhileStatementListNode->getSize(); i++)
 	{
+
 			currNode=(ASTStmtNode*) (*WhileStatementListNode).getChild(i);
+
+		if(currNode->getStmtNumber()==28)
+		{
+			cout<<""<<endl;
+		}
+		start;
 			if(currNode->getType()==ASTNode::Assign || currNode->getType()==ASTNode::Call)
 			{
 				end=currNode->getStmtNumber();
@@ -191,7 +200,8 @@ CFGNode* CFGBuilder::processWhile(ASTNode* procedureNode,int* s, ASTStmtNode *st
 				whileInternalNode->addPreviousNode(currCFG);
 				currCFG->addNextNode(whileInternalNode);
 				currCFG=whileInternalNode;
-				start=(*currline)+1;
+				if((i+1)<WhileStatementListNode->getSize())
+					start=(*currline)+1;
 				isFirstWhileCFGNodeSet=true;	
 			}
 			else if(currNode->getType()==ASTNode::If)
@@ -215,7 +225,8 @@ CFGNode* CFGBuilder::processWhile(ASTNode* procedureNode,int* s, ASTStmtNode *st
 				ifInternalNode->addPreviousNode(currCFG);
 				currCFG=processIf(procedureNode,currline,currNode,ifInternalNode);
 				isFirstWhileCFGNodeSet=true;
-				start=(*currline)+1;
+				if((i+1)<WhileStatementListNode->getSize())
+					start=(*currline)+1;
 			}
 		}
 	//currCFG->addNextNode(whileNode);
@@ -290,7 +301,8 @@ CFGNode* CFGBuilder::processIf(ASTNode* procedureNode, int *s, ASTStmtNode *stmt
 				whileInternalNode->addPreviousNode(thencurrCFG);
 				thencurrCFG->addNextNode(whileInternalNode);
 				thencurrCFG=whileInternalNode;
-				start=(*currline)+1;
+				if((i+1)<ifThenStatementListNode->getSize())
+					start=(*currline)+1;
 				isFirstIfCFGNodeSet=true;	
 			}
 			else if(currNode->getType()==ASTNode::If)
@@ -311,7 +323,8 @@ CFGNode* CFGBuilder::processIf(ASTNode* procedureNode, int *s, ASTStmtNode *stmt
 				thencurrCFG->addNextNode(ifInternalNode);
 				ifInternalNode->addPreviousNode(thencurrCFG);
 				thencurrCFG=processIf(procedureNode,currline,currNode,ifInternalNode);
-				start=(*currline)+1;
+				if((i+1)<ifThenStatementListNode->getSize())
+					start=(*currline)+1;
 				isFirstIfCFGNodeSet=true;
 			}
 	}
@@ -353,7 +366,8 @@ CFGNode* CFGBuilder::processIf(ASTNode* procedureNode, int *s, ASTStmtNode *stmt
 				whileInternalNode->addPreviousNode(elsecurrCFG);
 				elsecurrCFG->addNextNode(whileInternalNode);
 				elsecurrCFG=whileInternalNode;
-				start=(*currline)+1;
+				if((i+1)<ifElseStatementListNode->getSize())
+					start=(*currline)+1;
 				isFirstIfCFGNodeSet=true;	
 			}
 			else if(currNode->getType()==ASTNode::If)
@@ -374,7 +388,8 @@ CFGNode* CFGBuilder::processIf(ASTNode* procedureNode, int *s, ASTStmtNode *stmt
 				elsecurrCFG->addNextNode(ifInternalNode);
 				ifInternalNode->addPreviousNode(elsecurrCFG);
 				elsecurrCFG=processIf(procedureNode,currline,currNode,ifInternalNode);
-				start=(*currline)+1;
+				if((i+1)<ifElseStatementListNode->getSize())
+					start=(*currline)+1;
 				isFirstIfCFGNodeSet=true;
 			}
 	}

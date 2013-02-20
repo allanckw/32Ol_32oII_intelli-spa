@@ -16,6 +16,11 @@ public:
 	static vector<STMT> getAffectsBy(STMT);
 	static vector<STMT> getAffectsFrom(STMT);
 
+	//
+	static vector<STMT> AffectsBy2(STMT);
+	static vector<STMT> AffectsStarBy(STMT);
+	//
+
 	//Affects*
 	
 	static bool isAffectsStar(STMT, STMT);

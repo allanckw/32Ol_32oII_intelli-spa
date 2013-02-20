@@ -102,10 +102,8 @@ vector<STMT> PQLAffectsProcessor::getAffectsBy(STMT a1)
 	stack<pair<pair<bool,bool>,int>> ifLHS;//0 == left branch
 
 	PROG_LINE prevProgLine = 0;
-
-	vector<VAR> varl =  PKB::modifies.getModifiedByStmt(a1);
-
-	int varindex = varl.at(0);
+	ASTStmtNode* a1ASTNode = PKB::stmtRefMap.at(a1).getASTStmtNode();
+	VAR modifiedVar = a1ASTNode->getValue(); // get the variable being modified
 
 	while(lines2visit.size() > 0) {
 		STMT curr = lines2visit.top();
@@ -114,6 +112,9 @@ vector<STMT> PQLAffectsProcessor::getAffectsBy(STMT a1)
 		// visited?
 		if (visited.find(curr) != visited.end()) 
 			continue;
+		
+		visited.insert(curr);
+		ASTNode* currASTNode = PKB::stmtRefMap.at(curr).getASTStmtNode();
 
 		vector<STMT> nextLine = PKB::next.getNext(curr);
 		vector<STMT> prevLine = PKB::next.getPrevious(curr);
@@ -150,8 +151,8 @@ vector<STMT> PQLAffectsProcessor::getAffectsBy(STMT a1)
 		vector<VAR> varu = PKB::uses.getUsedByStmt(curr);
 		
 		bool isused = false;
-		for(int z=0; z<varu.size(); z++) 	{
-			if(varu.at(z) == varindex)	{
+		for(int z=0; z<varu.size(); z++) {
+			if(varu.at(z) == modifiedVar)	{
 				isused = true;
 				break;
 			}
@@ -159,21 +160,18 @@ vector<STMT> PQLAffectsProcessor::getAffectsBy(STMT a1)
 
 		bool ismod = false;
 		for(int z=0; z<proglinem.size(); z++) {
-			if(proglinem.at(z) == varindex) {
+			if(proglinem.at(z) == modifiedVar) {
 				ismod = true;
 				break;
 			}
 		}
 
-		if(isused && isPassingBy) 	{
+		if(isused && isPassingBy && currASTNode->getType() == ASTNode::Assign) 	{
 			result.push_back(curr);
 		}
 
-		if(ismod && PKB::stmtRefMap.at(curr).getCFGNode()->getType() != CFGNode::IfNode 
-			&& PKB::stmtRefMap.at(curr).getCFGNode()->getType() != CFGNode::WhileNode) 
+		if(ismod && currASTNode->getType() != ASTNode::If && currASTNode->getType() != ASTNode::While) 
 			continue;
-
-		visited.insert(curr);
 
 		prevProgLine = curr;
 
@@ -210,33 +208,34 @@ vector<STMT> PQLAffectsProcessor::getAffectsFrom(STMT a2)
 	while(lines2visit.size() > 0) {
 		int curr = lines2visit.top();
 		lines2visit.pop();
-
+		
+		
 		// visited?
 		if (visited.find(curr) != visited.end()) 
 			continue;
 
+		visited.insert(curr);
+		ASTNode* currASTNode = PKB::stmtRefMap.at(curr).getASTStmtNode();
+		
 		vector<STMT> nextLine = PKB::next.getNext(curr);
 		vector<STMT> prevLine = PKB::next.getPrevious(curr);
 	
 		bool isPassingBy =true;
 		if(nextLine.size() == 2 || prevLine.size() == 2) {
 			
-			CFGNode* node = PKB::stmtRefMap.at(curr).getCFGNode(); 
-
-			if(node->getType() == CFGNode::WhileNode){
-				isPassingBy = false;
-				//if start
+			if(currASTNode->getType() == ASTNode::While){
+					isPassingBy = false;
+					//if start
 			} else {
 				isPassingBy = false;
 			}
 		}
-		
+
 		vector<VAR> proglinem = PKB::modifies.getModifiedByStmt(curr);//one only
 		vector<VAR> varu = PKB::uses.getUsedByStmt(curr);//multi
-		
+	
 		bool isused = false;
 		for(int z=0; z<varu.size(); z++) {
-			//varl
 			for(int y=0;y<varl.size();y++) {
 				if(varu.at(z) == varl.at(y)) {
 					isused = true;
@@ -244,30 +243,29 @@ vector<STMT> PQLAffectsProcessor::getAffectsFrom(STMT a2)
 				}
 			}
 		}
-
 cont1:
 		bool ismod = false;
 		for(int z=0; z<proglinem.size(); z++)	{
-			for(int y=0; y<varl.size(); y++)	{
+			for(int y=0; y<varl.size(); y++) 	{
 				if(proglinem.at(z) == varl.at(y)) {
 					ismod = true;
 					goto cont2;
 				}
 			}
 		}
+			
 cont2:
-		if(ismod && isPassingBy) {
+		if(ismod && isPassingBy && currASTNode->getType() == ASTNode::Assign) {
 			result.push_back(curr);
-			visited.insert(curr);
 			continue;
 		}
-		
-		visited.insert(curr);
+	
 		prevProgLine = curr;
 
 		for(int j=(prevLine.size() - 1);j >= 0;j--) {
 			lines2visit.push(prevLine.at(j));
 		}
+		
 	}
 	
 	//CACHE

@@ -1,6 +1,6 @@
 #include "TestQueryEvaluator.h"
 #include <cppunit/config/SourcePrefix.h>
-
+#include "../SPA/PQLAffectsProcessor.h"
 
 
 //Registers the fixture into the 'registry'
@@ -17,7 +17,7 @@ TestQueryEvaluator::~TestQueryEvaluator(void)
 
 void TestQueryEvaluator::TestQueryEvaluatorM()
 {  
-	PKBController::initializePKB("F:\\3201_3202\\SPA\\selfaffects.txt");
+	PKBController::initializePKB("F:\\3201_3202\\SPA\\source4.txt");
 	//doon("assign a; Select BOOLEAN such that Affects(1, 2)"); 
 	//doon("assign a; Select BOOLEAN such that Affects(1, 3)"); 
 	//doon("assign a; Select BOOLEAN such that Affects(1, 5)"); 
@@ -29,7 +29,17 @@ void TestQueryEvaluator::TestQueryEvaluatorM()
 	//doon("Select BOOLEAN such that Affects*(11, 14)"); 
 	//doon("Select BOOLEAN such that Affects*(20, 20)"); 
 
-	doon("assign a1; Select BOOLEAN such that Affects(3, 3)");
+	//doon("assign a1; Select BOOLEAN such that Affects(3, 3)");
+
+	vector<int> x = PQLAffectsProcessor::getAffectsBy(1);
+	for (int i = 0; i < x.size(); i++)
+		cout << x[i] << " ";
+
+	 x = PQLAffectsProcessor::getAffectsFrom(10);
+	 cout << endl;
+
+	 for (int i = 0; i < x.size(); i++)
+		cout << x[i] << " ";
 }
 
 void TestQueryEvaluator::doon(string s)

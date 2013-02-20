@@ -1,129 +1,601 @@
-procedure Natalie {
-	z = 10;
-	x = z + 5;
-	y = x * z + 4;
-	d = x + y * 12;
-	call Allan;
-	d = d + z + x;
-	call Jane;
-	e = d + z * x;
-	while i {
-		e = x - y;
-		if z then {
-			y = y + z;
-			i = y + 1; }
-		else {
-			x = y + z;
-			call Jane;
-			i = i - 1; }
-		x = y + z; 
-	}
-	call Mary; 
-}
-
-procedure Mary {
-	while i {
-		z = y*3 + 2*x;
-		call Allan;
-		i = i - 1; }
-	y = y + z + i; }
-
-procedure Jane {
-	while d {
-		z = x + z; 
-	}
-		x = z + x; 
-}
-
-procedure Alaina {
-	while e {
-		if i then {
-			y = z + 1; }
-		else {
-			z = z * x + y + e * d; } } }
-
-procedure Allan{	
-	i=1;
-	me=i;
-	sorry = i+me+2;
-	Natalie =    i+me;
-	while i{
-		k=me+x;
-		while z{
-			x = x+i;
-			z=x+1;}
-		me=x+1;
-		while me {
-			while i{
-				while z{
-					i= x+5+3+me;
-					z=z+1;
-					while me{
-						while y{
-							while k{
-								x = x+1;}
-							x=y;
-							while me {
-								while z{
-									while i{
-										me=3;}
-									while x{
-										x=x;
-										while z{
-											me = x+y;}}}}}
-						z=x+5+1+x+me+y+i+k;
-						z=x;
-						i=me+1;
-						me=i+me+x+k+y;}
-					while me{
-						i=1+5;}}
-				me=x+i;}			
-			z=z+1;
-			x=i;}}
-	while z{
-		me=i+me+x+k+y;}}
-
-procedure Leon{
-	i=1;
-	m=i;
-	x=i*m+2;
-	call Sorry;
-	y=i+m;
-	call George;
-	y=i+m;
-	if i then{
-		k=m-x;
-		while z{
-			X=X+i;
-			Z=X+1;
-		}
-		m=x+i;
-	}
-	else{
-		m=x+i;
-		call George;
-		z=z-1;
-	}
-
-	call Sky;
-}
-
-procedure Sky {
-	while z{
-		i=x*(5+3)*m;
-		call Sorry;
-		z=z-1;
-	}
-	X=i;}
-
-procedure Sorry {
-	if i then {
-		X = i  + 2;
-	}
-	else {
-		m=i*m+x+k*y;}
-	z=i+k+x;
-}
-
-procedure George {
-i=m+i;}
+procedure Hacall {
+ a = l + l + a + n;
+ z = k + a + i;
+ n = i + c + k;
+ h = a + n + w + e + i;
+ p = i + k + a;
+ s = i + m + o + n;
+ a = l + l + a + n;
+ z = k + a + i;
+ n = i + c + k;
+ h = a + n + w + e + i;
+ p = i + k + a;
+ s = i + m + o + n;
+ a = l + l + a + n;
+ z = k + a + i;
+ n = i + c + k;
+ h = a + n + w + e + i;
+ p = i + k + a;
+ s = i + m + o + n;
+ a = l + l + a + n;
+ z = k + a + i;
+ n = i + c + k;
+ h = a + n + w + e + i;
+ p = i + k + a;
+ s = i + m + o + n;
+ a = l + l + a + n;
+ z = k + a + i;
+ n = i + c + k;
+ h = a + n + w + e + i;
+ p = i + k + a;
+ s = i + m + o + n;
+ a = l + l + a + n;
+ z = k + a + i;
+ n = i + c + k;
+ h = a + n + w + e + i;
+ p = i + k + a;
+ s = i + m + o + n;
+ a = l + l + a + n;
+ z = k + a + i;
+ n = i + c + k;
+ h = a + n + w + e + i;
+ p = i + k + a;
+ s = i + m + o + n;
+ a = l + l + a + n;
+ z = k + a + i;
+ n = i + c + k;
+ h = a + n + w + e + i;
+ p = i + k + a;
+ s = i + m + o + n;
+ a = 1 + 1 + a + n;
+ z = k + a + i;
+ n = i + c + k;
+ h = a + n + w + e + i;
+ p = i + k + a;
+ s = i + m + 0 + n;
+ a = 1 + 1 + a + n;
+ z = k + a + i;
+ n = i + c + k;
+ h = a + n + w + e + i;
+ p = i + k + a;
+ s = i + m + 0 + n;
+ a = 1 + 1 + a + n;
+ z = k + a + i;
+ n = i + c + k;
+ h = a + n + w + e + i;
+ p = i + k + a;
+ s = i + m + 0 + n;
+ a = 1 + 1 + a + n;
+ z = k + a + i;
+ n = i + c + k;
+ h = a + n + w + e + i;
+ p = i + k + a;
+ s = i + m + 0 + n;
+ a = 1 + 1 + a + n;
+ z = k + a + i;
+ n = i + c + k;
+ h = a + n + w + e + i;
+ p = i + k + a;
+ s = i + m + 0 + n;
+ a = 1 + 1 + a + n;
+ z = k + a + i;
+ n = i + c + k;
+ h = a + n + w + e + i;
+ p = i + k + a;
+ s = i + m + 0 + n;
+ a = 1 + 1 + a + n;
+ z = k + a + i;
+ n = i + c + k;
+ h = a + n + w + e + i;
+ p = i + k + a;
+ s = i + m + 0 + n;
+ a = 1 + 1 + a + n;
+ z = k + a + i;
+ n = i + c + k;
+ h = a + n + w + e + i;
+ p = i + k + a;
+ s = i + m + 0 + n;
+ a = 1 + 1 + a + n;
+ z = k + a + i;
+ n = i + c + k;
+ h = a + n + w + e + i;
+ p = i + k + a;
+ s = i + m + 0 + n;
+while x {
+ o = n + e;
+ t = w + 0;
+ t = h + r + 3 + 3;
+ f = 0 + u + r;
+ f = i + v + 3;
+ while x {
+ o = n + e;
+ t = w + 0;
+ t = h + r + 3 + 3;
+ f = 0 + u + r;
+ f = i + v + 3;
+ while x {
+ o = n + e;
+ t = w + 0;
+ t = h + r + 3 + 3;
+ f = 0 + u + r;
+ f = i + v + 3;
+ while x {
+ o = n + e;
+ t = w + 0;
+ t = h + r + 3 + 3;
+ f = 0 + u + r;
+ f = i + v + 3;
+ while x {
+ o = n + e;
+ t = w + 0;
+ t = h + r + 3 + 3;
+ f = 0 + u + r;
+ f = i + v + 3;
+ while x {
+ o = n + e;
+ t = w + 0;
+ t = h + r + 3 + 3;
+ f = 0 + u + r;
+ f = i + v + 3;
+ while x {
+ o = n + e;
+ t = w + 0;
+ t = h + r + 3 + 3;
+ f = 0 + u + r;
+ f = i + v + 3;
+ while x {
+ o = n + e;
+ t = w + 0;
+ t = h + r + 3 + 3;
+ f = 0 + u + r;
+ f = i + v + 3;
+ while x {
+ o = n + e;
+ t = w + 0;
+ t = h + r + 3 + 3;
+ f = 0 + u + r;
+ f = i + v + 3;
+ while x {
+ o = n + e;
+ t = w + 0;
+ t = h + r + 3 + 3;
+ f = 0 + u + r;
+ f = i + v + 3;
+ while x {
+ o = n + e;
+ t = w + 0;
+ t = h + r + 3 + 3;
+ f = 0 + u + r;
+ f = i + v + 3;
+ while x {
+ o = n + e;
+ t = w + 0;
+ t = h + r + 3 + 3;
+ f = 0 + u + r;
+ f = i + v + 3;
+ while x {
+ o = n + e;
+ t = w + 0;
+ t = h + r + 3 + 3;
+ f = 0 + u + r;
+ f = i + v + 3;
+ while x {
+ o = n + e;
+ t = w + 0;
+ t = h + r + 3 + 3;
+ f = 0 + u + r;
+ f = i + v + 3;
+ while x {
+ o = n + e;
+ t = w + 0;
+ t = h + r + 3 + 3;
+ f = 0 + u + r;
+ f = i + v + 3;
+ while x {
+ o = n + e;
+ t = w + 0;
+ t = h + r + 3 + 3;
+ f = 0 + u + r;
+ f = i + v + 3;
+ while x {
+ o = n + e;
+ t = w + 0;
+ t = h + r + 3 + 3;
+ f = 0 + u + r;
+ f = i + v + 3;
+ while x {
+ o = n + e;
+ t = w + 0;
+ t = h + r + 3 + 3;
+ f = 0 + u + r;
+ f = i + v + 3;
+ while x {
+ o = n + e;
+ t = w + 0;
+ t = h + r + 3 + 3;
+ f = 0 + u + r;
+ f = i + v + 3;
+ while x {
+ o = n + e;
+ t = w + 0;
+ t = h + r + 3 + 3;
+ f = 0 + u + r;
+ f = i + v + 3;}}}}}}}}}}}}}}}
+ h = 0;
+ a = 1;
+ n = 2;
+ a = 3;}
+ h = 0;
+ a = 1;
+ n = 2;
+ a = 3;}
+ h = 0;
+ a = 1;
+ n = 2;
+ a = 3;}
+ h = 0;
+ a = 1;
+ n = 2;
+ a = 3;}
+ h = 0;
+ a = 1;
+ n = 2;
+ a = 3;}
+ h = 0;
+ a = 1;
+ n = 2;
+ a = 3;
+ d = 4;
+ u = 5;
+ l = 6;
+ s = 7;
+ e = 8;
+ t = 9;
+ h = 0;
+ a = 1;
+ n = 2;
+ a = 3;
+ d = 4;
+ u = 5;
+ l = 6;
+ s = 7;
+ e = 8;
+ t = 9; 
+ h = 0;
+ a = 1;
+ n = 2;
+ a = 3;
+ d = 4;
+ u = 5;
+ l = 6;
+ s = 7;
+ e = 8;
+ t = 9; 
+ h = 0;
+ a = 1;
+ n = 2;
+ a = 3;
+ d = 4;
+ u = 5;
+ l = 6;
+ s = 7;
+ e = 8;
+ t = 9; 
+ h = 0;
+ a = 1;
+ n = 2;
+ a = 3;
+ d = 4;
+ u = 5;
+ l = 6;
+ s = 7;
+ e = 8;
+ t = 9; 
+ h = 0;
+ a = 1;
+ n = 2;
+ a = 3;
+ d = 4;
+ u = 5;
+ l = 6;
+ s = 7;
+ e = 8;
+ t = 9; 
+while y {
+ n = b * a;
+ n = b - a;
+ n = b * a;
+ n = b - a;
+ n = b * a;
+ n = b - a; 
+ n = b * a;
+ n = b - a; 
+ while y {
+ n = b * a;
+ n = b - a;
+ n = b * a;
+ n = b - a;
+ n = b * a;
+ n = b - a; 
+ n = b * a;
+ n = b - a; }
+ while y {
+ n = b * a;
+ n = b - a;
+ n = b * a;
+ n = b - a;
+ n = b * a;
+ n = b - a; 
+ n = b * a;
+ n = b - a; }
+ while y {
+ n = b * a;
+ n = b - a;
+ n = b * a;
+ n = b - a;
+ n = b * a;
+ n = b - a; 
+ n = b * a;
+ n = b - a; }
+ while y {
+ n = b * a;
+ n = b - a;
+ n = b * a;
+ n = b - a;
+ n = b * a;
+ n = b - a; 
+ n = b * a;
+ n = b - a; }
+ while y {
+ n = b * a;
+ n = b - a;
+ n = b * a;
+ n = b - a;
+ n = b * a;
+ n = b - a; 
+ n = b * a;
+ n = b - a; }}
+ a = b;
+ c = d;
+ e = f;
+ g = h;
+ i = j;
+ a = b;
+ c = d;
+ e = f;
+ g = h;
+ i = j;
+ a = b;
+ c = d;
+ e = f;
+ g = h;
+ i = j;
+ a = b;
+ c = d;
+ e = f;
+ g = h;
+ i = j;
+ a = b;
+ c = d;
+ e = f;
+ g = h;
+ i = j;
+ a = b;
+ c = d;
+ e = f;
+ g = h;
+ i = j;
+ a = b;
+ c = d;
+ e = f;
+ g = h;
+ i = j;
+ a = b;
+ c = d;
+ e = f;
+ g = h;
+ i = j;
+ a = b;
+ c = d;
+ e = f;
+ g = h;
+ i = j;
+ a = b;
+ c = d;
+ e = f;
+ g = h;
+ i = j;
+ a = b;
+ c = d;
+ e = f;
+ g = h;
+ i = j;
+ a = l + l + a + n;
+ z = k + a + i;
+ n = i + c + k;
+ h = a + n + w + e + i;
+ p = i + k + a;
+ s = i + m + o + n;
+ a = l + l + a + n;
+ z = k + a + i;
+ n = i + c + k;
+ h = a + n + w + e + i;
+ p = i + k + a;
+ s = i + m + o + n;
+ a = l + l + a + n;
+ z = k + a + i;
+ n = i + c + k;
+ h = a + n + w + e + i;
+ p = i + k + a;
+ s = i + m + o + n;
+ a = l + l + a + n;
+ z = k + a + i;
+ n = i + c + k;
+ h = a + n + w + e + i;
+ p = i + k + a;
+ s = i + m + o + n;
+ a = l + l + a + n;
+ z = k + a + i;
+ n = i + c + k;
+ h = a + n + w + e + i;
+ p = i + k + a;
+ s = i + m + o + n;
+ a = l + l + a + n;
+ z = k + a + i;
+ n = i + c + k;
+ h = a + n + w + e + i;
+ p = i + k + a;
+ s = i + m + o + n;
+ a = l + l + a + n;
+ z = k + a + i;
+ n = i + c + k;
+ h = a + n + w + e + i;
+ p = i + k + a;
+ s = i + m + o + n;
+ a = l + l + a + n;
+ z = k + a + i;
+ n = i + c + k;
+ h = a + n + w + e + i;
+ p = i + k + a;
+ s = i + m + o + n;
+ a = 1 + 1 + a + n;
+ z = k + a + i;
+ n = i + c + k;
+ h = a + n + w + e + i;
+ p = i + k + a;
+ s = i + m + 0 + n;
+ a = 1 + 1 + a + n;
+ z = k + a + i;
+ n = i + c + k;
+ h = a + n + w + e + i;
+ p = i + k + a;
+ s = i + m + 0 + n;
+ a = 1 + 1 + a + n;
+ z = k + a + i;
+ n = i + c + k;
+ h = a + n + w + e + i;
+ p = i + k + a;
+ s = i + m + 0 + n;
+ a = 1 + 1 + a + n;
+ z = k + a + i;
+ n = i + c + k;
+ h = a + n + w + e + i;
+ p = i + k + a;
+ s = i + m + 0 + n;
+ a = 1 + 1 + a + n;
+ z = k + a + i;
+ n = i + c + k;
+ h = a + n + w + e + i;
+ p = i + k + a;
+ s = i + m + 0 + n;
+ a = 1 + 1 + a + n;
+ z = k + a + i;
+ n = i + c + k;
+ h = a + n + w + e + i;
+ p = i + k + a;
+ s = i + m + 0 + n;
+ a = 1 + 1 + a + n;
+ z = k + a + i;
+ n = i + c + k;
+ h = a + n + w + e + i;
+ p = i + k + a;
+ s = i + m + 0 + n; 
+ if q then {
+ g = h + i;
+ h = i + j;
+ g = h + i;
+ e = f + g;
+ c = d + e;
+ while q {
+ p = q * r;
+ q = r * s;
+ p = q * r;
+ n = o * p;
+ l = m * n;
+ if q then {
+ g = h + i;
+ h = i + j;
+ g = h + i;
+ e = f + g;
+ c = d + e;
+ while q {
+ p = q * r;
+ q = r * s;
+ p = q * r;
+ n = o * p;
+ l = m * n;
+ if q then {
+ g = h + i;
+ h = i + j;
+ g = h + i;
+ e = f + g;
+ c = d + e;
+ while q {
+ p = q * r;
+ q = r * s;
+ p = q * r;
+ n = o * p;
+ l = m * n;
+ if q then {
+ g = h + i;
+ h = i + j;
+ g = h + i;
+ e = f + g;
+ c = d + e;
+ while q {
+ p = q * r;
+ q = r * s;
+ p = q * r;
+ n = o * p;
+ l = m * n;
+ if q then {
+ g = h + i;
+ h = i + j;
+ g = h + i;
+ e = f + g;
+ c = d + e;
+ while q {
+ p = q * r;
+ q = r * s;
+ p = q * r;
+ n = o * p;
+ l = m * n;}} else {
+ f = e - d;
+ e = d - c;
+ d = c - b;
+ c = b - a;
+ b = b - b;}}} else {
+ f = e - d;
+ e = d - c;
+ d = c - b;
+ c = b - a;
+ b = b - b;}}} else {
+ f = e - d;
+ e = d - c;
+ d = c - b;
+ c = b - a;
+ b = b - b;}}} else {
+ f = e - d;
+ e = d - c;
+ d = c - b;
+ c = b - a;
+ b = b - b;}}} else {
+ f = e - d;
+ e = d - c;
+ d = c - b;
+ c = b - a;
+ b = b - b;}
+ a = b + c;
+ z = a + b;
+ a = b + c;
+ a = b + c; 
+ call Hana;
+ x = y + z;
+ w = x + y;
+ v = w + x;
+ call Dul;
+ u = v + w;
+ call Set;}
+procedure Hana {h = a + n + a;}
+procedure Dul {d = u + l;}
+procedure Set {s = e + t;}

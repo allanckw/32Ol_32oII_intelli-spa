@@ -161,3 +161,13 @@ int NextTable::getSize()
 {
 	return this->nextMap.size();
 }
+
+/**
+ * Tear down the cache after evaluation =( =( =( =( 
+ * NEXT* ONLY!!!
+ * CALL AFTER EVALUATION IS COMPLETE 
+ */
+void NextTable::tearDownCache()
+{
+	this->nextStarMap.clear();
+}

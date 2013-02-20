@@ -64,4 +64,7 @@ public:
 	vector<STMT>  getAffectsByBip(STMT);
 	vector<STMT>  getAffectsFromBip(STMT);
 	bool isAffectsBipEmpty();
+
+
+	void tearDownCache();
 };

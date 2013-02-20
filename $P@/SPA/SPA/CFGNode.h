@@ -42,7 +42,6 @@ public:
 	PROC getProcedure();
 
 	vector<PROG_LINE> getProgramLines();
-	//vector<PROG_LINE> getNextProgramLines(PROG_LINE);
 
 	PROG_LINE getStartLine();
 
@@ -60,7 +59,5 @@ private:
 	NodeType type;
 
 	bool isStart, isEnd;
-
-	//bool isNext(PROG_LINE p1, PROG_LINE p2, CFGNode* nextNode);
 };
 

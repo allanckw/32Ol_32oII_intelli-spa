@@ -164,23 +164,3 @@ bool CFGNode::isProgLineBelongto(PROG_LINE p) {
 	return false;
 }
 
-
-
-///**
-//* This method is be use to get PROG LINES after a given PROG_LINE p
-//* @param the PROG_LINE p
-//* @Return List of program lines
-//*/
-//vector<PROG_LINE> CFGNode::getNextProgramLines(PROG_LINE p) {
-//	vector<PROG_LINE> progs;
-//
-//	PROG_LINE procBegin = PKB::TheBeginningAndTheEnd.at(this->getProcedure()).first;
-//	PROG_LINE procEnd = PKB::TheBeginningAndTheEnd.at(this->getProcedure()).second;
-//
-//	for (int j = procBegin; j < procEnd; j++) {
-//		if (PKB::next.isNext(p, j))
-//			progs.push_back(j);
-//	}
-//
-//	return progs;
-//}

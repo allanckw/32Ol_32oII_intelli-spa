@@ -58,4 +58,6 @@ public:
 	bool isNextStarEmpty();
 
 	int NextTable::getSize();
+
+	void tearDownCache();
 };

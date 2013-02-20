@@ -24,6 +24,15 @@ void AffectsTable::insertAffects (STMT s1, STMT s2, bool isAffected)
 	}
 }
 
+vector<STMT> AffectsTable::getAffectsBy(STMT s1)
+{
+	return PQLAffectsProcessor::getAffectsBy(s1);
+}
+
+vector<STMT> AffectsTable::getAffectsFrom(STMT s2)
+{
+	return PQLAffectsProcessor::getAffectsBy(s2);
+}
 
 bool AffectsTable::isAffects (STMT s1, STMT s2)
 {
@@ -193,4 +202,14 @@ bool AffectsTable::isDuplicate(vector<Affects*> v, Affects* a)
 	}
 
 	return false;
+}
+
+/**
+ * Tear down the cache after evaluation =( =( =( =(
+ * CALL AFTER EVALUATION IS COMPLETE 
+ */
+void AffectsTable::tearDownCache() {
+	this->affectsMap.clear();
+	this->affectsStarMap.clear();
+	this->affectsBipMap.clear();
 }

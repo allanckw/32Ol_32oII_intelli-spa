@@ -75,46 +75,6 @@ void DesignExtractor::extractDesign()
 
 	DesignExtractor::CompleteExtraction();
 
-
-	//nick added for statistic sort
-	//vector<pair<RulesOfEngagement::QueryRelations, int>> sizes;
-	//manually add each table size or hardcode for test
-	
-	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::Calls,PKB::calls.getCallsSize()));
-	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::CallsStar,PKB::calls.getCallsStarSize()));
-	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::Follows,PKB::follows.getFollowsSize()));
-	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::FollowsStar,PKB::follows.getFollowsStarSize()));
-	
-	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::Parent,PKB::parent.getSize()));
-	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::ParentStar,PKB::parent.getSize()));//no parentstarsize?
-
-	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::UsesProc,PKB::uses.getUsesProcSize()));
-	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::UsesStmt,PKB::uses.getUsesStmtSize()));
-
-	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::ModifiesProc,PKB::modifies.getModProcSize()));
-	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::ModifiesStmt,PKB::modifies.getModStmtSize()));
-
-	int max = PKB::maxProgLines*PKB::maxProgLines;
-
-	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::Affects,max));
-	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::AffectsStar,max));
-
-	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::Next,max+1));
-	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::NextStar,max+1));
-
-	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::PatternModifies,max+2));
-	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::PatternUses,max+2));
-
-
-
-	struct sort_pred {
-    bool operator()(const pair<RulesOfEngagement::QueryRelations, int> &i, const pair<RulesOfEngagement::QueryRelations, int> &j) {
-		return i.second < j.second;
-    }
-};
-
-	//sort(PKB::sortorder.begin(),PKB::sortorder.end(),sort_pred());
-
 }
 
 /**
@@ -129,6 +89,57 @@ void DesignExtractor::CompleteExtraction()
 	PKB::uses.optimizeUsesTable();
 	std::sort(PKB::stmtRefMap.begin(), PKB::stmtRefMap.end());
 	CFGBuilder::traverseCFGToPopulateNext();
+
+	DesignExtractor::initializeStatisticalSortSize();
+}
+
+/**
+* Methods is used for Initializing Statistical sorting for query evaluation
+* Size of tables, max no. of program lines is used as a heuristic
+*/
+void DesignExtractor::initializeStatisticalSortSize()
+{
+
+	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::Calls,PKB::calls.getCallsSize()));
+	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::CallsStar,PKB::calls.getCallsStarSize()));
+	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::Follows,PKB::follows.getFollowsSize()));
+	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::FollowsStar,PKB::follows.getFollowsStarSize()));
+	
+	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::Parent,PKB::parent.getSize()));
+	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::ParentStar,PKB::parent.getSize()));//parentstarsize == parent size
+
+	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::UsesProc,PKB::uses.getUsesProcSize()));
+	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::UsesStmt,PKB::uses.getUsesStmtSize()));
+
+	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::ModifiesProc,PKB::modifies.getModProcSize()));
+	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::ModifiesStmt,PKB::modifies.getModStmtSize()));
+
+	int max = PKB::maxProgLines*PKB::maxProgLines;
+
+	//Next has size
+	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::Next, PKB::next.getSize()));
+
+	//Next Star no size O(n) where n = program lines, line 1 is next* of all subsequent program lines in worst case =(
+	//i.e. 1 next* = 2..n-1
+	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::NextStar,max-1));
+	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::PatternModifies,max));
+	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::PatternUses,max));
+
+	//Force Affects* to evaluate last
+	//Affects O(n) n = program lines
+	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::Affects, max+1));
+
+	//Affects* O(n(n+m)) n = program lines, m = no. of variables
+	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::AffectsStar,
+																								max * (max + PKB::variables.getSize())));
+	
+	//sort(PKB::sortorder.begin(),PKB::sortorder.end(),sort_pred());
+
+	struct sort_pred {
+    bool operator()(const pair<RulesOfEngagement::QueryRelations, int> &i, const pair<RulesOfEngagement::QueryRelations, int> &j) {
+		return i.second < j.second;
+    }
+};
 }
 
 /**

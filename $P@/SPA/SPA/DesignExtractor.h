@@ -20,9 +20,12 @@ private:
 	static unordered_map <PROC, int> procCount;
 	static unordered_map <PROC, vector< stack<ASTStmtNode*> > > savestate;
 
+
 	static void buildFirstRound();
 	static void buildOtherTables(PROC);
 	static void CompleteExtraction();
+
+	static void initializeStatisticalSortSize();
 	
 public:
 	static void extractDesign();

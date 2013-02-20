@@ -643,21 +643,31 @@ void AnswerTable::combine(const string& ownSynonym, const AnswerTable& otherTabl
 {
 	const int firstRelIndex = synonymPosition[ownSynonym];
 	const int secondRelIndex = otherTable.synonymPosition.at(otherSynonym);
-	unordered_map<int, unordered_set<int>> memo;
 	vector<vector<int>> newTable;
 
 	RulesOfEngagement::relationFamily fn1 = RulesOfEngagement::getRelationByFamily(rel);
 	RulesOfEngagement::relationFamily fn2 = RulesOfEngagement::getRelationFromFamily(rel);
 	if (fn1 == 0 && fn2 == 0) {
 		RulesOfEngagement::isRelation fn3 = RulesOfEngagement::getRelation(rel);
-		for (auto it = answers.begin(); it != answers.end(); it++)
-			for (auto it2 = otherTable.answers.begin(); it2 != otherTable.answers.end(); it2++)
-				if (fn3((*it)[firstRelIndex], (*it2)[secondRelIndex])) {
+		unordered_map<int, unordered_map<int, bool>> memo;
+		for (auto it = answers.begin(); it != answers.end(); it++) {
+			int first = (*it)[firstRelIndex];
+			unordered_map<int, bool> memofirst = memo[first];
+
+			for (auto it2 = otherTable.answers.begin(); it2 != otherTable.answers.end(); it2++) {
+				int second = (*it2)[secondRelIndex];
+				if (memofirst.count(second) == 0)
+					memofirst.insert(pair<int, bool>(second, fn3(first, second)));
+
+				if (memofirst[second]) {
 					vector<int> newRow(*it);
 					newRow.insert(newRow.end(), (*it2).begin(), (*it2).end());
 					newTable.push_back(newRow);
 				}
+			}
+		}
 	} else {
+		unordered_map<int, unordered_set<int>> memo;
 		if (answers.size() <= otherTable.answers.size() || fn2 == 0) {
 			for (auto it = answers.begin(); it != answers.end(); it++) {
 				int value1 = (*it)[firstRelIndex];
@@ -719,11 +729,19 @@ void AnswerTable::prune(const string& firstSynonym,
 {
 	const int firstRelIndex = synonymPosition[firstSynonym];
 	const int secondRelIndex = synonymPosition[secondSynonym];
+	unordered_map<int, unordered_map<int, bool>> memo;
 
 	vector<vector<int>> newTable;
-	for (auto it = answers.begin(); it != answers.end(); it++)
-		if (rel((*it)[firstRelIndex], (*it)[secondRelIndex]))
+	for (auto it = answers.begin(); it != answers.end(); it++) {
+		int first = (*it)[firstRelIndex];
+		int second = (*it)[secondRelIndex];
+		unordered_map<int, bool> memofirst = memo[first];
+		if (memofirst.count(second) == 0)
+			memofirst.insert(pair<int, bool>(second, rel(first, second)));
+
+		if (memofirst[second])
 			newTable.push_back(*it);
+	}
 	answers = newTable;
 }
 

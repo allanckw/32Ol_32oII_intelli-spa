@@ -104,7 +104,7 @@ private:
 	static vector<int> parentStarBy(int x);
 	static vector<int> nextBy(int x);
 	static vector<int> nextStarBy(int x);
-	//static vector<int> affectsBy(int x);
+	static vector<int> affectsBy(int x);
 	//static vector<int> affectsStarBy(int x);
 	//static vector<int> patternModifiesBy(int x);
 	/*template
@@ -124,7 +124,7 @@ private:
 	static vector<int> parentStarFrom(int y);
 	static vector<int> nextFrom(int y);
 	static vector<int> nextStarFrom(int y);
-	//static vector<int> affectsFrom(int y);
+	static vector<int> affectsFrom(int y);
 	//static vector<int> affectsStarFrom(int y);
 	//static vector<int> patternModifiesFrom(int y);
 	/*template
@@ -140,6 +140,7 @@ private:
 	static vector<int> getAllWhile();
 	static vector<int> getAllIf();
 	static vector<int> getAllCall();
+	static vector<int> getAllStmtList();
 	/*template
 	static vector<int> getAll<Type>();
 	*/
@@ -155,8 +156,6 @@ public:
 	
 	static bool satisfyPattern(const int index, const RulesOfEngagement::PatternRHSType RHS,
 		const string& RHSVarName, const ASTExprNode* RHSexprs);
-	/*static bool satisfyPattern(int index, int modifiesVar,
-		RulesOfEngagement::PatternRHSType RHS, string RHSVarName, ASTExprNode* RHSexprs);*/
 private:
 	static bool TryMatch(ASTNode* testedNode, PatternRHSType RHS, const ASTExprNode* RHSexpr);
 	static bool MatcherTree(const ASTNode* Original, const ASTNode* Pattern);//, bool isSub);

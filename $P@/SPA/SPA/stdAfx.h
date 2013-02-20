@@ -4,6 +4,7 @@
 //
 
 #pragma once
+//#include <omp.h>
 #include <stdio.h>
 #include <tchar.h>
 #include <string>

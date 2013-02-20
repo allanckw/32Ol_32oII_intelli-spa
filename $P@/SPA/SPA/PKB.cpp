@@ -34,6 +34,7 @@ unordered_set<STMT> PKB::whileTable;
 unordered_map<int, ASTNode*> PKB::whileNodes;
 unordered_set<STMT> PKB::ifTable;
 unordered_map<int, ASTNode*> PKB::ifNodes;
+unordered_set<STMT> PKB::statementListTable;
 vector<ASTNode*> PKB::statementNodes;
 vector<StmtRef> PKB::stmtRefMap;
 vector<pair<STMT, STMT>> PKB::TheBeginningAndTheEnd;

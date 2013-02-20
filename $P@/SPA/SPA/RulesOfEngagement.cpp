@@ -296,7 +296,7 @@ void RulesOfEngagement::initialise()
 	relationByMap[ParentStar] = &parentStarBy;
 	relationByMap[Next] = &nextBy;
 	relationByMap[NextStar] = &nextStarBy;
-	//relationByMap[Affects] = &affectsBy;
+	relationByMap[Affects] = &affectsBy;
 	//relationByMap[AffectsStar] = &affectsStarBy;
 
 	relationFromMap[ModifiesStmt] = &modifiesStmtFrom;
@@ -311,7 +311,7 @@ void RulesOfEngagement::initialise()
 	relationFromMap[ParentStar] = &parentStarFrom;
 	relationFromMap[Next] = &nextFrom;
 	relationFromMap[NextStar] = &nextStarFrom;
-	//relationFromMap[Affects] = &affectsFrom;
+	relationFromMap[Affects] = &affectsFrom;
 	//relationFromMap[AffectsStar] = &affectsStarFrom;
 	
 	typeMap[Statement] = &getAllStmt;
@@ -555,12 +555,12 @@ vector<int> RulesOfEngagement::nextStarBy(int x)
 	return PKB::next.getNextStar(x);
 }
 
-/*vector<int> RulesOfEngagement::affectsBy(int x)
+vector<int> RulesOfEngagement::affectsBy(int x)
 {
 	return PKB::affects.getAffectsBy(x);
 }
 
-vector<int> RulesOfEngagement::affectsStarBy(int x)
+/*vector<int> RulesOfEngagement::affectsStarBy(int x)
 {
 	return PKB::affects.getAffectsByStar(x);
 }*/
@@ -646,12 +646,12 @@ vector<int> RulesOfEngagement::nextStarFrom(int y)
 	return PKB::next.getPreviousStar(y);
 }
 
-/*vector<int> RulesOfEngagement::affectsFrom(int y)
+vector<int> RulesOfEngagement::affectsFrom(int y)
 {
 	return PKB::affects.getAffectsFrom(y);
 }
 
-vector<int> RulesOfEngagement::affectsStarFrom(int y)
+/*vector<int> RulesOfEngagement::affectsStarFrom(int y)
 {
 	return PKB::affects.getAffectsFromStar(y);
 }*/
@@ -732,6 +732,14 @@ vector<int> RulesOfEngagement::getAllCall()
 {
 	vector<int> answer;
 	for (auto it = PKB::callTable.begin(); it != PKB::callTable.end(); it++)
+		answer.push_back(*it);
+	return answer;
+}
+
+vector<int> RulesOfEngagement::getAllStmtList()
+{
+	vector<int> answer;
+	for (auto it = PKB::statementListTable.begin(); it != PKB::statementListTable.end(); it++)
 		answer.push_back(*it);
 	return answer;
 }

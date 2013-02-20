@@ -328,6 +328,7 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 	ASTStmtLstNode* currentStmtListNode = firstLevelStmtListNode;
 	ASTStmtNode* currentStmtNode = (ASTStmtNode*) (*firstLevelStmtListNode).getChild(0); //first statement
 	STMT currentStmtNumber = (*currentStmtNode).getStmtNumber();
+	PKB::statementListTable.insert(currentStmtNumber);
 	int currentPosition = 0;
 	bool haveNextChildren = true;
 
@@ -492,6 +493,7 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 						(ASTStmtLstNode*) (*currentStmtNode).getChild(2);
 					ASTStmtNode* olderChild = (ASTStmtNode*) (*tempStmtListNode).getChild(0);
 					STMT olderChildNumber = (*olderChild).getStmtNumber();
+					PKB::statementListTable.insert(olderChildNumber);
 					ASTStmtNode* youngerChild;
 					STMT youngerChildNumber;
 					PKB::parent.insertParent(currentStmtNumber, olderChildNumber);
@@ -508,6 +510,7 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 				currentStmtListNode = (ASTStmtLstNode*) (*currentStmtNode).getChild(1);
 				currentStmtNode = (ASTStmtNode*) (*currentStmtListNode).getChild(0);
 				STMT newStmtNumber = (*currentStmtNode).getStmtNumber();
+				PKB::statementListTable.insert(newStmtNumber);
 				currentPosition = 0;
 
 				//add Parent and Follows relationship for all the children

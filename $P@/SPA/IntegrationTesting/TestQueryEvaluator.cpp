@@ -35,7 +35,7 @@ void TestQueryEvaluator::TestQueryEvaluatorM()
 	for (int i = 0; i < x.size(); i++)
 		cout << x[i] << " ";
 
-	 x = PQLAffectsProcessor::getAffectsFrom(10);
+	 x = PQLAffectsProcessor::getAffectsFrom(3);
 	 cout << endl;
 
 	 for (int i = 0; i < x.size(); i++)

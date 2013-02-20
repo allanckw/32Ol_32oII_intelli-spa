@@ -40,7 +40,7 @@ bool PQLAffectsProcessor::isAffects(STMT a1, STMT a2) {
 	CFGNode* a1CFGNode = PKB::stmtRefMap.at(a1).getCFGNode(); 
 
 	stack<STMT> lines2visit;
-	set<STMT> visited;
+	set<PROG_LINE> visited;
 	vector<PROG_LINE> nexts = PKB::next.getNext(a1);
 
 	for (int i = 0; i < nexts.size(); i++) 
@@ -91,13 +91,13 @@ bool PQLAffectsProcessor::isAffects(STMT a1, STMT a2) {
 vector<STMT> PQLAffectsProcessor::getAffectsBy(STMT a1)
 {
 	vector<PROG_LINE> nexts = PKB::next.getNext(a1);
-	stack<STMT> lines2visit; 
+	stack<PROG_LINE> lines2visit; 
 
 	for (int i = 0; i < nexts.size(); i++) 
 		lines2visit.push(nexts.at(i));
 	
 	vector<STMT> result;
-	set<STMT> visited;
+	set<PROG_LINE> visited;
 
 	stack<pair<pair<bool,bool>,int>> ifLHS;//0 == left branch
 
@@ -196,7 +196,7 @@ vector<STMT> PQLAffectsProcessor::getAffectsFrom(STMT a2)
 		lines2visit.push(prevs.at(i));
 	
 	vector<STMT> result;
-	set<STMT> visited;
+	set<PROG_LINE> visited;
 
 	stack<pair<pair<bool,bool>,int>> ifLHS;//0 == left branch
 
@@ -261,7 +261,13 @@ vector<STMT> PQLAffectsProcessor::getAffectsFrom(STMT a2)
 				}
 			}
 ProcMod:
-			continue;
+			if(ismod) {
+				result.push_back(curr);
+				if (isPassingBy)
+					goto twoPath;
+				else
+					continue;
+			}
 		}
 
 twoPath:
@@ -317,7 +323,7 @@ bool PQLAffectsProcessor::isAffectsStar(STMT a1, STMT a2) {
 	CFGNode* a1CFGNode = PKB::stmtRefMap.at(a1).getCFGNode(); 
 
 	stack<STMT> lines2visit;
-	set<STMT> visited;
+	set<PROG_LINE> visited;
 
 	vector<STMT> nexts = PKB::next.getNext(a1);
 

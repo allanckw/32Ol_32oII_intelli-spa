@@ -15,6 +15,16 @@ TestQueryEvaluator::~TestQueryEvaluator(void)
 {
 }
 
+void display(vector<int> x)
+{
+	if (x.size() == 0)
+		cout<< "NONE";
+
+	 for (int i = 0; i < x.size(); i++)
+		cout << x[i] << " ";
+
+	 cout << endl;
+}
 void TestQueryEvaluator::TestQueryEvaluatorM()
 {  
 	PKBController::initializePKB("F:\\3201_3202\\SPA\\source4.txt");
@@ -31,16 +41,17 @@ void TestQueryEvaluator::TestQueryEvaluatorM()
 
 	//doon("assign a1; Select BOOLEAN such that Affects(3, 3)");
 
-	vector<int> x = PQLAffectsProcessor::getAffectsBy(1);
-	for (int i = 0; i < x.size(); i++)
-		cout << x[i] << " ";
+	cout << "assign a1; Select a1 such that Affects(a1, 9)" << endl;
+	vector<int> x = PQLAffectsProcessor::getAffectsFrom(9);
+	
+	display(x);
 
-	 x = PQLAffectsProcessor::getAffectsFrom(3);
-	 cout << endl;
+	cout << "assign a1; Select a1 such that Affects(a1, 22)"<< endl;
+	 x = PQLAffectsProcessor::getAffectsFrom(22);
+	display(x);
 
-	 for (int i = 0; i < x.size(); i++)
-		cout << x[i] << " ";
 }
+
 
 void TestQueryEvaluator::doon(string s)
 {

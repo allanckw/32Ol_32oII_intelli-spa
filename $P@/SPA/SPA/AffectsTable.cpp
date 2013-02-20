@@ -31,7 +31,7 @@ vector<STMT> AffectsTable::getAffectsBy(STMT s1)
 
 vector<STMT> AffectsTable::getAffectsFrom(STMT s2)
 {
-	return PQLAffectsProcessor::getAffectsBy(s2);
+	return PQLAffectsProcessor::getAffectsFrom(s2);
 }
 
 bool AffectsTable::isAffects (STMT s1, STMT s2)

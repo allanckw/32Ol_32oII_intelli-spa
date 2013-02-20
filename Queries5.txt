@@ -598,7 +598,7 @@ Select a1 such that Affects(a1, 27)
 121 - Parent, ImplStmtLine, Typed :: 
 assign a2;
 Select a2 such that Affects(1, a2)
-2, 3, 4, 5
+2, 3, 5
 5000
 122 - Parent, ImplStmtLine, Typed :: 
 assign a2;

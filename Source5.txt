@@ -1,5 +1,4 @@
-procedure Leon{
-	i=1;
+procedure Leon{	i=1;
 	m=i;
 	x=i*m+2;
 	call Natalie;
@@ -10,25 +9,16 @@ procedure Leon{
 		k=m-x;
 		while z{
 			X=X+i;
-			Z=X+1;
-		}
+			Z=X+1;}
 		m=x+i;
-	}
-	else{
-		m=x+i;
+	}	else{ m=x+i;
 		call George;
-		z=z-1;
-	}
-
-	call Allan;
-}
-
-procedure Allan{
-	while z{
+		z=z-1;	}
+	call Allan;}
+procedure Allan{	while z{
 		i=x*(5+3)*m;
 		call Natalie;
-		z=z-1;
-	}
+		z=z-1;	}
 	X=i;}
 
 procedure Natalie {

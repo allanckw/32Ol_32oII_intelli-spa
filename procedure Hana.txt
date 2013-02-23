@@ -1,0 +1,339 @@
+procedure Hana {
+	i = c + h * i;
+	n = i;
+	s = a - n;	
+	while b {
+		a = b;
+		b = c;
+		c = d;
+		d = e;
+		e = a;
+		if f then {
+			while h {
+				if i then {
+					w = h + e - r * e;
+					i = s;
+					s = 1 + m - 0 * n;
+					while j {
+						h = 1;
+						while k {
+							while l {
+								e = o + s; }}
+						g = a + g;	
+						}
+					} 
+				else {
+					h = h;}
+				}
+			}
+		else {
+			g = g;
+			if z then {
+				g = g + l + i + a + 0;}
+			else {
+				y = a + y;}}
+	}
+}
+
+procedure Hana2 {
+	i = c + h * i;
+	n = i;	
+	while b {
+		a = b;
+		b = c;
+		c = d;
+		d = e;
+		e = a;
+		if f then {
+		d = e;
+		e = a;
+		if f then {
+			while h {
+				if i then {
+					w = h + e - r * e;
+					i = s;
+					s = 1 + m - 0 * n;
+					while j {
+						h = 1;
+						while k {
+							while l {
+								e = o + s; }}
+						g = a + g;	
+						}
+					} 
+				else {
+					h = h;}
+				}
+			}
+		else {
+			g = g;
+			if z then {
+				g = g + l + i + a + 0;}
+			else {
+				y = a + y;}}
+			while h {
+				if i then {
+					w = h + e - r * e;
+					i = s;
+					s = 1 + m - 0 * n;
+					while j {
+						h = 1;
+						while k {
+							while l {
+								e = o + s; }}
+						g = a + g;	
+						}
+					} 
+				else {
+					h = h;}
+				}
+			}
+		else {
+			g = g;
+			if z then {
+				g = g + l + i + a + 0;}
+			else {
+				y = a + y;}}}
+	s = a - n;
+	while j {
+		h = 1;
+		while k {
+			x = 1; }
+	}
+	x = 2;
+}
+
+
+procedure IfWhile2 {
+	if i then {
+		while j {
+			h = 1;
+			while k {
+				while l {
+					e = o + s; }
+				nat = allan + meow;
+				meow = cat;
+			}
+			while a {
+				e = o + s; }
+			nat = allan + me0w;
+			meow = cat;
+			g = a + g;
+			while a {
+				e = o + s; }
+			nat = allan + meow;
+			if x then {
+				me0w = cat; 
+				while a {
+					e = o + s; }}
+			else {
+				g = a + g; }	
+			}
+	else {
+		h = h;
+		w = h + e - r * e;
+		if x then {
+			x = 1;
+		} else {
+			i = 2;
+		}
+		i = s;
+		s = 1 + m - 0 * n;}
+	}
+}
+
+procedure ElseWhile1 {
+	if i then {
+		w = h + e - r * e;
+		i = s;
+		s = 1 + m - 0 * n;
+	} else {
+		while j {
+			h = 1;
+			while k {
+				while l {
+					e = o + s; }
+				nat = allan + meow;
+				meow = cat;
+			}
+			while a {
+				e = o + s; }
+			nat = allan + me0w;
+			meow = cat;
+			g = a + g;
+			while a {
+				e = o + s; }
+			nat = allan + meow;
+			if x then {
+				me0w = cat; 
+				while a {
+					e = o + s; }
+					while x { 
+						qq = qqq; 
+						if qq then { 
+							x = 1; } 
+						else {
+							 x = 2;}
+					}
+			}
+			else {
+				g = a + g; }	
+			}
+		} 		
+	}
+}
+
+
+procedure ElseWhile2 {
+	x = 1;
+	qqe = 4;
+	if i then {
+		w = h + e - r * e;
+		i = s;
+		s = 1 + m - 0 * n;
+	} else {
+		while j {
+			h = 1;
+			while k {
+				while l {
+					e = o + s; }
+				nat = allan + meow;
+				meow = cat;
+			}
+			while a {
+				e = o + s; }
+			nat = allan + me0w;
+			meow = cat;
+			g = a + g;
+			while a {
+				e = o + s; }
+			nat = allan + meow;
+			if x then {
+				me0w = cat; 
+				while a {
+					e = o + s; }
+					while x { 
+						qq = qqq; 
+						if qq then { 
+							x = 1; } 
+						else {
+							 x = 2;}
+					}
+			}
+			else {
+				g = a + g; }	
+			}
+		} 		
+	}
+	s = a - n;
+	while j {
+		h = 1;
+		while k {
+			x = 1; }
+	}
+	x = 2;
+}
+
+procedure LifeIsDifficult{
+	x  = 1;
+	if f then {
+			while h {
+				if i then {
+					w = h + e - r * e;
+					i = s;
+					s = 1 + m - 0 * n;
+					while j {
+						h = 1;
+						while k {
+							while l {
+								e = o + s; }}
+						g = a + g;	
+						}
+					} 
+				else {
+					h = h;}
+				}
+			}
+	 else {
+		while j {
+			h = 1;
+			while k {
+				while l {
+					e = o + s; }
+				nat = allan + meow;
+				meow = cat;
+			}
+			while a {
+				e = o + s; }
+			nat = allan + me0w;
+			meow = cat;
+			g = a + g;
+			while a {
+				e = o + s; }
+			nat = allan + meow;
+			if x then {
+				me0w = cat; 
+				while a {
+					e = o + s; }
+					while x { 
+						qq = qqq; 
+						if qq then { 
+							x = 1; } 
+						else {
+							 x = 2;
+				if x then {
+				me0w = cat; 
+				while a {
+					e = o + s; }
+					while x { 
+						qq = qqq; 
+						if qq then { 
+							x = 1; } 
+						else {
+							 x = 2;}
+					}
+			}
+			else {
+				g = a + g; }	
+			}}
+					}
+			}
+			else {
+				g = a + g; }	
+			}
+		} 		
+	}
+	s = a - n;
+	while j {
+		h = 1;
+		while k {
+			x = 1; 
+		d = e;
+		e = a;
+		if f then {
+			while h {
+				if i then {
+					w = h + e - r * e;
+					i = s;
+					s = 1 + m - 0 * n;
+					while j {
+						h = 1;
+						while k {
+							while l {
+								e = o + s; }}
+						g = a + g;	
+						}
+					} 
+				else {
+					h = h;}
+				}
+			}
+		else {
+			g = g;
+			if z then {
+				g = g + l + i + a + 0;}
+			else {
+				y = a + y;}}}
+	}
+	x = 2;
+}

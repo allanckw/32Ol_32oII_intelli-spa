@@ -1,0 +1,110 @@
+procedure Natalie {		
+	x = 2;												
+	z = 3;												
+	while k {											
+		k = z + 1;										
+		call Allan;									
+		x = x * z; }									
+	call zorro; 										
+	if x then { 										
+		x = x - z + 2 * 3; 							
+		call tomtom; }									
+	else {
+		x = 0; }										
+	call Allan; }										
+	
+procedure Allan {		
+	i = 1;												
+	m = i;												
+	y = i + m *15
+	while i {									
+		x = x + 2 * y;					
+		call zorro;							
+		i = i - 1;								
+		if y then {							
+			x = x - 5;							
+			y = 10 * (x + 22 * y);
+			while m {									
+				while y {								
+					while k {							
+						x = x + 1; }					
+					x = y;								
+					while m {							
+						while z {						
+							call tomtom;					
+							while i {					
+								m = 3; }				
+							while x {					
+									x = x;				
+									while z {			
+										m = x + y; 		
+										call tomtom; }}}}}		
+				z = x - 5 + m - (y + i) - k;					
+				if m then { 									
+					m = m - 2; }								
+				else {
+					call zorro; }								
+				i = m + 1;										
+				m = i + m * (x - (k + y) * (z - k)); }}			
+		else {			
+			z = 8; }}											
+	i = x + 5 * (3 + m) + 45
+	z = z - x + i * 46
+	y = z + 47
+	if y then {													
+		z = (7 + y + (x + 2)) * (z - 5);									
+		if z then {												
+			y = z + 6 * y; }							
+		else {
+			i = 6;												
+			while x {									
+				y = 7 * i;										
+				z = 9 * i; }}}									
+	else {
+		x = x * z - 5 - v + 7;								
+		if x then {												
+			if y then {											
+				call zorro;									
+				y = y - 2; }									
+			else {
+				if m then {								
+					m = x; }									
+				else {
+					i = 0; }}							
+			if x then { 								
+				x = x + 2; }							
+			else {
+				x = 0; }}								
+		else {
+			v = 5; 										
+			call Natalie; }								
+		x = x * y + z; }	
+									
+	}										
+
+
+procedure tomtom {		
+	z = 5;												
+    v = z;												
+	if v then {													
+		v = 5; 												
+		if z then { 											
+			z = k + (k - m) * 3 - (m - k * 5); 					
+			if k then { 										
+				k = k + 1; }							
+			else {
+				k = k - 1; }}									
+		else { 
+			v = 1 + k; 									
+			while v { 									
+				call zorro; }}}								
+	else {
+		m = i + ((m + v) - x) * y;						
+		call zorro; }											
+	while m { 													
+		call zorro; }}											
+		
+procedure zorro {
+	k = i + (k - m) * ((4 + (v - 5)) * x) + 7; 					
+	a = 1 + m;											
+	x = b; }											

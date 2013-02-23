@@ -173,7 +173,25 @@ procedure ElseWhile1 {
 						if qq then { 
 							x = 1; } 
 						else {
-							 x = 2;}
+							 x = 2;		
+h = h;
+		w = h + e - r * e;
+		if x then {
+			x = 1;
+		} else {
+			i = 2;		
+h = h;
+		w = h + e - r * e;
+		if x then {
+			x = 1;
+		} else {
+			i = 2;
+		}
+		i = s;
+		s = 1 + m - 0 * n;}
+		}
+		i = s;
+		s = 1 + m - 0 * n;}}
 					}
 			}
 			else {
@@ -236,6 +254,17 @@ procedure ElseWhile2 {
 
 procedure LifeIsDifficult{
 	x  = 1;
+	while k {
+				while l {
+					e = o + s; 
+		while j {
+		h = 1;
+		while k {
+			x = 1; }
+	}}
+				nat = allan + meow;
+				meow = cat;
+			}
 	if f then {
 			while h {
 				if i then {
@@ -294,7 +323,12 @@ procedure LifeIsDifficult{
 					}
 			}
 			else {
-				g = a + g; }	
+				g = a + g; while k {
+				while l {
+					e = o + s; }
+				nat = allan + meow;
+				meow = cat;
+			}}	
 			}}
 					}
 			}
@@ -312,6 +346,17 @@ procedure LifeIsDifficult{
 		e = a;
 		if f then {
 			while h {
+while k {
+				while l {
+					e = o + s; while k {
+				while l {
+					e = o + s; }
+				nat = allan + meow;
+				meow = cat;
+			}}
+				nat = allan + meow;
+				meow = cat;
+			}
 				if i then {
 					w = h + e - r * e;
 					i = s;
@@ -320,12 +365,30 @@ procedure LifeIsDifficult{
 						h = 1;
 						while k {
 							while l {
-								e = o + s; }}
+								e = o + s; while k {
+				while l {
+					e = o + s; }
+				nat = allan + meow;
+				meow = cat;
+			}}}
 						g = a + g;	
 						}
 					} 
 				else {
-					h = h;}
+					h = h;		h = h;
+		w = h + e - r * e;
+		if x then {
+			x = 1;while k {
+				while l {
+					e = o + s; }
+				nat = allan + meow;
+				meow = cat;
+			}
+		} else {
+			i = 2;
+		}
+		i = s;
+		s = 1 + m - 0 * n;}}
 				}
 			}
 		else {

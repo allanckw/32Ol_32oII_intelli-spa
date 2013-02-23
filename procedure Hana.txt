@@ -247,43 +247,34 @@ procedure ElseWhile2 {
 	while j {
 		h = 1;
 		while k {
-			x = 1; }
+			x = 1;
+if x then {
+				me0w = cat; 
+				while a {
+					e = o + s; }
+					while x { 
+						qq = qqq; 
+						if qq then { 
+							x = 1; } 
+						else {
+							 x = 2;}
+					}
+			}
+			else {
+				g = a + g; }	
+			} }
 	}
 	x = 2;
 }
 
 procedure LifeIsDifficult{
-	x  = 1;
-	while k {
-				while l {
-					e = o + s; 
-		while j {
+	while j {
 		h = 1;
 		while k {
 			x = 1; }
-	}}
-				nat = allan + meow;
-				meow = cat;
-			}
-	if f then {
-			while h {
-				if i then {
-					w = h + e - r * e;
-					i = s;
-					s = 1 + m - 0 * n;
-					while j {
-						h = 1;
-						while k {
-							while l {
-								e = o + s; }}
-						g = a + g;	
-						}
-					} 
-				else {
-					h = h;}
-				}
-			}
-	 else {
+	}
+	x = 2;
+if i then {
 		while j {
 			h = 1;
 			while k {
@@ -303,60 +294,24 @@ procedure LifeIsDifficult{
 			if x then {
 				me0w = cat; 
 				while a {
-					e = o + s; }
-					while x { 
-						qq = qqq; 
-						if qq then { 
-							x = 1; } 
-						else {
-							 x = 2;
-				if x then {
-				me0w = cat; 
-				while a {
-					e = o + s; }
-					while x { 
-						qq = qqq; 
-						if qq then { 
-							x = 1; } 
-						else {
-							 x = 2;}
-					}
-			}
-			else {
-				g = a + g; while k {
-				while l {
-					e = o + s; }
-				nat = allan + meow;
-				meow = cat;
-			}}	
-			}}
-					}
-			}
+					e = o + s; }}
 			else {
 				g = a + g; }	
 			}
-		} 		
-	}
-	s = a - n;
-	while j {
-		h = 1;
-		while k {
-			x = 1; 
+	else {
+		h = h;
+		w = h + e - r * e;
+		if x then {
+			x = 1;
+		} else {
+			while b {
+		a = b;
+		b = c;
+		c = d;
 		d = e;
 		e = a;
 		if f then {
 			while h {
-while k {
-				while l {
-					e = o + s; while k {
-				while l {
-					e = o + s; }
-				nat = allan + meow;
-				meow = cat;
-			}}
-				nat = allan + meow;
-				meow = cat;
-			}
 				if i then {
 					w = h + e - r * e;
 					i = s;
@@ -365,30 +320,12 @@ while k {
 						h = 1;
 						while k {
 							while l {
-								e = o + s; while k {
-				while l {
-					e = o + s; }
-				nat = allan + meow;
-				meow = cat;
-			}}}
+								e = o + s; }}
 						g = a + g;	
 						}
 					} 
 				else {
-					h = h;		h = h;
-		w = h + e - r * e;
-		if x then {
-			x = 1;while k {
-				while l {
-					e = o + s; }
-				nat = allan + meow;
-				meow = cat;
-			}
-		} else {
-			i = 2;
-		}
-		i = s;
-		s = 1 + m - 0 * n;}}
+					h = h;}
 				}
 			}
 		else {
@@ -396,7 +333,33 @@ while k {
 			if z then {
 				g = g + l + i + a + 0;}
 			else {
-				y = a + y;}}}
+				if x then {
+				me0w = cat; 
+				while a {
+					e = o + s; }
+					while x { 
+						qq = qqq; 
+						if qq then { 
+							x = 1;
+							g = g;
+							if z then {
+								g = g + l + i + a + 0;}
+							else {
+								y = a + y;}
+					} } 
+						else {
+							 x = 2;}
+					}
+			}
+			else {
+				g = a + g; }	
+			}}
+			i = c + h * i;
+	n = i;
+	s = a - n;}
 	}
-	x = 2;
+		}
+		i = s;
+		s = 1 + m - 0 * n;}
+	}	
 }

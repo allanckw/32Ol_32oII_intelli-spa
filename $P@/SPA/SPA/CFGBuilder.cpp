@@ -5,6 +5,9 @@
 * At the end of a procedure, it will be added to a list that 
 * will contains all the CFGs in a program to prepare for query evaluation
 */
+
+set<CFGNode*> CFGBuilder::visited;
+
 void CFGBuilder::buildCFG(){
 
 	CFGNode* rootCFG;
@@ -53,7 +56,6 @@ void CFGBuilder::buildCFG(){
 			}
 			else if(currNode->getType()==ASTNode::While) {
 				if(currNode->getStmtNumber() == firstNode->getStmtNumber()) {//if while is the first Node
-				
 					CFGNode* whileNode = processWhile(procedureNode,currline,currNode);
 					whileNode->setStartNode();
 					isRootSet=true;
@@ -110,7 +112,7 @@ void CFGBuilder::buildCFG(){
 						toAddStandardNode=false;
 					}
 					start=currNode->getStmtNumber();
-					CFGNode* ifNode = new CFGNode(CFGNode::IfNode,start,start,procedureNode->getValue());
+					CFGNode* ifNode = new CFGNode(CFGNode::IfNode,currNode->getStmtNumber(),currNode->getStmtNumber(),procedureNode->getValue());
 					currCFG->addNextNode(ifNode);
 					ifNode->addPreviousNode(currCFG);
 					currCFG=processIf(procedureNode,currline,currNode,ifNode);
@@ -161,7 +163,7 @@ CFGNode* CFGBuilder::processWhile(ASTNode* procedureNode,int* s, ASTStmtNode *st
 	for(int i=0; i<WhileStatementListNode->getSize(); i++)
 	{
 
-			currNode=(ASTStmtNode*) (*WhileStatementListNode).getChild(i);
+		currNode=(ASTStmtNode*) (*WhileStatementListNode).getChild(i);
 
 		if(currNode->getStmtNumber()==28)
 		{
@@ -335,6 +337,8 @@ CFGNode* CFGBuilder::processIf(ASTNode* procedureNode, int *s, ASTStmtNode *stmt
 	for(int i=0; i<ifElseStatementListNode->getSize(); i++)
 	{
 		currNode=(ASTStmtNode*) (*ifElseStatementListNode).getChild(i);
+		if(currNode->getStmtNumber()==23)
+			int b=222222;
 			if(currNode->getType()==ASTNode::Assign || currNode->getType()==ASTNode::Call)
 			{
 				end=currNode->getStmtNumber();
@@ -383,7 +387,7 @@ CFGNode* CFGBuilder::processIf(ASTNode* procedureNode, int *s, ASTStmtNode *stmt
 						toAddStandardNode=false;
 					}
 				}
-				CFGNode* ifInternalNode = new CFGNode(CFGNode::IfNode,start,start,procedureNode->getValue());
+				CFGNode* ifInternalNode = new CFGNode(CFGNode::IfNode,currNode->getStmtNumber(),currNode->getStmtNumber(),procedureNode->getValue());
 				//processIf(procedureNode,currline,currNode, NULL);
 				elsecurrCFG->addNextNode(ifInternalNode);
 				ifInternalNode->addPreviousNode(elsecurrCFG);
@@ -405,18 +409,24 @@ CFGNode* CFGBuilder::processIf(ASTNode* procedureNode, int *s, ASTStmtNode *stmt
 	return endIfDummyNode;
 }
 
+
 void CFGBuilder::traverseCFGToPopulateNext()
 {
 	//PKB::stmtRefMap[<prog_line>].setCFGNode(); <- use this to put the reference
-
 	for (PROC currentProc = 0; currentProc < PKB::procedures.getSize(); currentProc++)
 	{
 		CFGNode* currNode=PKB::getCFGHead(currentProc);
+		visited.clear();
 		PROG_LINE plStart=currNode->getStartLine();
+
 		while(currNode->isEndNode()==false)
 		{
+			if(visited.find(currNode)!=visited.end())
+				break;
+
 			if(currNode->getType()==CFGNode::StandardNode)
 			{
+				visited.insert(currNode);
 				for(PROG_LINE pl=currNode->getStartLine();pl<=currNode->getEndLine();pl++)
 				{
 					PKB::stmtRefMap[pl].setCFGNode(currNode);
@@ -431,6 +441,7 @@ void CFGBuilder::traverseCFGToPopulateNext()
 			}
 			else if(currNode->getType()==CFGNode::WhileNode)
 			{
+				visited.insert(currNode);
 				if(currNode->isStartNode()==false)
 				{
 					PKB::next.insertNext(plStart,currNode->getStartLine(),true);
@@ -439,21 +450,30 @@ void CFGBuilder::traverseCFGToPopulateNext()
 				plStart=currNode->getStartLine();
 				PKB::next.insertNextStar(plStart,plStart,true);
 				traverseCFGWhile(currNode);
+				vector<PROG_LINE> prevLine=getPrevFromWhile(currNode);
+				for(int i=0;i<prevLine.size();i++)
+					PKB::next.insertNext(prevLine.at(i),currNode->getStartLine(),true);
 				currNode=currNode->getNextNodes().at(1);
 			}
 			else if(currNode->getType()==CFGNode::IfNode)
 			{
+				visited.insert(currNode);
 				if(currNode->isStartNode()==false)
 				{
 					PKB::next.insertNext(plStart,currNode->getStartLine(),true);
 				}
 				PKB::stmtRefMap[currNode->getStartLine()].setCFGNode(currNode);
 				currNode=traverseCFGIf(currNode);
-				plStart=currNode->getStartLine();
+			}
+			else if(currNode->getType()==CFGNode::DummyNode)
+			{
+				currNode->getNextNodes().at(0);
 			}
 		}
+
 		if(currNode->isEndNode()==true && currNode->isDummy()==false)
 		{
+			visited.insert(currNode);
 			for(PROG_LINE pl=currNode->getStartLine();pl<=currNode->getEndLine();pl++)
 			{
 				PKB::stmtRefMap[pl].setCFGNode(currNode);
@@ -470,15 +490,18 @@ void CFGBuilder::traverseCFGToPopulateNext()
 void CFGBuilder::traverseCFGWhile(CFGNode* whileNode)
 {
 	CFGNode* currNode=whileNode->getNextNodes().at(0);
-	//PKB::next.insertNext(whileNode->getStartLine(),currNode->getStartLine());
+	//PKB::next.insertNext(whileNode->getStartLine(),currNode->getStartLine(),true);
 	PROG_LINE plStart=whileNode->getStartLine();
+
 	while(currNode!=whileNode)
 	{
+		if(visited.find(currNode)!=visited.end())
+			break;
 		if(currNode->getType()==CFGNode::StandardNode)
 		{
-
+			visited.insert(currNode);
 			for(PROG_LINE pl=currNode->getStartLine();pl<=currNode->getEndLine();pl++)
-			{	
+			{
 				PKB::stmtRefMap[pl].setCFGNode(currNode);
 				if(plStart!=pl)
 				{
@@ -489,8 +512,10 @@ void CFGBuilder::traverseCFGWhile(CFGNode* whileNode)
 			plStart=currNode->getEndLine();
 			currNode=currNode->getNextNodes().at(0);
 		}
+
 		else if(currNode->getType()==CFGNode::WhileNode)
 		{
+			visited.insert(currNode);
 			if(currNode->isStartNode()==false)
 			{
 				PKB::next.insertNext(plStart,currNode->getStartLine(),true);
@@ -499,20 +524,60 @@ void CFGBuilder::traverseCFGWhile(CFGNode* whileNode)
 			plStart=currNode->getStartLine();
 			PKB::next.insertNextStar(plStart,plStart,true);
 			traverseCFGWhile(currNode);
+			vector<PROG_LINE> prevLine=getPrevFromWhile(currNode);
+			for(int i=0;i<prevLine.size();i++)
+				PKB::next.insertNext(prevLine.at(i),currNode->getStartLine(),true);
 			currNode=currNode->getNextNodes().at(1);
+			//CFGNode* prevNode=currNode->getPreviousNodes().at(1);
+			//stack<CFGNode> prevNodeStack;
+			//prevNodeStack.push(prevNode);
 		}
+
 		else if(currNode->getType()==CFGNode::IfNode)
 		{
+			visited.insert(currNode);
 			if(currNode->isStartNode()==false)
 			{
 				PKB::next.insertNext(plStart,currNode->getStartLine(),true);
 			}
 			PKB::stmtRefMap[currNode->getStartLine()].setCFGNode(currNode);
 			currNode=traverseCFGIf(currNode);
-			plStart=currNode->getStartLine();
+		}
+
+		else if(currNode->getType()==CFGNode::DummyNode)
+		{
+			currNode->getNextNodes().at(0);
 		}
 	}
-	PKB::next.insertNext(plStart,whileNode->getStartLine(),true);
+}
+
+vector<PROG_LINE> CFGBuilder::getPrevFromWhile(CFGNode* whileNode)
+{
+	vector<PROG_LINE> result;
+	stack<CFGNode*> prevNodesStack; 
+	vector<CFGNode*> prev = whileNode->getPreviousNodes();
+	for(int i=0; i<prev.size(); i++){
+		if(prev.at(i)->isDummy())
+			prevNodesStack.push(prev.at(i));
+		else
+			result.push_back(prev.at(i)->getEndLine());
+	}
+
+	while(prevNodesStack.size()>0)
+	{
+		CFGNode* dummy=prevNodesStack.top();
+		prevNodesStack.pop();
+
+		prev=dummy->getPreviousNodes();
+		for(int i=0; i<prev.size(); i++){
+			if(prev.at(i)->isDummy())
+				prevNodesStack.push(prev.at(i));
+			else
+				result.push_back(prev.at(i)->getEndLine());
+		}
+	}
+
+	return result;
 }
 
 CFGNode* CFGBuilder::traverseCFGIf(CFGNode* ifNode)
@@ -526,8 +591,12 @@ CFGNode* CFGBuilder::traverseCFGIf(CFGNode* ifNode)
 
 	while(leftCurrNode->isDummy()==false && leftCurrNode->isEndNode()==false)
 	{
+		if(visited.find(leftCurrNode)!=visited.end())
+			break;
+
 		if(leftCurrNode->getType()==CFGNode::StandardNode)
 		{
+			visited.insert(leftCurrNode);
 			for(PROG_LINE pl=leftCurrNode->getStartLine();pl<=leftCurrNode->getEndLine();pl++)
 			{
 				PKB::stmtRefMap[pl].setCFGNode(leftCurrNode);
@@ -542,32 +611,36 @@ CFGNode* CFGBuilder::traverseCFGIf(CFGNode* ifNode)
 		}
 		else if(leftCurrNode->getType()==CFGNode::WhileNode)
 		{
-			if(leftCurrNode->isStartNode()==false)
-			{
-				PKB::next.insertNext(plStartL,leftCurrNode->getStartLine(),true);
-			}
+			visited.insert(leftCurrNode);
+			PKB::next.insertNext(plStartL,leftCurrNode->getStartLine(),true);
 			PKB::stmtRefMap[leftCurrNode->getStartLine()].setCFGNode(leftCurrNode);
 			plStartL=leftCurrNode->getStartLine();
 			PKB::next.insertNextStar(plStartL,plStartL,true);
 			traverseCFGWhile(leftCurrNode);
+			vector<PROG_LINE> prevLine=getPrevFromWhile(leftCurrNode);
+			for(int i=0;i<prevLine.size();i++)
+				PKB::next.insertNext(prevLine.at(i),leftCurrNode->getStartLine(),true);
 			leftCurrNode=leftCurrNode->getNextNodes().at(1);
 		}
+
 		else if(leftCurrNode->getType()==CFGNode::IfNode)
 		{
-			if(leftCurrNode->isStartNode()==false)
-			{
-				PKB::next.insertNext(plStartL,leftCurrNode->getStartLine(),true);
-			}
+			visited.insert(leftCurrNode);
+			PKB::next.insertNext(plStartL,leftCurrNode->getStartLine(),true);
 			PKB::stmtRefMap[leftCurrNode->getStartLine()].setCFGNode(leftCurrNode);
 			leftCurrNode=traverseCFGIf(leftCurrNode);
 			plStartL=leftCurrNode->getStartLine();
 		}
 	}
-
+	
 	while(rightCurrNode->isDummy()==false && rightCurrNode->isEndNode()==false)
 	{
+		if(visited.find(rightCurrNode)!=visited.end())
+			break;
+		
 		if(rightCurrNode->getType()==CFGNode::StandardNode)
 		{
+			visited.insert(rightCurrNode);
 			for(PROG_LINE pl=rightCurrNode->getStartLine();pl<=rightCurrNode->getEndLine();pl++)
 			{
 				PKB::stmtRefMap[pl].setCFGNode(rightCurrNode);
@@ -583,6 +656,7 @@ CFGNode* CFGBuilder::traverseCFGIf(CFGNode* ifNode)
 		}
 		else if(rightCurrNode->getType()==CFGNode::WhileNode)
 		{
+			visited.insert(rightCurrNode);
 			if(rightCurrNode->isStartNode()==false)
 			{
 				PKB::next.insertNext(plStartR,rightCurrNode->getStartLine(),true);
@@ -591,10 +665,14 @@ CFGNode* CFGBuilder::traverseCFGIf(CFGNode* ifNode)
 			plStartR=rightCurrNode->getStartLine();
 			PKB::next.insertNextStar(plStartR,plStartR,true);
 			traverseCFGWhile(rightCurrNode);
+			vector<PROG_LINE> prevLine=getPrevFromWhile(rightCurrNode);
+			for(int i=0;i<prevLine.size();i++)
+				PKB::next.insertNext(prevLine.at(i),rightCurrNode->getStartLine(),true);
 			rightCurrNode=rightCurrNode->getNextNodes().at(1);
 		}
 		else if(rightCurrNode->getType()==CFGNode::IfNode)
 		{
+			visited.insert(rightCurrNode);
 			if(rightCurrNode->isStartNode()==false)
 			{
 				PKB::next.insertNext(plStartR,rightCurrNode->getStartLine(),true);
@@ -604,7 +682,7 @@ CFGNode* CFGBuilder::traverseCFGIf(CFGNode* ifNode)
 			plStartR=rightCurrNode->getStartLine();
 		}
 	}
-	
+
 	CFGNode* currNode=leftCurrNode;
 	while(currNode->isDummy() && currNode->isEndNode()==false)
 	{

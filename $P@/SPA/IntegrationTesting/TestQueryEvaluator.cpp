@@ -42,13 +42,14 @@ void TestQueryEvaluator::TestQueryEvaluatorM()
 	//doon("assign a1; Select BOOLEAN such that Affects(3, 3)");
 
 	cout << "assign a1; Select a1 such that Affects(a1, 9)" << endl;
-	vector<int> x = PQLAffectsProcessor::getAffectsFrom(9);
-	
-	display(x);
+	//vector<int> x = PQLAffectsProcessor::getAffectsFrom(9);
+	//
+	//display(x);
 
-	cout << "assign a1; Select a1 such that Affects(a1, 22)"<< endl;
-	 x = PQLAffectsProcessor::getAffectsFrom(22);
-	display(x);
+	//cout << "assign a1; Select a1 such that Affects(a1, 22)"<< endl;
+	////x = PQLAffectsProcessor::getAffectsFrom(22);
+	//display(x);
+	cout << PKB::stmtRefMap.at(1).getCFGNode()->first << endl;
 
 }
 
@@ -64,6 +65,7 @@ void TestQueryEvaluator::doon(string s)
 	////vector<PROG_LINE> y = PKB::next.getPreviousStar(9);
 	//cout << x << endl << y << endl;;
 
+	
 
 	cout << s << endl;
 	try {

@@ -88,7 +88,7 @@ void DesignExtractor::CompleteExtraction()
 	PKB::modifies.optimizeModifiesTable();
 	PKB::uses.optimizeUsesTable();
 	//std::sort(PKB::stmtRefMap.begin(), PKB::stmtRefMap.end());
-	CFGBuilder::traverseCFGToPopulateNext();
+	//CFGBuilder::traverseCFGToPopulateNext();
 
 	DesignExtractor::initializeStatisticalSortSize();
 }
@@ -116,8 +116,8 @@ void DesignExtractor::initializeStatisticalSortSize()
 
 	int max = PKB::maxProgLines*PKB::maxProgLines;
 
-	//Next has size
-	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::Next, PKB::next.getSize()));
+
+	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::Next, max));
 
 	//Next Star no size O(n) where n = program lines, line 1 is next* of all subsequent program lines in worst case =(
 	//i.e. 1 next* = 2..n-1

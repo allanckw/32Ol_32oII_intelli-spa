@@ -11,11 +11,13 @@ void PKBController::initializePKB(string filename)
 	Parser* p = new Parser(filename);
 	p->buildAST(); //build AST
 	delete p;
-	
-	CFGBuilder::buildCFG(); //Build CFG
+
 
 	DesignExtractor::extractDesign(); //Extract Design
-	MyCFGBuilder::buildCFG(); //Build CFG
+		
+	CFGBuilder::buildCFG(); //Build CFG
+
+	//MyCFGBuilder::buildCFG(); //Build CFG
 
 	RulesOfEngagement::initialise(); //Initialize ROE for Queries
 }

@@ -24,16 +24,6 @@ void AffectsTable::insertAffects (STMT s1, STMT s2, bool isAffected)
 	}
 }
 
-vector<STMT> AffectsTable::getAffectsBy(STMT s1)
-{
-	return PQLAffectsProcessor::getAffectsBy(s1);
-}
-
-vector<STMT> AffectsTable::getAffectsFrom(STMT s2)
-{
-	return PQLAffectsProcessor::getAffectsFrom(s2);
-}
-
 bool AffectsTable::isAffects (STMT s1, STMT s2)
 {
 	if (s1 <= 0 || s2 <= 0)
@@ -60,6 +50,27 @@ bool AffectsTable::isAffects (STMT s1, STMT s2)
 	return false;
 }
 
+vector<STMT> AffectsTable::getAffectsBy(STMT s1)
+{
+	vector<STMT> result =  PQLAffectsProcessor::getAffectsBy(s1);
+	//CACHE
+	for (int i = 0; i < result.size(); i++)	{
+		PKB::affects.insertAffects(s1 , result.at(i), true);
+	}
+	
+	return result;
+}
+
+vector<STMT> AffectsTable::getAffectsFrom(STMT s2)
+{
+	vector<STMT> result =  PQLAffectsProcessor::getAffectsFrom(s2);
+	//CACHE
+	for (int i = 0; i < result.size(); i++)	{
+		PKB::affects.insertAffects(result.at(i), s2, true);
+	}
+	
+	return result;
+}
 
 //planned for itr2 + 3
 void AffectsTable::insertAffectsStar (STMT s1, STMT s2, bool isAffected)
@@ -109,6 +120,29 @@ bool AffectsTable::isAffectsStar (STMT s1, STMT s2)
 
 	return false;
 }
+
+vector<STMT> AffectsTable::getAffectsByStar(STMT s1)
+{
+	vector<STMT> result =  PQLAffectsProcessor::getAffectsByStar(s1);
+	//CACHE
+	for (int i = 0; i < result.size(); i++)	{
+		PKB::affects.insertAffectsStar(s1, result.at(i), true);
+	}
+	
+	return result;
+}
+vector<STMT> AffectsTable::getAffectsFromStar(STMT s2)
+{
+	vector<STMT> result =  PQLAffectsProcessor::getAffectsFromStar(s2);
+	//CACHE
+	for (int i = 0; i < result.size(); i++)	{
+		PKB::affects.insertAffectsStar(result.at(i), s2, true);
+	}
+	
+	return result;
+}
+
+
 
 //planned for itr3 + 4
 void AffectsTable::insertAffectsBip(STMT s1, STMT s2, bool isAffected)

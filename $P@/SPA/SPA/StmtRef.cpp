@@ -35,10 +35,7 @@ void StmtRef::setASTStmtNode(ASTStmtNode* a)
 
 void StmtRef::setCFGNode(CFGNode* c)
 {
-	if (c->isProgLineBelongto(this->getProgLine()))
-		this->cfgRef = c;
-	else
-		throw SPAException("Program line Does Not Match!");
+	this->cfgRef = c;
 }
 
 ASTStmtNode* StmtRef::getASTStmtNode()

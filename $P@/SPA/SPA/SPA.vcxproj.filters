@@ -114,13 +114,7 @@
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\QueryPreprocessor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\$P%40\SPA\SPA\MyCFG.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\IntervalList.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\$P%40\SPA\SPA\MyCFGBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -221,13 +215,7 @@
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\QueryPreprocessor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\$P%40\SPA\SPA\MyCFG.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\IntervalList.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\$P%40\SPA\SPA\MyCFGBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

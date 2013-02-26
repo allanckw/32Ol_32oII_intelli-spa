@@ -13,7 +13,6 @@
 #include "AffectsTable.h"
 #include "StmtRef.h"
 #include "RulesOfEngagement.h"
-#include "MyCFG.h"
 
 class PKB
 {
@@ -21,8 +20,7 @@ public:
 	static vector<pair<RulesOfEngagement::QueryRelations, int>> sortorder;
 
 	static ASTNode* rootNode;
-	static void addToCFGList(CFGNode* start, PROC p);
-	static void addToCFGList(MyCFG* start);
+	static void addToCFGList(CFGNode* start);
 
 	static int maxProgLines;
 
@@ -51,15 +49,14 @@ public:
 	static unordered_set<STMT> statementListTable;
 	static vector<ASTNode*> statementNodes;
 	static vector<StmtRef> stmtRefMap;
-	static vector<MyCFG*> bigTable;
 	static vector<pair<STMT, STMT>> TheBeginningAndTheEnd;
 	static unordered_map<int, vector<STMT>> constantsTable;
 
 	static CFGNode* getCFGHead(PROC p);
 
 private:
-	static vector<pair<CFGNode*, PROC>> CFGHeads;
-	static vector<MyCFG*> MyCFGHeads;
+	static vector<CFGNode*> CFGHeads;
+
 	
 };
 

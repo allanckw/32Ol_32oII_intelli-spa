@@ -1,26 +1,7 @@
 #include "NextTable.h"
 #include "PQLNextProcessor.h"
 
-
-void NextTable::insertNext (PROG_LINE p1, PROG_LINE p2, bool next)
-{
-	if (p1 == p2) //impossibru case
-		return;
-
-	Next* n = new Next(p1, p2, next);
-	
-	auto itr = this->nextMap.find(p1);
-	
-	if (itr == this->nextMap.end()) {
-		vector<Next*> nextLst;
-		nextLst.push_back(n);
-		pair<PROG_LINE, vector<Next*>> newItem (p1, nextLst);
-		this->nextMap.insert(newItem);
-	} else {
-		if (!NextTable::isDuplicate(this->nextMap.at(p1), n)){
-			this->nextMap.at(p1).push_back(n);
-		}
-	}
+NextTable::NextTable() {
 }
 
 bool NextTable::isNext(PROG_LINE p1, PROG_LINE p2)
@@ -31,57 +12,18 @@ bool NextTable::isNext(PROG_LINE p1, PROG_LINE p2)
 	if (p1 == p2)
 		return false;
 
-	auto itr = this->nextMap.find(p1);
-	if (itr != this->nextMap.end()){
-
-		vector<Next*> nxtLst = itr->second;
-	
-		for (unsigned int i = 0; i < nxtLst.size(); i++) {
-			if (nxtLst[i]->getP2() == p2 )
-				return nxtLst[i]->isNext();
-		}
-	}
-
-	return false;
+	return PQLNextProcessor::isNext(p1, p2);
 }
 
 vector<PROG_LINE> NextTable::getNext(PROG_LINE p1)
 {
-	vector<PROG_LINE> progLines;
-
-	auto itr = this->nextMap.find(p1);
-
-	if (itr != this->nextMap.end()){
-		vector<Next*> nxtLst = itr->second;
-	
-		for (unsigned int i = 0; i < nxtLst.size(); i++) {
-			if( nxtLst[i]->isNext()){
-				progLines.push_back(nxtLst[i]->getP2());
-			}
-		}
-	}
-
-	return progLines;
+	return PQLNextProcessor::getNext(p1);
 }
 
 vector<PROG_LINE> NextTable::getPrevious(PROG_LINE p2)
 {
-	vector<PROG_LINE> progLines;
-
-	for (auto itr = nextMap.begin(); itr != nextMap.end(); itr++) {
-		vector<Next*> nxtLst =  itr->second;
-
-		for (unsigned int i = 0; i < nxtLst.size(); i++) {
-			if (nxtLst[i]->getP2() == p2 && nxtLst[i]->isNext())
-			{
-				progLines.push_back((PROG_LINE)itr->first);
-				break;
-			}
-		}
-	}
-	return progLines;
+	return PQLNextProcessor::getPrevious(p2);
 }
-
 
 void NextTable::insertNextStar(PROG_LINE p1, PROG_LINE p2, bool next)
 {
@@ -122,6 +64,7 @@ bool NextTable::isNextStar (PROG_LINE p1, PROG_LINE p2)
 	}
 
 	if (PQLNextProcessor::isNextStar(p1,p2)){
+		PKB::next.insertNextStar(p1,p2, true);
 		return true;
 	} else {
 		PKB::next.insertNextStar(p1, p2, false);
@@ -132,18 +75,25 @@ bool NextTable::isNextStar (PROG_LINE p1, PROG_LINE p2)
 //USE FOR NEXT*(p1, _)
 vector<PROG_LINE> NextTable::getNextStar(PROG_LINE p1)
 {
-	return PQLNextProcessor::getNextStar(p1);
+	vector<PROG_LINE> progLines = PQLNextProcessor::getNextStar(p1);
+
+	for (unsigned int i = 0; i < progLines.size(); i++){
+		PKB::next.insertNextStar(p1, progLines.at(i), true);
+	}
+
+	return progLines;
 }
 
 //USE FOR NEXT*(_, p2)
 vector<PROG_LINE> NextTable::getPreviousStar(PROG_LINE p2)
 {
-	return PQLNextProcessor::getPreviousStar(p2);
-}
+	vector<PROG_LINE> progLines = PQLNextProcessor::getPreviousStar(p2);
 
-bool NextTable::isNextEmpty()
-{
-	return (this->nextMap.size() == 0);
+	for (unsigned int i = 0; i < progLines.size(); i++){
+		PKB::next.insertNextStar(progLines.at(i), p2, true);
+	}
+
+	return progLines;
 }
 
 bool NextTable::isDuplicate(vector<Next*> v, Next* n)
@@ -154,12 +104,6 @@ bool NextTable::isDuplicate(vector<Next*> v, Next* n)
 	}
 
 	return false;
-}
-
-
-int NextTable::getSize()
-{
-	return this->nextMap.size();
 }
 
 /**

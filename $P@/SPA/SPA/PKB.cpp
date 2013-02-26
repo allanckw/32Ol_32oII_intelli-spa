@@ -8,8 +8,8 @@ vector<pair<RulesOfEngagement::QueryRelations, int>> PKB::sortorder;
 ASTNode* PKB::rootNode;
 
 //For each procedure, there will be one CFGHead 
-vector<pair<CFGNode*, PROC>> PKB::CFGHeads;
-vector<MyCFG*> PKB::MyCFGHeads;
+vector<CFGNode*> PKB::CFGHeads;
+
 
 VARTable PKB::variables;
 PROCTable PKB::procedures;
@@ -38,37 +38,13 @@ unordered_map<int, ASTNode*> PKB::ifNodes;
 unordered_set<STMT> PKB::statementListTable;
 vector<ASTNode*> PKB::statementNodes;
 vector<StmtRef> PKB::stmtRefMap;
-vector<MyCFG*> PKB::bigTable;
+
 vector<pair<STMT, STMT>> PKB::TheBeginningAndTheEnd;
 unordered_map<int, vector<STMT>> PKB::constantsTable;
 
-void PKB::addToCFGList(CFGNode* start, PROC p)
+
+void PKB::addToCFGList(CFGNode* node)
 {
-	if (!start->isStartNode())
-		throw SPAException("The CFGNode must be of type StartNode to be added to CFGLists in the program!!!");
-
-	else if (!PKB::procedures.isExists(p))
-		throw SPAException("Procedure not found in source!p");
-
-	else{
-		pair<CFGNode*, PROC> p(start, p);
-		PKB::CFGHeads.push_back(p);
-	}
+	PKB::CFGHeads.push_back(node);
 }
 
-void PKB::addToCFGList(MyCFG* node)
-{
-	PKB::MyCFGHeads.push_back(node);
-}
-
-CFGNode* PKB::getCFGHead(PROC p)
-{
-	for (auto it = PKB::CFGHeads.begin() ; it != PKB::CFGHeads.end(); it++)
-	{
-		pair<CFGNode*, PROC> iten = *it;
-		if (iten.second == p)
-			return iten.first;
-	}
-
-	return NULL;
-}

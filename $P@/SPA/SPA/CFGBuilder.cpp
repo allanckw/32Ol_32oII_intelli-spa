@@ -32,7 +32,7 @@ void CFGBuilder::buildCFG()
 			switch (currentStmtNode->getType()) {
 			case ASTNode::While:
 				if (currCFG->first != 0) {
-					currCFG->type = CFGNode::StandardNode;//used to be WhilePrev;
+					currCFG->type = CFGNode::StandardNode;
 					stack.push(currCFG);
 					newCFG = new CFGNode(currCFG); //while
 					currCFG->children.oneChild = newCFG;

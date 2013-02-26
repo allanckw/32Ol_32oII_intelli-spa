@@ -96,9 +96,9 @@ vector<STMT> PQLAffectsProcessor::getAffectsFrom(STMT a2)
 		return vector<STMT>();
 
 	if (a2 < 0 || a2 > PKB::maxProgLines)
-		return vector<int>();
+		return vector<STMT>();
 	if (PKB::assignTable.count(a2) == 0)
-		return vector<int>(); //TODO: double check with cristina
+		return vector<STMT>(); //TODO: double check with cristina
 
 	const vector<VAR>& usesVarVector = PKB::uses.getUsedByStmt(a2);
 	unordered_set<VAR> usesVarSet(usesVarVector.begin(), usesVarVector.end());
@@ -120,7 +120,7 @@ vector<STMT> PQLAffectsProcessor::getAffectsFrom(STMT a2)
 					answer.insert(i);
 					usesVarSet.erase(stmtModifiesVar);
 					if (usesVarSet.size() == 0)
-						return vector<int>(answer.begin(), answer.end());
+						return vector<STMT>(answer.begin(), answer.end());
 				}
 			} else if (PKB::callTable.count(i) > 0) {
 				const vector<VAR>& stmtModifiesVar = PKB::modifies.getModifiedByStmt(i);
@@ -128,7 +128,7 @@ vector<STMT> PQLAffectsProcessor::getAffectsFrom(STMT a2)
 					if (usesVarSet.count(*it) > 0) {
 						usesVarSet.erase(*it);
 						if (usesVarSet.size() == 0)
-							return vector<int>(answer.begin(), answer.end());
+							return vector<STMT>(answer.begin(), answer.end());
 					}
 			}
 	
@@ -230,12 +230,12 @@ vector<STMT> PQLAffectsProcessor::getAffectsBy(STMT a1)
 						break;
 					}
 				if (modifiesVar == PKB::modifies.getModifiedByStmt(i)[0])
-					return vector<int>(answer.begin(), answer.end());
+					return vector<STMT>(answer.begin(), answer.end());
 			} else if (PKB::callTable.count(i) > 0) {
 				const vector<VAR>& stmtModifiesVar = PKB::modifies.getModifiedByStmt(i);
 				for (auto it = stmtModifiesVar.begin(); it != stmtModifiesVar.end(); it++)
 					if (modifiesVar == *it)
-						return vector<int>(answer.begin(), answer.end());
+						return vector<STMT>(answer.begin(), answer.end());
 			}
 	
 	queue<CFGNode*> search;
@@ -606,7 +606,7 @@ vector<STMT> PQLAffectsProcessor::getAffectsByStar(STMT a1)
 				if (!match) { //kill previous value
 					modifiesVarSet.erase(modifiesVar);
 					if (modifiesVarSet.size() == 0)
-						return vector<int>(answer.begin(), answer.end());
+						return vector<STMT>(answer.begin(), answer.end());
 				}
 			} else { //this statement does not kill anything
 				for (auto it = usesVar.begin(); it != usesVar.end(); it++)
@@ -622,7 +622,7 @@ vector<STMT> PQLAffectsProcessor::getAffectsByStar(STMT a1)
 				if (modifiesVarSet.count(*it) > 0) {
 					modifiesVarSet.erase(*it);
 					if (modifiesVarSet.size() == 0)
-						return vector<int>(answer.begin(), answer.end());
+						return vector<STMT>(answer.begin(), answer.end());
 				}
 		}
 
@@ -769,7 +769,7 @@ vector<STMT>  PQLAffectsProcessor::getAffectsFromStar(STMT a2)
 					const vector<VAR>& stmtUsesVar = PKB::uses.getUsedByStmt(i);
 					usesVarSet.insert(stmtUsesVar.begin(), stmtUsesVar.end());
 					if (usesVarSet.size() == 0)
-						return vector<int>(answer.begin(), answer.end());
+						return vector<STMT>(answer.begin(), answer.end());
 				}
 			} else if (PKB::callTable.count(i) > 0) {
 				const vector<VAR>& stmtModifiesVar = PKB::modifies.getModifiedByStmt(i);
@@ -777,7 +777,7 @@ vector<STMT>  PQLAffectsProcessor::getAffectsFromStar(STMT a2)
 					if (usesVarSet.count(*it) > 0) {
 						usesVarSet.erase(*it);
 						if (usesVarSet.size() == 0)
-							return vector<int>(answer.begin(), answer.end());
+							return vector<STMT>(answer.begin(), answer.end());
 					}
 			}
 
@@ -1103,7 +1103,7 @@ vector<STMT>  PQLAffectsProcessor::getAffectsFromStar(STMT a2)
 //					const vector<VAR>& stmtUsesVar = PKB::uses.getUsedByStmt(i);
 //					usesVarSet.insert(stmtUsesVar.begin(), stmtUsesVar.end());
 //					if (usesVarSet.size() == 0)
-//						return vector<int>(answer.begin(), answer.end());
+//						return vector<STMT>(answer.begin(), answer.end());
 //				}
 //			} else if (PKB::callTable.count(i) > 0) {
 //				const vector<VAR>& stmtModifiesVar = PKB::modifies.getModifiedByStmt(i);
@@ -1111,7 +1111,7 @@ vector<STMT>  PQLAffectsProcessor::getAffectsFromStar(STMT a2)
 //					if (usesVarSet.count(*it) > 0) {
 //						usesVarSet.erase(*it);
 //						if (usesVarSet.size() == 0)
-//							return vector<int>(answer.begin(), answer.end());
+//							return vector<STMT>(answer.begin(), answer.end());
 //					}
 //			}
 //
@@ -1171,7 +1171,7 @@ vector<STMT>  PQLAffectsProcessor::getAffectsFromStar(STMT a2)
 //	//		for (auto it = currCFG->parents.begin(); it != currCFG->parents.end(); it++)
 //	//			search.push(pair<MyCFG*, unordered_set<int>>(*it, currVar));
 //	//}
-//	//return vector<int>(answer.begin(), answer.end());
+//	//return vector<STMT>(answer.begin(), answer.end());
 //}
 //
 //

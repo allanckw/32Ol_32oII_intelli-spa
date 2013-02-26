@@ -212,9 +212,9 @@ vector<STMT> PQLAffectsProcessor::getAffectsFrom(STMT a2)
 vector<STMT> PQLAffectsProcessor::getAffectsBy(STMT a1)
 {
 	if (a1 < 0 || a1 > PKB::maxProgLines)
-		return vector<int>();
+		return vector<STMT>();
 	if (PKB::assignTable.count(a1) == 0)
-		return vector<int>(); //TODO: double check with cristina
+		return vector<STMT>(); //TODO: double check with cristina
 
 	const VAR modifiesVar = PKB::modifies.getModifiedByStmt(a1)[0];
 	CFGNode* s1 = PKB::stmtRefMap.at(a1).getCFGNode();

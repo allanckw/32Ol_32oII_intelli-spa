@@ -1498,116 +1498,116 @@ vector<int> RulesOfEngagement::nextStarFrom(int y)
 vector<int> RulesOfEngagement::affectsFrom(int y)
 {
 	return PKB::affects.getAffectsFrom(y);
-	if (y < 0 || y > PKB::maxProgLines)
-		return vector<int>();
-	if (PKB::assignTable.count(y) == 0)
-		return vector<int>(); //TODO: double check with cristina
+	//if (y < 0 || y > PKB::maxProgLines)
+	//	return vector<int>();
+	//if (PKB::assignTable.count(y) == 0)
+	//	return vector<int>(); //TODO: double check with cristina
 
-	const vector<VAR>& usesVarVector = PKB::uses.getUsedByStmt(y);
-	unordered_set<VAR> usesVarSet(usesVarVector.begin(), usesVarVector.end());
-	MyCFG* s2 = PKB::bigTable[y];
-	unordered_set<int> answer;
+	//const vector<VAR>& usesVarVector = PKB::uses.getUsedByStmt(y);
+	//unordered_set<VAR> usesVarSet(usesVarVector.begin(), usesVarVector.end());
+	//MyCFG* s2 = PKB::bigTable[y];
+	//unordered_set<int> answer;
 
-	bool toStep = false;
-	for (auto it = s2->modifySet.begin(); it != s2->modifySet.end(); it++)
-		if (usesVarSet.count(*it) > 0) {
-			toStep = true;
-			break;
-		}
-	if (toStep)
-		for (int i = y - 1; i >= s2->first; i--)
-			if (PKB::assignTable.count(i) > 0) {
-				const VAR stmtModifiesVar = PKB::modifies.getModifiedByStmt(i)[0];
-				if (usesVarSet.count(stmtModifiesVar) > 0) {
-					answer.insert(i);
-					usesVarSet.erase(stmtModifiesVar);
-					if (usesVarSet.size() == 0)
-						return vector<int>(answer.begin(), answer.end());
-				}
-			} else if (PKB::callTable.count(i) > 0) {
-				const vector<VAR>& stmtModifiesVar = PKB::modifies.getModifiedByStmt(i);
-				for (auto it = stmtModifiesVar.begin(); it != stmtModifiesVar.end(); it++)
-					if (usesVarSet.count(*it) > 0) {
-						usesVarSet.erase(*it);
-						if (usesVarSet.size() == 0)
-							return vector<int>(answer.begin(), answer.end());
-					}
-			}
-	
-	queue<pair<MyCFG*, unordered_set<int>>> search;
-	list<pair<MyCFG*, unordered_set<int>>> ifQueue;
-	unordered_set<MyCFG*> seen;
-	for (auto it = s2->parents.begin(); it != s2->parents.end(); it++)
-		search.push(pair<MyCFG*, unordered_set<int>>(*it, usesVarSet));
+	//bool toStep = false;
+	//for (auto it = s2->modifySet.begin(); it != s2->modifySet.end(); it++)
+	//	if (usesVarSet.count(*it) > 0) {
+	//		toStep = true;
+	//		break;
+	//	}
+	//if (toStep)
+	//	for (int i = y - 1; i >= s2->first; i--)
+	//		if (PKB::assignTable.count(i) > 0) {
+	//			const VAR stmtModifiesVar = PKB::modifies.getModifiedByStmt(i)[0];
+	//			if (usesVarSet.count(stmtModifiesVar) > 0) {
+	//				answer.insert(i);
+	//				usesVarSet.erase(stmtModifiesVar);
+	//				if (usesVarSet.size() == 0)
+	//					return vector<int>(answer.begin(), answer.end());
+	//			}
+	//		} else if (PKB::callTable.count(i) > 0) {
+	//			const vector<VAR>& stmtModifiesVar = PKB::modifies.getModifiedByStmt(i);
+	//			for (auto it = stmtModifiesVar.begin(); it != stmtModifiesVar.end(); it++)
+	//				if (usesVarSet.count(*it) > 0) {
+	//					usesVarSet.erase(*it);
+	//					if (usesVarSet.size() == 0)
+	//						return vector<int>(answer.begin(), answer.end());
+	//				}
+	//		}
+	//
+	//queue<pair<MyCFG*, unordered_set<int>>> search;
+	//list<pair<MyCFG*, unordered_set<int>>> ifQueue;
+	//unordered_set<MyCFG*> seen;
+	//for (auto it = s2->parents.begin(); it != s2->parents.end(); it++)
+	//	search.push(pair<MyCFG*, unordered_set<int>>(*it, usesVarSet));
 
-	while (!(search.empty() && ifQueue.empty())) {
-		pair<MyCFG*, unordered_set<int>> currPair;
-		MyCFG* currCFG;
-		unordered_set<int> usesVar;
-		if (search.empty()) {
-			currPair = ifQueue.front();
-			ifQueue.erase(ifQueue.begin());
-			currCFG = currPair.first;
-			usesVar = currPair.second;
-		} else {
-			currPair = search.front();
-			search.pop();
-			currCFG = currPair.first;
-			if (currCFG->type == MyCFG::If) {
-				bool match = false;
-				for (auto it = ifQueue.begin(); it != ifQueue.end(); it++)
-					if (currCFG = it->first) {
-						match = true;
-						usesVar = currPair.second;
-						usesVar.insert(it->second.begin(), it->second.end());
-						break;
-					}
-				if (!match) {
-					ifQueue.push_back(currPair);
-					continue;
-				}
-			} else
-				usesVar = currPair.second;
-		}
-		if (seen.count(currCFG) > 0)
-			continue;
-		seen.insert(currCFG);
-		
-		bool toStep = false;
-		for (auto it = currCFG->modifySet.begin(); it != currCFG->modifySet.end(); it++)
-			if (usesVar.count(*it) > 0) {
-				toStep = true;
-				break;
-			}
-		if (toStep) { //some statement will modify some of the used variables
-			for (int i = currCFG->last; i >= currCFG->first; i--)
-				if (PKB::assignTable.count(i) > 0) {
-					const VAR stmtModifiesVar = PKB::modifies.getModifiedByStmt(i)[0];
-					if (usesVar.count(stmtModifiesVar) > 0) {
-						answer.insert(i);
-						usesVar.erase(stmtModifiesVar);
-						if (usesVar.size() == 0)
-							break;
-					}
-				} else if (PKB::callTable.count(i) > 0) {
-					const vector<VAR>& stmtModifiesVar = PKB::modifies.getModifiedByStmt(i);
-					for (auto it = stmtModifiesVar.begin(); it != stmtModifiesVar.end(); it++) {
-						if (usesVar.count(*it) > 0) {
-							usesVar.erase(*it);
-							if (usesVar.size() == 0)
-								break;
-						}
-					}
-					if (usesVar.size() == 0)
-						break;
-				}
-		}
+	//while (!(search.empty() && ifQueue.empty())) {
+	//	pair<MyCFG*, unordered_set<int>> currPair;
+	//	MyCFG* currCFG;
+	//	unordered_set<int> usesVar;
+	//	if (search.empty()) {
+	//		currPair = ifQueue.front();
+	//		ifQueue.erase(ifQueue.begin());
+	//		currCFG = currPair.first;
+	//		usesVar = currPair.second;
+	//	} else {
+	//		currPair = search.front();
+	//		search.pop();
+	//		currCFG = currPair.first;
+	//		if (currCFG->type == MyCFG::If) {
+	//			bool match = false;
+	//			for (auto it = ifQueue.begin(); it != ifQueue.end(); it++)
+	//				if (currCFG = it->first) {
+	//					match = true;
+	//					usesVar = currPair.second;
+	//					usesVar.insert(it->second.begin(), it->second.end());
+	//					break;
+	//				}
+	//			if (!match) {
+	//				ifQueue.push_back(currPair);
+	//				continue;
+	//			}
+	//		} else
+	//			usesVar = currPair.second;
+	//	}
+	//	if (seen.count(currCFG) > 0)
+	//		continue;
+	//	seen.insert(currCFG);
+	//	
+	//	bool toStep = false;
+	//	for (auto it = currCFG->modifySet.begin(); it != currCFG->modifySet.end(); it++)
+	//		if (usesVar.count(*it) > 0) {
+	//			toStep = true;
+	//			break;
+	//		}
+	//	if (toStep) { //some statement will modify some of the used variables
+	//		for (int i = currCFG->last; i >= currCFG->first; i--)
+	//			if (PKB::assignTable.count(i) > 0) {
+	//				const VAR stmtModifiesVar = PKB::modifies.getModifiedByStmt(i)[0];
+	//				if (usesVar.count(stmtModifiesVar) > 0) {
+	//					answer.insert(i);
+	//					usesVar.erase(stmtModifiesVar);
+	//					if (usesVar.size() == 0)
+	//						break;
+	//				}
+	//			} else if (PKB::callTable.count(i) > 0) {
+	//				const vector<VAR>& stmtModifiesVar = PKB::modifies.getModifiedByStmt(i);
+	//				for (auto it = stmtModifiesVar.begin(); it != stmtModifiesVar.end(); it++) {
+	//					if (usesVar.count(*it) > 0) {
+	//						usesVar.erase(*it);
+	//						if (usesVar.size() == 0)
+	//							break;
+	//					}
+	//				}
+	//				if (usesVar.size() == 0)
+	//					break;
+	//			}
+	//	}
 
-		if (usesVar.size() != 0)
-			for (auto it = currCFG->parents.begin(); it != currCFG->parents.end(); it++)
-				search.push(pair<MyCFG*, unordered_set<int>>(*it, usesVar));
-	}
-	return vector<int>(answer.begin(), answer.end());
+	//	if (usesVar.size() != 0)
+	//		for (auto it = currCFG->parents.begin(); it != currCFG->parents.end(); it++)
+	//			search.push(pair<MyCFG*, unordered_set<int>>(*it, usesVar));
+	//}
+	//return vector<int>(answer.begin(), answer.end());
 }
 
 vector<int> RulesOfEngagement::affectsStarFrom(int y)

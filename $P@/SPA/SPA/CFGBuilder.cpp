@@ -12,7 +12,6 @@ void CFGBuilder::buildCFG()
 
 	unordered_map<ASTNode*, CFGNode*> map;
 	stack<CFGNode*> stack;
-	PKB::bigTable.push_back(NULL);
 
 	for (PROC currentProc = 0; currentProc < PKB::procedures.getSize(); currentProc++) {
 		ASTNode* procedureNode = PKB::rootNode->getChild(currentProc); //procedure

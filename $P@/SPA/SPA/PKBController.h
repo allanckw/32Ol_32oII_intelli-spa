@@ -5,6 +5,7 @@
 #include "RulesOfEngagement.h"
 #include "stdAfx.h"
 #include "CFGBuilder.h"
+#include "MyCFGBuilder.h"
 
 class PKBController
 {

@@ -21,7 +21,10 @@
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\CFGNode.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\DisjointSet.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\Helper.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\IntervalList.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\MultiQueryEval.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\MyCFG.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\MyCFGBuilder.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\NextTable.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\PatternRHSParser.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\PKBController.h" />
@@ -56,7 +59,10 @@
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\CFGNode.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\DisjointSet.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\Helper.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\IntervalList.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\MultiQueryEval.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\MyCFG.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\MyCFGBuilder.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\NextTable.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\PatternRHSParser.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\PKBController.cpp" />

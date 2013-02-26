@@ -4,8 +4,6 @@
 #include "PKB.h"
 #include "RulesOfEngagement.h"
 #include "AnswerTable.h"
-#include "ASTStmtNode.h"
-#include "ASTStmtLstNode.h"
 #include "QueryPreprocessor.h"
 #include "AssignmentParser.h"
 
@@ -1111,16 +1109,15 @@ MultiQueryEval::MultiQueryEval(const string& query)
 	for (unsigned int i = 0; i < concatenated.getSize(); i++) {
 		vector<int> row = concatenated.getRow(i);
 		string answer;
-		for (auto it = orderOfSelection.begin(); it != orderOfSelection.end(); it++) {
-			RulesOfEngagement::QueryVar type = synonymTable.getType(header[*it]);
-			if (type == RulesOfEngagement::Procedure)
-				answer += PKB::procedures.getPROCName(row[*it]);
-			else if (type == RulesOfEngagement::Variable)
-				answer += PKB::variables.getVARName(row[*it]);
-			else
-				answer += Helper::intToString(row[*it]);
-			if (it + 1 != orderOfSelection.end())
+		auto it = orderOfSelection.begin();
+		while (true) {
+			answer += RulesOfEngagement::convertIntegerToArgument(
+				synonymTable.getType(header[*it]), row[*it]);
+			it++;
+			if (it != orderOfSelection.end())
 				answer += " ";
+			else
+				break;
 		}
 		finalanswer.push_back(answer);
 	}

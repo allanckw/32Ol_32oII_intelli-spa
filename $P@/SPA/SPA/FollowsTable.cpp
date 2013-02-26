@@ -139,16 +139,26 @@ int FollowsTable::getFollowsSize()
 int FollowsTable::getFollowsStarSize()
 {
 	if (starSize == 0) {
-		for (auto it = followsTo.begin(); it != followsTo.end(); it++) {
-			STMT follows = it->first;
-			do {
-				if (followsTo.count(follows) > 0) {
-					follows = followsTo[follows];
-					starSize++;
+		unordered_map<STMT, int> memo;
+		stack<STMT> stack;
+		for (auto it = followsTo.rbegin(); it != followsTo.rend(); it++) {
+			int follows = it->first;
+			stack.push(follows);
+			while (!stack.empty()) {
+				STMT first = stack.top();
+				if (followsTo.count(first) == 0) {
+					memo.insert(pair<STMT, int>(first, 0));
+					stack.pop();
+				} else {
+					STMT followed = followsTo[first];
+					if (memo.count(followed) > 0) {
+						memo.insert(pair<STMT, int>(first, 1 + memo[followed]));
+						stack.pop();
+					} else
+						stack.push(followed);
 				}
-				else
-					break;
-			} while (true);
+			}
+			starSize += memo[follows];
 		}
 	}
 	return starSize;

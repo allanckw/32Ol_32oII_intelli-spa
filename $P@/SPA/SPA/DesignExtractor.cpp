@@ -40,11 +40,11 @@ void DesignExtractor::extractDesign()
 	//type before typecasting. Not sure whether to do so at all or not
 
 	totalNumOfProcs = PKB::procedures.getSize();
-	PKB::statementNodes.push_back(0); //statements start from 1, so put dummy node in index 0
-	
-	PKB::stmtRefMap.push_back(StmtRef(-1, -1)); //dummy node
 
 	buildFirstRound(); //will build call table, statement and subtables (call, assign, while, if lists)
+
+	PKB::statementNodes.resize(PKB::maxProgLines + 1); //statements start at 1, so need a dummy
+	PKB::stmtRefMap.resize(PKB::maxProgLines + 1, StmtRef(-1, -1)); //for the 0 index
 	
 	//toposort
 	vector<PROC> toposort;
@@ -83,11 +83,11 @@ void DesignExtractor::extractDesign()
 */
 void DesignExtractor::CompleteExtraction()
 {
-	PKB::maxProgLines = PKB::statementTable.size();
+	//PKB::maxProgLines = PKB::statementTable.size();
 	PKB::calls.optimizeCallsTable();
 	PKB::modifies.optimizeModifiesTable();
 	PKB::uses.optimizeUsesTable();
-	std::sort(PKB::stmtRefMap.begin(), PKB::stmtRefMap.end());
+	//std::sort(PKB::stmtRefMap.begin(), PKB::stmtRefMap.end());
 	CFGBuilder::traverseCFGToPopulateNext();
 
 	DesignExtractor::initializeStatisticalSortSize();
@@ -100,37 +100,37 @@ void DesignExtractor::CompleteExtraction()
 void DesignExtractor::initializeStatisticalSortSize()
 {
 
-	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::Calls,PKB::calls.getCallsSize()));
-	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::CallsStar,PKB::calls.getCallsStarSize()));
-	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::Follows,PKB::follows.getFollowsSize()));
-	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::FollowsStar,PKB::follows.getFollowsStarSize()));
+	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::Calls,PKB::calls.getCallsSize()));
+	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::CallsStar,PKB::calls.getCallsStarSize()));
+	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::Follows,PKB::follows.getFollowsSize()));
+	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::FollowsStar,PKB::follows.getFollowsStarSize()));
 	
-	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::Parent,PKB::parent.getSize()));
-	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::ParentStar,PKB::parent.getSize()));//parentstarsize == parent size
+	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::Parent,PKB::parent.getSize()));
+	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::ParentStar,PKB::parent.getSize()));//parentstarsize == parent size
 
-	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::UsesProc,PKB::uses.getUsesProcSize()));
-	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::UsesStmt,PKB::uses.getUsesStmtSize()));
+	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::UsesProc,PKB::uses.getUsesProcSize()));
+	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::UsesStmt,PKB::uses.getUsesStmtSize()));
 
-	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::ModifiesProc,PKB::modifies.getModProcSize()));
-	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::ModifiesStmt,PKB::modifies.getModStmtSize()));
+	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::ModifiesProc,PKB::modifies.getModProcSize()));
+	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::ModifiesStmt,PKB::modifies.getModStmtSize()));
 
 	int max = PKB::maxProgLines*PKB::maxProgLines;
 
 	//Next has size
-	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::Next, PKB::next.getSize()));
+	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::Next, PKB::next.getSize()));
 
 	//Next Star no size O(n) where n = program lines, line 1 is next* of all subsequent program lines in worst case =(
 	//i.e. 1 next* = 2..n-1
-	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::NextStar,max-1));
-	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::PatternModifies,max));
-	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::PatternUses,max));
+	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::NextStar,max-1));
+	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::PatternModifies,max));
+	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::PatternUses,max));
 
 	//Force Affects* to evaluate last
 	//Affects O(n) n = program lines
-	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::Affects, max+1));
+	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::Affects, max+1));
 
 	//Affects* O(n(n+m)) n = program lines, m = no. of variables
-	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::QueryRelations::AffectsStar,
+	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::AffectsStar,
 																								max * (max + PKB::variables.getSize())));
 	
 	//sort(PKB::sortorder.begin(),PKB::sortorder.end(),sort_pred());
@@ -188,7 +188,7 @@ void DesignExtractor::buildFirstRound() {
 
 				savestate[calledProc].push_back(DFSstack);
 				break; }
-										  
+			
 			case ASTNode::Assign:
 			case ASTNode::While:
 			case ASTNode::If:
@@ -228,7 +228,8 @@ void DesignExtractor::buildFirstRound() {
 						} else { //end
 							PKB::TheBeginningAndTheEnd.push_back(make_pair(
 								firstStatementNumber, lastStatementNumber));
-
+							if (lastStatementNumber > PKB::maxProgLines)
+								PKB::maxProgLines = lastStatementNumber;
 							haveNextChildren = false;
 							notYetGotNextChild = false;
 						}
@@ -330,12 +331,11 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 	STMT currentStmtNumber = (*currentStmtNode).getStmtNumber();
 	PKB::statementListTable.insert(currentStmtNumber);
 	int currentPosition = 0;
-	bool haveNextChildren = true;
 
-	while (haveNextChildren) {
-		PKB::statementNodes.push_back(currentStmtNode);
-		
-		PKB::stmtRefMap.push_back(StmtRef(currentStmtNumber, currentStmtNumber, currentStmtNode));
+	while (true) {
+		PKB::statementNodes[currentStmtNumber] = currentStmtNode;
+		PKB::stmtRefMap[currentStmtNumber] =
+			StmtRef(currentStmtNumber, currentStmtNumber, currentStmtNode);
 
 		switch ((*currentStmtNode).getType()) {
 		case ASTNode::Assign: {
@@ -544,8 +544,7 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 
 						notYetGotNextChild = false;
 					} else { //end
-						haveNextChildren = false;
-						notYetGotNextChild = false;
+						return;
 					}
 				} else {
 					if (currentPosition + 1 < (*currentStmtListNode).getSize()) { //try right

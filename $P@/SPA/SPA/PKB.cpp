@@ -9,6 +9,7 @@ ASTNode* PKB::rootNode;
 
 //For each procedure, there will be one CFGHead 
 vector<pair<CFGNode*, PROC>> PKB::CFGHeads;
+vector<MyCFG*> PKB::MyCFGHeads;
 
 VARTable PKB::variables;
 PROCTable PKB::procedures;
@@ -37,6 +38,7 @@ unordered_map<int, ASTNode*> PKB::ifNodes;
 unordered_set<STMT> PKB::statementListTable;
 vector<ASTNode*> PKB::statementNodes;
 vector<StmtRef> PKB::stmtRefMap;
+vector<MyCFG*> PKB::bigTable;
 vector<pair<STMT, STMT>> PKB::TheBeginningAndTheEnd;
 unordered_map<int, vector<STMT>> PKB::constantsTable;
 
@@ -52,6 +54,11 @@ void PKB::addToCFGList(CFGNode* start, PROC p)
 		pair<CFGNode*, PROC> p(start, p);
 		PKB::CFGHeads.push_back(p);
 	}
+}
+
+void PKB::addToCFGList(MyCFG* node)
+{
+	PKB::MyCFGHeads.push_back(node);
 }
 
 CFGNode* PKB::getCFGHead(PROC p)

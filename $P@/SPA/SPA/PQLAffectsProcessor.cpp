@@ -303,114 +303,125 @@ vector<STMT> PQLAffectsProcessor::getAffectsFrom(STMT testaffectfirst)
 	if(PKB::stmtRefMap.at(testaffectfirst).getASTStmtNode()->getType() != ASTNode::Assign)
 		return vector<STMT>();
 
-	vector<PROG_LINE> t1 = PKB::next.getPrevious(testaffectfirst);
 	
-	stack<PROG_LINE> progStack; 
-	for(int i=0;i<t1.size();i++)
-	{
-		progStack.push(t1.at(i));
-	}
 	
-	vector<PROG_LINE> test;
-	vector<PROG_LINE> visited;
-
-	int prevProgLine=0;
+	
+	vector<PROG_LINE> alltest;
+	
 
 	vector<VAR> varl =  PKB::uses.getUsedByStmt(testaffectfirst);
-
-	while(progStack.size() > 0)
+	for(int h=0;h<varl.size();h++)
 	{
+		VAR v = varl.at(h);
+		vector<PROG_LINE> t1 = PKB::next.getPrevious(testaffectfirst);
+	
+		stack<PROG_LINE> progStack; 
+		for(int i=0;i<t1.size();i++)
+		{
+			progStack.push(t1.at(i));
+		}
+		int prevProgLine=0;
+		vector<PROG_LINE> test;
+		vector<PROG_LINE> visited;
+		while(progStack.size() > 0)
+		{
 
 		
-		int currentLine = progStack.top();
-		progStack.pop();
+			int currentLine = progStack.top();
+			progStack.pop();
 
-		if(Helper::contains(visited, currentLine))
-		{
-			//node visisted before
-			continue;
-		}
+			if(Helper::contains(visited, currentLine))
+			{
+				//node visisted before
+				continue;
+			}
 
-		vector<PROG_LINE> ne = PKB::next.getNext(currentLine);
-		vector<PROG_LINE> pr = PKB::next.getPrevious(currentLine);
+			vector<PROG_LINE> ne = PKB::next.getNext(currentLine);
+			vector<PROG_LINE> pr = PKB::next.getPrevious(currentLine);
 
 	
-		bool isassing =true;
+			bool isassing =true;
 
 
-		CFGNode* node = PKB::stmtRefMap.at(currentLine).getCFGNode(); 
+			CFGNode* node = PKB::stmtRefMap.at(currentLine).getCFGNode(); 
 			
-		if(node->getType() != CFGNode::StandardNode)
-			isassing  = false;
+			if(node->getType() != CFGNode::StandardNode)
+				isassing  = false;
 
 		
 
 
-		vector<VAR> proglinem = PKB::modifies.getModifiedByStmt(currentLine);//one only
-		vector<VAR> varu = PKB::uses.getUsedByStmt(currentLine);//multi
+			vector<VAR> proglinem = PKB::modifies.getModifiedByStmt(currentLine);//one only
+			vector<VAR> varu = PKB::uses.getUsedByStmt(currentLine);//multi
 
 
-		bool isused = false;
-		for(int z=0;z<varu.size();z++)
-		{
-			//varl
-			for(int y=0;y<varl.size();y++)
+			//bool isused = false;
+			//for(int z=0;z<varu.size();z++)
+			//{
+			//	//varl
+			//	for(int y=0;y<varl.size();y++)
+			//	{
+			//		if(varu.at(z) == varl.at(y))
+			//		{
+			//			isused = true;
+			//			goto cont1;
+
+			//		}
+			//	}
+			//}
+
+			//cont1:
+
+			bool ismod = false;
+			//int modint=0; 
+			for(int z=0;z<proglinem.size();z++)
 			{
-				if(varu.at(z) == varl.at(y))
-				{
-					isused = true;
-					goto cont1;
-
-				}
+				
+					if(proglinem.at(z) == v)
+					{
+						ismod = true;
+						//modint = y;
+						goto cont2;
+					}
+				
 			}
-		}
-
-		cont1:
-
-		bool ismod = false;
-		int modint=0; 
-		for(int z=0;z<proglinem.size();z++)
-		{
-			for(int y=0;y<varl.size();y++)
+			cont2:
+			int lolt = currentLine;
+			//if(isused && isassing && PKB::stmtRefMap.at(currentLine).getASTStmtNode()->getType() != ASTNode::Call)
+			if(ismod && isassing &&  PKB::stmtRefMap.at(currentLine).getASTStmtNode()->getType() != ASTNode::Call)
 			{
-				if(proglinem.at(z) == varl.at(y))
-				{
-					ismod = true;
-					modint = y;
-					goto cont2;
-				}
+				test.push_back(currentLine);
+				visited.push_back(currentLine);
+				
+				
+					continue;
+			}else if(ismod && PKB::stmtRefMap.at(currentLine).getASTStmtNode()->getType() == ASTNode::Call)
+			{
+				
+					continue;
 			}
-		}
-		cont2:
-		int lolt = currentLine;
-		//if(isused && isassing && PKB::stmtRefMap.at(currentLine).getASTStmtNode()->getType() != ASTNode::Call)
-		if(ismod && isassing &&  PKB::stmtRefMap.at(currentLine).getASTStmtNode()->getType() != ASTNode::Call)
-		{
-			test.push_back(currentLine);
+
+			CFGNode::NodeType ll = PKB::stmtRefMap.at(currentLine).getCFGNode()->getType();
+		
 			visited.push_back(currentLine);
-			varl.erase( varl.begin() + modint);
+			prevProgLine = currentLine;
+			//test.push_back(currentLine);
 
-			if(varl.size() == 0)
-				continue;
-		}else if(ismod && PKB::stmtRefMap.at(currentLine).getASTStmtNode()->getType() == ASTNode::Call)
-		{
-			varl.erase( varl.begin() + modint);
-			if(varl.size() == 0)
-				continue;
+			for(int j=(pr.size() - 1);j >= 0;j--)
+			{
+				progStack.push(pr.at(j));
+			}
 		}
 
-		CFGNode::NodeType ll = PKB::stmtRefMap.at(currentLine).getCFGNode()->getType();
-		
-		visited.push_back(currentLine);
-		prevProgLine = currentLine;
-		//test.push_back(currentLine);
-
-		for(int j=(pr.size() - 1);j >= 0;j--)
+		for(int g=0;g<test.size();g++)
 		{
-			progStack.push(pr.at(j));
+			alltest.push_back(test.at(g));
 		}
 	}
-	return test;
+	
+
+
+	return alltest;
 }
 
 //Affects*

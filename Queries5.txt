@@ -638,7 +638,7 @@ FALSE
 129 - Parent, ImplStmtLine, Typed :: 
 assign a;
 Select BOOLEAN such that Affects*(11, 11)
-FALSE
+TRUE
 5000
 130 - Parent, ImplStmtLine, Typed :: 
 assign a;
@@ -648,7 +648,7 @@ FALSE
 131 - Parent, ImplStmtLine, Typed :: 
 assign a1;
 Select a1 such that Affects*(a1, 11)
-
+11
 5000
 132 - Parent, ImplStmtLine, Typed :: 
 assign a1;
@@ -673,7 +673,7 @@ Select a2 such that Affects*(5, a2)
 136 - Parent, ImplStmtLine, Typed :: 
 assign a2;
 Select a2 such that Affects*(19, a2)
-19, 22
+22
 5000
 137 - Parent, ImplStmtLine, Typed :: 
 assign a2;

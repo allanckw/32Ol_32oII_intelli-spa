@@ -233,6 +233,9 @@ vector<PROG_LINE> PQLNextProcessor::getNextStar(PROG_LINE p1)
 		return vector<PROG_LINE>();
 	}
 	
+	if (p1 == 0)
+		return PQLNextProcessor::getSelfNextStar();
+
 	vector<PROG_LINE> answer;
 	
 	CFGNode* s1 = PKB::stmtRefMap.at(p1).getCFGNode();
@@ -303,4 +306,107 @@ vector<PROG_LINE> PQLNextProcessor::getPreviousStar(PROG_LINE p2) {
 		}
 	}
 	return answer;
+}
+
+//next*(n, n) - special case only happens in while loops
+vector<PROG_LINE> PQLNextProcessor::getSelfNextStar(){ 
+	vector<int> ans; 
+	unordered_set<int> seen; 
+	for (auto it =PKB::whileTable.begin(); it != PKB::whileTable.end(); it++) 
+		if (seen.count(*it) == 0) { 
+			seen.insert(*it); 
+			CFGNode* cfg = PKB::stmtRefMap.at(*it).getCFGNode(); 
+			CFGNode* cfg2 = cfg->children.whileChildren.whileOut; 
+
+			for (int i = cfg->first; i < cfg2->first; i++) {
+					ans.push_back(i ); 
+			}
+			
+			while (cfg2 != NULL && cfg2->first != 0) 
+				cfg2 = cfg2->children.oneChild; 
+				
+			if (cfg2 == NULL) {
+				for (int i = cfg->first; i < PKB::TheBeginningAndTheEnd[cfg->proc].second; i++) 
+					ans.push_back(i); 
+			} else if (cfg2->type == CFGNode::DummyNode) {
+				//cfg2 = cfg->children.whileChildren.whileIn; 
+				vector<STMT> x = PKB::next.getNextStar(cfg->first);
+				for (int i = 0; i < x.size(); i++)
+					ans.push_back(x[i]);
+			}else { 
+				for (int i = cfg->first; i < cfg2->first; i++){ 
+					ans.push_back(i); 
+				}
+			} 
+			
+
+		
+		}
+
+		return ans;
+	//vector<PROG_LINE> temp;
+	//stack<CFGNode*> nodesStack; 
+	//vector<PROG_LINE> visited;
+
+	//for (PROC currentProc = 0; currentProc < PKB::procedures.getSize(); currentProc++) {
+	//		CFGNode* currNode=PKB::getCFGHead(currentProc);
+	//		while( currNode->last = PKB::TheBeginningAndTheEnd.at(currentProc).second || 
+	//			currNode->type == CFGNode::DummyNode && currNode->children.oneChild == NULL) {
+	//			if(currNode->type==CFGNode::WhileNode) { //Traverse all whiles nodes in the program 
+	//				nodesStack.push(PKB::getCFGHead(currentProc));
+	//				
+	//				stack<int> whileStack;
+	//				CFGNode* prevnode = 0;
+
+	//				while(nodesStack.size() > 0){
+	//					CFGNode* tempnode = nodesStack.top();
+	//					nodesStack.pop();	 
+	//				
+	//					if(tempnode->type != CFGNode::DummyNode) {//chk not a dummy node
+	//						
+	//						PROG_LINE firstprogline = tempnode->first;
+	//						
+	//						if(Helper::contains(visited,firstprogline)) {
+	//							if(tempnode->type == CFGNode::WhileNode) {
+	//								if(whileStack.top() == firstprogline) {
+	//									whileStack.pop();
+	//								}
+	//								else
+	//									throw SPAException("impossible state reach in next*, while loop not linking back");
+	//							}					
+	//							continue;//been here before//eg visited node
+	//						}else {
+	//							visited.push_back(firstprogline);
+	//							
+	//							if(tempnode->type == CFGNode::WhileNode)
+	//								whileStack.push(firstprogline);
+	//							
+	//							if(whileStack.size() > 0) {
+	//								for(int i = tempnode->first; i <= tempnode->last; i++) {
+	//								//for(int i=0;i<tempnode->getProgramLines().size();i++) {
+	//									temp.push_back(i);
+	//									//temp.push_back(tempnode->getProgramLines().at(i));
+	//								}
+	//							}
+	//						}
+	//					}else {//is a dummie node
+	//						vector<CFGNode*> prev = tempnode->parents;
+	//						if(prev.size() > 0 &&  prev.at(0) == prevnode)//come from left
+	//							continue;
+	//					}
+	//					
+	//					vector<CFGNode*> next = tempnode->getNextNodes();
+	//					for(int i=next.size()-1; i>=0; i--){
+	//						nodesStack.push(next.at(i));//add right side in
+	//					}
+	//					prevnode = tempnode;
+	//				}
+	//			} else {
+	//				//cout <<	currNode->children.oneChild->first;
+	//				cout << currNode->children.ifChildren.ifThen;
+	//				//cout << currNode->children.whileChildren.whileIn;
+	//			}
+	//		}
+	//}
+	//return temp;
 }

@@ -598,7 +598,7 @@ AnswerTable::AnswerTable(const SynonymTable& synonymTable, const string& synonym
 		synonymTable.getAllSelfReferences(synonym);
 	for (auto it = selfReferences.begin(); it != selfReferences.end(); it++) {
 		vector<int> table2;
-		/*if (*it == RulesOfEngagement::NextStar) { //alternative call for more efficient method
+		if (*it == RulesOfEngagement::NextStar) { //alternative call for more efficient method
 			vector<int>& tentative = PKB::next.getNextStar(0); //for evaluating next*(n, n)
 			if (table.size() <= tentative.size()) {
 				unordered_set<int> memo(tentative.begin(), tentative.end());
@@ -611,14 +611,16 @@ AnswerTable::AnswerTable(const SynonymTable& synonymTable, const string& synonym
 					if (memo.count(*it2) > 0)
 						table2.push_back(*it2);
 			}
-		} else {*/
+		} else {
 			const RulesOfEngagement::isRelation rel = RulesOfEngagement::getRelation(*it);
 			for (auto it2 = table.begin(); it2 != table.end(); it2++)
 				if (rel(*it2, *it2))
 					table2.push_back(*it2);
-		//}
+		}
 		table = table2;
+	
 	}
+	
 	}
 
 	//convert vector<int> to vector<vector<int>>

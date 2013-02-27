@@ -6,137 +6,139 @@ AffectsTable::AffectsTable()
 }
 
 //planned for itr2
-void AffectsTable::insertAffects (STMT s1, STMT s2, bool isAffected)
+void AffectsTable::insertAffects (STMT a1, STMT a2, bool isAffected)
 {
-	Affects* n = new Affects(s1, s2, isAffected);
+	Affects* n = new Affects(a1, a2, isAffected);
 	
-	auto itr = this->affectsMap.find(s1);
+	auto itr = this->affectsMap.find(a1);
 	
 	if (itr == this->affectsMap.end()) {
 		vector<Affects*> affectsLst;
 		affectsLst.push_back(n);
-		pair<STMT, vector<Affects*>> newItem (s1, affectsLst);
+		pair<STMT, vector<Affects*>> newItem (a1, affectsLst);
 		this->affectsMap.insert(newItem);
 	} else {
-		if (!AffectsTable::isDuplicate(this->affectsMap.at(s1), n)){
-			this->affectsMap.at(s1).push_back(n);
+		if (!AffectsTable::isDuplicate(this->affectsMap.at(a1), n)){
+			this->affectsMap.at(a1).push_back(n);
 		}
 	}
 }
 
-bool AffectsTable::isAffects (STMT s1, STMT s2)
+bool AffectsTable::isAffects (STMT a1, STMT a2)
 {
-	if (s1 <= 0 || s2 <= 0)
+	if (a1 <= 0 || a2 <= 0)
 		return false;
 
-	auto itr = this->affectsMap.find(s1);
+	auto itr = this->affectsMap.find(a1);
 
 	if (itr != this->affectsMap.end()){
 
 		vector<Affects*> nxtLst =  itr->second;
 	
 		for (unsigned int i = 0; i < nxtLst.size(); i++) {
-			if (nxtLst[i]->getA2() == s2 )
+			if (nxtLst[i]->getA2() == a2 )
 				return nxtLst[i]->isAffected();
 		}
 	}
 
-	if (PQLAffectsProcessor::isAffects(s1,s2)){
+	if (PQLAffectsProcessor::isAffects(a1,a2)){
+		PKB::affects.insertAffects(a1, a2, true);
 		return true;
 	} else {
-		PKB::affects.insertAffects(s1, s2, false);
+		PKB::affects.insertAffects(a1, a2, false);
 		return false;
 	}
 	return false;
 }
 
-vector<STMT> AffectsTable::getAffectsBy(STMT s1)
+vector<STMT> AffectsTable::getAffectsBy(STMT a1)
 {
-	vector<STMT> result =  PQLAffectsProcessor::getAffectsBy(s1);
+	vector<STMT> result =  PQLAffectsProcessor::getAffectsBy(a1);
 	//CACHE
 	for (int i = 0; i < result.size(); i++)	{
-		PKB::affects.insertAffects(s1 , result.at(i), true);
+		PKB::affects.insertAffects(a1 , result.at(i), true);
 	}
 	
 	return result;
 }
 
-vector<STMT> AffectsTable::getAffectsFrom(STMT s2)
+vector<STMT> AffectsTable::getAffectsFrom(STMT a2)
 {
-	vector<STMT> result =  PQLAffectsProcessor::getAffectsFrom(s2);
+	vector<STMT> result =  PQLAffectsProcessor::getAffectsFrom(a2);
 	//CACHE
 	for (int i = 0; i < result.size(); i++)	{
-		PKB::affects.insertAffects(result.at(i), s2, true);
+		PKB::affects.insertAffects(result.at(i), a2, true);
 	}
 	
 	return result;
 }
 
 //planned for itr2 + 3
-void AffectsTable::insertAffectsStar (STMT s1, STMT s2, bool isAffected)
+void AffectsTable::insertAffectsStar (STMT a1, STMT a2, bool isAffected)
 {
-	Affects* n = new Affects(s1, s2, isAffected);
+	Affects* n = new Affects(a1, a2, isAffected);
 	
-	auto itr = this->affectsStarMap.find(s1);
+	auto itr = this->affectsStarMap.find(a1);
 	
 	if (itr == this->affectsStarMap.end()) {
 		vector<Affects*> affectsLst;
 		affectsLst.push_back(n);
-		pair<STMT, vector<Affects*>> newItem (s1, affectsLst);
+		pair<STMT, vector<Affects*>> newItem (a1, affectsLst);
 		this->affectsStarMap.insert(newItem);
 	} else {
-		if (!AffectsTable::isDuplicate(this->affectsStarMap.at(s1), n)){
-			this->affectsStarMap.at(s1).push_back(n);
+		if (!AffectsTable::isDuplicate(this->affectsStarMap.at(a1), n)){
+			this->affectsStarMap.at(a1).push_back(n);
 		}
 	}
 }
 
-bool AffectsTable::isAffectsStar (STMT s1, STMT s2)
+bool AffectsTable::isAffectsStar (STMT a1, STMT a2)
 {
-	if (s1 <= 0 || s2 <= 0)
+	if (a1 <= 0 || a2 <= 0)
 		return false;
 
-	if (PKB::affects.isAffects(s1, s2))
+	if (PKB::affects.isAffects(a1, a2))
 		return true;
 
-	auto itr = this->affectsStarMap.find(s1);
+	auto itr = this->affectsStarMap.find(a1);
 
 	if (itr != this->affectsStarMap.end()){
 
 		vector<Affects*> nxtLst =  itr->second;
 	
 		for (unsigned int i = 0; i < nxtLst.size(); i++) {
-			if (nxtLst[i]->getA2() == s2 )
+			if (nxtLst[i]->getA2() == a2 )
 				return nxtLst[i]->isAffected();
 		}
 	}
 
-	if (PQLAffectsProcessor::isAffectsStar(s1,s2)){
+	if (PQLAffectsProcessor::isAffectsStar(a1,a2)){
+		PKB::affects.insertAffectsStar(a1, a2, true);
 		return true;
 	} else {
-		PKB::affects.insertAffectsStar(s1, s2, false);
+		PKB::affects.insertAffectsStar(a1, a2, false);
 		return false;
 	}
 
 	return false;
 }
 
-vector<STMT> AffectsTable::getAffectsByStar(STMT s1)
+vector<STMT> AffectsTable::getAffectsByStar(STMT a1)
 {
-	vector<STMT> result =  PQLAffectsProcessor::getAffectsByStar(s1);
+	vector<STMT> result =  PQLAffectsProcessor::getAffectsByStar(a1);
 	//CACHE
 	for (int i = 0; i < result.size(); i++)	{
-		PKB::affects.insertAffectsStar(s1, result.at(i), true);
+		PKB::affects.insertAffectsStar(a1, result.at(i), true);
 	}
 	
 	return result;
 }
-vector<STMT> AffectsTable::getAffectsFromStar(STMT s2)
+vector<STMT> AffectsTable::getAffectsFromStar(STMT a2)
 {
-	vector<STMT> result =  PQLAffectsProcessor::getAffectsFromStar(s2);
+	vector<STMT> result =  PQLAffectsProcessor::getAffectsFromStar(a2);
 	//CACHE
 	for (int i = 0; i < result.size(); i++)	{
-		PKB::affects.insertAffectsStar(result.at(i), s2, true);
+		PKB::affects.insertAffectsStar(result.at(i), a2, true);
 	}
 	
 	return result;
@@ -145,45 +147,45 @@ vector<STMT> AffectsTable::getAffectsFromStar(STMT s2)
 
 
 //planned for itr3 + 4
-void AffectsTable::insertAffectsBip(STMT s1, STMT s2, bool isAffected)
+void AffectsTable::insertAffectsBip(STMT a1, STMT a2, bool isAffected)
 {
-	Affects* n = new Affects(s1, s2, isAffected);
+	Affects* n = new Affects(a1, a2, isAffected);
 	
-	auto itr = this->affectsBipMap.find(s1);
+	auto itr = this->affectsBipMap.find(a1);
 	
 	if (itr == this->affectsBipMap.end()) {
 		vector<Affects*> affectsLst;
 		affectsLst.push_back(n);
-		pair<STMT, vector<Affects*>> newItem (s1, affectsLst);
+		pair<STMT, vector<Affects*>> newItem (a1, affectsLst);
 		this->affectsBipMap.insert(newItem);
 	} else {
-		if (!AffectsTable::isDuplicate(this->affectsBipMap.at(s1), n)){
-			this->affectsBipMap.at(s1).push_back(n);
+		if (!AffectsTable::isDuplicate(this->affectsBipMap.at(a1), n)){
+			this->affectsBipMap.at(a1).push_back(n);
 		}
 	}
 }
 
-bool AffectsTable::isAffectsBip (STMT s1, STMT s2)
+bool AffectsTable::isAffectsBip (STMT a1, STMT a2)
 {
-	if (s1 <= 0 || s2 <= 0)
+	if (a1 <= 0 || a2 <= 0)
 		return false;
 
-	auto itr = this->affectsBipMap.find(s1);
+	auto itr = this->affectsBipMap.find(a1);
 
 	if (itr != this->affectsBipMap.end()){
 
 		vector<Affects*> nxtLst =  itr->second;
 	
 		for (unsigned int i = 0; i < nxtLst.size(); i++) {
-			if (nxtLst[i]->getA2() == s2 )
+			if (nxtLst[i]->getA2() == a2 )
 				return nxtLst[i]->isAffected();
 		}
 	}
 	//TODO: Implement
-	//if (PQLAffectsProcessor::isAffectsBip(s1,s2)){
+	//if (PQLAffectsProcessor::isAffectsBip(a1,a2)){
 	//	return true;
 	//} else {
-	//	PKB::affects.insertAffectsBip(s1, s2, false);
+	//	PKB::affects.insertAffectsBip(a1, a2, false);
 	//	return false;
 	//}
 }

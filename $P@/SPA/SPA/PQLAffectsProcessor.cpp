@@ -15,17 +15,14 @@ bool PQLAffectsProcessor::isSatifyAffects(STMT a1, STMT a2)
 	CFGNode* a2CFGNode = PKB::stmtRefMap.at(a2).getCFGNode(); 
 
 	if (a1CFGNode->proc!= a2CFGNode->proc) { //Check if same procedure
-		PKB::affects.insertAffects(a1, a2, false);
 		return false; 
 	}
 	if (a1ASTNode->getType() != ASTNode::Assign || a2ASTNode->getType() != ASTNode::Assign) { // return false if either stmt is not assign
-		PKB::affects.insertAffects(a1, a2, false);
 		return false; 
 	}
 	VAR modifiedVar = a1ASTNode->getValue(); // get the variable being modified
 
 	if (!(PKB::next.isNextStar(a1, a2) && PKB::uses.isUsedStmt(a2, modifiedVar))) { //if nextStar(a1, a2) and uses(a2, v) does not hold 
-		PKB::affects.insertAffects(a1, a2, false);
 		return false;
 	}
 
@@ -92,19 +89,15 @@ bool PQLAffectsProcessor::isAffects(STMT a1, STMT a2) {
 
 vector<STMT> PQLAffectsProcessor::getAffectsFrom(STMT a2)
 {
-	if(PKB::stmtRefMap.at(a2).getASTStmtNode()->getType() != ASTNode::Assign)
+	if ((PKB::stmtRefMap.at(a2).getASTStmtNode()->getType() != ASTNode::Assign) ||
+		(a2 < 0 || a2 > PKB::maxProgLines) || (PKB::assignTable.count(a2) == 0))
 		return vector<STMT>();
-
-	if (a2 < 0 || a2 > PKB::maxProgLines)
-		return vector<STMT>();
-	if (PKB::assignTable.count(a2) == 0)
-		return vector<STMT>(); //TODO: double check with cristina
 
 	const vector<VAR>& usesVarVector = PKB::uses.getUsedByStmt(a2);
 	unordered_set<VAR> usesVarSet(usesVarVector.begin(), usesVarVector.end());
 	CFGNode* s2 = PKB::stmtRefMap.at(a2).getCFGNode();
 
-	unordered_set<int> answer;
+	unordered_set<STMT> answer;
 
 	bool toStep = false;
 	for (auto it = s2->modifySet.begin(); it != s2->modifySet.end(); it++)
@@ -211,14 +204,12 @@ vector<STMT> PQLAffectsProcessor::getAffectsFrom(STMT a2)
 
 vector<STMT> PQLAffectsProcessor::getAffectsBy(STMT a1)
 {
-	if (a1 < 0 || a1 > PKB::maxProgLines)
-		return vector<STMT>();
-	if (PKB::assignTable.count(a1) == 0)
+	if ((a1 < 0 || a1 > PKB::maxProgLines) || (PKB::assignTable.count(a1) == 0))
 		return vector<STMT>(); //TODO: double check with cristina
 
 	const VAR modifiesVar = PKB::modifies.getModifiedByStmt(a1)[0];
 	CFGNode* s1 = PKB::stmtRefMap.at(a1).getCFGNode();
-	unordered_set<int> answer;
+	unordered_set<STMT> answer;
 
 	if (s1->useSet.count(modifiesVar) > 0)
 		for (int i = a1 + 1; i <= s1->last; i++)
@@ -324,14 +315,9 @@ vector<STMT> PQLAffectsProcessor::getAffectsBy(STMT a1)
 				break;
 			}
 	}
-	vector<STMT> result = vector<STMT>(answer.begin(), answer.end());
+	return vector<STMT>(answer.begin(), answer.end());
 
-	//CACHE
-	for (int i = 0; i < result.size(); i++)	{
-		PKB::affects.insertAffects(a1, result.at(i), true);
-	}
 
-	return result;
 }
 
 //Affects*
@@ -347,17 +333,14 @@ bool PQLAffectsProcessor::isSatifyAffectsStar(STMT a1, STMT a2)
 	CFGNode* a2CFGNode = PKB::stmtRefMap.at(a2).getCFGNode(); 
 
 	if (a1CFGNode->proc != a2CFGNode->proc) { //Check if same procedure
-		PKB::affects.insertAffects(a1, a2, false);
 		return false; 
 	}
 	if (a1ASTNode->getType() != ASTNode::Assign || a2ASTNode->getType() != ASTNode::Assign) { // return false if either stmt is not assign
-		PKB::affects.insertAffects(a1, a2, false);
 		return false; 
 	}
 	VAR modifiedVar = a1ASTNode->getValue(); // get the variable being modified
 
 	if (!(PKB::next.isNextStar(a1, a2))) { //if nextStar(a1, a2) 
-		PKB::affects.insertAffects(a1, a2, false);
 		return false;
 	}
 

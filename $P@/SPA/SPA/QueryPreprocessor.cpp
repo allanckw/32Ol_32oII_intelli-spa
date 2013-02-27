@@ -133,7 +133,7 @@ void QueryPreprocessor::validate(const string& query)
 				RulesOfEngagement::QueryVar type = stringToQueryVar[synonym];
 				string condition;
 				RulesOfEngagement::QueryVar LHSType;
-				if (stringToQueryVar[synonym] == RulesOfEngagement::Prog_Line) {
+				if (type == RulesOfEngagement::Prog_Line) {
 					condition = "";
 					LHSType = RulesOfEngagement::Integer;
 				} else {
@@ -157,16 +157,22 @@ void QueryPreprocessor::validate(const string& query)
 							throw new SPAException("Unable to parse with");
 					} else
 						throw new SPAException("Unable to parse with");
-				} else { //c.value = s.stmt#
-					QueryPreprocessor::matchToken(query, pos, ".");
-					string condition2 = QueryPreprocessor::getToken(query, pos);
+				} else { //c.value = s.stmt# //c.value = s.stmt# OR c.value = n
+					RulesOfEngagement::QueryVar type2 = stringToQueryVar[token];
+					string condition2;
+					if (type2 == RulesOfEngagement::Prog_Line) {
+						condition2 = "";
+					} else {
+						QueryPreprocessor::matchToken(query, pos, ".");
+						condition2 = QueryPreprocessor::getToken(query, pos);
+					}
 
 					if (synonym == token && condition == condition2)
 						break;
 
-					if (RulesOfEngagement::allowableConditions[type].count(condition) == 0)
-						throw new SPAException(synonym +
-						" does not have the " + condition + " condition");
+					if (RulesOfEngagement::allowableConditions[type2].count(condition2) == 0)
+						throw new SPAException(token +
+						" does not have the " + condition2 + " condition");
 					RulesOfEngagement::QueryVar RHSType =
 						RulesOfEngagement::conditionTypes[condition2];
 					if (LHSType != RHSType)
@@ -219,9 +225,22 @@ void QueryPreprocessor::validate(const string& query)
 					break;
 
 				case RulesOfEngagement::If:
-				case RulesOfEngagement::While:
 					QueryPreprocessor::matchToken(query, pos, ",");
 					QueryPreprocessor::matchToken(query, pos, "_");
+					QueryPreprocessor::matchToken(query, pos, ",");
+					QueryPreprocessor::matchToken(query, pos, "_");
+					QueryPreprocessor::matchToken(query, pos, ")");
+
+					if (firstRel != "_") {
+						if (stringToQueryVar.count(firstRel) > 0) {
+							if (stringToQueryVar[firstRel] != RulesOfEngagement::Variable)
+								throw new SPAException("The first argument of pattern must be a variable");
+						} else if (firstRel.at(0) != '\"' || firstRel.at(firstRel.length() - 1) != '\"')
+							throw new SPAException("Could not parse the first argument");
+					}
+					break;
+
+				case RulesOfEngagement::While:
 					QueryPreprocessor::matchToken(query, pos, ",");
 					QueryPreprocessor::matchToken(query, pos, "_");
 					QueryPreprocessor::matchToken(query, pos, ")");

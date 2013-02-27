@@ -27,8 +27,8 @@ Select a1 with a.stmt# = 32
 5000
 6 - With :: Meaningless queries
 assign a,a1;
-Select boolean with a.stmt# = 53
-false
+Select BOOLEAN with a.stmt# = 53
+FALSE
 5000
 7 - While :: Meaningless queries
 while w;
@@ -57,8 +57,8 @@ First First, First Second, First Third, First Fourth, Second First, Second Secon
 5000
 11 - Calls :: Meaningless queries
 procedure p,q; assign a;
-Select boolean such that Calls (_,_)
-true
+Select BOOLEAN such that Calls (_,_)
+TRUE
 5000
 12 - Calls :: Meaningless queries
 procedure p,q; assign a;
@@ -147,7 +147,7 @@ Select w pattern w ("x", _)
 5000
 26 - Parent*, Next*, Pattern :: What while statements have 'x' as control variable?
 assign a; while w; prog_line n;
-Select a such that Parent* (w,a) and Next* (37,n) pattern a ("x",_) such that a.stmt# = n
+Select a such that Parent* (w,a) and Next* (37,n) pattern a ("x",_) with a.stmt# = n
 17,21,26,27,34
 5000
 27 - Follows*, With :: What are the statements that follow 13?
@@ -155,58 +155,58 @@ stmt s; prog_line n;
 Select s such that Follows* (n, s) with n = 13
 14,15,16,45,46,47,48
 5000
-28 - Follows*, With :: What are the statements that follow 13?
+28 - Follows*, With :: What are the statements that are 13 and follow 13?
 stmt s; prog_line n;
 Select s such that Follows* (n, s) with s.stmt# = n and n = 13
-14,15,16,45,46,47,48
+
 5000
 28 - Follows*, With :: What are the statements that follow 13?
 stmt s; prog_line n;
-Select s such that modifies(s,_)
+Select s such that Modifies(s,_)
 1,10,11,12,13,14,15,16,17,18,19,2,20,21,22,23,24,25,26,27,28,29,3,30,31,32,33,34,35,36,37,38,39,4,40,41,42,43,44,45,46,47,48,49,5,50,51,52,53,54,55,56,57,58,59,6,60,61,62,63,64,65,66,67,68,69,7,70,71,72,73,74,75,76,77,78,79,8,80,81,82,83,84,85,86,87,88,9
 5000
 28 - Follows*, With :: What are the statements that follow 13?
 stmt s; variable v;
-Select s such that modifies(s,v)
+Select s such that Modifies(s,v)
 1,10,11,12,13,14,15,16,17,18,19,2,20,21,22,23,24,25,26,27,28,29,3,30,31,32,33,34,35,36,37,38,39,4,40,41,42,43,44,45,46,47,48,49,5,50,51,52,53,54,55,56,57,58,59,6,60,61,62,63,64,65,66,67,68,69,7,70,71,72,73,74,75,76,77,78,79,8,80,81,82,83,84,85,86,87,88,9
 5000
 28 - Follows*, With :: What are the statements that follow 13?
 stmt s; prog_line n;
-Select s such that uses(s,_)
+Select s such that Uses(s,_)
 10,12,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,3,30,31,33,34,35,36,37,38,39,4,40,41,42,43,45,46,47,48,49,5,50,51,53,54,55,56,57,58,59,6,60,61,62,64,65,68,69,7,71,72,74,75,76,77,78,79,8,80,81,82,83,84,85,86,87,88,9
 5000
 28 - Follows*, With :: What are the statements that follow 13?
 stmt s; variable v;
-Select s such that uses(s,v)
+Select s such that Uses(s,v)
 10,12,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,3,30,31,33,34,35,36,37,38,39,4,40,41,42,43,45,46,47,48,49,5,50,51,53,54,55,56,57,58,59,6,60,61,62,64,65,68,69,7,71,72,74,75,76,77,78,79,8,80,81,82,83,84,85,86,87,88,9
 5000
 28 - Follows*, With :: What are the statements that follow 13?
 stmt s; procedure p;
-Select p such that modifies(p,_)
+Select p such that Modifies(p,_)
 First, Second, Third, Fourth
 5000
 28 - Follows*, With :: What are the statements that follow 13?
 variable v; procedure p;
-Select p such that modifies(p,v)
+Select p such that Modifies(p,v)
 First, Second, Third, Fourth
 5000
 28 - Follows*, With :: What are the statements that follow 13?
 stmt s; procedure p;
-Select p such that uses(p,_)
+Select p such that Uses(p,_)
 First, Second, Third, Fourth
 5000
 28 - Follows*, With :: What are the statements that follow 13?
 variable v; procedure p;
-Select p such that uses(p,v)
+Select p such that Uses(p,v)
 First, Second, Third, Fourth
 5000
 28 - Follows*, With :: What are the statements that follow 13?
 stmt s; procedure p;
-Select p such that modifies(p,_)
+Select p such that Modifies(p,_)
 First, Second, Third, Fourth
 5000
 28 - Follows*, With :: What are the statements that follow 13?
 variable v; procedure p;
-Select p such that calls("Second",_)
+Select p such that Calls("Second",_)
 First, Second, Third, Fourth
 5000

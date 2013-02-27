@@ -458,8 +458,8 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 				for (auto it2 = savestates.begin(); it2 != savestates.end(); it2++) {
 					stack<ASTStmtNode*> state = *it2;
 					while (!state.empty()) {
-						tempStmtNode = DFSstack.top();
-						DFSstack.pop();
+						tempStmtNode = state.top();
+						state.pop();
 						STMT tempNumber = (*tempStmtNode).getStmtNumber();
 						PKB::uses.insertStmtUses(tempNumber, usesVar);
 					}

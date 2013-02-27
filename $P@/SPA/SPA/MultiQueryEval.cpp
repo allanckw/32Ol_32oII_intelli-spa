@@ -24,7 +24,6 @@ vector<string> MultiQueryEval::evaluateQuery(const string& query)
 	if (result.selectBOOLEAN && result.earlyQuit)
 		result.finalanswer.push_back("FALSE");
 	return result.finalanswer;
-
 }
 
 /**
@@ -151,7 +150,7 @@ MultiQueryEval::MultiQueryEval(const string& query)
 				RulesOfEngagement::QueryVar type = stringToQueryVar[synonym];
 				string condition;
 				RulesOfEngagement::QueryVar LHSType;
-				if (stringToQueryVar[synonym] == RulesOfEngagement::Prog_Line) {
+				if (type == RulesOfEngagement::Prog_Line) {
 					condition = "";
 					LHSType = RulesOfEngagement::Integer;
 				} else {
@@ -168,9 +167,15 @@ MultiQueryEval::MultiQueryEval(const string& query)
 						earlyQuit |= (conditionStore[synonym][condition] == token);
 					conditionStore[synonym].insert(pair<string, string>(condition, token));
 					//stringCount[synonym]++;
-				} else { //c.value = s.stmt#
-					QueryPreprocessor::matchToken(query, pos, ".");
-					string condition2 = QueryPreprocessor::getToken(query, pos);
+				} else { //c.value = s.stmt# OR c.value = n
+					RulesOfEngagement::QueryVar type2 = stringToQueryVar[token];
+					string condition2;
+					if (type2 == RulesOfEngagement::Prog_Line) {
+						condition2 = "";
+					} else {
+						QueryPreprocessor::matchToken(query, pos, ".");
+						condition2 = QueryPreprocessor::getToken(query, pos);
+					}
 
 					if (synonym == token && condition == condition2)
 						break;
@@ -215,9 +220,21 @@ MultiQueryEval::MultiQueryEval(const string& query)
 					break;
 
 				case RulesOfEngagement::If:
-				case RulesOfEngagement::While:
 					QueryPreprocessor::matchToken(query, pos, ",");
 					QueryPreprocessor::matchToken(query, pos, "_");
+					QueryPreprocessor::matchToken(query, pos, ",");
+					QueryPreprocessor::matchToken(query, pos, "_");
+					QueryPreprocessor::matchToken(query, pos, ")");
+
+					if (firstRel == "_")
+						earlyQuit |= !RulesOfEngagement::isExistType(type);
+					else {
+						//stringCount[synonym]++;
+						relationStore[RulesOfEngagement::PatternModifies][synonym].insert(firstRel);
+					}
+					break;
+
+				case RulesOfEngagement::While:
 					QueryPreprocessor::matchToken(query, pos, ",");
 					QueryPreprocessor::matchToken(query, pos, "_");
 					QueryPreprocessor::matchToken(query, pos, ")");

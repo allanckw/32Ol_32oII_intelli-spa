@@ -51,7 +51,35 @@ AnswerTable::AnswerTable(const SynonymTable& synonymTable, const string& synonym
 			return;
 
 		if (unrestricted) {
-			table.push_back(stmtNo);
+			switch (synonymTable.getType(synonym)) {
+			case RulesOfEngagement::Statement:
+				table.push_back(stmtNo);
+				break;
+			case RulesOfEngagement::Assign:
+				if (PKB::assignTable.count(stmtNo) > 0)
+					table.push_back(stmtNo);
+				else
+					return;
+				break;
+			case RulesOfEngagement::While:
+				if (PKB::whileTable.count(stmtNo) > 0)
+					table.push_back(stmtNo);
+				else
+					return;
+				break;
+			case RulesOfEngagement::If:
+				if (PKB::ifTable.count(stmtNo) > 0)
+					table.push_back(stmtNo);
+				else
+					return;
+				break;
+			case RulesOfEngagement::Call:
+				if (PKB::callTable.count(stmtNo) > 0)
+					table.push_back(stmtNo);
+				else
+					return;
+				break;
+			}
 			unrestricted = false;
 		} else { //already a procName in there (must be call)
 			bool found = false;
@@ -62,9 +90,20 @@ AnswerTable::AnswerTable(const SynonymTable& synonymTable, const string& synonym
 				}
 			if (found)
 				table = vector<int>(1, stmtNo);
-			else
+			else {
 				table = vector<int>();
+				return;
+			}
 		}
+	}
+
+	else if (specificAttributes.count("") > 0) {
+		const int stmtNo = Helper::stringToInt(specificAttributes.at(""));
+		if (stmtNo > PKB::maxProgLines)
+			return;
+
+		table.push_back(stmtNo);
+		unrestricted = false;
 	}
 
 	if (specificAttributes.count("varName") > 0) {
@@ -618,9 +657,7 @@ AnswerTable::AnswerTable(const SynonymTable& synonymTable, const string& synonym
 					table2.push_back(*it2);
 		}
 		table = table2;
-	
 	}
-	
 	}
 
 	//convert vector<int> to vector<vector<int>>

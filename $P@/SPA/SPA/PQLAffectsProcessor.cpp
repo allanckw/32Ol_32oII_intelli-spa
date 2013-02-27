@@ -211,23 +211,22 @@ vector<STMT> PQLAffectsProcessor::getAffectsBy(STMT a1)
 	CFGNode* s1 = PKB::stmtRefMap.at(a1).getCFGNode();
 	unordered_set<STMT> answer;
 
-	if (s1->useSet.count(modifiesVar) > 0)
-		for (int i = a1 + 1; i <= s1->last; i++)
-			if (PKB::assignTable.count(i) > 0) {
-				const vector<VAR>& stmtUsesVar = PKB::uses.getUsedByStmt(i);
-				for (auto it = stmtUsesVar.begin(); it != stmtUsesVar.end(); it++)
-					if (modifiesVar == *it) {
-						answer.insert(i);
-						break;
-					}
-				if (modifiesVar == PKB::modifies.getModifiedByStmt(i)[0])
+	for (int i = a1 + 1; i <= s1->last; i++)
+		if (PKB::assignTable.count(i) > 0) {
+			const vector<VAR>& stmtUsesVar = PKB::uses.getUsedByStmt(i);
+			for (auto it = stmtUsesVar.begin(); it != stmtUsesVar.end(); it++)
+				if (modifiesVar == *it) {
+					answer.insert(i);
+					break;
+				}
+			if (modifiesVar == PKB::modifies.getModifiedByStmt(i)[0])
+				return vector<STMT>(answer.begin(), answer.end());
+		} else if (PKB::callTable.count(i) > 0) {
+			const vector<VAR>& stmtModifiesVar = PKB::modifies.getModifiedByStmt(i);
+			for (auto it = stmtModifiesVar.begin(); it != stmtModifiesVar.end(); it++)
+				if (modifiesVar == *it)
 					return vector<STMT>(answer.begin(), answer.end());
-			} else if (PKB::callTable.count(i) > 0) {
-				const vector<VAR>& stmtModifiesVar = PKB::modifies.getModifiedByStmt(i);
-				for (auto it = stmtModifiesVar.begin(); it != stmtModifiesVar.end(); it++)
-					if (modifiesVar == *it)
-						return vector<STMT>(answer.begin(), answer.end());
-			}
+		}
 	
 	queue<CFGNode*> search;
 	unordered_set<CFGNode*> seen;
@@ -300,6 +299,7 @@ vector<STMT> PQLAffectsProcessor::getAffectsBy(STMT a1)
 		if (continueCFG)
 			switch (s1->type) {
 			case CFGNode::StandardNode:
+			case CFGNode::DummyNode:
 				if (s1->children.oneChild != NULL)
 					search.push(s1->children.oneChild);
 				break;
@@ -453,6 +453,7 @@ bool PQLAffectsProcessor::isAffectsStar(STMT a1, STMT a2)
 	
 	switch (s1->type) {
 	case CFGNode::StandardNode:
+	case CFGNode::DummyNode:
 		if (s1->children.oneChild != NULL)
 			search.push(pair<CFGNode*, unordered_set<int>>(s1->children.oneChild, modifiesVarSet));
 		break;
@@ -702,6 +703,7 @@ vector<STMT> PQLAffectsProcessor::getAffectsByStar(STMT a1)
 		
 		switch (currCFG->type) {
 		case CFGNode::StandardNode:
+		case CFGNode::DummyNode:
 			if (currCFG->children.oneChild != NULL)
 				search.push(pair<CFGNode*, unordered_set<int>>(currCFG->children.oneChild, currVar));
 			break;

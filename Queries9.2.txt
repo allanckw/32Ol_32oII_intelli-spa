@@ -3,12 +3,12 @@ cat: All Category
 1 - With :: Meaningless queries
 assign a;
 Select a with a.stmt# = 12
-none
+
 5000
 2 - With :: Meaningless queries
 assign a;
 Select a with a.stmt# = 16
-none
+
 5000
 3 - With :: Meaningless queries
 assign a;
@@ -18,7 +18,7 @@ Select a with a.stmt# = 32
 4 - With :: Meaningless queries
 assign a;
 Select a with a.stmt# = 39
-none
+
 5000
 5 - With :: Meaningless queries
 assign a,a1;
@@ -38,7 +38,7 @@ Select w such that Calls ("Second", "Third")
 8 - While :: Meaningless queries
 if iff;
 Select iff such that Calls ("Fourth", "Third")
-none
+
 5000
 9 - Tuple :: Meaningless queries
 assign a; while w;

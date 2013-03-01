@@ -824,6 +824,170 @@ vector<STMT>  PQLAffectsProcessor::getAffectsFromStar(STMT a2)
 	}
 	return vector<STMT>(answer.begin(), answer.end());
 }
+
+
+//bool PQLAffectsProcessor::isAffectsBip(STMT a1, STMT a2)
+//{
+//	if (a1 < 0 || a1 > PKB::maxProgLines || a2 < 0 || a2 > PKB::maxProgLines)
+//		return false;
+//	if (PKB::assignTable.count(a1) == 0 || PKB::assignTable.count(a2) == 0)
+//		//throw SPAException("Both arguments to Affects must be assignments");
+//		return false; //TODO: double check with cristina
+//
+//	const VAR modifiesVar = PKB::modifies.getModifiedByStmt(a1)[0];
+//	{
+//		bool ok = false;
+//		const vector<VAR>& usesVar = PKB::uses.getUsedByStmt(a2);
+//		for (auto it = usesVar.begin(); it != usesVar.end(); it++)
+//			if (modifiesVar == *it) {
+//				ok = true;
+//				break;
+//			}
+//		if (!ok)
+//			return false;
+//	}
+//
+//	CFGNode* s1 = PKB::stmtRefMap.at(a1).getCFGNode();
+//
+//	if (a2 <= s1->last) {
+//		for (int i = a1 + 1; i < a2; i++)
+//			if (PKB::assignTable.count(i) > 0) {
+//				if (modifiesVar == PKB::modifies.getModifiedByStmt(i)[0])
+//					return false;
+//			} else if (PKB::callTable.count(i) > 0) {
+//				const vector<VAR>& stmtModifiesVar = PKB::modifies.getModifiedByStmt(i);
+//				for (auto it = stmtModifiesVar.begin(); it != stmtModifiesVar.end(); it++)
+//					if (modifiesVar == *it)
+//						return false;
+//			}
+//		return true;
+//	}
+//
+//	const CFGNode* s2 = PKB::stmtRefMap.at(a2).getCFGNode();
+//	if (s1->proc != s2->proc)
+//		return false;
+//
+//	const IntervalList* list = s1->nextList;
+//	if (list == NULL)
+//		return false;
+//	if (a2 < list->first) {
+//		list = list->prev;
+//		while (list != NULL && a2 < list->first)
+//			list = list->prev;
+//		if (list == NULL || a2 > list->last)
+//			return false;
+//	} else if (a2 > list->last) {
+//		list = list->next;
+//		while (list != NULL && a2 > list->last)
+//			list = list->next;
+//		if (list == NULL || a2 < list->first)
+//			return false;
+//	}
+//
+//	for (int i = a1 + 1; i <= s1->last; i++)
+//		if (PKB::assignTable.count(i) > 0) {
+//			if (modifiesVar == PKB::modifies.getModifiedByStmt(i)[0])
+//				return false;
+//		} else if (PKB::callTable.count(i) > 0) {
+//			const vector<VAR>& stmtModifiesVar = PKB::modifies.getModifiedByStmt(i);
+//			for (auto it = stmtModifiesVar.begin(); it != stmtModifiesVar.end(); it++)
+//				if (modifiesVar == *it)
+//					return false;
+//		}
+//
+//	queue<CFGNode*> search;
+//	unordered_set<CFGNode*> seen;
+//
+//	switch (s1->type) {
+//	case CFGNode::StandardNode:
+//		if (s1->children.oneChild != NULL)
+//			search.push(s1->children.oneChild);
+//		break;
+//
+//	case CFGNode::WhileNode:
+//		if (s1->children.whileChildren.whileIn->first <= a2
+//			&& a2 < s1->children.whileChildren.whileOut->first)
+//			search.push(s1->children.whileChildren.whileIn);
+//		else
+//			search.push(s1->children.whileChildren.whileOut);
+//		break;
+//
+//	case CFGNode::IfNode:
+//		if (s1->children.ifChildren.ifThen->first <= a2
+//			&& a2 < s1->children.ifChildren.ifElse->first)
+//			search.push(s1->children.ifChildren.ifThen);
+//		else if (s1->children.ifChildren.ifElse->first <= a2
+//			&& a2 < s1->children.ifChildren.ifLater->first)
+//			search.push(s1->children.ifChildren.ifElse);
+//		else {
+//			search.push(s1->children.ifChildren.ifThen);
+//			search.push(s1->children.ifChildren.ifElse);
+//		}
+//		break;
+//	}
+//
+//	while (!search.empty()) {
+//		CFGNode* currCFG = search.front();
+//		search.pop();
+//		if (seen.count(currCFG) > 0)
+//			continue;
+//		seen.insert(currCFG);
+//
+//		if (currCFG->first != 0 && currCFG->modifySet.count(modifiesVar) > 0) {
+//			if (a2 <= currCFG->last) {
+//				for (int i = currCFG->first; i < a2; i++) {
+//					if (PKB::assignTable.count(i) > 0) {
+//						if (modifiesVar == PKB::modifies.getModifiedByStmt(i)[0])
+//							return false;
+//					} else if (PKB::callTable.count(i) > 0) { //interprocedural will change here
+//						const vector<VAR>& stmtModifiesVar = PKB::modifies.getModifiedByStmt(i);
+//						for (auto it = stmtModifiesVar.begin(); it != stmtModifiesVar.end(); it++)
+//							if (modifiesVar == *it)
+//								return false;
+//					}
+//				}
+//				return true;
+//			}
+//			break;
+//		}
+//		
+//		switch (currCFG->type) {
+//		case CFGNode::StandardNode:
+//			if (currCFG->children.oneChild != NULL)
+//				search.push(currCFG->children.oneChild);
+//			break;
+//
+//		case CFGNode::WhileNode:
+//			if (currCFG->children.whileChildren.whileIn->first <= a2
+//				&& a2 < currCFG->children.whileChildren.whileOut->first)
+//				search.push(currCFG->children.whileChildren.whileIn);
+//			else
+//				search.push(currCFG->children.whileChildren.whileOut);
+//			break;
+//
+//		case CFGNode::IfNode:
+//			if (currCFG->children.ifChildren.ifThen->first <= a2
+//				&& a2 < currCFG->children.ifChildren.ifElse->first)
+//				search.push(currCFG->children.ifChildren.ifThen);
+//			else if (currCFG->children.ifChildren.ifElse->first <= a2
+//				&& a2 < currCFG->children.ifChildren.ifLater->first)
+//				search.push(currCFG->children.ifChildren.ifElse);
+//			else {
+//				search.push(currCFG->children.ifChildren.ifThen);
+//				search.push(currCFG->children.ifChildren.ifElse);
+//			}
+//			break;
+//		}
+//	}
+//	return false; //shouldn't reach this point
+//}
+
+
+/*
+-----------------------------------------------------------------------------
+OLD CODE: OBFUSCATED 
+-----------------------------------------------------------------------------
+*/
 //
 //
 //vector<STMT>* Ans; 
@@ -1015,7 +1179,7 @@ vector<STMT>  PQLAffectsProcessor::getAffectsFromStar(STMT a2)
 //					if(proglinem.at(z) == v)
 //					{
 //						ismod = true;
-//						//modint = y;
+//						//modint = a2;
 //						goto cont2;
 //					}
 //				
@@ -1100,15 +1264,15 @@ vector<STMT>  PQLAffectsProcessor::getAffectsFromStar(STMT a2)
 //					}
 //			}
 //
-//	//queue<pair<MyCFG*, unordered_set<int>>> search;
-//	//unordered_map<MyCFG*, unordered_set<int>> seen;
+//	//queue<pair<CFGNode*, unordered_set<int>>> search;
+//	//unordered_map<CFGNode*, unordered_set<int>> seen;
 //	//for (auto it = s2->parents.begin(); it != s2->parents.end(); it++)
-//	//	search.push(pair<MyCFG*, unordered_set<int>>(*it, usesVarSet));
+//	//	search.push(pair<CFGNode*, unordered_set<int>>(*it, usesVarSet));
 //
 //	//while (!search.empty()) {
-//	//	pair<MyCFG*, unordered_set<int>> currPair = search.front();
+//	//	pair<CFGNode*, unordered_set<int>> currPair = search.front();
 //	//	search.pop();
-//	//	MyCFG* currCFG = currPair.first;
+//	//	CFGNode* currCFG = currPair.first;
 //	//	unordered_set<int>& currVar = currPair.second;
 //	//	if (seen.count(currCFG) > 0) {
 //	//		unordered_set<int>& seenVar = seen[currCFG];
@@ -1119,7 +1283,7 @@ vector<STMT>  PQLAffectsProcessor::getAffectsFromStar(STMT a2)
 //	//		for (auto it = currVar.begin(); it != currVar.end(); it++)
 //	//			seenVar.insert(*it);
 //	//	} else
-//	//		seen.insert(pair<MyCFG*, unordered_set<int>>(currCFG, currVar));
+//	//		seen.insert(pair<CFGNode*, unordered_set<int>>(currCFG, currVar));
 //
 //	//	bool toStep = false;
 //	//	for (auto it = currCFG->modifySet.begin(); it != currCFG->modifySet.end(); it++)
@@ -1154,7 +1318,7 @@ vector<STMT>  PQLAffectsProcessor::getAffectsFromStar(STMT a2)
 //	//	
 //	//	if (currVar.size() != 0)
 //	//		for (auto it = currCFG->parents.begin(); it != currCFG->parents.end(); it++)
-//	//			search.push(pair<MyCFG*, unordered_set<int>>(*it, currVar));
+//	//			search.push(pair<CFGNode*, unordered_set<int>>(*it, currVar));
 //	//}
 //	//return vector<STMT>(answer.begin(), answer.end());
 //}

@@ -69,7 +69,7 @@ void TestQueryEvaluator::doon(string s)
 
 	cout << s << endl;
 	try {
-		vector<string> answer = MultiQueryEval::evaluateQuery(s);
+		vector<string> answer = PQLController::evaluateQuery(s);
 		set<string> answer2;
 		for (auto it = answer.begin(); it != answer.end(); it++)
 			answer2.insert(*it);

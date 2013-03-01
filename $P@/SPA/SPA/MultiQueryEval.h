@@ -11,11 +11,19 @@ class MultiQueryEval
 private:
 
 	static vector<string> MiniTokenizer(const string& line);
-	MultiQueryEval(const string& query);
+	
 	bool selectBOOLEAN;
 	bool earlyQuit;
 	vector<string> finalanswer;
 
 public:
+	MultiQueryEval(const string& query);
+
 	static vector<string> evaluateQuery(const string& query);
+
+	bool getSelectBoolean();
+
+	bool getEarlyQuit();
+
+	vector<string> getFinalAnswer();
 };

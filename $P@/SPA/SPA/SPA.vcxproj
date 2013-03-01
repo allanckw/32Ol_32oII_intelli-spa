@@ -27,6 +27,7 @@
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\PatternRHSParser.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\PKBController.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\PQLAffectsProcessor.h" />
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\PQLController.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\PQLNextProcessor.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\QueryPreprocessor.h" />
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\RulesOfEngagement.h" />
@@ -63,6 +64,7 @@
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\PatternRHSParser.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\PKBController.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\PQLAffectsProcessor.cpp" />
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\PQLController.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\PQLNextProcessor.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\QueryPreprocessor.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\RulesOfEngagement.cpp" />

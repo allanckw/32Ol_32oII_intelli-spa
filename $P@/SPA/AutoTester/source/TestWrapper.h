@@ -7,7 +7,7 @@
 
 // include your other headers here
 #include "../../SPA/PKBController.h"
-#include "../../SPA/MultiQueryEval.h"
+#include "../../SPA/PQLController.h"
 
 #include "AbstractWrapper.h"
 

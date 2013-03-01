@@ -30,7 +30,7 @@ void TestWrapper::parse(std::string filename) {
 // method to evaluate a query
 void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
 	try{
-		vector<string> answers = MultiQueryEval::evaluateQuery(query);
+		vector<string> answers = PQLController::evaluateQuery(query);
 		if (AbstractWrapper::GlobalStop){
 			
 		}

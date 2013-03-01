@@ -2,7 +2,7 @@
 // Note 1
 #include <cppunit/extensions/HelperMacros.h>
 #include "../SPA/PKB.h"
-#include "../SPA/MultiQueryEval.h"
+#include "../SPA/PQLController.h"
 #include "../SPA/stdAfx.h"
 #include "../SPA/PKBController.h"
 

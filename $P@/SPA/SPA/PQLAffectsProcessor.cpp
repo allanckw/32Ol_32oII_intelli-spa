@@ -2,6 +2,12 @@
 #include "Helper.h"
 
 //Affects
+/**
+* This method will be used to check whether a1 and a2 satisfy Affect Condition
+* @Param a1	The statement that is going to affect a2
+* @Param a2	The statement that is affected by a1
+* @Return whether Affect(a1,a2) satisfy the condition of affect
+*/
 bool PQLAffectsProcessor::isSatifyAffects(STMT a1, STMT a2)
 {
 
@@ -29,6 +35,12 @@ bool PQLAffectsProcessor::isSatifyAffects(STMT a1, STMT a2)
 	return true;
 }
 
+/**
+* This method will be used to check Affect(a1,a2)
+* @Param a1	The statement that is going to affect a2
+* @Param a2	The statement that is affected by a1
+* @Return whether Affect(a1,a2) holds
+*/
 bool PQLAffectsProcessor::isAffects(STMT a1, STMT a2) {
 
 	if (!PQLAffectsProcessor::isSatifyAffects(a1, a2)) 
@@ -87,6 +99,11 @@ bool PQLAffectsProcessor::isAffects(STMT a1, STMT a2) {
 	return false;
 }
 
+/**
+* This method will be used to get a list of statement that is affected by a1
+* @Param a1	The statement that is going to affect a2
+* @Return a list of statement that is affected by a1
+*/
 vector<STMT> PQLAffectsProcessor::getAffectsFrom(STMT a2)
 {
 	if ((PKB::stmtRefMap.at(a2).getASTStmtNode()->getType() != ASTNode::Assign) ||
@@ -202,6 +219,11 @@ vector<STMT> PQLAffectsProcessor::getAffectsFrom(STMT a2)
 
 }
 
+/**
+* This method will be used to get a list of statement that is going to affect a2
+* @Param a2	The statement that is affected by a1
+* @Return a list of statement that is going to affect a2
+*/
 vector<STMT> PQLAffectsProcessor::getAffectsBy(STMT a1)
 {
 	if ((a1 < 0 || a1 > PKB::maxProgLines) || (PKB::assignTable.count(a1) == 0))
@@ -321,6 +343,12 @@ vector<STMT> PQLAffectsProcessor::getAffectsBy(STMT a1)
 }
 
 //Affects*
+/**
+* This method will be used to check whether a1 and a2 satisfy AffectStar Condition
+* @Param a1	The statement that is going to affect a2
+* @Param a2	The statement that is affected by a1
+* @Return whether Affect(a1,a2) satisfy the condition of affectStar
+*/
 bool PQLAffectsProcessor::isSatifyAffectsStar(STMT a1, STMT a2)
 {
 	if (a1 <= 0 || a1 > PKB::maxProgLines || a2 <= 0 || a2 > PKB::maxProgLines)
@@ -347,6 +375,12 @@ bool PQLAffectsProcessor::isSatifyAffectsStar(STMT a1, STMT a2)
 	return true;
 }
 
+/**
+* This method will be used to check AffectStar(a1,a2)
+* @Param a1	The statement that is going to affect a2
+* @Param a2	The statement that is affected by a1
+* @Return whether AffectStar(a1,a2) holds
+*/
 bool PQLAffectsProcessor::isAffectsStar(STMT a1, STMT a2)
 {
 	if (!PQLAffectsProcessor::isSatifyAffectsStar(a1, a2)) 
@@ -560,6 +594,11 @@ bool PQLAffectsProcessor::isAffectsStar(STMT a1, STMT a2)
 	return false; //shouldn't reach this point
 }
 
+/**
+* This method will be used to get a list of a2 that is affectStar(a1,_)
+* @Param a1	The statement that is going to affect a2
+* @Return a list of statement that is affectStar by a1
+*/
 vector<STMT> PQLAffectsProcessor::getAffectsByStar(STMT a1)
 {
 	if (a1 < 0 || a1 > PKB::maxProgLines)
@@ -726,6 +765,11 @@ vector<STMT> PQLAffectsProcessor::getAffectsByStar(STMT a1)
 	return vector<STMT>(answer.begin(), answer.end());
 }
 
+/**
+* This method will be used to get a list of a2 that is affectStar(_,a2)
+* @Param a2	The statement that is going to affect by a1
+* @Return a list of statement that is affectStar a2
+*/
 vector<STMT>  PQLAffectsProcessor::getAffectsFromStar(STMT a2)
 {
 	if (a2 < 0 || a2 > PKB::maxProgLines)

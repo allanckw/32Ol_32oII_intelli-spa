@@ -1,11 +1,23 @@
 #pragma once
 #include "IntervalList.h"
 
+/**
+* Constructor for a standalone IntervalList
+* @param first the first program line
+* @param last the last program line
+*/
 IntervalList::IntervalList(const int first, const int last)
 	: first(first), last(last), prev(0), next(0)
 {
 }
 
+/**
+* Constructor for an whose prev and next are already defined.
+* @param first the first program line
+* @param last the last program line
+* @param prev the IntervalList preceding this one
+* @param next the IntervalList after this one
+*/
 IntervalList::IntervalList(const int first, const int last, IntervalList* prev, IntervalList* next)
 	: first(first), last(last), prev(prev), next(next)
 {
@@ -15,6 +27,13 @@ IntervalList::IntervalList(const int first, const int last, IntervalList* prev, 
 		next->prev = this;
 }
 
+/**
+* Takes an IntervalList and unions it with a new set of program lines.
+* Combines consecutive program lines together.
+* @param first the first program line
+* @param last the last program line
+* @return A pointer to the new IntervalList
+*/
 const IntervalList* IntervalList::Union(const int first, const int last) const {
 	const IntervalList* node = this;
 	while (true) {
@@ -86,20 +105,4 @@ const IntervalList* IntervalList::Union(const int first, const int last) const {
 		} else
 			return this;
 	}
-}
-
-const IntervalList* IntervalList::Union(const IntervalList* other) const
-{
-	const IntervalList* ans = Union(other->first, other->last);
-	const IntervalList* pointer = this;
-	while (pointer->prev != NULL) {
-		pointer = pointer->prev;
-		ans->Union(pointer->first, pointer->last);
-	}
-	pointer = this;
-	while (pointer->next != NULL) {
-		pointer = pointer->next;
-		ans->Union(pointer->first, pointer->last);
-	}
-	return ans;
 }

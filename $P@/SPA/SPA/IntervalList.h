@@ -11,5 +11,4 @@ public:
 	IntervalList(const int first, const int last, IntervalList* prev, IntervalList* next);
 
 	const IntervalList* Union(const int first, const int last) const;
-	const IntervalList* Union(const IntervalList* other) const;
 };

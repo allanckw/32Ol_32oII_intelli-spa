@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['queryoptimiser',['QueryOptimiser',['../class_query_optimiser.html',1,'']]]
+  ['querypreprocessor',['QueryPreprocessor',['../class_query_preprocessor.html',1,'']]]
 ];

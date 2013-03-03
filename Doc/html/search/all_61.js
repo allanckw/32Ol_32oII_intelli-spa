@@ -1,11 +1,12 @@
 var searchData=
 [
   ['addchild',['addChild',['../class_a_s_t_expr_node.html#a3cc0853d56a228c482fe322737e40d84',1,'ASTExprNode::addChild()'],['../class_a_s_t_node.html#a595fb15c3e37a7a9e443742dca6483ca',1,'ASTNode::addChild()'],['../class_a_s_t_stmt_lst_node.html#a5424fe2ed759c533a1c26e6172dae45f',1,'ASTStmtLstNode::addChild()'],['../class_a_s_t_stmt_node.html#a0396498d6bbccecd8a71a4251d237380',1,'ASTStmtNode::addChild(ASTNode *c)'],['../class_a_s_t_stmt_node.html#aa265b32dab6bb7fcb8b7f1e8a9687f9a',1,'ASTStmtNode::addChild(ASTNode *c, int childLoc)']]],
-  ['addnextnode',['addNextNode',['../class_c_f_g_node.html#ae3c039c5f6e2c55e50faa63b0941b11e',1,'CFGNode']]],
-  ['addpreviousnode',['addPreviousNode',['../class_c_f_g_node.html#ab2c09ac0d4d4700d7cc2bab9a2044c24',1,'CFGNode']]],
-  ['addtocfglist',['addToCFGList',['../class_p_k_b.html#ad04fe66a4c4025d324c397cdea48ceb9',1,'PKB']]],
-  ['affects',['Affects',['../class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817a9c8683c88dcfe00106bc8b0b37217bbe',1,'RulesOfEngagement']]],
+  ['addtocfglist',['addToCFGList',['../class_p_k_b.html#a984e5a12e9cc792d0ed5fda9322b9b55',1,'PKB']]],
+  ['affects',['Affects',['../class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817a9c8683c88dcfe00106bc8b0b37217bbe',1,'RulesOfEngagement::Affects()'],['../class_p_k_b.html#ad9d778faa5c6d938082d07d90da6fea0',1,'PKB::affects()']]],
   ['affectsstar',['AffectsStar',['../class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817a3222933186b8d29c1cafb28b56237299',1,'RulesOfEngagement']]],
+  ['affectstable',['AffectsTable',['../class_affects_table.html',1,'AffectsTable'],['../class_affects_table.html#a771180b48d4fb5ddfefa2c9aef18eba2',1,'AffectsTable::AffectsTable()']]],
+  ['affectstable_2ecpp',['AffectsTable.cpp',['../_affects_table_8cpp.html',1,'']]],
+  ['affectstable_2eh',['AffectsTable.h',['../_affects_table_8h.html',1,'']]],
   ['allowableconditions',['allowableConditions',['../class_rules_of_engagement.html#af8095e34ef7cd49343e8d2dfd1f47e3e',1,'RulesOfEngagement']]],
   ['allowablefirstargument',['allowableFirstArgument',['../class_rules_of_engagement.html#a0a16b8602e2522f007f54f157a0f1203',1,'RulesOfEngagement']]],
   ['allowablesecondargument',['allowableSecondArgument',['../class_rules_of_engagement.html#a365f61557120f33a18021667e746f13e',1,'RulesOfEngagement']]],

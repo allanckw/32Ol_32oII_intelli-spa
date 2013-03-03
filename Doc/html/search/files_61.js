@@ -1,5 +1,7 @@
 var searchData=
 [
+  ['affectstable_2ecpp',['AffectsTable.cpp',['../_affects_table_8cpp.html',1,'']]],
+  ['affectstable_2eh',['AffectsTable.h',['../_affects_table_8h.html',1,'']]],
   ['answertable_2ecpp',['AnswerTable.cpp',['../_answer_table_8cpp.html',1,'']]],
   ['answertable_2eh',['AnswerTable.h',['../_answer_table_8h.html',1,'']]],
   ['assignmentparser_2ecpp',['AssignmentParser.cpp',['../_assignment_parser_8cpp.html',1,'']]],

@@ -5,39 +5,107 @@
 
 {\ttfamily \#include $<$Multi\-Query\-Eval.\-h$>$}
 
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_multi_query_eval_a481834620df8ce6d15665edc212a3117}{Multi\-Query\-Eval} (const string \&query)
+\item 
+bool \hyperlink{class_multi_query_eval_ac2e6dda08c96c54c65c52048919c6387}{is\-Select\-Boolean} ()
+\item 
+bool \hyperlink{class_multi_query_eval_ae681859389cf10505a7ff1d13fd927b4}{is\-Early\-Quit} ()
+\item 
+vector$<$ string $>$ \hyperlink{class_multi_query_eval_a654afcc3d4de43ed97a7169212a44930}{get\-Final\-Answer} ()
+\end{DoxyCompactItemize}
 \subsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-static vector$<$ string $>$ \hyperlink{class_multi_query_eval_aa05e69399e51b83a1e43004105b97d50}{evaluate\-Query} (const string \&query)
+static vector$<$ string $>$ \hyperlink{class_multi_query_eval_a161e8cba59f38392a59a71a21fb7672e}{evaluate\-Query} (const string \&query)
 \end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
 
 
-Definition at line 9 of file Multi\-Query\-Eval.\-h.
+Definition at line 14 of file Multi\-Query\-Eval.\-h.
 
 
 
-\subsection{Member Function Documentation}
-\hypertarget{class_multi_query_eval_aa05e69399e51b83a1e43004105b97d50}{\index{Multi\-Query\-Eval@{Multi\-Query\-Eval}!evaluate\-Query@{evaluate\-Query}}
-\index{evaluate\-Query@{evaluate\-Query}!MultiQueryEval@{Multi\-Query\-Eval}}
-\subsubsection[{evaluate\-Query}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ string $>$ Multi\-Query\-Eval\-::evaluate\-Query (
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_multi_query_eval_a481834620df8ce6d15665edc212a3117}{\index{Multi\-Query\-Eval@{Multi\-Query\-Eval}!Multi\-Query\-Eval@{Multi\-Query\-Eval}}
+\index{Multi\-Query\-Eval@{Multi\-Query\-Eval}!MultiQueryEval@{Multi\-Query\-Eval}}
+\subsubsection[{Multi\-Query\-Eval}]{\setlength{\rightskip}{0pt plus 5cm}Multi\-Query\-Eval\-::\-Multi\-Query\-Eval (
 \begin{DoxyParamCaption}
 \item[{const string \&}]{query}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_multi_query_eval_aa05e69399e51b83a1e43004105b97d50}
-Public method for evaluating queries. Passes call to internal \hyperlink{class_multi_query_eval}{Multi\-Query\-Eval} constructor. Only adds in the answer of F\-A\-L\-S\-E if the evaluation was returned early and the select was for a B\-O\-O\-L\-E\-A\-N. 
+)}}\label{class_multi_query_eval_a481834620df8ce6d15665edc212a3117}
+Does all the query evaluation. 
 \begin{DoxyParams}{Parameters}
 {\em query} & query string \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-the vector of strings of the answers to the query 
+the \hyperlink{class_multi_query_eval}{Multi\-Query\-Eval} object with answers if any 
 \end{DoxyReturn}
 
 
-Definition at line 119 of file Multi\-Query\-Eval.\-cpp.
+Definition at line 38 of file Multi\-Query\-Eval.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_multi_query_eval_a161e8cba59f38392a59a71a21fb7672e}{\index{Multi\-Query\-Eval@{Multi\-Query\-Eval}!evaluate\-Query@{evaluate\-Query}}
+\index{evaluate\-Query@{evaluate\-Query}!MultiQueryEval@{Multi\-Query\-Eval}}
+\subsubsection[{evaluate\-Query}]{\setlength{\rightskip}{0pt plus 5cm}static vector$<$string$>$ Multi\-Query\-Eval\-::evaluate\-Query (
+\begin{DoxyParamCaption}
+\item[{const string \&}]{query}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_multi_query_eval_a161e8cba59f38392a59a71a21fb7672e}
+\hypertarget{class_multi_query_eval_a654afcc3d4de43ed97a7169212a44930}{\index{Multi\-Query\-Eval@{Multi\-Query\-Eval}!get\-Final\-Answer@{get\-Final\-Answer}}
+\index{get\-Final\-Answer@{get\-Final\-Answer}!MultiQueryEval@{Multi\-Query\-Eval}}
+\subsubsection[{get\-Final\-Answer}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ string $>$ Multi\-Query\-Eval\-::get\-Final\-Answer (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_multi_query_eval_a654afcc3d4de43ed97a7169212a44930}
+Does all the query evaluation. 
+\begin{DoxyParams}{Parameters}
+{\em query} & query string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the \hyperlink{class_multi_query_eval}{Multi\-Query\-Eval} object with answers if any 
+\end{DoxyReturn}
+
+
+Definition at line 29 of file Multi\-Query\-Eval.\-cpp.
+
+\hypertarget{class_multi_query_eval_ae681859389cf10505a7ff1d13fd927b4}{\index{Multi\-Query\-Eval@{Multi\-Query\-Eval}!is\-Early\-Quit@{is\-Early\-Quit}}
+\index{is\-Early\-Quit@{is\-Early\-Quit}!MultiQueryEval@{Multi\-Query\-Eval}}
+\subsubsection[{is\-Early\-Quit}]{\setlength{\rightskip}{0pt plus 5cm}bool Multi\-Query\-Eval\-::is\-Early\-Quit (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_multi_query_eval_ae681859389cf10505a7ff1d13fd927b4}
+Returns whether the result of the query terminating early, i.\-e. query is always false after checks \begin{DoxyReturn}{Returns}
+true if it terminating early, false otherwise 
+\end{DoxyReturn}
+
+
+Definition at line 19 of file Multi\-Query\-Eval.\-cpp.
+
+\hypertarget{class_multi_query_eval_ac2e6dda08c96c54c65c52048919c6387}{\index{Multi\-Query\-Eval@{Multi\-Query\-Eval}!is\-Select\-Boolean@{is\-Select\-Boolean}}
+\index{is\-Select\-Boolean@{is\-Select\-Boolean}!MultiQueryEval@{Multi\-Query\-Eval}}
+\subsubsection[{is\-Select\-Boolean}]{\setlength{\rightskip}{0pt plus 5cm}bool Multi\-Query\-Eval\-::is\-Select\-Boolean (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_multi_query_eval_ac2e6dda08c96c54c65c52048919c6387}
+Returns whether the query is of type Select Boolean \begin{DoxyReturn}{Returns}
+true if it is of type select boolean, false otherwise 
+\end{DoxyReturn}
+
+
+Definition at line 10 of file Multi\-Query\-Eval.\-cpp.
 
 
 

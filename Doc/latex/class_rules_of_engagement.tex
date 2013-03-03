@@ -60,6 +60,8 @@ enum \hyperlink{class_rules_of_engagement_a97613ded2253a252de010070d7c54ac1}{Pat
 \item 
 typedef bool($\ast$ \hyperlink{class_rules_of_engagement_aad838c0ef69d7c4ee9bef23a431ff6c1}{is\-Relation} )(int, int)
 \item 
+typedef vector$<$ int $>$($\ast$ \hyperlink{class_rules_of_engagement_a81832aa421c58fe508e3ace862e1288e}{relation\-Family} )(int)
+\item 
 typedef vector$<$ int $>$($\ast$ \hyperlink{class_rules_of_engagement_a1a051f48865a7a4d7f07f0a89f16aafe}{get\-All\-Types} )()
 \end{DoxyCompactItemize}
 \subsection*{Static Public Member Functions}
@@ -69,7 +71,15 @@ static void \hyperlink{class_rules_of_engagement_a4ffc088479ffe671fdcc3ff658faa9
 \item 
 static int \hyperlink{class_rules_of_engagement_a82a4e55b543189f43f270cb32b7f9e49}{convert\-Argument\-To\-Integer} (const \hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817}{Query\-Relations} type, const bool first, const string \&arg)
 \item 
+static string \hyperlink{class_rules_of_engagement_a3d3457698b69480b4aa5173177a5c439}{convert\-Integer\-To\-Argument} (const \hyperlink{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713ead}{Query\-Var} type, const int)
+\item 
+static bool \hyperlink{class_rules_of_engagement_a7e5a03b2d97eaf0ae5ba44ad6b0a2fe5}{is\-Exist\-Type} (\hyperlink{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713ead}{Query\-Var} var)
+\item 
 static \hyperlink{class_rules_of_engagement_aad838c0ef69d7c4ee9bef23a431ff6c1}{is\-Relation} \hyperlink{class_rules_of_engagement_a18a80f1ce5bcf4c10fa520a0785c0922}{get\-Relation} (\hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817}{Query\-Relations} rel)
+\item 
+static \hyperlink{class_rules_of_engagement_a81832aa421c58fe508e3ace862e1288e}{relation\-Family} \hyperlink{class_rules_of_engagement_ade5428f4b20d617254bedff1b5a43648}{get\-Relation\-By\-Family} (\hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817}{Query\-Relations} rel)
+\item 
+static \hyperlink{class_rules_of_engagement_a81832aa421c58fe508e3ace862e1288e}{relation\-Family} \hyperlink{class_rules_of_engagement_abcaa96fcf051ed0e5b9cb9cfbbab4e55}{get\-Relation\-From\-Family} (\hyperlink{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817}{Query\-Relations} rel)
 \item 
 static \hyperlink{class_rules_of_engagement_a1a051f48865a7a4d7f07f0a89f16aafe}{get\-All\-Types} \hyperlink{class_rules_of_engagement_a2b4845903e7378ebf4955714da0d36bf}{get\-Type} (\hyperlink{class_rules_of_engagement_a5dd2b28fd0c906d9b08e29e371713ead}{Query\-Var} type)
 \item 
@@ -125,14 +135,21 @@ Definition at line 5 of file Rules\-Of\-Engagement.\-h.
 \subsubsection[{get\-All\-Types}]{\setlength{\rightskip}{0pt plus 5cm}typedef vector$<$int$>$($\ast$ Rules\-Of\-Engagement\-::get\-All\-Types)()}}\label{class_rules_of_engagement_a1a051f48865a7a4d7f07f0a89f16aafe}
 
 
-Definition at line 64 of file Rules\-Of\-Engagement.\-h.
+Definition at line 71 of file Rules\-Of\-Engagement.\-h.
 
 \hypertarget{class_rules_of_engagement_aad838c0ef69d7c4ee9bef23a431ff6c1}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!is\-Relation@{is\-Relation}}
 \index{is\-Relation@{is\-Relation}!RulesOfEngagement@{Rules\-Of\-Engagement}}
 \subsubsection[{is\-Relation}]{\setlength{\rightskip}{0pt plus 5cm}typedef bool($\ast$ Rules\-Of\-Engagement\-::is\-Relation)(int, int)}}\label{class_rules_of_engagement_aad838c0ef69d7c4ee9bef23a431ff6c1}
 
 
-Definition at line 60 of file Rules\-Of\-Engagement.\-h.
+Definition at line 63 of file Rules\-Of\-Engagement.\-h.
+
+\hypertarget{class_rules_of_engagement_a81832aa421c58fe508e3ace862e1288e}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!relation\-Family@{relation\-Family}}
+\index{relation\-Family@{relation\-Family}!RulesOfEngagement@{Rules\-Of\-Engagement}}
+\subsubsection[{relation\-Family}]{\setlength{\rightskip}{0pt plus 5cm}typedef vector$<$int$>$($\ast$ Rules\-Of\-Engagement\-::relation\-Family)(int)}}\label{class_rules_of_engagement_a81832aa421c58fe508e3ace862e1288e}
+
+
+Definition at line 67 of file Rules\-Of\-Engagement.\-h.
 
 
 
@@ -151,7 +168,7 @@ Definition at line 60 of file Rules\-Of\-Engagement.\-h.
 \end{Desc}
 
 
-Definition at line 98 of file Rules\-Of\-Engagement.\-h.
+Definition at line 148 of file Rules\-Of\-Engagement.\-h.
 
 \hypertarget{class_rules_of_engagement_a97613ded2253a252de010070d7c54ac1}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!Pattern\-R\-H\-S\-Type@{Pattern\-R\-H\-S\-Type}}
 \index{Pattern\-R\-H\-S\-Type@{Pattern\-R\-H\-S\-Type}!RulesOfEngagement@{Rules\-Of\-Engagement}}
@@ -169,7 +186,7 @@ Definition at line 98 of file Rules\-Of\-Engagement.\-h.
 \end{Desc}
 
 
-Definition at line 102 of file Rules\-Of\-Engagement.\-h.
+Definition at line 152 of file Rules\-Of\-Engagement.\-h.
 
 \hypertarget{class_rules_of_engagement_a5e08db2a0638b98dbb06ad923a33d817}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!Query\-Relations@{Query\-Relations}}
 \index{Query\-Relations@{Query\-Relations}!RulesOfEngagement@{Rules\-Of\-Engagement}}
@@ -279,7 +296,29 @@ the integer representing the argument
 \end{DoxyReturn}
 
 
-Definition at line 300 of file Rules\-Of\-Engagement.\-cpp.
+Definition at line 345 of file Rules\-Of\-Engagement.\-cpp.
+
+\hypertarget{class_rules_of_engagement_a3d3457698b69480b4aa5173177a5c439}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!convert\-Integer\-To\-Argument@{convert\-Integer\-To\-Argument}}
+\index{convert\-Integer\-To\-Argument@{convert\-Integer\-To\-Argument}!RulesOfEngagement@{Rules\-Of\-Engagement}}
+\subsubsection[{convert\-Integer\-To\-Argument}]{\setlength{\rightskip}{0pt plus 5cm}string Rules\-Of\-Engagement\-::convert\-Integer\-To\-Argument (
+\begin{DoxyParamCaption}
+\item[{const {\bf Query\-Var}}]{type, }
+\item[{const int}]{integer}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_rules_of_engagement_a3d3457698b69480b4aa5173177a5c439}
+Method that helps to convert the value stored in \hyperlink{class_answer_table}{Answer\-Table} to the proper description. 
+\begin{DoxyParams}{Parameters}
+{\em type} & type of synonym \\
+\hline
+{\em integer} & integer to be converted \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the string that the integer was representing 
+\end{DoxyReturn}
+
+
+Definition at line 384 of file Rules\-Of\-Engagement.\-cpp.
 
 \hypertarget{class_rules_of_engagement_a18a80f1ce5bcf4c10fa520a0785c0922}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!get\-Relation@{get\-Relation}}
 \index{get\-Relation@{get\-Relation}!RulesOfEngagement@{Rules\-Of\-Engagement}}
@@ -298,7 +337,45 @@ the function pointer
 \end{DoxyReturn}
 
 
-Definition at line 341 of file Rules\-Of\-Engagement.\-cpp.
+Definition at line 422 of file Rules\-Of\-Engagement.\-cpp.
+
+\hypertarget{class_rules_of_engagement_ade5428f4b20d617254bedff1b5a43648}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!get\-Relation\-By\-Family@{get\-Relation\-By\-Family}}
+\index{get\-Relation\-By\-Family@{get\-Relation\-By\-Family}!RulesOfEngagement@{Rules\-Of\-Engagement}}
+\subsubsection[{get\-Relation\-By\-Family}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Rules\-Of\-Engagement\-::relation\-Family} Rules\-Of\-Engagement\-::get\-Relation\-By\-Family (
+\begin{DoxyParamCaption}
+\item[{{\bf Query\-Relations}}]{rel}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_rules_of_engagement_ade5428f4b20d617254bedff1b5a43648}
+The reason for the shortness of the code in \hyperlink{class_multi_query_eval}{Multi\-Query\-Eval}. Takes in the relation type and returns a function pointer that can be called to return a list of values that satisfy the relation. e.\-g. get\-Relation\-By\-Family(rel)(x) -\/$>$ list of y such that rel(x, y) is true 
+\begin{DoxyParams}{Parameters}
+{\em rel} & type of relation \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the function pointer 
+\end{DoxyReturn}
+
+
+Definition at line 510 of file Rules\-Of\-Engagement.\-cpp.
+
+\hypertarget{class_rules_of_engagement_abcaa96fcf051ed0e5b9cb9cfbbab4e55}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!get\-Relation\-From\-Family@{get\-Relation\-From\-Family}}
+\index{get\-Relation\-From\-Family@{get\-Relation\-From\-Family}!RulesOfEngagement@{Rules\-Of\-Engagement}}
+\subsubsection[{get\-Relation\-From\-Family}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Rules\-Of\-Engagement\-::relation\-Family} Rules\-Of\-Engagement\-::get\-Relation\-From\-Family (
+\begin{DoxyParamCaption}
+\item[{{\bf Query\-Relations}}]{rel}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_rules_of_engagement_abcaa96fcf051ed0e5b9cb9cfbbab4e55}
+The reason for the shortness of the code in \hyperlink{class_multi_query_eval}{Multi\-Query\-Eval}. Takes in the relation type and returns a function pointer that can be called to return a list of values that satisfy the relation. e.\-g. get\-Relation\-From\-Family(rel)(y) -\/$>$ list of x such that rel(x, y) is true 
+\begin{DoxyParams}{Parameters}
+{\em rel} & type of relation \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the function pointer 
+\end{DoxyReturn}
+
+
+Definition at line 597 of file Rules\-Of\-Engagement.\-cpp.
 
 \hypertarget{class_rules_of_engagement_a2b4845903e7378ebf4955714da0d36bf}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!get\-Type@{get\-Type}}
 \index{get\-Type@{get\-Type}!RulesOfEngagement@{Rules\-Of\-Engagement}}
@@ -317,7 +394,7 @@ the function pointer
 \end{DoxyReturn}
 
 
-Definition at line 417 of file Rules\-Of\-Engagement.\-cpp.
+Definition at line 688 of file Rules\-Of\-Engagement.\-cpp.
 
 \hypertarget{class_rules_of_engagement_a4ffc088479ffe671fdcc3ff658faa973}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!initialise@{initialise}}
 \index{initialise@{initialise}!RulesOfEngagement@{Rules\-Of\-Engagement}}
@@ -328,7 +405,26 @@ Definition at line 417 of file Rules\-Of\-Engagement.\-cpp.
 )\hspace{0.3cm}{\ttfamily [static]}}}\label{class_rules_of_engagement_a4ffc088479ffe671fdcc3ff658faa973}
 Stores all the tables with the relevant information. 
 
-Definition at line 29 of file Rules\-Of\-Engagement.\-cpp.
+Definition at line 32 of file Rules\-Of\-Engagement.\-cpp.
+
+\hypertarget{class_rules_of_engagement_a7e5a03b2d97eaf0ae5ba44ad6b0a2fe5}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!is\-Exist\-Type@{is\-Exist\-Type}}
+\index{is\-Exist\-Type@{is\-Exist\-Type}!RulesOfEngagement@{Rules\-Of\-Engagement}}
+\subsubsection[{is\-Exist\-Type}]{\setlength{\rightskip}{0pt plus 5cm}bool Rules\-Of\-Engagement\-::is\-Exist\-Type (
+\begin{DoxyParamCaption}
+\item[{{\bf Rules\-Of\-Engagement\-::\-Query\-Var}}]{var}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_rules_of_engagement_a7e5a03b2d97eaf0ae5ba44ad6b0a2fe5}
+Method that determines if there exists any of assign/while/if in the program. 
+\begin{DoxyParams}{Parameters}
+{\em var} & type of variable \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if there exists such a variable 
+\end{DoxyReturn}
+
+
+Definition at line 402 of file Rules\-Of\-Engagement.\-cpp.
 
 \hypertarget{class_rules_of_engagement_a6d82299f9e291ea53856f9eeff143451}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!satisfy\-Pattern@{satisfy\-Pattern}}
 \index{satisfy\-Pattern@{satisfy\-Pattern}!RulesOfEngagement@{Rules\-Of\-Engagement}}
@@ -356,7 +452,7 @@ true if the assignment satisfied the pattern, and false otherwise
 \end{DoxyReturn}
 
 
-Definition at line 511 of file Rules\-Of\-Engagement.\-cpp.
+Definition at line 790 of file Rules\-Of\-Engagement.\-cpp.
 
 
 
@@ -401,7 +497,7 @@ Definition at line 50 of file Rules\-Of\-Engagement.\-h.
 \subsubsection[{empty\-Rel}]{\setlength{\rightskip}{0pt plus 5cm}unordered\-\_\-map$<$ {\bf Rules\-Of\-Engagement\-::\-Query\-Relations}, bool $>$ Rules\-Of\-Engagement\-::empty\-Rel\hspace{0.3cm}{\ttfamily [static]}}}\label{class_rules_of_engagement_a343933b8d961a5dfab7a3cdd979820cf}
 
 
-Definition at line 62 of file Rules\-Of\-Engagement.\-h.
+Definition at line 65 of file Rules\-Of\-Engagement.\-h.
 
 \hypertarget{class_rules_of_engagement_a7dd292534cee25afe99b1187a6e07774}{\index{Rules\-Of\-Engagement@{Rules\-Of\-Engagement}!privileged\-First\-Argument@{privileged\-First\-Argument}}
 \index{privileged\-First\-Argument@{privileged\-First\-Argument}!RulesOfEngagement@{Rules\-Of\-Engagement}}

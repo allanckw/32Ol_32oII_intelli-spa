@@ -6,6 +6,8 @@ var class_uses_table =
     [ "getUsedByStmt", "class_uses_table.html#ae6da24dd1e776a415bb74255635b1731", null ],
     [ "getUsedInProc", "class_uses_table.html#aaedcc22a6cb307cb6c851e7c64815371", null ],
     [ "getUsedInStmt", "class_uses_table.html#ae9bc0a7a3183df114286107f0ad72b8b", null ],
+    [ "getUsesProcSize", "class_uses_table.html#a8793652fcfa56e3fe8094917f05d2b52", null ],
+    [ "getUsesStmtSize", "class_uses_table.html#a16f2fd1b95df100e619c06bafd24eeec", null ],
     [ "insertProcUses", "class_uses_table.html#a6d7e75d504e79223fa6f9676fb81963a", null ],
     [ "insertStmtUses", "class_uses_table.html#ae29b8e5db64f12f6966916c62d4f911b", null ],
     [ "isEmpty", "class_uses_table.html#a614dc66288e6d06a5fd48a1ec5c0a3bd", null ],

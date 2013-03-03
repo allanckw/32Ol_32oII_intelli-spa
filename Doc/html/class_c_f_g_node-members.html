@@ -111,33 +111,30 @@ $(document).ready(function(){initNavTree('class_c_f_g_node.html','');});
 
 <p>This is the complete list of members for <a class="el" href="class_c_f_g_node.html">CFGNode</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="class_c_f_g_node.html#ae3c039c5f6e2c55e50faa63b0941b11e">addNextNode</a>(CFGNode *node)</td><td class="entry"><a class="el" href="class_c_f_g_node.html">CFGNode</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_c_f_g_node.html#ab2c09ac0d4d4700d7cc2bab9a2044c24">addPreviousNode</a>(CFGNode *node)</td><td class="entry"><a class="el" href="class_c_f_g_node.html">CFGNode</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_c_f_g_node.html#addba1ddd8abe5f584389e05926251eaa">CFGNode</a>(NodeType, PROG_LINE start, PROG_LINE end, PROC p)</td><td class="entry"><a class="el" href="class_c_f_g_node.html">CFGNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_c_f_g_node.html#a983d5734f9d9be76b3646e0552227fb3">CFGNode</a>(PROC proc)</td><td class="entry"><a class="el" href="class_c_f_g_node.html">CFGNode</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="class_c_f_g_node.html#ae6ffc17945277e377f8c8a14e140a641">CFGNode</a>(CFGNode *parent)</td><td class="entry"><a class="el" href="class_c_f_g_node.html">CFGNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_c_f_g_node.html#a47d7f27cf88007b5663eae31f903f95a">children</a></td><td class="entry"><a class="el" href="class_c_f_g_node.html">CFGNode</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="class_c_f_g_node.html#aa0933713506a9c0226e705703ee5b079a653298400dbc11a4a806566fc8da20d3">DummyNode</a> enum value</td><td class="entry"><a class="el" href="class_c_f_g_node.html">CFGNode</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_c_f_g_node.html#aa25f0bc77360bee32f0e4393f7d612a8">getNextNodes</a>()</td><td class="entry"><a class="el" href="class_c_f_g_node.html">CFGNode</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_c_f_g_node.html#aa462795f2f35b263c5e6c3f39ab88e21">getPreviousNodes</a>()</td><td class="entry"><a class="el" href="class_c_f_g_node.html">CFGNode</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_c_f_g_node.html#a2c9700b808aad05029293f0d1cd13b01">getProcedure</a>()</td><td class="entry"><a class="el" href="class_c_f_g_node.html">CFGNode</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_c_f_g_node.html#a00d7decf2f7e7068accae7b2e59f4a7a">getProgramLines</a>()</td><td class="entry"><a class="el" href="class_c_f_g_node.html">CFGNode</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_c_f_g_node.html#adb8c96a8b6c41ab78223b379ae8edd06">getType</a>()</td><td class="entry"><a class="el" href="class_c_f_g_node.html">CFGNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_c_f_g_node.html#a916b31fb1fc28e3a708d3c7913970f66">first</a></td><td class="entry"><a class="el" href="class_c_f_g_node.html">CFGNode</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="class_c_f_g_node.html#aa0933713506a9c0226e705703ee5b079a12589e59a33dfed127168c3663a6e52e">IfNode</a> enum value</td><td class="entry"><a class="el" href="class_c_f_g_node.html">CFGNode</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_c_f_g_node.html#a20b7acc68b6f1cc793865a761ad05fff">isDummy</a>()</td><td class="entry"><a class="el" href="class_c_f_g_node.html">CFGNode</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_c_f_g_node.html#a3ab53c9e1cf0896ccfbf5a3c19d2cadf">isEndNode</a>()</td><td class="entry"><a class="el" href="class_c_f_g_node.html">CFGNode</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_c_f_g_node.html#aa0b5bc3202db67e6834fb82fc7c059cf">isNext</a>(PROG_LINE p1, PROG_LINE p2)</td><td class="entry"><a class="el" href="class_c_f_g_node.html">CFGNode</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_c_f_g_node.html#af92552f9f6b3e6d2de45315d96c73d5d">isStartNode</a>()</td><td class="entry"><a class="el" href="class_c_f_g_node.html">CFGNode</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_c_f_g_node.html#aa0933713506a9c0226e705703ee5b079">NodeType</a> enum name</td><td class="entry"><a class="el" href="class_c_f_g_node.html">CFGNode</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_c_f_g_node.html#aea9ee4d496ada4a81b69d658448923df">setEndNode</a>()</td><td class="entry"><a class="el" href="class_c_f_g_node.html">CFGNode</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_c_f_g_node.html#a247dcbf53b30ba6a38d945d0f0f81a3c">setEndProgramLine</a>(PROG_LINE p)</td><td class="entry"><a class="el" href="class_c_f_g_node.html">CFGNode</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_c_f_g_node.html#aa1031de36b07269df1fe0adcf5557b90">setLink</a>(CFGNode *node)</td><td class="entry"><a class="el" href="class_c_f_g_node.html">CFGNode</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_c_f_g_node.html#a846539f346c2569c94c9a5057eee6bd9">setStartNode</a>()</td><td class="entry"><a class="el" href="class_c_f_g_node.html">CFGNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_c_f_g_node.html#aa2ed16b97347a8daa3ae6a7b0022284b">last</a></td><td class="entry"><a class="el" href="class_c_f_g_node.html">CFGNode</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="class_c_f_g_node.html#a2b140c15b8d43b8af5245731b99d1f2c">modifySet</a></td><td class="entry"><a class="el" href="class_c_f_g_node.html">CFGNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_c_f_g_node.html#aa6b60346fb038bfd0c1f1b5d10164fcb">nextList</a></td><td class="entry"><a class="el" href="class_c_f_g_node.html">CFGNode</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="class_c_f_g_node.html#aa0933713506a9c0226e705703ee5b079">NodeType</a> enum name</td><td class="entry"><a class="el" href="class_c_f_g_node.html">CFGNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_c_f_g_node.html#a9c9bf36df87bdf73c6aa507f52efc702">parents</a></td><td class="entry"><a class="el" href="class_c_f_g_node.html">CFGNode</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="class_c_f_g_node.html#afd5d0654a254ef7a1c62e47d7ff66f75">prevList</a></td><td class="entry"><a class="el" href="class_c_f_g_node.html">CFGNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_c_f_g_node.html#a4c29d551dc1b8ac7465ebf4ddd1e3437">proc</a></td><td class="entry"><a class="el" href="class_c_f_g_node.html">CFGNode</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="class_c_f_g_node.html#aa0933713506a9c0226e705703ee5b079aa2e8603898955894b9dee1c4357f7438">StandardNode</a> enum value</td><td class="entry"><a class="el" href="class_c_f_g_node.html">CFGNode</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_c_f_g_node.html#aa0933713506a9c0226e705703ee5b079ade6fc811a65caa8511c48b93134a90e7">WhileNode</a> enum value</td><td class="entry"><a class="el" href="class_c_f_g_node.html">CFGNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_c_f_g_node.html#a71c611eee5b784222a2c51b7a7b6d169">type</a></td><td class="entry"><a class="el" href="class_c_f_g_node.html">CFGNode</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="class_c_f_g_node.html#aa30a2f657ae1827572d1c6a934a60635">useSet</a></td><td class="entry"><a class="el" href="class_c_f_g_node.html">CFGNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_c_f_g_node.html#ade810133e14d7229080fae4b61c4c996">whileAncestor</a></td><td class="entry"><a class="el" href="class_c_f_g_node.html">CFGNode</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="class_c_f_g_node.html#aa0933713506a9c0226e705703ee5b079ade6fc811a65caa8511c48b93134a90e7">WhileNode</a> enum value</td><td class="entry"><a class="el" href="class_c_f_g_node.html">CFGNode</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Mon Feb 4 2013 01:48:10 for SPA by
+    <li class="footer">Generated on Mon Mar 4 2013 00:45:46 for SPA by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3.1 </li>
   </ul>

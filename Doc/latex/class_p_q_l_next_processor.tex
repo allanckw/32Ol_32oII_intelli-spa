@@ -1,0 +1,171 @@
+\hypertarget{class_p_q_l_next_processor}{\section{P\-Q\-L\-Next\-Processor Class Reference}
+\label{class_p_q_l_next_processor}\index{P\-Q\-L\-Next\-Processor@{P\-Q\-L\-Next\-Processor}}
+}
+
+
+{\ttfamily \#include $<$P\-Q\-L\-Next\-Processor.\-h$>$}
+
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static bool \hyperlink{class_p_q_l_next_processor_a7504e6289a468982bf0ae3342892ec73}{is\-Next} (\hyperlink{std_afx_8h_abcc2d0120d16c2587a85b314010f6399}{P\-R\-O\-G\-\_\-\-L\-I\-N\-E} p1, \hyperlink{std_afx_8h_abcc2d0120d16c2587a85b314010f6399}{P\-R\-O\-G\-\_\-\-L\-I\-N\-E} p2)
+\item 
+static vector$<$ \hyperlink{std_afx_8h_abcc2d0120d16c2587a85b314010f6399}{P\-R\-O\-G\-\_\-\-L\-I\-N\-E} $>$ \hyperlink{class_p_q_l_next_processor_a2ff7fad26252a0c1d11282949ef60e8b}{get\-Next} (\hyperlink{std_afx_8h_abcc2d0120d16c2587a85b314010f6399}{P\-R\-O\-G\-\_\-\-L\-I\-N\-E} p1)
+\item 
+static vector$<$ \hyperlink{std_afx_8h_abcc2d0120d16c2587a85b314010f6399}{P\-R\-O\-G\-\_\-\-L\-I\-N\-E} $>$ \hyperlink{class_p_q_l_next_processor_a62fbf8a3d630cb98ddc4057c12dd61f1}{get\-Previous} (\hyperlink{std_afx_8h_abcc2d0120d16c2587a85b314010f6399}{P\-R\-O\-G\-\_\-\-L\-I\-N\-E} p2)
+\item 
+static bool \hyperlink{class_p_q_l_next_processor_a1c8da8e2b325162392a59b8715caf9be}{is\-Next\-Star} (\hyperlink{std_afx_8h_abcc2d0120d16c2587a85b314010f6399}{P\-R\-O\-G\-\_\-\-L\-I\-N\-E} p1, \hyperlink{std_afx_8h_abcc2d0120d16c2587a85b314010f6399}{P\-R\-O\-G\-\_\-\-L\-I\-N\-E} p2)
+\item 
+static vector$<$ \hyperlink{std_afx_8h_abcc2d0120d16c2587a85b314010f6399}{P\-R\-O\-G\-\_\-\-L\-I\-N\-E} $>$ \hyperlink{class_p_q_l_next_processor_a3f7f0293f38902ac84b5527f2fb06a59}{get\-Previous\-Star} (\hyperlink{std_afx_8h_abcc2d0120d16c2587a85b314010f6399}{P\-R\-O\-G\-\_\-\-L\-I\-N\-E} p2)
+\item 
+static vector$<$ \hyperlink{std_afx_8h_abcc2d0120d16c2587a85b314010f6399}{P\-R\-O\-G\-\_\-\-L\-I\-N\-E} $>$ \hyperlink{class_p_q_l_next_processor_a44447b6cfcbfe9b0d592a0cc77577ba2}{get\-Next\-Star} (\hyperlink{std_afx_8h_abcc2d0120d16c2587a85b314010f6399}{P\-R\-O\-G\-\_\-\-L\-I\-N\-E} p1)
+\item 
+static vector$<$ \hyperlink{std_afx_8h_abcc2d0120d16c2587a85b314010f6399}{P\-R\-O\-G\-\_\-\-L\-I\-N\-E} $>$ \hyperlink{class_p_q_l_next_processor_a9c10951edfc8b0ad09535b124f7b2845}{get\-Self\-Next\-Star} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 6 of file P\-Q\-L\-Next\-Processor.\-h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_p_q_l_next_processor_a2ff7fad26252a0c1d11282949ef60e8b}{\index{P\-Q\-L\-Next\-Processor@{P\-Q\-L\-Next\-Processor}!get\-Next@{get\-Next}}
+\index{get\-Next@{get\-Next}!PQLNextProcessor@{P\-Q\-L\-Next\-Processor}}
+\subsubsection[{get\-Next}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ {\bf P\-R\-O\-G\-\_\-\-L\-I\-N\-E} $>$ P\-Q\-L\-Next\-Processor\-::get\-Next (
+\begin{DoxyParamCaption}
+\item[{{\bf P\-R\-O\-G\-\_\-\-L\-I\-N\-E}}]{p1}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_p_q_l_next_processor_a2ff7fad26252a0c1d11282949ef60e8b}
+This method will be used to get prog\-\_\-line after p1 
+\begin{DoxyParams}{Parameters}
+{\em p1} & The prog\-\_\-line that is before p2 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+list of prog\-\_\-line after p1 
+\end{DoxyReturn}
+
+
+Definition at line 88 of file P\-Q\-L\-Next\-Processor.\-cpp.
+
+\hypertarget{class_p_q_l_next_processor_a44447b6cfcbfe9b0d592a0cc77577ba2}{\index{P\-Q\-L\-Next\-Processor@{P\-Q\-L\-Next\-Processor}!get\-Next\-Star@{get\-Next\-Star}}
+\index{get\-Next\-Star@{get\-Next\-Star}!PQLNextProcessor@{P\-Q\-L\-Next\-Processor}}
+\subsubsection[{get\-Next\-Star}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ {\bf P\-R\-O\-G\-\_\-\-L\-I\-N\-E} $>$ P\-Q\-L\-Next\-Processor\-::get\-Next\-Star (
+\begin{DoxyParamCaption}
+\item[{{\bf P\-R\-O\-G\-\_\-\-L\-I\-N\-E}}]{p1}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_p_q_l_next_processor_a44447b6cfcbfe9b0d592a0cc77577ba2}
+This method will be used to check Next\-Star(p1,\-\_\-) 
+\begin{DoxyParams}{Parameters}
+{\em p1} & The start prog\-\_\-line to find all reachable prog\-\_\-line \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a list of prog\-\_\-line reachable from p1 
+\end{DoxyReturn}
+
+
+Definition at line 256 of file P\-Q\-L\-Next\-Processor.\-cpp.
+
+\hypertarget{class_p_q_l_next_processor_a62fbf8a3d630cb98ddc4057c12dd61f1}{\index{P\-Q\-L\-Next\-Processor@{P\-Q\-L\-Next\-Processor}!get\-Previous@{get\-Previous}}
+\index{get\-Previous@{get\-Previous}!PQLNextProcessor@{P\-Q\-L\-Next\-Processor}}
+\subsubsection[{get\-Previous}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ {\bf P\-R\-O\-G\-\_\-\-L\-I\-N\-E} $>$ P\-Q\-L\-Next\-Processor\-::get\-Previous (
+\begin{DoxyParamCaption}
+\item[{{\bf P\-R\-O\-G\-\_\-\-L\-I\-N\-E}}]{p2}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_p_q_l_next_processor_a62fbf8a3d630cb98ddc4057c12dd61f1}
+This method will be used to get prog\-\_\-line before p2 
+\begin{DoxyParams}{Parameters}
+{\em p2} & The prog\-\_\-line that is after p1 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+list of prog\-\_\-line before p1 
+\end{DoxyReturn}
+
+
+Definition at line 160 of file P\-Q\-L\-Next\-Processor.\-cpp.
+
+\hypertarget{class_p_q_l_next_processor_a3f7f0293f38902ac84b5527f2fb06a59}{\index{P\-Q\-L\-Next\-Processor@{P\-Q\-L\-Next\-Processor}!get\-Previous\-Star@{get\-Previous\-Star}}
+\index{get\-Previous\-Star@{get\-Previous\-Star}!PQLNextProcessor@{P\-Q\-L\-Next\-Processor}}
+\subsubsection[{get\-Previous\-Star}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ {\bf P\-R\-O\-G\-\_\-\-L\-I\-N\-E} $>$ P\-Q\-L\-Next\-Processor\-::get\-Previous\-Star (
+\begin{DoxyParamCaption}
+\item[{{\bf P\-R\-O\-G\-\_\-\-L\-I\-N\-E}}]{p2}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_p_q_l_next_processor_a3f7f0293f38902ac84b5527f2fb06a59}
+This method will be used to check Next\-Star(\-\_\-,p2) 
+\begin{DoxyParams}{Parameters}
+{\em p2} & The end prog\-\_\-line that can be reach from p1 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a list of prog\-\_\-line that can reach p2 
+\end{DoxyReturn}
+
+
+Definition at line 305 of file P\-Q\-L\-Next\-Processor.\-cpp.
+
+\hypertarget{class_p_q_l_next_processor_a9c10951edfc8b0ad09535b124f7b2845}{\index{P\-Q\-L\-Next\-Processor@{P\-Q\-L\-Next\-Processor}!get\-Self\-Next\-Star@{get\-Self\-Next\-Star}}
+\index{get\-Self\-Next\-Star@{get\-Self\-Next\-Star}!PQLNextProcessor@{P\-Q\-L\-Next\-Processor}}
+\subsubsection[{get\-Self\-Next\-Star}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ {\bf P\-R\-O\-G\-\_\-\-L\-I\-N\-E} $>$ P\-Q\-L\-Next\-Processor\-::get\-Self\-Next\-Star (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_p_q_l_next_processor_a9c10951edfc8b0ad09535b124f7b2845}
+This method is only for special case which happens for while loops 
+
+Definition at line 345 of file P\-Q\-L\-Next\-Processor.\-cpp.
+
+\hypertarget{class_p_q_l_next_processor_a7504e6289a468982bf0ae3342892ec73}{\index{P\-Q\-L\-Next\-Processor@{P\-Q\-L\-Next\-Processor}!is\-Next@{is\-Next}}
+\index{is\-Next@{is\-Next}!PQLNextProcessor@{P\-Q\-L\-Next\-Processor}}
+\subsubsection[{is\-Next}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-Q\-L\-Next\-Processor\-::is\-Next (
+\begin{DoxyParamCaption}
+\item[{{\bf P\-R\-O\-G\-\_\-\-L\-I\-N\-E}}]{p1, }
+\item[{{\bf P\-R\-O\-G\-\_\-\-L\-I\-N\-E}}]{p2}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_p_q_l_next_processor_a7504e6289a468982bf0ae3342892ec73}
+This method will be used to check Next(p1,p2) 
+\begin{DoxyParams}{Parameters}
+{\em p1} & The prog\-\_\-line that is before p2 \\
+\hline
+{\em p2} & The prog\-\_\-line that is after p1 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if p2 is right after p1, otherwise return false 
+\end{DoxyReturn}
+
+
+Definition at line 10 of file P\-Q\-L\-Next\-Processor.\-cpp.
+
+\hypertarget{class_p_q_l_next_processor_a1c8da8e2b325162392a59b8715caf9be}{\index{P\-Q\-L\-Next\-Processor@{P\-Q\-L\-Next\-Processor}!is\-Next\-Star@{is\-Next\-Star}}
+\index{is\-Next\-Star@{is\-Next\-Star}!PQLNextProcessor@{P\-Q\-L\-Next\-Processor}}
+\subsubsection[{is\-Next\-Star}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-Q\-L\-Next\-Processor\-::is\-Next\-Star (
+\begin{DoxyParamCaption}
+\item[{{\bf P\-R\-O\-G\-\_\-\-L\-I\-N\-E}}]{p1, }
+\item[{{\bf P\-R\-O\-G\-\_\-\-L\-I\-N\-E}}]{p2}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_p_q_l_next_processor_a1c8da8e2b325162392a59b8715caf9be}
+This method will be used to check Next\-Star(p1,p2) 
+\begin{DoxyParams}{Parameters}
+{\em p1} & The prog\-\_\-line that is before p2 \\
+\hline
+{\em p2} & The prog\-\_\-line that is after p1 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if p2 is reachable from p1, otherwise return false 
+\end{DoxyReturn}
+
+
+Definition at line 199 of file P\-Q\-L\-Next\-Processor.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+\$\-P@/\-S\-P\-A/\-S\-P\-A/\hyperlink{_p_q_l_next_processor_8h}{P\-Q\-L\-Next\-Processor.\-h}\item 
+\$\-P@/\-S\-P\-A/\-S\-P\-A/\hyperlink{_p_q_l_next_processor_8cpp}{P\-Q\-L\-Next\-Processor.\-cpp}\end{DoxyCompactItemize}

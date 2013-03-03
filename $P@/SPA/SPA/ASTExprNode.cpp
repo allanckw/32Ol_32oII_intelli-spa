@@ -131,7 +131,7 @@ ASTNode* ASTExprNode::addChild(ASTNode* c, int childLoc){
 /**
 * This method will be used to match the value of the expression node
 * @param expr	the expression to test if it matches the value of the node
-* @Return true if the node is of the correct value, false otherwise
+* @return true if the node is of the correct value, false otherwise
 */
 bool ASTExprNode::isMatched(Expr expr)
 {

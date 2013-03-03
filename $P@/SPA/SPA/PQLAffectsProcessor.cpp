@@ -4,9 +4,9 @@
 //Affects
 /**
 * This method will be used to check whether a1 and a2 satisfy Affect Condition
-* @Param a1	The statement that is going to affect a2
-* @Param a2	The statement that is affected by a1
-* @Return whether Affect(a1,a2) satisfy the condition of affect
+* @param a1	The statement that is going to affect a2
+* @param a2	The statement that is affected by a1
+* @return whether Affect(a1,a2) satisfy the condition of affect
 */
 bool PQLAffectsProcessor::isSatifyAffects(STMT a1, STMT a2)
 {
@@ -37,9 +37,9 @@ bool PQLAffectsProcessor::isSatifyAffects(STMT a1, STMT a2)
 
 /**
 * This method will be used to check Affect(a1,a2)
-* @Param a1	The statement that is going to affect a2
-* @Param a2	The statement that is affected by a1
-* @Return whether Affect(a1,a2) holds
+* @param a1	The statement that is going to affect a2
+* @param a2	The statement that is affected by a1
+* @return whether Affect(a1,a2) holds
 */
 bool PQLAffectsProcessor::isAffects(STMT a1, STMT a2) {
 
@@ -100,8 +100,8 @@ bool PQLAffectsProcessor::isAffects(STMT a1, STMT a2) {
 
 /**
 * This method will be used to get a list of statement that is affected by a1
-* @Param a1	The statement that is going to affect a2
-* @Return a list of statement that is affected by a1
+* @param a1	The statement that is going to affect a2
+* @return a list of statement that is affected by a1
 */
 vector<STMT> PQLAffectsProcessor::getAffectsFrom(STMT a2)
 {
@@ -228,8 +228,8 @@ vector<STMT> PQLAffectsProcessor::getAffectsFrom(STMT a2)
 
 /**
 * This method will be used to get a list of statement that is going to affect a2
-* @Param a2	The statement that is affected by a1
-* @Return a list of statement that is going to affect a2
+* @param a2	The statement that is affected by a1
+* @return a list of statement that is going to affect a2
 */
 vector<STMT> PQLAffectsProcessor::getAffectsBy(STMT a1)
 {
@@ -352,9 +352,9 @@ vector<STMT> PQLAffectsProcessor::getAffectsBy(STMT a1)
 //Affects*
 /**
 * This method will be used to check whether a1 and a2 satisfy Affect* Condition
-* @Param a1	The statement that is going to affect a2
-* @Param a2	The statement that is affected by a1
-* @Return whether Affect(a1,a2) satisfy the condition of affectStar
+* @param a1	The statement that is going to affect a2
+* @param a2	The statement that is affected by a1
+* @return whether Affect(a1,a2) satisfy the condition of affectStar
 */
 bool PQLAffectsProcessor::isSatifyAffectsStar(STMT a1, STMT a2)
 {
@@ -384,9 +384,9 @@ bool PQLAffectsProcessor::isSatifyAffectsStar(STMT a1, STMT a2)
 
 /**
 * This method will be used to check Affect*(a1,a2)
-* @Param a1	The statement that is going to affect a2
-* @Param a2	The statement that is affected by a1
-* @Return whether AffectStar(a1,a2) holds
+* @param a1	The statement that is going to affect a2
+* @param a2	The statement that is affected by a1
+* @return whether AffectStar(a1,a2) holds
 */
 bool PQLAffectsProcessor::isAffectsStar(STMT a1, STMT a2)
 {
@@ -603,8 +603,8 @@ bool PQLAffectsProcessor::isAffectsStar(STMT a1, STMT a2)
 
 /**
 * This method will be used to get a list of a2 that is affects*(a1,_)
-* @Param a1	The statement that is going to affect a2
-* @Return a list of statement that is affectStar by a1
+* @param a1	The statement that is going to affect a2
+* @return a list of statement that is affectStar by a1
 */
 vector<STMT> PQLAffectsProcessor::getAffectsByStar(STMT a1)
 {
@@ -774,8 +774,8 @@ vector<STMT> PQLAffectsProcessor::getAffectsByStar(STMT a1)
 
 /**
 * This method will be used to get a list of a2 that is affects*(_,a2)
-* @Param a2	The statement that is going to affect by a1
-* @Return a list of statement that is affectStar a2
+* @param a2	The statement that is going to affect by a1
+* @return a list of statement that is affectStar a2
 */
 vector<STMT>  PQLAffectsProcessor::getAffectsFromStar(STMT a2)
 {

@@ -11,9 +11,9 @@ AffectsTable::AffectsTable()
 //planned for itr2
 /**
 * This method will be used to insert Affects(a1,a2)
-* @Param a1	The statement that is going to affect a2
-* @Param a2	The statement that is affected by a1
-* @Param isAffected	whether a1 affect a2
+* @param a1	The statement that is going to affect a2
+* @param a2	The statement that is affected by a1
+* @param isAffected	whether a1 affect a2
 */
 void AffectsTable::insertAffects (STMT a1, STMT a2, bool isAffected)
 {
@@ -35,9 +35,9 @@ void AffectsTable::insertAffects (STMT a1, STMT a2, bool isAffected)
 
 /**
 * This method will be used to insert Affects(a1,a2)
-* @Param a1	The statement that is going to affect a2
-* @Param a2	The statement that is affected by a1
-* @Return whether a1 affect a2
+* @param a1	The statement that is going to affect a2
+* @param a2	The statement that is affected by a1
+* @return whether a1 affect a2
 */
 bool AffectsTable::isAffects (STMT a1, STMT a2)
 {
@@ -68,8 +68,8 @@ bool AffectsTable::isAffects (STMT a1, STMT a2)
 
 /**
 * This method will be used to get a list of statement that is affected by a1
-* @Param a1	The statement that is going to affect a2
-* @Return a list of statement that is affected by a1
+* @param a1	The statement that is going to affect a2
+* @return a list of statement that is affected by a1
 */
 vector<STMT> AffectsTable::getAffectsBy(STMT a1)
 {
@@ -84,8 +84,8 @@ vector<STMT> AffectsTable::getAffectsBy(STMT a1)
 
 /**
 * This method will be used to get a list of statement that is going to affect a2
-* @Param a2	The statement that is affected by a1
-* @Return a list of statement that is going to affect a2
+* @param a2	The statement that is affected by a1
+* @return a list of statement that is going to affect a2
 */
 vector<STMT> AffectsTable::getAffectsFrom(STMT a2)
 {
@@ -101,9 +101,9 @@ vector<STMT> AffectsTable::getAffectsFrom(STMT a2)
 //planned for itr2 + 3
 /**
 * This method will be used to insert AffectsStar(a1,a2)
-* @Param a1	The statement that is going to affect a2
-* @Param a2	The statement that is affected by a1
-* @Param isAffected	whether a1 affectStar a2
+* @param a1	The statement that is going to affect a2
+* @param a2	The statement that is affected by a1
+* @param isAffected	whether a1 affectStar a2
 */
 void AffectsTable::insertAffectsStar (STMT a1, STMT a2, bool isAffected)
 {
@@ -125,9 +125,9 @@ void AffectsTable::insertAffectsStar (STMT a1, STMT a2, bool isAffected)
 
 /**
 * This method will be used to check AffectsStar(a1,a2)
-* @Param a1	The statement that is going to affect a2
-* @Param a2	The statement that is affected by a1
-* @Return whether a1 affectStar a2
+* @param a1	The statement that is going to affect a2
+* @param a2	The statement that is affected by a1
+* @return whether a1 affectStar a2
 */
 bool AffectsTable::isAffectsStar (STMT a1, STMT a2)
 {
@@ -162,8 +162,8 @@ bool AffectsTable::isAffectsStar (STMT a1, STMT a2)
 
 /**
 * This method will be used to get a list of a2 that is affect*(a1,_)
-* @Param a1	The statement that is going to affect a2
-* @Return a list of statement that is affected by a1
+* @param a1	The statement that is going to affect a2
+* @return a list of statement that is affected by a1
 */
 vector<STMT> AffectsTable::getAffectsByStar(STMT a1)
 {
@@ -178,8 +178,8 @@ vector<STMT> AffectsTable::getAffectsByStar(STMT a1)
 
 /**
 * This method will be used to get a list of a2 that is affect*(_,a2)
-* @Param a2	The statement that is going to affect by a1
-* @Return a list of statement that is affectStar a2
+* @param a2	The statement that is going to affect by a1
+* @return a list of statement that is affectStar a2
 */
 vector<STMT> AffectsTable::getAffectsFromStar(STMT a2)
 {
@@ -252,7 +252,7 @@ vector<STMT> AffectsTable::getAffectsFromStar(STMT a2)
 ////for Affects*(_, _) only
 ///**
 //* This method will be used to get check whether AffectStarTable is empty
-//* @Return true if it is not empty, otherwise false
+//* @return true if it is not empty, otherwise false
 //*/
 //bool AffectsTable::isAffectsStarEmpty()
 //{
@@ -269,7 +269,7 @@ vector<STMT> AffectsTable::getAffectsFromStar(STMT a2)
 
 /**
 * This method will be used to get check whether AffectBipTable is empty
-* @Return true if it is not empty, otherwise false
+* @return true if it is not empty, otherwise false
 */
 bool AffectsTable::isAffectsBipEmpty()
 {
@@ -288,9 +288,9 @@ bool AffectsTable::isAffectsBipEmpty()
 
 /**
 * This method will be used to check existing record
-* @Param v	a list of nextstar
-* @Param a	the affectstar to check for existing record
-* @Return whether a exist in v
+* @param v	a list of nextstar
+* @param a	the affectstar to check for existing record
+* @return whether a exist in v
 */
 bool AffectsTable::isDuplicate(vector<Affects*> v, Affects* a)
 {

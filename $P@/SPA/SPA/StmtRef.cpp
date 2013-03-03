@@ -2,8 +2,8 @@
 
 /**
 * This method will be used as a constructor to create a statement reference
-* @Param p the program line
-* @Param s the statement no.
+* @param p the program line
+* @param s the statement no.
 */
 StmtRef::StmtRef(PROG_LINE p, STMT s)
 {
@@ -13,10 +13,10 @@ StmtRef::StmtRef(PROG_LINE p, STMT s)
 
 /**
 * This method will be used as a constructor to create a statement reference
-* @Param p the program line
-* @Param s the statement no.
-* @Param a the ASTStmtNode
-* @Param c the CFGNode
+* @param p the program line
+* @param s the statement no.
+* @param a the ASTStmtNode
+* @param c the CFGNode
 */
 StmtRef::StmtRef(PROG_LINE p, STMT s, ASTStmtNode* a, CFGNode* c)
 {
@@ -29,9 +29,9 @@ StmtRef::StmtRef(PROG_LINE p, STMT s, ASTStmtNode* a, CFGNode* c)
 
 /**
 * This method will be used as a constructor to create a statement reference
-* @Param p the program line
-* @Param s the statement no.
-* @Param a the ASTStmtNode
+* @param p the program line
+* @param s the statement no.
+* @param a the ASTStmtNode
 */
 StmtRef::StmtRef(PROG_LINE p, STMT s, ASTStmtNode* a)
 {
@@ -42,7 +42,7 @@ StmtRef::StmtRef(PROG_LINE p, STMT s, ASTStmtNode* a)
 
 /**
 * This method will be set the ASTStmtNode of the statement reference
-* @Param a the ASTStmtNode
+* @param a the ASTStmtNode
 */
 void StmtRef::setASTStmtNode(ASTStmtNode* a)
 {
@@ -57,7 +57,7 @@ void StmtRef::setASTStmtNode(ASTStmtNode* a)
 
 /**
 * This method will be set the CFGNode of the statement reference
-* @Param c the CFGNode
+* @param c the CFGNode
 */
 void StmtRef::setCFGNode(CFGNode* c)
 {
@@ -67,7 +67,7 @@ void StmtRef::setCFGNode(CFGNode* c)
 
 /**
 * This method will return the ASTStmtNode of the statement reference
-* @Return the ASTStmtNode
+* @return the ASTStmtNode
 */
 ASTStmtNode* StmtRef::getASTStmtNode()
 {
@@ -76,7 +76,7 @@ ASTStmtNode* StmtRef::getASTStmtNode()
 
 /**
 * This method will return the CFGNode of the statement reference
-* @Return the CFGNode
+* @return the CFGNode
 */
 CFGNode* StmtRef::getCFGNode()
 {
@@ -85,7 +85,7 @@ CFGNode* StmtRef::getCFGNode()
 
 /**
 * This method will return the program line of the statement reference
-* @Return the program line
+* @return the program line
 */
 PROG_LINE StmtRef::getProgLine()
 {
@@ -94,7 +94,7 @@ PROG_LINE StmtRef::getProgLine()
 
 /**
 * This method will return the statement number of the statement reference
-* @Return the statement number
+* @return the statement number
 */
 STMT StmtRef::getStmtNo(){
 	return this->s;

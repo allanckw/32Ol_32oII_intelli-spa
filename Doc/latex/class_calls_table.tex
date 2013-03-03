@@ -32,6 +32,10 @@ vector$<$ \hyperlink{std_afx_8h_a4a876b28ac3f59cecb39c2d2d76e4e7a}{S\-T\-M\-T} $
 \item 
 void \hyperlink{class_calls_table_a21decabd3099cd7adb4ebfcdbb6bad8d}{optimize\-Calls\-Table} ()
 \item 
+int \hyperlink{class_calls_table_affa05af1a77dab6c79e2b43824898010}{get\-Calls\-Size} ()
+\item 
+int \hyperlink{class_calls_table_a9adfb829fa0361df34eadb011f80406e}{get\-Calls\-Star\-Size} ()
+\item 
 void \hyperlink{class_calls_table_ae9c18d5f905d063cf912ebb2c1ce4cbd}{display\-Calls\-Tables} ()
 \end{DoxyCompactItemize}
 
@@ -51,9 +55,9 @@ Definition at line 4 of file Calls\-Table.\-h.
 {}
 \end{DoxyParamCaption}
 )}}\label{class_calls_table_a852d1327bef61851b3896264b682a4aa}
+This method will be used as a constructor to create \hyperlink{class_calls_table}{Calls\-Table} 
 
-
-Definition at line 6 of file Calls\-Table.\-cpp.
+Definition at line 8 of file Calls\-Table.\-cpp.
 
 
 
@@ -67,7 +71,7 @@ Definition at line 6 of file Calls\-Table.\-cpp.
 )}}\label{class_calls_table_ae9c18d5f905d063cf912ebb2c1ce4cbd}
 This method will be used for testing purposes for viewing the content of the Call table 
 
-Definition at line 214 of file Calls\-Table.\-cpp.
+Definition at line 229 of file Calls\-Table.\-cpp.
 
 \hypertarget{class_calls_table_af50654db975ad7d3b9fa74f8547998eb}{\index{Calls\-Table@{Calls\-Table}!get\-Called\-By@{get\-Called\-By}}
 \index{get\-Called\-By@{get\-Called\-By}!CallsTable@{Calls\-Table}}
@@ -86,7 +90,7 @@ a vector of all procedures
 \end{DoxyReturn}
 
 
-Definition at line 102 of file Calls\-Table.\-cpp.
+Definition at line 107 of file Calls\-Table.\-cpp.
 
 \hypertarget{class_calls_table_a71e96fb0576531152756c529c0bb666f}{\index{Calls\-Table@{Calls\-Table}!get\-Called\-By\-Star@{get\-Called\-By\-Star}}
 \index{get\-Called\-By\-Star@{get\-Called\-By\-Star}!CallsTable@{Calls\-Table}}
@@ -105,7 +109,7 @@ a vector of all procedures
 \end{DoxyReturn}
 
 
-Definition at line 127 of file Calls\-Table.\-cpp.
+Definition at line 132 of file Calls\-Table.\-cpp.
 
 \hypertarget{class_calls_table_ade7109a5b16d953b66c49ddeef36eff1}{\index{Calls\-Table@{Calls\-Table}!get\-Called\-From@{get\-Called\-From}}
 \index{get\-Called\-From@{get\-Called\-From}!CallsTable@{Calls\-Table}}
@@ -124,7 +128,7 @@ a vector of all procedures
 \end{DoxyReturn}
 
 
-Definition at line 115 of file Calls\-Table.\-cpp.
+Definition at line 120 of file Calls\-Table.\-cpp.
 
 \hypertarget{class_calls_table_a3f984929213fdd181d904a9bcd8b99c2}{\index{Calls\-Table@{Calls\-Table}!get\-Called\-From\-Star@{get\-Called\-From\-Star}}
 \index{get\-Called\-From\-Star@{get\-Called\-From\-Star}!CallsTable@{Calls\-Table}}
@@ -143,7 +147,29 @@ a vector of all procedures
 \end{DoxyReturn}
 
 
-Definition at line 139 of file Calls\-Table.\-cpp.
+Definition at line 144 of file Calls\-Table.\-cpp.
+
+\hypertarget{class_calls_table_affa05af1a77dab6c79e2b43824898010}{\index{Calls\-Table@{Calls\-Table}!get\-Calls\-Size@{get\-Calls\-Size}}
+\index{get\-Calls\-Size@{get\-Calls\-Size}!CallsTable@{Calls\-Table}}
+\subsubsection[{get\-Calls\-Size}]{\setlength{\rightskip}{0pt plus 5cm}int Calls\-Table\-::get\-Calls\-Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_calls_table_affa05af1a77dab6c79e2b43824898010}
+
+
+Definition at line 212 of file Calls\-Table.\-cpp.
+
+\hypertarget{class_calls_table_a9adfb829fa0361df34eadb011f80406e}{\index{Calls\-Table@{Calls\-Table}!get\-Calls\-Star\-Size@{get\-Calls\-Star\-Size}}
+\index{get\-Calls\-Star\-Size@{get\-Calls\-Star\-Size}!CallsTable@{Calls\-Table}}
+\subsubsection[{get\-Calls\-Star\-Size}]{\setlength{\rightskip}{0pt plus 5cm}int Calls\-Table\-::get\-Calls\-Star\-Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_calls_table_a9adfb829fa0361df34eadb011f80406e}
+
+
+Definition at line 217 of file Calls\-Table.\-cpp.
 
 \hypertarget{class_calls_table_ad03ad8e545d3d1225d6388c97ab0d268}{\index{Calls\-Table@{Calls\-Table}!get\-Stmt\-Call@{get\-Stmt\-Call}}
 \index{get\-Stmt\-Call@{get\-Stmt\-Call}!CallsTable@{Calls\-Table}}
@@ -162,7 +188,7 @@ a vector of all statements
 \end{DoxyReturn}
 
 
-Definition at line 200 of file Calls\-Table.\-cpp.
+Definition at line 205 of file Calls\-Table.\-cpp.
 
 \hypertarget{class_calls_table_a8a0b0e665281f2c0d23f255c03282a66}{\index{Calls\-Table@{Calls\-Table}!insert\-Calls@{insert\-Calls}}
 \index{insert\-Calls@{insert\-Calls}!CallsTable@{Calls\-Table}}
@@ -181,7 +207,7 @@ This method will be used to insert the Calls relation.
 \end{DoxyParams}
 
 
-Definition at line 15 of file Calls\-Table.\-cpp.
+Definition at line 17 of file Calls\-Table.\-cpp.
 
 \hypertarget{class_calls_table_a978f84e07ad7bafb1737c6a290c8527a}{\index{Calls\-Table@{Calls\-Table}!insert\-Stmt\-Call@{insert\-Stmt\-Call}}
 \index{insert\-Stmt\-Call@{insert\-Stmt\-Call}!CallsTable@{Calls\-Table}}
@@ -200,7 +226,7 @@ This method will be used to insert calls made from stmt to procedure into the ca
 \end{DoxyParams}
 
 
-Definition at line 183 of file Calls\-Table.\-cpp.
+Definition at line 188 of file Calls\-Table.\-cpp.
 
 \hypertarget{class_calls_table_a7533cb25ac6b5cfa990a4ab66caa7d84}{\index{Calls\-Table@{Calls\-Table}!is\-Called@{is\-Called}}
 \index{is\-Called@{is\-Called}!CallsTable@{Calls\-Table}}
@@ -222,7 +248,7 @@ true if the procedure p1 calls procedure p2, and false otherwise
 \end{DoxyReturn}
 
 
-Definition at line 152 of file Calls\-Table.\-cpp.
+Definition at line 157 of file Calls\-Table.\-cpp.
 
 \hypertarget{class_calls_table_a8355c71d51e270130651f17007d3b6a6}{\index{Calls\-Table@{Calls\-Table}!is\-Called\-Star@{is\-Called\-Star}}
 \index{is\-Called\-Star@{is\-Called\-Star}!CallsTable@{Calls\-Table}}
@@ -244,7 +270,7 @@ true if the procedure p1 directly or indirectly calls procedure p2, and false ot
 \end{DoxyReturn}
 
 
-Definition at line 163 of file Calls\-Table.\-cpp.
+Definition at line 168 of file Calls\-Table.\-cpp.
 
 \hypertarget{class_calls_table_a5d6f530110e6983be8cef4b6d12b9e78}{\index{Calls\-Table@{Calls\-Table}!is\-Empty@{is\-Empty}}
 \index{is\-Empty@{is\-Empty}!CallsTable@{Calls\-Table}}
@@ -258,7 +284,7 @@ true if the Calls table is empty, and false otherwise
 \end{DoxyReturn}
 
 
-Definition at line 172 of file Calls\-Table.\-cpp.
+Definition at line 177 of file Calls\-Table.\-cpp.
 
 \hypertarget{class_calls_table_a21decabd3099cd7adb4ebfcdbb6bad8d}{\index{Calls\-Table@{Calls\-Table}!optimize\-Calls\-Table@{optimize\-Calls\-Table}}
 \index{optimize\-Calls\-Table@{optimize\-Calls\-Table}!CallsTable@{Calls\-Table}}
@@ -269,7 +295,7 @@ Definition at line 172 of file Calls\-Table.\-cpp.
 )}}\label{class_calls_table_a21decabd3099cd7adb4ebfcdbb6bad8d}
 This method will be used to optimise the populated call table for fast access 
 
-Definition at line 30 of file Calls\-Table.\-cpp.
+Definition at line 32 of file Calls\-Table.\-cpp.
 
 
 

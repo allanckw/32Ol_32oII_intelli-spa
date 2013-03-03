@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['affects',['affects',['../class_p_k_b.html#ad9d778faa5c6d938082d07d90da6fea0',1,'PKB']]],
   ['allowableconditions',['allowableConditions',['../class_rules_of_engagement.html#af8095e34ef7cd49343e8d2dfd1f47e3e',1,'RulesOfEngagement']]],
   ['allowablefirstargument',['allowableFirstArgument',['../class_rules_of_engagement.html#a0a16b8602e2522f007f54f157a0f1203',1,'RulesOfEngagement']]],
   ['allowablesecondargument',['allowableSecondArgument',['../class_rules_of_engagement.html#a365f61557120f33a18021667e746f13e',1,'RulesOfEngagement']]],

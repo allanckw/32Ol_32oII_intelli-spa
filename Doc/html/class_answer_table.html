@@ -119,8 +119,8 @@ $(document).ready(function(){initNavTree('class_answer_table.html','');});
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a01b3a71cd50d9ebd513068463650c34f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_answer_table.html#a01b3a71cd50d9ebd513068463650c34f">AnswerTable</a> (const <a class="el" href="class_synonym_table.html">SynonymTable</a> &amp;synonymTable, const string &amp;synonym)</td></tr>
 <tr class="separator:a01b3a71cd50d9ebd513068463650c34f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac5da4ad26b82eca376998313ada78da0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_answer_table.html#ac5da4ad26b82eca376998313ada78da0">combine</a> (const string &amp;ownSynonym, const <a class="el" href="class_answer_table.html">AnswerTable</a> &amp;otherTable, const string &amp;otherSynonym, const <a class="el" href="class_rules_of_engagement.html#aad838c0ef69d7c4ee9bef23a431ff6c1">RulesOfEngagement::isRelation</a> rel)</td></tr>
-<tr class="separator:ac5da4ad26b82eca376998313ada78da0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7da446da9661e0d041cdf418adf98512"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_answer_table.html#a7da446da9661e0d041cdf418adf98512">combine</a> (const string &amp;ownSynonym, const <a class="el" href="class_answer_table.html">AnswerTable</a> &amp;otherTable, const string &amp;otherSynonym, const <a class="el" href="class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817">RulesOfEngagement::QueryRelations</a> rel)</td></tr>
+<tr class="separator:a7da446da9661e0d041cdf418adf98512"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5c3bbb34b61b0dc49edcf62c817c994a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_answer_table.html#a5c3bbb34b61b0dc49edcf62c817c994a">prune</a> (const string &amp;firstSynonym, const string &amp;secondSynonym, const <a class="el" href="class_rules_of_engagement.html#aad838c0ef69d7c4ee9bef23a431ff6c1">RulesOfEngagement::isRelation</a> rel)</td></tr>
 <tr class="separator:a5c3bbb34b61b0dc49edcf62c817c994a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:affa20cce217db5e4618490224c32ad22"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_answer_table.html#affa20cce217db5e4618490224c32ad22">withCombine</a> (const <a class="el" href="class_synonym_table.html">SynonymTable</a> &amp;synonymTable, const string &amp;firstSynonym, const string &amp;firstCondition, const <a class="el" href="class_answer_table.html">AnswerTable</a> &amp;otherTable, const string &amp;secondSynonym, const string &amp;secondCondition)</td></tr>
@@ -135,6 +135,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a6402136f56eccb33fd311b9c5208b884"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7d8957160038486ced90cffc680d491c"><td class="memItemLeft" align="right" valign="top">vector&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_answer_table.html#a7d8957160038486ced90cffc680d491c">getHeader</a> () const </td></tr>
 <tr class="separator:a7d8957160038486ced90cffc680d491c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53f9b463b98d79290b6e3528d7f9e464"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_answer_table.html#a53f9b463b98d79290b6e3528d7f9e464">getHeaderSize</a> () const </td></tr>
+<tr class="separator:a53f9b463b98d79290b6e3528d7f9e464"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af97a334c1ffcd4b185ddf8d981ef91bf"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_answer_table.html#af97a334c1ffcd4b185ddf8d981ef91bf">getSize</a> () const </td></tr>
 <tr class="separator:af97a334c1ffcd4b185ddf8d981ef91bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a28df331881ed15b3012b0d717109096c"><td class="memItemLeft" align="right" valign="top">vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_answer_table.html#a28df331881ed15b3012b0d717109096c">getRow</a> (const int index) const </td></tr>
@@ -182,7 +184,7 @@ Public Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the <a class="el" href="class_answer_table.html">AnswerTable</a> containing the one synonym </dd></dl>
 
-<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00017">17</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00018">18</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -209,11 +211,11 @@ Public Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the <a class="el" href="class_answer_table.html">AnswerTable</a> having been cartesianed with the other <a class="el" href="class_answer_table.html">AnswerTable</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00452">452</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00984">984</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ac5da4ad26b82eca376998313ada78da0"></a>
+<a class="anchor" id="a7da446da9661e0d041cdf418adf98512"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -238,7 +240,7 @@ Public Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="class_rules_of_engagement.html#aad838c0ef69d7c4ee9bef23a431ff6c1">RulesOfEngagement::isRelation</a>&#160;</td>
+          <td class="paramtype">const <a class="el" href="class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817">RulesOfEngagement::QueryRelations</a>&#160;</td>
           <td class="paramname"><em>rel</em>&#160;</td>
         </tr>
         <tr>
@@ -254,13 +256,13 @@ Public Attributes</h2></td></tr>
     <tr><td class="paramname">ownSynonym</td><td>name of synonym in this <a class="el" href="class_answer_table.html">AnswerTable</a> </td></tr>
     <tr><td class="paramname">otherTable</td><td>pointer to other <a class="el" href="class_answer_table.html">AnswerTable</a> </td></tr>
     <tr><td class="paramname">otherSynonym</td><td>name of synonym in the other <a class="el" href="class_answer_table.html">AnswerTable</a> </td></tr>
-    <tr><td class="paramname">rel</td><td>function pointer to method to evaluate satisfiability of relation </td></tr>
+    <tr><td class="paramname">rel</td><td>relation type </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the <a class="el" href="class_answer_table.html">AnswerTable</a> having combined with the other <a class="el" href="class_answer_table.html">AnswerTable</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00220">220</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00680">680</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -279,7 +281,26 @@ Public Attributes</h2></td></tr>
 <p>Returns a vector of the synonyms included in this <a class="el" href="class_answer_table.html">AnswerTable</a>. </p>
 <dl class="section return"><dt>Returns</dt><dd>the vector of the synonyms </dd></dl>
 
-<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00474">474</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l01006">1006</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a53f9b463b98d79290b6e3528d7f9e464"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned int AnswerTable::getHeaderSize </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns the number of synonyms in this <a class="el" href="class_answer_table.html">AnswerTable</a>. </p>
+<dl class="section return"><dt>Returns</dt><dd>the number of synonyms </dd></dl>
+
+<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l01015">1015</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -305,7 +326,7 @@ Public Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the vector corresponding to the required row </dd></dl>
 
-<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00493">493</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l01034">1034</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -321,10 +342,10 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Returns the number of synonyms in this <a class="el" href="class_answer_table.html">AnswerTable</a>. </p>
-<dl class="section return"><dt>Returns</dt><dd>the number of synonyms </dd></dl>
+<p>Returns the number of results (tuples) in this <a class="el" href="class_answer_table.html">AnswerTable</a>. </p>
+<dl class="section return"><dt>Returns</dt><dd>the number of results </dd></dl>
 
-<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00483">483</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l01024">1024</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -375,7 +396,7 @@ Public Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the <a class="el" href="class_answer_table.html">AnswerTable</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00404">404</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00929">929</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -401,7 +422,7 @@ Public Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>a new <a class="el" href="class_answer_table.html">AnswerTable</a> with only the selected columns </dd></dl>
 
-<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00423">423</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00948">948</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -445,7 +466,7 @@ Public Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the <a class="el" href="class_answer_table.html">AnswerTable</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00249">249</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00766">766</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -508,7 +529,7 @@ Public Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the <a class="el" href="class_answer_table.html">AnswerTable</a> having combined with the other <a class="el" href="class_answer_table.html">AnswerTable</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00271">271</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00796">796</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -564,7 +585,7 @@ Public Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the <a class="el" href="class_answer_table.html">AnswerTable</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00350">350</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_answer_table_8cpp_source.html#l00875">875</a> of file <a class="el" href="_answer_table_8cpp_source.html">AnswerTable.cpp</a>.</p>
 
 </div>
 </div>
@@ -593,7 +614,7 @@ Public Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_answer_table.html">AnswerTable</a></li>
-    <li class="footer">Generated on Mon Feb 4 2013 01:48:10 for SPA by
+    <li class="footer">Generated on Mon Mar 4 2013 00:45:46 for SPA by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3.1 </li>
   </ul>

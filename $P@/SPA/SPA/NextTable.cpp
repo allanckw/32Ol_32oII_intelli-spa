@@ -9,9 +9,9 @@ NextTable::NextTable() {
 
 /**
 * This method will be used to check Next(p1,p2)
-* @Param p1	The prog_line that is before p2
-* @Param p2	The prog_line that is after p1
-* @Return true if p2 is right after p1, otherwise return false
+* @param p1	The prog_line that is before p2
+* @param p2	The prog_line that is after p1
+* @return true if p2 is right after p1, otherwise return false
 */
 bool NextTable::isNext(PROG_LINE p1, PROG_LINE p2)
 {
@@ -26,8 +26,8 @@ bool NextTable::isNext(PROG_LINE p1, PROG_LINE p2)
 
 /**
 * This method will be used to get prog_line after p1
-* @Param p1	The prog_line that is before p2
-* @Return list of prog_line after p1
+* @param p1	The prog_line that is before p2
+* @return list of prog_line after p1
 */
 vector<PROG_LINE> NextTable::getNext(PROG_LINE p1)
 {
@@ -36,8 +36,8 @@ vector<PROG_LINE> NextTable::getNext(PROG_LINE p1)
 
 /**
 * This method will be used to get prog_line before p2
-* @Param p2	The prog_line that is after p1
-* @Return list of prog_line before p1
+* @param p2	The prog_line that is after p1
+* @return list of prog_line before p1
 */
 vector<PROG_LINE> NextTable::getPrevious(PROG_LINE p2)
 {
@@ -46,10 +46,10 @@ vector<PROG_LINE> NextTable::getPrevious(PROG_LINE p2)
 
 /**
 * This method will be used to insert NEXTStar into the table
-* @Param p1	The prog_line that is before p2
-* @Param p2	The prog_line that is after p1
-* @Param next True or False
-* @Return list of prog_line before p1
+* @param p1	The prog_line that is before p2
+* @param p2	The prog_line that is after p1
+* @param next True or False
+* @return list of prog_line before p1
 */
 void NextTable::insertNextStar(PROG_LINE p1, PROG_LINE p2, bool next)
 {
@@ -71,9 +71,9 @@ void NextTable::insertNextStar(PROG_LINE p1, PROG_LINE p2, bool next)
 
 /**
 * This method will be used to check NextStar(p1,p2)
-* @Param p1	The prog_line that is before p2
-* @Param p2	The prog_line that is after p1
-* @Return true if p2 is reachable from p1, otherwise return false
+* @param p1	The prog_line that is before p2
+* @param p2	The prog_line that is after p1
+* @return true if p2 is reachable from p1, otherwise return false
 */
 bool NextTable::isNextStar (PROG_LINE p1, PROG_LINE p2)
 {
@@ -106,8 +106,8 @@ bool NextTable::isNextStar (PROG_LINE p1, PROG_LINE p2)
 
 /**
 * This method will be used to check NextStar(p1,_)
-* @Param p1	The start prog_line to find all reachable prog_line
-* @Return a list of prog_line reachable from p1
+* @param p1	The start prog_line to find all reachable prog_line
+* @return a list of prog_line reachable from p1
 */
 vector<PROG_LINE> NextTable::getNextStar(PROG_LINE p1)
 {
@@ -122,8 +122,8 @@ vector<PROG_LINE> NextTable::getNextStar(PROG_LINE p1)
 
 /**
 * This method will be used to check NextStar(_,p2)
-* @Param p2	The end prog_line that can be reach from p1
-* @Return a list of prog_line that can reach p2
+* @param p2	The end prog_line that can be reach from p1
+* @return a list of prog_line that can reach p2
 */
 vector<PROG_LINE> NextTable::getPreviousStar(PROG_LINE p2)
 {
@@ -138,9 +138,9 @@ vector<PROG_LINE> NextTable::getPreviousStar(PROG_LINE p2)
 
 /**
 * This method will be used to check existing record
-* @Param v	a list of nextstar
-* @Param n	the nextstar to check for existing record
-* @Return whether n exist in v
+* @param v	a list of nextstar
+* @param n	the nextstar to check for existing record
+* @return whether n exist in v
 */
 bool NextTable::isDuplicate(vector<Next*> v, Next* n)
 {

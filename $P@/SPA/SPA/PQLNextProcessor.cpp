@@ -3,9 +3,9 @@
 
 /**
 * This method will be used to check Next(p1,p2)
-* @Param p1	The prog_line that is before p2
-* @Param p2	The prog_line that is after p1
-* @Return true if p2 is right after p1, otherwise return false
+* @param p1	The prog_line that is before p2
+* @param p2	The prog_line that is after p1
+* @return true if p2 is right after p1, otherwise return false
 */
 bool PQLNextProcessor::isNext(PROG_LINE p1, PROG_LINE p2)
 {
@@ -82,8 +82,8 @@ bool PQLNextProcessor::isNext(PROG_LINE p1, PROG_LINE p2)
 
 /**
 * This method will be used to get prog_line after p1
-* @Param p1	The prog_line that is before p2
-* @Return list of prog_line after p1
+* @param p1	The prog_line that is before p2
+* @return list of prog_line after p1
 */
 vector<PROG_LINE> PQLNextProcessor::getNext(PROG_LINE p1)
 {
@@ -154,8 +154,8 @@ vector<PROG_LINE> PQLNextProcessor::getNext(PROG_LINE p1)
 
 /**
 * This method will be used to get prog_line before p2
-* @Param p2	The prog_line that is after p1
-* @Return list of prog_line before p1
+* @param p2	The prog_line that is after p1
+* @return list of prog_line before p1
 */
 vector<PROG_LINE> PQLNextProcessor::getPrevious(PROG_LINE p2)
 {
@@ -192,9 +192,9 @@ vector<PROG_LINE> PQLNextProcessor::getPrevious(PROG_LINE p2)
 
 /**
 * This method will be used to check NextStar(p1,p2)
-* @Param p1	The prog_line that is before p2
-* @Param p2	The prog_line that is after p1
-* @Return true if p2 is reachable from p1, otherwise return false
+* @param p1	The prog_line that is before p2
+* @param p2	The prog_line that is after p1
+* @return true if p2 is reachable from p1, otherwise return false
 */
 bool PQLNextProcessor::isNextStar(PROG_LINE p1, PROG_LINE p2)
 {
@@ -250,8 +250,8 @@ bool PQLNextProcessor::isNextStar(PROG_LINE p1, PROG_LINE p2)
 
 /**
 * This method will be used to check NextStar(p1,_)
-* @Param p1	The start prog_line to find all reachable prog_line
-* @Return a list of prog_line reachable from p1
+* @param p1	The start prog_line to find all reachable prog_line
+* @return a list of prog_line reachable from p1
 */
 vector<PROG_LINE> PQLNextProcessor::getNextStar(PROG_LINE p1)
 {
@@ -299,8 +299,8 @@ vector<PROG_LINE> PQLNextProcessor::getNextStar(PROG_LINE p1)
 
 /**
 * This method will be used to check NextStar(_,p2)
-* @Param p2	The end prog_line that can be reach from p1
-* @Return a list of prog_line that can reach p2
+* @param p2	The end prog_line that can be reach from p1
+* @return a list of prog_line that can reach p2
 */
 vector<PROG_LINE> PQLNextProcessor::getPreviousStar(PROG_LINE p2) {
 	if (p2 < 0 || p2 > PKB::maxProgLines)

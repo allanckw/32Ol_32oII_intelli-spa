@@ -108,76 +108,114 @@ $(document).ready(function(){initNavTree('_c_f_g_node_8h_source.html','');});
 <div class="contents">
 <a href="_c_f_g_node_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &quot;<a class="code" href="std_afx_8h.html">StdAfx.h</a>&quot;</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_s_p_a_exception_8h.html">SPAException.h</a>&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_interval_list_8h.html">IntervalList.h</a>&quot;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
 <div class="line"><a name="l00005"></a><span class="lineno"><a class="code" href="class_c_f_g_node.html">    5</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_c_f_g_node.html">CFGNode</a></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;{</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00008"></a><span class="lineno"><a class="code" href="class_c_f_g_node.html#aa0933713506a9c0226e705703ee5b079">    8</a></span>&#160;    <span class="keyword">typedef</span> <span class="keyword">enum</span> <a class="code" href="class_c_f_g_node.html#aa0933713506a9c0226e705703ee5b079">NodeType</a> { </div>
+<div class="line"><a name="l00008"></a><span class="lineno"><a class="code" href="class_c_f_g_node.html#aa0933713506a9c0226e705703ee5b079">    8</a></span>&#160;    <span class="keyword">enum</span> <a class="code" href="class_c_f_g_node.html#aa0933713506a9c0226e705703ee5b079">NodeType</a> { </div>
 <div class="line"><a name="l00009"></a><span class="lineno"><a class="code" href="class_c_f_g_node.html#aa0933713506a9c0226e705703ee5b079aa2e8603898955894b9dee1c4357f7438">    9</a></span>&#160;        <a class="code" href="class_c_f_g_node.html#aa0933713506a9c0226e705703ee5b079aa2e8603898955894b9dee1c4357f7438">StandardNode</a>,</div>
 <div class="line"><a name="l00010"></a><span class="lineno"><a class="code" href="class_c_f_g_node.html#aa0933713506a9c0226e705703ee5b079ade6fc811a65caa8511c48b93134a90e7">   10</a></span>&#160;        <a class="code" href="class_c_f_g_node.html#aa0933713506a9c0226e705703ee5b079ade6fc811a65caa8511c48b93134a90e7">WhileNode</a>,</div>
 <div class="line"><a name="l00011"></a><span class="lineno"><a class="code" href="class_c_f_g_node.html#aa0933713506a9c0226e705703ee5b079a12589e59a33dfed127168c3663a6e52e">   11</a></span>&#160;        <a class="code" href="class_c_f_g_node.html#aa0933713506a9c0226e705703ee5b079a12589e59a33dfed127168c3663a6e52e">IfNode</a>,</div>
 <div class="line"><a name="l00012"></a><span class="lineno"><a class="code" href="class_c_f_g_node.html#aa0933713506a9c0226e705703ee5b079a653298400dbc11a4a806566fc8da20d3">   12</a></span>&#160;        <a class="code" href="class_c_f_g_node.html#aa0933713506a9c0226e705703ee5b079a653298400dbc11a4a806566fc8da20d3">DummyNode</a></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    };</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <a class="code" href="class_c_f_g_node.html#addba1ddd8abe5f584389e05926251eaa">CFGNode</a>(<a class="code" href="class_c_f_g_node.html#aa0933713506a9c0226e705703ee5b079">NodeType</a>, <a class="code" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> start, <a class="code" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> end, <a class="code" href="std_afx_8h.html#aa07ea1d188c7b45668f1bd82ffd6d87e">PROC</a> p);</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="comment">//link node1-&gt;node2 in the cfg</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_c_f_g_node.html#aa1031de36b07269df1fe0adcf5557b90">setLink</a>(<a class="code" href="class_c_f_g_node.html">CFGNode</a>* node);</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_c_f_g_node.html#a247dcbf53b30ba6a38d945d0f0f81a3c">setEndProgramLine</a>(<a class="code" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> p);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_c_f_g_node.html#a846539f346c2569c94c9a5057eee6bd9">setStartNode</a>();</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_c_f_g_node.html#af92552f9f6b3e6d2de45315d96c73d5d">isStartNode</a>();</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_c_f_g_node.html#aea9ee4d496ada4a81b69d658448923df">setEndNode</a>();</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_c_f_g_node.html#a3ab53c9e1cf0896ccfbf5a3c19d2cadf">isEndNode</a>();</div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="code" href="struct_c_f_g_node_1_1_while_children.html">   15</a></span>&#160;    <span class="keyword">struct </span><a class="code" href="struct_c_f_g_node_1_1_while_children.html">WhileChildren</a> {</div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="code" href="struct_c_f_g_node_1_1_while_children.html#a1a36726d99a6ce15a928527d23fce4f5">   16</a></span>&#160;        <a class="code" href="class_c_f_g_node.html">CFGNode</a>* <a class="code" href="struct_c_f_g_node_1_1_while_children.html#a1a36726d99a6ce15a928527d23fce4f5">whileIn</a>;</div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="code" href="struct_c_f_g_node_1_1_while_children.html#aa7eacf6afada7bab8a07c677fc5466d5">   17</a></span>&#160;        <a class="code" href="class_c_f_g_node.html">CFGNode</a>* <a class="code" href="struct_c_f_g_node_1_1_while_children.html#aa7eacf6afada7bab8a07c677fc5466d5">whileOut</a>;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    };</div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="code" href="struct_c_f_g_node_1_1_if_children.html">   19</a></span>&#160;    <span class="keyword">struct </span><a class="code" href="struct_c_f_g_node_1_1_if_children.html">IfChildren</a> {</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="code" href="struct_c_f_g_node_1_1_if_children.html#a299931f6c58a86549f5f9e31be196474">   20</a></span>&#160;        <a class="code" href="class_c_f_g_node.html">CFGNode</a>* <a class="code" href="struct_c_f_g_node_1_1_if_children.html#a299931f6c58a86549f5f9e31be196474">ifThen</a>;</div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="code" href="struct_c_f_g_node_1_1_if_children.html#adfda6cca2ffb3e7e6c3e5daeaca52021">   21</a></span>&#160;        <a class="code" href="class_c_f_g_node.html">CFGNode</a>* <a class="code" href="struct_c_f_g_node_1_1_if_children.html#adfda6cca2ffb3e7e6c3e5daeaca52021">ifElse</a>;</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="code" href="struct_c_f_g_node_1_1_if_children.html#a44ae8c2e40f67141a7821b22d9ea2d1c">   22</a></span>&#160;        <a class="code" href="class_c_f_g_node.html">CFGNode</a>* <a class="code" href="struct_c_f_g_node_1_1_if_children.html#a44ae8c2e40f67141a7821b22d9ea2d1c">ifLater</a>;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    };</div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="code" href="union_c_f_g_node_1_1_children.html">   24</a></span>&#160;    <span class="keyword">union </span><a class="code" href="union_c_f_g_node_1_1_children.html">Children</a> {</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="code" href="union_c_f_g_node_1_1_children.html#afc60bae44a853ec41443f1c923860959">   25</a></span>&#160;        <a class="code" href="class_c_f_g_node.html">CFGNode</a>* <a class="code" href="union_c_f_g_node_1_1_children.html#afc60bae44a853ec41443f1c923860959">oneChild</a>;</div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="code" href="union_c_f_g_node_1_1_children.html#a2047e28982d12e37280e67961a3e3522">   26</a></span>&#160;        <a class="code" href="struct_c_f_g_node_1_1_while_children.html">WhileChildren</a> <a class="code" href="union_c_f_g_node_1_1_children.html#a2047e28982d12e37280e67961a3e3522">whileChildren</a>;</div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="code" href="union_c_f_g_node_1_1_children.html#a04f6639b330ef30cfaef30c592e15212">   27</a></span>&#160;        <a class="code" href="struct_c_f_g_node_1_1_if_children.html">IfChildren</a> <a class="code" href="union_c_f_g_node_1_1_children.html#a04f6639b330ef30cfaef30c592e15212">ifChildren</a>;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    };</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_c_f_g_node.html#a20b7acc68b6f1cc793865a761ad05fff">isDummy</a>();</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <a class="code" href="class_c_f_g_node.html#aa0933713506a9c0226e705703ee5b079">NodeType</a> <a class="code" href="class_c_f_g_node.html#adb8c96a8b6c41ab78223b379ae8edd06">getType</a>();</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_c_f_g_node.html#ae3c039c5f6e2c55e50faa63b0941b11e">addNextNode</a>(<a class="code" href="class_c_f_g_node.html">CFGNode</a>* node);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_c_f_g_node.html#ab2c09ac0d4d4700d7cc2bab9a2044c24">addPreviousNode</a>(<a class="code" href="class_c_f_g_node.html">CFGNode</a>* node);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    vector&lt;CFGNode*&gt; <a class="code" href="class_c_f_g_node.html#aa462795f2f35b263c5e6c3f39ab88e21">getPreviousNodes</a>();</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="comment">//vector&lt;CFGNode*&gt; getAllPreviousNodes();</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    vector&lt;CFGNode*&gt; <a class="code" href="class_c_f_g_node.html#aa25f0bc77360bee32f0e4393f7d612a8">getNextNodes</a>();</div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="code" href="class_c_f_g_node.html#a4c29d551dc1b8ac7465ebf4ddd1e3437">   30</a></span>&#160;    <a class="code" href="std_afx_8h.html#aa07ea1d188c7b45668f1bd82ffd6d87e">PROC</a> <a class="code" href="class_c_f_g_node.html#a4c29d551dc1b8ac7465ebf4ddd1e3437">proc</a>;</div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="code" href="class_c_f_g_node.html#aa2ed16b97347a8daa3ae6a7b0022284b">   31</a></span>&#160;    <a class="code" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> <a class="code" href="class_c_f_g_node.html#a916b31fb1fc28e3a708d3c7913970f66">first</a>, <a class="code" href="class_c_f_g_node.html#aa2ed16b97347a8daa3ae6a7b0022284b">last</a>;</div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="code" href="class_c_f_g_node.html#a71c611eee5b784222a2c51b7a7b6d169">   32</a></span>&#160;    <a class="code" href="class_c_f_g_node.html#aa0933713506a9c0226e705703ee5b079">NodeType</a> <a class="code" href="class_c_f_g_node.html#a71c611eee5b784222a2c51b7a7b6d169">type</a>;</div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="code" href="class_c_f_g_node.html#ade810133e14d7229080fae4b61c4c996">   33</a></span>&#160;    <a class="code" href="class_c_f_g_node.html">CFGNode</a>* <a class="code" href="class_c_f_g_node.html#ade810133e14d7229080fae4b61c4c996">whileAncestor</a>;</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="code" href="class_c_f_g_node.html#afd5d0654a254ef7a1c62e47d7ff66f75">   34</a></span>&#160;    <span class="keyword">const</span> <a class="code" href="class_interval_list.html">IntervalList</a> *<a class="code" href="class_c_f_g_node.html#aa6b60346fb038bfd0c1f1b5d10164fcb">nextList</a>, *<a class="code" href="class_c_f_g_node.html#afd5d0654a254ef7a1c62e47d7ff66f75">prevList</a>;</div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="code" href="class_c_f_g_node.html#aa30a2f657ae1827572d1c6a934a60635">   35</a></span>&#160;    unordered_set&lt;VAR&gt; <a class="code" href="class_c_f_g_node.html#a2b140c15b8d43b8af5245731b99d1f2c">modifySet</a>, <a class="code" href="class_c_f_g_node.html#aa30a2f657ae1827572d1c6a934a60635">useSet</a>;</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="code" href="class_c_f_g_node.html#a9c9bf36df87bdf73c6aa507f52efc702">   36</a></span>&#160;    vector&lt;CFGNode*&gt; <a class="code" href="class_c_f_g_node.html#a9c9bf36df87bdf73c6aa507f52efc702">parents</a>;</div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="code" href="class_c_f_g_node.html#a47d7f27cf88007b5663eae31f903f95a">   37</a></span>&#160;    <a class="code" href="union_c_f_g_node_1_1_children.html">Children</a> <a class="code" href="class_c_f_g_node.html#a47d7f27cf88007b5663eae31f903f95a">children</a>;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <a class="code" href="class_c_f_g_node.html#a983d5734f9d9be76b3646e0552227fb3">CFGNode</a>(<a class="code" href="std_afx_8h.html#aa07ea1d188c7b45668f1bd82ffd6d87e">PROC</a> <a class="code" href="class_c_f_g_node.html#a4c29d551dc1b8ac7465ebf4ddd1e3437">proc</a>);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="class_c_f_g_node.html#a983d5734f9d9be76b3646e0552227fb3">CFGNode</a>(<a class="code" href="class_c_f_g_node.html">CFGNode</a>* parent);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;};</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="comment">//vector&lt;CFGNode*&gt; getAllNextNodes();</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="std_afx_8h.html#aa07ea1d188c7b45668f1bd82ffd6d87e">PROC</a> <a class="code" href="class_c_f_g_node.html#a2c9700b808aad05029293f0d1cd13b01">getProcedure</a>();</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    vector&lt;PROG_LINE&gt; <a class="code" href="class_c_f_g_node.html#a00d7decf2f7e7068accae7b2e59f4a7a">getProgramLines</a>();</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_c_f_g_node.html#aa0b5bc3202db67e6834fb82fc7c059cf">isNext</a>(<a class="code" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> p1, <a class="code" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> p2);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <a class="code" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> starting, ending;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="comment">//class CFGNode</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment">//{</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment">//public:</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment">//  typedef enum NodeType { </span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment">//      StandardNode,</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment">//      WhileNode,</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment">//      IfNode,</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment">//      DummyNode</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment">//  };</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    vector&lt;CFGNode*&gt; nextNodes, prevNodes;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <a class="code" href="std_afx_8h.html#aa07ea1d188c7b45668f1bd82ffd6d87e">PROC</a> belongingTo;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <a class="code" href="class_c_f_g_node.html#aa0933713506a9c0226e705703ee5b079">NodeType</a> type;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">bool</span> isStart, isEnd;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_c_f_g_node.html#aa0b5bc3202db67e6834fb82fc7c059cf">isNext</a>(<a class="code" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> p1, <a class="code" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> p2, <a class="code" href="class_c_f_g_node.html">CFGNode</a>* nextNode);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;};</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment">//  CFGNode(NodeType, PROG_LINE start, PROG_LINE end, PROC p);</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment">//  //link node1-&gt;node2 in the cfg</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment">//  void setLink(CFGNode* node);</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment">//  void setEndProgramLine(PROG_LINE p);</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment">//  void setStartNode();</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="comment">//  bool isStartNode();</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment">//  void setEndNode();</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment">//  bool isEndNode();</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="comment">//  bool isDummy();</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="comment">//  NodeType getType();</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="comment">//  void addNextNode(CFGNode* node);</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment">//  void addPreviousNode(CFGNode* node);</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="comment">//  vector&lt;CFGNode*&gt; getPreviousNodes();</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="comment">//  vector&lt;CFGNode*&gt; getNextNodes();</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="comment">//  PROC getProcedure();</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="comment">//  vector&lt;PROG_LINE&gt; getProgramLines();</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="comment">//  PROG_LINE getStartLine();</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="comment">//  PROG_LINE getEndLine();</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="comment">//  bool isProgLineBelongto(PROG_LINE);</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="comment">//private:</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="comment">//  PROG_LINE starting, ending;</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="comment">//  vector&lt;CFGNode*&gt; nextNodes, prevNodes;</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="comment">//  PROC belongingTo;</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="comment">//  NodeType type;</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="comment">//  bool isStart, isEnd;</span></div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="comment">//};</span></div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_28240f1e82be414ac37674cd3ff4adc3.html">$P@</a></li><li class="navelem"><a class="el" href="dir_f0a66c18035a04f3accc68e6ea4db1f5.html">SPA</a></li><li class="navelem"><a class="el" href="dir_9072de41565413c7baeba4ab62bcf7d0.html">SPA</a></li><li class="navelem"><a class="el" href="_c_f_g_node_8h.html">CFGNode.h</a></li>
-    <li class="footer">Generated on Mon Feb 4 2013 01:48:09 for SPA by
+    <li class="footer">Generated on Mon Mar 4 2013 00:45:45 for SPA by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3.1 </li>
   </ul>

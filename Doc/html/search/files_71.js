@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['queryoptimiser_2ecpp',['QueryOptimiser.cpp',['../_query_optimiser_8cpp.html',1,'']]],
-  ['queryoptimiser_2eh',['QueryOptimiser.h',['../_query_optimiser_8h.html',1,'']]]
+  ['querypreprocessor_2ecpp',['QueryPreprocessor.cpp',['../_query_preprocessor_8cpp.html',1,'']]],
+  ['querypreprocessor_2eh',['QueryPreprocessor.h',['../_query_preprocessor_8h.html',1,'']]]
 ];

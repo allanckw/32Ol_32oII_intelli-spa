@@ -1,0 +1,214 @@
+\hypertarget{class_stmt_ref}{\section{Stmt\-Ref Class Reference}
+\label{class_stmt_ref}\index{Stmt\-Ref@{Stmt\-Ref}}
+}
+
+
+{\ttfamily \#include $<$Stmt\-Ref.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_stmt_ref_a5c8f1630c01f8e8ebfac88364cfb9fd7}{Stmt\-Ref} (\hyperlink{std_afx_8h_abcc2d0120d16c2587a85b314010f6399}{P\-R\-O\-G\-\_\-\-L\-I\-N\-E}, \hyperlink{std_afx_8h_a4a876b28ac3f59cecb39c2d2d76e4e7a}{S\-T\-M\-T})
+\item 
+\hyperlink{class_stmt_ref_a3ec4e5f8a9568d342ee1e3d4dc98c879}{Stmt\-Ref} (\hyperlink{std_afx_8h_abcc2d0120d16c2587a85b314010f6399}{P\-R\-O\-G\-\_\-\-L\-I\-N\-E}, \hyperlink{std_afx_8h_a4a876b28ac3f59cecb39c2d2d76e4e7a}{S\-T\-M\-T}, \hyperlink{class_a_s_t_stmt_node}{A\-S\-T\-Stmt\-Node} $\ast$)
+\item 
+\hyperlink{class_stmt_ref_a41b557a1e39526e6a26d352960193bdb}{Stmt\-Ref} (\hyperlink{std_afx_8h_abcc2d0120d16c2587a85b314010f6399}{P\-R\-O\-G\-\_\-\-L\-I\-N\-E}, \hyperlink{std_afx_8h_a4a876b28ac3f59cecb39c2d2d76e4e7a}{S\-T\-M\-T}, \hyperlink{class_a_s_t_stmt_node}{A\-S\-T\-Stmt\-Node} $\ast$, \hyperlink{class_c_f_g_node}{C\-F\-G\-Node} $\ast$)
+\item 
+void \hyperlink{class_stmt_ref_a253c944e7df29b33029081518708366d}{set\-A\-S\-T\-Stmt\-Node} (\hyperlink{class_a_s_t_stmt_node}{A\-S\-T\-Stmt\-Node} $\ast$)
+\item 
+void \hyperlink{class_stmt_ref_a793f7e7b6509f12584ddb5b0da80164a}{set\-C\-F\-G\-Node} (\hyperlink{class_c_f_g_node}{C\-F\-G\-Node} $\ast$)
+\item 
+\hyperlink{class_a_s_t_stmt_node}{A\-S\-T\-Stmt\-Node} $\ast$ \hyperlink{class_stmt_ref_aeb7d899a7e16a9bbdab4646a41608a80}{get\-A\-S\-T\-Stmt\-Node} ()
+\item 
+\hyperlink{class_c_f_g_node}{C\-F\-G\-Node} $\ast$ \hyperlink{class_stmt_ref_a7e8f61d8698e2e9a3446cef18bb0f5b1}{get\-C\-F\-G\-Node} ()
+\item 
+\hyperlink{std_afx_8h_abcc2d0120d16c2587a85b314010f6399}{P\-R\-O\-G\-\_\-\-L\-I\-N\-E} \hyperlink{class_stmt_ref_a1140e78dc946d46aee78913817f82d3c}{get\-Prog\-Line} ()
+\item 
+\hyperlink{std_afx_8h_a4a876b28ac3f59cecb39c2d2d76e4e7a}{S\-T\-M\-T} \hyperlink{class_stmt_ref_a576675b7e0acb02f8047601045bb4831}{get\-Stmt\-No} ()
+\item 
+bool \hyperlink{class_stmt_ref_af8748c9c800ac1675b58033f330be992}{operator$<$} (const \hyperlink{class_stmt_ref}{Stmt\-Ref} \&val) const 
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 6 of file Stmt\-Ref.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_stmt_ref_a5c8f1630c01f8e8ebfac88364cfb9fd7}{\index{Stmt\-Ref@{Stmt\-Ref}!Stmt\-Ref@{Stmt\-Ref}}
+\index{Stmt\-Ref@{Stmt\-Ref}!StmtRef@{Stmt\-Ref}}
+\subsubsection[{Stmt\-Ref}]{\setlength{\rightskip}{0pt plus 5cm}Stmt\-Ref\-::\-Stmt\-Ref (
+\begin{DoxyParamCaption}
+\item[{{\bf P\-R\-O\-G\-\_\-\-L\-I\-N\-E}}]{p, }
+\item[{{\bf S\-T\-M\-T}}]{s}
+\end{DoxyParamCaption}
+)}}\label{class_stmt_ref_a5c8f1630c01f8e8ebfac88364cfb9fd7}
+This method will be used as a constructor to create a statement reference 
+\begin{DoxyParams}{Parameters}
+{\em p} & the program line \\
+\hline
+{\em s} & the statement no. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 8 of file Stmt\-Ref.\-cpp.
+
+\hypertarget{class_stmt_ref_a3ec4e5f8a9568d342ee1e3d4dc98c879}{\index{Stmt\-Ref@{Stmt\-Ref}!Stmt\-Ref@{Stmt\-Ref}}
+\index{Stmt\-Ref@{Stmt\-Ref}!StmtRef@{Stmt\-Ref}}
+\subsubsection[{Stmt\-Ref}]{\setlength{\rightskip}{0pt plus 5cm}Stmt\-Ref\-::\-Stmt\-Ref (
+\begin{DoxyParamCaption}
+\item[{{\bf P\-R\-O\-G\-\_\-\-L\-I\-N\-E}}]{p, }
+\item[{{\bf S\-T\-M\-T}}]{s, }
+\item[{{\bf A\-S\-T\-Stmt\-Node} $\ast$}]{a}
+\end{DoxyParamCaption}
+)}}\label{class_stmt_ref_a3ec4e5f8a9568d342ee1e3d4dc98c879}
+This method will be used as a constructor to create a statement reference 
+\begin{DoxyParams}{Parameters}
+{\em p} & the program line \\
+\hline
+{\em s} & the statement no. \\
+\hline
+{\em a} & the \hyperlink{class_a_s_t_stmt_node}{A\-S\-T\-Stmt\-Node} \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 36 of file Stmt\-Ref.\-cpp.
+
+\hypertarget{class_stmt_ref_a41b557a1e39526e6a26d352960193bdb}{\index{Stmt\-Ref@{Stmt\-Ref}!Stmt\-Ref@{Stmt\-Ref}}
+\index{Stmt\-Ref@{Stmt\-Ref}!StmtRef@{Stmt\-Ref}}
+\subsubsection[{Stmt\-Ref}]{\setlength{\rightskip}{0pt plus 5cm}Stmt\-Ref\-::\-Stmt\-Ref (
+\begin{DoxyParamCaption}
+\item[{{\bf P\-R\-O\-G\-\_\-\-L\-I\-N\-E}}]{p, }
+\item[{{\bf S\-T\-M\-T}}]{s, }
+\item[{{\bf A\-S\-T\-Stmt\-Node} $\ast$}]{a, }
+\item[{{\bf C\-F\-G\-Node} $\ast$}]{c}
+\end{DoxyParamCaption}
+)}}\label{class_stmt_ref_a41b557a1e39526e6a26d352960193bdb}
+This method will be used as a constructor to create a statement reference 
+\begin{DoxyParams}{Parameters}
+{\em p} & the program line \\
+\hline
+{\em s} & the statement no. \\
+\hline
+{\em a} & the \hyperlink{class_a_s_t_stmt_node}{A\-S\-T\-Stmt\-Node} \\
+\hline
+{\em c} & the \hyperlink{class_c_f_g_node}{C\-F\-G\-Node} \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 21 of file Stmt\-Ref.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_stmt_ref_aeb7d899a7e16a9bbdab4646a41608a80}{\index{Stmt\-Ref@{Stmt\-Ref}!get\-A\-S\-T\-Stmt\-Node@{get\-A\-S\-T\-Stmt\-Node}}
+\index{get\-A\-S\-T\-Stmt\-Node@{get\-A\-S\-T\-Stmt\-Node}!StmtRef@{Stmt\-Ref}}
+\subsubsection[{get\-A\-S\-T\-Stmt\-Node}]{\setlength{\rightskip}{0pt plus 5cm}{\bf A\-S\-T\-Stmt\-Node} $\ast$ Stmt\-Ref\-::get\-A\-S\-T\-Stmt\-Node (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_stmt_ref_aeb7d899a7e16a9bbdab4646a41608a80}
+This method will return the \hyperlink{class_a_s_t_stmt_node}{A\-S\-T\-Stmt\-Node} of the statement reference \begin{DoxyReturn}{Returns}
+the \hyperlink{class_a_s_t_stmt_node}{A\-S\-T\-Stmt\-Node} 
+\end{DoxyReturn}
+
+
+Definition at line 72 of file Stmt\-Ref.\-cpp.
+
+\hypertarget{class_stmt_ref_a7e8f61d8698e2e9a3446cef18bb0f5b1}{\index{Stmt\-Ref@{Stmt\-Ref}!get\-C\-F\-G\-Node@{get\-C\-F\-G\-Node}}
+\index{get\-C\-F\-G\-Node@{get\-C\-F\-G\-Node}!StmtRef@{Stmt\-Ref}}
+\subsubsection[{get\-C\-F\-G\-Node}]{\setlength{\rightskip}{0pt plus 5cm}{\bf C\-F\-G\-Node} $\ast$ Stmt\-Ref\-::get\-C\-F\-G\-Node (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_stmt_ref_a7e8f61d8698e2e9a3446cef18bb0f5b1}
+This method will return the \hyperlink{class_c_f_g_node}{C\-F\-G\-Node} of the statement reference \begin{DoxyReturn}{Returns}
+the \hyperlink{class_c_f_g_node}{C\-F\-G\-Node} 
+\end{DoxyReturn}
+
+
+Definition at line 81 of file Stmt\-Ref.\-cpp.
+
+\hypertarget{class_stmt_ref_a1140e78dc946d46aee78913817f82d3c}{\index{Stmt\-Ref@{Stmt\-Ref}!get\-Prog\-Line@{get\-Prog\-Line}}
+\index{get\-Prog\-Line@{get\-Prog\-Line}!StmtRef@{Stmt\-Ref}}
+\subsubsection[{get\-Prog\-Line}]{\setlength{\rightskip}{0pt plus 5cm}{\bf P\-R\-O\-G\-\_\-\-L\-I\-N\-E} Stmt\-Ref\-::get\-Prog\-Line (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_stmt_ref_a1140e78dc946d46aee78913817f82d3c}
+This method will return the program line of the statement reference \begin{DoxyReturn}{Returns}
+the program line 
+\end{DoxyReturn}
+
+
+Definition at line 90 of file Stmt\-Ref.\-cpp.
+
+\hypertarget{class_stmt_ref_a576675b7e0acb02f8047601045bb4831}{\index{Stmt\-Ref@{Stmt\-Ref}!get\-Stmt\-No@{get\-Stmt\-No}}
+\index{get\-Stmt\-No@{get\-Stmt\-No}!StmtRef@{Stmt\-Ref}}
+\subsubsection[{get\-Stmt\-No}]{\setlength{\rightskip}{0pt plus 5cm}{\bf S\-T\-M\-T} Stmt\-Ref\-::get\-Stmt\-No (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_stmt_ref_a576675b7e0acb02f8047601045bb4831}
+This method will return the statement number of the statement reference \begin{DoxyReturn}{Returns}
+the statement number 
+\end{DoxyReturn}
+
+
+Definition at line 99 of file Stmt\-Ref.\-cpp.
+
+\hypertarget{class_stmt_ref_af8748c9c800ac1675b58033f330be992}{\index{Stmt\-Ref@{Stmt\-Ref}!operator$<$@{operator$<$}}
+\index{operator$<$@{operator$<$}!StmtRef@{Stmt\-Ref}}
+\subsubsection[{operator$<$}]{\setlength{\rightskip}{0pt plus 5cm}bool Stmt\-Ref\-::operator$<$ (
+\begin{DoxyParamCaption}
+\item[{const {\bf Stmt\-Ref} \&}]{val}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_stmt_ref_af8748c9c800ac1675b58033f330be992}
+
+
+Definition at line 34 of file Stmt\-Ref.\-h.
+
+\hypertarget{class_stmt_ref_a253c944e7df29b33029081518708366d}{\index{Stmt\-Ref@{Stmt\-Ref}!set\-A\-S\-T\-Stmt\-Node@{set\-A\-S\-T\-Stmt\-Node}}
+\index{set\-A\-S\-T\-Stmt\-Node@{set\-A\-S\-T\-Stmt\-Node}!StmtRef@{Stmt\-Ref}}
+\subsubsection[{set\-A\-S\-T\-Stmt\-Node}]{\setlength{\rightskip}{0pt plus 5cm}void Stmt\-Ref\-::set\-A\-S\-T\-Stmt\-Node (
+\begin{DoxyParamCaption}
+\item[{{\bf A\-S\-T\-Stmt\-Node} $\ast$}]{a}
+\end{DoxyParamCaption}
+)}}\label{class_stmt_ref_a253c944e7df29b33029081518708366d}
+This method will be set the \hyperlink{class_a_s_t_stmt_node}{A\-S\-T\-Stmt\-Node} of the statement reference 
+\begin{DoxyParams}{Parameters}
+{\em a} & the \hyperlink{class_a_s_t_stmt_node}{A\-S\-T\-Stmt\-Node} \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 47 of file Stmt\-Ref.\-cpp.
+
+\hypertarget{class_stmt_ref_a793f7e7b6509f12584ddb5b0da80164a}{\index{Stmt\-Ref@{Stmt\-Ref}!set\-C\-F\-G\-Node@{set\-C\-F\-G\-Node}}
+\index{set\-C\-F\-G\-Node@{set\-C\-F\-G\-Node}!StmtRef@{Stmt\-Ref}}
+\subsubsection[{set\-C\-F\-G\-Node}]{\setlength{\rightskip}{0pt plus 5cm}void Stmt\-Ref\-::set\-C\-F\-G\-Node (
+\begin{DoxyParamCaption}
+\item[{{\bf C\-F\-G\-Node} $\ast$}]{c}
+\end{DoxyParamCaption}
+)}}\label{class_stmt_ref_a793f7e7b6509f12584ddb5b0da80164a}
+This method will be set the \hyperlink{class_c_f_g_node}{C\-F\-G\-Node} of the statement reference 
+\begin{DoxyParams}{Parameters}
+{\em c} & the \hyperlink{class_c_f_g_node}{C\-F\-G\-Node} \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 62 of file Stmt\-Ref.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+\$\-P@/\-S\-P\-A/\-S\-P\-A/\hyperlink{_stmt_ref_8h}{Stmt\-Ref.\-h}\item 
+\$\-P@/\-S\-P\-A/\-S\-P\-A/\hyperlink{_stmt_ref_8cpp}{Stmt\-Ref.\-cpp}\end{DoxyCompactItemize}

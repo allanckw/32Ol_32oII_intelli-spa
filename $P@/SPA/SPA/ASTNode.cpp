@@ -12,7 +12,7 @@ ASTNode::ASTNode()
 /**
 * Constructor for the ASTNode, with type being initialized, type must be of type procedure or program
 * otherwise an exception will be thrown as other Node Types uses inherited version of ASTNodes
-* @Param type The node type of the ASTNode
+* @param type The node type of the ASTNode
 */
 ASTNode::ASTNode(NodeType type)
 {
@@ -29,8 +29,8 @@ ASTNode::ASTNode(NodeType type)
 
 /**
 * Constructor for the ASTNode, with type and procedure being initialized, used to create ASTNodes for procedures
-* @Param type	The node type of the ASTNode - Procedure only, otherwise an exception will be thrown 
-* @Param p	the procedure of the ASTNode
+* @param type	The node type of the ASTNode - Procedure only, otherwise an exception will be thrown 
+* @param p	the procedure of the ASTNode
 */
 ASTNode::ASTNode(NodeType type, PROC p)
 {
@@ -48,8 +48,8 @@ ASTNode::ASTNode(NodeType type, PROC p)
 
 /**
 * Returns the value of the ASTNode
-* @Param type	The node type of the ASTNode
-* @Param p	the procedure of the ASTNode
+* @param type	The node type of the ASTNode
+* @param p	the procedure of the ASTNode
 */
 int ASTNode::getValue() const
 {
@@ -58,8 +58,8 @@ int ASTNode::getValue() const
 
 /**
 * Set parent to the node and return its reference
-* @Param p	the parent node to set
-* @Return its reference
+* @param p	the parent node to set
+* @return its reference
 */
 ASTNode* ASTNode::setParent(ASTNode * p)
 {
@@ -75,8 +75,8 @@ ASTNode* ASTNode::setParent(ASTNode * p)
 
 /**
 * Add a child node to the ASTNode, 
-* @Param c the child node to add, Type of child must be procedure when adding to a ProgramNode and type of child must be of type stmtLst when adding to a procedure node
-* @Return its reference
+* @param c the child node to add, Type of child must be procedure when adding to a ProgramNode and type of child must be of type stmtLst when adding to a procedure node
+* @return its reference
 */
 ASTNode* ASTNode::addChild(ASTNode* c)
 {
@@ -115,7 +115,7 @@ ASTNode* ASTNode::addChild(ASTNode* c)
 
 /**
 * Set the root of an ASTNode, the NodeType must be of type program or an exception will be thrown
-* @Param p the first procedure index that will denote the value of the the root node
+* @param p the first procedure index that will denote the value of the the root node
 */
 void ASTNode::setRoot(PROC p)
 {
@@ -129,7 +129,7 @@ void ASTNode::setRoot(PROC p)
 
 /**
 * Check if the ASTNode is the root
-* @Return return true if it is the root, false otherwise
+* @return return true if it is the root, false otherwise
 */
 bool ASTNode::isRoot()
 {
@@ -138,7 +138,7 @@ bool ASTNode::isRoot()
 
 /**
 * Check if the ASTNode has children
-* @Return return true if it has children, false otherwise
+* @return return true if it has children, false otherwise
 */
 bool ASTNode::isHasChildren()
 {
@@ -148,7 +148,7 @@ bool ASTNode::isHasChildren()
 
 /**
 * Get the Node type of the ASTNode
-* @Return the node type
+* @return the node type
 */
 ASTNode::NodeType ASTNode::getType() const
 {
@@ -157,8 +157,8 @@ ASTNode::NodeType ASTNode::getType() const
 
 /**
 * Get the child ASTNode at a specific index
-* @Param the index of the child node, starts from 0, 0 denotes left most child
-* @Return the child ASTNode  
+* @param the index of the child node, starts from 0, 0 denotes left most child
+* @return the child ASTNode  
 */
 ASTNode* ASTNode::getChild(unsigned int i) const
 {
@@ -171,7 +171,7 @@ ASTNode* ASTNode::getChild(unsigned int i) const
 
 /**
 * Get the parent ASTNode 
-* @Return the parent ASTNode  
+* @return the parent ASTNode  
 */
 ASTNode* ASTNode::getParent()
 {

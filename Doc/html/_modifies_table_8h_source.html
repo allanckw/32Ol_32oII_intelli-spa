@@ -112,42 +112,46 @@ $(document).ready(function(){initNavTree('_modifies_table_8h_source.html','');})
 <div class="line"><a name="l00004"></a><span class="lineno"><a class="code" href="class_modifies_table.html">    4</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_modifies_table.html">ModifiesTable</a></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;{</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    unordered_map&lt;STMT, set&lt;VAR&gt;&gt; originalModifiedByStmt;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    unordered_map&lt;PROC, set&lt;VAR&gt;&gt; originalModifiedByProc;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    unordered_map&lt;VAR, set&lt;STMT&gt;&gt; originalModifiesStmt;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    unordered_map&lt;VAR, set&lt;PROC&gt;&gt; originalModifiesProc;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    unordered_map&lt;STMT, PROC&gt; callLinksModifies;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    unordered_map&lt;STMT, vector&lt;VAR&gt;&gt; optimizedModifiedByStmt;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    unordered_map&lt;PROC, vector&lt;VAR&gt;&gt; optimizedModifiedByProc;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    unordered_map&lt;VAR, vector&lt;STMT&gt;&gt; optimizedModifiesStmt;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    unordered_map&lt;VAR, vector&lt;PROC&gt;&gt; optimizedModifiesProc;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <a class="code" href="class_modifies_table.html#a2dea8d4e7a270929f4377c67373fca37">ModifiesTable</a>();</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_modifies_table.html#a3e91bef9a2c4013c88d228a525a33cdc">insertStmtModifies</a>(<a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a>, <a class="code" href="std_afx_8h.html#a3112e3faf0465bb5d85272a347b7f2f1">VAR</a>);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_modifies_table.html#a7778040a756972c67fde562a11ff60cd">insertProcModifies</a>(<a class="code" href="std_afx_8h.html#aa07ea1d188c7b45668f1bd82ffd6d87e">PROC</a>, <a class="code" href="std_afx_8h.html#a3112e3faf0465bb5d85272a347b7f2f1">VAR</a>);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    vector&lt;VAR&gt; <a class="code" href="class_modifies_table.html#ac22b398e6014719c45a3e7cdb64a9e7d">getModifiedByStmt</a>(<a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a>);</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    vector&lt;VAR&gt; <a class="code" href="class_modifies_table.html#a9165ee107f7534642ad8c3d896a53f8f">getModifiedByProc</a>(<a class="code" href="std_afx_8h.html#aa07ea1d188c7b45668f1bd82ffd6d87e">PROC</a>);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    vector&lt;STMT&gt; <a class="code" href="class_modifies_table.html#a7409a0061105a3b15e37304716f9fea0">getModifiesStmt</a>(<a class="code" href="std_afx_8h.html#a3112e3faf0465bb5d85272a347b7f2f1">VAR</a>);</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    vector&lt;PROC&gt; <a class="code" href="class_modifies_table.html#ac008bce49680e1faf50112f70e955e61">getModifiesProc</a>(<a class="code" href="std_afx_8h.html#a3112e3faf0465bb5d85272a347b7f2f1">VAR</a>);</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_modifies_table.html#ada8e10f591ad8b0eac97fac0590d8258">isModifiedStmt</a>(<a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a>, <a class="code" href="std_afx_8h.html#a3112e3faf0465bb5d85272a347b7f2f1">VAR</a>);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_modifies_table.html#a718a3b7236dc726cc77d7c2e2a9d0e0c">isModifiedProc</a>(<a class="code" href="std_afx_8h.html#aa07ea1d188c7b45668f1bd82ffd6d87e">PROC</a>, <a class="code" href="std_afx_8h.html#a3112e3faf0465bb5d85272a347b7f2f1">VAR</a>);</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_modifies_table.html#af8abc48c5108dd52ebb9347ec666d32a">isEmpty</a>();</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    </div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_modifies_table.html#a6100167fc40b57e2b6601fea3a250749">linkCallStmtToProcModifies</a>(<a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a>, <a class="code" href="std_afx_8h.html#aa07ea1d188c7b45668f1bd82ffd6d87e">PROC</a>);</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_modifies_table.html#aa4b0ed2a7410b71283cf777adb13736f">optimizeModifiesTable</a>();</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="comment">//Functions for testing purposes</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_modifies_table.html#a6c3019c8072065c9a13531e9f81b7dbb">displayModifiesTables</a>();</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;};</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    unordered_map&lt;STMT, set&lt;VAR&gt;&gt; originalModifiedByStmt;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    unordered_map&lt;PROC, set&lt;VAR&gt;&gt; originalModifiedByProc;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    unordered_map&lt;VAR, set&lt;STMT&gt;&gt; originalModifiesStmt;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    unordered_map&lt;VAR, set&lt;PROC&gt;&gt; originalModifiesProc;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    unordered_map&lt;STMT, PROC&gt; callLinksModifies;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    unordered_map&lt;STMT, vector&lt;VAR&gt;&gt; optimizedModifiedByStmt;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    unordered_map&lt;PROC, vector&lt;VAR&gt;&gt; optimizedModifiedByProc;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    unordered_map&lt;VAR, vector&lt;STMT&gt;&gt; optimizedModifiesStmt;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    unordered_map&lt;VAR, vector&lt;PROC&gt;&gt; optimizedModifiesProc;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <a class="code" href="class_modifies_table.html#a2dea8d4e7a270929f4377c67373fca37">ModifiesTable</a>();</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_modifies_table.html#a3e91bef9a2c4013c88d228a525a33cdc">insertStmtModifies</a>(<a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a>, <a class="code" href="std_afx_8h.html#a3112e3faf0465bb5d85272a347b7f2f1">VAR</a>);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_modifies_table.html#a7778040a756972c67fde562a11ff60cd">insertProcModifies</a>(<a class="code" href="std_afx_8h.html#aa07ea1d188c7b45668f1bd82ffd6d87e">PROC</a>, <a class="code" href="std_afx_8h.html#a3112e3faf0465bb5d85272a347b7f2f1">VAR</a>);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    vector&lt;VAR&gt; <a class="code" href="class_modifies_table.html#ac22b398e6014719c45a3e7cdb64a9e7d">getModifiedByStmt</a>(<a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a>);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    vector&lt;VAR&gt; <a class="code" href="class_modifies_table.html#a9165ee107f7534642ad8c3d896a53f8f">getModifiedByProc</a>(<a class="code" href="std_afx_8h.html#aa07ea1d188c7b45668f1bd82ffd6d87e">PROC</a>);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    vector&lt;STMT&gt; <a class="code" href="class_modifies_table.html#a7409a0061105a3b15e37304716f9fea0">getModifiesStmt</a>(<a class="code" href="std_afx_8h.html#a3112e3faf0465bb5d85272a347b7f2f1">VAR</a>);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    vector&lt;PROC&gt; <a class="code" href="class_modifies_table.html#ac008bce49680e1faf50112f70e955e61">getModifiesProc</a>(<a class="code" href="std_afx_8h.html#a3112e3faf0465bb5d85272a347b7f2f1">VAR</a>);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_modifies_table.html#ada8e10f591ad8b0eac97fac0590d8258">isModifiedStmt</a>(<a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a>, <a class="code" href="std_afx_8h.html#a3112e3faf0465bb5d85272a347b7f2f1">VAR</a>);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_modifies_table.html#a718a3b7236dc726cc77d7c2e2a9d0e0c">isModifiedProc</a>(<a class="code" href="std_afx_8h.html#aa07ea1d188c7b45668f1bd82ffd6d87e">PROC</a>, <a class="code" href="std_afx_8h.html#a3112e3faf0465bb5d85272a347b7f2f1">VAR</a>);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_modifies_table.html#af8abc48c5108dd52ebb9347ec666d32a">isEmpty</a>();</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    </div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_modifies_table.html#a6100167fc40b57e2b6601fea3a250749">linkCallStmtToProcModifies</a>(<a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a>, <a class="code" href="std_afx_8h.html#aa07ea1d188c7b45668f1bd82ffd6d87e">PROC</a>);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_modifies_table.html#aa4b0ed2a7410b71283cf777adb13736f">optimizeModifiesTable</a>();</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="comment">//Functions for testing purposes</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_modifies_table.html#a6c3019c8072065c9a13531e9f81b7dbb">displayModifiesTables</a>();</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="class_modifies_table.html#aa5a7467d1632f8f487960709a2f328fe">getModProcSize</a>();</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="class_modifies_table.html#acb6e37b6ebf85849e05967fdde73b37f">getModStmtSize</a>();</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;};</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_28240f1e82be414ac37674cd3ff4adc3.html">$P@</a></li><li class="navelem"><a class="el" href="dir_f0a66c18035a04f3accc68e6ea4db1f5.html">SPA</a></li><li class="navelem"><a class="el" href="dir_9072de41565413c7baeba4ab62bcf7d0.html">SPA</a></li><li class="navelem"><a class="el" href="_modifies_table_8h.html">ModifiesTable.h</a></li>
-    <li class="footer">Generated on Mon Feb 4 2013 01:48:09 for SPA by
+    <li class="footer">Generated on Mon Mar 4 2013 00:45:45 for SPA by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3.1 </li>
   </ul>

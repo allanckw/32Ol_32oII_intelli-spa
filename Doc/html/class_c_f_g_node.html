@@ -105,8 +105,10 @@ $(document).ready(function(){initNavTree('class_c_f_g_node.html','');});
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="class_c_f_g_node-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">CFGNode Class Reference</div>  </div>
@@ -115,6 +117,15 @@ $(document).ready(function(){initNavTree('class_c_f_g_node.html','');});
 
 <p><code>#include &lt;<a class="el" href="_c_f_g_node_8h_source.html">CFGNode.h</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="union_c_f_g_node_1_1_children.html">Children</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_c_f_g_node_1_1_if_children.html">IfChildren</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_c_f_g_node_1_1_while_children.html">WhileChildren</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
 <tr class="memitem:aa0933713506a9c0226e705703ee5b079"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_f_g_node.html#aa0933713506a9c0226e705703ee5b079">NodeType</a> { <a class="el" href="class_c_f_g_node.html#aa0933713506a9c0226e705703ee5b079aa2e8603898955894b9dee1c4357f7438">StandardNode</a>, 
@@ -126,38 +137,35 @@ Public Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:addba1ddd8abe5f584389e05926251eaa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_f_g_node.html#addba1ddd8abe5f584389e05926251eaa">CFGNode</a> (<a class="el" href="class_c_f_g_node.html#aa0933713506a9c0226e705703ee5b079">NodeType</a>, <a class="el" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> start, <a class="el" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> end, <a class="el" href="std_afx_8h.html#aa07ea1d188c7b45668f1bd82ffd6d87e">PROC</a> p)</td></tr>
-<tr class="separator:addba1ddd8abe5f584389e05926251eaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa1031de36b07269df1fe0adcf5557b90"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_f_g_node.html#aa1031de36b07269df1fe0adcf5557b90">setLink</a> (<a class="el" href="class_c_f_g_node.html">CFGNode</a> *node)</td></tr>
-<tr class="separator:aa1031de36b07269df1fe0adcf5557b90"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a247dcbf53b30ba6a38d945d0f0f81a3c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_f_g_node.html#a247dcbf53b30ba6a38d945d0f0f81a3c">setEndProgramLine</a> (<a class="el" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> p)</td></tr>
-<tr class="separator:a247dcbf53b30ba6a38d945d0f0f81a3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a846539f346c2569c94c9a5057eee6bd9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_f_g_node.html#a846539f346c2569c94c9a5057eee6bd9">setStartNode</a> ()</td></tr>
-<tr class="separator:a846539f346c2569c94c9a5057eee6bd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af92552f9f6b3e6d2de45315d96c73d5d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_f_g_node.html#af92552f9f6b3e6d2de45315d96c73d5d">isStartNode</a> ()</td></tr>
-<tr class="separator:af92552f9f6b3e6d2de45315d96c73d5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aea9ee4d496ada4a81b69d658448923df"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_f_g_node.html#aea9ee4d496ada4a81b69d658448923df">setEndNode</a> ()</td></tr>
-<tr class="separator:aea9ee4d496ada4a81b69d658448923df"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ab53c9e1cf0896ccfbf5a3c19d2cadf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_f_g_node.html#a3ab53c9e1cf0896ccfbf5a3c19d2cadf">isEndNode</a> ()</td></tr>
-<tr class="separator:a3ab53c9e1cf0896ccfbf5a3c19d2cadf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a20b7acc68b6f1cc793865a761ad05fff"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_f_g_node.html#a20b7acc68b6f1cc793865a761ad05fff">isDummy</a> ()</td></tr>
-<tr class="separator:a20b7acc68b6f1cc793865a761ad05fff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adb8c96a8b6c41ab78223b379ae8edd06"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_c_f_g_node.html#aa0933713506a9c0226e705703ee5b079">NodeType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_f_g_node.html#adb8c96a8b6c41ab78223b379ae8edd06">getType</a> ()</td></tr>
-<tr class="separator:adb8c96a8b6c41ab78223b379ae8edd06"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae3c039c5f6e2c55e50faa63b0941b11e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_f_g_node.html#ae3c039c5f6e2c55e50faa63b0941b11e">addNextNode</a> (<a class="el" href="class_c_f_g_node.html">CFGNode</a> *node)</td></tr>
-<tr class="separator:ae3c039c5f6e2c55e50faa63b0941b11e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab2c09ac0d4d4700d7cc2bab9a2044c24"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_f_g_node.html#ab2c09ac0d4d4700d7cc2bab9a2044c24">addPreviousNode</a> (<a class="el" href="class_c_f_g_node.html">CFGNode</a> *node)</td></tr>
-<tr class="separator:ab2c09ac0d4d4700d7cc2bab9a2044c24"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa462795f2f35b263c5e6c3f39ab88e21"><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="class_c_f_g_node.html">CFGNode</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_f_g_node.html#aa462795f2f35b263c5e6c3f39ab88e21">getPreviousNodes</a> ()</td></tr>
-<tr class="separator:aa462795f2f35b263c5e6c3f39ab88e21"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa25f0bc77360bee32f0e4393f7d612a8"><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="class_c_f_g_node.html">CFGNode</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_f_g_node.html#aa25f0bc77360bee32f0e4393f7d612a8">getNextNodes</a> ()</td></tr>
-<tr class="separator:aa25f0bc77360bee32f0e4393f7d612a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2c9700b808aad05029293f0d1cd13b01"><td class="memItemLeft" align="right" valign="top"><a class="el" href="std_afx_8h.html#aa07ea1d188c7b45668f1bd82ffd6d87e">PROC</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_f_g_node.html#a2c9700b808aad05029293f0d1cd13b01">getProcedure</a> ()</td></tr>
-<tr class="separator:a2c9700b808aad05029293f0d1cd13b01"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a00d7decf2f7e7068accae7b2e59f4a7a"><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_f_g_node.html#a00d7decf2f7e7068accae7b2e59f4a7a">getProgramLines</a> ()</td></tr>
-<tr class="separator:a00d7decf2f7e7068accae7b2e59f4a7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa0b5bc3202db67e6834fb82fc7c059cf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_f_g_node.html#aa0b5bc3202db67e6834fb82fc7c059cf">isNext</a> (<a class="el" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> p1, <a class="el" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> p2)</td></tr>
-<tr class="separator:aa0b5bc3202db67e6834fb82fc7c059cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a983d5734f9d9be76b3646e0552227fb3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_f_g_node.html#a983d5734f9d9be76b3646e0552227fb3">CFGNode</a> (<a class="el" href="std_afx_8h.html#aa07ea1d188c7b45668f1bd82ffd6d87e">PROC</a> <a class="el" href="class_c_f_g_node.html#a4c29d551dc1b8ac7465ebf4ddd1e3437">proc</a>)</td></tr>
+<tr class="separator:a983d5734f9d9be76b3646e0552227fb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6ffc17945277e377f8c8a14e140a641"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_f_g_node.html#ae6ffc17945277e377f8c8a14e140a641">CFGNode</a> (<a class="el" href="class_c_f_g_node.html">CFGNode</a> *parent)</td></tr>
+<tr class="separator:ae6ffc17945277e377f8c8a14e140a641"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a4c29d551dc1b8ac7465ebf4ddd1e3437"><td class="memItemLeft" align="right" valign="top"><a class="el" href="std_afx_8h.html#aa07ea1d188c7b45668f1bd82ffd6d87e">PROC</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_f_g_node.html#a4c29d551dc1b8ac7465ebf4ddd1e3437">proc</a></td></tr>
+<tr class="separator:a4c29d551dc1b8ac7465ebf4ddd1e3437"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a916b31fb1fc28e3a708d3c7913970f66"><td class="memItemLeft" align="right" valign="top"><a class="el" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_f_g_node.html#a916b31fb1fc28e3a708d3c7913970f66">first</a></td></tr>
+<tr class="separator:a916b31fb1fc28e3a708d3c7913970f66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2ed16b97347a8daa3ae6a7b0022284b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_f_g_node.html#aa2ed16b97347a8daa3ae6a7b0022284b">last</a></td></tr>
+<tr class="separator:aa2ed16b97347a8daa3ae6a7b0022284b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71c611eee5b784222a2c51b7a7b6d169"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_c_f_g_node.html#aa0933713506a9c0226e705703ee5b079">NodeType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_f_g_node.html#a71c611eee5b784222a2c51b7a7b6d169">type</a></td></tr>
+<tr class="separator:a71c611eee5b784222a2c51b7a7b6d169"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade810133e14d7229080fae4b61c4c996"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_c_f_g_node.html">CFGNode</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_f_g_node.html#ade810133e14d7229080fae4b61c4c996">whileAncestor</a></td></tr>
+<tr class="separator:ade810133e14d7229080fae4b61c4c996"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6b60346fb038bfd0c1f1b5d10164fcb"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="class_interval_list.html">IntervalList</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_f_g_node.html#aa6b60346fb038bfd0c1f1b5d10164fcb">nextList</a></td></tr>
+<tr class="separator:aa6b60346fb038bfd0c1f1b5d10164fcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd5d0654a254ef7a1c62e47d7ff66f75"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="class_interval_list.html">IntervalList</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_f_g_node.html#afd5d0654a254ef7a1c62e47d7ff66f75">prevList</a></td></tr>
+<tr class="separator:afd5d0654a254ef7a1c62e47d7ff66f75"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b140c15b8d43b8af5245731b99d1f2c"><td class="memItemLeft" align="right" valign="top">unordered_set&lt; <a class="el" href="std_afx_8h.html#a3112e3faf0465bb5d85272a347b7f2f1">VAR</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_f_g_node.html#a2b140c15b8d43b8af5245731b99d1f2c">modifySet</a></td></tr>
+<tr class="separator:a2b140c15b8d43b8af5245731b99d1f2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa30a2f657ae1827572d1c6a934a60635"><td class="memItemLeft" align="right" valign="top">unordered_set&lt; <a class="el" href="std_afx_8h.html#a3112e3faf0465bb5d85272a347b7f2f1">VAR</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_f_g_node.html#aa30a2f657ae1827572d1c6a934a60635">useSet</a></td></tr>
+<tr class="separator:aa30a2f657ae1827572d1c6a934a60635"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c9bf36df87bdf73c6aa507f52efc702"><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="class_c_f_g_node.html">CFGNode</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_f_g_node.html#a9c9bf36df87bdf73c6aa507f52efc702">parents</a></td></tr>
+<tr class="separator:a9c9bf36df87bdf73c6aa507f52efc702"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47d7f27cf88007b5663eae31f903f95a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="union_c_f_g_node_1_1_children.html">Children</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_f_g_node.html#a47d7f27cf88007b5663eae31f903f95a">children</a></td></tr>
+<tr class="separator:a47d7f27cf88007b5663eae31f903f95a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
@@ -188,336 +196,196 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="addba1ddd8abe5f584389e05926251eaa"></a>
+<a class="anchor" id="a983d5734f9d9be76b3646e0552227fb3"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">CFGNode::CFGNode </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_c_f_g_node.html#aa0933713506a9c0226e705703ee5b079">NodeType</a>&#160;</td>
-          <td class="paramname"><em>type</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a>&#160;</td>
-          <td class="paramname"><em>start</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a>&#160;</td>
-          <td class="paramname"><em>end</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype"><a class="el" href="std_afx_8h.html#aa07ea1d188c7b45668f1bd82ffd6d87e">PROC</a>&#160;</td>
-          <td class="paramname"><em>p</em>&#160;</td>
-        </tr>
-        <tr>
+          <td class="paramname"><em>proc</em></td><td>)</td>
           <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>This method will be used to create a new CFG Node </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">type</td><td>The type of Node which is while or if or standard or dummy </td></tr>
-    <tr><td class="paramname">start</td><td>The starting prog line of the CFG Node </td></tr>
-    <tr><td class="paramname">end</td><td>The ending prog line of the CFG Node </td></tr>
-    <tr><td class="paramname">p</td><td>The procedure of the CFG Node </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>This method will be used as a constructor to create <a class="el" href="class_c_f_g_node.html">CFGNode</a> based on PROCEDURE </p>
 
-<p>Definition at line <a class="el" href="_c_f_g_node_8cpp_source.html#l00011">11</a> of file <a class="el" href="_c_f_g_node_8cpp_source.html">CFGNode.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_c_f_g_node_8cpp_source.html#l00008">8</a> of file <a class="el" href="_c_f_g_node_8cpp_source.html">CFGNode.cpp</a>.</p>
 
 </div>
 </div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="ae3c039c5f6e2c55e50faa63b0941b11e"></a>
+<a class="anchor" id="ae6ffc17945277e377f8c8a14e140a641"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void CFGNode::addNextNode </td>
+          <td class="memname">CFGNode::CFGNode </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_c_f_g_node.html">CFGNode</a> *&#160;</td>
-          <td class="paramname"><em>node</em></td><td>)</td>
+          <td class="paramname"><em>parent</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>This method will be used to add the next CFG Node  node the node that is next to the node </p>
+<p>This method will be used as a constructor to create <a class="el" href="class_c_f_g_node.html">CFGNode</a> based on Parent </p>
 
-<p>Definition at line <a class="el" href="_c_f_g_node_8cpp_source.html#l00090">90</a> of file <a class="el" href="_c_f_g_node_8cpp_source.html">CFGNode.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_c_f_g_node_8cpp_source.html#l00015">15</a> of file <a class="el" href="_c_f_g_node_8cpp_source.html">CFGNode.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ab2c09ac0d4d4700d7cc2bab9a2044c24"></a>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="a47d7f27cf88007b5663eae31f903f95a"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void CFGNode::addPreviousNode </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_c_f_g_node.html">CFGNode</a> *&#160;</td>
-          <td class="paramname"><em>node</em></td><td>)</td>
-          <td></td>
+          <td class="memname"><a class="el" href="union_c_f_g_node_1_1_children.html">Children</a> CFGNode::children</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>This method will be used to add the previous CFG Node  node the node that is before the node </p>
 
-<p>Definition at line <a class="el" href="_c_f_g_node_8cpp_source.html#l00099">99</a> of file <a class="el" href="_c_f_g_node_8cpp_source.html">CFGNode.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_c_f_g_node_8h_source.html#l00037">37</a> of file <a class="el" href="_c_f_g_node_8h_source.html">CFGNode.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="aa25f0bc77360bee32f0e4393f7d612a8"></a>
+<a class="anchor" id="a916b31fb1fc28e3a708d3c7913970f66"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">vector&lt;<a class="el" href="class_c_f_g_node.html">CFGNode</a>*&gt; CFGNode::getNextNodes </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td class="memname"><a class="el" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> CFGNode::first</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>Definition at line <a class="el" href="_c_f_g_node_8h_source.html#l00031">31</a> of file <a class="el" href="_c_f_g_node_8h_source.html">CFGNode.h</a>.</p>
+
 </div>
 </div>
-<a class="anchor" id="aa462795f2f35b263c5e6c3f39ab88e21"></a>
+<a class="anchor" id="aa2ed16b97347a8daa3ae6a7b0022284b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">vector&lt; <a class="el" href="class_c_f_g_node.html">CFGNode</a> * &gt; CFGNode::getPreviousNodes </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td class="memname"><a class="el" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> CFGNode::last</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>This method will be used to return a list of node that is before the Node  List of <a class="el" href="class_c_f_g_node.html">CFGNode</a> that is previous </p>
 
-<p>Definition at line <a class="el" href="_c_f_g_node_8cpp_source.html#l00108">108</a> of file <a class="el" href="_c_f_g_node_8cpp_source.html">CFGNode.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_c_f_g_node_8h_source.html#l00031">31</a> of file <a class="el" href="_c_f_g_node_8h_source.html">CFGNode.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a2c9700b808aad05029293f0d1cd13b01"></a>
+<a class="anchor" id="a2b140c15b8d43b8af5245731b99d1f2c"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="std_afx_8h.html#aa07ea1d188c7b45668f1bd82ffd6d87e">PROC</a> CFGNode::getProcedure </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td class="memname">unordered_set&lt;<a class="el" href="std_afx_8h.html#a3112e3faf0465bb5d85272a347b7f2f1">VAR</a>&gt; CFGNode::modifySet</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>Definition at line <a class="el" href="_c_f_g_node_8h_source.html#l00035">35</a> of file <a class="el" href="_c_f_g_node_8h_source.html">CFGNode.h</a>.</p>
+
 </div>
 </div>
-<a class="anchor" id="a00d7decf2f7e7068accae7b2e59f4a7a"></a>
+<a class="anchor" id="aa6b60346fb038bfd0c1f1b5d10164fcb"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">vector&lt; <a class="el" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> &gt; CFGNode::getProgramLines </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td class="memname">const <a class="el" href="class_interval_list.html">IntervalList</a>* CFGNode::nextList</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>This method will be used to return PROG Line that it contains  List of program lines </p>
 
-<p>Definition at line <a class="el" href="_c_f_g_node_8cpp_source.html#l00174">174</a> of file <a class="el" href="_c_f_g_node_8cpp_source.html">CFGNode.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_c_f_g_node_8h_source.html#l00034">34</a> of file <a class="el" href="_c_f_g_node_8h_source.html">CFGNode.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="adb8c96a8b6c41ab78223b379ae8edd06"></a>
+<a class="anchor" id="a9c9bf36df87bdf73c6aa507f52efc702"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_c_f_g_node.html#aa0933713506a9c0226e705703ee5b079">CFGNode::NodeType</a> CFGNode::getType </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td class="memname">vector&lt;<a class="el" href="class_c_f_g_node.html">CFGNode</a>*&gt; CFGNode::parents</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>This method will be used to return the Node Type  the node type </p>
 
-<p>Definition at line <a class="el" href="_c_f_g_node_8cpp_source.html#l00082">82</a> of file <a class="el" href="_c_f_g_node_8cpp_source.html">CFGNode.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_c_f_g_node_8h_source.html#l00036">36</a> of file <a class="el" href="_c_f_g_node_8h_source.html">CFGNode.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a20b7acc68b6f1cc793865a761ad05fff"></a>
+<a class="anchor" id="afd5d0654a254ef7a1c62e47d7ff66f75"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool CFGNode::isDummy </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td class="memname">const <a class="el" href="class_interval_list.html">IntervalList</a> * CFGNode::prevList</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>This method will be used to get whether the node is a dummy CFG Node  true if it is dummy node else false </p>
 
-<p>Definition at line <a class="el" href="_c_f_g_node_8cpp_source.html#l00074">74</a> of file <a class="el" href="_c_f_g_node_8cpp_source.html">CFGNode.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_c_f_g_node_8h_source.html#l00034">34</a> of file <a class="el" href="_c_f_g_node_8h_source.html">CFGNode.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a3ab53c9e1cf0896ccfbf5a3c19d2cadf"></a>
+<a class="anchor" id="a4c29d551dc1b8ac7465ebf4ddd1e3437"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool CFGNode::isEndNode </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td class="memname"><a class="el" href="std_afx_8h.html#aa07ea1d188c7b45668f1bd82ffd6d87e">PROC</a> CFGNode::proc</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>This method will be used to get whether the node is a ending CFG node  true if it is end node else false </p>
 
-<p>Definition at line <a class="el" href="_c_f_g_node_8cpp_source.html#l00066">66</a> of file <a class="el" href="_c_f_g_node_8cpp_source.html">CFGNode.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_c_f_g_node_8h_source.html#l00030">30</a> of file <a class="el" href="_c_f_g_node_8h_source.html">CFGNode.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="aa0b5bc3202db67e6834fb82fc7c059cf"></a>
+<a class="anchor" id="a71c611eee5b784222a2c51b7a7b6d169"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool CFGNode::isNext </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a>&#160;</td>
-          <td class="paramname"><em>p1</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a>&#160;</td>
-          <td class="paramname"><em>p2</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
+          <td class="memname"><a class="el" href="class_c_f_g_node.html#aa0933713506a9c0226e705703ee5b079">NodeType</a> CFGNode::type</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>This method will be used to return if PROG Line p1 is next to PROG Line p2  p1 The PROG Line that is before p2  p2 The PROG Line that is after p1  bool Return the result(True or false) </p>
 
-<p>Definition at line <a class="el" href="_c_f_g_node_8cpp_source.html#l00191">191</a> of file <a class="el" href="_c_f_g_node_8cpp_source.html">CFGNode.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_c_f_g_node_8h_source.html#l00032">32</a> of file <a class="el" href="_c_f_g_node_8h_source.html">CFGNode.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="af92552f9f6b3e6d2de45315d96c73d5d"></a>
+<a class="anchor" id="aa30a2f657ae1827572d1c6a934a60635"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool CFGNode::isStartNode </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td class="memname">unordered_set&lt;<a class="el" href="std_afx_8h.html#a3112e3faf0465bb5d85272a347b7f2f1">VAR</a>&gt; CFGNode::useSet</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>This method will be used to get whether the node is a starting CFG node  true if it is start node else false </p>
 
-<p>Definition at line <a class="el" href="_c_f_g_node_8cpp_source.html#l00051">51</a> of file <a class="el" href="_c_f_g_node_8cpp_source.html">CFGNode.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_c_f_g_node_8h_source.html#l00035">35</a> of file <a class="el" href="_c_f_g_node_8h_source.html">CFGNode.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="aea9ee4d496ada4a81b69d658448923df"></a>
+<a class="anchor" id="ade810133e14d7229080fae4b61c4c996"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void CFGNode::setEndNode </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>This method will be used to set <a class="el" href="class_c_f_g_node.html">CFGNode</a> as ending CFG node </p>
-
-<p>Definition at line <a class="el" href="_c_f_g_node_8cpp_source.html#l00058">58</a> of file <a class="el" href="_c_f_g_node_8cpp_source.html">CFGNode.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a247dcbf53b30ba6a38d945d0f0f81a3c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void CFGNode::setEndProgramLine </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a>&#160;</td>
-          <td class="paramname"><em>p</em></td><td>)</td>
-          <td></td>
+          <td class="memname"><a class="el" href="class_c_f_g_node.html">CFGNode</a>* CFGNode::whileAncestor</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a class="anchor" id="aa1031de36b07269df1fe0adcf5557b90"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void CFGNode::setLink </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_c_f_g_node.html">CFGNode</a> *&#160;</td>
-          <td class="paramname"><em>node</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>This method will be used to link a CFG Node(Next Node) </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">node</td><td>The CFG Node that is to be link next </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="_c_f_g_node_8cpp_source.html#l00024">24</a> of file <a class="el" href="_c_f_g_node_8cpp_source.html">CFGNode.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a846539f346c2569c94c9a5057eee6bd9"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void CFGNode::setStartNode </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>This method will be used to set the <a class="el" href="class_c_f_g_node.html">CFGNode</a> as starting CFG node </p>
-
-<p>Definition at line <a class="el" href="_c_f_g_node_8cpp_source.html#l00043">43</a> of file <a class="el" href="_c_f_g_node_8cpp_source.html">CFGNode.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_c_f_g_node_8h_source.html#l00033">33</a> of file <a class="el" href="_c_f_g_node_8h_source.html">CFGNode.h</a>.</p>
 
 </div>
 </div>
@@ -531,7 +399,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_c_f_g_node.html">CFGNode</a></li>
-    <li class="footer">Generated on Mon Feb 4 2013 01:48:10 for SPA by
+    <li class="footer">Generated on Mon Mar 4 2013 00:45:46 for SPA by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3.1 </li>
   </ul>

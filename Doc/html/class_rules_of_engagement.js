@@ -2,6 +2,7 @@ var class_rules_of_engagement =
 [
     [ "getAllTypes", "class_rules_of_engagement.html#a1a051f48865a7a4d7f07f0a89f16aafe", null ],
     [ "isRelation", "class_rules_of_engagement.html#aad838c0ef69d7c4ee9bef23a431ff6c1", null ],
+    [ "relationFamily", "class_rules_of_engagement.html#a81832aa421c58fe508e3ace862e1288e", null ],
     [ "PatternLHSType", "class_rules_of_engagement.html#adbb576232837064bb23c3f3564335079", [
       [ "PLWildcard", "class_rules_of_engagement.html#adbb576232837064bb23c3f3564335079a83af3c000bcbddb7c2f85b1657cd97bd", null ],
       [ "PLStringVariable", "class_rules_of_engagement.html#adbb576232837064bb23c3f3564335079aecba1553cf1b1e91cb699c87c2230d44", null ]

@@ -2,8 +2,9 @@ var class_answer_table =
 [
     [ "AnswerTable", "class_answer_table.html#a01b3a71cd50d9ebd513068463650c34f", null ],
     [ "cartesian", "class_answer_table.html#a6402136f56eccb33fd311b9c5208b884", null ],
-    [ "combine", "class_answer_table.html#ac5da4ad26b82eca376998313ada78da0", null ],
+    [ "combine", "class_answer_table.html#a7da446da9661e0d041cdf418adf98512", null ],
     [ "getHeader", "class_answer_table.html#a7d8957160038486ced90cffc680d491c", null ],
+    [ "getHeaderSize", "class_answer_table.html#a53f9b463b98d79290b6e3528d7f9e464", null ],
     [ "getRow", "class_answer_table.html#a28df331881ed15b3012b0d717109096c", null ],
     [ "getSize", "class_answer_table.html#af97a334c1ffcd4b185ddf8d981ef91bf", null ],
     [ "patternPrune", "class_answer_table.html#a476cd4e95ee3dcd392d6d9bb66240cc5", null ],

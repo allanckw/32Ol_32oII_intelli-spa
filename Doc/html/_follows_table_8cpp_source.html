@@ -110,88 +110,120 @@ $(document).ready(function(){initNavTree('_follows_table_8cpp_source.html','');}
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &quot;<a class="code" href="std_afx_8h.html">StdAfx.h</a>&quot;</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_follows_table_8h.html">FollowsTable.h</a>&quot;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno"><a class="code" href="class_follows_table.html#a3f8037760cee7e5dc50a2df832f6c4ad">    6</a></span>&#160;<a class="code" href="class_follows_table.html#a3f8037760cee7e5dc50a2df832f6c4ad">FollowsTable::FollowsTable</a>()</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;{</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;}</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno"><a class="code" href="class_follows_table.html#a7bea1745b1f8b37e9ed96f5159116b8b">   19</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_follows_table.html#a7bea1745b1f8b37e9ed96f5159116b8b">FollowsTable::insertFollows</a>(<a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> s1, <a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> s2)</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;{</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    followsTo.insert(pair&lt;STMT, STMT&gt;(s1, s2));</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    followsFrom.insert(pair&lt;STMT, STMT&gt;(s2, s1));</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;}</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno"><a class="code" href="class_follows_table.html#a0eaf7b1c70730a6f658be07d1c6d60c4">   30</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_follows_table.html#a0eaf7b1c70730a6f658be07d1c6d60c4">FollowsTable::isEmpty</a>()</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordflow">return</span> followsTo.empty();</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;}</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="code" href="class_follows_table.html#abe6692baa87cd5982996dd33400db8c1">   42</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_follows_table.html#abe6692baa87cd5982996dd33400db8c1">FollowsTable::isFollows</a>(<a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> s1, <a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> s2)</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;{</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordflow">return</span> (followsTo.count(s1) &gt; 0 &amp;&amp; followsTo[s1] == s2);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;}</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno"><a class="code" href="class_follows_table.html#aac4f2858b050a35ae0b351d5d2baee7b">   53</a></span>&#160;<a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> <a class="code" href="class_follows_table.html#aac4f2858b050a35ae0b351d5d2baee7b">FollowsTable::getFollowsBy</a>(<a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> s1) </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;{</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordflow">if</span> (followsTo.count(s1) &gt; 0)</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordflow">return</span> followsTo[s1];</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keywordflow">return</span> -1;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;}</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno"><a class="code" href="class_follows_table.html#a66ba94980e93271d5a99efe43915db76">   67</a></span>&#160;<a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> <a class="code" href="class_follows_table.html#a66ba94980e93271d5a99efe43915db76">FollowsTable::getFollowsFrom</a>(<a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> s2) </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;{</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordflow">if</span> (followsFrom.count(s2) &gt; 0)</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keywordflow">return</span> followsFrom[s2];</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keywordflow">return</span> -1;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;}</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
-<div class="line"><a name="l00082"></a><span class="lineno"><a class="code" href="class_follows_table.html#ad68f64135cb00d8a29919bd924519fc6">   82</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_follows_table.html#ad68f64135cb00d8a29919bd924519fc6">FollowsTable::isFollowsStar</a>(<a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> s1, <a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> s2)</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;{</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> follows = s1;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordflow">do</span> {</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="keywordflow">if</span> (followsTo.count(follows) &gt; 0)</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            follows = followsTo[follows];</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    } <span class="keywordflow">while</span> (follows != s2);</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;}</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
-<div class="line"><a name="l00100"></a><span class="lineno"><a class="code" href="class_follows_table.html#a016f03c806ce676c62b51c623d549659">  100</a></span>&#160;vector &lt;STMT&gt; <a class="code" href="class_follows_table.html#a016f03c806ce676c62b51c623d549659">FollowsTable::getFollowsStarBy</a>(<a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> s1) </div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;{</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    vector&lt;STMT&gt; output;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> follows = s1;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordflow">do</span> {</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        <span class="keywordflow">if</span> (followsTo.count(follows) &gt; 0) {</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            follows = followsTo[follows];</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            output.push_back(follows);</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        } <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            <span class="keywordflow">return</span> output;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    } <span class="keywordflow">while</span> (<span class="keyword">true</span>);</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;}</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
-<div class="line"><a name="l00119"></a><span class="lineno"><a class="code" href="class_follows_table.html#ab77cdda2c13684c54934884161a673c3">  119</a></span>&#160;vector &lt;STMT&gt; <a class="code" href="class_follows_table.html#ab77cdda2c13684c54934884161a673c3">FollowsTable::getFollowsStarFrom</a>(<a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> s2) </div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;{</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    vector&lt;STMT&gt; output;</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> follows = s2;</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="keywordflow">do</span> {</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        <span class="keywordflow">if</span> (followsFrom.count(follows) &gt; 0) {</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;            follows = followsFrom[follows];</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            output.push_back(follows);</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        } <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            <span class="keywordflow">return</span> output;</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    } <span class="keywordflow">while</span> (<span class="keyword">true</span>);</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;}</div>
+<div class="line"><a name="l00008"></a><span class="lineno"><a class="code" href="class_follows_table.html#a3f8037760cee7e5dc50a2df832f6c4ad">    8</a></span>&#160;<a class="code" href="class_follows_table.html#a3f8037760cee7e5dc50a2df832f6c4ad">FollowsTable::FollowsTable</a>() {</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    starSize = 0;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;}</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="code" href="class_follows_table.html#a7bea1745b1f8b37e9ed96f5159116b8b">   20</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_follows_table.html#a7bea1745b1f8b37e9ed96f5159116b8b">FollowsTable::insertFollows</a>(<a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> s1, <a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> s2)</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;{</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    followsTo.insert(pair&lt;STMT, STMT&gt;(s1, s2));</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    followsFrom.insert(pair&lt;STMT, STMT&gt;(s2, s1));</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;}</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="code" href="class_follows_table.html#a0eaf7b1c70730a6f658be07d1c6d60c4">   31</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_follows_table.html#a0eaf7b1c70730a6f658be07d1c6d60c4">FollowsTable::isEmpty</a>()</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordflow">return</span> followsTo.empty();</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;}</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="code" href="class_follows_table.html#abe6692baa87cd5982996dd33400db8c1">   43</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_follows_table.html#abe6692baa87cd5982996dd33400db8c1">FollowsTable::isFollows</a>(<a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> s1, <a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> s2)</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;{</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordflow">return</span> (followsTo.count(s1) &gt; 0 &amp;&amp; followsTo[s1] == s2);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;}</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="code" href="class_follows_table.html#aac4f2858b050a35ae0b351d5d2baee7b">   54</a></span>&#160;<a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> <a class="code" href="class_follows_table.html#aac4f2858b050a35ae0b351d5d2baee7b">FollowsTable::getFollowsBy</a>(<a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> s1) </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;{</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">if</span> (followsTo.count(s1) &gt; 0)</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordflow">return</span> followsTo[s1];</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keywordflow">return</span> -1;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;}</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno"><a class="code" href="class_follows_table.html#a66ba94980e93271d5a99efe43915db76">   68</a></span>&#160;<a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> <a class="code" href="class_follows_table.html#a66ba94980e93271d5a99efe43915db76">FollowsTable::getFollowsFrom</a>(<a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> s2) </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;{</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">if</span> (followsFrom.count(s2) &gt; 0)</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keywordflow">return</span> followsFrom[s2];</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keywordflow">return</span> -1;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;}</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00083"></a><span class="lineno"><a class="code" href="class_follows_table.html#ad68f64135cb00d8a29919bd924519fc6">   83</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_follows_table.html#ad68f64135cb00d8a29919bd924519fc6">FollowsTable::isFollowsStar</a>(<a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> s1, <a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> s2)</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;{</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> follows = s1;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordflow">do</span> {</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keywordflow">if</span> (followsTo.count(follows) &gt; 0)</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            follows = followsTo[follows];</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    } <span class="keywordflow">while</span> (follows != s2);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;}</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
+<div class="line"><a name="l00101"></a><span class="lineno"><a class="code" href="class_follows_table.html#a016f03c806ce676c62b51c623d549659">  101</a></span>&#160;vector &lt;STMT&gt; <a class="code" href="class_follows_table.html#a016f03c806ce676c62b51c623d549659">FollowsTable::getFollowsStarBy</a>(<a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> s1) </div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;{</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    vector&lt;STMT&gt; output;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> follows = s1;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keywordflow">do</span> {</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        <span class="keywordflow">if</span> (followsTo.count(follows) &gt; 0) {</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            follows = followsTo[follows];</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            output.push_back(follows);</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        } <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            <span class="keywordflow">return</span> output;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    } <span class="keywordflow">while</span> (<span class="keyword">true</span>);</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;}</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;</div>
+<div class="line"><a name="l00120"></a><span class="lineno"><a class="code" href="class_follows_table.html#ab77cdda2c13684c54934884161a673c3">  120</a></span>&#160;vector &lt;STMT&gt; <a class="code" href="class_follows_table.html#ab77cdda2c13684c54934884161a673c3">FollowsTable::getFollowsStarFrom</a>(<a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> s2) </div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;{</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    vector&lt;STMT&gt; output;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> follows = s2;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keywordflow">do</span> {</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        <span class="keywordflow">if</span> (followsFrom.count(follows) &gt; 0) {</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            follows = followsFrom[follows];</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;            output.push_back(follows);</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        } <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;            <span class="keywordflow">return</span> output;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    } <span class="keywordflow">while</span> (<span class="keyword">true</span>);</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;}</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;</div>
+<div class="line"><a name="l00134"></a><span class="lineno"><a class="code" href="class_follows_table.html#aab1f1d34e0bb591d4c3020ff39b249e1">  134</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="class_follows_table.html#aab1f1d34e0bb591d4c3020ff39b249e1">FollowsTable::getFollowsSize</a>()</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;{</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    <span class="keywordflow">return</span> followsFrom.size();</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;}</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;</div>
+<div class="line"><a name="l00139"></a><span class="lineno"><a class="code" href="class_follows_table.html#a3d0dee4e4c0c1d46b4548543a7a2b830">  139</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="class_follows_table.html#a3d0dee4e4c0c1d46b4548543a7a2b830">FollowsTable::getFollowsStarSize</a>()</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;{</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    <span class="keywordflow">if</span> (starSize == 0) {</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        unordered_map&lt;STMT, int&gt; memo;</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        stack&lt;STMT&gt; stack;</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = followsTo.rbegin(); it != followsTo.rend(); it++) {</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;            <span class="keywordtype">int</span> follows = it-&gt;first;</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;            stack.push(follows);</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;            <span class="keywordflow">while</span> (!stack.empty()) {</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;                <a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> first = stack.top();</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;                <span class="keywordflow">if</span> (followsTo.count(first) == 0) {</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;                    memo.insert(pair&lt;STMT, int&gt;(first, 0));</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;                    stack.pop();</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;                } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;                    <a class="code" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> followed = followsTo[first];</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;                    <span class="keywordflow">if</span> (memo.count(followed) &gt; 0) {</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;                        memo.insert(pair&lt;STMT, int&gt;(first, 1 + memo[followed]));</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;                        stack.pop();</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;                    } <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;                        stack.push(followed);</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;                }</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;            }</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;            starSize += memo[follows];</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        }</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    }</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <span class="keywordflow">return</span> starSize;</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_28240f1e82be414ac37674cd3ff4adc3.html">$P@</a></li><li class="navelem"><a class="el" href="dir_f0a66c18035a04f3accc68e6ea4db1f5.html">SPA</a></li><li class="navelem"><a class="el" href="dir_9072de41565413c7baeba4ab62bcf7d0.html">SPA</a></li><li class="navelem"><a class="el" href="_follows_table_8cpp.html">FollowsTable.cpp</a></li>
-    <li class="footer">Generated on Mon Feb 4 2013 01:48:09 for SPA by
+    <li class="footer">Generated on Mon Mar 4 2013 00:45:45 for SPA by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3.1 </li>
   </ul>

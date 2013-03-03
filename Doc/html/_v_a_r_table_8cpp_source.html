@@ -111,60 +111,58 @@ $(document).ready(function(){initNavTree('_v_a_r_table_8cpp_source.html','');});
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_v_a_r_table_8h.html">VARTable.h</a>&quot;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_s_p_a_exception_8h.html">SPAException.h</a>&quot;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno"><a class="code" href="class_v_a_r_table.html#ab4ffd9746e7bce05352a1dd60d0c503e">    7</a></span>&#160;<a class="code" href="class_v_a_r_table.html#ab4ffd9746e7bce05352a1dd60d0c503e">VARTable::VARTable</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;{</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;}</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno"><a class="code" href="class_v_a_r_table.html#a5341fbc44864bfae2ae862a6e0d525fb">   17</a></span>&#160;<a class="code" href="_v_a_r_table_8h.html#ae716a4a307ade1abe51a35c62d682768">VARIndex</a> <a class="code" href="class_v_a_r_table.html#a5341fbc44864bfae2ae862a6e0d525fb">VARTable::insertVAR</a>(<span class="keywordtype">string</span> VARName)</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;{</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i=0;i&lt;vars.size();i++)</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    {</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keywordflow">if</span>(vars[i] == VARName)</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            <span class="keywordflow">return</span> i;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    }</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    vars.push_back(VARName);</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordflow">return</span> (vars.size() -1);</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;}</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno"><a class="code" href="class_v_a_r_table.html#a90e1174adf4ace3d2353f07da6776a4d">   32</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="class_v_a_r_table.html#a90e1174adf4ace3d2353f07da6776a4d">VARTable::getSize</a>()</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;{</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordflow">return</span> vars.size();</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;}</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="code" href="class_v_a_r_table.html#a9e1255a72f25a721c845fd02a7b6f7a8">   42</a></span>&#160;<span class="keywordtype">string</span> <a class="code" href="class_v_a_r_table.html#a9e1255a72f25a721c845fd02a7b6f7a8">VARTable::getVARName</a>(<a class="code" href="_v_a_r_table_8h.html#ae716a4a307ade1abe51a35c62d682768">VARIndex</a> i)</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;{</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordflow">if</span> (i &gt; vars.size() - 1){</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="class_s_p_a_exception.html">SPAException</a>(<span class="stringliteral">&quot;Invalid Index, there is no variable at given location &quot;</span>);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    }</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">else</span>{</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordflow">return</span> vars.at(i);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    }</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;}</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno"><a class="code" href="class_v_a_r_table.html#a3d4abc9505bdbc02744dda496a9a464c">   57</a></span>&#160;<a class="code" href="_v_a_r_table_8h.html#ae716a4a307ade1abe51a35c62d682768">VARIndex</a> <a class="code" href="class_v_a_r_table.html#a3d4abc9505bdbc02744dda496a9a464c">VARTable::getVARIndex</a>(<span class="keywordtype">string</span> VARName)</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;{</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i=0;i&lt;vars.size();i++)</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    {</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keywordflow">if</span>(vars[i] == VARName)</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            <span class="keywordflow">return</span> i;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    }</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordflow">return</span> -1;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;}</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00073"></a><span class="lineno"><a class="code" href="class_v_a_r_table.html#a3c9005b0a77bcbd7541e446ecf0c9dd4">   73</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_v_a_r_table.html#a3c9005b0a77bcbd7541e446ecf0c9dd4">VARTable::isExists</a>(<a class="code" href="_v_a_r_table_8h.html#ae716a4a307ade1abe51a35c62d682768">VARIndex</a> i)</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;{</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordflow">return</span> (i &gt;= 0 &amp;&amp; i &lt; vars.size());</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;}</div>
+<div class="line"><a name="l00009"></a><span class="lineno"><a class="code" href="class_v_a_r_table.html#a3fe138ca41747dd2a615525902648983">    9</a></span>&#160;<a class="code" href="class_v_a_r_table.html#a3fe138ca41747dd2a615525902648983">VARTable::VARTable</a>()</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;{</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;}</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="code" href="class_v_a_r_table.html#a5341fbc44864bfae2ae862a6e0d525fb">   18</a></span>&#160;<a class="code" href="_v_a_r_table_8h.html#ae716a4a307ade1abe51a35c62d682768">VARIndex</a> <a class="code" href="class_v_a_r_table.html#a5341fbc44864bfae2ae862a6e0d525fb">VARTable::insertVAR</a>(<span class="keywordtype">string</span> VARName)</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;{</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i=0;i&lt;vars.size();i++)</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    {</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keywordflow">if</span>(vars[i] == VARName)</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            <span class="keywordflow">return</span> i;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    }</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    vars.push_back(VARName);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordflow">return</span> (vars.size() -1);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;}</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="code" href="class_v_a_r_table.html#a90e1174adf4ace3d2353f07da6776a4d">   33</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="class_v_a_r_table.html#a90e1174adf4ace3d2353f07da6776a4d">VARTable::getSize</a>()</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordflow">return</span> vars.size();</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;}</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="code" href="class_v_a_r_table.html#a9e1255a72f25a721c845fd02a7b6f7a8">   43</a></span>&#160;<span class="keywordtype">string</span> <a class="code" href="class_v_a_r_table.html#a9e1255a72f25a721c845fd02a7b6f7a8">VARTable::getVARName</a>(<a class="code" href="_v_a_r_table_8h.html#ae716a4a307ade1abe51a35c62d682768">VARIndex</a> i)</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;{</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordflow">if</span> (i &gt; vars.size() - 1){</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="class_s_p_a_exception.html">SPAException</a>(<span class="stringliteral">&quot;Invalid Index, there is no variable at given location &quot;</span>);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    }</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordflow">else</span>{</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keywordflow">return</span> vars.at(i);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    }</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;}</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="code" href="class_v_a_r_table.html#a3d4abc9505bdbc02744dda496a9a464c">   58</a></span>&#160;<a class="code" href="_v_a_r_table_8h.html#ae716a4a307ade1abe51a35c62d682768">VARIndex</a> <a class="code" href="class_v_a_r_table.html#a3d4abc9505bdbc02744dda496a9a464c">VARTable::getVARIndex</a>(<span class="keywordtype">string</span> VARName)</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;{</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i=0;i&lt;vars.size();i++)</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    {</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keywordflow">if</span>(vars[i] == VARName)</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            <span class="keywordflow">return</span> i;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    }</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordflow">return</span> -1;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;}</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
+<div class="line"><a name="l00074"></a><span class="lineno"><a class="code" href="class_v_a_r_table.html#a3c9005b0a77bcbd7541e446ecf0c9dd4">   74</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_v_a_r_table.html#a3c9005b0a77bcbd7541e446ecf0c9dd4">VARTable::isExists</a>(<a class="code" href="_v_a_r_table_8h.html#ae716a4a307ade1abe51a35c62d682768">VARIndex</a> i)</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;{</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keywordflow">return</span> (i &gt;= 0 &amp;&amp; i &lt; vars.size());</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_28240f1e82be414ac37674cd3ff4adc3.html">$P@</a></li><li class="navelem"><a class="el" href="dir_f0a66c18035a04f3accc68e6ea4db1f5.html">SPA</a></li><li class="navelem"><a class="el" href="dir_9072de41565413c7baeba4ab62bcf7d0.html">SPA</a></li><li class="navelem"><a class="el" href="_v_a_r_table_8cpp.html">VARTable.cpp</a></li>
-    <li class="footer">Generated on Mon Feb 4 2013 01:48:09 for SPA by
+    <li class="footer">Generated on Mon Mar 4 2013 00:45:46 for SPA by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3.1 </li>
   </ul>

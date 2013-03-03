@@ -5,6 +5,7 @@ var class_parent_table =
     [ "getChildrenStar", "class_parent_table.html#af10014b72f9b69bc3e58f251ce7d60c0", null ],
     [ "getParent", "class_parent_table.html#ae53225a6ba566239960cca6783983a7b", null ],
     [ "getParentStar", "class_parent_table.html#a01f37ca19b8e3f56d86279f1884e5380", null ],
+    [ "getSize", "class_parent_table.html#a929a869dabe723777f337863f5d51b13", null ],
     [ "insertParent", "class_parent_table.html#a775e3418a8653096b53276af58715c36", null ],
     [ "isEmpty", "class_parent_table.html#ad7e627299fad7b2725558efb4e5b3105", null ],
     [ "isParent", "class_parent_table.html#a879660be86e4983a0199ce0a74b59488", null ],

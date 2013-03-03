@@ -25,6 +25,10 @@ bool \hyperlink{class_follows_table_ad68f64135cb00d8a29919bd924519fc6}{is\-Follo
 vector$<$ \hyperlink{std_afx_8h_a4a876b28ac3f59cecb39c2d2d76e4e7a}{S\-T\-M\-T} $>$ \hyperlink{class_follows_table_a016f03c806ce676c62b51c623d549659}{get\-Follows\-Star\-By} (\hyperlink{std_afx_8h_a4a876b28ac3f59cecb39c2d2d76e4e7a}{S\-T\-M\-T} s1)
 \item 
 vector$<$ \hyperlink{std_afx_8h_a4a876b28ac3f59cecb39c2d2d76e4e7a}{S\-T\-M\-T} $>$ \hyperlink{class_follows_table_ab77cdda2c13684c54934884161a673c3}{get\-Follows\-Star\-From} (\hyperlink{std_afx_8h_a4a876b28ac3f59cecb39c2d2d76e4e7a}{S\-T\-M\-T} s2)
+\item 
+int \hyperlink{class_follows_table_aab1f1d34e0bb591d4c3020ff39b249e1}{get\-Follows\-Size} ()
+\item 
+int \hyperlink{class_follows_table_a3d0dee4e4c0c1d46b4548543a7a2b830}{get\-Follows\-Star\-Size} ()
 \end{DoxyCompactItemize}
 
 
@@ -43,9 +47,9 @@ Definition at line 4 of file Follows\-Table.\-h.
 {}
 \end{DoxyParamCaption}
 )}}\label{class_follows_table_a3f8037760cee7e5dc50a2df832f6c4ad}
+This method will be used as a constructor to create \hyperlink{class_follows_table}{Follows\-Table} 
 
-
-Definition at line 6 of file Follows\-Table.\-cpp.
+Definition at line 8 of file Follows\-Table.\-cpp.
 
 
 
@@ -67,7 +71,7 @@ the statement
 \end{DoxyReturn}
 
 
-Definition at line 53 of file Follows\-Table.\-cpp.
+Definition at line 54 of file Follows\-Table.\-cpp.
 
 \hypertarget{class_follows_table_a66ba94980e93271d5a99efe43915db76}{\index{Follows\-Table@{Follows\-Table}!get\-Follows\-From@{get\-Follows\-From}}
 \index{get\-Follows\-From@{get\-Follows\-From}!FollowsTable@{Follows\-Table}}
@@ -86,7 +90,18 @@ the statement
 \end{DoxyReturn}
 
 
-Definition at line 67 of file Follows\-Table.\-cpp.
+Definition at line 68 of file Follows\-Table.\-cpp.
+
+\hypertarget{class_follows_table_aab1f1d34e0bb591d4c3020ff39b249e1}{\index{Follows\-Table@{Follows\-Table}!get\-Follows\-Size@{get\-Follows\-Size}}
+\index{get\-Follows\-Size@{get\-Follows\-Size}!FollowsTable@{Follows\-Table}}
+\subsubsection[{get\-Follows\-Size}]{\setlength{\rightskip}{0pt plus 5cm}int Follows\-Table\-::get\-Follows\-Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_follows_table_aab1f1d34e0bb591d4c3020ff39b249e1}
+
+
+Definition at line 134 of file Follows\-Table.\-cpp.
 
 \hypertarget{class_follows_table_a016f03c806ce676c62b51c623d549659}{\index{Follows\-Table@{Follows\-Table}!get\-Follows\-Star\-By@{get\-Follows\-Star\-By}}
 \index{get\-Follows\-Star\-By@{get\-Follows\-Star\-By}!FollowsTable@{Follows\-Table}}
@@ -105,7 +120,7 @@ the vector
 \end{DoxyReturn}
 
 
-Definition at line 100 of file Follows\-Table.\-cpp.
+Definition at line 101 of file Follows\-Table.\-cpp.
 
 \hypertarget{class_follows_table_ab77cdda2c13684c54934884161a673c3}{\index{Follows\-Table@{Follows\-Table}!get\-Follows\-Star\-From@{get\-Follows\-Star\-From}}
 \index{get\-Follows\-Star\-From@{get\-Follows\-Star\-From}!FollowsTable@{Follows\-Table}}
@@ -124,7 +139,18 @@ the vector
 \end{DoxyReturn}
 
 
-Definition at line 119 of file Follows\-Table.\-cpp.
+Definition at line 120 of file Follows\-Table.\-cpp.
+
+\hypertarget{class_follows_table_a3d0dee4e4c0c1d46b4548543a7a2b830}{\index{Follows\-Table@{Follows\-Table}!get\-Follows\-Star\-Size@{get\-Follows\-Star\-Size}}
+\index{get\-Follows\-Star\-Size@{get\-Follows\-Star\-Size}!FollowsTable@{Follows\-Table}}
+\subsubsection[{get\-Follows\-Star\-Size}]{\setlength{\rightskip}{0pt plus 5cm}int Follows\-Table\-::get\-Follows\-Star\-Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_follows_table_a3d0dee4e4c0c1d46b4548543a7a2b830}
+
+
+Definition at line 139 of file Follows\-Table.\-cpp.
 
 \hypertarget{class_follows_table_a7bea1745b1f8b37e9ed96f5159116b8b}{\index{Follows\-Table@{Follows\-Table}!insert\-Follows@{insert\-Follows}}
 \index{insert\-Follows@{insert\-Follows}!FollowsTable@{Follows\-Table}}
@@ -143,7 +169,7 @@ This method will be used to insert the Follows relation. Let r be the number of 
 \end{DoxyParams}
 
 
-Definition at line 19 of file Follows\-Table.\-cpp.
+Definition at line 20 of file Follows\-Table.\-cpp.
 
 \hypertarget{class_follows_table_a0eaf7b1c70730a6f658be07d1c6d60c4}{\index{Follows\-Table@{Follows\-Table}!is\-Empty@{is\-Empty}}
 \index{is\-Empty@{is\-Empty}!FollowsTable@{Follows\-Table}}
@@ -157,7 +183,7 @@ true if the Follows table is empty, and false otherwise
 \end{DoxyReturn}
 
 
-Definition at line 30 of file Follows\-Table.\-cpp.
+Definition at line 31 of file Follows\-Table.\-cpp.
 
 \hypertarget{class_follows_table_abe6692baa87cd5982996dd33400db8c1}{\index{Follows\-Table@{Follows\-Table}!is\-Follows@{is\-Follows}}
 \index{is\-Follows@{is\-Follows}!FollowsTable@{Follows\-Table}}
@@ -179,7 +205,7 @@ true if statement s1 is followed by statement s2.
 \end{DoxyReturn}
 
 
-Definition at line 42 of file Follows\-Table.\-cpp.
+Definition at line 43 of file Follows\-Table.\-cpp.
 
 \hypertarget{class_follows_table_ad68f64135cb00d8a29919bd924519fc6}{\index{Follows\-Table@{Follows\-Table}!is\-Follows\-Star@{is\-Follows\-Star}}
 \index{is\-Follows\-Star@{is\-Follows\-Star}!FollowsTable@{Follows\-Table}}
@@ -201,7 +227,7 @@ true if statement s1 is followed by statement s2 directly or indirectly.
 \end{DoxyReturn}
 
 
-Definition at line 82 of file Follows\-Table.\-cpp.
+Definition at line 83 of file Follows\-Table.\-cpp.
 
 
 

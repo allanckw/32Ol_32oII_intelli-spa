@@ -25,6 +25,8 @@ bool \hyperlink{class_parent_table_abdad8cbd9c06af20257361dbbb35fe2d}{is\-Parent
 vector$<$ \hyperlink{std_afx_8h_a4a876b28ac3f59cecb39c2d2d76e4e7a}{S\-T\-M\-T} $>$ \hyperlink{class_parent_table_af10014b72f9b69bc3e58f251ce7d60c0}{get\-Children\-Star} (\hyperlink{std_afx_8h_a4a876b28ac3f59cecb39c2d2d76e4e7a}{S\-T\-M\-T} s1)
 \item 
 vector$<$ \hyperlink{std_afx_8h_a4a876b28ac3f59cecb39c2d2d76e4e7a}{S\-T\-M\-T} $>$ \hyperlink{class_parent_table_a01f37ca19b8e3f56d86279f1884e5380}{get\-Parent\-Star} (\hyperlink{std_afx_8h_a4a876b28ac3f59cecb39c2d2d76e4e7a}{S\-T\-M\-T} s2)
+\item 
+int \hyperlink{class_parent_table_a929a869dabe723777f337863f5d51b13}{get\-Size} ()
 \end{DoxyCompactItemize}
 
 
@@ -43,9 +45,9 @@ Definition at line 4 of file Parent\-Table.\-h.
 {}
 \end{DoxyParamCaption}
 )}}\label{class_parent_table_a3fa054014eba4cb913f1b9245263857d}
+This method will be used as a constructor to create \hyperlink{class_parent_table}{Parent\-Table} 
 
-
-Definition at line 5 of file Parent\-Table.\-cpp.
+Definition at line 8 of file Parent\-Table.\-cpp.
 
 
 
@@ -67,7 +69,7 @@ the vector
 \end{DoxyReturn}
 
 
-Definition at line 53 of file Parent\-Table.\-cpp.
+Definition at line 56 of file Parent\-Table.\-cpp.
 
 \hypertarget{class_parent_table_af10014b72f9b69bc3e58f251ce7d60c0}{\index{Parent\-Table@{Parent\-Table}!get\-Children\-Star@{get\-Children\-Star}}
 \index{get\-Children\-Star@{get\-Children\-Star}!ParentTable@{Parent\-Table}}
@@ -86,7 +88,7 @@ the vector
 \end{DoxyReturn}
 
 
-Definition at line 98 of file Parent\-Table.\-cpp.
+Definition at line 101 of file Parent\-Table.\-cpp.
 
 \hypertarget{class_parent_table_ae53225a6ba566239960cca6783983a7b}{\index{Parent\-Table@{Parent\-Table}!get\-Parent@{get\-Parent}}
 \index{get\-Parent@{get\-Parent}!ParentTable@{Parent\-Table}}
@@ -105,7 +107,7 @@ the statement
 \end{DoxyReturn}
 
 
-Definition at line 66 of file Parent\-Table.\-cpp.
+Definition at line 69 of file Parent\-Table.\-cpp.
 
 \hypertarget{class_parent_table_a01f37ca19b8e3f56d86279f1884e5380}{\index{Parent\-Table@{Parent\-Table}!get\-Parent\-Star@{get\-Parent\-Star}}
 \index{get\-Parent\-Star@{get\-Parent\-Star}!ParentTable@{Parent\-Table}}
@@ -124,7 +126,18 @@ the vector
 \end{DoxyReturn}
 
 
-Definition at line 124 of file Parent\-Table.\-cpp.
+Definition at line 127 of file Parent\-Table.\-cpp.
+
+\hypertarget{class_parent_table_a929a869dabe723777f337863f5d51b13}{\index{Parent\-Table@{Parent\-Table}!get\-Size@{get\-Size}}
+\index{get\-Size@{get\-Size}!ParentTable@{Parent\-Table}}
+\subsubsection[{get\-Size}]{\setlength{\rightskip}{0pt plus 5cm}int Parent\-Table\-::get\-Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_parent_table_a929a869dabe723777f337863f5d51b13}
+
+
+Definition at line 138 of file Parent\-Table.\-cpp.
 
 \hypertarget{class_parent_table_a775e3418a8653096b53276af58715c36}{\index{Parent\-Table@{Parent\-Table}!insert\-Parent@{insert\-Parent}}
 \index{insert\-Parent@{insert\-Parent}!ParentTable@{Parent\-Table}}
@@ -143,7 +156,7 @@ This method will be used to insert the Parent relation. Let r be the number of r
 \end{DoxyParams}
 
 
-Definition at line 17 of file Parent\-Table.\-cpp.
+Definition at line 20 of file Parent\-Table.\-cpp.
 
 \hypertarget{class_parent_table_ad7e627299fad7b2725558efb4e5b3105}{\index{Parent\-Table@{Parent\-Table}!is\-Empty@{is\-Empty}}
 \index{is\-Empty@{is\-Empty}!ParentTable@{Parent\-Table}}
@@ -157,7 +170,7 @@ true if the Parent table is empty, and false otherwise
 \end{DoxyReturn}
 
 
-Definition at line 30 of file Parent\-Table.\-cpp.
+Definition at line 33 of file Parent\-Table.\-cpp.
 
 \hypertarget{class_parent_table_a879660be86e4983a0199ce0a74b59488}{\index{Parent\-Table@{Parent\-Table}!is\-Parent@{is\-Parent}}
 \index{is\-Parent@{is\-Parent}!ParentTable@{Parent\-Table}}
@@ -179,7 +192,7 @@ true if statement s1 is an parent of statement s2.
 \end{DoxyReturn}
 
 
-Definition at line 42 of file Parent\-Table.\-cpp.
+Definition at line 45 of file Parent\-Table.\-cpp.
 
 \hypertarget{class_parent_table_abdad8cbd9c06af20257361dbbb35fe2d}{\index{Parent\-Table@{Parent\-Table}!is\-Parent\-Star@{is\-Parent\-Star}}
 \index{is\-Parent\-Star@{is\-Parent\-Star}!ParentTable@{Parent\-Table}}
@@ -201,7 +214,7 @@ true if statement s1 is an ancestor of statement s2.
 \end{DoxyReturn}
 
 
-Definition at line 80 of file Parent\-Table.\-cpp.
+Definition at line 83 of file Parent\-Table.\-cpp.
 
 
 

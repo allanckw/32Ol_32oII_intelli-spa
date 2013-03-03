@@ -8,9 +8,9 @@
 
 /**
 * Constructor: Used to create a new ASTStmtNode
-* @Param stmtNo The statement number
-* @Param nodeType The AST NodeType of statement
-* @Param value The Index could be PROC or VAR
+* @param stmtNo The statement number
+* @param nodeType The AST NodeType of statement
+* @param value The Index could be PROC or VAR
 */
 ASTStmtNode::ASTStmtNode(int stmtNo, NodeType nodeType, Index value)
 {
@@ -30,8 +30,8 @@ ASTStmtNode::ASTStmtNode(int stmtNo, NodeType nodeType, Index value)
 
 /**
 * This method will be used to add child under the AST Node
-* @Param c The Child of the ASTStmtNode
-* @Return its reference
+* @param c The Child of the ASTStmtNode
+* @return its reference
 */
 ASTNode* ASTStmtNode::addChild(ASTNode* c)
 {
@@ -64,9 +64,9 @@ ASTNode* ASTStmtNode::addChild(ASTNode* c)
 
 /**
 * This method will be used to add child under the AST Node
-* @Param c The Child of the ASTStatNode
-* @Param childLoc The Index of the Child of the ASTStmtNode
-* @Return its reference
+* @param c The Child of the ASTStatNode
+* @param childLoc The Index of the Child of the ASTStmtNode
+* @return its reference
 */
 ASTNode* ASTStmtNode::addChild(ASTNode* c, int childLoc)
 {
@@ -97,8 +97,8 @@ ASTNode* ASTStmtNode::addChild(ASTNode* c, int childLoc)
 
 /**
 * This method will be used to add child under the AST While Node
-* @Param c The Child of the AST While Node
-* @Param childLoc The Index of the Child of the AST While Node
+* @param c The Child of the AST While Node
+* @param childLoc The Index of the Child of the AST While Node
 */
 void ASTStmtNode::addChildToWhile(ASTNode* c, int childLoc)
 {
@@ -124,8 +124,8 @@ void ASTStmtNode::addChildToWhile(ASTNode* c, int childLoc)
 
 /**
 * This method will be used to add child under the AST If Node
-* @Param c The Child of the AST If Node
-* @Param childLoc The Index of the Child of the AST If Node
+* @param c The Child of the AST If Node
+* @param childLoc The Index of the Child of the AST If Node
 */
 void ASTStmtNode::addChildToIF(ASTNode* c, int childLoc)
 {
@@ -154,8 +154,8 @@ void ASTStmtNode::addChildToIF(ASTNode* c, int childLoc)
 
 /**
 * This method will be used to add child under the AST Assignment Node
-* @Param c The Child of the AST Assignment Node
-* @Param childLoc The Index of the Child of the AST Assignment Node
+* @param c The Child of the AST Assignment Node
+* @param childLoc The Index of the Child of the AST Assignment Node
 */
 void ASTStmtNode::addChildToAssign(ASTNode* c, int childLoc)
 {
@@ -190,7 +190,7 @@ int ASTStmtNode::getStmtNumber()
 
 /**
 * This method will be used to set value for the AST Stmt Node
-* @Param i The Index of the VARIABLE
+* @param i The Index of the VARIABLE
 */
 void ASTStmtNode::setValue(Index i)
 {

@@ -67,7 +67,7 @@ CFGNode::CFGNode(CFGNode* parent) : proc(parent->proc), first(0), last(0), type(
 //
 ///**
 //* This method will be used to get whether the node is a starting CFG node
-//* @Return true if it is start node else false
+//* @return true if it is start node else false
 //*/
 //bool CFGNode::isStartNode(){
 //	return this->isStart;
@@ -82,7 +82,7 @@ CFGNode::CFGNode(CFGNode* parent) : proc(parent->proc), first(0), last(0), type(
 //
 ///**
 //* This method will be used to get whether the node is a ending CFG node
-//* @Return true if it is end node else false
+//* @return true if it is end node else false
 //*/
 //bool CFGNode::isEndNode(){
 //	return this->isEnd;
@@ -90,7 +90,7 @@ CFGNode::CFGNode(CFGNode* parent) : proc(parent->proc), first(0), last(0), type(
 //
 ///**
 //* This method will be used to get whether the node is a dummy CFG Node
-//* @Return true if it is dummy node else false
+//* @return true if it is dummy node else false
 //*/
 //bool CFGNode::isDummy(){
 //	return this->type == CFGNode::DummyNode;
@@ -98,7 +98,7 @@ CFGNode::CFGNode(CFGNode* parent) : proc(parent->proc), first(0), last(0), type(
 //
 ///**
 //* This method will be used to return the Node Type
-//* @Return the node type
+//* @return the node type
 //*/
 //CFGNode::NodeType CFGNode::getType(){
 //	return this->type;
@@ -106,7 +106,7 @@ CFGNode::CFGNode(CFGNode* parent) : proc(parent->proc), first(0), last(0), type(
 //
 ///**
 //* This method will be used to return starting PROG LINE
-//* @Return the prog line
+//* @return the prog line
 //*/
 //PROG_LINE CFGNode::getStartLine(){
 //	return this->starting;
@@ -114,14 +114,14 @@ CFGNode::CFGNode(CFGNode* parent) : proc(parent->proc), first(0), last(0), type(
 //
 ///**
 //* This method will be used to return ending PROG LINE
-//* @Return the prog line
+//* @return the prog line
 //*/
 //PROG_LINE CFGNode::getEndLine(){
 //	return this->ending;
 //}
 ///**
 //* This method will be used to add the next CFG Node
-//* @Param node the node that is next to the node
+//* @param node the node that is next to the node
 //*/
 //
 //void CFGNode::addNextNode(CFGNode* node)
@@ -131,7 +131,7 @@ CFGNode::CFGNode(CFGNode* parent) : proc(parent->proc), first(0), last(0), type(
 //
 ///**
 //* This method will be used to add the previous CFG Node
-//* @Param node the node that is before the node
+//* @param node the node that is before the node
 //*/
 //void CFGNode::addPreviousNode(CFGNode* node)
 //{
@@ -140,7 +140,7 @@ CFGNode::CFGNode(CFGNode* parent) : proc(parent->proc), first(0), last(0), type(
 //
 ///**
 //* This method will be used to return a list of node that is before the Node
-//* @Return List of CFGNode that is previous
+//* @return List of CFGNode that is previous
 //*/
 //vector<CFGNode*> CFGNode::getPreviousNodes(){
 //	return this->prevNodes;
@@ -148,7 +148,7 @@ CFGNode::CFGNode(CFGNode* parent) : proc(parent->proc), first(0), last(0), type(
 //
 ///**
 //* This method will be used to return a list of node that is after the Node
-//* @Return List of CFGNode that is next
+//* @return List of CFGNode that is next
 //*/
 //vector<CFGNode*> CFGNode::getNextNodes(){
 //	return this->nextNodes;
@@ -156,7 +156,7 @@ CFGNode::CFGNode(CFGNode* parent) : proc(parent->proc), first(0), last(0), type(
 //
 ///**
 //* This method will be used to return the procedure these CFG node belong to
-//* @Return the PROC that CFG is in
+//* @return the PROC that CFG is in
 //*/
 //PROC CFGNode::getProcedure(){
 //	return this->belongingTo;
@@ -164,7 +164,7 @@ CFGNode::CFGNode(CFGNode* parent) : proc(parent->proc), first(0), last(0), type(
 //
 ///**
 //* This method is be use to get ALL PROG LINES associated with the CFGNode
-//* @Return List of program lines
+//* @return List of program lines
 //*/
 //vector<PROG_LINE> CFGNode::getProgramLines() {
 //	vector<PROG_LINE> progs;

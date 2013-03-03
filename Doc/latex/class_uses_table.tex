@@ -33,6 +33,10 @@ void \hyperlink{class_uses_table_a8a3c75dcaa454948816182d1ce301649}{link\-Call\-
 void \hyperlink{class_uses_table_a3c9dfd512e58af4d15a9471dcc7521cd}{optimize\-Uses\-Table} ()
 \item 
 void \hyperlink{class_uses_table_a4bfa9a051b7e791a9b8715a6237f068f}{display\-Uses\-Tables} ()
+\item 
+int \hyperlink{class_uses_table_a8793652fcfa56e3fe8094917f05d2b52}{get\-Uses\-Proc\-Size} ()
+\item 
+int \hyperlink{class_uses_table_a16f2fd1b95df100e619c06bafd24eeec}{get\-Uses\-Stmt\-Size} ()
 \end{DoxyCompactItemize}
 
 
@@ -51,9 +55,9 @@ Definition at line 4 of file Uses\-Table.\-h.
 {}
 \end{DoxyParamCaption}
 )}}\label{class_uses_table_a22b7102c56cfa8e9fa4d806c3ad4c586}
+This method will be used as a constructor to create \hyperlink{class_uses_table}{Uses\-Table} 
 
-
-Definition at line 6 of file Uses\-Table.\-cpp.
+Definition at line 9 of file Uses\-Table.\-cpp.
 
 
 
@@ -67,7 +71,7 @@ Definition at line 6 of file Uses\-Table.\-cpp.
 )}}\label{class_uses_table_a4bfa9a051b7e791a9b8715a6237f068f}
 This method will be used for testing purposes for viewing the content of the Uses table 
 
-Definition at line 175 of file Uses\-Table.\-cpp.
+Definition at line 191 of file Uses\-Table.\-cpp.
 
 \hypertarget{class_uses_table_a606a8c1dc8c9cc3b783e765c09e6891a}{\index{Uses\-Table@{Uses\-Table}!get\-Used\-By\-Proc@{get\-Used\-By\-Proc}}
 \index{get\-Used\-By\-Proc@{get\-Used\-By\-Proc}!UsesTable@{Uses\-Table}}
@@ -86,7 +90,7 @@ a vector of all variables
 \end{DoxyReturn}
 
 
-Definition at line 52 of file Uses\-Table.\-cpp.
+Definition at line 55 of file Uses\-Table.\-cpp.
 
 \hypertarget{class_uses_table_ae6da24dd1e776a415bb74255635b1731}{\index{Uses\-Table@{Uses\-Table}!get\-Used\-By\-Stmt@{get\-Used\-By\-Stmt}}
 \index{get\-Used\-By\-Stmt@{get\-Used\-By\-Stmt}!UsesTable@{Uses\-Table}}
@@ -105,7 +109,7 @@ a vector of all variables
 \end{DoxyReturn}
 
 
-Definition at line 40 of file Uses\-Table.\-cpp.
+Definition at line 43 of file Uses\-Table.\-cpp.
 
 \hypertarget{class_uses_table_aaedcc22a6cb307cb6c851e7c64815371}{\index{Uses\-Table@{Uses\-Table}!get\-Used\-In\-Proc@{get\-Used\-In\-Proc}}
 \index{get\-Used\-In\-Proc@{get\-Used\-In\-Proc}!UsesTable@{Uses\-Table}}
@@ -124,7 +128,7 @@ a vector of all procedures
 \end{DoxyReturn}
 
 
-Definition at line 76 of file Uses\-Table.\-cpp.
+Definition at line 79 of file Uses\-Table.\-cpp.
 
 \hypertarget{class_uses_table_ae9bc0a7a3183df114286107f0ad72b8b}{\index{Uses\-Table@{Uses\-Table}!get\-Used\-In\-Stmt@{get\-Used\-In\-Stmt}}
 \index{get\-Used\-In\-Stmt@{get\-Used\-In\-Stmt}!UsesTable@{Uses\-Table}}
@@ -143,7 +147,29 @@ a vector of all statements
 \end{DoxyReturn}
 
 
-Definition at line 64 of file Uses\-Table.\-cpp.
+Definition at line 67 of file Uses\-Table.\-cpp.
+
+\hypertarget{class_uses_table_a8793652fcfa56e3fe8094917f05d2b52}{\index{Uses\-Table@{Uses\-Table}!get\-Uses\-Proc\-Size@{get\-Uses\-Proc\-Size}}
+\index{get\-Uses\-Proc\-Size@{get\-Uses\-Proc\-Size}!UsesTable@{Uses\-Table}}
+\subsubsection[{get\-Uses\-Proc\-Size}]{\setlength{\rightskip}{0pt plus 5cm}int Uses\-Table\-::get\-Uses\-Proc\-Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_uses_table_a8793652fcfa56e3fe8094917f05d2b52}
+
+
+Definition at line 178 of file Uses\-Table.\-cpp.
+
+\hypertarget{class_uses_table_a16f2fd1b95df100e619c06bafd24eeec}{\index{Uses\-Table@{Uses\-Table}!get\-Uses\-Stmt\-Size@{get\-Uses\-Stmt\-Size}}
+\index{get\-Uses\-Stmt\-Size@{get\-Uses\-Stmt\-Size}!UsesTable@{Uses\-Table}}
+\subsubsection[{get\-Uses\-Stmt\-Size}]{\setlength{\rightskip}{0pt plus 5cm}int Uses\-Table\-::get\-Uses\-Stmt\-Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_uses_table_a16f2fd1b95df100e619c06bafd24eeec}
+
+
+Definition at line 183 of file Uses\-Table.\-cpp.
 
 \hypertarget{class_uses_table_a6d7e75d504e79223fa6f9676fb81963a}{\index{Uses\-Table@{Uses\-Table}!insert\-Proc\-Uses@{insert\-Proc\-Uses}}
 \index{insert\-Proc\-Uses@{insert\-Proc\-Uses}!UsesTable@{Uses\-Table}}
@@ -162,7 +188,7 @@ This method will be used to insert the Uses relation, where the first argument o
 \end{DoxyParams}
 
 
-Definition at line 29 of file Uses\-Table.\-cpp.
+Definition at line 32 of file Uses\-Table.\-cpp.
 
 \hypertarget{class_uses_table_ae29b8e5db64f12f6966916c62d4f911b}{\index{Uses\-Table@{Uses\-Table}!insert\-Stmt\-Uses@{insert\-Stmt\-Uses}}
 \index{insert\-Stmt\-Uses@{insert\-Stmt\-Uses}!UsesTable@{Uses\-Table}}
@@ -181,7 +207,7 @@ This method will be used to insert the Uses relation, where the first argument o
 \end{DoxyParams}
 
 
-Definition at line 15 of file Uses\-Table.\-cpp.
+Definition at line 18 of file Uses\-Table.\-cpp.
 
 \hypertarget{class_uses_table_a614dc66288e6d06a5fd48a1ec5c0a3bd}{\index{Uses\-Table@{Uses\-Table}!is\-Empty@{is\-Empty}}
 \index{is\-Empty@{is\-Empty}!UsesTable@{Uses\-Table}}
@@ -195,7 +221,7 @@ true if the Uses table is empty, and false otherwise
 \end{DoxyReturn}
 
 
-Definition at line 109 of file Uses\-Table.\-cpp.
+Definition at line 112 of file Uses\-Table.\-cpp.
 
 \hypertarget{class_uses_table_a53a4e37ac552ca2d7b8c7cfc56d3b3db}{\index{Uses\-Table@{Uses\-Table}!is\-Used\-Proc@{is\-Used\-Proc}}
 \index{is\-Used\-Proc@{is\-Used\-Proc}!UsesTable@{Uses\-Table}}
@@ -217,7 +243,7 @@ true if the procedure p uses variable v.
 \end{DoxyReturn}
 
 
-Definition at line 100 of file Uses\-Table.\-cpp.
+Definition at line 103 of file Uses\-Table.\-cpp.
 
 \hypertarget{class_uses_table_a0efe799acfbeea3b597258408896ca12}{\index{Uses\-Table@{Uses\-Table}!is\-Used\-Stmt@{is\-Used\-Stmt}}
 \index{is\-Used\-Stmt@{is\-Used\-Stmt}!UsesTable@{Uses\-Table}}
@@ -239,7 +265,7 @@ true if the statement s uses variable v.
 \end{DoxyReturn}
 
 
-Definition at line 89 of file Uses\-Table.\-cpp.
+Definition at line 92 of file Uses\-Table.\-cpp.
 
 \hypertarget{class_uses_table_a8a3c75dcaa454948816182d1ce301649}{\index{Uses\-Table@{Uses\-Table}!link\-Call\-Stmt\-To\-Proc\-Uses@{link\-Call\-Stmt\-To\-Proc\-Uses}}
 \index{link\-Call\-Stmt\-To\-Proc\-Uses@{link\-Call\-Stmt\-To\-Proc\-Uses}!UsesTable@{Uses\-Table}}
@@ -258,7 +284,7 @@ This method will be used to link a call statement to the procedure it calls.
 \end{DoxyParams}
 
 
-Definition at line 119 of file Uses\-Table.\-cpp.
+Definition at line 122 of file Uses\-Table.\-cpp.
 
 \hypertarget{class_uses_table_a3c9dfd512e58af4d15a9471dcc7521cd}{\index{Uses\-Table@{Uses\-Table}!optimize\-Uses\-Table@{optimize\-Uses\-Table}}
 \index{optimize\-Uses\-Table@{optimize\-Uses\-Table}!UsesTable@{Uses\-Table}}
@@ -269,7 +295,7 @@ Definition at line 119 of file Uses\-Table.\-cpp.
 )}}\label{class_uses_table_a3c9dfd512e58af4d15a9471dcc7521cd}
 This method will be used to optimise the populated Uses table for fast access 
 
-Definition at line 127 of file Uses\-Table.\-cpp.
+Definition at line 130 of file Uses\-Table.\-cpp.
 
 
 

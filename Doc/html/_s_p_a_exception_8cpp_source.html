@@ -119,17 +119,21 @@ $(document).ready(function(){initNavTree('_s_p_a_exception_8cpp_source.html','')
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;}</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
 <div class="line"><a name="l00024"></a><span class="lineno"><a class="code" href="class_s_p_a_exception.html#a968d8912a66e211f71e47a710f5d6667">   24</a></span>&#160;<span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="class_s_p_a_exception.html#a968d8912a66e211f71e47a710f5d6667">SPAException::what</a>() <span class="keyword">const</span> throw(){</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="class_s_p_a_exception.html#a01dacc987941a94c516cb08988dc7d51">message</a>.c_str();</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;}</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordtype">string</span> s = <a class="code" href="class_s_p_a_exception.html#a01dacc987941a94c516cb08988dc7d51">message</a>;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    std::replace( s.begin(), s.end(), <span class="charliteral">&#39;&lt;&#39;</span>, <span class="charliteral">&#39;[&#39;</span>);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    std::replace( s.begin(), s.end(), <span class="charliteral">&#39;&gt;&#39;</span>, <span class="charliteral">&#39;]&#39;</span>);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordflow">return</span> s.c_str();</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;}</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_28240f1e82be414ac37674cd3ff4adc3.html">$P@</a></li><li class="navelem"><a class="el" href="dir_f0a66c18035a04f3accc68e6ea4db1f5.html">SPA</a></li><li class="navelem"><a class="el" href="dir_9072de41565413c7baeba4ab62bcf7d0.html">SPA</a></li><li class="navelem"><a class="el" href="_s_p_a_exception_8cpp.html">SPAException.cpp</a></li>
-    <li class="footer">Generated on Mon Feb 4 2013 01:48:09 for SPA by
+    <li class="footer">Generated on Mon Mar 4 2013 00:45:45 for SPA by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3.1 </li>
   </ul>

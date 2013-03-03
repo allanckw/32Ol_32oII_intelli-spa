@@ -3,6 +3,9 @@
 #include "PKB.h"
 #include "UsesTable.h"
 
+/**
+* This method will be used as a constructor to create UsesTable
+*/
 UsesTable::UsesTable()
 {
 }

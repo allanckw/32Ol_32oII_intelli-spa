@@ -2,14 +2,30 @@
 #include "MultiQueryEval.h"
 #include "Helper.h"
 
-bool MultiQueryEval::getSelectBoolean(){
+
+/**
+* Returns whether the query is of type Select Boolean
+* @return true if it is of type select boolean, false otherwise
+*/
+bool MultiQueryEval::isSelectBoolean(){
 	return this->selectBOOLEAN;
 }
 
-bool MultiQueryEval::getEarlyQuit(){
+/**
+* Returns whether the result of the query terminating early, i.e. query is 
+* always false after checks
+* @return true if it terminating early, false otherwise
+*/
+bool MultiQueryEval::isEarlyQuit(){
 	return this->earlyQuit;
 }
 
+
+/**
+* Does all the query evaluation.
+* @param query query string
+* @return the MultiQueryEval object with answers if any
+*/
 vector<string> MultiQueryEval::getFinalAnswer(){
 	return this->finalanswer;
 }

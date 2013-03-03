@@ -26,9 +26,9 @@ public:
 
 	static vector<string> evaluateQuery(const string& query);
 
-	bool getSelectBoolean();
+	bool isSelectBoolean();
 
-	bool getEarlyQuit();
+	bool isEarlyQuit();
 
 	vector<string> getFinalAnswer();
 };

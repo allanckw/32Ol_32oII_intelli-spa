@@ -3,11 +3,12 @@
 #include "VARTable.h"
 #include "SPAException.h"
 
-
-VARTable::VARTable(void)
+/**
+* This method will be used as a constructor to create VarTable
+*/
+VARTable::VARTable()
 {
 }
-
 
 /**
 * This method will be use to add variable into the variable table

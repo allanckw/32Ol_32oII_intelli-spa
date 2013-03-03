@@ -2,6 +2,9 @@
 #include "StdAfx.h"
 #include "ParentTable.h"
 
+/**
+* This method will be used as a constructor to create ParentTable
+*/
 ParentTable::ParentTable()
 {
 }

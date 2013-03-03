@@ -161,7 +161,7 @@ bool AffectsTable::isAffectsStar (STMT a1, STMT a2)
 }
 
 /**
-* This method will be used to get a list of a2 that is affectStar(a1,_)
+* This method will be used to get a list of a2 that is affect*(a1,_)
 * @Param a1	The statement that is going to affect a2
 * @Return a list of statement that is affected by a1
 */
@@ -177,7 +177,7 @@ vector<STMT> AffectsTable::getAffectsByStar(STMT a1)
 }
 
 /**
-* This method will be used to get a list of a2 that is affectStar(_,a2)
+* This method will be used to get a list of a2 that is affect*(_,a2)
 * @Param a2	The statement that is going to affect by a1
 * @Return a list of statement that is affectStar a2
 */
@@ -194,78 +194,78 @@ vector<STMT> AffectsTable::getAffectsFromStar(STMT a2)
 
 
 
-//planned for itr3 + 4
-void AffectsTable::insertAffectsBip(STMT a1, STMT a2, bool isAffected)
-{
-	Affects* n = new Affects(a1, a2, isAffected);
-	
-	auto itr = this->affectsBipMap.find(a1);
-	
-	if (itr == this->affectsBipMap.end()) {
-		vector<Affects*> affectsLst;
-		affectsLst.push_back(n);
-		pair<STMT, vector<Affects*>> newItem (a1, affectsLst);
-		this->affectsBipMap.insert(newItem);
-	} else {
-		if (!AffectsTable::isDuplicate(this->affectsBipMap.at(a1), n)){
-			this->affectsBipMap.at(a1).push_back(n);
-		}
-	}
-}
-
-bool AffectsTable::isAffectsBip (STMT a1, STMT a2)
-{
-	if (a1 <= 0 || a2 <= 0)
-		return false;
-
-	auto itr = this->affectsBipMap.find(a1);
-
-	if (itr != this->affectsBipMap.end()){
-
-		vector<Affects*> nxtLst =  itr->second;
-	
-		for (unsigned int i = 0; i < nxtLst.size(); i++) {
-			if (nxtLst[i]->getA2() == a2 )
-				return nxtLst[i]->isAffected();
-		}
-	}
-	//TODO: Implement
-	//if (PQLAffectsProcessor::isAffectsBip(a1,a2)){
-	//	return true;
-	//} else {
-	//	PKB::affects.insertAffectsBip(a1, a2, false);
-	//	return false;
-	//}
-}
-
-bool AffectsTable::isAffectsEmpty()
-{
-	if (this->affectsMap.size() > 0)
-		return true;
-	else
-	{
-		//traverse until find smth and return
-	}
-	return false; //totally cannot find
-}
-
-//for Affects*(_, _) only
-/**
-* This method will be used to get check whether AffectStarTable is empty
-* @Return true if it is not empty, otherwise false
-*/
-bool AffectsTable::isAffectsStarEmpty()
-{
-	if (this->affectsMap.size() > 0)
-		return true;
-	else if (this->affectsStarMap.size() > 0)
-		return true;
-	else
-	{
-		//traverse until find smth and return
-	}
-	return false; //totally cannot find
-}
+////planned for itr3 + 4
+//void AffectsTable::insertAffectsBip(STMT a1, STMT a2, bool isAffected)
+//{
+//	Affects* n = new Affects(a1, a2, isAffected);
+//	
+//	auto itr = this->affectsBipMap.find(a1);
+//	
+//	if (itr == this->affectsBipMap.end()) {
+//		vector<Affects*> affectsLst;
+//		affectsLst.push_back(n);
+//		pair<STMT, vector<Affects*>> newItem (a1, affectsLst);
+//		this->affectsBipMap.insert(newItem);
+//	} else {
+//		if (!AffectsTable::isDuplicate(this->affectsBipMap.at(a1), n)){
+//			this->affectsBipMap.at(a1).push_back(n);
+//		}
+//	}
+//}
+//
+//bool AffectsTable::isAffectsBip (STMT a1, STMT a2)
+//{
+//	if (a1 <= 0 || a2 <= 0)
+//		return false;
+//
+//	auto itr = this->affectsBipMap.find(a1);
+//
+//	if (itr != this->affectsBipMap.end()){
+//
+//		vector<Affects*> nxtLst =  itr->second;
+//	
+//		for (unsigned int i = 0; i < nxtLst.size(); i++) {
+//			if (nxtLst[i]->getA2() == a2 )
+//				return nxtLst[i]->isAffected();
+//		}
+//	}
+//	//TODO: Implement
+//	//if (PQLAffectsProcessor::isAffectsBip(a1,a2)){
+//	//	return true;
+//	//} else {
+//	//	PKB::affects.insertAffectsBip(a1, a2, false);
+//	//	return false;
+//	//}
+//}
+//
+//bool AffectsTable::isAffectsEmpty()
+//{
+//	if (this->affectsMap.size() > 0)
+//		return true;
+//	else
+//	{
+//		//traverse until find smth and return
+//	}
+//	return false; //totally cannot find
+//}
+//
+////for Affects*(_, _) only
+///**
+//* This method will be used to get check whether AffectStarTable is empty
+//* @Return true if it is not empty, otherwise false
+//*/
+//bool AffectsTable::isAffectsStarEmpty()
+//{
+//	if (this->affectsMap.size() > 0)
+//		return true;
+//	else if (this->affectsStarMap.size() > 0)
+//		return true;
+//	else
+//	{
+//		//traverse until find smth and return
+//	}
+//	return false; //totally cannot find
+//}
 
 /**
 * This method will be used to get check whether AffectBipTable is empty

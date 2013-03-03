@@ -4,7 +4,7 @@ typedef int PROCIndex;
 class PROCTable
 {
 public:
-	PROCTable(void);
+	PROCTable();
 
 	PROCIndex insertPROC(string PROCName);
 	

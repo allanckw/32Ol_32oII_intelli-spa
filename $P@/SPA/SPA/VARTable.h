@@ -6,7 +6,7 @@ typedef int VARIndex;
 class VARTable
 {
 public:
-	VARTable(void);
+	VARTable();
 
 
 	VARIndex insertVAR(string VARName);

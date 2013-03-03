@@ -4,10 +4,8 @@
 
 /**
 * Public method for evaluating queries.
-* Passes call to the MultiQueryEval constructor. Only adds in the answer of FALSE
-* if the evaluation was returned early and the select was for a BOOLEAN.
 * @param query query string
-* @return the vector of strings of the answers to the query
+* @return the vector of strings of the answers of the query
 */
 vector<string> PQLController::evaluateQuery(const string& query)
 {
@@ -18,7 +16,7 @@ vector<string> PQLController::evaluateQuery(const string& query)
 
 	MultiQueryEval result(query);
 
-	if (result.getSelectBoolean() && result.getEarlyQuit())
+	if (result.isSelectBoolean() && result.isEarlyQuit())
 		return vector<string>(1, "FALSE");
 
 	return result.getFinalAnswer();

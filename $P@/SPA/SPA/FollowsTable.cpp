@@ -2,12 +2,12 @@
 #include "StdAfx.h"
 #include "FollowsTable.h"
 
-
-FollowsTable::FollowsTable()
-{
+/**
+* This method will be used as a constructor to create FollowsTable
+*/
+FollowsTable::FollowsTable() {
 	starSize = 0;
 }
-
 
 /**
 * This method will be used to insert the Follows relation.

@@ -15,7 +15,7 @@ private:
 	void makeComponents();
 
 public:
-	DisjointSet(void);
+	DisjointSet();
 
 
 	void makeSet(string);

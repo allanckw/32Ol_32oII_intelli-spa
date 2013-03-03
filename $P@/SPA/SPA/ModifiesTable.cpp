@@ -4,7 +4,9 @@
 #include "ModifiesTable.h"
 
 
-
+/**
+* This method will be used as a constructor to create ModifiesTable
+*/
 ModifiesTable::ModifiesTable()
 {
 }

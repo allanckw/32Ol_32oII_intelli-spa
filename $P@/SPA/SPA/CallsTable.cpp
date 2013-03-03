@@ -1,8 +1,10 @@
 #pragma once
-#include "StdAfx.h"
 #include "CallsTable.h"
 #include "PKB.h"
 
+/**
+* This method will be used as a constructor to create CallsTable
+*/
 CallsTable::CallsTable()
 {
 }

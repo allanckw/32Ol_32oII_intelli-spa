@@ -3,7 +3,10 @@
 #include "PROCTable.h"
 #include "SPAException.h"
 
-PROCTable::PROCTable(void)
+/**
+* This method will be used as a constructor to create ProcTable
+*/
+PROCTable::PROCTable()
 {
 }
 

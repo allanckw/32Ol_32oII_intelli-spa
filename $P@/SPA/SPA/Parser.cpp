@@ -9,7 +9,6 @@
 #include "AssignmentParser.h"
 #include "Helper.h"
 
-//TODO: For Nick, put your parser into this controller
 vector<vector<string>> Parser::tokenized_codes;
 
 stack<char> brackets;

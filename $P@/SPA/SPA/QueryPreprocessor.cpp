@@ -359,6 +359,7 @@ string QueryPreprocessor::getToken2(string query, int& pos)
 * @param pos position read until
 * @param match string for token to match with
 * @return true if the token matched the required string, and false otherwise
+* @throws SPAException when token does not match
 */
 void QueryPreprocessor::matchToken(const string& query, int& pos, const string& match)
 {

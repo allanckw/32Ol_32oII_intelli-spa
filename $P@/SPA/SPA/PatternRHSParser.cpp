@@ -4,9 +4,6 @@
 #include "PKB.h"
 #include "Helper.h"
 
-
-
-
 int PatternRHSParser::getOperatorWeight(string token)
 {
 	if (token == "+" || token == "-") //+ and - has weight 1

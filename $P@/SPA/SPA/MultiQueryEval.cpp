@@ -1208,19 +1208,5 @@ vector<string> MultiQueryEval::MiniTokenizer(const string& line)
 
 	}while(startindex != -1 && position < line.size() && endindex != -1);
 	
-
-	//house keeping
-	/*if(Parser::tokenized_codes.size() > 1)
-	{
-		vector<string> temp_vec = Parser::tokenized_codes.at(0);
-		temp_vec.insert(temp_vec.end(), Parser::tokenized_codes.at(1).begin(),Parser::tokenized_codes.at(1).end());
-		Parser::tokenized_codes.erase(Parser::tokenized_codes.begin());
-		Parser::tokenized_codes.at(0) = temp_vec;
-	}*/
-
-	//if(list.size() > 0)
-	//Parser::tokenized_codes.push_back(list);
-
-	//vector<string> tokens;
 	return list;
 }

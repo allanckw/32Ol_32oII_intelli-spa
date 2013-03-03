@@ -1,5 +1,5 @@
 #include "TestWrapper.h"
-
+#include <iterator>
 
 // implementation code of WrapperFactory - do NOT modify the next 5 lines
 AbstractWrapper* WrapperFactory::wrapper = 0;
@@ -31,21 +31,8 @@ void TestWrapper::parse(std::string filename) {
 void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
 	try{
 		vector<string> answers = PQLController::evaluateQuery(query);
-		if (AbstractWrapper::GlobalStop){
-			
-		}
-		else
-		{
-			for(unsigned int i = 0; i < answers.size(); i++)
-			{
-				results.push_back(answers.at(i));
-			}
-		}
-	}catch (exception& e)
-	{
-		//Giving u the error result in the results, instead of throwing exception
-		//The exception is thrown in the pre-processor when i encounter some weird stuff
-		//that you type in in your query, for example, you use a variable that you did not declare
+		std::copy (answers.begin(), answers.end(), std::back_inserter(results));
+	}catch (exception& e)	{
 		results.push_back(e.what());
 	}
 }

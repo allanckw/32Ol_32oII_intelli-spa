@@ -27,7 +27,7 @@ void display(vector<int> x)
 }
 void TestQueryEvaluator::TestQueryEvaluatorM()
 {  
-	PKBController::initializePKB("F:\\3201_3202\\SPA\\source4.txt");
+	PKBController::initializePKB("F:\\3201_3202\\SPA\\source9.txt");
 	//doon("assign a; Select BOOLEAN such that Affects(1, 2)"); 
 	//doon("assign a; Select BOOLEAN such that Affects(1, 3)"); 
 	//doon("assign a; Select BOOLEAN such that Affects(1, 5)"); 
@@ -39,33 +39,13 @@ void TestQueryEvaluator::TestQueryEvaluatorM()
 	//doon("Select BOOLEAN such that Affects*(11, 14)"); 
 	//doon("Select BOOLEAN such that Affects*(20, 20)"); 
 
-	//doon("assign a1; Select BOOLEAN such that Affects(3, 3)");
-
-	cout << "assign a1; Select a1 such that Affects(a1, 9)" << endl;
-	//vector<int> x = PQLAffectsProcessor::getAffectsFrom(9);
-	//
-	//display(x);
-
-	//cout << "assign a1; Select a1 such that Affects(a1, 22)"<< endl;
-	////x = PQLAffectsProcessor::getAffectsFrom(22);
-	//display(x);
-	cout << PKB::stmtRefMap.at(1).getCFGNode()->first << endl;
+	doon("stmt s2,s3,s4,s5;constant c;assign s1,a;while w; if iff; variable v; Select <a,s1,w,iff> such that Affects*(a, s1) and Follows* (s1, s2) and Next*(s2,s3) such that Parent*(s3,s4) and Uses(s2,\"x\") and Modifies (s3,\"z\") pattern a(v,_\"x\"_) pattern w(v,_) pattern iff(v,_,_) with c.value = 0");
 
 }
 
 
 void TestQueryEvaluator::doon(string s)
 {
-	//bool a = PKB::next.isNextStar(1, 3);
-	//bool b = PKB::uses.isUsedStmt(3, 0);
-	//cout << a << endl << b << endl;;
-	//
-	//bool x = PKB::affects.isAffects(1,3);//PKB::affects.isAffects(1,4);
-	//bool y = PKB::affects.isAffects(9,12);
-	////vector<PROG_LINE> y = PKB::next.getPreviousStar(9);
-	//cout << x << endl << y << endl;;
-
-	
 
 	cout << s << endl;
 	try {

@@ -1,11 +1,6 @@
 #pragma once
 #include "MultiQueryEval.h"
 #include "Helper.h"
-#include "PKB.h"
-#include "RulesOfEngagement.h"
-#include "AnswerTable.h"
-#include "QueryPreprocessor.h"
-#include "AssignmentParser.h"
 
 bool MultiQueryEval::getSelectBoolean(){
 	return this->selectBOOLEAN;
@@ -250,9 +245,7 @@ MultiQueryEval::MultiQueryEval(const string& query)
 
 	//apply special rules
 	//1) stmt s, t; Follows(s,t) and Follows(t,s) -> earlyQuit
-	//TODO: Generalise to Follows(s1,s2) and Follows(s2,s3) and ... and Follows(sk,1) -> earlyQuit
-	//2) stmt s, t; Next*(s,t) and Next*(t,s)
-	//-> (Remove the two original relationships at the end) + while w; Parent*(w,s) and Parent*(w,t)
+	//TODO: Generalise to Follows(s1,s2) and Follows(s2,s3) and ... and Follows(sk,s1) -> earlyQuit
 	unordered_map<string, unordered_set<string>>* followsRel;
 	if (relationStore.count(RulesOfEngagement::Follows) > 0)
 		followsRel = &relationStore[RulesOfEngagement::Follows];

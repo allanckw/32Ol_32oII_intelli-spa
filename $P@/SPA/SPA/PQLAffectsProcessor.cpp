@@ -117,12 +117,13 @@ vector<STMT> PQLAffectsProcessor::getAffectsFrom(STMT a2)
 	unordered_set<STMT> answer;
 
 	bool toStep = false;
-	for (auto it = s2->modifySet.begin(); it != s2->modifySet.end(); it++)
+	for (auto it = s2->modifySet.begin(); it != s2->modifySet.end(); it++) {
 		if (usesVarSet.count(*it) > 0) {
 			toStep = true;
 			break;
 		}
-	if (toStep)
+	}
+	if (toStep) {
 		for (int i = a2 - 1; i >= s2->first; i--)
 			if (PKB::assignTable.count(i) > 0) {
 				const VAR stmtModifiesVar = PKB::modifies.getModifiedByStmt(i)[0];
@@ -141,13 +142,13 @@ vector<STMT> PQLAffectsProcessor::getAffectsFrom(STMT a2)
 							return vector<STMT>(answer.begin(), answer.end());
 					}
 			}
-	
+	}
 	queue<pair<CFGNode*, unordered_set<int>>> search;
 	list<pair<CFGNode*, unordered_set<int>>> ifQueue;
 	unordered_set<CFGNode*> seen;
-	for (auto it = s2->parents.begin(); it != s2->parents.end(); it++)
+	for (auto it = s2->parents.begin(); it != s2->parents.end(); it++) {
 		search.push(pair<CFGNode*, unordered_set<int>>(*it, usesVarSet));
-
+	}
 	while (!(search.empty() && ifQueue.empty())) {
 		pair<CFGNode*, unordered_set<int>> currPair;
 		CFGNode* currCFG;
@@ -174,19 +175,24 @@ vector<STMT> PQLAffectsProcessor::getAffectsFrom(STMT a2)
 					ifQueue.push_back(currPair);
 					continue;
 				}
-			} else
+			} else {
 				usesVar = currPair.second;
+			}
 		}
-		if (seen.count(currCFG) > 0)
+
+		if (seen.count(currCFG) > 0) {
 			continue;
+		}
 		seen.insert(currCFG);
 		
 		bool toStep = false;
-		for (auto it = currCFG->modifySet.begin(); it != currCFG->modifySet.end(); it++)
+		for (auto it = currCFG->modifySet.begin(); it != currCFG->modifySet.end(); it++) {
 			if (usesVar.count(*it) > 0) {
 				toStep = true;
 				break;
 			}
+		}
+
 		if (toStep) { //some statement will modify some of the used variables
 			for (int i = currCFG->last; i >= currCFG->first; i--)
 				if (PKB::assignTable.count(i) > 0) {
@@ -211,9 +217,11 @@ vector<STMT> PQLAffectsProcessor::getAffectsFrom(STMT a2)
 				}
 		}
 
-		if (usesVar.size() != 0)
-			for (auto it = currCFG->parents.begin(); it != currCFG->parents.end(); it++)
+		if (usesVar.size() != 0) {
+			for (auto it = currCFG->parents.begin(); it != currCFG->parents.end(); it++) {
 				search.push(pair<CFGNode*, unordered_set<int>>(*it, usesVar));
+			}
+		}
 	}
 	return vector<STMT>(answer.begin(), answer.end());
 
@@ -233,7 +241,7 @@ vector<STMT> PQLAffectsProcessor::getAffectsBy(STMT a1)
 	CFGNode* s1 = PKB::stmtRefMap.at(a1).getCFGNode();
 	unordered_set<STMT> answer;
 
-	for (int i = a1 + 1; i <= s1->last; i++)
+	for (int i = a1 + 1; i <= s1->last; i++) {
 		if (PKB::assignTable.count(i) > 0) {
 			const vector<VAR>& stmtUsesVar = PKB::uses.getUsedByStmt(i);
 			for (auto it = stmtUsesVar.begin(); it != stmtUsesVar.end(); it++)
@@ -249,7 +257,8 @@ vector<STMT> PQLAffectsProcessor::getAffectsBy(STMT a1)
 				if (modifiesVar == *it)
 					return vector<STMT>(answer.begin(), answer.end());
 		}
-	
+	}
+
 	queue<CFGNode*> search;
 	unordered_set<CFGNode*> seen;
 	
@@ -318,7 +327,7 @@ vector<STMT> PQLAffectsProcessor::getAffectsBy(STMT a1)
 			continueCFG = false;
 		}
 
-		if (continueCFG)
+		if (continueCFG) {
 			switch (s1->type) {
 			case CFGNode::StandardNode:
 			case CFGNode::DummyNode:
@@ -336,10 +345,9 @@ vector<STMT> PQLAffectsProcessor::getAffectsBy(STMT a1)
 				search.push(s1->children.ifChildren.ifElse);
 				break;
 			}
+		}
 	}
 	return vector<STMT>(answer.begin(), answer.end());
-
-
 }
 
 //Affects*

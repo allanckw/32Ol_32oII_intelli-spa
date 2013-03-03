@@ -5,6 +5,11 @@
 #include "DisjointSet.h"
 #include "ASTNode.h"
 #include "ASTExprNode.h"
+#include "PKB.h"
+#include "RulesOfEngagement.h"
+#include "AnswerTable.h"
+#include "QueryPreprocessor.h"
+#include "AssignmentParser.h"
 
 class MultiQueryEval
 {

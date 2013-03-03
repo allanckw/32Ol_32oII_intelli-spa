@@ -2,11 +2,16 @@
 #include "CFGNode.h"
 #include "PKB.h"
 
+/**
+* This method will be used as a constructor to create CFGNode based on PROCEDURE
+*/
 CFGNode::CFGNode(PROC proc) : proc(proc), first(0), last(0), type(DummyNode), whileAncestor(NULL),
 	nextList(), prevList(), modifySet(), useSet(), parents(), children()
 {
 }
-
+/**
+* This method will be used as a constructor to create CFGNode based on Parent
+*/
 CFGNode::CFGNode(CFGNode* parent) : proc(parent->proc), first(0), last(0), type(DummyNode), 
 	whileAncestor(parent->whileAncestor), nextList(), modifySet(), useSet(), children(),
 	parents(1, parent)

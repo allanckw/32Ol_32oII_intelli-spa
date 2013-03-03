@@ -3,6 +3,11 @@
 #include "ASTNode.h"
 #include "ASTStmtLstNode.h"
 
+/**
+* This method will be used to build the CFGs from the PKB::Root of the AST
+* At the end of a procedure, it will be added to a list that 
+* will contains all the CFGs in a program to prepare for query evaluation
+*/
 void CFGBuilder::buildCFG()
 {
 	stack<ASTStmtNode*> DFSstack;

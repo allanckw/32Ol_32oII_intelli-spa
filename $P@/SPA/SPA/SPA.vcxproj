@@ -61,7 +61,6 @@
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\IntervalList.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\MultiQueryEval.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\NextTable.cpp" />
-    <ClCompile Include="..\..\..\$P%40\SPA\SPA\PatternRHSParser.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\PKBController.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\PQLAffectsProcessor.cpp" />
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\PQLController.cpp" />

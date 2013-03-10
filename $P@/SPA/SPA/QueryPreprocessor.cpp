@@ -126,6 +126,8 @@ void QueryPreprocessor::validate(const string& query)
 
 		case With:
 			{
+				//REF = REF Change this With Case to accomodate 10 = 10, "abc" = "abc"
+				//etc
 				string synonym = QueryPreprocessor::getToken(query, pos);
 				if (stringToQueryVar.count(synonym) == 0)
 					throw new SPAException("The variable " + synonym + " is not recognised");

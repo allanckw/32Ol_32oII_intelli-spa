@@ -209,9 +209,6 @@
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\PQLNextProcessor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\$P%40\SPA\SPA\PatternRHSParser.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\StmtRef.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

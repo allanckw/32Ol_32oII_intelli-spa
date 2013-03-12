@@ -140,7 +140,7 @@ bool ASTNode::isRoot()
 * Return the children ASTNode of the current node 
 * @return the list of ASTNodes
 */
-vector<ASTNode*> ASTNode::getChildren()
+vector<ASTNode*> ASTNode::getChildren() const
 {
 	return this->children;
 }
@@ -149,7 +149,7 @@ vector<ASTNode*> ASTNode::getChildren()
 * Check if the ASTNode has children
 * @return return true if it has children, false otherwise
 */
-bool ASTNode::isHasChildren()
+bool ASTNode::isHasChildren() 
 {
 	return (children.size() > 0);
 }
@@ -182,7 +182,7 @@ ASTNode* ASTNode::getChild(unsigned int i) const
 * Get the parent ASTNode 
 * @return the parent ASTNode  
 */
-ASTNode* ASTNode::getParent()
+ASTNode* ASTNode::getParent() const
 {
 	return this->parent;
 }

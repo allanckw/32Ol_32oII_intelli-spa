@@ -41,14 +41,14 @@ public:
 
 	ASTNode::NodeType getType() const;
 	ASTNode* getChild(unsigned int) const;
-	ASTNode* getParent();
+	ASTNode* getParent() const; 
 
 	int getValue() const;
  
 	bool isHasChildren();
 	bool isRoot();
 
-	vector<ASTNode*> getChildren();
+	vector<ASTNode*> getChildren() const;
 
 protected:
 	int value;

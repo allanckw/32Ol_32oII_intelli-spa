@@ -2,6 +2,7 @@
 #include "RulesOfEngagement.h"
 #include "PKB.h"
 #include "Helper.h"
+#include "PQLContainPreprocessor.h"
 
 unordered_map<string, unordered_set<RulesOfEngagement::QueryRelations>>
 	RulesOfEngagement::tokenToRel;
@@ -505,6 +506,23 @@ bool RulesOfEngagement::isSibling(ASTNode* x, ASTNode* y)
 	return ((x != y) && x->getParent() == y->getParent());
 }
 
+bool RulesOfEngagement::isContains(ASTNode* x, ASTNode* y)
+{
+	return (x == y->getParent());
+}
+
+bool RulesOfEngagement::isContainsStar(ASTNode* x, ASTNode* y)
+{
+	ASTNode* p = y->getParent();
+	while (p != NULL) {
+		if (x == p)
+			return true;
+
+		p = y->getParent();
+	}
+	return false;
+}
+
 /**
 * The reason for the shortness of the code in MultiQueryEval.
 * Takes in the relation type and returns a function pointer that can be called to return
@@ -604,8 +622,7 @@ vector<int> RulesOfEngagement::getStmtSiblings(int x)
 
 vector<ASTNode*> RulesOfEngagement::getNodeSiblings(ASTNode* x)
 {
-	ASTNode* p = x->getParent();
-	vector<ASTNode*> children = p->getChildren();
+	vector<ASTNode*> children = x->getParent()->getChildren();
 	vector<ASTNode*> result;
 
 	for (int i = 0; i < children.size(); i++) {
@@ -796,43 +813,81 @@ vector<int> RulesOfEngagement::getAllStmtList()
 	return answer;
 }
 
+
 vector<ASTNode*> RulesOfEngagement::getAllPlusNodes()
 {
-
+	return PQLContainPreprocessor::getNodes(ASTNode::Operator, 0);
 }
 
 vector<ASTNode*> RulesOfEngagement::getAllMinusNodes()
 {
+	return PQLContainPreprocessor::getNodes(ASTNode::Operator, 1);
 }
 
 vector<ASTNode*> RulesOfEngagement::getAllTimesNodes()
 {
+	return PQLContainPreprocessor::getNodes(ASTNode::Operator, 2);
 }
 
 vector<ASTNode*> RulesOfEngagement::getAllVarNodes()
 {
+	return PQLContainPreprocessor::getNodes(ASTNode::Variable);
 }
 
 vector<ASTNode*> RulesOfEngagement::getAllProcNodes()
 {
+	return PQLContainPreprocessor::getNodes(ASTNode::Procedure);
 }
 
 vector<ASTNode*> RulesOfEngagement::getAllConstantNodes()
 {
+	return PQLContainPreprocessor::getNodes(ASTNode::Constant);
 }
 
 vector<ASTNode*> RulesOfEngagement::getAllVarNodes(VAR v)
 {
+	return PQLContainPreprocessor::getNodes(ASTNode::Variable, v);
 }
 
 vector<ASTNode*> RulesOfEngagement::getAllProcNodes(PROC p)
 {
+	return PQLContainPreprocessor::getNodes(ASTNode::Procedure, p);
 }
 
 vector<ASTNode*> RulesOfEngagement::getAllConstantNodes(int c)
 {
+	return PQLContainPreprocessor::getNodes(ASTNode::Constant, c);
 }
 
+vector<ASTNode*> RulesOfEngagement::getAllStmtLstNodes()
+{
+	return PQLContainPreprocessor::getNodes(ASTNode::StmtLst);
+}
+
+ASTNode* RulesOfEngagement::getStmtNode(STMT s)
+{
+	return PKB::stmtRefMap.at(s).getASTStmtNode();
+}
+
+vector<ASTNode*> RulesOfEngagement::getAllAssignNodes()
+{
+	return PQLContainPreprocessor::getNodes(ASTNode::Assign);
+}
+
+vector<ASTNode*> RulesOfEngagement::getAllWhileNodes()
+{
+	return PQLContainPreprocessor::getNodes(ASTNode::While);
+}
+
+vector<ASTNode*> RulesOfEngagement::getAllIfNodes()
+{
+	return PQLContainPreprocessor::getNodes(ASTNode::If);
+}
+
+vector<ASTNode*> RulesOfEngagement::getAllCallNodes()
+{
+	return PQLContainPreprocessor::getNodes(ASTNode::Call);
+}
 
 /*template
 
@@ -864,7 +919,8 @@ bool RulesOfEngagement::satisfyPattern(const int index, const RulesOfEngagement:
 	if (map.count(index) > 0 && map[index].count(RHSVarName) > 0)
 		return map[index][RHSVarName];*/
 
-	return /*map[index][RHSVarName] = */TryMatch(PKB::assignNodes[index], RHS, RHSexprs);
+	//return /*map[index][RHSVarName] = */
+	return TryMatch(PKB::assignNodes[index], RHS, RHSexprs);
 }
 
 //RHS for now handles patterns in the form of "a" or _"a"_

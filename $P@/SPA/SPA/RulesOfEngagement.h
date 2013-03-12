@@ -3,6 +3,7 @@
 #include "ASTExprNode.h"
 #include "stdAfx.h"
 
+
 class RulesOfEngagement
 {
 public:
@@ -92,6 +93,9 @@ private:
 
 	//Sibling
 	static bool isSibling(ASTNode* x, ASTNode* y);
+	static bool RulesOfEngagement::isContains(ASTNode* x, ASTNode* y);
+	static bool RulesOfEngagement::isContainsStar(ASTNode* x, ASTNode* y);
+
 
 	/*template
 	static bool is<Rel>(int x, int y);
@@ -149,23 +153,26 @@ private:
 	static vector<int> getAllCall();
 	static vector<int> getAllStmtList();
 	
-	//For Contains
+	//For Contains / Siblings
 	static vector<ASTNode*> getAllPlusNodes();
 	static vector<ASTNode*> getAllMinusNodes();
 	static vector<ASTNode*> getAllTimesNodes();
 
-	static vector<ASTNode*> RulesOfEngagement::getAllVarNodes();
-
-	static vector<ASTNode*> RulesOfEngagement::getAllProcNodes();
+	static vector<ASTNode*> getAllVarNodes();
+	static vector<ASTNode*> getAllProcNodes();
+	static vector<ASTNode*> getAllConstantNodes();
 	
-	static vector<ASTNode*> RulesOfEngagement::getAllConstantNodes();
-	
-	static vector<ASTNode*> RulesOfEngagement::getAllVarNodes(VAR v);
+	static vector<ASTNode*> getAllVarNodes(VAR v);
+	static vector<ASTNode*> getAllProcNodes(PROC p);
+	static vector<ASTNode*> getAllConstantNodes(int c);
 
-	static vector<ASTNode*> RulesOfEngagement::getAllProcNodes(PROC p);
+	static ASTNode* getStmtNode(STMT s);
+	static vector<ASTNode*> getAllStmtLstNodes();
 
-	static vector<ASTNode*> RulesOfEngagement::getAllConstantNodes(int c);
-
+	static vector<ASTNode*> getAllAssignNodes();
+	static vector<ASTNode*> getAllWhileNodes();
+	static vector<ASTNode*> getAllIfNodes();
+	static vector<ASTNode*> getAllCallNodes();
 
 
 	/*template

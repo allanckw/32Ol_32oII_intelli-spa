@@ -137,6 +137,15 @@ bool ASTNode::isRoot()
 }
 
 /**
+* Return the children ASTNode of the current node 
+* @return the list of ASTNodes
+*/
+vector<ASTNode*> ASTNode::getChildren()
+{
+	return this->children;
+}
+
+/**
 * Check if the ASTNode has children
 * @return return true if it has children, false otherwise
 */

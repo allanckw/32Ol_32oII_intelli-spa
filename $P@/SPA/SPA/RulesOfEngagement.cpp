@@ -499,6 +499,12 @@ bool RulesOfEngagement::isAffectsStar(int x, int y)
 	return PKB::affects.isAffectsStar(x, y);
 }
 
+//Sibling
+bool RulesOfEngagement::isSibling(ASTNode* x, ASTNode* y)
+{
+	return ((x != y) && x->getParent() == y->getParent());
+}
+
 /**
 * The reason for the shortness of the code in MultiQueryEval.
 * Takes in the relation type and returns a function pointer that can be called to return
@@ -584,6 +590,30 @@ vector<int> RulesOfEngagement::affectsBy(int x)
 vector<int> RulesOfEngagement::affectsStarBy(int x)
 {
 	return PKB::affects.getAffectsByStar(x);
+}
+
+vector<int> RulesOfEngagement::getStmtSiblings(int x)
+{
+	vector<int> followsBy = PKB::follows.getFollowsStarBy(x);
+	vector<int> followsFrom = PKB::follows.getFollowsStarFrom(x);
+
+	followsBy.insert(followsBy.end(), followsFrom.begin(), followsFrom.end());
+
+	return followsBy;
+}
+
+vector<ASTNode*> RulesOfEngagement::getNodeSiblings(ASTNode* x)
+{
+	ASTNode* p = x->getParent();
+	vector<ASTNode*> children = p->getChildren();
+	vector<ASTNode*> result;
+
+	for (int i = 0; i < children.size(); i++) {
+		if (children.at(i) != x)
+			result.push_back(children.at(i));		
+	}
+
+	return result;
 }
 
 /**
@@ -749,6 +779,7 @@ vector<int> RulesOfEngagement::getAllIf()
 	return answer;
 }
 
+
 vector<int> RulesOfEngagement::getAllCall()
 {
 	vector<int> answer;
@@ -764,6 +795,45 @@ vector<int> RulesOfEngagement::getAllStmtList()
 		answer.push_back(*it);
 	return answer;
 }
+
+vector<ASTNode*> RulesOfEngagement::getAllPlusNodes()
+{
+
+}
+
+vector<ASTNode*> RulesOfEngagement::getAllMinusNodes()
+{
+}
+
+vector<ASTNode*> RulesOfEngagement::getAllTimesNodes()
+{
+}
+
+vector<ASTNode*> RulesOfEngagement::getAllVarNodes()
+{
+}
+
+vector<ASTNode*> RulesOfEngagement::getAllProcNodes()
+{
+}
+
+vector<ASTNode*> RulesOfEngagement::getAllConstantNodes()
+{
+}
+
+vector<ASTNode*> RulesOfEngagement::getAllVarNodes(VAR v)
+{
+}
+
+vector<ASTNode*> RulesOfEngagement::getAllProcNodes(PROC p)
+{
+}
+
+vector<ASTNode*> RulesOfEngagement::getAllConstantNodes(int c)
+{
+}
+
+
 /*template
 
 vector<int> RulesOfEngagement::getAll<Type>()

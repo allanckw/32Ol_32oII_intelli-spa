@@ -48,6 +48,8 @@ public:
 	bool isHasChildren();
 	bool isRoot();
 
+	vector<ASTNode*> getChildren();
+
 protected:
 	int value;
 	ASTNode* parent;

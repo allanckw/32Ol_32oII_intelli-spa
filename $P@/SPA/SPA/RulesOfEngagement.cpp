@@ -609,7 +609,8 @@ vector<int> RulesOfEngagement::affectsStarBy(int x)
 {
 	return PKB::affects.getAffectsByStar(x);
 }
-
+//Stmt Siblings is trivial it is the follows* of both left and right side combined
+//Can use previous results
 vector<int> RulesOfEngagement::getStmtSiblings(int x)
 {
 	vector<int> followsBy = PKB::follows.getFollowsStarBy(x);
@@ -620,6 +621,11 @@ vector<int> RulesOfEngagement::getStmtSiblings(int x)
 	return followsBy;
 }
 
+//e.g asking if + is a sibling of variable x in an assignment of x = a + b 
+//Tree Structure here:
+// assign
+//x ----- +
+//		a---b //a is a sibling of b here too.
 vector<ASTNode*> RulesOfEngagement::getNodeSiblings(ASTNode* x)
 {
 	vector<ASTNode*> children = x->getParent()->getChildren();

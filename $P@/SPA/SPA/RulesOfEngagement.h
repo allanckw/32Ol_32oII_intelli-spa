@@ -91,7 +91,7 @@ private:
 	static bool isAffectsStar(int x, int y);
 	static bool isPatternModifies(int x, int y);
 
-	//Sibling
+	//Sibling / Contains
 	static bool isSibling(ASTNode* x, ASTNode* y);
 	static bool RulesOfEngagement::isContains(ASTNode* x, ASTNode* y);
 	static bool RulesOfEngagement::isContainsStar(ASTNode* x, ASTNode* y);

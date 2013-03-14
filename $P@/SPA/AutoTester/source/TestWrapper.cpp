@@ -18,7 +18,7 @@ TestWrapper::TestWrapper() {
 
 // method for parsing the SIMPLE source
 void TestWrapper::parse(std::string filename) {
-	
+	setvbuf(stdout, 0, _IOFBF, 4096);
 	try{
 		PKBController::initializePKB(filename);
 	}catch (exception& e){
@@ -29,10 +29,15 @@ void TestWrapper::parse(std::string filename) {
 
 // method to evaluate a query
 void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
+	fflush (stdout);
 	try{
 		vector<string> answers = PQLController::evaluateQuery(query);
-		std::copy (answers.begin(), answers.end(), std::back_inserter(results));
+		//std::copy (answers.begin(), answers.end(), std::back_inserter(results));
+		for (unsigned i=0; i<answers.size(); i++ )
+			results.push_back(answers[i]);
+
 	}catch (exception& e)	{
 		results.push_back(e.what());
 	}
+	fflush (stdout);
 }

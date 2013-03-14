@@ -2,6 +2,7 @@
 #include "DesignExtractor.h"
 #include "CFGBuilder.h"
 #include "RulesOfEngagement.h"
+#include "PQLContainPreprocessor.h"
 
 
 int DesignExtractor::totalNumOfProcs;
@@ -87,10 +88,14 @@ void DesignExtractor::CompleteExtraction()
 	PKB::calls.optimizeCallsTable();
 	PKB::modifies.optimizeModifiesTable();
 	PKB::uses.optimizeUsesTable();
-	//std::sort(PKB::stmtRefMap.begin(), PKB::stmtRefMap.end());
-	//CFGBuilder::traverseCFGToPopulateNext();
-
 	DesignExtractor::initializeStatisticalSortSize();
+	
+	
+	PKB::oprNodes = PQLContainPreprocessor::getNodes(ASTNode::Operator);
+	PKB::varNodes = PQLContainPreprocessor::getNodes(ASTNode::Variable);
+	PKB::constNodes = PQLContainPreprocessor::getNodes(ASTNode::Constant);
+	PKB::stmtLstNodes = PQLContainPreprocessor::getNodes(ASTNode::StmtLst);
+
 }
 
 /**

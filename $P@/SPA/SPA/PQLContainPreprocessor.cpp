@@ -28,9 +28,8 @@ vector<ASTNode*> PQLContainPreprocessor::getAllNodesByType(ASTNode::NodeType typ
 
 		ASTStmtNode* firstNode=(ASTStmtNode*) (*firstLevelStmtListNode).getChild(0);
 		if(type==ASTNode::StmtLst)
-		{
 			answer.push_back(firstLevelStmtListNode);
-		}
+		
 
 		for(int i=0; i<firstLevelStmtListNode->getSize(); i++)	{
 			currNode=(ASTStmtNode*) (*firstLevelStmtListNode).getChild(i);
@@ -51,18 +50,16 @@ vector<ASTNode*> PQLContainPreprocessor::getAllNodesByType(ASTNode::NodeType typ
 	return answer;
 }
 
-vector<ASTNode*> PQLContainPreprocessor::processWhile(ASTNode::NodeType type, ASTStmtNode *stmtNode, vector<ASTNode*> answer)	
+vector<ASTNode*> PQLContainPreprocessor::processWhile(ASTNode::NodeType type, ASTStmtNode *stmtNode, vector<ASTNode*>& answer)	
 {
 	ASTStmtNode* currNode;
 
 	ASTNode* controlNode = (ASTNode*) (*stmtNode).getChild(0);
 	ASTStmtLstNode* WhileStatementListNode = (ASTStmtLstNode*)(*stmtNode).getChild(1);//While Statement List
-	if(type==ASTNode::Variable)
-	{
+	if(type==ASTNode::Variable)	{
 		answer.push_back(controlNode);
 	}
-	else if(type==ASTNode::StmtLst)
-	{
+	else if(type==ASTNode::StmtLst)	{
 		answer.push_back(WhileStatementListNode);
 	}
 
@@ -85,7 +82,7 @@ vector<ASTNode*> PQLContainPreprocessor::processWhile(ASTNode::NodeType type, AS
 	return answer;
 }
 
-vector<ASTNode*> PQLContainPreprocessor::processIf(ASTNode::NodeType type, ASTStmtNode *stmtNode, vector<ASTNode*> answer)
+vector<ASTNode*> PQLContainPreprocessor::processIf(ASTNode::NodeType type, ASTStmtNode *stmtNode, vector<ASTNode*>& answer)
 {
 	ASTStmtNode* currNode;
 	ASTNode* controlNode=(ASTNode*)(*stmtNode).getChild(0);
@@ -138,7 +135,7 @@ vector<ASTNode*> PQLContainPreprocessor::processIf(ASTNode::NodeType type, ASTSt
 	return answer;
 }
 
-vector<ASTNode*> PQLContainPreprocessor::processAssign(ASTNode::NodeType type, ASTStmtNode *stmtNode, vector<ASTNode*> answer)
+vector<ASTNode*> PQLContainPreprocessor::processAssign(ASTNode::NodeType type, ASTStmtNode *stmtNode, vector<ASTNode*>& answer)
 {
 	ASTNode* current;
 	stack<ASTNode*> assignNodeStack;
@@ -150,16 +147,13 @@ vector<ASTNode*> PQLContainPreprocessor::processAssign(ASTNode::NodeType type, A
 		current=assignNodeStack.top();
 		assignNodeStack.pop();
 
-		if(current->getType()==type)
-		{
+		if(current->getType()==type){
 			answer.push_back(current);
 		}
 		
-		if(current->getChildren().size()>0)
-		{
+		if(current->getChildren().size()>0){
 			int lastChildPos=current->getChildren().size()-1;
-			for(int i=lastChildPos; i>0; i++)
-			{
+			for(int i=lastChildPos; i>0; i--){
 				assignNodeStack.push(current->getChild(i));
 			}
 		}
@@ -176,11 +170,9 @@ vector<ASTNode*> PQLContainPreprocessor::getNodes(ASTNode::NodeType type, int va
 	//traverse.. same type and value = add in result else ignore
 	vector<ASTNode*> resultByNodeType=getAllNodesByType(type);
 
-	for(int i=0; i<resultByNodeType.size()-1; i++)
-	{
+	for(int i=0; i<resultByNodeType.size()-1; i++){
 		ASTNode* CNode=resultByNodeType.at(i);
-		if(CNode->getValue()==value)
-		{
+		if(CNode->getValue()==value) {
 			results.push_back(CNode);
 		}
 	}
@@ -221,5 +213,6 @@ vector<ASTNode*> PQLContainPreprocessor::getPrecomputeNodes(ASTNode::NodeType ty
 			return PKB::rootNode->getChildren();
 		}
 
+		return result;
 	}
 }

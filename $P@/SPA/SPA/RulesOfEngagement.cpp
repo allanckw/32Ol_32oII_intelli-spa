@@ -514,7 +514,7 @@ bool RulesOfEngagement::isContains(ASTNode* x, ASTNode* y)
 bool RulesOfEngagement::isContainsStar(ASTNode* x, ASTNode* y)
 {
 	ASTNode* p = y->getParent();
-	while (p != NULL) {
+	while (p != PKB::rootNode) {
 		if (x == p)
 			return true;
 

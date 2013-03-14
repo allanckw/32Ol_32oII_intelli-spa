@@ -153,7 +153,7 @@ vector<ASTNode*> PQLContainPreprocessor::processAssign(ASTNode::NodeType type, A
 		
 		if(current->getChildren().size()>0){
 			int lastChildPos=current->getChildren().size()-1;
-			for(int i=lastChildPos; i>0; i--){
+			for(int i=lastChildPos; i>=0; i--){
 				assignNodeStack.push(current->getChild(i));
 			}
 		}

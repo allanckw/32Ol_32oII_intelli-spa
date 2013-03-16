@@ -7,12 +7,7 @@ vector<ASTNode*> PQLContainPreprocessor::getNodes(ASTNode::NodeType type)
 {
 	vector<ASTNode*> results;
 	ASTNode* root = PKB::rootNode;
-	if (type == ASTNode::Assign || type == ASTNode::If || type == ASTNode::While || type == ASTNode::Call || type == ASTNode::Procedure) {
-		return PQLContainPreprocessor::getPrecomputeNodes(type);
-	} else {
-		//traverse.. same type = add in result, else ignore
-		results=getAllNodesByType(type);
-	}
+	results = getAllNodesByType(type);
 	return results;
 }
 
@@ -160,59 +155,4 @@ vector<ASTNode*> PQLContainPreprocessor::processAssign(ASTNode::NodeType type, A
 	}
 
 	return answer;
-}
-
-vector<ASTNode*> PQLContainPreprocessor::getNodes(ASTNode::NodeType type, int value)
-{
-	vector<ASTNode*> results;
-	ASTNode* root = PKB::rootNode;
-
-	//traverse.. same type and value = add in result else ignore
-	vector<ASTNode*> resultByNodeType=getAllNodesByType(type);
-
-	for(int i=0; i<resultByNodeType.size()-1; i++){
-		ASTNode* CNode=resultByNodeType.at(i);
-		if(CNode->getValue()==value) {
-			results.push_back(CNode);
-		}
-	}
-	return results;
-}
-
-vector<ASTNode*> PQLContainPreprocessor::getPrecomputeNodes(ASTNode::NodeType type)
-{
-	vector<ASTNode*> result;
-	switch (type)
-	{
-	case ASTNode::Assign:
-		{
-			for (auto it = PKB::assignNodes.begin(); it != PKB::assignNodes.end(); it++){
-				result.push_back((*it).second);
-			}
-		}
-	case ASTNode::While:
-		{
-			for (auto it = PKB::whileNodes.begin(); it != PKB::whileNodes.end(); it++){
-				result.push_back((*it).second);
-			}
-		}
-	case ASTNode::If:
-		{
-			for (auto it = PKB::ifNodes.begin(); it != PKB::ifNodes.end(); it++){
-				result.push_back((*it).second);
-			}
-		}
-	case ASTNode::Call:
-		{
-			for (auto it = PKB::callNodes.begin(); it != PKB::callNodes.end(); it++){
-				result.push_back((*it).second);
-			}
-		}
-	 case ASTNode::Procedure:
-		{
-			return PKB::rootNode->getChildren();
-		}
-
-		return result;
-	}
 }

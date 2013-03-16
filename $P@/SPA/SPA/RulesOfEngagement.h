@@ -162,8 +162,11 @@ private:
 	static vector<ASTNode*> getAllProcNodes();
 	static vector<ASTNode*> getAllConstantNodes();
 	
+	//get all var nodes that has the value of v
 	static vector<ASTNode*> getAllVarNodes(VAR v);
+	//get all proc nodes that has the value of p
 	static vector<ASTNode*> getAllProcNodes(PROC p);
+	//get all const nodes that has the value of c
 	static vector<ASTNode*> getAllConstantNodes(int c);
 
 	static ASTNode* getStmtNode(STMT s);
@@ -173,6 +176,9 @@ private:
 	static vector<ASTNode*> getAllWhileNodes();
 	static vector<ASTNode*> getAllIfNodes();
 	static vector<ASTNode*> getAllCallNodes();
+
+	//get all call nodes that call procedures p
+	static vector<ASTNode*> getAllCallNodes(PROC p);
 
 
 	/*template

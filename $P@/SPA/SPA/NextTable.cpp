@@ -45,7 +45,7 @@ vector<PROG_LINE> NextTable::getPrevious(PROG_LINE p2)
 }
 
 /**
-* This method will be used to insert NEXTStar into the table
+* This method will be used to insert NextStar into the table
 * @param p1	The prog_line that is before p2
 * @param p2	The prog_line that is after p1
 * @param next True or False
@@ -137,6 +137,186 @@ vector<PROG_LINE> NextTable::getPreviousStar(PROG_LINE p2)
 }
 
 /**
+* This method will be used to insert NextBip into the table
+* @param p1	The prog_line that is before p2
+* @param p2	The prog_line that is after p1
+* @param next True or False
+* @return list of prog_line before p1
+*/
+void NextTable::insertNextBip(PROG_LINE p1, PROG_LINE p2, bool next)
+{
+	Next* n = new Next(p1, p2, next);
+	
+	auto itr = this->nextBipMap.find(p1);
+	
+	if (itr == this->nextBipMap.end()) {
+		vector<Next*> nextLst;
+		nextLst.push_back(n);
+		pair<PROG_LINE, vector<Next*>> newItem (p1, nextLst);
+		this->nextBipMap.insert(newItem);
+	} else {
+		if (!NextTable::isDuplicate(this->nextBipMap.at(p1), n)){
+			this->nextBipMap.at(p1).push_back(n);
+		}
+	}
+}
+
+/**
+* This method will be used to check NextBip(p1,p2)
+* @param p1	The prog_line that is before p2
+* @param p2	The prog_line that is after p1
+* @return true if p2 is reachable from p1, otherwise return false
+*/
+bool NextTable::isNextBip (PROG_LINE p1, PROG_LINE p2)
+{
+	if (p1 <= 0 || p2 <= 0)
+		return false;
+
+	auto itr = this->nextBipMap.find(p1);
+
+	if (itr != this->nextBipMap.end()){
+
+		vector<Next*> nxtLst =  itr->second;
+	
+		for (unsigned int i = 0; i < nxtLst.size(); i++) {
+			if (nxtLst[i]->getP2() == p2 )
+				return nxtLst[i]->isNext();
+		}
+	}
+
+	if (PQLNextProcessor::isNextBip(p1,p2)){
+		PKB::next.insertNextBip(p1,p2, true);
+		return true;
+	} else {
+		PKB::next.insertNextBip(p1, p2, false);
+		return false;
+	}
+}
+
+/**
+* This method will be used to check NextBip(p1,_)
+* @param p1	The start prog_line to find all reachable prog_line
+* @return a list of prog_line reachable from p1
+*/
+vector<PROG_LINE> NextTable::getNextBip(PROG_LINE p1)
+{
+	vector<PROG_LINE> progLines = PQLNextProcessor::getNextBip(p1);
+
+	for (unsigned int i = 0; i < progLines.size(); i++){
+		PKB::next.insertNextBip(p1, progLines.at(i), true);
+	}
+
+	return progLines;
+}
+
+/**
+* This method will be used to check NextBip(_,p2)
+* @param p2	The end prog_line that can be reach from p1
+* @return a list of prog_line that can reach p2
+*/
+vector<PROG_LINE> NextTable::getPreviousBip(PROG_LINE p2)
+{
+	vector<PROG_LINE> progLines = PQLNextProcessor::getPreviousBip(p2);
+
+	for (unsigned int i = 0; i < progLines.size(); i++){
+		PKB::next.insertNextBip(progLines.at(i), p2, true);
+	}
+
+	return progLines;
+}
+
+
+/**
+* This method will be used to insert NextBipStar into the table
+* @param p1	The prog_line that is before p2
+* @param p2	The prog_line that is after p1
+* @param next True or False
+* @return list of prog_line before p1
+*/
+void NextTable::insertNextBipStar(PROG_LINE p1, PROG_LINE p2, bool next)
+{
+	Next* n = new Next(p1, p2, next);
+	
+	auto itr = this->nextBipStarMap.find(p1);
+	
+	if (itr == this->nextBipStarMap.end()) {
+		vector<Next*> nextLst;
+		nextLst.push_back(n);
+		pair<PROG_LINE, vector<Next*>> newItem (p1, nextLst);
+		this->nextBipStarMap.insert(newItem);
+	} else {
+		if (!NextTable::isDuplicate(this->nextBipStarMap.at(p1), n)){
+			this->nextBipStarMap.at(p1).push_back(n);
+		}
+	}
+}
+
+/**
+* This method will be used to check NextBipStar(p1,p2)
+* @param p1	The prog_line that is before p2
+* @param p2	The prog_line that is after p1
+* @return true if p2 is reachable from p1, otherwise return false
+*/
+bool NextTable::isNextBipStar (PROG_LINE p1, PROG_LINE p2)
+{
+	if (p1 <= 0 || p2 <= 0)
+		return false;
+	
+	auto itr = this->nextBipStarMap.find(p1);
+
+	if (itr != this->nextBipStarMap.end()){
+
+		vector<Next*> nxtLst =  itr->second;
+	
+		for (unsigned int i = 0; i < nxtLst.size(); i++) {
+			if (nxtLst[i]->getP2() == p2 )
+				return nxtLst[i]->isNext();
+		}
+	}
+
+	if (PQLNextProcessor::isNextBipStar(p1,p2)){
+		PKB::next.insertNextBipStar(p1,p2, true);
+		return true;
+	} else {
+		PKB::next.insertNextBipStar(p1, p2, false);
+		return false;
+	}
+}
+
+/**
+* This method will be used to check NextBipStar(p1,_)
+* @param p1	The start prog_line to find all reachable prog_line
+* @return a list of prog_line reachable from p1
+*/
+vector<PROG_LINE> NextTable::getNextBipStar(PROG_LINE p1)
+{
+	vector<PROG_LINE> progLines = PQLNextProcessor::getNextBipStar(p1);
+
+	for (unsigned int i = 0; i < progLines.size(); i++){
+		PKB::next.insertNextBipStar(p1, progLines.at(i), true);
+	}
+
+	return progLines;
+}
+
+/**
+* This method will be used to check NextBipStar(_,p2)
+* @param p2	The end prog_line that can be reach from p1
+* @return a list of prog_line that can reach p2
+*/
+vector<PROG_LINE> NextTable::getPreviousBipStar(PROG_LINE p2)
+{
+	vector<PROG_LINE> progLines = PQLNextProcessor::getPreviousBipStar(p2);
+
+	for (unsigned int i = 0; i < progLines.size(); i++){
+		PKB::next.insertNextBipStar(progLines.at(i), p2, true);
+	}
+
+	return progLines;
+}
+
+
+/**
 * This method will be used to check existing record
 * @param v	a list of nextstar
 * @param n	the nextstar to check for existing record
@@ -153,11 +333,12 @@ bool NextTable::isDuplicate(vector<Next*> v, Next* n)
 }
 
 /**
- * Tear down the cache after evaluation =( =( =( =( 
- * NEXT* ONLY!!!
+ * Tear down the cache after evaluation
  * CALL AFTER EVALUATION IS COMPLETE 
  */
 void NextTable::tearDownCache()
 {
 	this->nextStarMap.clear();
+	this->nextBipMap.clear();
+	this->nextBipStarMap.clear();
 }

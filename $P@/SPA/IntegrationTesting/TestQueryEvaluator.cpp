@@ -27,7 +27,7 @@ void display(vector<int> x)
 }
 void TestQueryEvaluator::TestQueryEvaluatorM()
 {  
-	PKBController::initializePKB("F:\\3201_3202\\SPA\\source1.txt");
+	PKBController::initializePKB("F:\\3201_3202\\SPA\\source9.txt");
 	//doon("assign a; Select BOOLEAN such that Affects(1, 2)"); 
 	//doon("assign a; Select BOOLEAN such that Affects(1, 3)"); 
 	//doon("assign a; Select BOOLEAN such that Affects(1, 5)"); 
@@ -50,7 +50,7 @@ void TestQueryEvaluator::doon(string s)
 
 	cout << s << endl;
 	try {
-		vector<string> answer = PQLController::evaluateQuery(s);
+		list<string> answer = PQLController::evaluateQuery(s);
 		set<string> answer2;
 		for (auto it = answer.begin(); it != answer.end(); it++)
 			answer2.insert(*it);

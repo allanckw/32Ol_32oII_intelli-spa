@@ -35,6 +35,8 @@ private:
 	};
 
 	unordered_map<PROG_LINE, vector<Next*>> nextStarMap;
+	unordered_map<PROG_LINE, vector<Next*>> nextBipMap;
+	unordered_map<PROG_LINE, vector<Next*>> nextBipStarMap;
 
 	static bool isDuplicate(vector<Next*> v, Next* n);
 
@@ -48,6 +50,16 @@ public:
 	bool isNextStar (PROG_LINE, PROG_LINE);
 	vector<PROG_LINE>  getNextStar(PROG_LINE);
 	vector<PROG_LINE>  getPreviousStar(PROG_LINE);
+
+	void insertNextBip (PROG_LINE, PROG_LINE, bool);
+	bool isNextBip(PROG_LINE, PROG_LINE);
+	vector<PROG_LINE> getNextBip(PROG_LINE);
+	vector<PROG_LINE> getPreviousBip(PROG_LINE);
+
+	void insertNextBipStar (PROG_LINE, PROG_LINE, bool);
+	bool isNextBipStar(PROG_LINE, PROG_LINE);
+	vector<PROG_LINE> getNextBipStar(PROG_LINE);
+	vector<PROG_LINE> getPreviousBipStar(PROG_LINE);
 
 	void tearDownCache();
 };

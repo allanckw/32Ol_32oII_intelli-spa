@@ -23,7 +23,13 @@ public:
 
 	//AffectsBip
 	static bool isAffectsBip(STMT, STMT);
+	static vector<STMT> getAffectsByBip(STMT a1);
+	static vector<STMT> getAffectsFromBip(STMT a2);
 
+	//AffectsBipStar
+	static bool isAffectsBipStar(STMT, STMT);
+	static vector<STMT> getAffectsByBipStar(STMT a1);
+	static vector<STMT> getAffectsFromBipStar(STMT a2);
 
 };
 

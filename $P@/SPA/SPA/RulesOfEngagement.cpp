@@ -2,7 +2,6 @@
 #include "RulesOfEngagement.h"
 #include "PKB.h"
 #include "Helper.h"
-#include "PQLContainPreprocessor.h"
 
 unordered_map<string, unordered_set<RulesOfEngagement::QueryRelations>>
 	RulesOfEngagement::tokenToRel;
@@ -822,52 +821,51 @@ vector<int> RulesOfEngagement::getAllStmtList()
 
 vector<ASTNode*> RulesOfEngagement::getAllPlusNodes()
 {
-	return PQLContainPreprocessor::getNodes(ASTNode::Operator, 0);
+	return PKB::getNodes(ASTNode::Operator, 0);
 }
 
 vector<ASTNode*> RulesOfEngagement::getAllMinusNodes()
 {
-	return PQLContainPreprocessor::getNodes(ASTNode::Operator, 1);
+	return PKB::getNodes(ASTNode::Operator, 1);
 }
-
 vector<ASTNode*> RulesOfEngagement::getAllTimesNodes()
 {
-	return PQLContainPreprocessor::getNodes(ASTNode::Operator, 2);
+	return PKB::getNodes(ASTNode::Operator, 2);
 }
 
 vector<ASTNode*> RulesOfEngagement::getAllVarNodes()
 {
-	return PQLContainPreprocessor::getNodes(ASTNode::Variable);
+	return PKB::varNodes;
 }
 
 vector<ASTNode*> RulesOfEngagement::getAllProcNodes()
 {
-	return PQLContainPreprocessor::getNodes(ASTNode::Procedure);
+	return PKB::rootNode->getChildren();
 }
 
 vector<ASTNode*> RulesOfEngagement::getAllConstantNodes()
 {
-	return PQLContainPreprocessor::getNodes(ASTNode::Constant);
+	return PKB::constNodes;
 }
 
 vector<ASTNode*> RulesOfEngagement::getAllVarNodes(VAR v)
 {
-	return PQLContainPreprocessor::getNodes(ASTNode::Variable, v);
+	return PKB::getNodes(ASTNode::Variable, v);
 }
 
 vector<ASTNode*> RulesOfEngagement::getAllProcNodes(PROC p)
 {
-	return PQLContainPreprocessor::getNodes(ASTNode::Procedure, p);
+	return PKB::getNodes(ASTNode::Procedure, p);
 }
 
 vector<ASTNode*> RulesOfEngagement::getAllConstantNodes(int c)
 {
-	return PQLContainPreprocessor::getNodes(ASTNode::Constant, c);
+	return PKB::getNodes(ASTNode::Constant, c);
 }
 
 vector<ASTNode*> RulesOfEngagement::getAllStmtLstNodes()
 {
-	return PQLContainPreprocessor::getNodes(ASTNode::StmtLst);
+	return PKB::stmtLstNodes;
 }
 
 ASTNode* RulesOfEngagement::getStmtNode(STMT s)
@@ -877,22 +875,27 @@ ASTNode* RulesOfEngagement::getStmtNode(STMT s)
 
 vector<ASTNode*> RulesOfEngagement::getAllAssignNodes()
 {
-	return PQLContainPreprocessor::getNodes(ASTNode::Assign);
+	return PKB::getNodes(ASTNode::Assign);
 }
 
 vector<ASTNode*> RulesOfEngagement::getAllWhileNodes()
 {
-	return PQLContainPreprocessor::getNodes(ASTNode::While);
+	return PKB::getNodes(ASTNode::While);
 }
 
 vector<ASTNode*> RulesOfEngagement::getAllIfNodes()
 {
-	return PQLContainPreprocessor::getNodes(ASTNode::If);
+	return PKB::getNodes(ASTNode::If);
 }
 
 vector<ASTNode*> RulesOfEngagement::getAllCallNodes()
 {
-	return PQLContainPreprocessor::getNodes(ASTNode::Call);
+	return PKB::getNodes(ASTNode::Call);
+}
+
+vector<ASTNode*> RulesOfEngagement::getAllCallNodes(PROC p)
+{
+	return PKB::getNodes(ASTNode::Call, p);
 }
 
 /*template

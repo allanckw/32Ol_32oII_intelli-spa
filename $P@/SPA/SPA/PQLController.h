@@ -3,6 +3,6 @@
 class PQLController
 {
 public:
-	static vector<string> evaluateQuery(const string& query);
+	static list<string> evaluateQuery(const string& query);
 };
 

@@ -371,75 +371,44 @@ vector<PROG_LINE> PQLNextProcessor::getSelfNextStar(){
 					ans.push_back(i); 
 				}
 			} 
-			
-
-		
 		}
-
 		return ans;
-	//vector<PROG_LINE> temp;
-	//stack<CFGNode*> nodesStack; 
-	//vector<PROG_LINE> visited;
+}
 
-	//for (PROC currentProc = 0; currentProc < PKB::procedures.getSize(); currentProc++) {
-	//		CFGNode* currNode=PKB::getCFGHead(currentProc);
-	//		while( currNode->last = PKB::TheBeginningAndTheEnd.at(currentProc).second || 
-	//			currNode->type == CFGNode::DummyNode && currNode->children.oneChild == NULL) {
-	//			if(currNode->type==CFGNode::WhileNode) { //Traverse all whiles nodes in the program 
-	//				nodesStack.push(PKB::getCFGHead(currentProc));
-	//				
-	//				stack<int> whileStack;
-	//				CFGNode* prevnode = 0;
+bool PQLNextProcessor::isNextBip(PROG_LINE p1, PROG_LINE p2){
+	return false;
+}
+vector<PROG_LINE> PQLNextProcessor::getPreviousBip(PROG_LINE p2){
+	vector<PROG_LINE> ans;
 
-	//				while(nodesStack.size() > 0){
-	//					CFGNode* tempnode = nodesStack.top();
-	//					nodesStack.pop();	 
-	//				
-	//					if(tempnode->type != CFGNode::DummyNode) {//chk not a dummy node
-	//						
-	//						PROG_LINE firstprogline = tempnode->first;
-	//						
-	//						if(Helper::contains(visited,firstprogline)) {
-	//							if(tempnode->type == CFGNode::WhileNode) {
-	//								if(whileStack.top() == firstprogline) {
-	//									whileStack.pop();
-	//								}
-	//								else
-	//									throw SPAException("impossible state reach in next*, while loop not linking back");
-	//							}					
-	//							continue;//been here before//eg visited node
-	//						}else {
-	//							visited.push_back(firstprogline);
-	//							
-	//							if(tempnode->type == CFGNode::WhileNode)
-	//								whileStack.push(firstprogline);
-	//							
-	//							if(whileStack.size() > 0) {
-	//								for(int i = tempnode->first; i <= tempnode->last; i++) {
-	//								//for(int i=0;i<tempnode->getProgramLines().size();i++) {
-	//									temp.push_back(i);
-	//									//temp.push_back(tempnode->getProgramLines().at(i));
-	//								}
-	//							}
-	//						}
-	//					}else {//is a dummie node
-	//						vector<CFGNode*> prev = tempnode->parents;
-	//						if(prev.size() > 0 &&  prev.at(0) == prevnode)//come from left
-	//							continue;
-	//					}
-	//					
-	//					vector<CFGNode*> next = tempnode->getNextNodes();
-	//					for(int i=next.size()-1; i>=0; i--){
-	//						nodesStack.push(next.at(i));//add right side in
-	//					}
-	//					prevnode = tempnode;
-	//				}
-	//			} else {
-	//				//cout <<	currNode->children.oneChild->first;
-	//				cout << currNode->children.ifChildren.ifThen;
-	//				//cout << currNode->children.whileChildren.whileIn;
-	//			}
-	//		}
-	//}
-	//return temp;
+	return ans;
+}
+vector<PROG_LINE> PQLNextProcessor::getNextBip(PROG_LINE p1){
+	vector<PROG_LINE> ans;
+
+	return ans;
+}
+vector<PROG_LINE> PQLNextProcessor::getSelfNextBip(){
+	vector<PROG_LINE> ans;
+
+	return ans;
+}
+
+bool PQLNextProcessor::isNextBipStar(PROG_LINE p1, PROG_LINE p2){
+	return false;
+}
+vector<PROG_LINE> PQLNextProcessor::getPreviousBipStar(PROG_LINE p2){
+	vector<PROG_LINE> ans;
+
+	return ans;
+}
+vector<PROG_LINE> PQLNextProcessor::getNextBipStar(PROG_LINE p1){
+	vector<PROG_LINE> ans;
+
+	return ans;
+}
+vector<PROG_LINE> PQLNextProcessor::getSelfNextBipStar(){
+	vector<PROG_LINE> ans;
+
+	return ans;
 }

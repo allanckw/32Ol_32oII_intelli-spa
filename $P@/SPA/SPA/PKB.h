@@ -66,6 +66,9 @@ public:
 	static vector<ASTNode*> constNodes;
 	static vector<ASTNode*> stmtLstNodes;
 
+	static vector<ASTNode*> getNodes(ASTNode::NodeType);
+
+	static vector<ASTNode*> getNodes(ASTNode::NodeType, int);
 
 private:
 	static vector<CFGNode*> CFGHeads;

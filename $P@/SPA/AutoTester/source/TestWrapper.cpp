@@ -31,10 +31,7 @@ void TestWrapper::parse(std::string filename) {
 void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
 	fflush (stdout);
 	try{
-		vector<string> answers = PQLController::evaluateQuery(query);
-		//std::copy (answers.begin(), answers.end(), std::back_inserter(results));
-		for (unsigned i=0; i<answers.size(); i++ )
-			results.push_back(answers[i]);
+		results = PQLController::evaluateQuery(query);
 
 	}catch (exception& e)	{
 		results.push_back(e.what());

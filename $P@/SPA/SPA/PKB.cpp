@@ -7,8 +7,9 @@ vector<pair<RulesOfEngagement::QueryRelations, int>> PKB::sortorder;
 //Store the root of the AST
 ASTNode* PKB::rootNode;
 
-//For each procedure, there will be one CFGHead 
+//For each procedure, there will be one CFGHead and CFGTail
 vector<CFGNode*> PKB::CFGHeads;
+vector<CFGNode*> PKB::CFGTails;
 
 
 VARTable PKB::variables;

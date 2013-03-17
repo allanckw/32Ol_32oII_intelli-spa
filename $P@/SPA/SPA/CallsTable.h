@@ -16,6 +16,7 @@ private:
 	unordered_map<PROC, vector<PROC>> optimizedCalledFromStar;
 
 	unordered_map<PROC, vector<STMT>> stmtCall;
+	unordered_map<STMT, PROC> procCall;
 
 	set<STMT> analyseCallByStar(PROC);
 	set<STMT> analyseCallFromStar(PROC);
@@ -37,6 +38,7 @@ public:
 
 	void insertStmtCall(STMT, PROC);
 	vector<STMT> getStmtCall(PROC);
+	PROC getProcCall(STMT);
 
 	void optimizeCallsTable();
 

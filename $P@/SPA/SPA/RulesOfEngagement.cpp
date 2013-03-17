@@ -43,6 +43,8 @@ void RulesOfEngagement::initialise()
 	tokenToRel["Follows*"].insert(FollowsStar);
 	tokenToRel["Next"].insert(Next);
 	tokenToRel["Next*"].insert(NextStar);
+	tokenToRel["NextBip"].insert(NextBip);
+	tokenToRel["NextBip*"].insert(NextBipStar);
 	tokenToRel["Affects"].insert(Affects);
 	tokenToRel["Affects*"].insert(AffectsStar);
 
@@ -245,6 +247,44 @@ void RulesOfEngagement::initialise()
 	allowableSecondArgument[NextStar].insert(Integer);
 	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(NextStar, Statement));
 	
+	allowableFirstArgument[NextBip].insert(Statement);
+	allowableFirstArgument[NextBip].insert(Assign);
+	allowableFirstArgument[NextBip].insert(Call);
+	allowableFirstArgument[NextBip].insert(While);
+	allowableFirstArgument[NextBip].insert(If);
+	allowableFirstArgument[NextBip].insert(Prog_Line);
+	allowableFirstArgument[NextBip].insert(WildCard);
+	allowableFirstArgument[NextBip].insert(Integer);
+	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(NextBip, Statement));
+	allowableSecondArgument[NextBip].insert(Statement);
+	allowableSecondArgument[NextBip].insert(Assign);
+	allowableSecondArgument[NextBip].insert(Call);
+	allowableSecondArgument[NextBip].insert(While);
+	allowableSecondArgument[NextBip].insert(If);
+	allowableSecondArgument[NextBip].insert(Prog_Line);
+	allowableSecondArgument[NextBip].insert(WildCard);
+	allowableSecondArgument[NextBip].insert(Integer);
+	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(NextBip, Statement));
+	
+	allowableFirstArgument[NextBipStar].insert(Statement);
+	allowableFirstArgument[NextBipStar].insert(Assign);
+	allowableFirstArgument[NextBipStar].insert(Call);
+	allowableFirstArgument[NextBipStar].insert(While);
+	allowableFirstArgument[NextBipStar].insert(If);
+	allowableFirstArgument[NextBipStar].insert(Prog_Line);
+	allowableFirstArgument[NextBipStar].insert(WildCard);
+	allowableFirstArgument[NextBipStar].insert(Integer);
+	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(NextBipStar, Statement));
+	allowableSecondArgument[NextBipStar].insert(Statement);
+	allowableSecondArgument[NextBipStar].insert(Assign);
+	allowableSecondArgument[NextBipStar].insert(Call);
+	allowableSecondArgument[NextBipStar].insert(While);
+	allowableSecondArgument[NextBipStar].insert(If);
+	allowableSecondArgument[NextBipStar].insert(Prog_Line);
+	allowableSecondArgument[NextBipStar].insert(WildCard);
+	allowableSecondArgument[NextBipStar].insert(Integer);
+	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(NextBipStar, Statement));
+	
 	allowableFirstArgument[Affects].insert(Assign);
 	allowableFirstArgument[Affects].insert(WildCard);
 	allowableFirstArgument[Affects].insert(Integer);
@@ -266,6 +306,7 @@ void RulesOfEngagement::initialise()
 	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(PatternModifies, Variable));
 
 	allowableSelfReference.insert(NextStar);
+	allowableSelfReference.insert(NextBipStar);
 	allowableSelfReference.insert(Affects);
 	allowableSelfReference.insert(AffectsStar);
 
@@ -289,6 +330,8 @@ void RulesOfEngagement::initialise()
 	relationMap[ParentStar] = &isParentStar;
 	relationMap[Next] = &isNext;
 	relationMap[NextStar] = &isNextStar;
+	relationMap[NextBip] = &isNextBip;
+	relationMap[NextBipStar] = &isNextBipStar;
 	relationMap[Affects] = &isAffects;
 	relationMap[AffectsStar] = &isAffectsStar;
 	relationMap[PatternModifies] = &isPatternModifies;
@@ -305,6 +348,8 @@ void RulesOfEngagement::initialise()
 	relationByMap[ParentStar] = &parentStarBy;
 	relationByMap[Next] = &nextBy;
 	relationByMap[NextStar] = &nextStarBy;
+	relationByMap[NextBip] = &nextBipBy;
+	//relationByMap[NextBipStar] = &nextBipStarBy;
 	relationByMap[Affects] = &affectsBy;
 	relationByMap[AffectsStar] = &affectsStarBy;
 
@@ -320,6 +365,8 @@ void RulesOfEngagement::initialise()
 	relationFromMap[ParentStar] = &parentStarFrom;
 	relationFromMap[Next] = &nextFrom;
 	relationFromMap[NextStar] = &nextStarFrom;
+	relationFromMap[NextBip] = &nextBipFrom;
+	//relationFromMap[NextBipStar] = &nextBipStarFrom;
 	relationFromMap[Affects] = &affectsFrom;
 	relationFromMap[AffectsStar] = &affectsStarFrom;
 	
@@ -408,6 +455,8 @@ bool RulesOfEngagement::isExistType(RulesOfEngagement::QueryVar var)
 		return (PKB::ifTable.size() > 0);
 	case While:
 		return (PKB::whileTable.size() > 0);
+	default:
+		throw SPAException("No such type for isExist");
 	}
 }
 
@@ -487,6 +536,16 @@ bool RulesOfEngagement::isNext(int x, int y)
 bool RulesOfEngagement::isNextStar(int x, int y)
 {
 	return PKB::next.isNextStar(x, y);
+}
+
+bool RulesOfEngagement::isNextBip(int x, int y)
+{
+	return PKB::next.isNextBip(x, y);
+}
+
+bool RulesOfEngagement::isNextBipStar(int x, int y)
+{
+	return PKB::next.isNextBipStar(x, y);
 }
 
 bool RulesOfEngagement::isAffects(int x, int y)
@@ -597,6 +656,16 @@ vector<int> RulesOfEngagement::nextBy(int x)
 vector<int> RulesOfEngagement::nextStarBy(int x)
 {
 	return PKB::next.getNextStar(x);
+}
+
+vector<int> RulesOfEngagement::nextBipBy(int x)
+{
+	return PKB::next.getNextBip(x);
+}
+
+vector<int> RulesOfEngagement::nextBipStarBy(int x)
+{
+	return PKB::next.getNextBipStar(x);
 }
 
 vector<int> RulesOfEngagement::affectsBy(int x)
@@ -717,6 +786,16 @@ vector<int> RulesOfEngagement::nextFrom(int y)
 vector<int> RulesOfEngagement::nextStarFrom(int y)
 {
 	return PKB::next.getPreviousStar(y);
+}
+
+vector<int> RulesOfEngagement::nextBipFrom(int y)
+{
+	return PKB::next.getPreviousBip(y);
+}
+
+vector<int> RulesOfEngagement::nextBipStarFrom(int y)
+{
+	return PKB::next.getPreviousBipStar(y);
 }
 
 vector<int> RulesOfEngagement::affectsFrom(int y)
@@ -897,18 +976,6 @@ vector<ASTNode*> RulesOfEngagement::getAllCallNodes(PROC p)
 {
 	return PKB::getNodes(ASTNode::Call, p);
 }
-
-/*template
-
-vector<int> RulesOfEngagement::getAll<Type>()
-{
-	int max<> = PKB::<>;
-	vector<int> answer;
-	for (int i = 1; i <= max<>; i++)
-		answer.push_back(i);
-	return answer;
-}
-*/
 //end type map
 
 //pattern

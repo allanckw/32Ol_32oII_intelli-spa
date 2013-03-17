@@ -1,6 +1,7 @@
 #pragma once
 #include "StdAfx.h"
 #include "SPAException.h"
+#include <algorithm>
 
 /**
 * Constructor for SPAException, a custom exception used for the SPA program
@@ -22,11 +23,7 @@ SPAException::SPAException(string msg){
 * @return the error message that is thrown
 */
 const char* SPAException::what() const throw(){
-	
-	string s = message;
-	std::replace( s.begin(), s.end(), '<', '[');
-	std::replace( s.begin(), s.end(), '>', ']');
-	return s.c_str();
+	return message.c_str();
 }
 
 

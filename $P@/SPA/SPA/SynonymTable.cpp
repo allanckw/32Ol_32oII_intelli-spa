@@ -36,6 +36,7 @@ void SynonymTable::insert(const string& name, RulesOfEngagement::QueryVar type)
 	synRelSpecificFirst.push_back(vector<pair<RulesOfEngagement::QueryRelations, string>>());
 	synRelGenericSecond.push_back(unordered_set<RulesOfEngagement::QueryRelations>());
 	synRelSpecificSecond.push_back(vector<pair<RulesOfEngagement::QueryRelations, string>>());
+	synPattern.push_back(vector<string>());
 
 	stringToIndex[name] = index;
 	if (typeToIndices.count(type) > 0)
@@ -309,7 +310,8 @@ unordered_set<RulesOfEngagement::QueryRelations>
 void SynonymTable::setSecondSpecific(const string& name,
 	RulesOfEngagement::QueryRelations relation, const string& specific)
 {
-	synRelSpecificSecond.at(stringToIndex.at(name)).push_back(pair<RulesOfEngagement::QueryRelations, string>(relation, specific));
+	synRelSpecificSecond.at(stringToIndex.at(name)).push_back(
+		pair<RulesOfEngagement::QueryRelations, string>(relation, specific));
 }
 
 /**
@@ -321,4 +323,25 @@ vector<pair<RulesOfEngagement::QueryRelations, string>>
 	SynonymTable::getAllSecondSpecific(const string& name) const
 {
 	return synRelSpecificSecond.at(stringToIndex.at(name));
+}
+
+/**
+* This method Sets a pattern involving an assignment and an expression.
+* It must be of the form name(*, expression).
+* @param name name of synonym
+* @param expression pattern expression
+*/
+void SynonymTable::setPattern(const string& name, const string& expression)
+{
+	synPattern.at(stringToIndex.at(name)).push_back(expression);
+}
+
+/**
+* This method Returns all assignment patterns on the synonym.
+* @param name name of  synonym
+* @return a vector containing all the assignment patterns
+*/
+vector<string> SynonymTable::getAllPattern(const string& name) const
+{
+	return synPattern.at(stringToIndex.at(name));
 }

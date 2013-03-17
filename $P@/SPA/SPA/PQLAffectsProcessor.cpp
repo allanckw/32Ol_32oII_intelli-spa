@@ -1165,3 +1165,118 @@ OLD CODE: OBFUSCATED
 //	return false; 
 //		
 //}
+
+/*
+bool PQLNextProcessor::isAffectsBipStar(PROG_LINE p1, PROG_LINE p2)
+{
+	if (p1 < 0 || p1 > PKB::maxProgLines || p2 < 0 || p2 > PKB::maxProgLines){
+		return false;
+	}
+
+	CFGNode* s1 = PKB::stmtRefMap.at(p1).getCFGNode();
+
+	if (p2 > p1 && p2 <= s1->last) {
+		return true;
+	}
+
+	CFGNode* s2 = PKB::stmtRefMap.at(p2).getCFGNode();
+	if (s1->proc == s2->proc) {
+		const IntervalList * list = s1->nextList;
+		if (list != NULL) {
+			if (p2 < list->first) {
+				list = list->prev;
+				while (list != NULL && p2 < list->first)
+					list = list->prev;
+				if (list != NULL && p2 <= list->last)
+					return true;
+			} else if (p2 > list->last) {
+				list = list->next;
+				while (list != NULL && p2 > list->last)
+					list = list->next;
+				if (list != NULL && p2 >= list->first)
+					return true;
+			} else
+				return true;
+		}
+	}
+
+	struct Information {
+		PROC proc;
+		unordered_set<PROC> doneProcs;
+
+		Information(PROC proc, unordered_set<PROC> doneProcs) : proc(proc), doneProcs(doneProcs) {}
+	};
+
+	stack<Information> toSee;
+	const vector<PROC>& s1procs = PKB::calls.getCalledBy(s1->proc);
+	for (auto it = s1procs.begin(); it != s1procs.end(); it++) {
+		bool found = false;
+		const vector<STMT>& stmts = PKB::calls.getStmtCall(*it);
+		for (auto it2 = stmts.begin(); it2 != stmts.end(); it2++) {
+			if (*it2 > p1 && *it2 <= s1->last) {
+				found = true;
+				break;
+			}
+
+			const IntervalList * list = s1->nextList;
+			if (list != NULL) {
+				if (*it2 < list->first) {
+					list = list->prev;
+					while (list != NULL && *it2 < list->first)
+						list = list->prev;
+					if (list != NULL && *it2 <= list->last) {
+						found = true;
+						break;
+					}
+				} else if (*it2 > list->last) {
+					list = list->next;
+					while (list != NULL && *it2 > list->last)
+						list = list->next;
+					if (list != NULL && *it2 >= list->first) {
+						found = true;
+						break;
+					}
+				} else {
+					found = true;
+					break;
+				}
+			}
+		} //end for each statement that calls the procedure
+		if (found)
+			toSee.push(Information(*it, unordered_set<PROC>()));
+	}
+
+	while (!toSee.empty()) {
+		Information curr = toSee.top();
+		toSee.pop();
+
+		const PROC currProc = curr.proc;
+		unordered_set<PROC>& doneProcs = curr.doneProcs;
+		doneProcs.insert(currProc);
+
+		const pair<STMT, STMT>& pair = PKB::TheBeginningAndTheEnd[currProc];
+		STMT first = pair.first;
+		STMT last = pair.second;
+		if (p2 >= first && p2 <= last)
+			return true;
+
+		const vector<PROC>& currProcProcs = PKB::calls.getCalledBy(currProc);
+		for (auto it = currProcProcs.begin(); it != currProcProcs.end(); it++) {
+			if (doneProcs.count(*it) > 0)
+				continue;
+
+			bool found = false;
+			const vector<STMT>& stmts = PKB::calls.getStmtCall(*it);
+			for (auto it2 = stmts.begin(); it2 != stmts.end(); it2++)
+				if (*it2 >= first && *it2 <= last) {
+					found = true;
+					break;
+				}
+			if (found)
+				toSee.push(Information(*it, doneProcs));
+		}
+	}
+	
+	return false;
+}
+*/

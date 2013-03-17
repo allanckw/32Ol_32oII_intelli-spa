@@ -21,10 +21,18 @@ IntervalList::IntervalList(const int first, const int last)
 IntervalList::IntervalList(const int first, const int last, IntervalList* prev, IntervalList* next)
 	: first(first), last(last), prev(prev), next(next)
 {
-	if (prev != NULL && prev->next == NULL)
-		prev->next = this;
-	if (next != NULL && next->prev == NULL)
-		next->prev = this;
+	if (prev != NULL) {
+		IntervalList* newPrev = new IntervalList(prev->first, prev->last);
+		newPrev->prev = prev->prev;
+		newPrev->next = this;
+		this->prev = newPrev;
+	}
+	if (next != NULL) {
+		IntervalList* newNext = new IntervalList(next->first, next->last);
+		newNext->prev = this;
+		newNext->next = next->next;
+		this->next = newNext;
+	}
 }
 
 /**

@@ -52,7 +52,9 @@ public:
 	static vector<pair<STMT, STMT>> TheBeginningAndTheEnd;
 	static unordered_map<int, vector<STMT>> constantsTable;
 
-	static CFGNode* getCFGHead(PROC p);
+	static vector<CFGNode*> CFGHeads;
+	static vector<CFGNode*> CFGTails;
+	//static CFGNode* getCFGHead(PROC p);
 
 	//Nodes
 	static unordered_map<STMT, ASTNode*> assignNodes;
@@ -69,10 +71,5 @@ public:
 	static vector<ASTNode*> getNodes(ASTNode::NodeType);
 
 	static vector<ASTNode*> getNodes(ASTNode::NodeType, int);
-
-private:
-	static vector<CFGNode*> CFGHeads;
-
-	
 };
 

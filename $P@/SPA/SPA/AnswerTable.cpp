@@ -2,7 +2,7 @@
 #include "AnswerTable.h"
 #include "PKB.h"
 #include "Helper.h"
-
+#include "AssignmentParser.h"
 
 AnswerTable::AnswerTable()
 {
@@ -637,8 +637,8 @@ AnswerTable::AnswerTable(const SynonymTable& synonymTable, const string& synonym
 		synonymTable.getAllSelfReferences(synonym);
 	for (auto it = selfReferences.begin(); it != selfReferences.end(); it++) {
 		vector<int> table2;
-		if (*it == RulesOfEngagement::NextStar) { //alternative call for more efficient method
-			vector<int>& tentative = PKB::next.getNextStar(0); //for evaluating next*(n, n)
+		if (*it == RulesOfEngagement::NextStar) {				//alternative call for more efficient
+			vector<int>& tentative = PKB::next.getNextStar(0);	//method of evaluating next*(n, n)
 			if (table.size() <= tentative.size()) {
 				unordered_set<int> memo(tentative.begin(), tentative.end());
 				for (auto it2 = table.begin(); it2 != table.end(); it2++)
@@ -656,6 +656,38 @@ AnswerTable::AnswerTable(const SynonymTable& synonymTable, const string& synonym
 				if (rel(*it2, *it2))
 					table2.push_back(*it2);
 		}
+		table = table2;
+	}
+	}
+
+	{
+	const vector<string>& patterns = synonymTable.getAllPattern(synonym);
+	for (auto it = patterns.begin(); it != patterns.end(); it++) {
+		const string& expression = *it;
+
+		//actual setting up of patterns of assign for the right hand side
+		RulesOfEngagement::PatternRHSType RHS;
+		string RHSVarName;
+		if (expression.at(0) == '_' && expression.at(expression.size() - 1) == '_') {
+			RHS = RulesOfEngagement::PRSub;
+			RHSVarName = expression.substr(1, expression.length() - 2);
+		} else {
+			RHS = RulesOfEngagement::PRNoSub;
+			RHSVarName = expression;
+		}
+		RHSVarName = RHSVarName.substr(1, RHSVarName.length() - 2);
+		ASTExprNode* RHSexprs;
+		try {
+			RHSexprs = AssignmentParser::processAssignment(MiniTokenizer(RHSVarName));
+		} catch (SPAException& e) {	//exception indicates that the right hand side
+			table.clear();		//is not correct, probably due to it containing
+			return;					//a variable that is not actually present.
+		}
+
+		vector<int> table2;
+		for (auto it = table.begin(); it != table.end(); it++)
+			if (RulesOfEngagement::satisfyPattern(*it, RHS, RHSVarName, RHSexprs))
+				table2.push_back(*it);
 		table = table2;
 	}
 	}
@@ -707,7 +739,7 @@ void AnswerTable::combine(const string& ownSynonym, const AnswerTable& otherTabl
 		}
 	} else {
 		unordered_map<int, unordered_set<int>> memo;
-		if (answers.size() <= otherTable.answers.size() || fn2 == 0) {
+		if (fn1 != 0 && (answers.size() <= otherTable.answers.size() || fn2 == 0)) {
 			for (auto it = answers.begin(); it != answers.end(); it++) {
 				int value1 = (*it)[firstRelIndex];
 				if (memo.count(value1) == 0) {
@@ -1000,6 +1032,15 @@ void AnswerTable::cartesian(const AnswerTable& otherTable)
 }
 
 /**
+* Returns true if this AnswerTable is empty
+* @return whether this AnswerTable is empty
+*/
+bool AnswerTable::isEmpty() const
+{
+	return header.empty();
+}
+
+/**
 * Returns a vector of the synonyms included in this AnswerTable.
 * @return the vector of the synonyms
 */
@@ -1034,4 +1075,87 @@ unsigned int AnswerTable::getSize() const
 vector<int> AnswerTable::getRow(const int index) const
 {
 	return answers[index];
+}
+
+/**
+* Reads a string of an expression, and converts it to a vector of tokens.
+* @param query expression string
+*/
+vector<string> AnswerTable::MiniTokenizer(const string& line)
+{
+	/*string tempstr = " ";
+	line = tempstr.append(line);*/
+	vector<string> list;
+	string delimiter = " -+*;(){}=";//delimiters
+	int position = 0;//starting position
+	int startindex = -1;
+	int endindex = -1;
+
+	
+	do//loop thru the string
+	{
+		startindex = line.find_first_not_of(delimiter,position);
+
+		if(endindex != -1 && endindex<line.size())
+			{
+				string tempstr1; //temp str to store subset of currently working substring
+				if(startindex == -1)
+				{
+					tempstr1 = line.substr(endindex,line.size() - endindex);
+				}
+				else
+				{
+					tempstr1 = line.substr(endindex,startindex - endindex);
+				}
+				for(unsigned int i=0;i<tempstr1.size();)
+				{
+					string tempstr2 = tempstr1.substr(0,1);
+					tempstr1 = tempstr1.substr(1,tempstr1.size()-1);
+					
+					if(tempstr2 != " " && tempstr2 != "")
+					list.push_back(tempstr2);
+					//	AddToList(list,tempstr2);
+						//AddTables(list,tempstr2);
+						//list.push_back(tempstr2);
+					
+				}
+			} else if(endindex == -1)
+			{
+				if(line.substr(0,startindex) != "")
+				list.push_back(line.substr(0,startindex));
+			}
+
+			endindex = line.find_first_of(delimiter,startindex);
+
+			position = endindex;
+		
+			if(startindex != -1 || line.size() == 1)
+			{
+				string tempstr;
+				if(line.size() == 1)
+					tempstr= line;
+				else
+					tempstr= line.substr(startindex,endindex-startindex);
+
+				if(tempstr != " " && tempstr != "")
+				list.push_back(tempstr);
+			}
+
+	}while(startindex != -1 && position < line.size() && endindex != -1);
+	
+
+	//house keeping
+	/*if(Parser::tokenized_codes.size() > 1)
+	{
+		vector<string> temp_vec = Parser::tokenized_codes.at(0);
+		temp_vec.insert(temp_vec.end(), Parser::tokenized_codes.at(1).begin(),Parser::tokenized_codes.at(1).end());
+		Parser::tokenized_codes.erase(Parser::tokenized_codes.begin());
+		Parser::tokenized_codes.at(0) = temp_vec;
+	}*/
+
+	//if(list.size() > 0)
+	//Parser::tokenized_codes.push_back(list);
+
+	//vector<string> tokens;
+	return list;
 }

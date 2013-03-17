@@ -6,14 +6,15 @@
 class AnswerTable
 {
 private:
-	AnswerTable();
-
 	vector<string> header;
 	vector<vector<int>> answers;
 
+	static vector<string> MiniTokenizer(const string& line);
+
 public:
 	unordered_map<string, int> synonymPosition;
-
+	
+	AnswerTable();
 	AnswerTable(const SynonymTable& synonymTable, const string& synonym);
 
 	void combine(const string& ownSynonym, const AnswerTable& otherTable, const string& otherSynonym,
@@ -35,6 +36,7 @@ public:
 	AnswerTable project(const vector<string>& selection);
 	void cartesian(const AnswerTable& otherTable);
 
+	bool isEmpty() const;
 	vector<string> getHeader() const;
 	unsigned int getHeaderSize() const;
 	unsigned int getSize() const;

@@ -25,6 +25,8 @@ private:
 	vector<unordered_set<RulesOfEngagement::QueryRelations>> synRelGenericSecond;
 	vector<vector<pair<RulesOfEngagement::QueryRelations, string>>> synRelSpecificSecond;
 
+	vector<vector<string>> synPattern;
+
 	unordered_map<string, int> stringToIndex;
 	unordered_map<RulesOfEngagement::QueryVar, vector<int>> typeToIndices;
 
@@ -75,4 +77,7 @@ public:
 		RulesOfEngagement::QueryRelations relation, const string& specific);
 	vector<pair<RulesOfEngagement::QueryRelations, string>>
 		getAllSecondSpecific(const string& name) const;
+
+	void setPattern(const string& name, const string& expression);
+	vector<string> getAllPattern(const string& name) const;
 };

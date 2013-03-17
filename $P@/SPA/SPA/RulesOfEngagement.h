@@ -40,6 +40,8 @@ public:
 		FollowsStar,
 		Next,
 		NextStar,
+		NextBip,
+		NextBipStar,
 		Affects,
 		AffectsStar,
 		PatternModifies,
@@ -87,14 +89,16 @@ private:
 	static bool isParentStar(int x, int y);
 	static bool isNext(int x, int y);
 	static bool isNextStar(int x, int y);
+	static bool isNextBip(int x, int y);
+	static bool isNextBipStar(int x, int y);
 	static bool isAffects(int x, int y);
 	static bool isAffectsStar(int x, int y);
 	static bool isPatternModifies(int x, int y);
 
 	//Sibling / Contains
 	static bool isSibling(ASTNode* x, ASTNode* y);
-	static bool RulesOfEngagement::isContains(ASTNode* x, ASTNode* y);
-	static bool RulesOfEngagement::isContainsStar(ASTNode* x, ASTNode* y);
+	static bool isContains(ASTNode* x, ASTNode* y);
+	static bool isContainsStar(ASTNode* x, ASTNode* y);
 
 
 	/*template
@@ -114,11 +118,10 @@ private:
 	static vector<int> parentStarBy(int x);
 	static vector<int> nextBy(int x);
 	static vector<int> nextStarBy(int x);
+	static vector<int> nextBipBy(int x);
+	static vector<int> nextBipStarBy(int x);
 	static vector<int> affectsBy(int x);
 	static vector<int> affectsStarBy(int x);
-	/*template
-	static vector<int> <relBy>(int x);
-	*/
 
 	static unordered_map<QueryRelations, relationFamily> relationFromMap;
 	static vector<int> modifiesStmtFrom(int y);
@@ -133,14 +136,13 @@ private:
 	static vector<int> parentStarFrom(int y);
 	static vector<int> nextFrom(int y);
 	static vector<int> nextStarFrom(int y);
+	static vector<int> nextBipFrom(int y);
+	static vector<int> nextBipStarFrom(int y);
 	static vector<int> affectsFrom(int y);
 	static vector<int> affectsStarFrom(int y);
 
 	static vector<int> getStmtSiblings(int x);
 	vector<ASTNode*> getNodeSiblings(ASTNode* x);
-	/*template
-	static vector<int> <relFrom>(int y);
-	*/
 
 	static unordered_map<QueryVar, getAllTypes> typeMap;
 	static vector<int> getAllStmt();
@@ -179,11 +181,6 @@ private:
 
 	//get all call nodes that call procedures p
 	static vector<ASTNode*> getAllCallNodes(PROC p);
-
-
-	/*template
-	static vector<int> getAll<Type>();
-	*/
 	
 public:
 	enum PatternLHSType { 

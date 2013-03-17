@@ -1,42 +1,460 @@
 #pragma once
 #include "MultiQueryEval.h"
 #include "Helper.h"
-
-
-/**
-* Returns whether the query is of type Select Boolean
-* @return true if it is of type select boolean, false otherwise
-*/
-bool MultiQueryEval::isSelectBoolean(){
-	return this->selectBOOLEAN;
-}
+#include "PKB.h"
+#include "RulesOfEngagement.h"
+#include "AnswerTable.h"
+#include "QueryPreprocessor.h"
+#include "AssignmentParser.h"
 
 /**
-* Returns whether the result of the query terminating early, i.e. query is 
-* always false after checks
-* @return true if it terminating early, false otherwise
-*/
-bool MultiQueryEval::isEarlyQuit(){
-	return this->earlyQuit;
-}
-
-
-/**
-* Does all the query evaluation.
+* Gets a token, defined as
+* 1) LETTER (LETTER | DIGIT | #)*
+* 1a) RelationStar
+* 1b) prog_line
+* 2) DIGIT*
+* 3) Entire string enclosed on both sides by the quote character
+* 4) A single character
+* A token enclosed by the underscore character is obtained using getToken2()
 * @param query query string
-* @return the MultiQueryEval object with answers if any
+* @param pos position read until
+* @return a token
 */
-vector<string> MultiQueryEval::getFinalAnswer(){
-	return this->finalanswer;
-}
-
-/**
-* Does all the query evaluation.
-* @param query query string
-* @return the MultiQueryEval object with answers if any
-*/
-MultiQueryEval::MultiQueryEval(const string& query)
+string MultiQueryEval::getToken(const string& query, int& pos)
 {
+	int first = query.find_first_not_of(' ', pos);
+	if (first == string::npos)
+		return "";
+	pos = first + 1;
+	if ((query.at(first) >= 'A' && query.at(first) <= 'Z') ||
+		(query.at(first) >= 'a' && query.at(first) <= 'z')) { //IDENT
+			while (pos < query.length() && ((query.at(pos) >= 'A' && query.at(pos) <= 'Z') ||
+				(query.at(pos) >= 'a' && query.at(pos) <= 'z') || //letter or
+				(query.at(pos) >= '0' && query.at(pos) <= '9') || query.at(pos) == '#' || //digit
+				(query.at(pos) == '*') || //relation star
+				(query.at(pos) == '_' && pos == first + 4 && query.substr(first, 4) == "prog")))
+				pos++;
+	} else if (query.at(first) >= '0' && query.at(first) <= '9') { //DIGIT
+		while (pos < query.length() && (query.at(pos) >= '0' && query.at(pos) <= '9'))
+			pos++;
+	} else if (query.at(first) == '\"')
+		pos = query.find_first_of('\"', pos) + 1;
+	//else return single character
+	return query.substr(first, pos - first);
+}
+
+
+/**
+* Gets a token specially for use in the second argument of an assign pattern.
+* @param query query string
+* @param pos position read until
+* @return a token
+*/
+string MultiQueryEval::getToken2(const string& query, int& pos)
+{
+	int first = query.find_first_not_of(' ', pos);
+	if (first == string::npos)
+		return "";
+
+	stack<char> charstack;
+	int tempt = first;
+	while(true)
+	{
+		pos = query.find_first_of("\"()", tempt);
+		if(query.at(pos) == '\"')
+		{
+			
+			if(charstack.size() > 0 && charstack.top() == '\"')
+				charstack.pop();
+			else
+				charstack.push('\"');
+		}
+		else if(query.at(pos) == '(')
+		{
+			charstack.push('(');
+		}
+		else if(query.at(pos) == ')')
+		{
+			if(charstack.size() == 0)
+				break;
+			else if(charstack.size() > 0 && charstack.top() == '(')
+				charstack.pop();
+			else
+				throw new SPAException("Error in parsing query");
+		}
+		else
+			throw new SPAException("Error in parsing query");
+		tempt = pos+1;
+	}
+	if(charstack.size() != 0 )
+		throw new SPAException("Error in parsing query");
+
+	if (pos == first) {
+		pos++;
+		return query.substr(first, 1);
+	}
+	return query.substr(first, pos - first);
+}
+
+/**
+* Checks that the next token is equal to the required string.
+* @param query query string
+* @param pos position read until
+* @param match string for token to match with
+* @return true if the token matched the required string, and false otherwise
+* @throws SPAException when token does not match
+*/
+void MultiQueryEval::matchToken(const string& query, int& pos, const string& match)
+{
+	if (getToken(query, pos) != match)
+		throw new SPAException("Error in parsing query");
+}
+
+/**
+* Public method for evaluating queries.
+* Passes call to internal MultiQueryEval constructor. Only adds in the answer of FALSE
+* if the evaluation was returned early and the select was for a BOOLEAN.
+* @param query query string
+* @return the vector of strings of the answers to the query
+*/
+void MultiQueryEval::evaluateQuery(const string& query, list<string>& results)
+{
+	//read through the query and make sure it is valid and also looking for possible optimisations
+	//then the optimisations
+	//finally evaluate the relationships in the optimal order
+	validate(query);
+	MultiQueryEval result(query, results);
+	if (result.selectBOOLEAN && result.earlyQuit)
+		results.push_back("FALSE");
+}
+/**
+* Validates the query is in line with the PQL grammar. Throw an exception if it does not.
+* @param query query string
+*/
+void MultiQueryEval::validate(const string& query)
+{
+	//parse the query statement
+	int pos = 0;
+
+	//parse synonym declaration
+	unordered_map<string, RulesOfEngagement::QueryVar> stringToQueryVar;
+	while (true) {
+		string token = getToken(query, pos);
+		if (token == "Select")
+			break;
+		if (RulesOfEngagement::tokenToVar.count(token) == 0)
+			throw new SPAException("Error in parsing query - Unrecognised synonym declaration");
+		RulesOfEngagement::QueryVar type = RulesOfEngagement::tokenToVar[token];
+		
+		string variable;
+		do {
+			variable = getToken(query, pos);
+			if (stringToQueryVar.count(variable) > 0)
+				throw new SPAException("Double declaration of synonym - " + variable);
+			stringToQueryVar.insert(pair<string, RulesOfEngagement::QueryVar>(variable, type));
+		} while ((variable = getToken(query, pos)) == ",");
+		if (variable != ";")
+			throw new SPAException("Error in parsing query");
+	}
+
+	//parse selected variables
+	string selected = getToken(query, pos);
+	if (selected.at(0) == '<') { //tuple -> multiple selected variables
+		do {
+			selected = getToken(query, pos);
+			if (stringToQueryVar.count(selected) == 0)
+				throw new SPAException("Selected variable is not recognised");
+			selected = getToken(query, pos);
+			if (selected == ">")
+				break;
+			else if (selected != ",")
+				throw new SPAException("Error in parsing query");
+		} while (true);
+	} else if (selected != "BOOLEAN") {
+		if (stringToQueryVar.count(selected) == 0)
+			throw new SPAException("Selected variable is not recognised");
+	}
+
+	//parse relationships, conditions and pattern
+
+	enum Clauses { Undefined, Such_That, With, Pattern };
+	Clauses clauseType = Undefined;
+	while (true) {
+		string clause = getToken(query, pos);
+		if (clause == "") {
+			break;
+		} else if (clause == "such") {
+			matchToken(query, pos, "that");
+			clauseType = Such_That;
+		} else if (clause == "with") {
+			clauseType = With;
+		} else if (clause == "pattern") {
+			clauseType = Pattern;
+		} else if (clause != "and" || clauseType == Undefined)
+			throw new SPAException("Error in parsing query");
+
+		switch (clauseType) {
+		case Such_That:
+			{
+				string relation = getToken(query, pos);
+				matchToken(query, pos, "(");
+				string firstRel = getToken(query, pos);
+				matchToken(query, pos, ",");			
+				string secondRel = getToken(query, pos);
+				matchToken(query, pos, ")");
+
+				if (RulesOfEngagement::tokenToRel.count(relation) == 0)
+					throw new SPAException("Unrecognised relationship " + relation);
+				unordered_set<RulesOfEngagement::QueryRelations>& types =
+					RulesOfEngagement::tokenToRel[relation];
+
+				RulesOfEngagement::QueryVar firstRelType;
+				if (firstRel == "_")
+					firstRelType = RulesOfEngagement::WildCard;
+				else if (stringToQueryVar.count(firstRel) > 0)
+					firstRelType = stringToQueryVar[firstRel];
+				else if (firstRel.at(0) == '\"' && firstRel.at(firstRel.length() - 1) == '\"')
+					firstRelType = RulesOfEngagement::String;
+				else if (Helper::isNumber(firstRel))
+					firstRelType = RulesOfEngagement::Integer;
+				else
+					throw new SPAException("Could not parse the first argument");
+
+				RulesOfEngagement::QueryRelations type = RulesOfEngagement::PatternUses; //sentinel value
+				for (auto it = types.begin(); it != types.end(); it++)
+					if (RulesOfEngagement::allowableFirstArgument[*it].count(firstRelType) > 0) {
+						type = *it;
+						break;
+					}
+				if (type == RulesOfEngagement::PatternUses)
+					throw new SPAException("The argument " + firstRel +
+					" was not valid for the first argument of " + relation);
+
+				RulesOfEngagement::QueryVar secondRelType;
+				if (secondRel == "_")
+					secondRelType = RulesOfEngagement::WildCard;
+				else if (stringToQueryVar.count(secondRel) > 0)
+					secondRelType = stringToQueryVar[secondRel];
+				else if (secondRel.at(0) == '\"' && secondRel.at(secondRel.length() - 1) == '\"')
+					secondRelType = RulesOfEngagement::String;
+				else if (Helper::isNumber(secondRel))
+					secondRelType = RulesOfEngagement::Integer;
+				else
+					throw new SPAException("Could not parse the second argument");
+
+				if (RulesOfEngagement::allowableSecondArgument[type].count(secondRelType) == 0)
+					throw new SPAException("The argument " + secondRel +
+					" was not valid for the second argument of " + relation);
+			}
+			break;
+
+		case With:
+			{
+				//REF = REF Change this With Case to accomodate 10 = 10, "abc" = "abc"
+				//etc
+				string synonym = getToken(query, pos);
+				if (stringToQueryVar.count(synonym) == 0) {
+					matchToken(query, pos, "=");
+					string token = getToken(query, pos);
+					if (stringToQueryVar.count(token) == 0) {
+						if (token == synonym)
+							break;
+					} else {
+						RulesOfEngagement::QueryVar type = stringToQueryVar[token];
+						string condition;
+						RulesOfEngagement::QueryVar RHSType;
+						if (type == RulesOfEngagement::Prog_Line) {
+							condition = "";
+							RHSType = RulesOfEngagement::Integer;
+						} else {
+							matchToken(query, pos, ".");
+							condition = getToken(query, pos);
+							if (RulesOfEngagement::allowableConditions[type].count(condition) == 0)
+								throw new SPAException(token +
+								" does not have the " + condition + " condition");
+							RHSType = RulesOfEngagement::conditionTypes[condition];
+						}
+						if (RHSType == RulesOfEngagement::Integer) {
+							if (!Helper::isNumber(synonym))
+								throw new SPAException("Unable to parse with");
+						} else if (RHSType == RulesOfEngagement::String) {
+							if (synonym.at(0) != '"' || synonym.at(synonym.length() - 1) != '"')
+								throw new SPAException("Unable to parse with");
+						} else
+							throw new SPAException("Unable to parse with");
+					}
+				} else {
+					RulesOfEngagement::QueryVar type = stringToQueryVar[synonym];
+					string condition;
+					RulesOfEngagement::QueryVar LHSType;
+					if (type == RulesOfEngagement::Prog_Line) {
+						condition = "";
+						LHSType = RulesOfEngagement::Integer;
+					} else {
+						matchToken(query, pos, ".");
+						condition = getToken(query, pos);
+						if (RulesOfEngagement::allowableConditions[type].count(condition) == 0)
+							throw new SPAException(synonym +
+							" does not have the " + condition + " condition");
+						LHSType = RulesOfEngagement::conditionTypes[condition];
+					}
+
+					matchToken(query, pos, "=");
+					//either c.value = 10 OR c.value = s.stmt#
+					string token = getToken(query, pos);
+					if (stringToQueryVar.count(token) == 0) { //c.value = 10
+						if (LHSType == RulesOfEngagement::Integer) {
+							if (!Helper::isNumber(token))
+								throw new SPAException("Unable to parse with");
+						} else if (LHSType == RulesOfEngagement::String) {
+							if (token.at(0) != '"' || token.at(token.length() - 1) != '"')
+								throw new SPAException("Unable to parse with");
+						} else
+							throw new SPAException("Unable to parse with");
+					} else { //c.value = s.stmt# //c.value = s.stmt# OR c.value = n
+						RulesOfEngagement::QueryVar type2 = stringToQueryVar[token];
+						string condition2;
+						if (type2 == RulesOfEngagement::Prog_Line) {
+							condition2 = "";
+						} else {
+							matchToken(query, pos, ".");
+							condition2 = getToken(query, pos);
+						}
+
+						if (synonym == token && condition == condition2)
+							break;
+
+						if (RulesOfEngagement::allowableConditions[type2].count(condition2) == 0)
+							throw new SPAException(token +
+							" does not have the " + condition2 + " condition");
+						RulesOfEngagement::QueryVar RHSType =
+							RulesOfEngagement::conditionTypes[condition2];
+						if (LHSType != RHSType)
+							throw new SPAException("Left and right hand side of with are not of same type");
+					}
+				}
+			}
+			break;
+
+		case Pattern:
+			{
+				string synonym = getToken(query, pos);
+				if (stringToQueryVar.count(synonym) == 0)
+					throw new SPAException("The variable " + synonym + " is not recognised");
+				RulesOfEngagement::QueryVar type = stringToQueryVar[synonym];
+
+				matchToken(query, pos, "(");
+				string firstRel = getToken(query, pos);
+
+				switch (type) {
+				case RulesOfEngagement::Assign:
+					{
+						if (firstRel != "_") {
+							if (stringToQueryVar.count(firstRel) > 0) {
+								if (stringToQueryVar[firstRel] != RulesOfEngagement::Variable)
+									throw new SPAException("The first argument of pattern must be a variable");
+							}
+							else if (firstRel.at(0) != '\"' || firstRel.at(firstRel.length() - 1) != '\"')
+								throw new SPAException("Could not parse the first argument");
+						}
+						
+						matchToken(query, pos, ",");
+						string secondRel = getToken2(query, pos);
+						matchToken(query, pos, ")");
+
+						if (secondRel != "_") {
+							//remove white spaces
+							secondRel.erase(remove(secondRel.begin(), secondRel.end(), '\t'), secondRel.end());
+							secondRel.erase(remove(secondRel.begin(), secondRel.end(), ' '), secondRel.end());
+
+							unsigned int length = secondRel.length();
+							if (length <= 2)
+								throw SPAException("Error, Pattern Right Hand Side Invalid");
+							if (secondRel.at(0) == '_' && secondRel.at(length - 1) == '_') {
+								if (length <= 4 || secondRel.at(1) != '\"' || secondRel.at(length - 2) != '\"')
+									throw SPAException("Error, Pattern Right Hand Side Invalid");
+							} else if (secondRel.at(0) != '\"' || secondRel.at(length - 1) != '\"')
+								throw SPAException("Error, Pattern Right Hand Side Invalid");
+						}
+					}
+					break;
+
+				case RulesOfEngagement::If:
+					matchToken(query, pos, ",");
+					matchToken(query, pos, "_");
+					matchToken(query, pos, ",");
+					matchToken(query, pos, "_");
+					matchToken(query, pos, ")");
+
+					if (firstRel != "_") {
+						if (stringToQueryVar.count(firstRel) > 0) {
+							if (stringToQueryVar[firstRel] != RulesOfEngagement::Variable)
+								throw new SPAException("The first argument of pattern must be a variable");
+						} else if (firstRel.at(0) != '\"' || firstRel.at(firstRel.length() - 1) != '\"')
+							throw new SPAException("Could not parse the first argument");
+					}
+					break;
+
+				case RulesOfEngagement::While:
+					matchToken(query, pos, ",");
+					matchToken(query, pos, "_");
+					matchToken(query, pos, ")");
+
+					if (firstRel != "_") {
+						if (stringToQueryVar.count(firstRel) > 0) {
+							if (stringToQueryVar[firstRel] != RulesOfEngagement::Variable)
+								throw new SPAException("The first argument of pattern must be a variable");
+						} else if (firstRel.at(0) != '\"' || firstRel.at(firstRel.length() - 1) != '\"')
+							throw new SPAException("Could not parse the first argument");
+					}
+					break;
+
+				default:
+					throw new SPAException("Pattern only valid on assign, if and while synonyms");
+				} //end switch of synonym type in pattern
+			} //end case of pattern
+		} //end switch of clauseType
+	}
+	//end of query validation
+}
+
+/**
+* Does all the query evaluation.
+* @param query query string
+* @return the MultiQueryEval object with answers if any
+*/
+MultiQueryEval::MultiQueryEval(const string& query, list<string>& results)
+{
+	struct Relation {
+		RulesOfEngagement::QueryRelations type;
+		string firstSynonym;
+		string secondSynonym;
+
+		Relation(const RulesOfEngagement::QueryRelations type,
+			const string firstSynonym, const string secondSynonym)
+			: type(type), firstSynonym(firstSynonym), secondSynonym(secondSynonym) {}
+	};
+	
+	struct Condition {
+		string firstRel;
+		string firstCondition;
+		string secondRel;
+		string secondCondition;
+
+		Condition(const string firstRel, const string firstCondition,
+			const string secondRel, const string secondCondition)
+			: firstRel(firstRel), firstCondition(firstCondition),
+			secondRel(secondRel), secondCondition(secondCondition) {}
+	};
+
+	struct Pattern {
+		string synonym;
+		string expression;
+
+		Pattern(const string synonym, const string expression)
+			: synonym(synonym), expression(expression) {}
+	};
+
 	//parse the query statement
 	int pos = 0;
 	earlyQuit = false;
@@ -45,27 +463,27 @@ MultiQueryEval::MultiQueryEval(const string& query)
 	unordered_map<string, RulesOfEngagement::QueryVar> stringToQueryVar;
 	//unordered_map<string, int> stringCount;
 	while (true) {
-		string token = QueryPreprocessor::getToken(query, pos);
+		string token = getToken(query, pos);
 		if (token == "Select")
 			break;
 		RulesOfEngagement::QueryVar type = RulesOfEngagement::tokenToVar[token];
 		
 		string variable;
 		do {
-			variable = QueryPreprocessor::getToken(query, pos);
+			variable = getToken(query, pos);
 			stringToQueryVar.insert(pair<string, RulesOfEngagement::QueryVar>(variable, type));
 			//stringCount.insert(pair<string, int>(variable, 0));
-		} while ((variable = QueryPreprocessor::getToken(query, pos)) == ",");
+		} while ((variable = getToken(query, pos)) == ",");
 	}
 
 	//parse selected variables
-	string selected = QueryPreprocessor::getToken(query, pos);
+	string selected = getToken(query, pos);
 	unordered_set<string> selects;
 	if (selected.at(0) == '<') { //tuple -> multiple selected variables
 		do {
-			selected = QueryPreprocessor::getToken(query, pos);
+			selected = getToken(query, pos);
 			selects.insert(selected);
-			selected = QueryPreprocessor::getToken(query, pos);
+			selected = getToken(query, pos);
 			if (selected == ">")
 				break;
 		} while (true);
@@ -82,36 +500,36 @@ MultiQueryEval::MultiQueryEval(const string& query)
 	unordered_map<RulesOfEngagement::QueryRelations, unordered_map<string,
 		unordered_set<string>>> relationStore;
 	unordered_map<string, unordered_map<string, string>> conditionStore;
-	vector<tuple<string, string, string, string>> condition2Store;
+	vector<Condition> condition2Store;
 	unordered_map<string, unordered_set<string>> patternAssignUsesStore;
 	
 	//for new synonyms created due to synthetic sugaring
 	int tempVars = 0;
 
-	enum Clauses { Undefined, Such_That, With, Pattern };
+	enum Clauses { Undefined, Such_That, With, PatternC };
 	Clauses clauseType = Undefined;
 	while (true) {
-		string clause = QueryPreprocessor::getToken(query, pos);
+		string clause = getToken(query, pos);
 		if (clause == "") {
 			break;
 		} else if (clause == "such") {
-			QueryPreprocessor::matchToken(query, pos, "that");
+			matchToken(query, pos, "that");
 			clauseType = Such_That;
 		} else if (clause == "with") {
 			clauseType = With;
 		} else if (clause == "pattern") {
-			clauseType = Pattern;
+			clauseType = PatternC;
 		}
 
 		switch (clauseType) {
 		case Such_That:
 			{
-				string relation = QueryPreprocessor::getToken(query, pos);
-				QueryPreprocessor::matchToken(query, pos, "(");
-				string firstRel = QueryPreprocessor::getToken(query, pos);
-				QueryPreprocessor::matchToken(query, pos, ",");			
-				string secondRel = QueryPreprocessor::getToken(query, pos);
-				QueryPreprocessor::matchToken(query, pos, ")");
+				string relation = getToken(query, pos);
+				matchToken(query, pos, "(");
+				string firstRel = getToken(query, pos);
+				matchToken(query, pos, ",");			
+				string secondRel = getToken(query, pos);
+				matchToken(query, pos, ")");
 
 				unordered_set<RulesOfEngagement::QueryRelations>& types =
 					RulesOfEngagement::tokenToRel[relation];
@@ -149,78 +567,78 @@ MultiQueryEval::MultiQueryEval(const string& query)
 
 		case With:
 			{
-				string synonym = QueryPreprocessor::getToken(query, pos);
-				if (stringToQueryVar.count(synonym) == 0) { // LHS is "known" value
-				QueryPreprocessor::matchToken(query, pos, "=");
-				string token = QueryPreprocessor::getToken(query, pos);
-				if (stringToQueryVar.count(token) == 0) {
-					earlyQuit |= (synonym == token);
-				} else {
-				RulesOfEngagement::QueryVar type = stringToQueryVar[token];
-				string condition;
-				RulesOfEngagement::QueryVar RHSType;
-				if (type == RulesOfEngagement::Prog_Line) {
-					condition = "";
-					RHSType = RulesOfEngagement::Integer;
-				} else {
-					QueryPreprocessor::matchToken(query, pos, ".");
-					condition = QueryPreprocessor::getToken(query, pos);
-					RHSType = RulesOfEngagement::conditionTypes[condition];
-				}
-					if (conditionStore[token].count(condition) > 0)
-						earlyQuit |= (conditionStore[token][condition] == token);
-					conditionStore[token].insert(pair<string, string>(condition, synonym));
-				}
-				} else {
-				RulesOfEngagement::QueryVar type = stringToQueryVar[synonym];
-				string condition;
-				RulesOfEngagement::QueryVar LHSType;
-				if (type == RulesOfEngagement::Prog_Line) {
-					condition = "";
-					LHSType = RulesOfEngagement::Integer;
-				} else {
-					QueryPreprocessor::matchToken(query, pos, ".");
-					condition = QueryPreprocessor::getToken(query, pos);
-					LHSType = RulesOfEngagement::conditionTypes[condition];
-				}
+				string synonym = getToken(query, pos);
 
-				QueryPreprocessor::matchToken(query, pos, "=");
-				//either c.value = 10 OR c.value = s.stmt#
-				string token = QueryPreprocessor::getToken(query, pos);
-				if (stringToQueryVar.count(token) == 0) { //c.value = 10
-					if (conditionStore[synonym].count(condition) > 0)
-						earlyQuit |= (conditionStore[synonym][condition] == token);
-					conditionStore[synonym].insert(pair<string, string>(condition, token));
-					//stringCount[synonym]++;
-				} else { //c.value = s.stmt# OR c.value = n
-					RulesOfEngagement::QueryVar type2 = stringToQueryVar[token];
-					string condition2;
-					if (type2 == RulesOfEngagement::Prog_Line) {
-						condition2 = "";
+				if (stringToQueryVar.count(synonym) == 0) { // LHS is "known" value
+					matchToken(query, pos, "=");
+					string token = getToken(query, pos);
+					if (stringToQueryVar.count(token) == 0) {
+						earlyQuit |= (synonym == token);
 					} else {
-						QueryPreprocessor::matchToken(query, pos, ".");
-						condition2 = QueryPreprocessor::getToken(query, pos);
+						RulesOfEngagement::QueryVar type = stringToQueryVar[token];
+						string condition;
+						RulesOfEngagement::QueryVar RHSType;
+						if (type == RulesOfEngagement::Prog_Line) {
+							condition = "";
+							RHSType = RulesOfEngagement::Integer;
+						} else {
+							matchToken(query, pos, ".");
+							condition = getToken(query, pos);
+							RHSType = RulesOfEngagement::conditionTypes[condition];
+						}
+						if (conditionStore[token].count(condition) > 0)
+							earlyQuit |= (conditionStore[token][condition] == token);
+						conditionStore[token].insert(pair<string, string>(condition, synonym));
+					}
+				} else {
+					RulesOfEngagement::QueryVar type = stringToQueryVar[synonym];
+					string condition;
+					RulesOfEngagement::QueryVar LHSType;
+					if (type == RulesOfEngagement::Prog_Line) {
+						condition = "";
+						LHSType = RulesOfEngagement::Integer;
+					} else {
+						matchToken(query, pos, ".");
+						condition = getToken(query, pos);
+						LHSType = RulesOfEngagement::conditionTypes[condition];
 					}
 
-					if (synonym == token && condition == condition2)
-						break;
+					matchToken(query, pos, "=");
+					//either c.value = 10 OR c.value = s.stmt#
+					string token = getToken(query, pos);
+					if (stringToQueryVar.count(token) == 0) { //c.value = 10
+						if (conditionStore[synonym].count(condition) > 0)
+							earlyQuit |= (conditionStore[synonym][condition] == token);
+						conditionStore[synonym].insert(pair<string, string>(condition, token));
+						//stringCount[synonym]++;
+					} else { //c.value = s.stmt# OR c.value = n
+						RulesOfEngagement::QueryVar type2 = stringToQueryVar[token];
+						string condition2;
+						if (type2 == RulesOfEngagement::Prog_Line) {
+							condition2 = "";
+						} else {
+							matchToken(query, pos, ".");
+							condition2 = getToken(query, pos);
+						}
 
-					condition2Store.push_back(tuple<string, string, string, string>
-						(synonym, condition, token, condition2));
-					//stringCount[synonym]++;
-					//stringCount[token]++;
-				}
+						if (synonym == token && condition == condition2)
+							break;
+
+						condition2Store.push_back(Condition(synonym, condition, token, condition2));
+						//stringCount[synonym]++;
+						//stringCount[token]++;
+					}
 				}
 			}
 			break;
 
-		case Pattern:
+		case PatternC:
 			{
-				string synonym = QueryPreprocessor::getToken(query, pos);
+				string synonym = getToken(query, pos);
 				RulesOfEngagement::QueryVar type = stringToQueryVar[synonym];
 
-				QueryPreprocessor::matchToken(query, pos, "(");
-				string firstRel = QueryPreprocessor::getToken(query, pos);
+				matchToken(query, pos, "(");
+				string firstRel = getToken(query, pos);
 
 				switch (type) {
 				case RulesOfEngagement::Assign:
@@ -230,9 +648,9 @@ MultiQueryEval::MultiQueryEval(const string& query)
 							relationStore[RulesOfEngagement::ModifiesStmt][synonym].insert(firstRel);
 						}
 						
-						QueryPreprocessor::matchToken(query, pos, ",");
-						string secondRel = QueryPreprocessor::getToken2(query, pos);
-						QueryPreprocessor::matchToken(query, pos, ")");
+						matchToken(query, pos, ",");
+						string secondRel = getToken2(query, pos);
+						matchToken(query, pos, ")");
 
 						if (secondRel != "_") {
 							//remove white spaces
@@ -246,11 +664,11 @@ MultiQueryEval::MultiQueryEval(const string& query)
 					break;
 
 				case RulesOfEngagement::If:
-					QueryPreprocessor::matchToken(query, pos, ",");
-					QueryPreprocessor::matchToken(query, pos, "_");
-					QueryPreprocessor::matchToken(query, pos, ",");
-					QueryPreprocessor::matchToken(query, pos, "_");
-					QueryPreprocessor::matchToken(query, pos, ")");
+					matchToken(query, pos, ",");
+					matchToken(query, pos, "_");
+					matchToken(query, pos, ",");
+					matchToken(query, pos, "_");
+					matchToken(query, pos, ")");
 
 					if (firstRel == "_")
 						earlyQuit |= !RulesOfEngagement::isExistType(type);
@@ -261,9 +679,9 @@ MultiQueryEval::MultiQueryEval(const string& query)
 					break;
 
 				case RulesOfEngagement::While:
-					QueryPreprocessor::matchToken(query, pos, ",");
-					QueryPreprocessor::matchToken(query, pos, "_");
-					QueryPreprocessor::matchToken(query, pos, ")");
+					matchToken(query, pos, ",");
+					matchToken(query, pos, "_");
+					matchToken(query, pos, ")");
 
 					if (firstRel == "_")
 						earlyQuit |= !RulesOfEngagement::isExistType(type);
@@ -283,7 +701,7 @@ MultiQueryEval::MultiQueryEval(const string& query)
 
 	//apply special rules
 	//1) stmt s, t; Follows(s,t) and Follows(t,s) -> earlyQuit
-	//TODO: Generalise to Follows(s1,s2) and Follows(s2,s3) and ... and Follows(sk,s1) -> earlyQuit
+	//TODO: Generalise to Follows(s1,s2) and Follows(s2,s3) and ... and Follows(sk,1) -> earlyQuit
 	unordered_map<string, unordered_set<string>>* followsRel;
 	if (relationStore.count(RulesOfEngagement::Follows) > 0)
 		followsRel = &relationStore[RulesOfEngagement::Follows];
@@ -345,16 +763,14 @@ MultiQueryEval::MultiQueryEval(const string& query)
 	DisjointSet dsSynonym;
 	DisjointSet dsAlias;
 
-	//condition, with double synonyms, table
-	vector<string> condFirstRel;
-	vector<string> condFirstCondition;
-	vector<string> condSecondRel;
-	vector<string> condSecondCondition;
+	//list of condition, with double synonyms
+	vector<Condition> conditionsList;
 	for (auto it = condition2Store.begin(); it != condition2Store.end(); it++) {
-		string& firstRel = get<0>(*it);
-		string& firstCondition = get<1>(*it);
-		string& secondRel = get<2>(*it);
-		string& secondCondition = get<3>(*it);
+		const Condition& condition = *it;
+		const string& firstRel = condition.firstRel;
+		const string& firstCondition = condition.firstCondition;
+		const string& secondRel = condition.secondRel;
+		const string& secondCondition = condition.secondCondition;
 
 		if (firstCondition == secondCondition) { // a.cond = b.cond
 			if (firstRel == secondRel) // s.cond = s.cond -> skip //todo: must check if s exists
@@ -406,10 +822,12 @@ MultiQueryEval::MultiQueryEval(const string& query)
 				stringCount[firstRel]--;
 				stringCount[secondRel]--;
 			} else { //stmt s; constant c; Select <s,c> with s.stmt# = c.value*/
-				condFirstRel.push_back(firstRel);
+				/*condFirstRel.push_back(firstRel);
 				condFirstCondition.push_back(firstCondition);
 				condSecondRel.push_back(secondRel);
-				condSecondCondition.push_back(secondCondition);
+				condSecondCondition.push_back(secondCondition);*/
+				conditionsList.push_back(
+					Condition(firstRel, firstCondition, secondRel, secondCondition));
 				dsSynonym.setUnion(firstRel, secondRel);
 			/*}
 		}*/
@@ -419,9 +837,9 @@ MultiQueryEval::MultiQueryEval(const string& query)
 	//analyse synonyms part 2. those selected and with count of more than 1 are put into the synonym table
 	for (auto it = stringToQueryVar.begin(); it != stringToQueryVar.end(); it++) {
 		const string& synonym = it->first;
-		const int count = it->second;
+		//const int count = it->second;
 		synonymTable.insert(synonym, stringToQueryVar[synonym]);
-		dsSynonym.makeSet(synonym);
+		//dsSynonym.makeSet(synonym);
 		if (selects.count(synonym) > 0) {
 			/*synonymTable.insert(synonym, stringToQueryVar[synonym]);
 			dsSynonym.makeSet(synonym);*/
@@ -433,18 +851,7 @@ MultiQueryEval::MultiQueryEval(const string& query)
 	}
 	
 	//relationship table
-	vector<RulesOfEngagement::QueryRelations> relType;
-	vector<string> relFirst;
-	vector<string> relSecond;
-	vector<int> relClass;
-	unordered_map<string, vector<int>> relFirstToIndices;
-
-	/*//pattern table
-	vector<string> patternSynonym;
-	vector<RulesOfEngagement::QueryVar> patternType;
-	vector<string> patternLHS;
-	vector<string> patternRHS;*/
-
+	vector<Relation> relList;
 
 	vector<pair<RulesOfEngagement::QueryRelations,pair<string, string>>> zerosyno;
 	list<pair<RulesOfEngagement::QueryRelations,pair<string, string>>> onesyno;
@@ -648,6 +1055,13 @@ MultiQueryEval::MultiQueryEval(const string& query)
 
 	//now the best order is stored in newcontainer but with vector<string,string> instead
 
+	//put the patterns into the synonym table
+	for (auto it = patternAssignUsesStore.begin(); it != patternAssignUsesStore.end(); it++) {
+		const unordered_set<string> itsecond = it->second;
+		for (auto it2 = itsecond.begin(); it2 != itsecond.end(); it2++)
+			synonymTable.setPattern(it->first, *it2);
+	}
+
 
 	//parse relations
 	//parse trivial relations
@@ -813,17 +1227,19 @@ MultiQueryEval::MultiQueryEval(const string& query)
 						}
 					}
 
-					if (relFirstToIndices.count(firstRel) > 0)
+					/*if (relFirstToIndices.count(firstRel) > 0)
 						relFirstToIndices[firstRel].push_back(relType.size());
 					else {
 						vector<int> temp;
 						temp.push_back(relType.size());
 						relFirstToIndices.insert(pair<string, vector<int>>(firstRel, temp));
-					}
-					relType.push_back(type);
+					}*/
+
+					/*relType.push_back(type);
 					relFirst.push_back(firstRel);
 					relSecond.push_back(secondRel);
-					relClass.push_back(-1);
+					relClass.push_back(-1);*/
+					relList.push_back(Relation(type, firstRel, secondRel));
 
 					dsSynonym.setUnion(firstRel, secondRel);
 					break;
@@ -852,230 +1268,254 @@ MultiQueryEval::MultiQueryEval(const string& query)
 	vector<unordered_set<string>> components = dsSynonym.getComponents();
 	for (unsigned int classIndex = 0; classIndex < components.size(); classIndex++)
 		for (auto it = components[classIndex].begin(); it != components[classIndex].end(); it++)
-			synonymTable.putIntoClass(*it, classIndex + 1);
+			synonymTable.putIntoClass(*it, classIndex);
 	
-	for (auto it = relFirstToIndices.begin(); it != relFirstToIndices.end(); it++)
+	/*for (auto it = relFirstToIndices.begin(); it != relFirstToIndices.end(); it++)
 		for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
-			relClass[*it2] = synonymTable.getClass((*it).first);
-	
-	vector<AnswerTable> tables;
-	//could have incorporated in synonym table, but was not because it is implentation dependent
-	unordered_map<string, int> inWhichTable;
+			relClass[*it2] = synonymTable.getClass((*it).first);*/
 
-	//evaluate equality of attributes
-	for (unsigned i = 0; i < condFirstRel.size(); i++) {
-		string& firstRel = condFirstRel[i];
-		string& firstCondition = condFirstCondition[i];
-		string& secondRel = condSecondRel[i];
-		string& secondCondition = condSecondCondition[i];
+	vector<vector<Relation>> relPartitioned(components.size(), vector<Relation>());
+	vector<vector<Condition>> condPartitioned(components.size(), vector<Condition>());
 
-		int matchNumberOfTables = 0;
-		if (inWhichTable.count(firstRel) > 0)
-			matchNumberOfTables++;
-		if (inWhichTable.count(secondRel) > 0)
-			matchNumberOfTables++;
+	for (auto it = relList.begin(); it != relList.end(); it++)
+		relPartitioned[synonymTable.getClass(it->firstSynonym)].push_back(*it);
+	for (auto it = conditionsList.begin(); it != conditionsList.end(); it++)
+		condPartitioned[synonymTable.getClass(it->firstRel)].push_back(*it);
 
-		switch (matchNumberOfTables) {
-		case 0:
-			{
-				AnswerTable firstRelTable = AnswerTable(synonymTable, firstRel);
-				if (firstRelTable.getSize() == 0) {
-					earlyQuit = true;
-					return;
-				}
-
-				AnswerTable secondRelTable = AnswerTable(synonymTable, secondRel);
-				if (secondRelTable.getSize() == 0) {
-					earlyQuit = true;
-					return;
-				}
-
-				firstRelTable.withCombine(synonymTable, firstRel,
-					firstCondition, secondRelTable, secondRel, secondCondition);
-				if (firstRelTable.getSize() == 0) {
-					earlyQuit = true;
-					return;
-				}
-
-				inWhichTable[firstRel] = tables.size();
-				inWhichTable[secondRel] = tables.size();
-				tables.push_back(firstRelTable);
-			}
-			break;
-		case 1:
-			if (inWhichTable.count(firstRel) > 0) {
-				int firstRelIndex = inWhichTable[firstRel];
-
-				AnswerTable secondRelTable = AnswerTable(synonymTable, secondRel);
-				if (secondRelTable.getSize() == 0) {
-					earlyQuit = true;
-					return;
-				}
-
-				tables[firstRelIndex].withCombine(synonymTable, firstRel,
-					firstCondition, secondRelTable, secondRel, secondCondition);
-				if (tables[firstRelIndex].getSize() == 0) {
-					earlyQuit = true;
-					return;
-				}
-
-				inWhichTable[secondRel] = firstRelIndex;
-			} else {
-				AnswerTable firstRelTable = AnswerTable(synonymTable, firstRel);
-				if (firstRelTable.getSize() == 0) {
-					earlyQuit = true;
-					return;
-				}
-
-				int secondRelIndex = inWhichTable[secondRel];
-				firstRelTable.withCombine(synonymTable, firstRel,
-					firstCondition, tables[secondRelIndex], secondRel, secondCondition);
-				if (firstRelTable.getSize() == 0) {
-					earlyQuit = true;
-					return;
-				}
-
-				tables[secondRelIndex] = firstRelTable;
-				inWhichTable[firstRel] = secondRelIndex;
-			}
-			break;
-		case 2:
-			int firstRelIndex = inWhichTable[firstRel];
-			int secondRelIndex = inWhichTable[secondRel];
-			if (firstRelIndex == secondRelIndex) {
-				tables[firstRelIndex].withPrune(synonymTable,
-					firstRel, firstCondition, secondRel, secondCondition);
-				if (tables[firstRelIndex].getSize() == 0) {
-					earlyQuit = true;
-					return;
-				}
-			} else {
-				tables[firstRelIndex].withCombine(synonymTable, firstRel,
-					firstCondition, tables[secondRelIndex], secondRel, secondCondition);
-				if (tables[firstRelIndex].getSize() == 0) {
-					earlyQuit = true;
-					return;
-				}
-
-				for (auto it = inWhichTable.begin(); it != inWhichTable.end(); it++)
-					if ((*it).second == secondRelIndex)
-						(*it).second = firstRelIndex;
+	const vector<string>& synonyms = synonymTable.getAllNames();
+	for (auto it = synonyms.begin(); it != synonyms.end(); it++)
+		if (synonymTable.getClass(*it) < 0 && !synonymTable.isSelected(*it)) {
+			AnswerTable table = AnswerTable(synonymTable, *it);
+			if (table.getSize() == 0) {
+				earlyQuit = true;
+				return;
 			}
 		}
-	}
 	
-	for (unsigned int rel = 0; rel < relType.size(); rel++) {
-		RulesOfEngagement::QueryRelations type = relType[rel];
-		string firstRel = relFirst[rel];
-		string secondRel = relSecond[rel];
+	vector<AnswerTable> projections(components.size());
+	const vector<string>& selectedsVector = synonymTable.getAllSelected();
+	list<string> selecteds = list<string>(selectedsVector.begin(), selectedsVector.end());
 
-		int matchNumberOfTables = 0;
-		if (inWhichTable.count(firstRel) > 0)
-			matchNumberOfTables++;
-		if (inWhichTable.count(secondRel) > 0)
-			matchNumberOfTables++;
+	for (unsigned int classIndex = 0; classIndex < components.size(); classIndex++) {
+		vector<AnswerTable> tables;
+		const vector<Relation>& rels = relPartitioned[classIndex];
+		const vector<Condition>& conds = condPartitioned[classIndex];
+		unordered_map<string, int> inWhichTable;
 
-		switch (matchNumberOfTables) {
-		case 0:
-			{
-				AnswerTable firstRelTable = AnswerTable(synonymTable, firstRel);
-				if (firstRelTable.getSize() == 0) {
-					earlyQuit = true;
-					return;
+		//evaluate equality of attributes
+		for (unsigned i = 0; i < conds.size(); i++) {
+			const Condition& condition = conds[i];
+			const string& firstRel = condition.firstRel;
+			const string& firstCondition = condition.firstCondition;
+			const string& secondRel = condition.secondRel;
+			const string& secondCondition = condition.secondCondition;
+
+			int matchNumberOfTables = 0;
+			if (inWhichTable.count(firstRel) > 0)
+				matchNumberOfTables++;
+			if (inWhichTable.count(secondRel) > 0)
+				matchNumberOfTables++;
+
+			switch (matchNumberOfTables) {
+			case 0:
+				{
+					AnswerTable firstRelTable = AnswerTable(synonymTable, firstRel);
+					if (firstRelTable.getSize() == 0) {
+						earlyQuit = true;
+						return;
+					}
+
+					AnswerTable secondRelTable = AnswerTable(synonymTable, secondRel);
+					if (secondRelTable.getSize() == 0) {
+						earlyQuit = true;
+						return;
+					}
+
+					firstRelTable.withCombine(synonymTable, firstRel,
+						firstCondition, secondRelTable, secondRel, secondCondition);
+					if (firstRelTable.getSize() == 0) {
+						earlyQuit = true;
+						return;
+					}
+
+					inWhichTable[firstRel] = tables.size();
+					inWhichTable[secondRel] = tables.size();
+					tables.push_back(firstRelTable);
 				}
+				break;
+			case 1:
+				if (inWhichTable.count(firstRel) > 0) {
+					int firstRelIndex = inWhichTable[firstRel];
 
-				AnswerTable secondRelTable = AnswerTable(synonymTable, secondRel);
-				if (secondRelTable.getSize() == 0) {
-					earlyQuit = true;
-					return;
+					AnswerTable secondRelTable = AnswerTable(synonymTable, secondRel);
+					if (secondRelTable.getSize() == 0) {
+						earlyQuit = true;
+						return;
+					}
+
+					tables[firstRelIndex].withCombine(synonymTable, firstRel,
+						firstCondition, secondRelTable, secondRel, secondCondition);
+					if (tables[firstRelIndex].getSize() == 0) {
+						earlyQuit = true;
+						return;
+					}
+
+					inWhichTable[secondRel] = firstRelIndex;
+				} else {
+					AnswerTable firstRelTable = AnswerTable(synonymTable, firstRel);
+					if (firstRelTable.getSize() == 0) {
+						earlyQuit = true;
+						return;
+					}
+
+					int secondRelIndex = inWhichTable[secondRel];
+					firstRelTable.withCombine(synonymTable, firstRel,
+						firstCondition, tables[secondRelIndex], secondRel, secondCondition);
+					if (firstRelTable.getSize() == 0) {
+						earlyQuit = true;
+						return;
+					}
+
+					tables[secondRelIndex] = firstRelTable;
+					inWhichTable[firstRel] = secondRelIndex;
 				}
-
-				firstRelTable.combine(firstRel, secondRelTable, secondRel, type);
-				if (firstRelTable.getSize() == 0) {
-					earlyQuit = true;
-					return;
-				}
-
-				inWhichTable[firstRel] = tables.size();
-				inWhichTable[secondRel] = tables.size();
-				tables.push_back(firstRelTable);
-			}
-			break;
-		case 1:
-			if (inWhichTable.count(firstRel) > 0) {
+				break;
+			case 2:
 				int firstRelIndex = inWhichTable[firstRel];
-
-				AnswerTable secondRelTable = AnswerTable(synonymTable, secondRel);
-				if (secondRelTable.getSize() == 0) {
-					earlyQuit = true;
-					return;
-				}
-
-				tables[firstRelIndex].combine(firstRel, secondRelTable, secondRel, type);
-				if (tables[firstRelIndex].getSize() == 0) {
-					earlyQuit = true;
-					return;
-				}
-
-				inWhichTable[secondRel] = firstRelIndex;
-			} else {
-				AnswerTable firstRelTable = AnswerTable(synonymTable, firstRel);
-				if (firstRelTable.getSize() == 0) {
-					earlyQuit = true;
-					return;
-				}
-
 				int secondRelIndex = inWhichTable[secondRel];
-				firstRelTable.combine(firstRel, tables[secondRelIndex], secondRel, type);
-				if (firstRelTable.getSize() == 0) {
-					earlyQuit = true;
-					return;
-				}
+				if (firstRelIndex == secondRelIndex) {
+					tables[firstRelIndex].withPrune(synonymTable,
+						firstRel, firstCondition, secondRel, secondCondition);
+					if (tables[firstRelIndex].getSize() == 0) {
+						earlyQuit = true;
+						return;
+					}
+				} else {
+					tables[firstRelIndex].withCombine(synonymTable, firstRel,
+						firstCondition, tables[secondRelIndex], secondRel, secondCondition);
+					if (tables[firstRelIndex].getSize() == 0) {
+						earlyQuit = true;
+						return;
+					}
 
-				tables[secondRelIndex] = firstRelTable;
-				inWhichTable[firstRel] = secondRelIndex;
-			}
-			break;
-		case 2:
-			int firstRelIndex = inWhichTable[firstRel];
-			int secondRelIndex = inWhichTable[secondRel];
-			if (firstRelIndex == secondRelIndex) {
-				tables[firstRelIndex].prune(firstRel, secondRel,
-					RulesOfEngagement::getRelation(type));
-				if (tables[firstRelIndex].getSize() == 0) {
-					earlyQuit = true;
-					return;
+					for (auto it = inWhichTable.begin(); it != inWhichTable.end(); it++)
+						if ((*it).second == secondRelIndex)
+							(*it).second = firstRelIndex;
 				}
-			} else {
-				tables[firstRelIndex].combine(firstRel, tables[secondRelIndex], secondRel, type);
-				if (tables[firstRelIndex].getSize() == 0) {
-					earlyQuit = true;
-					return;
-				}
-
-				for (auto it = inWhichTable.begin(); it != inWhichTable.end(); it++)
-					if ((*it).second == secondRelIndex)
-						(*it).second = firstRelIndex;
 			}
 		}
-	}
+	
+		for (unsigned int rel = 0; rel < rels.size(); rel++) {
+			Relation relation = rels[rel];
+			const RulesOfEngagement::QueryRelations& type = relation.type;
+			const string& firstRel = relation.firstSynonym;
+			const string& secondRel = relation.secondSynonym;
 
-	//evaluate patterns
-	for (auto it = patternAssignUsesStore.begin(); it != patternAssignUsesStore.end(); it++) {
-		const string& synonym = it->first;
-		const unordered_set<string>& itsecond = it->second;
-		for (auto it2 = itsecond.begin(); it2 != itsecond.end(); it2++) {
-			const string& usesVar = *it2;
+			int matchNumberOfTables = 0;
+			if (inWhichTable.count(firstRel) > 0)
+				matchNumberOfTables++;
+			if (inWhichTable.count(secondRel) > 0)
+				matchNumberOfTables++;
+
+			switch (matchNumberOfTables) {
+			case 0:
+				{
+					AnswerTable firstRelTable = AnswerTable(synonymTable, firstRel);
+					if (firstRelTable.getSize() == 0) {
+						earlyQuit = true;
+						return;
+					}
+
+					AnswerTable secondRelTable = AnswerTable(synonymTable, secondRel);
+					if (secondRelTable.getSize() == 0) {
+						earlyQuit = true;
+						return;
+					}
+
+					firstRelTable.combine(firstRel, secondRelTable, secondRel, type);
+					if (firstRelTable.getSize() == 0) {
+						earlyQuit = true;
+						return;
+					}
+
+					inWhichTable[firstRel] = tables.size();
+					inWhichTable[secondRel] = tables.size();
+					tables.push_back(firstRelTable);
+				}
+				break;
+			case 1:
+				if (inWhichTable.count(firstRel) > 0) {
+					int firstRelIndex = inWhichTable[firstRel];
+
+					AnswerTable secondRelTable = AnswerTable(synonymTable, secondRel);
+					if (secondRelTable.getSize() == 0) {
+						earlyQuit = true;
+						return;
+					}
+
+					tables[firstRelIndex].combine(firstRel, secondRelTable, secondRel, type);
+					if (tables[firstRelIndex].getSize() == 0) {
+						earlyQuit = true;
+						return;
+					}
+
+					inWhichTable[secondRel] = firstRelIndex;
+				} else {
+					AnswerTable firstRelTable = AnswerTable(synonymTable, firstRel);
+					if (firstRelTable.getSize() == 0) {
+						earlyQuit = true;
+						return;
+					}
+
+					int secondRelIndex = inWhichTable[secondRel];
+					firstRelTable.combine(firstRel, tables[secondRelIndex], secondRel, type);
+					if (firstRelTable.getSize() == 0) {
+						earlyQuit = true;
+						return;
+					}
+
+					tables[secondRelIndex] = firstRelTable;
+					inWhichTable[firstRel] = secondRelIndex;
+				}
+				break;
+			case 2:
+				int firstRelIndex = inWhichTable[firstRel];
+				int secondRelIndex = inWhichTable[secondRel];
+				if (firstRelIndex == secondRelIndex) {
+					tables[firstRelIndex].prune(firstRel, secondRel,
+						RulesOfEngagement::getRelation(type));
+					if (tables[firstRelIndex].getSize() == 0) {
+						earlyQuit = true;
+						return;
+					}
+				} else {
+					tables[firstRelIndex].combine(firstRel, tables[secondRelIndex], secondRel, type);
+					if (tables[firstRelIndex].getSize() == 0) {
+						earlyQuit = true;
+						return;
+					}
+
+					for (auto it = inWhichTable.begin(); it != inWhichTable.end(); it++)
+						if ((*it).second == secondRelIndex)
+							(*it).second = firstRelIndex;
+				}
+			}
+		}
+
+		/*//evaluate patterns
+		for (auto it = patterns.begin(); it != patterns.end(); it++) {
+			const string& synonym = it->synonym;
+			const string& expression = it->expression;
 
 			//actual setting up of patterns of assign for the right hand side
 			RulesOfEngagement::PatternRHSType RHS;
 			string RHSVarName;
-			if (usesVar.at(0) == '_' && usesVar.at(usesVar.size() - 1) == '_') {
+			if (expression.at(0) == '_' && expression.at(expression.size() - 1) == '_') {
 				RHS = RulesOfEngagement::PRSub;
-				RHSVarName = usesVar.substr(1, usesVar.length() - 2);
+				RHSVarName = expression.substr(1, expression.length() - 2);
 			} else {
 				RHS = RulesOfEngagement::PRNoSub;
-				RHSVarName = usesVar;
+				RHSVarName = expression;
 			}
 			RHSVarName = RHSVarName.substr(1, RHSVarName.length() - 2);
 			ASTExprNode* RHSexprs;
@@ -1103,52 +1543,67 @@ MultiQueryEval::MultiQueryEval(const string& query)
 				earlyQuit = true;
 				return;
 			}
+		}*/
+
+		if (tables.size() > 1)
+			throw SPAException("Wrong number of tables");
+
+		if (tables.size() == 1) {
+			//project out selected variables
+			vector<string> toProjectIndex;
+			for (auto it = selecteds.begin(); it != selecteds.end();) {
+				if (inWhichTable.count(*it) > 0) {
+					toProjectIndex.push_back(*it);
+					selecteds.erase(it++);
+				} else
+					it++;
+			}
+
+			if (toProjectIndex.size() != 0) {
+				if (toProjectIndex.size() == tables[0].getHeaderSize())
+					projections[classIndex] = tables[0];
+				else
+					projections[classIndex] = tables[0].project(toProjectIndex);
+			}
 		}
+
+	} //end for loop over each partition
+
+	for (auto it = selecteds.begin(); it != selecteds.end(); it++) {
+		AnswerTable table = AnswerTable(synonymTable, *it);
+		if (table.getSize() == 0) {
+			earlyQuit = true;
+			return;
+		}
+		projections.push_back(table);
 	}
 
-	//examine table sizes
-	vector<string>& synonyms = synonymTable.getAllNames();
-	for (auto it = synonyms.begin(); it != synonyms.end(); it++)
-		if (inWhichTable.count(*it) == 0) {
-			AnswerTable table = AnswerTable(synonymTable, *it);
-			if (table.getSize() == 0) {
-				earlyQuit = true;
-				return;
-			}
-			if (synonymTable.isSelected(*it)) {
-				inWhichTable[*it] = tables.size();
-				tables.push_back(table);
-			}
-		}
-
 	if (selectBOOLEAN) {
-		finalanswer.push_back("TRUE");
+		results.push_back("TRUE");
 		return;
 	}
 
-	//project out selected variables
-	vector<string> selecteds = synonymTable.getAllSelected();
-	vector<vector<string>> projections(tables.size());
-	int firstNonEmpty = tables.size();
-	for (auto it = selecteds.begin(); it != selecteds.end(); it++) {
-		if (inWhichTable[*it] < firstNonEmpty)
-			firstNonEmpty = inWhichTable[*it];
-		projections[inWhichTable[*it]].push_back(*it);
-	}
+	AnswerTable* concatenated;
+	unsigned int classIndex = 0;
+	for (; classIndex < projections.size(); classIndex++)
+		if (!projections[classIndex].isEmpty()) {
+			concatenated = &projections[classIndex];
+			break;
+		}
 
-	AnswerTable concatenated = tables[firstNonEmpty].project(projections[firstNonEmpty]);
-	for (unsigned int i = firstNonEmpty + 1; i < tables.size(); i++)
-		if (!projections[i].empty())
-			concatenated.cartesian(tables[i].project(projections[i]));
+	for (classIndex++; classIndex < projections.size(); classIndex++)
+		if (!projections[classIndex].isEmpty())
+			concatenated->cartesian(projections[classIndex]);
 
 	vector<int> orderOfSelection;
 	for (auto it = selects.begin(); it != selects.end(); it++)
-		orderOfSelection.push_back(concatenated.synonymPosition[*it]);
+		orderOfSelection.push_back(concatenated->synonymPosition[*it]);
 	
 	//convert vector of vector of int to vector of string
-	vector<string> header = concatenated.getHeader();
-	for (unsigned int i = 0; i < concatenated.getSize(); i++) {
-		vector<int> row = concatenated.getRow(i);
+	const vector<string>& header = concatenated->getHeader();
+	const unsigned int maxSize = concatenated->getSize();
+	for (unsigned int i = 0; i < maxSize; i++) {
+		vector<int> row = concatenated->getRow(i);
 		string answer;
 		auto it = orderOfSelection.begin();
 		while (true) {
@@ -1160,75 +1615,6 @@ MultiQueryEval::MultiQueryEval(const string& query)
 			else
 				break;
 		}
-		finalanswer.push_back(answer);
+		results.push_back(answer);
 	}
-}
-
-/**
-* Reads a string of an expression, and converts it to a vector of tokens.
-* @param query expression string
-*/
-vector<string> MultiQueryEval::MiniTokenizer(const string& line)
-{
-	/*string tempstr = " ";
-	line = tempstr.append(line);*/
-	vector<string> list;
-	string delimiter = " -+*;(){}=";//delimiters
-	int position = 0;//starting position
-	int startindex = -1;
-	int endindex = -1;
-
-	
-	do//loop thru the string
-	{
-		startindex = line.find_first_not_of(delimiter,position);
-
-		if(endindex != -1 && endindex<line.size())
-			{
-				string tempstr1; //temp str to store subset of currently working substring
-				if(startindex == -1)
-				{
-					tempstr1 = line.substr(endindex,line.size() - endindex);
-				}
-				else
-				{
-					tempstr1 = line.substr(endindex,startindex - endindex);
-				}
-				for(unsigned int i=0;i<tempstr1.size();)
-				{
-					string tempstr2 = tempstr1.substr(0,1);
-					tempstr1 = tempstr1.substr(1,tempstr1.size()-1);
-					
-					if(tempstr2 != " " && tempstr2 != "")
-					list.push_back(tempstr2);
-					//	AddToList(list,tempstr2);
-						//AddTables(list,tempstr2);
-						//list.push_back(tempstr2);
-					
-				}
-			} else if(endindex == -1)
-			{
-				if(line.substr(0,startindex) != "")
-				list.push_back(line.substr(0,startindex));
-			}
-
-			endindex = line.find_first_of(delimiter,startindex);
-
-			position = endindex;
-		
-			if(startindex != -1 || line.size() == 1)
-			{
-				string tempstr;
-				if(line.size() == 1)
-					tempstr= line;
-				else
-					tempstr= line.substr(startindex,endindex-startindex);
-
-				if(tempstr != " " && tempstr != "")
-				list.push_back(tempstr);
-			}
-
-	}while(startindex != -1 && position < line.size() && endindex != -1);
-	
-	return list;
 }

@@ -5,30 +5,20 @@
 #include "DisjointSet.h"
 #include "ASTNode.h"
 #include "ASTExprNode.h"
-#include "PKB.h"
-#include "RulesOfEngagement.h"
-#include "AnswerTable.h"
-#include "QueryPreprocessor.h"
-#include "AssignmentParser.h"
 
 class MultiQueryEval
 {
 private:
+	static string getToken(const string& query, int& pos);
+	static string getToken2(const string& query, int& pos);
+	static void matchToken(const string& query, int& pos, const string& match);
 
-	static vector<string> MiniTokenizer(const string& line);
-	
+	static void validate(const string& query);
+	MultiQueryEval(const string& query, list<string>& results);
+
 	bool selectBOOLEAN;
 	bool earlyQuit;
-	vector<string> finalanswer;
 
 public:
-	MultiQueryEval(const string& query);
-
-	static vector<string> evaluateQuery(const string& query);
-
-	bool isSelectBoolean();
-
-	bool isEarlyQuit();
-
-	vector<string> getFinalAnswer();
+	static void evaluateQuery(const string& query, list<string>& results);
 };

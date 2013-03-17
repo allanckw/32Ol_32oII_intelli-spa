@@ -1,10 +1,8 @@
 #pragma once
+#include "StdAfx.h"
 #include "CallsTable.h"
 #include "PKB.h"
 
-/**
-* This method will be used as a constructor to create CallsTable
-*/
 CallsTable::CallsTable()
 {
 }
@@ -190,10 +188,10 @@ void CallsTable::insertStmtCall(STMT s, PROC p)
 	if (stmtCall.count(p) > 0)
 		stmtCall[p].push_back(s);
 	else {
-		vector<STMT> stmt;
-		stmt.push_back(s);
-		stmtCall.insert(pair<PROC, vector<STMT>>(p, stmt));
+		stmtCall.insert(pair<PROC, vector<STMT>>(p, vector<STMT>(1, s)));
 	}
+
+	procCall.insert(pair<STMT, PROC>(s, p));
 }
 
 
@@ -207,6 +205,18 @@ vector<STMT> CallsTable::getStmtCall(PROC p)
 	if (stmtCall.count(p) > 0)
 		return stmtCall[p];
 	return vector<STMT>();
+}
+
+/**
+* This method will be used to get the procedure which statement s calls
+* @param s the statement
+* @return the procedure
+*/
+PROC CallsTable::getProcCall(STMT s)
+{
+	if (procCall.count(s) > 0)
+		return procCall[s];
+	return -1;
 }
 
 int CallsTable::getCallsSize()

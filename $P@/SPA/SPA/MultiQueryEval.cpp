@@ -150,7 +150,28 @@ MultiQueryEval::MultiQueryEval(const string& query)
 		case With:
 			{
 				string synonym = QueryPreprocessor::getToken(query, pos);
-
+				if (stringToQueryVar.count(synonym) == 0) { // LHS is "known" value
+				QueryPreprocessor::matchToken(query, pos, "=");
+				string token = QueryPreprocessor::getToken(query, pos);
+				if (stringToQueryVar.count(token) == 0) {
+					earlyQuit |= (synonym == token);
+				} else {
+				RulesOfEngagement::QueryVar type = stringToQueryVar[token];
+				string condition;
+				RulesOfEngagement::QueryVar RHSType;
+				if (type == RulesOfEngagement::Prog_Line) {
+					condition = "";
+					RHSType = RulesOfEngagement::Integer;
+				} else {
+					QueryPreprocessor::matchToken(query, pos, ".");
+					condition = QueryPreprocessor::getToken(query, pos);
+					RHSType = RulesOfEngagement::conditionTypes[condition];
+				}
+					if (conditionStore[token].count(condition) > 0)
+						earlyQuit |= (conditionStore[token][condition] == token);
+					conditionStore[token].insert(pair<string, string>(condition, synonym));
+				}
+				} else {
 				RulesOfEngagement::QueryVar type = stringToQueryVar[synonym];
 				string condition;
 				RulesOfEngagement::QueryVar LHSType;
@@ -188,6 +209,7 @@ MultiQueryEval::MultiQueryEval(const string& query)
 						(synonym, condition, token, condition2));
 					//stringCount[synonym]++;
 					//stringCount[token]++;
+				}
 				}
 			}
 			break;

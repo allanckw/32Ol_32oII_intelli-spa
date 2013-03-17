@@ -129,9 +129,37 @@ void QueryPreprocessor::validate(const string& query)
 				//REF = REF Change this With Case to accomodate 10 = 10, "abc" = "abc"
 				//etc
 				string synonym = QueryPreprocessor::getToken(query, pos);
-				if (stringToQueryVar.count(synonym) == 0)
-					throw new SPAException("The variable " + synonym + " is not recognised");
-
+				if (stringToQueryVar.count(synonym) == 0) {
+				QueryPreprocessor::matchToken(query, pos, "=");
+				string token = QueryPreprocessor::getToken(query, pos);
+				if (stringToQueryVar.count(token) == 0) {
+					if (token == synonym)
+						break;
+				} else {
+				RulesOfEngagement::QueryVar type = stringToQueryVar[token];
+				string condition;
+				RulesOfEngagement::QueryVar RHSType;
+				if (type == RulesOfEngagement::Prog_Line) {
+					condition = "";
+					RHSType = RulesOfEngagement::Integer;
+				} else {
+					QueryPreprocessor::matchToken(query, pos, ".");
+					condition = QueryPreprocessor::getToken(query, pos);
+					if (RulesOfEngagement::allowableConditions[type].count(condition) == 0)
+						throw new SPAException(token +
+						" does not have the " + condition + " condition");
+					RHSType = RulesOfEngagement::conditionTypes[condition];
+				}
+					if (RHSType == RulesOfEngagement::Integer) {
+						if (!Helper::isNumber(synonym))
+							throw new SPAException("Unable to parse with");
+					} else if (RHSType == RulesOfEngagement::String) {
+						if (synonym.at(0) != '"' || synonym.at(synonym.length() - 1) != '"')
+							throw new SPAException("Unable to parse with");
+					} else
+						throw new SPAException("Unable to parse with");
+				}
+				} else {
 				RulesOfEngagement::QueryVar type = stringToQueryVar[synonym];
 				string condition;
 				RulesOfEngagement::QueryVar LHSType;
@@ -179,6 +207,7 @@ void QueryPreprocessor::validate(const string& query)
 						RulesOfEngagement::conditionTypes[condition2];
 					if (LHSType != RHSType)
 						throw new SPAException("Left and right hand side of with are not of same type");
+				}
 				}
 			}
 			break;

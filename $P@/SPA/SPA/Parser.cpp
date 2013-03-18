@@ -27,6 +27,10 @@ Parser::Parser(string fileName)
 	if (myfile.is_open()) {
 		while ( myfile.good() ) {		  
 			getline(myfile,line);
+			int temp = line.find("//");
+			if(temp >= 0) 
+				line = line.substr(0, temp);
+
 			codings.append(line);
 		}
 		myfile.close();

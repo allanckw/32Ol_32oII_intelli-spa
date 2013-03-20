@@ -425,17 +425,21 @@ void RulesOfEngagement::initialise()
 /**
 * Method that helps to convert the value stored in AnswerTable to the proper description.
 * @param type type of synonym
+* @param condition the condition of the synonym if any, otherwise "" for the default condition
 * @param integer integer to be converted
 * @return the string that the integer was representing
 */
-/*inline */string RulesOfEngagement::convertIntegerToArgument(
-	const RulesOfEngagement::QueryVar type, const int integer)
+string RulesOfEngagement::convertIntegerToArgument(
+	const RulesOfEngagement::QueryVar type, const string& condition, const int integer)
 {
 	switch (type) {
 	case RulesOfEngagement::Procedure:
 		return PKB::procedures.getPROCName(integer);
 	case RulesOfEngagement::Variable:
 		return PKB::variables.getVARName(integer);
+	case RulesOfEngagement::Call:
+		if (condition == "procName")
+			return PKB::procedures.getPROCName(integer); //if not, it will fall through
 	default:
 		return Helper::intToString(integer);
 	}

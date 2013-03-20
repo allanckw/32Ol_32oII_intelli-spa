@@ -58,9 +58,10 @@ public:
 	static unordered_map<QueryRelations, QueryVar> privilegedSecondArgument;
 	static unordered_set<QueryRelations> allowableSelfReference;
 
-	static /*inline */int convertArgumentToInteger(const QueryRelations type,
+	static int convertArgumentToInteger(const QueryRelations type,
 		const bool first, const string& arg);
-	static /*inline */string convertIntegerToArgument(const QueryVar type, const int);
+	static string convertIntegerToArgument(const QueryVar type,
+		const string& condition, const int);
 
 	static bool isExistType(QueryVar var);
 

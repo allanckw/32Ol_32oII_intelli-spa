@@ -453,127 +453,127 @@ Select s with s.stmt#=c.value
 91 - Parent, ImplStmtLine, Typed :: 
 if ifstat; constant c; 
 Select BOOLEAN pattern ifstat ("i", _, _) with c.value=2
-TRUE
+true
 5000
 93 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next(1, 2)
-TRUE
+true
 5000
 94 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next(6, 8)
-FALSE
+false
 5000
 95 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next(8, 9)
-TRUE
+true
 5000
 96 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next(10, 11)
-TRUE
+true
 5000
 97 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next(12, 10)
-TRUE
+true
 5000
 98 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next(12, 11)
-FALSE
+false
 5000
 99 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next(13, 14)
-FALSE
+false
 5000
 100 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next(13, 17)
-TRUE
+true
 5000
 101 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next(16, 17)
-TRUE
+true
 5000
 102 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next(17, 18)
-FALSE
+false
 5000
 103 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next*(9, 9)
-FALSE
+false
 5000
 104 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next*(10, 10)
-TRUE
+true
 5000
 105 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next*(12, 12)
-TRUE
+true
 5000
 106 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next*(20, 20)
-TRUE
+true
 5000
 107 - Parent, ImplStmtLine, Typed :: 
 assign a;
 Select BOOLEAN such that Affects(1, 2)
-TRUE
+true
 5000
 108 - Parent, ImplStmtLine, Typed :: 
 assign a;
 Select BOOLEAN such that Affects(1, 3)
-TRUE
+true
 5000
 109 - Parent, ImplStmtLine, Typed :: 
 assign a;
 Select BOOLEAN such that Affects(1, 4)
-FALSE
+false
 5000
 110 - Parent, ImplStmtLine, Typed :: 
 assign a;
 Select BOOLEAN such that Affects(2, 5)
-FALSE
+false
 5000
 111 - Parent, ImplStmtLine, Typed :: 
 assign a;
 Select BOOLEAN such that Affects(2, 7)
-FALSE
+false
 5000
 112 - Parent, ImplStmtLine, Typed :: 
 assign a;
 Select BOOLEAN such that Affects(3, 11)
-FALSE
+false
 5000
 113 - Parent, ImplStmtLine, Typed :: 
 assign a;
 Select BOOLEAN such that Affects(3, 12)
-FALSE
+false
 5000
 114 - Parent, ImplStmtLine, Typed :: 
 assign a;
 Select BOOLEAN such that Affects(14, 27)
-FALSE
+false
 5000
 115 - Parent, ImplStmtLine, Typed :: 
 assign a;
 Select BOOLEAN such that Affects(24, 25)
-FALSE
+false
 5000
 116 - Parent, ImplStmtLine, Typed :: 
 assign a;
 Select BOOLEAN such that Affects(24, 26)
-FALSE
+false
 5000 
 117 - Parent, ImplStmtLine, Typed :: 
 assign a1;
@@ -618,32 +618,32 @@ Select a2 such that Affects(27, a2)
 125 - Parent, ImplStmtLine, Typed :: 
 assign a;
 Select BOOLEAN such that Affects*(1, 2)
-TRUE
+true
 5000
 126 - Parent, ImplStmtLine, Typed :: 
 assign a;
 Select BOOLEAN such that Affects*(1, 3)
-TRUE
+true
 5000
 127 - Parent, ImplStmtLine, Typed :: 
 assign a;
 Select BOOLEAN such that Affects*(1, 5)
-TRUE
+true
 5000
 128 - Parent, ImplStmtLine, Typed :: 
 assign a;
 Select BOOLEAN such that Affects*(1, 7)
-FALSE
+false
 5000
 129 - Parent, ImplStmtLine, Typed :: 
 assign a;
 Select BOOLEAN such that Affects*(11, 11)
-TRUE
+true
 5000
 130 - Parent, ImplStmtLine, Typed :: 
 assign a;
 Select BOOLEAN such that Affects*(11, 13)
-FALSE
+false
 5000
 131 - Parent, ImplStmtLine, Typed :: 
 assign a1;

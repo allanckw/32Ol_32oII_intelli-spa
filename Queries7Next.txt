@@ -3,122 +3,122 @@ cat: All Category
 1 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next(1, 2)
-TRUE
+true
 5000
 2 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next(6, 8)
-FALSE
+false
 5000
 3 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next(103, 243)
-TRUE
+true
 5000
 4 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next(109, 239)
-TRUE
+true
 5000
 5 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next(234, 115)
-TRUE
+true
 5000
 6 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next(242, 243)
-FALSE
+false
 5000
 7 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next(303, 357)
-TRUE
+true
 5000
 8 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next(356, 348)
-TRUE
+true
 5000
 9 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next(347, 348)
-FALSE
+false
 5000
 10 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next(339, 348)
-FALSE
+false
 5000
 11 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next(303, 357)
-TRUE
+true
 5000
 12 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next(356, 348)
-TRUE
+true
 5000
 13 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next(347, 348)
-FALSE
+false
 5000
 14 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next(339, 348)
-FALSE
+false
 5000
 15 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next(502, 587)
-TRUE
+true
 5000
 16 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next(586, 587)
-TRUE
+true
 5000
 17 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next(514, 577)
-TRUE
+true
 5000
 18 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next(513, 508)
-TRUE
+true
 5000
 19 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next(508, 514)
-TRUE
+true
 5000
 20 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next(581, 508)
-TRUE
+true
 5000
 21 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next(581, 582)
-FALSE
+false
 5000
 22 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next(526, 572)
-FALSE
+false
 5000
 23 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next(597, 598)
-FALSE
+false
 5000
 24 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select BOOLEAN such that Next(598, 599)
-FALSE
+false
 5000
 25 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 

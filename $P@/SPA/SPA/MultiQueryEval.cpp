@@ -125,7 +125,7 @@ void MultiQueryEval::evaluateQuery(const string& query, list<string>& results)
 	validate(query);
 	MultiQueryEval result(query, results);
 	if (result.selectBOOLEAN && result.earlyQuit)
-		results.push_back("FALSE");
+		results.push_back("false");
 }
 /**
 * Validates the query is in line with the PQL grammar. Throw an exception if it does not.
@@ -1579,7 +1579,7 @@ MultiQueryEval::MultiQueryEval(const string& query, list<string>& results)
 	}
 
 	if (selectBOOLEAN) {
-		results.push_back("TRUE");
+		results.push_back("true");
 		return;
 	}
 

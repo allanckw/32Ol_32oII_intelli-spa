@@ -50,13 +50,13 @@ void TestQueryEvaluator::doon(string s)
 
 	cout << s << endl;
 	try {
-		list<string> answer = PQLController::evaluateQuery(s);
-		set<string> answer2;
-		for (auto it = answer.begin(); it != answer.end(); it++)
-			answer2.insert(*it);
-		for (auto it = answer2.begin(); it != answer2.end(); it++)
-			cout << *it << endl;
-		cout << endl;
+		////list<string> answer = PQLController::evaluateQuery(s);
+		//set<string> answer2;
+		//for (auto it = answer.begin(); it != answer.end(); it++)
+		//	answer2.insert(*it);
+		//for (auto it = answer2.begin(); it != answer2.end(); it++)
+		//	cout << *it << endl;
+		//cout << endl;
 	} catch (SPAException& e) {
 		cout << e.what();
 	}

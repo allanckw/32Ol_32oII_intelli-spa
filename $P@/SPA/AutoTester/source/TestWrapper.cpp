@@ -31,7 +31,7 @@ void TestWrapper::parse(std::string filename) {
 void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
 	fflush (stdout);
 	try{
-		results = PQLController::evaluateQuery(query);
+		PQLController::evaluateQuery(query, results);
 
 	}catch (exception& e)	{
 		results.push_back(e.what());

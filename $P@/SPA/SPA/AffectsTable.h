@@ -35,11 +35,17 @@ private:
 	};
 
 	//planned for itr2
-	unordered_map<STMT, vector<Affects*>> affectsMap;
+	unordered_map<STMT, vector<Affects*>> affectsMap; //Store the results of affects(a1,_)
+	unordered_map<STMT, vector<Affects*>> affectsFromMap; //Store the results of affects(_,a2)
+
 	unordered_map<STMT, vector<Affects*>> affectsStarMap;
+	unordered_map<STMT, vector<Affects*>> affectsStarFromMap;
 
 	unordered_map<STMT, vector<Affects*>> affectsBipMap;
+	unordered_map<STMT, vector<Affects*>> affectsBipFromMap;
+
 	unordered_map<STMT, vector<Affects*>> affectsBipStarMap;
+	unordered_map<STMT, vector<Affects*>> affectsBipStarFromMap;
 
 	static bool isDuplicate(vector<Affects*> v, Affects* n);
 public:

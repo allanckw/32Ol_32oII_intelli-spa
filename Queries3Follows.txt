@@ -23,57 +23,57 @@ Select BOOLEAN such that Follows("v", 2)
 1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 stmt s; stmt t;
 Select BOOLEAN such that Follows(1, 2)
-TRUE
+true
 5000 
 1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 stmt s; stmt t;
 Select BOOLEAN such that Follows(103, 243)
-TRUE
+true
 5000
 1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 stmt s; stmt t;
 Select BOOLEAN such that Follows(109, 239)
-TRUE
+true
 5000
 1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 stmt s; stmt t;
 Select BOOLEAN such that Follows(151, 152)
-FALSE
+false
 5000
 1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 stmt s; stmt t;
 Select BOOLEAN such that Follows(303, 357)
-TRUE
+true
 5000
 1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 stmt s; stmt t;
 Select BOOLEAN such that Follows(312, 321)
-TRUE
+true
 5000
 1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 stmt s; stmt t;
 Select BOOLEAN such that Follows(501, 502)
-FALSE
+false
 5000
 1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 stmt s; stmt t;
 Select BOOLEAN such that Follows(157, s)
-FALSE
+false
 5000
 1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 stmt s; stmt t;
 Select BOOLEAN such that Follows(s, t)
-TRUE
+true
 5000
 1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 stmt s; stmt t; assign a;
 Select BOOLEAN such that Follows(1, 2) pattern a ("a", "b")
-TRUE
+true
 5000
 1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 stmt s; stmt t; assign a;
 Select BOOLEAN such that Follows(1, 2) pattern a ("a", _"x"_)
-FALSE
+false
 5000
 1 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 stmt s; stmt t;

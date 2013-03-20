@@ -328,7 +328,7 @@ Select s such that Parent*(12,s)
 66 - Boolean :: Is empty true?
 
 Select BOOLEAN
-TRUE
+true
 5000
 67 - Parent* :: What are the direct/indirect while children of 12
 while sdfsfd3;

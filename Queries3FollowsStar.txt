@@ -28,7 +28,7 @@ Select c such that Follows*(1, 2)
 2 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 constant c;
 Select BOOLEAN such that Follows*(103, 243)
-TRUE
+true
 5000
 3 - Parent, ImplStmtLine, Typed :: Which is the parent (type while) of the statement in line number 7
 constant c;

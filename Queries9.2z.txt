@@ -210,3 +210,8 @@ variable v; procedure p;
 Select p such that Calls("Second",_)
 First, Second, Third, Fourth
 5000
+28 - Affects*, With :: What are the statements that follow 13?
+variable v; procedure p;
+Select BOOLEAN such that Affects*(8, 5)
+true
+5000

@@ -104,20 +104,40 @@ bool NextTable::isNextStar (PROG_LINE p1, PROG_LINE p2)
 	}
 }
 
+
 /**
 * This method will be used to check NextStar(p1,_)
-* @param p1	The start prog_line to find all reachable prog_line
+* @param p1	The t prog_line to find all reachable prog_line
 * @return a list of prog_line reachable from p1
 */
 vector<PROG_LINE> NextTable::getNextStar(PROG_LINE p1)
 {
-	vector<PROG_LINE> progLines = PQLNextProcessor::getNextStar(p1);
+	vector<PROG_LINE> result;
+	auto itr = this->nextStarByMap.find(p1);
 
-	for (unsigned int i = 0; i < progLines.size(); i++){
-		PKB::next.insertNextStar(p1, progLines.at(i), true);
+	if (itr != this->nextStarByMap.end()){
+		if (itr->second.size() == 0){
+			result =  PQLNextProcessor::getNextStar(p1);
+			pair<PROG_LINE, vector<PROG_LINE>> newItem (p1, result);
+			this->nextStarByMap.insert(newItem);
+
+			for (int i = 0; i < result.size(); i++)	
+				PKB::next.insertNextStar(p1, result.at(i), true);
+			
+
+		} else {
+			return itr->second;
+		}
+	} else {
+		result =  PQLNextProcessor::getNextStar(p1);
+		pair<PROG_LINE, vector<PROG_LINE>> newItem (p1, result);
+		this->nextStarByMap.insert(newItem);
+		
+		for (int i = 0; i < result.size(); i++)	
+			PKB::next.insertNextStar(p1, result.at(i), true);
 	}
 
-	return progLines;
+	return result;
 }
 
 /**
@@ -127,14 +147,31 @@ vector<PROG_LINE> NextTable::getNextStar(PROG_LINE p1)
 */
 vector<PROG_LINE> NextTable::getPreviousStar(PROG_LINE p2)
 {
-	vector<PROG_LINE> progLines = PQLNextProcessor::getPreviousStar(p2);
+	vector<PROG_LINE> result;
+	auto itr = this->previousStarMap.find(p2);
 
-	for (unsigned int i = 0; i < progLines.size(); i++){
-		PKB::next.insertNextStar(progLines.at(i), p2, true);
+	if (itr != this->previousStarMap.end()){
+		if (itr->second.size() == 0){
+			result =  PQLNextProcessor::getPreviousStar(p2);
+			pair<PROG_LINE, vector<PROG_LINE>> newItem (p2, result);
+			this->previousStarMap.insert(newItem);
+			for (int i = 0; i < result.size(); i++)	
+				PKB::next.insertNextStar(result.at(i), p2, true);
+			
+		} else {
+			return itr->second;
+		}
+	} else {
+		result =  PQLNextProcessor::getPreviousStar(p2);
+		pair<PROG_LINE, vector<PROG_LINE>> newItem (p2, result);
+		this->previousStarMap.insert(newItem);
+		for (int i = 0; i < result.size(); i++)	
+			PKB::next.insertNextStar(result.at(i), p2, true);
 	}
 
-	return progLines;
+	return result;
 }
+
 
 /**
 * This method will be used to insert NextBip into the table
@@ -195,18 +232,37 @@ bool NextTable::isNextBip (PROG_LINE p1, PROG_LINE p2)
 
 /**
 * This method will be used to check NextBip(p1,_)
-* @param p1	The start prog_line to find all reachable prog_line
+* @param p1	The t prog_line to find all reachable prog_line
 * @return a list of prog_line reachable from p1
 */
 vector<PROG_LINE> NextTable::getNextBip(PROG_LINE p1)
 {
-	vector<PROG_LINE> progLines = PQLNextProcessor::getNextBip(p1);
+	vector<PROG_LINE> result;
+	auto itr = this->nextBipByMap.find(p1);
 
-	for (unsigned int i = 0; i < progLines.size(); i++){
-		PKB::next.insertNextBip(p1, progLines.at(i), true);
+	if (itr != this->nextBipByMap.end()){
+		if (itr->second.size() == 0){
+			result =  PQLNextProcessor::getNextBip(p1);
+			pair<PROG_LINE, vector<PROG_LINE>> newItem (p1, result);
+			this->nextBipByMap.insert(newItem);
+
+			for (int i = 0; i < result.size(); i++)	
+				PKB::next.insertNextBip(p1, result.at(i), true);
+			
+
+		} else {
+			return itr->second;
+		}
+	} else {
+		result =  PQLNextProcessor::getNextBip(p1);
+		pair<PROG_LINE, vector<PROG_LINE>> newItem (p1, result);
+		this->nextBipByMap.insert(newItem);
+		
+		for (int i = 0; i < result.size(); i++)	
+			PKB::next.insertNextBip(p1, result.at(i), true);
 	}
 
-	return progLines;
+	return result;
 }
 
 /**
@@ -216,13 +272,29 @@ vector<PROG_LINE> NextTable::getNextBip(PROG_LINE p1)
 */
 vector<PROG_LINE> NextTable::getPreviousBip(PROG_LINE p2)
 {
-	vector<PROG_LINE> progLines = PQLNextProcessor::getPreviousBip(p2);
+	vector<PROG_LINE> result;
+	auto itr = this->previousBipMap.find(p2);
 
-	for (unsigned int i = 0; i < progLines.size(); i++){
-		PKB::next.insertNextBip(progLines.at(i), p2, true);
+	if (itr != this->previousBipMap.end()){
+		if (itr->second.size() == 0){
+			result =  PQLNextProcessor::getPreviousBip(p2);
+			pair<PROG_LINE, vector<PROG_LINE>> newItem (p2, result);
+			this->previousBipMap.insert(newItem);
+			for (int i = 0; i < result.size(); i++)	
+				PKB::next.insertNextBip(result.at(i), p2, true);
+			
+		} else {
+			return itr->second;
+		}
+	} else {
+		result =  PQLNextProcessor::getPreviousBip(p2);
+		pair<PROG_LINE, vector<PROG_LINE>> newItem (p2, result);
+		this->previousBipMap.insert(newItem);
+		for (int i = 0; i < result.size(); i++)	
+			PKB::next.insertNextBip(result.at(i), p2, true);
 	}
 
-	return progLines;
+	return result;
 }
 
 
@@ -290,13 +362,32 @@ bool NextTable::isNextBipStar (PROG_LINE p1, PROG_LINE p2)
 */
 vector<PROG_LINE> NextTable::getNextBipStar(PROG_LINE p1)
 {
-	vector<PROG_LINE> progLines = PQLNextProcessor::getNextBipStar(p1);
+	vector<PROG_LINE> result;
+	auto itr = this->nextBipStarByMap.find(p1);
 
-	for (unsigned int i = 0; i < progLines.size(); i++){
-		PKB::next.insertNextBipStar(p1, progLines.at(i), true);
+	if (itr != this->nextBipStarByMap.end()){
+		if (itr->second.size() == 0){
+			result =  PQLNextProcessor::getNextBipStar(p1);
+			pair<PROG_LINE, vector<PROG_LINE>> newItem (p1, result);
+			this->nextBipStarByMap.insert(newItem);
+
+			for (int i = 0; i < result.size(); i++)	
+				PKB::next.insertNextBipStar(p1, result.at(i), true);
+			
+
+		} else {
+			return itr->second;
+		}
+	} else {
+		result =  PQLNextProcessor::getNextBipStar(p1);
+		pair<PROG_LINE, vector<PROG_LINE>> newItem (p1, result);
+		this->nextBipStarByMap.insert(newItem);
+		
+		for (int i = 0; i < result.size(); i++)	
+			PKB::next.insertNextBipStar(p1, result.at(i), true);
 	}
 
-	return progLines;
+	return result;
 }
 
 /**
@@ -306,13 +397,29 @@ vector<PROG_LINE> NextTable::getNextBipStar(PROG_LINE p1)
 */
 vector<PROG_LINE> NextTable::getPreviousBipStar(PROG_LINE p2)
 {
-	vector<PROG_LINE> progLines = PQLNextProcessor::getPreviousBipStar(p2);
+	vector<PROG_LINE> result;
+	auto itr = this->previousBipStarMap.find(p2);
 
-	for (unsigned int i = 0; i < progLines.size(); i++){
-		PKB::next.insertNextBipStar(progLines.at(i), p2, true);
+	if (itr != this->previousBipStarMap.end()){
+		if (itr->second.size() == 0){
+			result =  PQLNextProcessor::getPreviousBipStar(p2);
+			pair<PROG_LINE, vector<PROG_LINE>> newItem (p2, result);
+			this->previousBipStarMap.insert(newItem);
+			for (int i = 0; i < result.size(); i++)	
+				PKB::next.insertNextBipStar(result.at(i), p2, true);
+			
+		} else {
+			return itr->second;
+		}
+	} else {
+		result =  PQLNextProcessor::getPreviousBipStar(p2);
+		pair<PROG_LINE, vector<PROG_LINE>> newItem (p2, result);
+		this->previousBipStarMap.insert(newItem);
+		for (int i = 0; i < result.size(); i++)	
+			PKB::next.insertNextBipStar(result.at(i), p2, true);
 	}
 
-	return progLines;
+	return result;
 }
 
 

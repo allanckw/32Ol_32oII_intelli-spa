@@ -34,17 +34,17 @@ private:
 		}
 	};
 
-	unordered_map<PROG_LINE, vector<Next*>> nextMap;
-	unordered_map<PROG_LINE, vector<Next*>> nextFromMap;
-
 	unordered_map<PROG_LINE, vector<Next*>> nextStarMap;
-	unordered_map<PROG_LINE, vector<Next*>> nextStarFromMap;
+	unordered_map<PROG_LINE, vector<STMT>> nextStarByMap;
+	unordered_map<PROG_LINE, vector<STMT>> previousStarMap;
 
 	unordered_map<PROG_LINE, vector<Next*>> nextBipMap;
-	unordered_map<PROG_LINE, vector<Next*>> nextBipFromMap;
+	unordered_map<PROG_LINE, vector<STMT>> nextBipByMap;
+	unordered_map<PROG_LINE, vector<STMT>> previousBipMap;
 
 	unordered_map<PROG_LINE, vector<Next*>> nextBipStarMap;
-	unordered_map<PROG_LINE, vector<Next*>> nextBipStarFromMap;
+	unordered_map<PROG_LINE, vector<STMT>> nextBipStarByMap;
+	unordered_map<PROG_LINE, vector<STMT>> previousBipStarMap;
 
 
 	static bool isDuplicate(vector<Next*> v, Next* n);

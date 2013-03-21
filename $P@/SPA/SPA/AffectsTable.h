@@ -34,42 +34,42 @@ private:
 		}
 	};
 
-	//planned for itr2
-	unordered_map<STMT, vector<Affects*>> affectsMap; //Store the results of affects(a1,_)
-	unordered_map<STMT, vector<Affects*>> affectsFromMap; //Store the results of affects(_,a2)
 
-	unordered_map<STMT, vector<Affects*>> affectsStarMap;
-	unordered_map<STMT, vector<Affects*>> affectsStarFromMap;
+	unordered_map<STMT, vector<Affects*>> affectsMap; //Store the results of affects(a1,a2)
+	unordered_map<STMT, vector<STMT>> affectsByMap;	  //Store the results of affects(a1,_)
+	unordered_map<STMT, vector<STMT>> affectsFromMap; //Store the results of affects(_,a2)
+	
+	unordered_map<STMT, vector<Affects*>> affectsStarMap; //Store the results of affects*(a1,a2)
+	unordered_map<STMT, vector<STMT>> affectsStarByMap;	  //Store the results of affects*(a1,_)
+	unordered_map<STMT, vector<STMT>> affectsStarFromMap; //Store the results of affects*(_,a2)
 
-	unordered_map<STMT, vector<Affects*>> affectsBipMap;
-	unordered_map<STMT, vector<Affects*>> affectsBipFromMap;
+	unordered_map<STMT, vector<Affects*>> affectsBipMap;  ////Store the results of affectsBip(a1,a2)
+	unordered_map<STMT, vector<STMT>> affectsBipByMap;	  //Store the results of affectsBip(a1,_)
+	unordered_map<STMT, vector<STMT>> affectsBipFromMap; //Store the results of affectsBip(_,a2)
 
-	unordered_map<STMT, vector<Affects*>> affectsBipStarMap;
-	unordered_map<STMT, vector<Affects*>> affectsBipStarFromMap;
+	unordered_map<STMT, vector<Affects*>> affectsBipStarMap;  //Store the results of affectsBip*(a1,a2)
+	unordered_map<STMT, vector<STMT>> affectsBipStarByMap;	  //Store the results of affectsBip*(a1,_)
+	unordered_map<STMT, vector<STMT>> affectsBipStarFromMap; //Store the results of affectsBip*(_,a2)
 
 	static bool isDuplicate(vector<Affects*> v, Affects* n);
 public:
 	AffectsTable();
 	
-	//planned for itr2
 	void insertAffects (STMT, STMT, bool);
 	bool isAffects (STMT, STMT);
 	vector<STMT> getAffectsBy(STMT);
 	vector<STMT> getAffectsFrom(STMT);
-
-	//planned for itr2 + 3
+	
 	void insertAffectsStar (STMT, STMT, bool);
 	bool isAffectsStar (STMT, STMT);
 	vector<STMT>  getAffectsByStar(STMT);
 	vector<STMT>  getAffectsFromStar(STMT);
 
-	//planned for itr3 + 4
 	void insertAffectsBip(STMT, STMT, bool);
 	bool isAffectsBip (STMT, STMT);
 	vector<STMT>  getAffectsByBip(STMT);
 	vector<STMT>  getAffectsFromBip(STMT);
 
-	//planned for itr3 + 4
 	void insertAffectsBipStar(STMT, STMT, bool);
 	bool isAffectsBipStar (STMT, STMT);
 	vector<STMT>  getAffectsByBipStar(STMT);

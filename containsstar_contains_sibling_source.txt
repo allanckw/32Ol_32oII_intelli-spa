@@ -1,0 +1,147 @@
+procedure Peter {
+	a = 5;														//1
+	while x {													//2
+			b= 3*x+b*3;											//3
+			t = 2+2+t*3*(2*t+a);								//4
+			if b then {											//5
+				n = b+3*(9+m);									//6
+				b = n*2+k;										//7
+				n=b-b;											//8
+				call Bob;										//9
+				m = b*9*m+(k-3)*n;}								//10
+			else {
+				a = a+b*(a-b);									//11
+				b=b-(b-b)-b;									//12
+				call John;										//13
+				a = b*m*n;}										//14
+			m = b+5-0*b;										//15
+			n = 2;}												//16
+	call Bob;}													//17
+procedure Bob {
+	a = 5;														//18
+	if v then {													//19
+		q = x+10*x;												//20
+		k = b;													//21
+		while x {												//22
+			a=q;}}												//23
+	else {
+		a=q;}}													//24
+procedure Mary {
+	x= 2*((3+5)*b*(5-x))-b;										//25
+	t = x+3*9*8+(x-t);											//26
+	if v then {													//27
+		b = x+10*x;												//28
+		k = b;													//29
+		while x {												//30
+			b= 3*x+b*3;											//31
+			m = b+5-0*b;										//32
+			n = 2;												//33
+			if m then {											//34
+				n = m+3*(9+m);									//35
+				m = n*2+k;										//36
+				call Bob;										//37
+				m = m*9*m+(k-3)*n;}								//38
+			else {
+				a = a+b*(a-b);									//39
+				a = b*m*n;}										//40
+			b= n*k;												//41
+			n = 5+7*3;}											//42
+		b = k+5*(k-5);											//43
+		k = k+1;												//44
+		k=k*3*k+b;												//45
+		call Bob;}											//46
+	else {
+		m = m+5*k*3-(3+x*y);									//47
+		call Bob;												//48
+		k = 5+2*7;												//49
+		if m then{												//50
+			m = m + 1;											//51
+			m = n-k-k-k-(k+k);}									//52
+		else {
+			m = m + 2;											//53
+			m = n-k-k-k-(k+k);}}								//54
+	x = t*2*2+3*5*7;											//55
+	call Bob;													//56
+	x= (t-3)*5*2;												//57
+	call Bob;													//58
+	x = 3-(t+5*2*t);											//59
+	call Bob;													//60
+	x = t+3;													//61
+	t= 2*5;														//62
+	if x then {													//63
+		x = 10;													//64
+		call Bob;												//65
+		while y {												//66
+			if y then{											//67
+				if m then{										//68
+					m = m + 1;									//69
+					y = 10;}									//70
+				else {
+					m = m + 2;}}								//71
+			else {
+				y = (x + z - i * 2)*y;							//72
+				call Bob;}}										//73
+		y = i+3*n;}												//74
+	else {
+		x = 20;}												//75
+	call Bob;													//76
+	x = t;}														//77
+procedure John{	
+	i=1;														//78
+	m=i;														//79
+	x = i+m+2;													//80
+	y =    i+m;													//81
+	while i{													//82
+		k=m+x;													//83
+		while z{												//84
+			x = x+i;											//85
+			z=x+1;}												//86
+		m=x+1;													//87
+		while m {												//88
+			z=x+q;											//89
+			call Bob;											//90
+			while i{											//91
+				q=q+1;										//92
+				while z{										//93
+					i= x+5+3+m;									//94
+					z=z+1;										//95
+					while m{									//96
+						while y{								//97
+							while k{							//98
+								x = x+1;}						//99
+							call Mary;							//100
+							x=y;								//101
+							while m {							//102
+								while z{						//103
+									while i{					//104
+										m=3;}					//105
+									while x{					//106
+										x=x;					//107
+										while z{				//108
+											m = x+y;}}}}}		//109
+						z=x+5+1+x+m+y+i+k;						//110
+						z=x;									//111
+						i=m+1;									//112
+						m=i+m+x+k+y;}							//113
+					while m{									//114
+						i=1+5;}}								//115
+				m=x+i;}											//116
+			z=z+1;												//117
+			x=i;}}												//118
+	while z{													//119
+		m=i+m+x+k+y;}											//120
+	call Mary;													//121
+	if x then {													//122
+		x = 10;													//123
+		call Bob;												//124
+		if y then{												//125
+			if m then{											//126
+				m = m + 1;										//127
+				y = 10;}										//128
+			else {
+				m = m + 2;}}									//129
+		else {
+			y = (x + z - i * 2)*y;								//130
+			call Bob;}}											//131
+	else {
+		x = 20;}}												//132

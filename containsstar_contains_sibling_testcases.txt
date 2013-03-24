@@ -1,0 +1,152 @@
+33
+cat: All Category
+1 - Contains :: s2
+procedure p1,p2; if i1,i2; variable v1;
+Select v1 such that Contains(i1,v1)
+b,m,v,x,y
+5000
+2 - Contains :: s2
+procedure p1,p2; if i1,i2; variable v1,v2;
+Select v1 such that Contains*(p1,i1)  and Contains(i1,v1) with p1.procName="John"
+m,x,y
+5000
+3 - Contains :: s2
+procedure p1,p2; if i1,i2; variable v1,v2; assign a1,a2,a3;
+Select a1 such that Contains*(a1,v1) with v1.varName = "x"
+3,20,25,26,28,31,47,55,57,59,61,64,72,75,77,80,83,85,86,87,89,94,99,101,107,109,110,111,113,116,118,120,123,130,132
+5000
+4 - Contains :: s2
+procedure p1,p2; if i1,i2; variable v1,v2; assign a1,a2,a3;
+Select a1 such that Contains(a1,v1) with v1.varName = "x"
+25,55,57,59,61,64,75,77,80,85,99,101,107,111,118,123,132
+5000
+5 - Contains :: s2
+procedure p1,p2; if i1,i2; variable v1,v2; assign a1,a2,a3; constant c1,c2;
+Select p1 such that Contains*(p1,c1) with c1.value = 2
+peter, mary, john
+5000
+6 - Contains :: s2
+assign a1,a2,a3; constant c1,c2; minus sub;
+Select a1 such that Contains*(a1,sub)
+10,11,12,130,15,25,26,32,38,39,43,47,52,54,57,59,72,8
+5000
+7 - Contains :: s2
+procedure p1,p2; if i1,i2; variable v1,v2; assign a1,a2,a3; constant c1,c2; plus add; while w1,w2;
+Select i1 such that Contains*(i1,w1) and Contains(w1,v1) with v1.varName="x"
+19,27
+5000
+8 - Contains :: s2
+procedure p1,p2; if i1,i2; variable v1,v2; assign a1,a2,a3; constant c1,c2; plus add; while w1,w2;
+Select w1 such that Contains(w1,v1) with v1.varName="x"
+2,22,30,106
+5000
+9 - Contains :: s2
+procedure p1,p2; if i1,i2; variable v1,v2; assign a1,a2,a3; constant c1,c2; plus add; while w1,w2;
+Select w1 such that Contains(w1,v1) with v1.varName="x"
+2,22,30,106
+5000
+10 - Contains :: s2
+procedure p1,p2; if i1,i2; variable v1,v2; assign a1,a2,a3; constant c1,c2; plus add; while w1,w2;
+Select w1 such that Contains(w1,v1) with v1.varName="x"
+2,22,30,106
+5000
+11 - Variable, Modifies :: s1
+constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2;
+Select v1 such that Contains(i1,v1)
+b,m,v,x,y
+5000
+12 - Variable, Modifies :: s1
+constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2;
+Select v1 such that Contains*(i1,v1)
+b,m,v,x,y,a,i,k,n,q,z
+5000
+13 - Variable, Modifies :: s1
+constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2;
+Select p1.procName such that Contains*(p1,i1) such that Uses(i1,"m")
+john,mary,peter
+5000
+14 - Variable, Modifies :: s1
+constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2;
+Select p1.procName such that Contains*(p1,a1) with a1.stmt#=a2.stmt# pattern a2("m",_"b"_)
+peter,mary
+5000
+16 - Variable, Modifies :: s1
+constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2;
+Select <a1,a2> with a1.stmt#=89 such that Contains*(a1,v1) with v1.varName = "z" such that Contains*(a2,v2) with v2.varName = "q"
+89 20,89 23,89 24,89 89,89 92
+5000
+17 - Variable, Modifies :: s1
+constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2;
+Select a2 such that Contains*(a2,v2) with v2.varName = "x"
+3,20,25,26,28,31,47,55,57,59,61,64,72,75,77,80,83,85,86,87,89,94,99,101,107,109,110,111,113,116,118,120,123,130,132
+5000
+18 - Variable, Modifies :: s1
+constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2;
+Select <a1,a2,a3> with a1.stmt#=a2.stmt# and a3.stmt#=a2.stmt# such that Contains*(a2,v2) with v2.varName = "x"
+3 3 3,20 20 20,25 25 25,26 26 26,28 28 28,31 31 31,47 47 47,55 55 55,57 57 57,59 59 59,61 61 61,64 64 64,72 72 72,75 75 75,77 77 77,80 80 80,83 83 83,85 85 85,86 86 86,87 87 87,89 89 89,94 94 94,99 99 99,101 101 101,107 107 107,109 109 109,110 110 110,111 111 111,113 113 113,116 116 116,118 118 118,120 120 120,123 123 123,130 130 130,132 132 132,
+5000
+19 - Variable, Modifies :: s1
+constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2;
+Select p1 such that Contains*(p1, c1)  such that Contains*(p1,c2) with c1.value = 10 with c2.value = 2
+john, mary
+5000
+20 - Variable, Modifies :: s1
+constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2; plus add;
+Select a1 such that Contains*(a1, add)
+3,4,6,7,10,11,15,20,25,26,28,31,32,35,36,38,39,42,43,44,45,47,49,51,52,53,54,55,59,61,69,71,72,74,80,81,83,85,86,87,89,92,94,95,99,109,110,112,113,115,116,117,120,127,129,130
+5000
+22 - Variable, Modifies :: s1
+constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2; plus add; minus m;
+Select <a1,a2> such that Contains*(a1, c1) and Contains*(a2,v1) and Contains*(a1,v2) and Contains*(a2,v3) with c1.value = 5 and v1.varName = "x" and v2.varName = "i" and v3.varName = v2.varName
+110 110,110 113,110 116,110 118,110 120,110 130,110 72,110 80,110 85,110 94,115 110,115 113,115 116,115 118,115 120,115 130,115 72,115 80,115 85,115 94,94 110,94 113,94 116,94 118,94 120,94 130,94 72,94 80,94 85,94 94
+5000
+23 - Variable, Modifies :: s1
+constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2; plus add; minus m;
+Select <a1,a2> such that Contains*(a1, c1) and Contains*(a2,v1) and Contains*(a1,v2) and Contains*(a2,v3) with c1.value = 5 and v1.varName = "x" and v2.varName = "i" and v3.varName = v2.varName
+110 110,110 113,110 116,110 118,110 120,110 130,110 72,110 80,110 85,110 94,115 110,115 113,115 116,115 118,115 120,115 130,115 72,115 80,115 85,115 94,94 110,94 113,94 116,94 118,94 120,94 130,94 72,94 80,94 85,94 94
+5000
+24 - Variable, Modifies :: s1
+constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2; plus add; minus m;
+Select s1 such that Sibling (s1, 4)
+3,5,15,16
+5000
+25 - Variable, Modifies :: s1
+constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2; plus add; minus m;
+Select <s1,s2> such that Sibling(s1, 29) such that Sibling(s1,s2) such that Uses(s2,"x")
+43 28,44 28,45 28,46 28,28 30,28 46,30 28,30 46,43 30,43 46,44 30,44 46,45 30,45 46,46 30
+5000
+26 - Variable, Modifies :: s1
+constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2; plus add; minus m;
+Select <s1,s2> with s1.stmt#=6 such that Sibling(s1,s2) and Contains*(s2,v1) with v1.varName = "b" such that Contains*(s1,c1) with c1.value = 9
+6 7,6 8,6 10
+5000
+27 - Variable, Modifies :: s1
+constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2; plus add; minus m;
+Select <a1,a2> such that Affects(a1, a2) with a1.stmt#=a2.stmt# such that Sibling(a1,a2)
+none
+5000
+29 - Pattern_Matching :: W
+assign a1,a2; stmt s1, s2, s3; procedure p; constant c;
+Select c.value such that Contains*(p,c)
+0,1,2,3,5,7,8,9,10,20
+5000
+30 - Pattern_Matching :: W
+assign a1,a2; stmt s1, s2, s3; procedure p; constant c; variable v;
+Select <v.varName,c.value> such that Contains*(p,c) and Sibling(v,c)
+a 5,b 0,b 3,b 5,b 9,i 1,i 2,k 1,k 3,k 5,m 1,m 2,m 3,m 9,n 2,n 3,q 1,t 2,t 3,x 1,x 10,x 20,x 3,x 5,y 10,z 1
+5000
+31 - Variable, Modifies :: s1
+constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2; plus add; minus m;
+Select <p1,a1,v1> such that Uses(p1,v1) with p1.procName=  "Peter" such that Contains*(a1,v1) with v1.varName = "b" such that Contains*(p1,a1)
+peter 10 b,peter 11 b,peter 12 b,peter 14 b,peter 15 b,peter 3 b,peter 6 b,peter 7 b,peter 8 b
+5000
+32 - Variable, Modifies :: s1
+assign a1,a2,a3,a4; plus add; minus m; times mult;
+Select a1 such that Contains*(a1,mult) and Contains*(a1,add) and Contains*(a1,m)
+10,11,130,15,25,26,32,38,39,43,47,59,72
+10000
+33 - Variable, Modifies :: s1
+if i1; plus add; minus m; times mult; variable v; procedure p;
+Select v such that Contains*(i1,v) and Contains*(p,i1) with p.procName = "Bob"
+a,b,k,q,v,x
+5000

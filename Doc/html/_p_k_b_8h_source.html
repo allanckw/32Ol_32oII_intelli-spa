@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="intellispa-small.jpg"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">SPA
-   &#160;<span id="projectnumber">2</span>
+   &#160;<span id="projectnumber">3</span>
    </div>
    <div id="projectbrief">Static Program Analyzer - Team 11 CS3202 AY12/13 S2</div>
   </td>
@@ -148,34 +148,47 @@ $(document).ready(function(){initNavTree('_p_k_b_8h_source.html','');});
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
 <div class="line"><a name="l00040"></a><span class="lineno"><a class="code" href="class_p_k_b.html#a295e1559f863827d703055a49a1b888b">   40</a></span>&#160;    <span class="keyword">static</span> vector&lt;ASTNode::NodeType&gt; <a class="code" href="class_p_k_b.html#a295e1559f863827d703055a49a1b888b">statementTable</a>;</div>
 <div class="line"><a name="l00041"></a><span class="lineno"><a class="code" href="class_p_k_b.html#a616513239f3fa6971424332dfabe0ead">   41</a></span>&#160;    <span class="keyword">static</span> unordered_set&lt;STMT&gt; <a class="code" href="class_p_k_b.html#a616513239f3fa6971424332dfabe0ead">assignTable</a>;</div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="code" href="class_p_k_b.html#a4bed7a639eeaebec0f877429f1b73079">   42</a></span>&#160;    <span class="keyword">static</span> unordered_map&lt;STMT, ASTNode*&gt; <a class="code" href="class_p_k_b.html#a4bed7a639eeaebec0f877429f1b73079">assignNodes</a>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    </div>
 <div class="line"><a name="l00043"></a><span class="lineno"><a class="code" href="class_p_k_b.html#a4df9c934e4846c58863ed3513a1ff34a">   43</a></span>&#160;    <span class="keyword">static</span> unordered_set&lt;STMT&gt; <a class="code" href="class_p_k_b.html#a4df9c934e4846c58863ed3513a1ff34a">callTable</a>;</div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="code" href="class_p_k_b.html#a54cdb3a6553fd54b689a812d3187ccce">   44</a></span>&#160;    <span class="keyword">static</span> unordered_map&lt;STMT, ASTNode*&gt; <a class="code" href="class_p_k_b.html#a54cdb3a6553fd54b689a812d3187ccce">callNodes</a>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    </div>
 <div class="line"><a name="l00045"></a><span class="lineno"><a class="code" href="class_p_k_b.html#ac2d6057e757e3f104e38866f8b6a16e9">   45</a></span>&#160;    <span class="keyword">static</span> unordered_set&lt;STMT&gt; <a class="code" href="class_p_k_b.html#ac2d6057e757e3f104e38866f8b6a16e9">whileTable</a>;</div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="code" href="class_p_k_b.html#a4be6809486f222460f02b45261602dc7">   46</a></span>&#160;    <span class="keyword">static</span> unordered_map&lt;STMT, ASTNode*&gt; <a class="code" href="class_p_k_b.html#a4be6809486f222460f02b45261602dc7">whileNodes</a>;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    </div>
 <div class="line"><a name="l00047"></a><span class="lineno"><a class="code" href="class_p_k_b.html#a151454c4bd06a6a0df1905cb21634f13">   47</a></span>&#160;    <span class="keyword">static</span> unordered_set&lt;STMT&gt; <a class="code" href="class_p_k_b.html#a151454c4bd06a6a0df1905cb21634f13">ifTable</a>;</div>
-<div class="line"><a name="l00048"></a><span class="lineno"><a class="code" href="class_p_k_b.html#abc04a09157ed8733ea6ce207af0a837d">   48</a></span>&#160;    <span class="keyword">static</span> unordered_map&lt;STMT, ASTNode*&gt; <a class="code" href="class_p_k_b.html#abc04a09157ed8733ea6ce207af0a837d">ifNodes</a>;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    </div>
 <div class="line"><a name="l00049"></a><span class="lineno"><a class="code" href="class_p_k_b.html#adc4120ed1f3472e49ba743fdb5a7f57e">   49</a></span>&#160;    <span class="keyword">static</span> unordered_set&lt;STMT&gt; <a class="code" href="class_p_k_b.html#adc4120ed1f3472e49ba743fdb5a7f57e">statementListTable</a>;</div>
-<div class="line"><a name="l00050"></a><span class="lineno"><a class="code" href="class_p_k_b.html#a04aa565187bc3a566ac0163027e46f46">   50</a></span>&#160;    <span class="keyword">static</span> vector&lt;ASTNode*&gt; <a class="code" href="class_p_k_b.html#a04aa565187bc3a566ac0163027e46f46">statementNodes</a>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    </div>
 <div class="line"><a name="l00051"></a><span class="lineno"><a class="code" href="class_p_k_b.html#a5d6117050599ff7205c7fc88426b4435">   51</a></span>&#160;    <span class="keyword">static</span> vector&lt;StmtRef&gt; <a class="code" href="class_p_k_b.html#a5d6117050599ff7205c7fc88426b4435">stmtRefMap</a>;</div>
 <div class="line"><a name="l00052"></a><span class="lineno"><a class="code" href="class_p_k_b.html#a960218307dbb38c796142a0f392205b6">   52</a></span>&#160;    <span class="keyword">static</span> vector&lt;pair&lt;STMT, STMT&gt;&gt; <a class="code" href="class_p_k_b.html#a960218307dbb38c796142a0f392205b6">TheBeginningAndTheEnd</a>;</div>
 <div class="line"><a name="l00053"></a><span class="lineno"><a class="code" href="class_p_k_b.html#a3354b7bf1c997e868b9273e5d19d673e">   53</a></span>&#160;    <span class="keyword">static</span> unordered_map&lt;int, vector&lt;STMT&gt;&gt; <a class="code" href="class_p_k_b.html#a3354b7bf1c997e868b9273e5d19d673e">constantsTable</a>;</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keyword">static</span> <a class="code" href="class_c_f_g_node.html">CFGNode</a>* <a class="code" href="class_p_k_b.html#a5e3b384d165fbf07bfbab2afb1d9f53a">getCFGHead</a>(<a class="code" href="std_afx_8h.html#aa07ea1d188c7b45668f1bd82ffd6d87e">PROC</a> p);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keyword">static</span> vector&lt;CFGNode*&gt; CFGHeads;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;};</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="code" href="class_p_k_b.html#a4d3f4d3cbcb58fa599b7d747b3dbeb02">   55</a></span>&#160;    <span class="keyword">static</span> vector&lt;CFGNode*&gt; <a class="code" href="class_p_k_b.html#a4d3f4d3cbcb58fa599b7d747b3dbeb02">CFGHeads</a>;</div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="code" href="class_p_k_b.html#a7ac760f862b42c416691e6c3b389639a">   56</a></span>&#160;    <span class="keyword">static</span> vector&lt;CFGNode*&gt; <a class="code" href="class_p_k_b.html#a7ac760f862b42c416691e6c3b389639a">CFGTails</a>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="comment">//static CFGNode* getCFGHead(PROC p);</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="comment">//Nodes</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="code" href="class_p_k_b.html#a4bed7a639eeaebec0f877429f1b73079">   60</a></span>&#160;    <span class="keyword">static</span> unordered_map&lt;STMT, ASTNode*&gt; <a class="code" href="class_p_k_b.html#a4bed7a639eeaebec0f877429f1b73079">assignNodes</a>;</div>
+<div class="line"><a name="l00061"></a><span class="lineno"><a class="code" href="class_p_k_b.html#a54cdb3a6553fd54b689a812d3187ccce">   61</a></span>&#160;    <span class="keyword">static</span> unordered_map&lt;STMT, ASTNode*&gt; <a class="code" href="class_p_k_b.html#a54cdb3a6553fd54b689a812d3187ccce">callNodes</a>;</div>
+<div class="line"><a name="l00062"></a><span class="lineno"><a class="code" href="class_p_k_b.html#a4be6809486f222460f02b45261602dc7">   62</a></span>&#160;    <span class="keyword">static</span> unordered_map&lt;STMT, ASTNode*&gt; <a class="code" href="class_p_k_b.html#a4be6809486f222460f02b45261602dc7">whileNodes</a>;</div>
+<div class="line"><a name="l00063"></a><span class="lineno"><a class="code" href="class_p_k_b.html#abc04a09157ed8733ea6ce207af0a837d">   63</a></span>&#160;    <span class="keyword">static</span> unordered_map&lt;STMT, ASTNode*&gt; <a class="code" href="class_p_k_b.html#abc04a09157ed8733ea6ce207af0a837d">ifNodes</a>;</div>
+<div class="line"><a name="l00064"></a><span class="lineno"><a class="code" href="class_p_k_b.html#a04aa565187bc3a566ac0163027e46f46">   64</a></span>&#160;    <span class="keyword">static</span> vector&lt;ASTNode*&gt; <a class="code" href="class_p_k_b.html#a04aa565187bc3a566ac0163027e46f46">statementNodes</a>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno"><a class="code" href="class_p_k_b.html#aa2e4e2bdc8095069f97bd1e1b2cc3f99">   66</a></span>&#160;    <span class="keyword">static</span> vector&lt;ASTNode*&gt; <a class="code" href="class_p_k_b.html#aa2e4e2bdc8095069f97bd1e1b2cc3f99">varNodes</a>;</div>
+<div class="line"><a name="l00067"></a><span class="lineno"><a class="code" href="class_p_k_b.html#a32969a9bf41b581dca9b0a6ca62fa4ca">   67</a></span>&#160;    <span class="keyword">static</span> vector&lt;ASTNode*&gt; <a class="code" href="class_p_k_b.html#a32969a9bf41b581dca9b0a6ca62fa4ca">oprNodes</a>;</div>
+<div class="line"><a name="l00068"></a><span class="lineno"><a class="code" href="class_p_k_b.html#ab02f88b9d3655e8a22e188279bdfebb8">   68</a></span>&#160;    <span class="keyword">static</span> vector&lt;ASTNode*&gt; <a class="code" href="class_p_k_b.html#ab02f88b9d3655e8a22e188279bdfebb8">constNodes</a>;</div>
+<div class="line"><a name="l00069"></a><span class="lineno"><a class="code" href="class_p_k_b.html#a09d2b801a44f09b620058ab7a2b0dc51">   69</a></span>&#160;    <span class="keyword">static</span> vector&lt;ASTNode*&gt; <a class="code" href="class_p_k_b.html#a09d2b801a44f09b620058ab7a2b0dc51">stmtLstNodes</a>;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keyword">static</span> vector&lt;ASTNode*&gt; <a class="code" href="class_p_k_b.html#a598a3c59ebdee3517429183a86f83509">getNodes</a>(<a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859">ASTNode::NodeType</a>);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keyword">static</span> vector&lt;ASTNode*&gt; <a class="code" href="class_p_k_b.html#a598a3c59ebdee3517429183a86f83509">getNodes</a>(<a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859">ASTNode::NodeType</a>, <span class="keywordtype">int</span>);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;};</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_28240f1e82be414ac37674cd3ff4adc3.html">$P@</a></li><li class="navelem"><a class="el" href="dir_f0a66c18035a04f3accc68e6ea4db1f5.html">SPA</a></li><li class="navelem"><a class="el" href="dir_9072de41565413c7baeba4ab62bcf7d0.html">SPA</a></li><li class="navelem"><a class="el" href="_p_k_b_8h.html">PKB.h</a></li>
-    <li class="footer">Generated on Mon Mar 4 2013 00:55:02 for SPA by
+    <li class="footer">Generated on Mon Mar 25 2013 02:14:46 for SPA by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3.1 </li>
   </ul>

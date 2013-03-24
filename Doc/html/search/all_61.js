@@ -2,7 +2,7 @@ var searchData=
 [
   ['addchild',['addChild',['../class_a_s_t_expr_node.html#a3cc0853d56a228c482fe322737e40d84',1,'ASTExprNode::addChild()'],['../class_a_s_t_node.html#a595fb15c3e37a7a9e443742dca6483ca',1,'ASTNode::addChild()'],['../class_a_s_t_stmt_lst_node.html#a5424fe2ed759c533a1c26e6172dae45f',1,'ASTStmtLstNode::addChild()'],['../class_a_s_t_stmt_node.html#a0396498d6bbccecd8a71a4251d237380',1,'ASTStmtNode::addChild(ASTNode *c)'],['../class_a_s_t_stmt_node.html#aa265b32dab6bb7fcb8b7f1e8a9687f9a',1,'ASTStmtNode::addChild(ASTNode *c, int childLoc)']]],
   ['addtocfglist',['addToCFGList',['../class_p_k_b.html#a984e5a12e9cc792d0ed5fda9322b9b55',1,'PKB']]],
-  ['affects',['Affects',['../class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817a9c8683c88dcfe00106bc8b0b37217bbe',1,'RulesOfEngagement::Affects()'],['../class_p_k_b.html#ad9d778faa5c6d938082d07d90da6fea0',1,'PKB::affects()']]],
+  ['affects',['affects',['../class_p_k_b.html#ad9d778faa5c6d938082d07d90da6fea0',1,'PKB::affects()'],['../class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817a9c8683c88dcfe00106bc8b0b37217bbe',1,'RulesOfEngagement::Affects()']]],
   ['affectsstar',['AffectsStar',['../class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817a3222933186b8d29c1cafb28b56237299',1,'RulesOfEngagement']]],
   ['affectstable',['AffectsTable',['../class_affects_table.html',1,'AffectsTable'],['../class_affects_table.html#a771180b48d4fb5ddfefa2c9aef18eba2',1,'AffectsTable::AffectsTable()']]],
   ['affectstable_2ecpp',['AffectsTable.cpp',['../_affects_table_8cpp.html',1,'']]],
@@ -11,7 +11,7 @@ var searchData=
   ['allowablefirstargument',['allowableFirstArgument',['../class_rules_of_engagement.html#a0a16b8602e2522f007f54f157a0f1203',1,'RulesOfEngagement']]],
   ['allowablesecondargument',['allowableSecondArgument',['../class_rules_of_engagement.html#a365f61557120f33a18021667e746f13e',1,'RulesOfEngagement']]],
   ['allowableselfreference',['allowableSelfReference',['../class_rules_of_engagement.html#a8c7c45f1c886563e1a9e62cd0c22866d',1,'RulesOfEngagement']]],
-  ['answertable',['AnswerTable',['../class_answer_table.html',1,'AnswerTable'],['../class_answer_table.html#a01b3a71cd50d9ebd513068463650c34f',1,'AnswerTable::AnswerTable()']]],
+  ['answertable',['AnswerTable',['../class_answer_table.html',1,'AnswerTable'],['../class_answer_table.html#af5179e87834fc5b23dd804ffa03b1346',1,'AnswerTable::AnswerTable()'],['../class_answer_table.html#a01b3a71cd50d9ebd513068463650c34f',1,'AnswerTable::AnswerTable(const SynonymTable &amp;synonymTable, const string &amp;synonym)']]],
   ['answertable_2ecpp',['AnswerTable.cpp',['../_answer_table_8cpp.html',1,'']]],
   ['answertable_2eh',['AnswerTable.h',['../_answer_table_8h.html',1,'']]],
   ['assign',['Assign',['../class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859abc11d3cef1a08db1d7489c8a70c73c75',1,'ASTNode::Assign()'],['../class_rules_of_engagement.html#a5dd2b28fd0c906d9b08e29e371713eada15e00fc67ee38d30f53a32bf2d6990e1',1,'RulesOfEngagement::Assign()']]],

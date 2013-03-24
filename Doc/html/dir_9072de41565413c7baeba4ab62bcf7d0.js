@@ -63,16 +63,7 @@ var dir_9072de41565413c7baeba4ab62bcf7d0 =
     ] ],
     [ "MultiQueryEval.cpp", "_multi_query_eval_8cpp.html", null ],
     [ "MultiQueryEval.h", "_multi_query_eval_8h.html", [
-      [ "MultiQueryEval", "class_multi_query_eval.html", "class_multi_query_eval" ]
-    ] ],
-    [ "MyCFG.h", "_my_c_f_g_8h.html", [
-      [ "MyCFG", "class_my_c_f_g.html", "class_my_c_f_g" ],
-      [ "WhileChildren", "struct_my_c_f_g_1_1_while_children.html", "struct_my_c_f_g_1_1_while_children" ],
-      [ "IfChildren", "struct_my_c_f_g_1_1_if_children.html", "struct_my_c_f_g_1_1_if_children" ],
-      [ "Children", "union_my_c_f_g_1_1_children.html", "union_my_c_f_g_1_1_children" ]
-    ] ],
-    [ "MyCFGBuilder.h", "_my_c_f_g_builder_8h.html", [
-      [ "MyCFGBuilder", "class_my_c_f_g_builder.html", null ]
+      [ "MultiQueryEval", "class_multi_query_eval.html", null ]
     ] ],
     [ "NextTable.cpp", "_next_table_8cpp.html", null ],
     [ "NextTable.h", "_next_table_8h.html", [
@@ -86,10 +77,6 @@ var dir_9072de41565413c7baeba4ab62bcf7d0 =
     [ "Parser.h", "_parser_8h.html", [
       [ "Parser", "class_parser.html", "class_parser" ]
     ] ],
-    [ "PatternRHSParser.cpp", "_pattern_r_h_s_parser_8cpp.html", null ],
-    [ "PatternRHSParser.h", "_pattern_r_h_s_parser_8h.html", [
-      [ "PatternRHSParser", "class_pattern_r_h_s_parser.html", null ]
-    ] ],
     [ "PKB.cpp", "_p_k_b_8cpp.html", null ],
     [ "PKB.h", "_p_k_b_8h.html", [
       [ "PKB", "class_p_k_b.html", null ]
@@ -101,6 +88,10 @@ var dir_9072de41565413c7baeba4ab62bcf7d0 =
     [ "PQLAffectsProcessor.cpp", "_p_q_l_affects_processor_8cpp.html", null ],
     [ "PQLAffectsProcessor.h", "_p_q_l_affects_processor_8h.html", [
       [ "PQLAffectsProcessor", "class_p_q_l_affects_processor.html", null ]
+    ] ],
+    [ "PQLContainPreprocessor.cpp", "_p_q_l_contain_preprocessor_8cpp.html", null ],
+    [ "PQLContainPreprocessor.h", "_p_q_l_contain_preprocessor_8h.html", [
+      [ "PQLContainPreprocessor", "class_p_q_l_contain_preprocessor.html", null ]
     ] ],
     [ "PQLController.cpp", "_p_q_l_controller_8cpp.html", null ],
     [ "PQLController.h", "_p_q_l_controller_8h.html", [

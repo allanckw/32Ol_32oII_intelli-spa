@@ -8,6 +8,7 @@ var class_calls_table =
     [ "getCalledFromStar", "class_calls_table.html#a3f984929213fdd181d904a9bcd8b99c2", null ],
     [ "getCallsSize", "class_calls_table.html#affa05af1a77dab6c79e2b43824898010", null ],
     [ "getCallsStarSize", "class_calls_table.html#a9adfb829fa0361df34eadb011f80406e", null ],
+    [ "getProcCall", "class_calls_table.html#af77e2d3eb1d31b8a517b72b485e4486f", null ],
     [ "getStmtCall", "class_calls_table.html#ad03ad8e545d3d1225d6388c97ab0d268", null ],
     [ "insertCalls", "class_calls_table.html#a8a0b0e665281f2c0d23f255c03282a66", null ],
     [ "insertStmtCall", "class_calls_table.html#a978f84e07ad7bafb1737c6a290c8527a", null ],

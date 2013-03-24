@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="intellispa-small.jpg"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">SPA
-   &#160;<span id="projectnumber">2</span>
+   &#160;<span id="projectnumber">3</span>
    </div>
    <div id="projectbrief">Static Program Analyzer - Team 11 CS3202 AY12/13 S2</div>
   </td>
@@ -136,174 +136,186 @@ $(document).ready(function(){initNavTree('_synonym_table_8cpp_source.html','');}
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    synRelSpecificFirst.push_back(vector&lt;pair&lt;RulesOfEngagement::QueryRelations, string&gt;&gt;());</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    synRelGenericSecond.push_back(unordered_set&lt;RulesOfEngagement::QueryRelations&gt;());</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    synRelSpecificSecond.push_back(vector&lt;pair&lt;RulesOfEngagement::QueryRelations, string&gt;&gt;());</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    stringToIndex[name] = index;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">if</span> (typeToIndices.count(type) &gt; 0)</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        typeToIndices[type].push_back(index);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        vector&lt;int&gt; temp;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        temp.push_back(index);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        typeToIndices[type] = temp;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    }</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno"><a class="code" href="class_synonym_table.html#acb150fae4c378832b51b514da7d85bc2">   54</a></span>&#160;vector&lt;string&gt; <a class="code" href="class_synonym_table.html#acb150fae4c378832b51b514da7d85bc2">SynonymTable::getAllNames</a>()<span class="keyword"> const</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">return</span> synName;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;}</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00064"></a><span class="lineno"><a class="code" href="class_synonym_table.html#aa580c404821e407357fd6cc512504f76">   64</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_synonym_table.html#aa580c404821e407357fd6cc512504f76">SynonymTable::isInTable</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordflow">return</span> (stringToIndex.count(name) &gt; 0);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;}</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
-<div class="line"><a name="l00074"></a><span class="lineno"><a class="code" href="class_synonym_table.html#ab43bd9f067e43b73afa7c096cb56f07a">   74</a></span>&#160;vector&lt;string&gt; <a class="code" href="class_synonym_table.html#ab43bd9f067e43b73afa7c096cb56f07a">SynonymTable::getAllOfType</a>(<a class="code" href="class_rules_of_engagement.html#a5dd2b28fd0c906d9b08e29e371713ead">RulesOfEngagement::QueryVar</a> type)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    vector&lt;string&gt; ans;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keyword">const</span> vector&lt;int&gt;&amp; indices = typeToIndices.at(type);</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = indices.begin(); it != indices.end(); it++)</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        ans.push_back(synName[*it]);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordflow">return</span> ans;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;}</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
-<div class="line"><a name="l00088"></a><span class="lineno"><a class="code" href="class_synonym_table.html#abda3f936a0e70d91ae26470c6a1b902a">   88</a></span>&#160;<a class="code" href="class_rules_of_engagement.html#a5dd2b28fd0c906d9b08e29e371713ead">RulesOfEngagement::QueryVar</a> <a class="code" href="class_synonym_table.html#abda3f936a0e70d91ae26470c6a1b902a">SynonymTable::getType</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordflow">return</span> synType.at(stringToIndex.at(name));</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;}</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
-<div class="line"><a name="l00098"></a><span class="lineno"><a class="code" href="class_synonym_table.html#a040c55f27a2f9c23aedf6818c40324df">   98</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="class_synonym_table.html#a040c55f27a2f9c23aedf6818c40324df">SynonymTable::getSynonymIndex</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordflow">return</span> stringToIndex.at(name);</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;}</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
-<div class="line"><a name="l00107"></a><span class="lineno"><a class="code" href="class_synonym_table.html#a57707788e5729fcb3edb8c17d56ea056">  107</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_synonym_table.html#a57707788e5729fcb3edb8c17d56ea056">SynonymTable::setSelected</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name)</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;{</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    selected.at(stringToIndex.at(name)) = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    selectedIndices.push_back(stringToIndex.at(name));</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;}</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
-<div class="line"><a name="l00117"></a><span class="lineno"><a class="code" href="class_synonym_table.html#a10082dabe233a4cc136012604fdd0c99">  117</a></span>&#160;vector&lt;string&gt; <a class="code" href="class_synonym_table.html#a10082dabe233a4cc136012604fdd0c99">SynonymTable::getAllSelected</a>()<span class="keyword"> const</span></div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    vector&lt;string&gt; ans;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = selectedIndices.begin(); it != selectedIndices.end(); it++)</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        ans.push_back(synName[*it]);</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="keywordflow">return</span> ans;</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;}</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div>
-<div class="line"><a name="l00130"></a><span class="lineno"><a class="code" href="class_synonym_table.html#aedd2ee139a4bea5ebff46e0e795b303f">  130</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_synonym_table.html#aedd2ee139a4bea5ebff46e0e795b303f">SynonymTable::isSelected</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="keywordflow">return</span> selected.at(stringToIndex.at(name));</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;}</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;</div>
-<div class="line"><a name="l00140"></a><span class="lineno"><a class="code" href="class_synonym_table.html#a2f84ea7622341e430ccef2fe54cd0493">  140</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_synonym_table.html#a2f84ea7622341e430ccef2fe54cd0493">SynonymTable::putIntoClass</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name, <span class="keywordtype">int</span> classIndex)</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;{</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    synClassIndex.at(stringToIndex.at(name)) = classIndex;</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;}</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;</div>
-<div class="line"><a name="l00150"></a><span class="lineno"><a class="code" href="class_synonym_table.html#ae9aefbf36f2f08661aff39d903f4d4e9">  150</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="class_synonym_table.html#ae9aefbf36f2f08661aff39d903f4d4e9">SynonymTable::getClass</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="keywordflow">return</span> synClassIndex.at(stringToIndex.at(name));</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;}</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;</div>
-<div class="line"><a name="l00162"></a><span class="lineno"><a class="code" href="class_synonym_table.html#aedd5d18cb3c7f31827142e52b76f725a">  162</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_synonym_table.html#aedd5d18cb3c7f31827142e52b76f725a">SynonymTable::setSpecificAttribute</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name,</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; condition, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; attribute)</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;{</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="class_rules_of_engagement.html#af8095e34ef7cd49343e8d2dfd1f47e3e">RulesOfEngagement::allowableConditions</a>[</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        synType.at(stringToIndex.at(name))].count(condition) == 0)</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="class_s_p_a_exception.html">SPAException</a>(<span class="stringliteral">&quot;Synonym &quot;</span> + name + <span class="stringliteral">&quot; has no such condition &quot;</span> + condition);</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    <span class="keywordflow">if</span> (synAttributesSpecific.at(stringToIndex.at(name)).count(condition) &gt; 0)</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        <span class="keywordflow">return</span> synAttributesSpecific.at(stringToIndex.at(name))[condition] == attribute;</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    synAttributesSpecific.at(stringToIndex.at(name)).<a class="code" href="class_synonym_table.html#abda36f6346220b4d99efc9e522f57ac1">insert</a>(</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        pair&lt;string, string&gt;(condition, attribute));</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;}</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;</div>
-<div class="line"><a name="l00180"></a><span class="lineno"><a class="code" href="class_synonym_table.html#aae3ea3b80a7c9d8527299bb709da36e7">  180</a></span>&#160;unordered_map&lt;string, string&gt; <a class="code" href="class_synonym_table.html#aae3ea3b80a7c9d8527299bb709da36e7">SynonymTable::getAllSpecificAttributes</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    <span class="keywordflow">return</span> synAttributesSpecific.at(stringToIndex.at(name));</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;}</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;</div>
-<div class="line"><a name="l00192"></a><span class="lineno"><a class="code" href="class_synonym_table.html#aa3939003680ee31c93b61adb82e5e407">  192</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_synonym_table.html#aa3939003680ee31c93b61adb82e5e407">SynonymTable::setGenericAttribute</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; ownAttribute,</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    <a class="code" href="class_rules_of_engagement.html#a5dd2b28fd0c906d9b08e29e371713ead">RulesOfEngagement::QueryVar</a> otherVariable, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; otherAttribute)</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;{</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    <span class="comment">//if (RulesOfEngagement::allowableConditions[otherVariable].count(otherAttribute) == 0)</span></div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        <span class="comment">//throw new SPAException(variable + &quot; has no such condition &quot; + otherAttribute);</span></div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    synAttributesGeneric.at(stringToIndex.at(name))[ownAttribute].<a class="code" href="class_synonym_table.html#abda36f6346220b4d99efc9e522f57ac1">insert</a>(</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;        pair&lt;RulesOfEngagement::QueryVar, string&gt;(otherVariable, otherAttribute));</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;}</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;unordered_map&lt;string, unordered_map&lt;RulesOfEngagement::QueryVar, string&gt;&gt;</div>
-<div class="line"><a name="l00207"></a><span class="lineno"><a class="code" href="class_synonym_table.html#a24fafd4eef36373854f0552639d1a23a">  207</a></span>&#160;    <a class="code" href="class_synonym_table.html#a24fafd4eef36373854f0552639d1a23a">SynonymTable::getAllGenericAttributes</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    <span class="keywordflow">return</span> synAttributesGeneric.at(stringToIndex.at(name));</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;}</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;</div>
-<div class="line"><a name="l00217"></a><span class="lineno"><a class="code" href="class_synonym_table.html#a394f3fe82c0e8908e531fed0353a043b">  217</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_synonym_table.html#a394f3fe82c0e8908e531fed0353a043b">SynonymTable::setSelfReference</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name,</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    <a class="code" href="class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817">RulesOfEngagement::QueryRelations</a> relation)</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;{</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    synSelfReference.at(stringToIndex.at(name)).<a class="code" href="class_synonym_table.html#abda36f6346220b4d99efc9e522f57ac1">insert</a>(relation);</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;}</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;unordered_set&lt;RulesOfEngagement::QueryRelations&gt;</div>
-<div class="line"><a name="l00229"></a><span class="lineno"><a class="code" href="class_synonym_table.html#a644d28f9dc3c765572a83c98cf75b66d">  229</a></span>&#160;    <a class="code" href="class_synonym_table.html#a644d28f9dc3c765572a83c98cf75b66d">SynonymTable::getAllSelfReferences</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    <span class="keywordflow">return</span> synSelfReference.at(stringToIndex.at(name));</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;}</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;</div>
-<div class="line"><a name="l00239"></a><span class="lineno"><a class="code" href="class_synonym_table.html#ad53932d85419c69ff93db7a0b094791b">  239</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_synonym_table.html#ad53932d85419c69ff93db7a0b094791b">SynonymTable::setFirstGeneric</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name,</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    <a class="code" href="class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817">RulesOfEngagement::QueryRelations</a> relation)</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;{</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    synRelGenericFirst.at(stringToIndex.at(name)).<a class="code" href="class_synonym_table.html#abda36f6346220b4d99efc9e522f57ac1">insert</a>(relation);</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;}</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;unordered_set&lt;RulesOfEngagement::QueryRelations&gt;</div>
-<div class="line"><a name="l00251"></a><span class="lineno"><a class="code" href="class_synonym_table.html#a6fd51931d0f5a80722fdd74dddbc6b68">  251</a></span>&#160;    <a class="code" href="class_synonym_table.html#a6fd51931d0f5a80722fdd74dddbc6b68">SynonymTable::getAllFirstGeneric</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;    <span class="keywordflow">return</span> synRelGenericFirst.at(stringToIndex.at(name));</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;}</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;</div>
-<div class="line"><a name="l00263"></a><span class="lineno"><a class="code" href="class_synonym_table.html#a55b56ddfb36fe07ec341d470da958401">  263</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_synonym_table.html#a55b56ddfb36fe07ec341d470da958401">SynonymTable::setFirstSpecific</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name,</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    <a class="code" href="class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817">RulesOfEngagement::QueryRelations</a> relation, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; specific)</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;{</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;    synRelSpecificFirst.at(stringToIndex.at(name)).push_back(pair&lt;RulesOfEngagement::QueryRelations, string&gt;(relation, specific));</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;}</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;vector&lt;pair&lt;RulesOfEngagement::QueryRelations, string&gt;&gt;</div>
-<div class="line"><a name="l00275"></a><span class="lineno"><a class="code" href="class_synonym_table.html#af223b1e48694ef48618a60753cf4d163">  275</a></span>&#160;    <a class="code" href="class_synonym_table.html#af223b1e48694ef48618a60753cf4d163">SynonymTable::getAllFirstSpecific</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;    <span class="keywordflow">return</span> synRelSpecificFirst.at(stringToIndex.at(name));</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;}</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;</div>
-<div class="line"><a name="l00285"></a><span class="lineno"><a class="code" href="class_synonym_table.html#a163973b15f35deae030c1b194a06c1a2">  285</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_synonym_table.html#a163973b15f35deae030c1b194a06c1a2">SynonymTable::setSecondGeneric</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name,</div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;    <a class="code" href="class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817">RulesOfEngagement::QueryRelations</a> relation)</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;{</div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;    synRelGenericSecond.at(stringToIndex.at(name)).<a class="code" href="class_synonym_table.html#abda36f6346220b4d99efc9e522f57ac1">insert</a>(relation);</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;}</div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;unordered_set&lt;RulesOfEngagement::QueryRelations&gt;</div>
-<div class="line"><a name="l00297"></a><span class="lineno"><a class="code" href="class_synonym_table.html#aab6e5790402227ff0f28fe93fdc9d24f">  297</a></span>&#160;    <a class="code" href="class_synonym_table.html#aab6e5790402227ff0f28fe93fdc9d24f">SynonymTable::getAllSecondGeneric</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;    <span class="keywordflow">return</span> synRelGenericSecond.at(stringToIndex.at(name));</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;}</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;</div>
-<div class="line"><a name="l00309"></a><span class="lineno"><a class="code" href="class_synonym_table.html#afd36238b0cd5ace74c15dfe30a302670">  309</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_synonym_table.html#afd36238b0cd5ace74c15dfe30a302670">SynonymTable::setSecondSpecific</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name,</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;    <a class="code" href="class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817">RulesOfEngagement::QueryRelations</a> relation, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; specific)</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;{</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;    synRelSpecificSecond.at(stringToIndex.at(name)).push_back(pair&lt;RulesOfEngagement::QueryRelations, string&gt;(relation, specific));</div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;}</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;</div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;vector&lt;pair&lt;RulesOfEngagement::QueryRelations, string&gt;&gt;</div>
-<div class="line"><a name="l00321"></a><span class="lineno"><a class="code" href="class_synonym_table.html#a4e0c4cdc09a90edb32b1af4bc26172d6">  321</a></span>&#160;    <a class="code" href="class_synonym_table.html#a4e0c4cdc09a90edb32b1af4bc26172d6">SynonymTable::getAllSecondSpecific</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name)<span class="keyword"> const</span></div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;    <span class="keywordflow">return</span> synRelSpecificSecond.at(stringToIndex.at(name));</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;}</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    synPattern.push_back(vector&lt;string&gt;());</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    stringToIndex[name] = index;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">if</span> (typeToIndices.count(type) &gt; 0)</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        typeToIndices[type].push_back(index);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        vector&lt;int&gt; temp;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        temp.push_back(index);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        typeToIndices[type] = temp;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    }</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;}</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="code" href="class_synonym_table.html#acb150fae4c378832b51b514da7d85bc2">   55</a></span>&#160;vector&lt;string&gt; <a class="code" href="class_synonym_table.html#acb150fae4c378832b51b514da7d85bc2">SynonymTable::getAllNames</a>()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordflow">return</span> synName;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno"><a class="code" href="class_synonym_table.html#aa580c404821e407357fd6cc512504f76">   65</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_synonym_table.html#aa580c404821e407357fd6cc512504f76">SynonymTable::isInTable</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordflow">return</span> (stringToIndex.count(name) &gt; 0);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;}</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00075"></a><span class="lineno"><a class="code" href="class_synonym_table.html#ab43bd9f067e43b73afa7c096cb56f07a">   75</a></span>&#160;vector&lt;string&gt; <a class="code" href="class_synonym_table.html#ab43bd9f067e43b73afa7c096cb56f07a">SynonymTable::getAllOfType</a>(<a class="code" href="class_rules_of_engagement.html#a5dd2b28fd0c906d9b08e29e371713ead">RulesOfEngagement::QueryVar</a> type)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    vector&lt;string&gt; ans;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keyword">const</span> vector&lt;int&gt;&amp; indices = typeToIndices.at(type);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = indices.begin(); it != indices.end(); it++)</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        ans.push_back(synName[*it]);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordflow">return</span> ans;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;}</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
+<div class="line"><a name="l00089"></a><span class="lineno"><a class="code" href="class_synonym_table.html#abda3f936a0e70d91ae26470c6a1b902a">   89</a></span>&#160;<a class="code" href="class_rules_of_engagement.html#a5dd2b28fd0c906d9b08e29e371713ead">RulesOfEngagement::QueryVar</a> <a class="code" href="class_synonym_table.html#abda3f936a0e70d91ae26470c6a1b902a">SynonymTable::getType</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordflow">return</span> synType.at(stringToIndex.at(name));</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;}</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
+<div class="line"><a name="l00099"></a><span class="lineno"><a class="code" href="class_synonym_table.html#a040c55f27a2f9c23aedf6818c40324df">   99</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="class_synonym_table.html#a040c55f27a2f9c23aedf6818c40324df">SynonymTable::getSynonymIndex</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordflow">return</span> stringToIndex.at(name);</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;}</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
+<div class="line"><a name="l00108"></a><span class="lineno"><a class="code" href="class_synonym_table.html#a57707788e5729fcb3edb8c17d56ea056">  108</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_synonym_table.html#a57707788e5729fcb3edb8c17d56ea056">SynonymTable::setSelected</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name)</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;{</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    selected.at(stringToIndex.at(name)) = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    selectedIndices.push_back(stringToIndex.at(name));</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;}</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;</div>
+<div class="line"><a name="l00118"></a><span class="lineno"><a class="code" href="class_synonym_table.html#a10082dabe233a4cc136012604fdd0c99">  118</a></span>&#160;vector&lt;string&gt; <a class="code" href="class_synonym_table.html#a10082dabe233a4cc136012604fdd0c99">SynonymTable::getAllSelected</a>()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    vector&lt;string&gt; ans;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = selectedIndices.begin(); it != selectedIndices.end(); it++)</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        ans.push_back(synName[*it]);</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="keywordflow">return</span> ans;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;}</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;</div>
+<div class="line"><a name="l00131"></a><span class="lineno"><a class="code" href="class_synonym_table.html#aedd2ee139a4bea5ebff46e0e795b303f">  131</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_synonym_table.html#aedd2ee139a4bea5ebff46e0e795b303f">SynonymTable::isSelected</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <span class="keywordflow">return</span> selected.at(stringToIndex.at(name));</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;}</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;</div>
+<div class="line"><a name="l00141"></a><span class="lineno"><a class="code" href="class_synonym_table.html#a2f84ea7622341e430ccef2fe54cd0493">  141</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_synonym_table.html#a2f84ea7622341e430ccef2fe54cd0493">SynonymTable::putIntoClass</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name, <span class="keywordtype">int</span> classIndex)</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;{</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    synClassIndex.at(stringToIndex.at(name)) = classIndex;</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;}</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;</div>
+<div class="line"><a name="l00151"></a><span class="lineno"><a class="code" href="class_synonym_table.html#ae9aefbf36f2f08661aff39d903f4d4e9">  151</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="class_synonym_table.html#ae9aefbf36f2f08661aff39d903f4d4e9">SynonymTable::getClass</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    <span class="keywordflow">return</span> synClassIndex.at(stringToIndex.at(name));</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;}</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;</div>
+<div class="line"><a name="l00163"></a><span class="lineno"><a class="code" href="class_synonym_table.html#aedd5d18cb3c7f31827142e52b76f725a">  163</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_synonym_table.html#aedd5d18cb3c7f31827142e52b76f725a">SynonymTable::setSpecificAttribute</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name,</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; condition, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; attribute)</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;{</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="class_rules_of_engagement.html#af8095e34ef7cd49343e8d2dfd1f47e3e">RulesOfEngagement::allowableConditions</a>[</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        synType.at(stringToIndex.at(name))].count(condition) == 0)</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="class_s_p_a_exception.html">SPAException</a>(<span class="stringliteral">&quot;Synonym &quot;</span> + name + <span class="stringliteral">&quot; has no such condition &quot;</span> + condition);</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    <span class="keywordflow">if</span> (synAttributesSpecific.at(stringToIndex.at(name)).count(condition) &gt; 0)</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        <span class="keywordflow">return</span> synAttributesSpecific.at(stringToIndex.at(name))[condition] == attribute;</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    synAttributesSpecific.at(stringToIndex.at(name)).<a class="code" href="class_synonym_table.html#abda36f6346220b4d99efc9e522f57ac1">insert</a>(</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        pair&lt;string, string&gt;(condition, attribute));</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;}</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;</div>
+<div class="line"><a name="l00181"></a><span class="lineno"><a class="code" href="class_synonym_table.html#aae3ea3b80a7c9d8527299bb709da36e7">  181</a></span>&#160;unordered_map&lt;string, string&gt; <a class="code" href="class_synonym_table.html#aae3ea3b80a7c9d8527299bb709da36e7">SynonymTable::getAllSpecificAttributes</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    <span class="keywordflow">return</span> synAttributesSpecific.at(stringToIndex.at(name));</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;}</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;</div>
+<div class="line"><a name="l00193"></a><span class="lineno"><a class="code" href="class_synonym_table.html#aa3939003680ee31c93b61adb82e5e407">  193</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_synonym_table.html#aa3939003680ee31c93b61adb82e5e407">SynonymTable::setGenericAttribute</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; ownAttribute,</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    <a class="code" href="class_rules_of_engagement.html#a5dd2b28fd0c906d9b08e29e371713ead">RulesOfEngagement::QueryVar</a> otherVariable, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; otherAttribute)</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;{</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    <span class="comment">//if (RulesOfEngagement::allowableConditions[otherVariable].count(otherAttribute) == 0)</span></div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;        <span class="comment">//throw new SPAException(variable + &quot; has no such condition &quot; + otherAttribute);</span></div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    synAttributesGeneric.at(stringToIndex.at(name))[ownAttribute].<a class="code" href="class_synonym_table.html#abda36f6346220b4d99efc9e522f57ac1">insert</a>(</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;        pair&lt;RulesOfEngagement::QueryVar, string&gt;(otherVariable, otherAttribute));</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;}</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;unordered_map&lt;string, unordered_map&lt;RulesOfEngagement::QueryVar, string&gt;&gt;</div>
+<div class="line"><a name="l00208"></a><span class="lineno"><a class="code" href="class_synonym_table.html#a24fafd4eef36373854f0552639d1a23a">  208</a></span>&#160;    <a class="code" href="class_synonym_table.html#a24fafd4eef36373854f0552639d1a23a">SynonymTable::getAllGenericAttributes</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;    <span class="keywordflow">return</span> synAttributesGeneric.at(stringToIndex.at(name));</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;}</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;</div>
+<div class="line"><a name="l00218"></a><span class="lineno"><a class="code" href="class_synonym_table.html#a394f3fe82c0e8908e531fed0353a043b">  218</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_synonym_table.html#a394f3fe82c0e8908e531fed0353a043b">SynonymTable::setSelfReference</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name,</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;    <a class="code" href="class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817">RulesOfEngagement::QueryRelations</a> relation)</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;{</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    synSelfReference.at(stringToIndex.at(name)).<a class="code" href="class_synonym_table.html#abda36f6346220b4d99efc9e522f57ac1">insert</a>(relation);</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;}</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;unordered_set&lt;RulesOfEngagement::QueryRelations&gt;</div>
+<div class="line"><a name="l00230"></a><span class="lineno"><a class="code" href="class_synonym_table.html#a644d28f9dc3c765572a83c98cf75b66d">  230</a></span>&#160;    <a class="code" href="class_synonym_table.html#a644d28f9dc3c765572a83c98cf75b66d">SynonymTable::getAllSelfReferences</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;    <span class="keywordflow">return</span> synSelfReference.at(stringToIndex.at(name));</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;}</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;</div>
+<div class="line"><a name="l00240"></a><span class="lineno"><a class="code" href="class_synonym_table.html#ad53932d85419c69ff93db7a0b094791b">  240</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_synonym_table.html#ad53932d85419c69ff93db7a0b094791b">SynonymTable::setFirstGeneric</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name,</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;    <a class="code" href="class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817">RulesOfEngagement::QueryRelations</a> relation)</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;{</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;    synRelGenericFirst.at(stringToIndex.at(name)).<a class="code" href="class_synonym_table.html#abda36f6346220b4d99efc9e522f57ac1">insert</a>(relation);</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;}</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;unordered_set&lt;RulesOfEngagement::QueryRelations&gt;</div>
+<div class="line"><a name="l00252"></a><span class="lineno"><a class="code" href="class_synonym_table.html#a6fd51931d0f5a80722fdd74dddbc6b68">  252</a></span>&#160;    <a class="code" href="class_synonym_table.html#a6fd51931d0f5a80722fdd74dddbc6b68">SynonymTable::getAllFirstGeneric</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    <span class="keywordflow">return</span> synRelGenericFirst.at(stringToIndex.at(name));</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;}</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;</div>
+<div class="line"><a name="l00264"></a><span class="lineno"><a class="code" href="class_synonym_table.html#a55b56ddfb36fe07ec341d470da958401">  264</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_synonym_table.html#a55b56ddfb36fe07ec341d470da958401">SynonymTable::setFirstSpecific</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name,</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    <a class="code" href="class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817">RulesOfEngagement::QueryRelations</a> relation, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; specific)</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;{</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    synRelSpecificFirst.at(stringToIndex.at(name)).push_back(pair&lt;RulesOfEngagement::QueryRelations, string&gt;(relation, specific));</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;}</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;vector&lt;pair&lt;RulesOfEngagement::QueryRelations, string&gt;&gt;</div>
+<div class="line"><a name="l00276"></a><span class="lineno"><a class="code" href="class_synonym_table.html#af223b1e48694ef48618a60753cf4d163">  276</a></span>&#160;    <a class="code" href="class_synonym_table.html#af223b1e48694ef48618a60753cf4d163">SynonymTable::getAllFirstSpecific</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;    <span class="keywordflow">return</span> synRelSpecificFirst.at(stringToIndex.at(name));</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;}</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;</div>
+<div class="line"><a name="l00286"></a><span class="lineno"><a class="code" href="class_synonym_table.html#a163973b15f35deae030c1b194a06c1a2">  286</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_synonym_table.html#a163973b15f35deae030c1b194a06c1a2">SynonymTable::setSecondGeneric</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name,</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;    <a class="code" href="class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817">RulesOfEngagement::QueryRelations</a> relation)</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;{</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;    synRelGenericSecond.at(stringToIndex.at(name)).<a class="code" href="class_synonym_table.html#abda36f6346220b4d99efc9e522f57ac1">insert</a>(relation);</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;}</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;unordered_set&lt;RulesOfEngagement::QueryRelations&gt;</div>
+<div class="line"><a name="l00298"></a><span class="lineno"><a class="code" href="class_synonym_table.html#aab6e5790402227ff0f28fe93fdc9d24f">  298</a></span>&#160;    <a class="code" href="class_synonym_table.html#aab6e5790402227ff0f28fe93fdc9d24f">SynonymTable::getAllSecondGeneric</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;    <span class="keywordflow">return</span> synRelGenericSecond.at(stringToIndex.at(name));</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;}</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;</div>
+<div class="line"><a name="l00310"></a><span class="lineno"><a class="code" href="class_synonym_table.html#afd36238b0cd5ace74c15dfe30a302670">  310</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_synonym_table.html#afd36238b0cd5ace74c15dfe30a302670">SynonymTable::setSecondSpecific</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name,</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;    <a class="code" href="class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817">RulesOfEngagement::QueryRelations</a> relation, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; specific)</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;{</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;    synRelSpecificSecond.at(stringToIndex.at(name)).push_back(</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;        pair&lt;RulesOfEngagement::QueryRelations, string&gt;(relation, specific));</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;}</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;vector&lt;pair&lt;RulesOfEngagement::QueryRelations, string&gt;&gt;</div>
+<div class="line"><a name="l00323"></a><span class="lineno"><a class="code" href="class_synonym_table.html#a4e0c4cdc09a90edb32b1af4bc26172d6">  323</a></span>&#160;    <a class="code" href="class_synonym_table.html#a4e0c4cdc09a90edb32b1af4bc26172d6">SynonymTable::getAllSecondSpecific</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;    <span class="keywordflow">return</span> synRelSpecificSecond.at(stringToIndex.at(name));</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;}</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;</div>
+<div class="line"><a name="l00334"></a><span class="lineno"><a class="code" href="class_synonym_table.html#ad484c7edd0b4fe31081ad026f18c044b">  334</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_synonym_table.html#ad484c7edd0b4fe31081ad026f18c044b">SynonymTable::setPattern</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; expression)</div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;{</div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;    synPattern.at(stringToIndex.at(name)).push_back(expression);</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;}</div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;</div>
+<div class="line"><a name="l00344"></a><span class="lineno"><a class="code" href="class_synonym_table.html#a321f65fba81370aef3983e4f255ca9d5">  344</a></span>&#160;vector&lt;string&gt; <a class="code" href="class_synonym_table.html#a321f65fba81370aef3983e4f255ca9d5">SynonymTable::getAllPattern</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;    <span class="keywordflow">return</span> synPattern.at(stringToIndex.at(name));</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_28240f1e82be414ac37674cd3ff4adc3.html">$P@</a></li><li class="navelem"><a class="el" href="dir_f0a66c18035a04f3accc68e6ea4db1f5.html">SPA</a></li><li class="navelem"><a class="el" href="dir_9072de41565413c7baeba4ab62bcf7d0.html">SPA</a></li><li class="navelem"><a class="el" href="_synonym_table_8cpp.html">SynonymTable.cpp</a></li>
-    <li class="footer">Generated on Mon Mar 4 2013 00:55:02 for SPA by
+    <li class="footer">Generated on Mon Mar 25 2013 02:14:47 for SPA by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3.1 </li>
   </ul>

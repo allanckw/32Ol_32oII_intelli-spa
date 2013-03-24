@@ -25,6 +25,8 @@ var class_rules_of_engagement =
       [ "FollowsStar", "class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817ac77b8ced2790f3c0a5be242c334cef2b", null ],
       [ "Next", "class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817a00579ec789f6ad28531037e00075e717", null ],
       [ "NextStar", "class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817a9326ba3ff070cd1704e07a9130b54972", null ],
+      [ "NextBip", "class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817a5bebe4a172249f852b6e0c52ec00cec4", null ],
+      [ "NextBipStar", "class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817a931ece6470dc969e0069e0350fe11f66", null ],
       [ "Affects", "class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817a9c8683c88dcfe00106bc8b0b37217bbe", null ],
       [ "AffectsStar", "class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817a3222933186b8d29c1cafb28b56237299", null ],
       [ "PatternModifies", "class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817ab9e971b0219e177c3344a68cf17aa2fd", null ],

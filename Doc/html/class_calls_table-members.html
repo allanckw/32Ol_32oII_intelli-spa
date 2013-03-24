@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="intellispa-small.jpg"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">SPA
-   &#160;<span id="projectnumber">2</span>
+   &#160;<span id="projectnumber">3</span>
    </div>
    <div id="projectbrief">Static Program Analyzer - Team 11 CS3202 AY12/13 S2</div>
   </td>
@@ -120,19 +120,20 @@ $(document).ready(function(){initNavTree('class_calls_table.html','');});
   <tr><td class="entry"><a class="el" href="class_calls_table.html#a3f984929213fdd181d904a9bcd8b99c2">getCalledFromStar</a>(PROC)</td><td class="entry"><a class="el" href="class_calls_table.html">CallsTable</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_calls_table.html#affa05af1a77dab6c79e2b43824898010">getCallsSize</a>()</td><td class="entry"><a class="el" href="class_calls_table.html">CallsTable</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="class_calls_table.html#a9adfb829fa0361df34eadb011f80406e">getCallsStarSize</a>()</td><td class="entry"><a class="el" href="class_calls_table.html">CallsTable</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_calls_table.html#ad03ad8e545d3d1225d6388c97ab0d268">getStmtCall</a>(PROC)</td><td class="entry"><a class="el" href="class_calls_table.html">CallsTable</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_calls_table.html#a8a0b0e665281f2c0d23f255c03282a66">insertCalls</a>(PROC, PROC)</td><td class="entry"><a class="el" href="class_calls_table.html">CallsTable</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_calls_table.html#a978f84e07ad7bafb1737c6a290c8527a">insertStmtCall</a>(STMT, PROC)</td><td class="entry"><a class="el" href="class_calls_table.html">CallsTable</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_calls_table.html#a7533cb25ac6b5cfa990a4ab66caa7d84">isCalled</a>(PROC, PROC)</td><td class="entry"><a class="el" href="class_calls_table.html">CallsTable</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_calls_table.html#a8355c71d51e270130651f17007d3b6a6">isCalledStar</a>(PROC, PROC)</td><td class="entry"><a class="el" href="class_calls_table.html">CallsTable</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_calls_table.html#a5d6f530110e6983be8cef4b6d12b9e78">isEmpty</a>()</td><td class="entry"><a class="el" href="class_calls_table.html">CallsTable</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_calls_table.html#a21decabd3099cd7adb4ebfcdbb6bad8d">optimizeCallsTable</a>()</td><td class="entry"><a class="el" href="class_calls_table.html">CallsTable</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_calls_table.html#af77e2d3eb1d31b8a517b72b485e4486f">getProcCall</a>(STMT)</td><td class="entry"><a class="el" href="class_calls_table.html">CallsTable</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="class_calls_table.html#ad03ad8e545d3d1225d6388c97ab0d268">getStmtCall</a>(PROC)</td><td class="entry"><a class="el" href="class_calls_table.html">CallsTable</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_calls_table.html#a8a0b0e665281f2c0d23f255c03282a66">insertCalls</a>(PROC, PROC)</td><td class="entry"><a class="el" href="class_calls_table.html">CallsTable</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="class_calls_table.html#a978f84e07ad7bafb1737c6a290c8527a">insertStmtCall</a>(STMT, PROC)</td><td class="entry"><a class="el" href="class_calls_table.html">CallsTable</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_calls_table.html#a7533cb25ac6b5cfa990a4ab66caa7d84">isCalled</a>(PROC, PROC)</td><td class="entry"><a class="el" href="class_calls_table.html">CallsTable</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="class_calls_table.html#a8355c71d51e270130651f17007d3b6a6">isCalledStar</a>(PROC, PROC)</td><td class="entry"><a class="el" href="class_calls_table.html">CallsTable</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_calls_table.html#a5d6f530110e6983be8cef4b6d12b9e78">isEmpty</a>()</td><td class="entry"><a class="el" href="class_calls_table.html">CallsTable</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="class_calls_table.html#a21decabd3099cd7adb4ebfcdbb6bad8d">optimizeCallsTable</a>()</td><td class="entry"><a class="el" href="class_calls_table.html">CallsTable</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Mon Mar 4 2013 00:55:03 for SPA by
+    <li class="footer">Generated on Mon Mar 25 2013 02:14:48 for SPA by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3.1 </li>
   </ul>

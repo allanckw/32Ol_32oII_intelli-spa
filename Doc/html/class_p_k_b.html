@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="intellispa-small.jpg"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">SPA
-   &#160;<span id="projectnumber">2</span>
+   &#160;<span id="projectnumber">3</span>
    </div>
    <div id="projectbrief">Static Program Analyzer - Team 11 CS3202 AY12/13 S2</div>
   </td>
@@ -120,8 +120,10 @@ $(document).ready(function(){initNavTree('class_p_k_b.html','');});
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a984e5a12e9cc792d0ed5fda9322b9b55"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_k_b.html#a984e5a12e9cc792d0ed5fda9322b9b55">addToCFGList</a> (<a class="el" href="class_c_f_g_node.html">CFGNode</a> *start)</td></tr>
 <tr class="separator:a984e5a12e9cc792d0ed5fda9322b9b55"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5e3b384d165fbf07bfbab2afb1d9f53a"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_c_f_g_node.html">CFGNode</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_k_b.html#a5e3b384d165fbf07bfbab2afb1d9f53a">getCFGHead</a> (<a class="el" href="std_afx_8h.html#aa07ea1d188c7b45668f1bd82ffd6d87e">PROC</a> p)</td></tr>
-<tr class="separator:a5e3b384d165fbf07bfbab2afb1d9f53a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a598a3c59ebdee3517429183a86f83509"><td class="memItemLeft" align="right" valign="top">static vector&lt; <a class="el" href="class_a_s_t_node.html">ASTNode</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_k_b.html#a598a3c59ebdee3517429183a86f83509">getNodes</a> (<a class="el" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859">ASTNode::NodeType</a>)</td></tr>
+<tr class="separator:a598a3c59ebdee3517429183a86f83509"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7078739524e51d20768fb3765a5951c5"><td class="memItemLeft" align="right" valign="top">static vector&lt; <a class="el" href="class_a_s_t_node.html">ASTNode</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_k_b.html#a7078739524e51d20768fb3765a5951c5">getNodes</a> (<a class="el" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859">ASTNode::NodeType</a>, int)</td></tr>
+<tr class="separator:a7078739524e51d20768fb3765a5951c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -155,28 +157,14 @@ int &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" h
 <tr class="separator:a295e1559f863827d703055a49a1b888b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a616513239f3fa6971424332dfabe0ead"><td class="memItemLeft" align="right" valign="top">static unordered_set&lt; <a class="el" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_k_b.html#a616513239f3fa6971424332dfabe0ead">assignTable</a></td></tr>
 <tr class="separator:a616513239f3fa6971424332dfabe0ead"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4bed7a639eeaebec0f877429f1b73079"><td class="memItemLeft" align="right" valign="top">static unordered_map&lt; <a class="el" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a>, <br class="typebreak"/>
-<a class="el" href="class_a_s_t_node.html">ASTNode</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_k_b.html#a4bed7a639eeaebec0f877429f1b73079">assignNodes</a></td></tr>
-<tr class="separator:a4bed7a639eeaebec0f877429f1b73079"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4df9c934e4846c58863ed3513a1ff34a"><td class="memItemLeft" align="right" valign="top">static unordered_set&lt; <a class="el" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_k_b.html#a4df9c934e4846c58863ed3513a1ff34a">callTable</a></td></tr>
 <tr class="separator:a4df9c934e4846c58863ed3513a1ff34a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a54cdb3a6553fd54b689a812d3187ccce"><td class="memItemLeft" align="right" valign="top">static unordered_map&lt; <a class="el" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a>, <br class="typebreak"/>
-<a class="el" href="class_a_s_t_node.html">ASTNode</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_k_b.html#a54cdb3a6553fd54b689a812d3187ccce">callNodes</a></td></tr>
-<tr class="separator:a54cdb3a6553fd54b689a812d3187ccce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac2d6057e757e3f104e38866f8b6a16e9"><td class="memItemLeft" align="right" valign="top">static unordered_set&lt; <a class="el" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_k_b.html#ac2d6057e757e3f104e38866f8b6a16e9">whileTable</a></td></tr>
 <tr class="separator:ac2d6057e757e3f104e38866f8b6a16e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4be6809486f222460f02b45261602dc7"><td class="memItemLeft" align="right" valign="top">static unordered_map&lt; <a class="el" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a>, <br class="typebreak"/>
-<a class="el" href="class_a_s_t_node.html">ASTNode</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_k_b.html#a4be6809486f222460f02b45261602dc7">whileNodes</a></td></tr>
-<tr class="separator:a4be6809486f222460f02b45261602dc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a151454c4bd06a6a0df1905cb21634f13"><td class="memItemLeft" align="right" valign="top">static unordered_set&lt; <a class="el" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_k_b.html#a151454c4bd06a6a0df1905cb21634f13">ifTable</a></td></tr>
 <tr class="separator:a151454c4bd06a6a0df1905cb21634f13"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc04a09157ed8733ea6ce207af0a837d"><td class="memItemLeft" align="right" valign="top">static unordered_map&lt; <a class="el" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a>, <br class="typebreak"/>
-<a class="el" href="class_a_s_t_node.html">ASTNode</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_k_b.html#abc04a09157ed8733ea6ce207af0a837d">ifNodes</a></td></tr>
-<tr class="separator:abc04a09157ed8733ea6ce207af0a837d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adc4120ed1f3472e49ba743fdb5a7f57e"><td class="memItemLeft" align="right" valign="top">static unordered_set&lt; <a class="el" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_k_b.html#adc4120ed1f3472e49ba743fdb5a7f57e">statementListTable</a></td></tr>
 <tr class="separator:adc4120ed1f3472e49ba743fdb5a7f57e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a04aa565187bc3a566ac0163027e46f46"><td class="memItemLeft" align="right" valign="top">static vector&lt; <a class="el" href="class_a_s_t_node.html">ASTNode</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_k_b.html#a04aa565187bc3a566ac0163027e46f46">statementNodes</a></td></tr>
-<tr class="separator:a04aa565187bc3a566ac0163027e46f46"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5d6117050599ff7205c7fc88426b4435"><td class="memItemLeft" align="right" valign="top">static vector&lt; <a class="el" href="class_stmt_ref.html">StmtRef</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_k_b.html#a5d6117050599ff7205c7fc88426b4435">stmtRefMap</a></td></tr>
 <tr class="separator:a5d6117050599ff7205c7fc88426b4435"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a960218307dbb38c796142a0f392205b6"><td class="memItemLeft" align="right" valign="top">static vector&lt; pair&lt; <a class="el" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a>, <a class="el" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_k_b.html#a960218307dbb38c796142a0f392205b6">TheBeginningAndTheEnd</a></td></tr>
@@ -184,6 +172,32 @@ int &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" h
 <tr class="memitem:a3354b7bf1c997e868b9273e5d19d673e"><td class="memItemLeft" align="right" valign="top">static unordered_map&lt; int, <br class="typebreak"/>
 vector&lt; <a class="el" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_k_b.html#a3354b7bf1c997e868b9273e5d19d673e">constantsTable</a></td></tr>
 <tr class="separator:a3354b7bf1c997e868b9273e5d19d673e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d3f4d3cbcb58fa599b7d747b3dbeb02"><td class="memItemLeft" align="right" valign="top">static vector&lt; <a class="el" href="class_c_f_g_node.html">CFGNode</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_k_b.html#a4d3f4d3cbcb58fa599b7d747b3dbeb02">CFGHeads</a></td></tr>
+<tr class="separator:a4d3f4d3cbcb58fa599b7d747b3dbeb02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ac760f862b42c416691e6c3b389639a"><td class="memItemLeft" align="right" valign="top">static vector&lt; <a class="el" href="class_c_f_g_node.html">CFGNode</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_k_b.html#a7ac760f862b42c416691e6c3b389639a">CFGTails</a></td></tr>
+<tr class="separator:a7ac760f862b42c416691e6c3b389639a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4bed7a639eeaebec0f877429f1b73079"><td class="memItemLeft" align="right" valign="top">static unordered_map&lt; <a class="el" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a>, <br class="typebreak"/>
+<a class="el" href="class_a_s_t_node.html">ASTNode</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_k_b.html#a4bed7a639eeaebec0f877429f1b73079">assignNodes</a></td></tr>
+<tr class="separator:a4bed7a639eeaebec0f877429f1b73079"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54cdb3a6553fd54b689a812d3187ccce"><td class="memItemLeft" align="right" valign="top">static unordered_map&lt; <a class="el" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a>, <br class="typebreak"/>
+<a class="el" href="class_a_s_t_node.html">ASTNode</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_k_b.html#a54cdb3a6553fd54b689a812d3187ccce">callNodes</a></td></tr>
+<tr class="separator:a54cdb3a6553fd54b689a812d3187ccce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4be6809486f222460f02b45261602dc7"><td class="memItemLeft" align="right" valign="top">static unordered_map&lt; <a class="el" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a>, <br class="typebreak"/>
+<a class="el" href="class_a_s_t_node.html">ASTNode</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_k_b.html#a4be6809486f222460f02b45261602dc7">whileNodes</a></td></tr>
+<tr class="separator:a4be6809486f222460f02b45261602dc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc04a09157ed8733ea6ce207af0a837d"><td class="memItemLeft" align="right" valign="top">static unordered_map&lt; <a class="el" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a">STMT</a>, <br class="typebreak"/>
+<a class="el" href="class_a_s_t_node.html">ASTNode</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_k_b.html#abc04a09157ed8733ea6ce207af0a837d">ifNodes</a></td></tr>
+<tr class="separator:abc04a09157ed8733ea6ce207af0a837d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04aa565187bc3a566ac0163027e46f46"><td class="memItemLeft" align="right" valign="top">static vector&lt; <a class="el" href="class_a_s_t_node.html">ASTNode</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_k_b.html#a04aa565187bc3a566ac0163027e46f46">statementNodes</a></td></tr>
+<tr class="separator:a04aa565187bc3a566ac0163027e46f46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2e4e2bdc8095069f97bd1e1b2cc3f99"><td class="memItemLeft" align="right" valign="top">static vector&lt; <a class="el" href="class_a_s_t_node.html">ASTNode</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_k_b.html#aa2e4e2bdc8095069f97bd1e1b2cc3f99">varNodes</a></td></tr>
+<tr class="separator:aa2e4e2bdc8095069f97bd1e1b2cc3f99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32969a9bf41b581dca9b0a6ca62fa4ca"><td class="memItemLeft" align="right" valign="top">static vector&lt; <a class="el" href="class_a_s_t_node.html">ASTNode</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_k_b.html#a32969a9bf41b581dca9b0a6ca62fa4ca">oprNodes</a></td></tr>
+<tr class="separator:a32969a9bf41b581dca9b0a6ca62fa4ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab02f88b9d3655e8a22e188279bdfebb8"><td class="memItemLeft" align="right" valign="top">static vector&lt; <a class="el" href="class_a_s_t_node.html">ASTNode</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_k_b.html#ab02f88b9d3655e8a22e188279bdfebb8">constNodes</a></td></tr>
+<tr class="separator:ab02f88b9d3655e8a22e188279bdfebb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09d2b801a44f09b620058ab7a2b0dc51"><td class="memItemLeft" align="right" valign="top">static vector&lt; <a class="el" href="class_a_s_t_node.html">ASTNode</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_k_b.html#a09d2b801a44f09b620058ab7a2b0dc51">stmtLstNodes</a></td></tr>
+<tr class="separator:a09d2b801a44f09b620058ab7a2b0dc51"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
@@ -211,11 +225,11 @@ vector&lt; <a class="el" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_p_k_b_8cpp_source.html#l00046">46</a> of file <a class="el" href="_p_k_b_8cpp_source.html">PKB.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_p_k_b_8cpp_source.html#l00055">55</a> of file <a class="el" href="_p_k_b_8cpp_source.html">PKB.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a5e3b384d165fbf07bfbab2afb1d9f53a"></a>
+<a class="anchor" id="a598a3c59ebdee3517429183a86f83509"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -223,10 +237,10 @@ vector&lt; <a class="el" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="class_c_f_g_node.html">CFGNode</a>* PKB::getCFGHead </td>
+          <td class="memname">vector&lt; <a class="el" href="class_a_s_t_node.html">ASTNode</a> * &gt; PKB::getNodes </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="std_afx_8h.html#aa07ea1d188c7b45668f1bd82ffd6d87e">PROC</a>&#160;</td>
-          <td class="paramname"><em>p</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859">ASTNode::NodeType</a>&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -236,6 +250,44 @@ vector&lt; <a class="el" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_p_k_b_8cpp_source.html#l00061">61</a> of file <a class="el" href="_p_k_b_8cpp_source.html">PKB.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7078739524e51d20768fb3765a5951c5"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">vector&lt; <a class="el" href="class_a_s_t_node.html">ASTNode</a> * &gt; PKB::getNodes </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859">ASTNode::NodeType</a>&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_p_k_b_8cpp_source.html#l00115">115</a> of file <a class="el" href="_p_k_b_8cpp_source.html">PKB.cpp</a>.</p>
 
 </div>
 </div>
@@ -280,7 +332,7 @@ vector&lt; <a class="el" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_p_k_b_8h_source.html#l00042">42</a> of file <a class="el" href="_p_k_b_8h_source.html">PKB.h</a>.</p>
+<p>Definition at line <a class="el" href="_p_k_b_8h_source.html#l00060">60</a> of file <a class="el" href="_p_k_b_8h_source.html">PKB.h</a>.</p>
 
 </div>
 </div>
@@ -324,7 +376,7 @@ vector&lt; <a class="el" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_p_k_b_8h_source.html#l00044">44</a> of file <a class="el" href="_p_k_b_8h_source.html">PKB.h</a>.</p>
+<p>Definition at line <a class="el" href="_p_k_b_8h_source.html#l00061">61</a> of file <a class="el" href="_p_k_b_8h_source.html">PKB.h</a>.</p>
 
 </div>
 </div>
@@ -372,6 +424,50 @@ vector&lt; <a class="el" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a
 
 </div>
 </div>
+<a class="anchor" id="a4d3f4d3cbcb58fa599b7d747b3dbeb02"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">vector&lt; <a class="el" href="class_c_f_g_node.html">CFGNode</a> * &gt; PKB::CFGHeads</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_p_k_b_8h_source.html#l00055">55</a> of file <a class="el" href="_p_k_b_8h_source.html">PKB.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7ac760f862b42c416691e6c3b389639a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">vector&lt; <a class="el" href="class_c_f_g_node.html">CFGNode</a> * &gt; PKB::CFGTails</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_p_k_b_8h_source.html#l00056">56</a> of file <a class="el" href="_p_k_b_8h_source.html">PKB.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a3354b7bf1c997e868b9273e5d19d673e"></a>
 <div class="memitem">
 <div class="memproto">
@@ -391,6 +487,28 @@ vector&lt; <a class="el" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="_p_k_b_8h_source.html#l00053">53</a> of file <a class="el" href="_p_k_b_8h_source.html">PKB.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab02f88b9d3655e8a22e188279bdfebb8"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">vector&lt; <a class="el" href="class_a_s_t_node.html">ASTNode</a> * &gt; PKB::constNodes</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_p_k_b_8h_source.html#l00068">68</a> of file <a class="el" href="_p_k_b_8h_source.html">PKB.h</a>.</p>
 
 </div>
 </div>
@@ -434,7 +552,7 @@ vector&lt; <a class="el" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_p_k_b_8h_source.html#l00048">48</a> of file <a class="el" href="_p_k_b_8h_source.html">PKB.h</a>.</p>
+<p>Definition at line <a class="el" href="_p_k_b_8h_source.html#l00063">63</a> of file <a class="el" href="_p_k_b_8h_source.html">PKB.h</a>.</p>
 
 </div>
 </div>
@@ -523,6 +641,28 @@ vector&lt; <a class="el" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="_p_k_b_8h_source.html#l00038">38</a> of file <a class="el" href="_p_k_b_8h_source.html">PKB.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a32969a9bf41b581dca9b0a6ca62fa4ca"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">vector&lt; <a class="el" href="class_a_s_t_node.html">ASTNode</a> * &gt; PKB::oprNodes</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_p_k_b_8h_source.html#l00067">67</a> of file <a class="el" href="_p_k_b_8h_source.html">PKB.h</a>.</p>
 
 </div>
 </div>
@@ -654,7 +794,7 @@ vector&lt; <a class="el" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_p_k_b_8h_source.html#l00050">50</a> of file <a class="el" href="_p_k_b_8h_source.html">PKB.h</a>.</p>
+<p>Definition at line <a class="el" href="_p_k_b_8h_source.html#l00064">64</a> of file <a class="el" href="_p_k_b_8h_source.html">PKB.h</a>.</p>
 
 </div>
 </div>
@@ -677,6 +817,28 @@ vector&lt; <a class="el" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="_p_k_b_8h_source.html#l00040">40</a> of file <a class="el" href="_p_k_b_8h_source.html">PKB.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a09d2b801a44f09b620058ab7a2b0dc51"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">vector&lt; <a class="el" href="class_a_s_t_node.html">ASTNode</a> * &gt; PKB::stmtLstNodes</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_p_k_b_8h_source.html#l00069">69</a> of file <a class="el" href="_p_k_b_8h_source.html">PKB.h</a>.</p>
 
 </div>
 </div>
@@ -768,6 +930,28 @@ vector&lt; <a class="el" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a
 
 </div>
 </div>
+<a class="anchor" id="aa2e4e2bdc8095069f97bd1e1b2cc3f99"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">vector&lt; <a class="el" href="class_a_s_t_node.html">ASTNode</a> * &gt; PKB::varNodes</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_p_k_b_8h_source.html#l00066">66</a> of file <a class="el" href="_p_k_b_8h_source.html">PKB.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a4be6809486f222460f02b45261602dc7"></a>
 <div class="memitem">
 <div class="memproto">
@@ -786,7 +970,7 @@ vector&lt; <a class="el" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_p_k_b_8h_source.html#l00046">46</a> of file <a class="el" href="_p_k_b_8h_source.html">PKB.h</a>.</p>
+<p>Definition at line <a class="el" href="_p_k_b_8h_source.html#l00062">62</a> of file <a class="el" href="_p_k_b_8h_source.html">PKB.h</a>.</p>
 
 </div>
 </div>
@@ -822,7 +1006,7 @@ vector&lt; <a class="el" href="std_afx_8h.html#a4a876b28ac3f59cecb39c2d2d76e4e7a
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_p_k_b.html">PKB</a></li>
-    <li class="footer">Generated on Mon Mar 4 2013 00:55:03 for SPA by
+    <li class="footer">Generated on Mon Mar 25 2013 02:14:48 for SPA by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3.1 </li>
   </ul>

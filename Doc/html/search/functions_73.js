@@ -7,6 +7,7 @@ var searchData=
   ['setfirstspecific',['setFirstSpecific',['../class_synonym_table.html#a55b56ddfb36fe07ec341d470da958401',1,'SynonymTable']]],
   ['setgenericattribute',['setGenericAttribute',['../class_synonym_table.html#aa3939003680ee31c93b61adb82e5e407',1,'SynonymTable']]],
   ['setparent',['setParent',['../class_a_s_t_node.html#a70e8aa10baa353684ae8288f3460a5fc',1,'ASTNode']]],
+  ['setpattern',['setPattern',['../class_synonym_table.html#ad484c7edd0b4fe31081ad026f18c044b',1,'SynonymTable']]],
   ['setroot',['setRoot',['../class_a_s_t_node.html#a05a02c02535ef19457cccaf511d594e7',1,'ASTNode']]],
   ['setsecondgeneric',['setSecondGeneric',['../class_synonym_table.html#a163973b15f35deae030c1b194a06c1a2',1,'SynonymTable']]],
   ['setsecondspecific',['setSecondSpecific',['../class_synonym_table.html#afd36238b0cd5ace74c15dfe30a302670',1,'SynonymTable']]],

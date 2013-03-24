@@ -27,6 +27,14 @@ private:
 
 	static void initializeStatisticalSortSize();
 	
+		
+	struct sort_pred {
+		bool operator()(const pair<RulesOfEngagement::QueryRelations, int> &i, const pair<RulesOfEngagement::QueryRelations, int> &j) {
+			return i.second < j.second;
+		}
+	};
+
 public:
 	static void extractDesign();
+
 };

@@ -136,15 +136,11 @@ void DesignExtractor::initializeStatisticalSortSize()
 
 	//Affects* O(n(n+m)) n = program lines, m = no. of variables
 	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::AffectsStar,
-																								max * (max + PKB::variables.getSize())));
+																				max * (max + PKB::variables.getSize())));
 	
-	//sort(PKB::sortorder.begin(),PKB::sortorder.end(),sort_pred());
+	sort(PKB::sortorder.begin(),PKB::sortorder.end(),sort_pred());
 
-	struct sort_pred {
-    bool operator()(const pair<RulesOfEngagement::QueryRelations, int> &i, const pair<RulesOfEngagement::QueryRelations, int> &j) {
-		return i.second < j.second;
-    }
-};
+
 }
 
 /**

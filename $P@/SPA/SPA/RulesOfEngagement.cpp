@@ -379,6 +379,7 @@ void RulesOfEngagement::initialise()
 	typeMap[While] = &getAllWhile;
 	typeMap[If] = &getAllIf;
 	typeMap[Call] = &getAllCall;
+	typeMap[Statement_List] = &getAllStmtList;
 }
 
 /**

@@ -19,7 +19,7 @@ procedure One {
 		Call Four;
 		c = x + y;
 		e = z + c;
-		a = m + b + e;
+		a = m + (b + e);
 	}
 	else {
 		a = b + 7;
@@ -46,7 +46,7 @@ procedure Two {
 			Call Three;
 			c = e + z;
 			Call Five;
-			y = e + z * c - a + b;
+			y = (e + z) * c - a + b;
 		}
 		else {
 			while a {
@@ -59,12 +59,12 @@ procedure Two {
 	}
 	else {
 		if m then {
-			x = m + n + 6;
+			x = (m + n) + 6;
 			Call Four;
 			y = x;
 			Call Four;
 			z = x + y;
-			b = x * y - z;
+			b = x * (y - z);
 		}
 		else {
 			while b {
@@ -101,7 +101,7 @@ procedure Two {
 			y = c;
 		}
 		d = a + m;
-		e = d * a - m + 9;
+		e = d * (a - m) + 9;
 	}
 }
 
@@ -146,7 +146,7 @@ procedure Four {
 	d = e;
 	e = 1;
 	if x {
-		c = b + x - y + 10;
+		c = b + (x - y) + 10;
 		Call Five;
 		d = a + b;
 	}

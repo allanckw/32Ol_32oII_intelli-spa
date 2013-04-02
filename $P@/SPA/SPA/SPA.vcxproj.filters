@@ -105,9 +105,6 @@
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\PQLNextProcessor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\$P%40\SPA\SPA\PatternRHSParser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\StmtRef.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -121,6 +118,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\PQLContainPreprocessor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\Dnf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\$P%40\SPA\SPA\FormNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -225,6 +228,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\PQLContainPreprocessor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\Dnf.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\FormNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

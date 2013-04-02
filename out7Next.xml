@@ -1,0 +1,389 @@
+<?xml-stylesheet type="text/xsl" href="analysis.xsl"?>
+<test_results>
+<info>
+<name>SPA</name><parsing_time_taken>29.000000</parsing_time_taken>
+</info>
+<queries>
+<category name=" All Category">
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >1</id><querystr><![CDATA[prog_line n;  Select BOOLEAN such that Next(1, 2)]]></querystr>
+<stuans>true</stuans>
+<correct>true</correct>
+<time_taken>5.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >2</id><querystr><![CDATA[prog_line n;  Select BOOLEAN such that Next(6, 8)]]></querystr>
+<stuans>false</stuans>
+<correct>false</correct>
+<time_taken>4.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >3</id><querystr><![CDATA[prog_line n;  Select BOOLEAN such that Next(103, 243)]]></querystr>
+<stuans>true</stuans>
+<correct>true</correct>
+<time_taken>3.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >4</id><querystr><![CDATA[prog_line n;  Select BOOLEAN such that Next(109, 239)]]></querystr>
+<stuans>true</stuans>
+<correct>true</correct>
+<time_taken>4.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >5</id><querystr><![CDATA[prog_line n;  Select BOOLEAN such that Next(234, 115)]]></querystr>
+<stuans>true</stuans>
+<correct>true</correct>
+<time_taken>4.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >6</id><querystr><![CDATA[prog_line n;  Select BOOLEAN such that Next(242, 243)]]></querystr>
+<stuans>false</stuans>
+<correct>false</correct>
+<time_taken>3.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >7</id><querystr><![CDATA[prog_line n;  Select BOOLEAN such that Next(303, 357)]]></querystr>
+<stuans>true</stuans>
+<correct>true</correct>
+<time_taken>3.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >8</id><querystr><![CDATA[prog_line n;  Select BOOLEAN such that Next(356, 348)]]></querystr>
+<stuans>true</stuans>
+<correct>true</correct>
+<time_taken>4.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >9</id><querystr><![CDATA[prog_line n;  Select BOOLEAN such that Next(347, 348)]]></querystr>
+<stuans>false</stuans>
+<correct>false</correct>
+<time_taken>3.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >10</id><querystr><![CDATA[prog_line n;  Select BOOLEAN such that Next(339, 348)]]></querystr>
+<stuans>true</stuans>
+<correct>false</correct>
+<time_taken>4.000000</time_taken>
+<failed>
+<missing>false</missing>
+<additional>true</additional>
+<summary>
+<expected>1</expected>
+<matched>0</matched>
+<missing>1</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >11</id><querystr><![CDATA[prog_line n;  Select BOOLEAN such that Next(303, 357)]]></querystr>
+<stuans>true</stuans>
+<correct>true</correct>
+<time_taken>3.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >12</id><querystr><![CDATA[prog_line n;  Select BOOLEAN such that Next(356, 348)]]></querystr>
+<stuans>true</stuans>
+<correct>true</correct>
+<time_taken>3.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >13</id><querystr><![CDATA[prog_line n;  Select BOOLEAN such that Next(347, 348)]]></querystr>
+<stuans>false</stuans>
+<correct>false</correct>
+<time_taken>4.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >14</id><querystr><![CDATA[prog_line n;  Select BOOLEAN such that Next(339, 348)]]></querystr>
+<stuans>true</stuans>
+<correct>false</correct>
+<time_taken>3.000000</time_taken>
+<failed>
+<missing>false</missing>
+<additional>true</additional>
+<summary>
+<expected>1</expected>
+<matched>0</matched>
+<missing>1</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >15</id><querystr><![CDATA[prog_line n;  Select BOOLEAN such that Next(502, 587)]]></querystr>
+<stuans>false</stuans>
+<correct>true</correct>
+<time_taken>2.000000</time_taken>
+<failed>
+<missing>true</missing>
+<additional>false</additional>
+<summary>
+<expected>1</expected>
+<matched>0</matched>
+<missing>1</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >16</id><querystr><![CDATA[prog_line n;  Select BOOLEAN such that Next(586, 587)]]></querystr>
+<stuans>true</stuans>
+<correct>true</correct>
+<time_taken>4.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >17</id><querystr><![CDATA[prog_line n;  Select BOOLEAN such that Next(514, 577)]]></querystr>
+<stuans>true</stuans>
+<correct>true</correct>
+<time_taken>3.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >18</id><querystr><![CDATA[prog_line n;  Select BOOLEAN such that Next(513, 508)]]></querystr>
+<stuans>false</stuans>
+<correct>true</correct>
+<time_taken>3.000000</time_taken>
+<failed>
+<missing>true</missing>
+<additional>false</additional>
+<summary>
+<expected>1</expected>
+<matched>0</matched>
+<missing>1</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >19</id><querystr><![CDATA[prog_line n;  Select BOOLEAN such that Next(508, 514)]]></querystr>
+<stuans>false</stuans>
+<correct>true</correct>
+<time_taken>4.000000</time_taken>
+<failed>
+<missing>true</missing>
+<additional>false</additional>
+<summary>
+<expected>1</expected>
+<matched>0</matched>
+<missing>1</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >20</id><querystr><![CDATA[prog_line n;  Select BOOLEAN such that Next(581, 508)]]></querystr>
+<stuans>true</stuans>
+<correct>true</correct>
+<time_taken>3.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >21</id><querystr><![CDATA[prog_line n;  Select BOOLEAN such that Next(581, 582)]]></querystr>
+<stuans>false</stuans>
+<correct>false</correct>
+<time_taken>3.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >22</id><querystr><![CDATA[prog_line n;  Select BOOLEAN such that Next(526, 572)]]></querystr>
+<stuans>true</stuans>
+<correct>false</correct>
+<time_taken>3.000000</time_taken>
+<failed>
+<missing>false</missing>
+<additional>true</additional>
+<summary>
+<expected>1</expected>
+<matched>0</matched>
+<missing>1</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >23</id><querystr><![CDATA[prog_line n;  Select BOOLEAN such that Next(597, 598)]]></querystr>
+<stuans>false</stuans>
+<correct>false</correct>
+<time_taken>3.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >24</id><querystr><![CDATA[prog_line n;  Select BOOLEAN such that Next(598, 599)]]></querystr>
+<stuans>false</stuans>
+<correct>false</correct>
+<time_taken>3.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >25</id><querystr><![CDATA[prog_line n;  Select n such that Next(103, n)]]></querystr>
+<stuans>104,243</stuans>
+<correct>104,243</correct>
+<time_taken>2.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >26</id><querystr><![CDATA[prog_line n;  Select n such that Next(238, n)]]></querystr>
+<stuans>109</stuans>
+<correct>109</correct>
+<time_taken>2.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >27</id><querystr><![CDATA[prog_line n;  Select n such that Next(n, 115)]]></querystr>
+<stuans>114,234</stuans>
+<correct>114,234</correct>
+<time_taken>3.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >28</id><querystr><![CDATA[prog_line n;  Select n such that Next(n, 303)]]></querystr>
+<stuans>302,348</stuans>
+<correct>302,356</correct>
+<time_taken>3.000000</time_taken>
+<failed>
+<missing>356</missing>
+<additional>348</additional>
+<summary>
+<expected>2</expected>
+<matched>1</matched>
+<missing>1</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >29</id><querystr><![CDATA[prog_line n;  Select n such that Next(303, n)]]></querystr>
+<stuans>304,357</stuans>
+<correct>304,357</correct>
+<time_taken>3.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >30</id><querystr><![CDATA[prog_line n;  Select n such that Next(356, n)]]></querystr>
+<stuans>348</stuans>
+<correct>348</correct>
+<time_taken>2.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >31</id><querystr><![CDATA[prog_line n;  Select n such that Next(n, 508)]]></querystr>
+<stuans>507,581,520</stuans>
+<correct>507,513,581</correct>
+<time_taken>3.000000</time_taken>
+<failed>
+<missing>513</missing>
+<additional>520</additional>
+<summary>
+<expected>3</expected>
+<matched>2</matched>
+<missing>1</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >32</id><querystr><![CDATA[prog_line n;  Select n such that Next(n, 526)]]></querystr>
+<stuans>525</stuans>
+<correct>520</correct>
+<time_taken>3.000000</time_taken>
+<failed>
+<missing>520</missing>
+<additional>525</additional>
+<summary>
+<expected>1</expected>
+<matched>0</matched>
+<missing>1</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >33</id><querystr><![CDATA[prog_line n;  Select n such that Next(538, n)]]></querystr>
+<stuans>539,567</stuans>
+<correct>539,567</correct>
+<time_taken>3.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >34</id><querystr><![CDATA[prog_line n;  Select n such that Next(544, n)]]></querystr>
+<stuans>545,532</stuans>
+<correct>545,550</correct>
+<time_taken>2.000000</time_taken>
+<failed>
+<missing>550</missing>
+<additional>532</additional>
+<summary>
+<expected>2</expected>
+<matched>1</matched>
+<missing>1</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >35</id><querystr><![CDATA[prog_line n;  Select n such that Next(597, n)]]></querystr>
+<stuans></stuans>
+<correct></correct>
+<time_taken>3.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >36</id><querystr><![CDATA[prog_line n;  Select n such that Next(598, n)]]></querystr>
+<stuans></stuans>
+<correct></correct>
+<time_taken>2.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >37</id><querystr><![CDATA[prog_line n;  Select n such that Next(n, 599)]]></querystr>
+<stuans></stuans>
+<correct></correct>
+<time_taken>3.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >38</id><querystr><![CDATA[prog_line n;  Select n such that Next(n, 600)]]></querystr>
+<stuans></stuans>
+<correct></correct>
+<time_taken>3.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >39</id><querystr><![CDATA[prog_line n;  Select n such that Next(600, n)]]></querystr>
+<stuans></stuans>
+<correct></correct>
+<time_taken>3.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Parent="1" ImplStmtLine="1" Typed="1" comment="" >40</id><querystr><![CDATA[prog_line n;  Select n such that Next(1, n)]]></querystr>
+<stuans>2</stuans>
+<correct></correct>
+<time_taken>2.000000</time_taken>
+<failed>
+<missing></missing>
+<additional>2</additional>
+<summary>
+<expected>0</expected>
+<matched>0</matched>
+<missing>0</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+</category>
+</queries>
+</test_results>

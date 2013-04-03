@@ -4,6 +4,7 @@
 #include "Helper.h"
 #include "Parser.h"
 #include "PQLController.h"
+#include "MultiQueryEval.h"
 #include <sstream>
 
 class Dnf

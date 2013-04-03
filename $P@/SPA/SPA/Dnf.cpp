@@ -175,12 +175,14 @@ bool Dnf::isQuery(std::string str)
 		|| data2 == "uses" 
 		|| data2 == "modifies" 
 		|| data2 == "pattern"
-		|| data2 == "contains"
+		|| data2 == "contains" || data2 == "sibling"
 		|| data2 == "affects" || data2 == "affects*"
 		|| data2 == "parent" || data2 == "parent*" 
 		|| data2 == "next" || data2 == "next*"
 		|| data2 == "calls" || data2 == "calls*"
 		|| data2 == "nextbip" || data2 == "nextbip*"
+		|| data2 == "affectsBip" || data2 == "affectsBip*"
+		|| data2 == "sibling"
 		
 		)//need to add the rest here
 		return true;
@@ -522,7 +524,8 @@ std::vector<pair<std::string,std::string>>* Dnf::CreateDNF(string str)
 				fin.push_back(tokens.at(i));
 			}
 		}
-
+		if(qry.size() == 0)
+		return 0;
 
 		FormNode *head;		
 		//at this pt i want to change such that to s
@@ -752,6 +755,14 @@ void Dnf::Eval(std::string query,list<string>& results)
 	string querystart = query.substr(0,pos);
 	vector<pair<string,string>>* substrs = Dnf::CreateDNF(sub);
 
+
+	if(substrs==0)//no relation
+	{
+		MultiQueryEval::evaluateQuery(query, results);
+		
+		return;
+	}
+
 	vector<list<string>> allans;
 	vector<string> newsubstrs;
 	try{
@@ -770,7 +781,7 @@ void Dnf::Eval(std::string query,list<string>& results)
 			else 
 				newqry = querystart +" " +substrs->at(i).first;
 			
-			PQLController::evaluateQuery(newqry,results);
+			MultiQueryEval::evaluateQuery(newqry,results);
 		}
 		else
 		{
@@ -786,7 +797,7 @@ void Dnf::Eval(std::string query,list<string>& results)
 			else 
 				newqry = querystart + " " +substrs->at(i).second;
 		
-			PQLController::evaluateQuery(newqry, results1);
+			MultiQueryEval::evaluateQuery(newqry, results1);
 			
 			}
 			{
@@ -796,7 +807,7 @@ void Dnf::Eval(std::string query,list<string>& results)
 				newqry = querystart + " such that " +substrs->at(i).first;
 			else 
 				newqry = querystart +" " +substrs->at(i).first;
-			PQLController::evaluateQuery(newqry,results2);
+			MultiQueryEval::evaluateQuery(newqry,results2);
 			}
 			//intersect
 

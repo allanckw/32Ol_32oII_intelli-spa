@@ -20,7 +20,7 @@ TestWrapper::TestWrapper() {
 void TestWrapper::parse(std::string filename) {
 	ios_base::sync_with_stdio(false);
 	//setvbuf(stdout, 0, _IOFBF, 4096);
-	fclose(stdout);
+	//fclose(stdout);
 	//freopen(0, "w", stdout);
 	try{
 		PKBController::initializePKB(filename);

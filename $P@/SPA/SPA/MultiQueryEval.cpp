@@ -466,12 +466,12 @@ void MultiQueryEval::validate()
 						matchToken(",");
 						string secondRel = getToken2();
 						matchToken(")");
-
+						
+						//Bug Fix Here.. - Allan pattern a(watever, _) works, but pattern a(watever, _     ) fails
+						secondRel.erase(remove(secondRel.begin(), secondRel.end(), '\t'), secondRel.end());
+						secondRel.erase(remove(secondRel.begin(), secondRel.end(), ' '), secondRel.end());
 						if (secondRel != "_") {
 							//remove white spaces
-							secondRel.erase(remove(secondRel.begin(), secondRel.end(), '\t'), secondRel.end());
-							secondRel.erase(remove(secondRel.begin(), secondRel.end(), ' '), secondRel.end());
-
 							unsigned int length = secondRel.length();
 							if (length <= 2)
 								throw SPAException("Error, Pattern Right Hand Side Invalid");

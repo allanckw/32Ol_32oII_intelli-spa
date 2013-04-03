@@ -764,15 +764,13 @@ void Dnf::Eval(std::string query,list<string>& results)
 		{
 			//both same just do 1 query
 			string newqry = "";
-			int pfound = substrs->at(i).first.find("pattern",0);
+			int pfound = substrs->at(i).first.find("pattern", 0);
 			if((pfound == -1 || pfound > 3) && substrs->at(i).first != "")
-				newqry = querystart +" such that " +substrs->at(i).first;
+				newqry = querystart + " such that " +substrs->at(i).first;
 			else 
 				newqry = querystart +" " +substrs->at(i).first;
 			
 			PQLController::evaluateQuery(newqry,results);
-			
-		
 		}
 		else
 		{
@@ -784,18 +782,18 @@ void Dnf::Eval(std::string query,list<string>& results)
 			string newqry = "";
 			int pfound = substrs->at(i).second.find("pattern",0);
 			if(pfound == -1 || pfound > 3)
-				newqry = querystart +" such that " +substrs->at(i).second;
+				newqry = querystart + " such that " +substrs->at(i).second;
 			else 
-				newqry = querystart +" " +substrs->at(i).second;
+				newqry = querystart + " " +substrs->at(i).second;
 		
-			PQLController::evaluateQuery(newqry,results1);
+			PQLController::evaluateQuery(newqry, results1);
 			
 			}
 			{
 			string newqry = "";
 			int pfound = substrs->at(i).first.find("pattern",0);
 			if(pfound == -1 || pfound > 3)
-				newqry = querystart +" such that " +substrs->at(i).first;
+				newqry = querystart + " such that " +substrs->at(i).first;
 			else 
 				newqry = querystart +" " +substrs->at(i).first;
 			PQLController::evaluateQuery(newqry,results2);
@@ -854,8 +852,7 @@ void Dnf::Eval(std::string query,list<string>& results)
 	//lastans.sort(compare);
 	//results = lastans;
 
-	}catch(exception e)
-		{
+	}catch(exception e){
 
 	}
 }

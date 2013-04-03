@@ -42,7 +42,8 @@ void TestQueryEvaluator::TestQueryEvaluatorM()
 
 	//doon("stmt s2,s3,s4,s5;constant c;assign s1,a;while w; if iff; variable v; Select <a,s1,w,iff> such that Affects*(a, s1) and Follows* (s1, s2) and Next*(s2,s3) such that Parent*(s3,s4) and Uses(s2,\"x\") and Modifies (s3,\"z\") pattern a(v,_\"x\"_) pattern w(v,_) pattern iff(v,_,_) with c.value = 0");
 	//doon("assign a; variable v; while w1, w2; select a pattern a(v,_\"k\"_) such that Parent(w1,a) and Follows(w2,w1)");
-	doon("assign w1, w2; select w1");
+	doon("assign a; Select a pattern a (\"x\", _  )");
+	doon("variable v; Select v");
 }
 
 

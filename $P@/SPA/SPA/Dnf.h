@@ -3,16 +3,12 @@
 #include "FormNode.h"
 #include "Helper.h"
 #include "Parser.h"
-#include "PQLController.h"
 #include "MultiQueryEval.h"
-#include <sstream>
+
 
 class Dnf
 {
 public:
-	Dnf(void);
-	~Dnf(void);
-
 	static FormNode* Convert(FormNode* c);
 	static bool isOperator(std::string token);
 	static FormNode* processAssignment(std::vector<std::string> expr);

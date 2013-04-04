@@ -19,6 +19,7 @@
 #include <stack>
 #include <queue>
 #include <tuple>
+#include <sstream>
 
 using namespace std;
 // TODO: reference additional headers your program requires here

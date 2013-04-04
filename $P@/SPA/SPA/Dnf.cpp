@@ -1,16 +1,5 @@
 ﻿#include "Dnf.h"
 
-
-Dnf::Dnf(void)
-{
-}
-
-
-Dnf::~Dnf(void)
-{
-}
-
-
 string Dnf::getToken(const string& query, int& pos)
 {
 	int first = query.find_first_not_of(' ', pos);

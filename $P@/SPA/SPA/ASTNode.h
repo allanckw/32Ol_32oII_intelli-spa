@@ -37,6 +37,9 @@ public:
 	virtual ASTNode* addChild(ASTNode*);
 	virtual ASTNode* setParent(ASTNode * p);
 
+	ASTNode* getAncestor();
+	void setAncestor(ASTNode*);
+
 	void setRoot(PROC);
 
 	ASTNode::NodeType getType() const;
@@ -53,6 +56,8 @@ public:
 protected:
 	int value;
 	ASTNode* parent;
+	ASTNode* ancestorNode;
+
 	vector<ASTNode*> children;
 	NodeType nodeType;
 

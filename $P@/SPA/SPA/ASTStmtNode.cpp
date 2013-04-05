@@ -51,11 +51,20 @@ ASTNode* ASTStmtNode::addChild(ASTNode* c)
 	}
 	else{
 		if (getType() == While)
+		{
 			addChildToWhile(c, childLoc);
+			c->setAncestor(this);
+		}
 		else if (getType() == If)
+		{
 			addChildToIF(c, childLoc);
+			c->setAncestor(this);
+		}
 		else if (getType() == Assign)
+		{
 			addChildToAssign(c, childLoc);
+			c->setAncestor(this);
+		}
 		else
 			throw SPAException("Invalid Type for Statements, Expected Assign/Call/While/If");
 	}
@@ -84,11 +93,20 @@ ASTNode* ASTStmtNode::addChild(ASTNode* c, int childLoc)
 	}
 	else{
 		if (getType() == While)
+		{
 			addChildToWhile(c, childLoc);
+			c->setAncestor(this);
+		}
 		else if (getType() == If)
+		{
 			addChildToIF(c, childLoc);
+			c->setAncestor(this);
+		}
 		else if (getType() == Assign)
+		{
 			addChildToAssign(c, childLoc);
+			c->setAncestor(this);
+		}
 		else
 			throw SPAException("Invalid Type for Statements, Expected Assign/Call/While/If");
 	}

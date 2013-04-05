@@ -73,6 +73,22 @@ ASTNode* ASTNode::setParent(ASTNode * p)
 	return this;
 }
 
+void ASTNode::setAncestor(ASTNode* p)
+{
+	if (this->root){
+		throw SPAException("Node is already the root, Unable to set ancestor");
+		//Exception.. already the root set wat parent :@
+	}
+	else{
+		this->ancestorNode = p;
+	}
+}
+
+ASTNode* ASTNode::getAncestor()
+{
+	return this->ancestorNode;
+}
+
 /**
 * Add a child node to the ASTNode, 
 * @param c the child node to add, Type of child must be procedure when adding to a ProgramNode and type of child must be of type stmtLst when adding to a procedure node
@@ -87,6 +103,7 @@ ASTNode* ASTNode::addChild(ASTNode* c)
 		}
 		else{
 			this->children.push_back(c);
+			c->setAncestor(this);
 		}
 	}
 	else if (this->getType() == Procedure)
@@ -101,6 +118,7 @@ ASTNode* ASTNode::addChild(ASTNode* c)
 			}
 			else{
 				this->children.push_back(c);
+				c->setAncestor(this);
 			}
 		}
 	}

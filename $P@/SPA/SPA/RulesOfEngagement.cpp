@@ -349,7 +349,7 @@ void RulesOfEngagement::initialise()
 	relationByMap[Next] = &nextBy;
 	relationByMap[NextStar] = &nextStarBy;
 	relationByMap[NextBip] = &nextBipBy;
-	//relationByMap[NextBipStar] = &nextBipStarBy;
+	relationByMap[NextBipStar] = &nextBipStarBy;
 	relationByMap[Affects] = &affectsBy;
 	relationByMap[AffectsStar] = &affectsStarBy;
 
@@ -366,7 +366,7 @@ void RulesOfEngagement::initialise()
 	relationFromMap[Next] = &nextFrom;
 	relationFromMap[NextStar] = &nextStarFrom;
 	relationFromMap[NextBip] = &nextBipFrom;
-	//relationFromMap[NextBipStar] = &nextBipStarFrom;
+	relationFromMap[NextBipStar] = &nextBipStarFrom;
 	relationFromMap[Affects] = &affectsFrom;
 	relationFromMap[AffectsStar] = &affectsStarFrom;
 	
@@ -566,17 +566,17 @@ bool RulesOfEngagement::isAffectsStar(int x, int y)
 //Sibling
 bool RulesOfEngagement::isSibling(ASTNode* x, ASTNode* y)
 {
-	return ((x != y) && x->getParent() == y->getParent());
+	return ((x != y) && x->getAncestor() == y->getAncestor());
 }
 
 bool RulesOfEngagement::isContains(ASTNode* x, ASTNode* y)
 {
-	return (x == y->getParent());
+	return ((x != y) && x->getAncestor() == y->getAncestor());
 }
 
 bool RulesOfEngagement::isContainsStar(ASTNode* x, ASTNode* y)
 {
-	ASTNode* p = y->getParent();
+	ASTNode* p = y->getAncestor();
 	while (p != PKB::rootNode) {
 		if (x == p)
 			return true;
@@ -701,7 +701,7 @@ vector<int> RulesOfEngagement::getStmtSiblings(int x)
 //		a---b //a is a sibling of b here too.
 vector<ASTNode*> RulesOfEngagement::getNodeSiblings(ASTNode* x)
 {
-	vector<ASTNode*> children = x->getParent()->getChildren();
+	vector<ASTNode*> children = x->getAncestor()->getChildren();
 	vector<ASTNode*> result;
 
 	for (int i = 0; i < children.size(); i++) {

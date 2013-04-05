@@ -109,9 +109,11 @@ ASTNode* ASTExprNode::addChild(ASTNode* c, int childLoc){
 		{
 			if (children.size() == 0 && childLoc == 1) {
 				children.push_back(c);
+				c->setAncestor(this);
 			}
 			else if (children.size() == 1 && childLoc == 2) {
 				children.push_back(c);
+				c->setAncestor(this);
 			}
 			else if (children.size() == 0 && childLoc == 2) {
 				throw SPAException("Invalid Operation: First child must be added first before adding the second!");

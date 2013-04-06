@@ -17,7 +17,5 @@ void PKBController::initializePKB(string filename)
 		
 	CFGBuilder::buildCFG(); //Build CFG
 
-	//MyCFGBuilder::buildCFG(); //Build CFG
-
 	RulesOfEngagement::initialise(); //Initialize ROE for Queries
 }

@@ -8,6 +8,8 @@ unordered_map<string, unordered_set<RulesOfEngagement::QueryRelations>>
 unordered_map<string, RulesOfEngagement::QueryVar> RulesOfEngagement::tokenToVar;
 unordered_map<RulesOfEngagement::QueryVar, set<string>> RulesOfEngagement::allowableConditions;
 unordered_map<string, RulesOfEngagement::QueryVar> RulesOfEngagement::conditionTypes;
+unordered_map<RulesOfEngagement::QueryVar, bool> RulesOfEngagement::formOfASTNode;
+
 unordered_map<RulesOfEngagement::QueryRelations, set<RulesOfEngagement::QueryVar>>
 	RulesOfEngagement::allowableFirstArgument;
 unordered_map<RulesOfEngagement::QueryRelations, RulesOfEngagement::QueryVar>
@@ -17,14 +19,24 @@ unordered_map<RulesOfEngagement::QueryRelations, set<RulesOfEngagement::QueryVar
 unordered_map<RulesOfEngagement::QueryRelations, RulesOfEngagement::QueryVar>
 	RulesOfEngagement::privilegedSecondArgument;
 unordered_set<RulesOfEngagement::QueryRelations> RulesOfEngagement::allowableSelfReference;
+unordered_map<RulesOfEngagement::QueryRelations, bool> RulesOfEngagement::takesInASTNode;
 unordered_map<RulesOfEngagement::QueryRelations, bool> RulesOfEngagement::emptyRel;
 unordered_map<RulesOfEngagement::QueryRelations, RulesOfEngagement::isRelation>
 	RulesOfEngagement::relationMap;
+unordered_map<RulesOfEngagement::QueryRelations, RulesOfEngagement::isRelation2>
+	RulesOfEngagement::relation2Map;
 unordered_map<RulesOfEngagement::QueryRelations, RulesOfEngagement::relationFamily>
 	RulesOfEngagement::relationByMap;
+unordered_map<RulesOfEngagement::QueryRelations, RulesOfEngagement::relation2Family>
+	RulesOfEngagement::relation2ByMap;
 unordered_map<RulesOfEngagement::QueryRelations, RulesOfEngagement::relationFamily>
 	RulesOfEngagement::relationFromMap;
-unordered_map<RulesOfEngagement::QueryVar, RulesOfEngagement::getAllTypes> RulesOfEngagement::typeMap;
+unordered_map<RulesOfEngagement::QueryRelations, RulesOfEngagement::relation2Family>
+	RulesOfEngagement::relation2FromMap;
+unordered_map<RulesOfEngagement::QueryVar, RulesOfEngagement::getAllTypes>
+	RulesOfEngagement::typeMap;
+unordered_map<RulesOfEngagement::QueryVar, RulesOfEngagement::getAllTypes2>
+	RulesOfEngagement::type2Map;
 
 /**
 * Stores all the tables with the relevant information.
@@ -47,6 +59,9 @@ void RulesOfEngagement::initialise()
 	tokenToRel["NextBip*"].insert(NextBipStar);
 	tokenToRel["Affects"].insert(Affects);
 	tokenToRel["Affects*"].insert(AffectsStar);
+	tokenToRel["Contains"].insert(Contains);
+	tokenToRel["Contains*"].insert(ContainsStar);
+	tokenToRel["Sibling"].insert(Sibling);
 
 	tokenToVar["procedure"] = Procedure;
 	tokenToVar["stmtLst"] = Statement_List;
@@ -55,7 +70,10 @@ void RulesOfEngagement::initialise()
 	tokenToVar["call"] = Call;
 	tokenToVar["while"] = While;
 	tokenToVar["if"] = If;
-	tokenToVar["prog_line"] = Prog_Line; 
+	tokenToVar["plus"] = Plus;
+	tokenToVar["minus"] = Minus;
+	tokenToVar["times"] = Times;
+	tokenToVar["prog_line"] = Prog_Line;
 	tokenToVar["variable"] = Variable;
 	tokenToVar["constant"] = Constant;
 
@@ -72,6 +90,19 @@ void RulesOfEngagement::initialise()
 
 	conditionTypes["procName"] = conditionTypes["varName"] = String;
 	conditionTypes["value"] = conditionTypes["stmt#"] = conditionTypes[""] = Integer;
+
+	formOfASTNode.insert(pair<QueryVar, bool>(Procedure, false));
+	formOfASTNode.insert(pair<QueryVar, bool>(Statement_List, false));
+	formOfASTNode.insert(pair<QueryVar, bool>(Assign, false));
+	formOfASTNode.insert(pair<QueryVar, bool>(Call, false));
+	formOfASTNode.insert(pair<QueryVar, bool>(While, false));
+	formOfASTNode.insert(pair<QueryVar, bool>(If, false));
+	formOfASTNode.insert(pair<QueryVar, bool>(Prog_Line, false));
+	formOfASTNode.insert(pair<QueryVar, bool>(Variable, false));
+	formOfASTNode.insert(pair<QueryVar, bool>(Constant, false));
+	formOfASTNode.insert(pair<QueryVar, bool>(Plus, true));
+	formOfASTNode.insert(pair<QueryVar, bool>(Minus, true));
+	formOfASTNode.insert(pair<QueryVar, bool>(Times, true));
 
 	allowableFirstArgument[ModifiesStmt].insert(Statement);
 	allowableFirstArgument[ModifiesStmt].insert(Assign);
@@ -302,6 +333,87 @@ void RulesOfEngagement::initialise()
 	allowableSecondArgument[AffectsStar].insert(WildCard);
 	allowableSecondArgument[AffectsStar].insert(Integer);
 	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(AffectsStar, Statement));
+
+	allowableFirstArgument[Contains].insert(Procedure);
+	allowableFirstArgument[Contains].insert(Statement_List);
+	allowableFirstArgument[Contains].insert(Statement);
+	allowableFirstArgument[Contains].insert(Assign);
+	allowableFirstArgument[Contains].insert(Call);
+	allowableFirstArgument[Contains].insert(While);
+	allowableFirstArgument[Contains].insert(If);
+	allowableFirstArgument[Contains].insert(Plus);
+	allowableFirstArgument[Contains].insert(Minus);
+	allowableFirstArgument[Contains].insert(Times);
+	allowableFirstArgument[Contains].insert(Variable);
+	allowableFirstArgument[Contains].insert(Constant);
+	allowableFirstArgument[Contains].insert(Integer);
+	allowableSecondArgument[Contains].insert(Procedure);
+	allowableSecondArgument[Contains].insert(Statement_List);
+	allowableSecondArgument[Contains].insert(Statement);
+	allowableSecondArgument[Contains].insert(Assign);
+	allowableSecondArgument[Contains].insert(Call);
+	allowableSecondArgument[Contains].insert(While);
+	allowableSecondArgument[Contains].insert(If);
+	allowableSecondArgument[Contains].insert(Plus);
+	allowableSecondArgument[Contains].insert(Minus);
+	allowableSecondArgument[Contains].insert(Times);
+	allowableSecondArgument[Contains].insert(Variable);
+	allowableSecondArgument[Contains].insert(Constant);
+	allowableSecondArgument[Contains].insert(Integer);
+
+	allowableFirstArgument[ContainsStar].insert(Procedure);
+	allowableFirstArgument[ContainsStar].insert(Statement_List);
+	allowableFirstArgument[ContainsStar].insert(Statement);
+	allowableFirstArgument[ContainsStar].insert(Assign);
+	allowableFirstArgument[ContainsStar].insert(Call);
+	allowableFirstArgument[ContainsStar].insert(While);
+	allowableFirstArgument[ContainsStar].insert(If);
+	allowableFirstArgument[ContainsStar].insert(Plus);
+	allowableFirstArgument[ContainsStar].insert(Minus);
+	allowableFirstArgument[ContainsStar].insert(Times);
+	allowableFirstArgument[ContainsStar].insert(Variable);
+	allowableFirstArgument[ContainsStar].insert(Constant);
+	allowableFirstArgument[ContainsStar].insert(Integer);
+	allowableSecondArgument[ContainsStar].insert(Procedure);
+	allowableSecondArgument[ContainsStar].insert(Statement_List);
+	allowableSecondArgument[ContainsStar].insert(Statement);
+	allowableSecondArgument[ContainsStar].insert(Assign);
+	allowableSecondArgument[ContainsStar].insert(Call);
+	allowableSecondArgument[ContainsStar].insert(While);
+	allowableSecondArgument[ContainsStar].insert(If);
+	allowableSecondArgument[ContainsStar].insert(Plus);
+	allowableSecondArgument[ContainsStar].insert(Minus);
+	allowableSecondArgument[ContainsStar].insert(Times);
+	allowableSecondArgument[ContainsStar].insert(Variable);
+	allowableSecondArgument[ContainsStar].insert(Constant);
+	allowableSecondArgument[ContainsStar].insert(Integer);
+
+	allowableFirstArgument[Sibling].insert(Procedure);
+	allowableFirstArgument[Sibling].insert(Statement_List);
+	allowableFirstArgument[Sibling].insert(Statement);
+	allowableFirstArgument[Sibling].insert(Assign);
+	allowableFirstArgument[Sibling].insert(Call);
+	allowableFirstArgument[Sibling].insert(While);
+	allowableFirstArgument[Sibling].insert(If);
+	allowableFirstArgument[Sibling].insert(Plus);
+	allowableFirstArgument[Sibling].insert(Minus);
+	allowableFirstArgument[Sibling].insert(Times);
+	allowableFirstArgument[Sibling].insert(Variable);
+	allowableFirstArgument[Sibling].insert(Constant);
+	allowableFirstArgument[Sibling].insert(Integer);
+	allowableSecondArgument[Sibling].insert(Procedure);
+	allowableSecondArgument[Sibling].insert(Statement_List);
+	allowableSecondArgument[Sibling].insert(Statement);
+	allowableSecondArgument[Sibling].insert(Assign);
+	allowableSecondArgument[Sibling].insert(Call);
+	allowableSecondArgument[Sibling].insert(While);
+	allowableSecondArgument[Sibling].insert(If);
+	allowableSecondArgument[Sibling].insert(Plus);
+	allowableSecondArgument[Sibling].insert(Minus);
+	allowableSecondArgument[Sibling].insert(Times);
+	allowableSecondArgument[Sibling].insert(Variable);
+	allowableSecondArgument[Sibling].insert(Constant);
+	allowableSecondArgument[Sibling].insert(Integer);
 	
 	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(PatternModifies, Variable));
 
@@ -310,13 +422,36 @@ void RulesOfEngagement::initialise()
 	allowableSelfReference.insert(Affects);
 	allowableSelfReference.insert(AffectsStar);
 
-	emptyRel[ModifiesStmt] = PKB::modifies.isEmpty();
-	emptyRel[ModifiesProc] = PKB::modifies.isEmpty();
-	emptyRel[UsesStmt] = PKB::uses.isEmpty();
-	emptyRel[UsesProc] = PKB::uses.isEmpty();
+	takesInASTNode.insert(pair<QueryRelations, bool>(ModifiesStmt, false));
+	takesInASTNode.insert(pair<QueryRelations, bool>(ModifiesProc, false));
+	takesInASTNode.insert(pair<QueryRelations, bool>(UsesStmt, false));
+	takesInASTNode.insert(pair<QueryRelations, bool>(UsesProc, false));
+	takesInASTNode.insert(pair<QueryRelations, bool>(Calls, false));
+	takesInASTNode.insert(pair<QueryRelations, bool>(CallsStar, false));
+	takesInASTNode.insert(pair<QueryRelations, bool>(Parent, false));
+	takesInASTNode.insert(pair<QueryRelations, bool>(ParentStar, false));
+	takesInASTNode.insert(pair<QueryRelations, bool>(Follows, false));
+	takesInASTNode.insert(pair<QueryRelations, bool>(FollowsStar, false));
+	takesInASTNode.insert(pair<QueryRelations, bool>(Next, false));
+	takesInASTNode.insert(pair<QueryRelations, bool>(NextStar, false));
+	takesInASTNode.insert(pair<QueryRelations, bool>(NextBip, false));
+	takesInASTNode.insert(pair<QueryRelations, bool>(NextBipStar, false));
+	takesInASTNode.insert(pair<QueryRelations, bool>(Affects, false));
+	takesInASTNode.insert(pair<QueryRelations, bool>(AffectsStar, false));
+	takesInASTNode.insert(pair<QueryRelations, bool>(PatternModifies, false));
+	takesInASTNode.insert(pair<QueryRelations, bool>(Contains, true));
+	takesInASTNode.insert(pair<QueryRelations, bool>(ContainsStar, true));
+	takesInASTNode.insert(pair<QueryRelations, bool>(Sibling, true));
+		
+	emptyRel[ModifiesStmt] = emptyRel[ModifiesProc] = PKB::modifies.isEmpty();
+	emptyRel[UsesStmt] =  emptyRel[UsesProc] = PKB::uses.isEmpty();
 	emptyRel[Calls] = emptyRel[CallsStar] = PKB::calls.isEmpty();
 	emptyRel[Follows] = emptyRel[FollowsStar] = PKB::follows.isEmpty();
 	emptyRel[Parent] = emptyRel[ParentStar] = PKB::parent.isEmpty();
+	/*emptyRel[Next] = emptyRel[NextStar] = PKB::next.isNextEmpty();
+	emptyRel[NextBip] = emptyRel[NextBipStar] = PKB::next.isNextBipEmpty();
+	emptyRel[Affects] = emptyRel[AffectsStar] = PKB::next.isAffectsEmpty();
+	emptyRel[AffectsBip] = emptyRel[AffectsBipStar] = PKB::next.isAffectsBipEmpty();*/
 
 	relationMap[ModifiesStmt] = &isModifiesStmt;
 	relationMap[ModifiesProc] = &isModifiesProc;
@@ -335,6 +470,9 @@ void RulesOfEngagement::initialise()
 	relationMap[Affects] = &isAffects;
 	relationMap[AffectsStar] = &isAffectsStar;
 	relationMap[PatternModifies] = &isPatternModifies;
+	relation2Map[Contains] = &isContains;
+	relation2Map[ContainsStar] = &isContainsStar;
+	relation2Map[Sibling] = &isSibling;
 
 	relationByMap[ModifiesStmt] = &modifiesStmtBy;
 	relationByMap[ModifiesProc] = &modifiesProcBy;
@@ -352,6 +490,9 @@ void RulesOfEngagement::initialise()
 	relationByMap[NextBipStar] = &nextBipStarBy;
 	relationByMap[Affects] = &affectsBy;
 	relationByMap[AffectsStar] = &affectsStarBy;
+	relation2ByMap[Contains] = &containsBy;
+	relation2ByMap[ContainsStar] = &containsStarBy;
+	relation2ByMap[Sibling] = &siblingBy;
 
 	relationFromMap[ModifiesStmt] = &modifiesStmtFrom;
 	relationFromMap[ModifiesProc] = &modifiesProcFrom;
@@ -369,17 +510,23 @@ void RulesOfEngagement::initialise()
 	relationFromMap[NextBipStar] = &nextBipStarFrom;
 	relationFromMap[Affects] = &affectsFrom;
 	relationFromMap[AffectsStar] = &affectsStarFrom;
+	relation2FromMap[Contains] = &containsFrom;
+	relation2FromMap[ContainsStar] = &containsStarFrom;
+	relation2FromMap[Sibling] = &siblingBy;
 	
+	typeMap[Procedure] = &getAllProc;
+	typeMap[Statement_List] = &getAllStmtList;
 	typeMap[Statement] = &getAllStmt;
 	typeMap[Prog_Line] = &getAllStmt;
-	typeMap[Variable] = &getAllVar;
-	typeMap[Procedure] = &getAllProc;
 	typeMap[Assign] = &getAllAssign;
-	typeMap[Constant] = &getAllConstant;
 	typeMap[While] = &getAllWhile;
 	typeMap[If] = &getAllIf;
 	typeMap[Call] = &getAllCall;
-	typeMap[Statement_List] = &getAllStmtList;
+	typeMap[Variable] = &getAllVar;
+	typeMap[Constant] = &getAllConstant;
+	type2Map[Plus] = &getAllPlusNodes;
+	type2Map[Minus] = &getAllMinusNodes;
+	type2Map[Times] = &getAllTimesNodes;
 }
 
 /**
@@ -390,7 +537,7 @@ void RulesOfEngagement::initialise()
 * @param arg argument to be converted
 * @return the integer representing the argument
 */
-/*inline */int RulesOfEngagement::convertArgumentToInteger(const RulesOfEngagement::QueryRelations type,
+int RulesOfEngagement::convertArgumentToInteger(const RulesOfEngagement::QueryRelations type,
 	const bool first, const string& arg)
 {
 	if (first) {
@@ -446,6 +593,37 @@ string RulesOfEngagement::convertIntegerToArgument(
 	}
 }
 
+unordered_set<ASTNode*> RulesOfEngagement::convertIntegerToASTNode(
+	const RulesOfEngagement::QueryVar type, const int integer)
+{
+	unordered_set<ASTNode*> answers;
+	switch (type) {
+	case Procedure:
+		answers.insert(PKB::rootNode->getChild(integer));
+		break;
+	case Statement_List:
+		answers.insert(PKB::statementNodes[integer]->getParent());
+		break;
+	case Statement:
+	case Assign:
+	case Call:
+	case While:
+	case If:
+	case Prog_Line:
+		answers.insert(PKB::statementNodes[integer]);
+		break;
+	case Variable:
+		return unordered_set<ASTNode*>(PKB::varNodes[integer].begin(), PKB::varNodes[integer].end());
+		break;
+	case Constant:
+		return unordered_set<ASTNode*>(PKB::constNodes[integer].begin(), PKB::constNodes[integer].end());
+		break;
+	default:
+		throw new SPAException("Unknown type");
+	}
+	return answers;
+}
+
 /**
 * Method that determines if there exists any of assign/while/if in the program.
 * @param var type of variable
@@ -473,7 +651,8 @@ bool RulesOfEngagement::isExistType(RulesOfEngagement::QueryVar var)
 * @param rel type of relation
 * @return the function pointer
 */
-RulesOfEngagement::isRelation RulesOfEngagement::getRelation(RulesOfEngagement::QueryRelations rel)
+RulesOfEngagement::isRelation
+	RulesOfEngagement::getRelation(RulesOfEngagement::QueryRelations rel)
 {
 	return relationMap[rel];
 }
@@ -563,25 +742,33 @@ bool RulesOfEngagement::isAffectsStar(int x, int y)
 	return PKB::affects.isAffectsStar(x, y);
 }
 
-//Sibling
-bool RulesOfEngagement::isSibling(ASTNode* x, ASTNode* y)
+RulesOfEngagement::isRelation2
+	RulesOfEngagement::getRelation2(RulesOfEngagement::QueryRelations rel)
+{
+	return relation2Map[rel];
+}
+
+bool RulesOfEngagement::isSibling(const ASTNode * const x, const ASTNode * const y)
 {
 	return ((x != y) && x->getAncestor() == y->getAncestor());
 }
 
-bool RulesOfEngagement::isContains(ASTNode* x, ASTNode* y)
+bool RulesOfEngagement::isContains(const ASTNode * const x, const ASTNode * const y)
 {
-	return ((x != y) && x->getAncestor() == y->getAncestor());
+	return (x == y->getAncestor());
 }
 
-bool RulesOfEngagement::isContainsStar(ASTNode* x, ASTNode* y)
+bool RulesOfEngagement::isContainsStar(const ASTNode * const x, const ASTNode * const y)
 {
+	if (x == PKB::rootNode)
+		return true;
+	if (x == y)
+		return false;
 	ASTNode* p = y->getAncestor();
 	while (p != PKB::rootNode) {
 		if (x == p)
 			return true;
-
-		p = y->getParent();
+		p = p->getAncestor();
 	}
 	return false;
 }
@@ -682,7 +869,8 @@ vector<int> RulesOfEngagement::affectsStarBy(int x)
 {
 	return PKB::affects.getAffectsByStar(x);
 }
-//Stmt Siblings is trivial it is the follows* of both left and right side combined
+
+/*//Stmt Siblings is trivial it is the follows* of both left and right side combined
 //Can use previous results
 vector<int> RulesOfEngagement::getStmtSiblings(int x)
 {
@@ -692,21 +880,46 @@ vector<int> RulesOfEngagement::getStmtSiblings(int x)
 	followsBy.insert(followsBy.end(), followsFrom.begin(), followsFrom.end());
 
 	return followsBy;
+}*/
+RulesOfEngagement::relation2Family RulesOfEngagement::getRelation2ByFamily(QueryRelations rel)
+{
+	return relation2ByMap[rel];
 }
 
+const vector<ASTNode*> RulesOfEngagement::containsBy(const ASTNode * const x)
+{
+	return x->getChildren();
+}
+
+const vector<ASTNode*> RulesOfEngagement::containsStarBy(const ASTNode * const x)
+{
+	vector<ASTNode*> results;
+	queue<const ASTNode*> queue;
+	queue.push(x);
+	while (!queue.empty()) {
+		const ASTNode* node = queue.front();
+		queue.pop();
+		const vector<ASTNode*>& children = node->getChildren();
+		for (auto it = children.begin(); it != children.end(); ++it) {
+			results.push_back(*it);
+			queue.push(*it);
+		}
+	}
+	return results;
+}
 //e.g asking if + is a sibling of variable x in an assignment of x = a + b 
 //Tree Structure here:
 // assign
 //x ----- +
 //		a---b //a is a sibling of b here too.
-vector<ASTNode*> RulesOfEngagement::getNodeSiblings(ASTNode* x)
+const vector<ASTNode*> RulesOfEngagement::siblingBy(const ASTNode * const x)
 {
-	vector<ASTNode*> children = x->getAncestor()->getChildren();
+	const vector<ASTNode*>& children = x->getAncestor()->getChildren();
 	vector<ASTNode*> result;
 
-	for (int i = 0; i < children.size(); i++) {
-		if (children.at(i) != x)
-			result.push_back(children.at(i));		
+	for (auto it = children.begin(); it != children.end(); ++it) {
+		if (*it != x)
+			result.push_back(*it);
 	}
 
 	return result;
@@ -812,6 +1025,30 @@ vector<int> RulesOfEngagement::affectsStarFrom(int y)
 {
 	return PKB::affects.getAffectsFromStar(y);
 }
+
+RulesOfEngagement::relation2Family RulesOfEngagement::getRelation2FromFamily(QueryRelations rel)
+{
+	return relation2FromMap[rel];
+}
+
+const vector<ASTNode*> RulesOfEngagement::containsFrom(const ASTNode * const y)
+{
+	if (y == PKB::rootNode)
+		return vector<ASTNode*>();
+	return vector<ASTNode*>(1, y->getParent());
+}
+
+const vector<ASTNode*> RulesOfEngagement::containsStarFrom(const ASTNode * const y)
+{
+	vector<ASTNode*> results;
+	ASTNode* x = y->getParent();
+	while (x != PKB::rootNode) {
+		results.push_back(x);
+		x = x->getParent();
+	}
+	results.push_back(x);
+	return results;
+}
 //end relation map
 
 //type map
@@ -824,6 +1061,34 @@ vector<int> RulesOfEngagement::affectsStarFrom(int y)
 RulesOfEngagement::getAllTypes RulesOfEngagement::getType(RulesOfEngagement::QueryVar type)
 {
 	return typeMap[type];
+}
+
+/**
+* Takes in the synonym type and returns a function that when called, will produce all
+* ASTNode pointers that are of that synonym type.
+* @param rel type of variable
+* @return the function pointer
+*/
+RulesOfEngagement::getAllTypes2 RulesOfEngagement::getType2(RulesOfEngagement::QueryVar type)
+{
+	return type2Map[type];
+}
+
+vector<int> RulesOfEngagement::getAllProc()
+{
+	int maxProcs = PKB::procedures.getSize();
+	vector<int> answer;
+	for (int i = 0; i < maxProcs; i++)
+		answer.push_back(i);
+	return answer;
+}
+
+vector<int> RulesOfEngagement::getAllStmtList()
+{
+	vector<int> answer;
+	for (auto it = PKB::statementListTable.begin(); it != PKB::statementListTable.end(); it++)
+		answer.push_back(*it);
+	return answer;
 }
 
 vector<int> RulesOfEngagement::getAllStmt()
@@ -840,15 +1105,6 @@ vector<int> RulesOfEngagement::getAllVar()
 	int maxVar = PKB::variables.getSize();
 	vector<int> answer;
 	for (int i = 0; i < maxVar; i++)
-		answer.push_back(i);
-	return answer;
-}
-
-vector<int> RulesOfEngagement::getAllProc()
-{
-	int maxProcs = PKB::procedures.getSize();
-	vector<int> answer;
-	for (int i = 0; i < maxProcs; i++)
 		answer.push_back(i);
 	return answer;
 }
@@ -894,30 +1150,22 @@ vector<int> RulesOfEngagement::getAllCall()
 	return answer;
 }
 
-vector<int> RulesOfEngagement::getAllStmtList()
-{
-	vector<int> answer;
-	for (auto it = PKB::statementListTable.begin(); it != PKB::statementListTable.end(); it++)
-		answer.push_back(*it);
-	return answer;
-}
-
 
 vector<ASTNode*> RulesOfEngagement::getAllPlusNodes()
 {
-	return PKB::getNodes(ASTNode::Operator, 0);
+	return PKB::oprNodes[0];
 }
 
 vector<ASTNode*> RulesOfEngagement::getAllMinusNodes()
 {
-	return PKB::getNodes(ASTNode::Operator, 1);
+	return PKB::oprNodes[1];
 }
 vector<ASTNode*> RulesOfEngagement::getAllTimesNodes()
 {
-	return PKB::getNodes(ASTNode::Operator, 2);
+	return PKB::oprNodes[2];
 }
 
-vector<ASTNode*> RulesOfEngagement::getAllVarNodes()
+/*vector<ASTNode*> RulesOfEngagement::getAllVarNodes()
 {
 	return PKB::varNodes;
 }
@@ -947,7 +1195,7 @@ vector<ASTNode*> RulesOfEngagement::getAllConstantNodes(int c)
 	return PKB::getNodes(ASTNode::Constant, c);
 }
 
-vector<ASTNode*> RulesOfEngagement::getAllStmtLstNodes()
+/*vector<ASTNode*> RulesOfEngagement::getAllStmtLstNodes()
 {
 	return PKB::stmtLstNodes;
 }
@@ -980,7 +1228,7 @@ vector<ASTNode*> RulesOfEngagement::getAllCallNodes()
 vector<ASTNode*> RulesOfEngagement::getAllCallNodes(PROC p)
 {
 	return PKB::getNodes(ASTNode::Call, p);
-}
+}*/
 //end type map
 
 //pattern

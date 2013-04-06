@@ -54,18 +54,21 @@ public:
 
 	static vector<CFGNode*> CFGHeads;
 	static vector<CFGNode*> CFGTails;
-	//static CFGNode* getCFGHead(PROC p);
 
 	//Nodes
 	static unordered_map<STMT, ASTNode*> assignNodes;
 	static unordered_map<STMT, ASTNode*> callNodes;
 	static unordered_map<STMT, ASTNode*> whileNodes;
 	static unordered_map<STMT, ASTNode*> ifNodes;
+	static unordered_map<ASTNode*, STMT> assignNodesBack;
+	static unordered_map<ASTNode*, STMT> callNodesBack;
+	static unordered_map<ASTNode*, STMT> whileNodesBack;
+	static unordered_map<ASTNode*, STMT> ifNodesBack;
 	static vector<ASTNode*> statementNodes;
 
-	static vector<ASTNode*> varNodes;
-	static vector<ASTNode*> oprNodes;
-	static vector<ASTNode*> constNodes;
+	static vector<vector<ASTNode*>> varNodes;
+	static vector<vector<ASTNode*>> oprNodes;
+	static unordered_map<int, vector<ASTNode*>> constNodes;
 	static vector<ASTNode*> stmtLstNodes;
 
 	static vector<ASTNode*> getNodes(ASTNode::NodeType);

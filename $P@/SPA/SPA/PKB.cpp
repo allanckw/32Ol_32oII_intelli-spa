@@ -37,25 +37,23 @@ unordered_set<STMT> PKB::statementListTable;
 vector<ASTNode*> PKB::statementNodes;
 vector<StmtRef> PKB::stmtRefMap;
 
-unordered_map<int, ASTNode*> PKB::assignNodes;
-unordered_map<int, ASTNode*> PKB::callNodes;
-unordered_map<int, ASTNode*> PKB::ifNodes;
-unordered_map<int, ASTNode*> PKB::whileNodes;
+unordered_map<STMT, ASTNode*> PKB::assignNodes;
+unordered_map<STMT, ASTNode*> PKB::callNodes;
+unordered_map<STMT, ASTNode*> PKB::whileNodes;
+unordered_map<STMT, ASTNode*> PKB::ifNodes;
+unordered_map<ASTNode*, STMT> PKB::assignNodesBack;
+unordered_map<ASTNode*, STMT> PKB::callNodesBack;
+unordered_map<ASTNode*, STMT> PKB::whileNodesBack;
+unordered_map<ASTNode*, STMT> PKB::ifNodesBack;
 
-vector<ASTNode*> PKB::oprNodes;
-vector<ASTNode*> PKB::varNodes;
+vector<vector<ASTNode*>> PKB::oprNodes;
+vector<vector<ASTNode*>> PKB::varNodes;
 vector<ASTNode*> PKB::stmtLstNodes;
-vector<ASTNode*> PKB::constNodes;
+unordered_map<int, vector<ASTNode*>> PKB::constNodes;
 
 
 vector<pair<STMT, STMT>> PKB::TheBeginningAndTheEnd;
 unordered_map<int, vector<STMT>> PKB::constantsTable;
-
-
-void PKB::addToCFGList(CFGNode* node)
-{
-	PKB::CFGHeads.push_back(node);
-}
 
 
 vector<ASTNode*> PKB::getNodes(ASTNode::NodeType type ){
@@ -94,7 +92,7 @@ vector<ASTNode*> PKB::getNodes(ASTNode::NodeType type ){
 				result.push_back((*it).second);
 			}
 		}
-	case ASTNode::Operator:
+	/*case ASTNode::Operator:
 		{
 			return PKB::oprNodes;
 		}
@@ -105,7 +103,7 @@ vector<ASTNode*> PKB::getNodes(ASTNode::NodeType type ){
 	 case ASTNode::Constant:
 		 {
 			 return PKB::constNodes;
-		 }
+		 }*/
 	 
 
 		return result;
@@ -131,7 +129,7 @@ vector<ASTNode*> PKB::getNodes(ASTNode::NodeType type, int value)
 					result.push_back((*it).second);
 			}
 		}
-	case ASTNode::Operator:
+	/*case ASTNode::Operator:
 		{
 			for (int i = 0; i < PKB::oprNodes.size(); i++){
 				if (PKB::oprNodes.at(i)->getValue() == value)
@@ -151,7 +149,7 @@ vector<ASTNode*> PKB::getNodes(ASTNode::NodeType type, int value)
 				if (PKB::constNodes.at(i)->getValue() == value)
 					result.push_back(PKB::constNodes.at(i));
 			}
-		 }
+		 }*/
 	 
 	}
 		

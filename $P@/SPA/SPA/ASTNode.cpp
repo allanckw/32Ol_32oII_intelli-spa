@@ -84,7 +84,7 @@ void ASTNode::setAncestor(ASTNode* p)
 	}
 }
 
-ASTNode* ASTNode::getAncestor()
+ASTNode* ASTNode::getAncestor() const
 {
 	return this->ancestorNode;
 }

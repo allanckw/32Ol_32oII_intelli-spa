@@ -37,7 +37,7 @@ public:
 	virtual ASTNode* addChild(ASTNode*);
 	virtual ASTNode* setParent(ASTNode * p);
 
-	ASTNode* getAncestor();
+	ASTNode* getAncestor() const;
 	void setAncestor(ASTNode*);
 
 	void setRoot(PROC);

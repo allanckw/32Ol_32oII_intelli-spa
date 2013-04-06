@@ -31,7 +31,7 @@ void CFGBuilder::buildCFG()
 		
 		CFGNode* newCFG;
 		CFGNode* currCFG = new CFGNode(currentProc);
-		PKB::addToCFGList(currCFG);
+		PKB::CFGHeads.push_back(currCFG);
 
 		while (haveNextChildren) {
 			switch (currentStmtNode->getType()) {

@@ -17,6 +17,9 @@ public:
 		Call,
 		While,
 		If,
+		Plus,
+		Minus,
+		Times,
 		Prog_Line,
 		Variable,
 		Constant,
@@ -45,36 +48,53 @@ public:
 		Affects,
 		AffectsStar,
 		PatternModifies,
-		PatternUses
+		PatternUses,
+		Contains,
+		ContainsStar,
+		Sibling
 	};
 	
 	static unordered_map<string, unordered_set<QueryRelations>> tokenToRel;
 	static unordered_map<string, QueryVar> tokenToVar;
 	static unordered_map<QueryVar, set<string>> allowableConditions;
 	static unordered_map<string, QueryVar> conditionTypes;
+	static unordered_map<QueryVar, bool> formOfASTNode;
+
 	static unordered_map<QueryRelations, set<QueryVar>> allowableFirstArgument;
 	static unordered_map<QueryRelations, QueryVar> privilegedFirstArgument;
 	static unordered_map<QueryRelations, set<QueryVar>> allowableSecondArgument;
 	static unordered_map<QueryRelations, QueryVar> privilegedSecondArgument;
 	static unordered_set<QueryRelations> allowableSelfReference;
+	static unordered_map<QueryRelations, bool> takesInASTNode;
 
 	static int convertArgumentToInteger(const QueryRelations type,
 		const bool first, const string& arg);
 	static string convertIntegerToArgument(const QueryVar type,
 		const string& condition, const int);
+	static unordered_set<ASTNode*> convertIntegerToASTNode(const QueryVar type, const int);
 
 	static bool isExistType(QueryVar var);
 
 	typedef bool(*isRelation)(int, int);
 	static isRelation getRelation(QueryRelations rel);
 	static unordered_map<QueryRelations, bool> emptyRel;
+	
+	typedef bool(*isRelation2)(const ASTNode * const, const ASTNode * const);
+	static isRelation2 getRelation2(QueryRelations rel);
 
 	typedef vector<int>(*relationFamily)(int);
 	static relationFamily getRelationByFamily(QueryRelations rel);
 	static relationFamily getRelationFromFamily(QueryRelations rel);
 
+	typedef const vector<ASTNode*>(*relation2Family)(const ASTNode * const);
+	static relation2Family getRelation2ByFamily(QueryRelations rel);
+	static relation2Family getRelation2FromFamily(QueryRelations rel);
+
 	typedef vector<int>(*getAllTypes)();
 	static getAllTypes getType(QueryVar type);
+
+	typedef vector<ASTNode*>(*getAllTypes2)();
+	static getAllTypes2 getType2(QueryVar type);
 
 private:
 	static unordered_map<QueryRelations, isRelation> relationMap;
@@ -95,16 +115,11 @@ private:
 	static bool isAffects(int x, int y);
 	static bool isAffectsStar(int x, int y);
 	static bool isPatternModifies(int x, int y);
-
-	//Sibling / Contains
-	static bool isSibling(ASTNode* x, ASTNode* y);
-	static bool isContains(ASTNode* x, ASTNode* y);
-	static bool isContainsStar(ASTNode* x, ASTNode* y);
-
-
-	/*template
-	static bool is<Rel>(int x, int y);
-	*/
+	
+	static unordered_map<QueryRelations, isRelation2> relation2Map;
+	static bool isSibling(const ASTNode * const x, const ASTNode * const y);
+	static bool isContains(const ASTNode * const x, const ASTNode * const y);
+	static bool isContainsStar(const ASTNode * const x, const ASTNode * const y);
 
 	static unordered_map<QueryRelations, relationFamily> relationByMap;
 	static vector<int> modifiesStmtBy(int x);
@@ -124,6 +139,11 @@ private:
 	static vector<int> affectsBy(int x);
 	static vector<int> affectsStarBy(int x);
 
+	static unordered_map<QueryRelations, relation2Family> relation2ByMap;
+	static const vector<ASTNode*> containsBy(const ASTNode * const x);
+	static const vector<ASTNode*> containsStarBy(const ASTNode * const x);
+	static const vector<ASTNode*> siblingBy(const ASTNode * const x);
+
 	static unordered_map<QueryRelations, relationFamily> relationFromMap;
 	static vector<int> modifiesStmtFrom(int y);
 	static vector<int> modifiesProcFrom(int y);
@@ -142,33 +162,36 @@ private:
 	static vector<int> affectsFrom(int y);
 	static vector<int> affectsStarFrom(int y);
 
-	static vector<int> getStmtSiblings(int x);
-	vector<ASTNode*> getNodeSiblings(ASTNode* x);
+	static unordered_map<QueryRelations, relation2Family> relation2FromMap;
+	static const vector<ASTNode*> containsFrom(const ASTNode * const y);
+	static const vector<ASTNode*> containsStarFrom(const ASTNode * const y);
+
+	//static vector<int> getStmtSiblings(int x);
 
 	static unordered_map<QueryVar, getAllTypes> typeMap;
+	static vector<int> getAllProc();
+	static vector<int> getAllStmtList();
 	static vector<int> getAllStmt();
 	static vector<int> getAllVar();
-	static vector<int> getAllProc();
 	static vector<int> getAllAssign();
 	static vector<int> getAllConstant();
 	static vector<int> getAllWhile();
 	static vector<int> getAllIf();
 	static vector<int> getAllCall();
-	static vector<int> getAllStmtList();
 	
-	//For Contains / Siblings
+	static unordered_map<QueryVar, getAllTypes2> type2Map;
 	static vector<ASTNode*> getAllPlusNodes();
 	static vector<ASTNode*> getAllMinusNodes();
 	static vector<ASTNode*> getAllTimesNodes();
 
-	static vector<ASTNode*> getAllVarNodes();
+	/*static vector<ASTNode*> getAllVarNodes();
 	static vector<ASTNode*> getAllProcNodes();
 	static vector<ASTNode*> getAllConstantNodes();
 	
 	//get all var nodes that has the value of v
 	static vector<ASTNode*> getAllVarNodes(VAR v);
 	//get all proc nodes that has the value of p
-	static vector<ASTNode*> getAllProcNodes(PROC p);
+	//static vector<ASTNode*> getAllProcNodes(PROC p);
 	//get all const nodes that has the value of c
 	static vector<ASTNode*> getAllConstantNodes(int c);
 
@@ -181,7 +204,7 @@ private:
 	static vector<ASTNode*> getAllCallNodes();
 
 	//get all call nodes that call procedures p
-	static vector<ASTNode*> getAllCallNodes(PROC p);
+	static vector<ASTNode*> getAllCallNodes(PROC p);*/
 	
 public:
 	enum PatternLHSType { 

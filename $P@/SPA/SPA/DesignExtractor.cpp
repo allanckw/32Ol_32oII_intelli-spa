@@ -88,13 +88,23 @@ void DesignExtractor::CompleteExtraction()
 	PKB::calls.optimizeCallsTable();
 	PKB::modifies.optimizeModifiesTable();
 	PKB::uses.optimizeUsesTable();
-	DesignExtractor::initializeStatisticalSortSize();
+	DesignExtractor::initializeStatisticalSortSize();	
 	
+	const vector<ASTNode*>& oprNodes = PQLContainPreprocessor::getNodes(ASTNode::Operator);
+	PKB::oprNodes.resize(3);
+	for (auto it = oprNodes.begin(); it != oprNodes.end(); it++)
+		PKB::oprNodes[(*it)->getValue()].push_back(*it);
 	
-	PKB::oprNodes = PQLContainPreprocessor::getNodes(ASTNode::Operator);
-	PKB::varNodes = PQLContainPreprocessor::getNodes(ASTNode::Variable);
-	PKB::constNodes = PQLContainPreprocessor::getNodes(ASTNode::Constant);
-	PKB::stmtLstNodes = PQLContainPreprocessor::getNodes(ASTNode::StmtLst);
+	const vector<ASTNode*>& varNodes = PQLContainPreprocessor::getNodes(ASTNode::Variable);
+	PKB::varNodes.resize(PKB::variables.getSize());
+	for (auto it = varNodes.begin(); it != varNodes.end(); it++)
+		PKB::varNodes[(*it)->getValue()].push_back(*it);
+
+	const vector<ASTNode*>& constNodes = PQLContainPreprocessor::getNodes(ASTNode::Constant);
+	for (auto it = constNodes.begin(); it != constNodes.end(); it++)
+		PKB::constNodes[(*it)->getValue()].push_back(*it);
+	//PKB::constNodes = PQLContainPreprocessor::getNodes(ASTNode::Constant);
+	//PKB::stmtLstNodes = PQLContainPreprocessor::getNodes(ASTNode::StmtLst);
 
 }
 
@@ -136,11 +146,17 @@ void DesignExtractor::initializeStatisticalSortSize()
 
 	//Affects* O(n(n+m)) n = program lines, m = no. of variables
 	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::AffectsStar,
-																				max * (max + PKB::variables.getSize())));
+																								max * (max + PKB::variables.getSize())));
 	
-	sort(PKB::sortorder.begin(),PKB::sortorder.end(),sort_pred());
+	struct sort_pred {
+		bool operator() (
+			const pair<RulesOfEngagement::QueryRelations, int> &i,
+			const pair<RulesOfEngagement::QueryRelations, int> &j) {
+			return i.second < j.second;
+		}
+	} sorter;
 
-
+	sort(PKB::sortorder.begin(), PKB::sortorder.end(), sorter);
 }
 
 /**
@@ -342,6 +358,7 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 		case ASTNode::Assign: {
 			PKB::assignTable.insert(currentStmtNumber);
 			PKB::assignNodes.insert(pair<STMT, ASTNode*>(currentStmtNumber, currentStmtNode));
+			PKB::assignNodesBack.insert(pair<ASTNode*, STMT>(currentStmtNode, currentStmtNumber));
 
 			ASTExprNode* modifiesVarNode = (ASTExprNode*) (*currentStmtNode).getChild(0);
 			VAR modifiesVar = (*modifiesVarNode).getValue();
@@ -430,9 +447,11 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 			if ((*currentStmtNode).getType() == ASTNode::While) {
 				PKB::whileTable.insert(currentStmtNumber);
 				PKB::whileNodes.insert(pair<STMT, ASTNode*>(currentStmtNumber, currentStmtNode));
+				PKB::whileNodesBack.insert(pair<ASTNode*, STMT>(currentStmtNode, currentStmtNumber));
 			} else {
 				PKB::ifTable.insert(currentStmtNumber);
 				PKB::ifNodes.insert(pair<STMT, ASTNode*>(currentStmtNumber, currentStmtNode));
+				PKB::ifNodesBack.insert(pair<ASTNode*, STMT>(currentStmtNode, currentStmtNumber));
 			}
 
 			ASTExprNode* usesVarNode = (ASTExprNode*) (*currentStmtNode).getChild(0);
@@ -471,6 +490,7 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 		case ASTNode::Call: {
 			PKB::callTable.insert(currentStmtNumber);
 			PKB::callNodes.insert(pair<STMT, ASTNode*>(currentStmtNumber, currentStmtNode));
+			PKB::callNodesBack.insert(pair<ASTNode*, STMT>(currentStmtNode, currentStmtNumber));
 			PKB::calls.insertStmtCall(currentStmtNumber, (*currentStmtNode).getValue());
 			break; }
 

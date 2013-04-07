@@ -39,19 +39,11 @@ void TestQueryEvaluator::TestQueryEvaluatorM()
 	//doon("Select BOOLEAN such that Affects*(11, 14)"); 
 	//doon("Select BOOLEAN such that Affects*(20, 20)"); 
 	ASTNode* x = PKB::rootNode;
-	vector<ASTNode*> xz = PKB::varNodes;
 
-	for (int i = 0; i<xz.size(); i++)
-	{
-		if (xz[i]->getAncestor() == NULL)
-		{
-			cout << "wtf";
-		}
-	}
 	//doon("stmt s2,s3,s4,s5;constant c;assign s1,a;while w; if iff; variable v; Select <a,s1,w,iff> such that Affects*(a, s1) and Follows* (s1, s2) and Next*(s2,s3) such that Parent*(s3,s4) and Uses(s2,\"x\") and Modifies (s3,\"z\") pattern a(v,_\"x\"_) pattern w(v,_) pattern iff(v,_,_) with c.value = 0");
 	//doon("assign a; variable v; while w1, w2; select a pattern a(v,_\"k\"_) such that Parent(w1,a) and Follows(w2,w1)");
 	doon("assign a; Select a pattern a (\"x\", _  )");
-	doon("variable v; Select v");
+	doon("Select <s1,s2> such that Affects*(s1, s2) and Affects*(s3, s4)");
 }
 
 

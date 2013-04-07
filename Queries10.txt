@@ -18,7 +18,7 @@ true
 4 - Variable, Modifies :: s1
 variable v; procedure p;
 Select p such that Modifies(p,"x")
-john, mary, peter
+John, Mary, Peter
 5000
 5 - Variable, Modifies :: s1
 variable v;
@@ -58,7 +58,7 @@ true
 12 - Variable, Uses :: s1
 variable v; procedure p;
 Select p such that Uses(p,"x")
-john, peter, bob, mary
+John, Peter, Bob, Mary
 5000
 13 - Variable, Uses :: s1
 variable v;
@@ -188,17 +188,17 @@ none
 38 - Call :: s6
 procedure p;
 Select p such that Calls("Peter",p)
-john, bob
+John, Bob
 5000
 39 - Call :: s6
 procedure p;
 Select p such that Calls*(p,"Peter")
-none
+
 5000
 40 - Call :: s6
 procedure p;
 Select p such that Calls*("Peter",p)
-john, mary, bob
+John, Mary, Bob
 5000
 41 - Pattern :: s7
 while w; if if1;
@@ -243,12 +243,12 @@ i,m,x,z,y,k,b,t,v,n,a,q
 49 - ProcName :: s10
 procedure p;
 Select p with p.procName = "John"
-john
+John
 5000
 50 - ProcName :: s10
 procedure p,p1;
 Select p with p.procName = p1.procName
-john, mary, bob, peter
+John, Mary, Bob, Peter
 5000
 51 - Pattern :: s11
 assign a;
@@ -548,7 +548,7 @@ Select a1 such that Uses(a1,"x") such that Affects*(a1,a2)
 111 - Call, Call*, Modifies, Uses :: S
 procedure p,p1; variable v;
 Select p such that Calls("John",p) such that Calls(p,p1) such that Modifies(p1,"a") such that Uses(p,"b")
-mary
+Mary
 5000
 112 - Modifies, Uses, Next :: s13
 variable v1,v2; assign a;
@@ -563,12 +563,12 @@ Select <w1,w2,w3,w4> such that Parent(w1,w2) such that Parent(w2,w3) such that P
 114 - Call :: s16
 procedure p1,p2,p3;
 Select <p1,p2,p3> such that Calls(p1,p2) such that Calls(p2,p3)
-john mary bob,peter john bob,peter john mary
+John Mary Bob,Peter John Bob,Peter John Mary
 5000
 115 - Affects, Next :: s17
 procedure p; variable v1,v2;
 Select <p.procName, v1.varName, v2> such that Calls*("Peter",p) such that Uses(p,v1) such that Modifies(p,v2)
-bob b a,bob b k,bob b q,bob q a,bob q k,bob q q,bob v a,bob v k,bob v q,bob x a,bob x k,bob x q,john a a,john a b,john a i,john a k,john a m,john a n,john a q,john a t,john a x,john a y,john a z,john b a,john b b,john b i,john b k,john b m,john b n,john b q,john b t,john b x,john b y,john b z,john i a,john i b,john i i,john i k,john i m,john i n,john i q,john i t,john i x,john i y,john i z,john k a,john k b,john k i,john k k,john k m,john k n,john k q,john k t,john k x,john k y,john k z,john m a,john m b,john m i,john m k,john m m,john m n,john m q,john m t,john m x,john m y,john m z,john n a,john n b,john n i,john n k,john n m,john n n,john n q,john n t,john n x,john n y,john n z,john q a,john q b,john q i,john q k,john q m,john q n,john q q,john q t,john q x,john q y,john q z,john t a,john t b,john t i,john t k,john t m,john t n,john t q,john t t,john t x,john t y,john t z,john v a,john v b,john v i,john v k,john v m,john v n,john v q,john v t,john v x,john v y,john v z,john x a,john x b,john x i,john x k,john x m,john x n,john x q,john x t,john x x,john x y,john x z,john y a,john y b,john y i,john y k,john y m,john y n,john y q,john y t,john y x,john y y,john y z,john z a,john z b,john z i,john z k,john z m,john z n,john z q,john z t,john z x,john z y,john z z,mary a a,mary a b,mary a k,mary a m,mary a n,mary a q,mary a t,mary a x,mary a y,mary b a,mary b b,mary b k,mary b m,mary b n,mary b q,mary b t,mary b x,mary b y,mary i a,mary i b,mary i k,mary i m,mary i n,mary i q,mary i t,mary i x,mary i y,mary k a,mary k b,mary k k,mary k m,mary k n,mary k q,mary k t,mary k x,mary k y,mary m a,mary m b,mary m k,mary m m,mary m n,mary m q,mary m t,mary m x,mary m y,mary n a,mary n b,mary n k,mary n m,mary n n,mary n q,mary n t,mary n x,mary n y,mary q a,mary q b,mary q k,mary q m,mary q n,mary q q,mary q t,mary q x,mary q y,mary t a,mary t b,mary t k,mary t m,mary t n,mary t q,mary t t,mary t x,mary t y,mary v a,mary v b,mary v k,mary v m,mary v n,mary v q,mary v t,mary v x,mary v y,mary x a,mary x b,mary x k,mary x m,mary x n,mary x q,mary x t,mary x x,mary x y,mary y a,mary y b,mary y k,mary y m,mary y n,mary y q,mary y t,mary y x,mary y y,mary z a,mary z b,mary z k,mary z m,mary z n,mary z q,mary z t,mary z x,mary z y
+Bob b a,Bob b k,Bob b q,Bob q a,Bob q k,Bob q q,Bob v a,Bob v k,Bob v q,Bob x a,Bob x k,Bob x q,John a a,John a b,John a i,John a k,John a m,John a n,John a q,John a t,John a x,John a y,John a z,John b a,John b b,John b i,John b k,John b m,John b n,John b q,John b t,John b x,John b y,John b z,John i a,John i b,John i i,John i k,John i m,John i n,John i q,John i t,John i x,John i y,John i z,John k a,John k b,John k i,John k k,John k m,John k n,John k q,John k t,John k x,John k y,John k z,John m a,John m b,John m i,John m k,John m m,John m n,John m q,John m t,John m x,John m y,John m z,John n a,John n b,John n i,John n k,John n m,John n n,John n q,John n t,John n x,John n y,John n z,John q a,John q b,John q i,John q k,John q m,John q n,John q q,John q t,John q x,John q y,John q z,John t a,John t b,John t i,John t k,John t m,John t n,John t q,John t t,John t x,John t y,John t z,John v a,John v b,John v i,John v k,John v m,John v n,John v q,John v t,John v x,John v y,John v z,John x a,John x b,John x i,John x k,John x m,John x n,John x q,John x t,John x x,John x y,John x z,John y a,John y b,John y i,John y k,John y m,John y n,John y q,John y t,John y x,John y y,John y z,John z a,John z b,John z i,John z k,John z m,John z n,John z q,John z t,John z x,John z y,John z z,Mary a a,Mary a b,Mary a k,Mary a m,Mary a n,Mary a q,Mary a t,Mary a x,Mary a y,Mary b a,Mary b b,Mary b k,Mary b m,Mary b n,Mary b q,Mary b t,Mary b x,Mary b y,Mary i a,Mary i b,Mary i k,Mary i m,Mary i n,Mary i q,Mary i t,Mary i x,Mary i y,Mary k a,Mary k b,Mary k k,Mary k m,Mary k n,Mary k q,Mary k t,Mary k x,Mary k y,Mary m a,Mary m b,Mary m k,Mary m m,Mary m n,Mary m q,Mary m t,Mary m x,Mary m y,Mary n a,Mary n b,Mary n k,Mary n m,Mary n n,Mary n q,Mary n t,Mary n x,Mary n y,Mary q a,Mary q b,Mary q k,Mary q m,Mary q n,Mary q q,Mary q t,Mary q x,Mary q y,Mary t a,Mary t b,Mary t k,Mary t m,Mary t n,Mary t q,Mary t t,Mary t x,Mary t y,Mary v a,Mary v b,Mary v k,Mary v m,Mary v n,Mary v q,Mary v t,Mary v x,Mary v y,Mary x a,Mary x b,Mary x k,Mary x m,Mary x n,Mary x q,Mary x t,Mary x x,Mary x y,Mary y a,Mary y b,Mary y k,Mary y m,Mary y n,Mary y q,Mary y t,Mary y x,Mary y y,Mary z a,Mary z b,Mary z k,Mary z m,Mary z n,Mary z q,Mary z t,Mary z x,Mary z y
 5000
 116 - S :: s18
 stmt s1,s2,s3,s4,s5;
@@ -793,7 +793,7 @@ Select <s1,s2> such that Next*(s1,s2) and Next*(s2,s1) with s2.stmt#=7 and s1.st
 164 - Variable, Modifies :: s1
 constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3;
 Select <p1,p2> with p1.procName = "John" and p2.procName=   "Bob"
-john bob
+John Bob
 5000
 165 - Variable, Modifies :: s1
 constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3;
@@ -833,7 +833,7 @@ Select a2 such that Parent(w1,i1) and Parent(i1,a1) and Affects(a1,a2)
 190 - Variable, Modifies :: s1
 constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2; plus add; minus m;
 Select <p1,v1,p2,v2> such that Calls(p1,p2) such that Modifies(p1,v1) such that Uses(p2,v2) with v1.varName = "n" and v2.varName = "x"
-john n bob x,john n mary x,mary n bob x,peter n bob x,peter n john x
+John n Bob x,John n Mary x,Mary n Bob x,Peter n Bob x,Peter n John x
 5000
 191 - Variable, Modifies :: s1
 constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2; plus add; minus m;

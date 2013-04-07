@@ -23,7 +23,7 @@ Select a1 such that Contains(a1,v1) with v1.varName = "x"
 5 - Contains :: s2
 procedure p1,p2; if i1,i2; variable v1,v2; assign a1,a2,a3; constant c1,c2;
 Select p1 such that Contains*(p1,c1) with c1.value = 2
-peter, mary, john
+Peter, Mary, John
 5000
 6 - Contains :: s2
 assign a1,a2,a3; constant c1,c2; minus sub;
@@ -63,12 +63,12 @@ b,m,v,x,y,a,i,k,n,q,z
 13 - Variable, Modifies :: s1
 constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2;
 Select p1.procName such that Contains*(p1,i1) such that Uses(i1,"m")
-john,mary,peter
+John,Mary,Peter
 5000
 14 - Variable, Modifies :: s1
 constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2;
 Select p1.procName such that Contains*(p1,a1) with a1.stmt#=a2.stmt# pattern a2("m",_"b"_)
-peter,mary
+Peter,Mary
 5000
 16 - Variable, Modifies :: s1
 constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2;
@@ -88,7 +88,7 @@ Select <a1,a2,a3> with a1.stmt#=a2.stmt# and a3.stmt#=a2.stmt# such that Contain
 19 - Variable, Modifies :: s1
 constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2;
 Select p1 such that Contains*(p1, c1)  such that Contains*(p1,c2) with c1.value = 10 with c2.value = 2
-john, mary
+John, Mary
 5000
 20 - Variable, Modifies :: s1
 constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2; plus add;
@@ -138,7 +138,7 @@ a 5,b 0,b 3,b 5,b 9,i 1,i 2,k 1,k 3,k 5,m 1,m 2,m 3,m 9,n 2,n 3,q 1,t 2,t 3,x 1,
 31 - Variable, Modifies :: s1
 constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2; plus add; minus m;
 Select <p1,a1,v1> such that Uses(p1,v1) with p1.procName=  "Peter" such that Contains*(a1,v1) with v1.varName = "b" such that Contains*(p1,a1)
-peter 10 b,peter 11 b,peter 12 b,peter 14 b,peter 15 b,peter 3 b,peter 6 b,peter 7 b,peter 8 b
+Peter 10 b,Peter 11 b,Peter 12 b,Peter 14 b,Peter 15 b,Peter 3 b,Peter 6 b,Peter 7 b,Peter 8 b
 5000
 32 - Variable, Modifies :: s1
 assign a1,a2,a3,a4; plus add; minus m; times mult;

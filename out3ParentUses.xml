@@ -21,7 +21,7 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >1</id><querystr><![CDATA[constant c; Select c such that Uses(1, "a")]]></querystr>
 <stuans>1,8,0,3,2,4,5,6,7,9</stuans>
 <correct>0,1,2,3,4,5,6,7,8,9</correct>
-<time_taken>6.000000</time_taken>
+<time_taken>4.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -35,14 +35,14 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >3</id><querystr><![CDATA[constant c; Select c such that Uses(2, "z")]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>5.000000</time_taken>
+<time_taken>4.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >4</id><querystr><![CDATA[constant c; Select c such that Uses(103, "c")]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>5.000000</time_taken>
+<time_taken>4.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -63,14 +63,14 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >7</id><querystr><![CDATA[constant c; Select c such that Uses(157, "o")]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>4.000000</time_taken>
+<time_taken>5.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >8</id><querystr><![CDATA[constant c; variable v; Select c such that Uses(303, "y")]]></querystr>
 <stuans>1,8,0,3,2,4,5,6,7,9</stuans>
 <correct>0,1,2,3,4,5,6,7,8,9</correct>
-<time_taken>6.000000</time_taken>
+<time_taken>4.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -84,7 +84,7 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >12</id><querystr><![CDATA[constant c; assign a; Select c such that Uses(1, "a") pattern a ("a", _"x"_)]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>6.000000</time_taken>
+<time_taken>4.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -98,28 +98,28 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >14</id><querystr><![CDATA[stmt s; variable v; Select v such that Uses(103, v)]]></querystr>
 <stuans>n,i,h,w,e,x,r,u,v</stuans>
 <correct>x,n,e,w,h,r,u,i,v</correct>
-<time_taken>7.000000</time_taken>
+<time_taken>6.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >15</id><querystr><![CDATA[stmt s; variable v; Select v such that Uses(115, v)]]></querystr>
 <stuans>n,i,h,w,e,x,r,u,v</stuans>
 <correct>x,n,e,w,h,r,u,i,v</correct>
-<time_taken>8.000000</time_taken>
+<time_taken>7.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >16</id><querystr><![CDATA[stmt s; variable v; Select v such that Uses(131, v)]]></querystr>
 <stuans>r,u</stuans>
 <correct>u,r</correct>
-<time_taken>7.000000</time_taken>
+<time_taken>6.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >17</id><querystr><![CDATA[stmt s; variable v; Select v such that Uses(303, v)]]></querystr>
 <stuans>a,y,b</stuans>
 <correct>y,b,a</correct>
-<time_taken>10.000000</time_taken>
+<time_taken>7.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -140,28 +140,28 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >20</id><querystr><![CDATA[stmt s; variable v; Select v such that Uses(223, v)]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>6.000000</time_taken>
+<time_taken>10.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >21</id><querystr><![CDATA[stmt s; variable v; Select v such that Uses(302, v)]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>9.000000</time_taken>
+<time_taken>7.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >22</id><querystr><![CDATA[stmt s; stmt t; Select s such that Uses(s, "y")]]></querystr>
 <stuans>303,312,321,330,339,348</stuans>
 <correct>303,312,321,330,339,348</correct>
-<time_taken>8.000000</time_taken>
+<time_taken>9.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >23</id><querystr><![CDATA[stmt s; stmt t; Select s such that Uses(s, "a")]]></querystr>
 <stuans>1,2,4,5,7,8,10,11,13,14,16,17,19,20,22,23,25,26,28,29,31,32,34,35,37,38,40,41,43,44,46,47,49,50,52,53,55,56,58,59,61,62,64,65,67,68,70,71,73,74,76,77,79,80,82,83,85,86,88,89,91,92,94,95,97,98,100,101,303,304,305,306,307,308,309,310,311,312,313,314,315,316,317,318,319,320,321,322,323,324,325,326,327,328,329,330,331,332,333,334,335,336,337,338,339,340,341,342,343,344,345,346,347,348,349,350,351,352,353,354,355,356,412,413,415,416,418,419,421,422,424,425,427,428,430,431,433,434,436,437,439,440,442,443,445,446,448,449,451,452,454,455,457,458,460,461,463,464,466,467,469,470,472,473,475,476,478,479,481,482,484,485,487,488,490,491,493,494,496,497,499,500</stuans>
 <correct>1,2,4,5,7,8,10,11,13,14,16,17,19,20,22,23,25,26,28,29,31,32,34,35,37,38,40,41,43,44,46,47,49,50,52,53,55,56,58,59,61,62,64,65,67,68,70,71,73,74,76,77,79,80,82,83,85,86,88,89,91,92,94,95,97,98,100,101,303,304,305,306,307,308,309,310,311,312,313,314,315,316,317,318,319,320,321,322,323,324,325,326,327,328,329,330,331,332,333,334,335,336,337,338,339,340,341,342,343,344,345,346,347,348,349,350,351,352,353,354,355,356,412,413,415,416,418,419,421,422,424,425,427,428,430,431,433,434,436,437,439,440,442,443,445,446,448,449,451,452,454,455,457,458,460,461,463,464,466,467,469,470,472,473,475,476,478,479,481,482,484,485,487,488,490,491,493,494,496,497,499,500</correct>
-<time_taken>18.000000</time_taken>
+<time_taken>19.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -175,63 +175,63 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >25</id><querystr><![CDATA[stmt s; stmt t; Select s such that Uses(s, "b")]]></querystr>
 <stuans>303,304,305,306,307,308,309,310,311,312,313,314,315,316,317,318,319,320,321,322,323,324,325,326,327,328,329,330,331,332,333,334,335,336,337,338,339,340,341,342,343,344,345,346,347,348,349,350,351,352,353,354,355,356,357,362,367,372,377,382,387,392,397,402,407</stuans>
 <correct>303,304,305,306,307,308,309,310,311,312,313,314,315,316,317,318,319,320,321,322,323,324,325,326,327,328,329,330,331,332,333,334,335,336,337,338,339,340,341,342,343,344,345,346,347,348,349,350,351,352,353,354,355,356,357,362,367,372,377,382,387,392,397,402,407</correct>
-<time_taken>12.000000</time_taken>
+<time_taken>10.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >26</id><querystr><![CDATA[stmt s; stmt t; Select s such that Uses(s, "e")]]></querystr>
 <stuans>4,10,16,22,28,34,40,46,52,58,64,70,76,82,88,94,100,103,104,109,110,115,116,121,122,127,128,133,134,139,140,145,146,151,152,157,158,163,164,169,170,175,176,181,182,187,188,193,194,199,200,205,206,211,212,217,218,415,421,427,433,439,445,451,457,463,469,475,481,487,493,499</stuans>
 <correct>4,10,16,22,28,34,40,46,52,58,64,70,76,82,88,94,100,103,104,109,110,115,116,121,122,127,128,133,134,139,140,145,146,151,152,157,158,163,164,169,170,175,176,181,182,187,188,193,194,199,200,205,206,211,212,217,218,415,421,427,433,439,445,451,457,463,469,475,481,487,493,499</correct>
-<time_taken>13.000000</time_taken>
+<time_taken>11.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >27</id><querystr><![CDATA[stmt s; stmt t; Select s such that Uses(s, "z")]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>6.000000</time_taken>
+<time_taken>8.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >28</id><querystr><![CDATA[stmt s; stmt t; Select s such that Uses(s, "y")]]></querystr>
 <stuans>303,312,321,330,339,348</stuans>
 <correct>303,312,321,330,339,348</correct>
-<time_taken>6.000000</time_taken>
+<time_taken>8.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >29</id><querystr><![CDATA[assign a; Select a such that Uses(a, "a")]]></querystr>
 <stuans>1,2,4,5,7,8,10,11,13,14,16,17,19,20,22,23,25,26,28,29,31,32,34,35,37,38,40,41,43,44,46,47,49,50,52,53,55,56,58,59,61,62,64,65,67,68,70,71,73,74,76,77,79,80,82,83,85,86,88,89,91,92,94,95,97,98,100,101,304,305,306,307,308,309,310,311,313,314,315,316,317,318,319,320,322,323,324,325,326,327,328,329,331,332,333,334,335,336,337,338,340,341,342,343,344,345,346,347,349,350,351,352,353,354,355,356,412,413,415,416,418,419,421,422,424,425,427,428,430,431,433,434,436,437,439,440,442,443,445,446,448,449,451,452,454,455,457,458,460,461,463,464,466,467,469,470,472,473,475,476,478,479,481,482,484,485,487,488,490,491,493,494,496,497,499,500</stuans>
 <correct>1,2,4,5,7,8,10,11,13,14,16,17,19,20,22,23,25,26,28,29,31,32,34,35,37,38,40,41,43,44,46,47,49,50,52,53,55,56,58,59,61,62,64,65,67,68,70,71,73,74,76,77,79,80,82,83,85,86,88,89,91,92,94,95,97,98,100,101,304,305,306,307,308,309,310,311,313,314,315,316,317,318,319,320,322,323,324,325,326,327,328,329,331,332,333,334,335,336,337,338,340,341,342,343,344,345,346,347,349,350,351,352,353,354,355,356,412,413,415,416,418,419,421,422,424,425,427,428,430,431,433,434,436,437,439,440,442,443,445,446,448,449,451,452,454,455,457,458,460,461,463,464,466,467,469,470,472,473,475,476,478,479,481,482,484,485,487,488,490,491,493,494,496,497,499,500</correct>
-<time_taken>14.000000</time_taken>
+<time_taken>16.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >30</id><querystr><![CDATA[assign a; Select a such that Uses(a, "x")]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>5.000000</time_taken>
+<time_taken>4.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >31</id><querystr><![CDATA[assign a; Select a such that Uses(a, "f")]]></querystr>
 <stuans>359,364,369,374,379,384,389,394,399,404,409</stuans>
 <correct>359,364,369,374,379,384,389,394,399,404,409</correct>
-<time_taken>6.000000</time_taken>
+<time_taken>5.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >32</id><querystr><![CDATA[assign a; Select a such that Uses(a, "a") pattern a ("a", _"a"_)]]></querystr>
 <stuans>1,7,13,19,25,31,37,43,49,55,61,67,73,79,85,91,97,412,418,424,430,436,442,448,454,460,466,472,478,484,490,496</stuans>
 <correct>1,7,13,19,25,31,37,43,49,55,61,67,73,79,85,91,97,412,418,424,430,436,442,448,454,460,466,472,478,484,490,496</correct>
-<time_taken>7.000000</time_taken>
+<time_taken>14.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >33</id><querystr><![CDATA[assign a; variable v; Select a such that Uses(a, v) pattern a ("c", _)]]></querystr>
 <stuans>358,363,368,373,378,383,388,393,398,403,408</stuans>
 <correct>358,363,368,373,378,383,388,393,398,403,408</correct>
-<time_taken>6.000000</time_taken>
+<time_taken>5.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -245,49 +245,49 @@
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >35</id><querystr><![CDATA[assign a; Select a such that Uses(a, "i") pattern a ("f", _)]]></querystr>
 <stuans>108,114,120,126,132,138,144,150,156,162,168,174,180,186,192,198,204,210,216,222</stuans>
 <correct>108,114,120,126,132,138,144,150,156,162,168,174,180,186,192,198,204,210,216,222</correct>
-<time_taken>6.000000</time_taken>
+<time_taken>5.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >36</id><querystr><![CDATA[assign a; Select a such that Uses(a, "a") pattern a (_, _"n"_)]]></querystr>
 <stuans>1,4,7,10,13,16,19,22,25,28,31,34,37,40,43,46,49,52,55,58,61,64,67,70,73,76,79,82,85,88,91,94,97,100,412,415,418,421,424,427,430,433,436,439,442,445,448,451,454,457,460,463,466,469,472,475,478,481,484,487,490,493,496,499</stuans>
 <correct>1,7,13,19,25,31,37,43,49,55,61,67,73,79,85,91,97,412,418,424,430,436,442,448,454,460,466,472,478,484,490,496,10,100,16,22,28,34,4,40,415,421,427,433,439,445,451,457,46,463,469,475,481,487,493,499,52,58,64,70,76,82,88,94</correct>
-<time_taken>9.000000</time_taken>
+<time_taken>8.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >37</id><querystr><![CDATA[assign a; Select a such that Uses(a, "k") pattern a ("p", "i")]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>4.000000</time_taken>
+<time_taken>5.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >38</id><querystr><![CDATA[assign a; Select a such that Uses(a, "a") pattern a ("p", _"i"_)]]></querystr>
 <stuans>5,11,17,23,29,35,41,47,53,59,65,71,77,83,89,95,101,416,422,428,434,440,446,452,458,464,470,476,482,488,494,500</stuans>
 <correct>5,11,17,23,29,35,41,47,53,59,65,71,77,83,89,95,101,416,422,428,434,440,446,452,458,464,470,476,482,488,494,500</correct>
-<time_taken>6.000000</time_taken>
+<time_taken>7.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >39</id><querystr><![CDATA[assign a; Select a such that Uses(a, "d") pattern a (_ , "d")]]></querystr>
 <stuans>358,363,368,373,378,383,388,393,398,403,408</stuans>
 <correct>358,363,368,373,378,383,388,393,398,403,408</correct>
-<time_taken>5.000000</time_taken>
+<time_taken>6.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >41</id><querystr><![CDATA[while w; variable v; Select v such that Uses(w, v)]]></querystr>
 <stuans>a,n,i,h,w,e,x,r,u,v,y,b</stuans>
 <correct>x,n,e,w,h,r,u,i,v,y,b,a</correct>
-<time_taken>7.000000</time_taken>
+<time_taken>6.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Parent="1" ImplStmtLine="1" Typed="1" comment="Which is the parent (type while) of the statement in line number 7" >42</id><querystr><![CDATA[assign a; variable v; Select v such that Uses(a, v)]]></querystr>
 <stuans>a,l,n,k,i,c,h,w,e,m,o,r,f,u,v,d,b,j</stuans>
 <correct>n,e,w,h,r,u,i,v,b,a,l,k,c,m,o,d,f,j</correct>
-<time_taken>13.000000</time_taken>
+<time_taken>16.000000</time_taken>
 <passed/>
 </query>
 </category>

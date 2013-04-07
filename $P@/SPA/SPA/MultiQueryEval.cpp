@@ -1242,10 +1242,11 @@ void MultiQueryEval::evaluate(list<string>& results)
 	const vector<string>& selectedsVector = synonymTable.getAllSelected();
 	list<string> selecteds = list<string>(selectedsVector.begin(), selectedsVector.end());
 
-	using namespace Concurrency;
+	/*using namespace Concurrency;
 	structured_task_group tasks;
 
-	auto for_each_partition = [&](const int classIndex) {
+	auto for_each_partition = [&](const int classIndex) {*/
+	for (size_t classIndex = 0; classIndex < components.size(); classIndex++) {
 		vector<AnswerTable> tables;
 		const vector<MultiQueryEval::Relation>& rels = relPartitioned[classIndex];
 		const vector<MultiQueryEval::Condition>& conds = condPartitioned[classIndex];
@@ -1270,16 +1271,16 @@ void MultiQueryEval::evaluate(list<string>& results)
 				{
 					AnswerTable firstRelTable = AnswerTable(synonymTable, firstRel);
 					if (firstRelTable.getSize() == 0)
-						tasks.cancel();
+						{ earlyQuit = true; return; }//tasks.cancel();
 
 					AnswerTable secondRelTable = AnswerTable(synonymTable, secondRel);
 					if (secondRelTable.getSize() == 0)
-						tasks.cancel();
+						{ earlyQuit = true; return; }//tasks.cancel();
 
 					firstRelTable.withCombine(firstRel, firstCondition,
 						secondRelTable, secondRel, secondCondition);
 					if (firstRelTable.getSize() == 0)
-						tasks.cancel();
+						{ earlyQuit = true; return; }//tasks.cancel();
 
 					inWhichTable[firstRel] = tables.size();
 					inWhichTable[secondRel] = tables.size();
@@ -1292,24 +1293,24 @@ void MultiQueryEval::evaluate(list<string>& results)
 
 					AnswerTable secondRelTable = AnswerTable(synonymTable, secondRel);
 					if (secondRelTable.getSize() == 0)
-						tasks.cancel();
+						{ earlyQuit = true; return; }//tasks.cancel();
 
 					tables[firstRelIndex].withCombine(firstRel, firstCondition,
 						secondRelTable, secondRel, secondCondition);
 					if (tables[firstRelIndex].getSize() == 0)
-						tasks.cancel();
+						{ earlyQuit = true; return; }//tasks.cancel();
 
 					inWhichTable[secondRel] = firstRelIndex;
 				} else {
 					AnswerTable firstRelTable = AnswerTable(synonymTable, firstRel);
 					if (firstRelTable.getSize() == 0)
-						tasks.cancel();
+						{ earlyQuit = true; return; }//tasks.cancel();
 
 					int secondRelIndex = inWhichTable[secondRel];
 					firstRelTable.withCombine(firstRel, firstCondition,
 						tables[secondRelIndex], secondRel, secondCondition);
 					if (firstRelTable.getSize() == 0)
-						tasks.cancel();
+						{ earlyQuit = true; return; }//tasks.cancel();
 
 					tables[secondRelIndex] = firstRelTable;
 					inWhichTable[firstRel] = secondRelIndex;
@@ -1322,12 +1323,12 @@ void MultiQueryEval::evaluate(list<string>& results)
 					tables[firstRelIndex].withPrune(firstRel,
 						firstCondition, secondRel, secondCondition);
 					if (tables[firstRelIndex].getSize() == 0)
-						tasks.cancel();
+						{ earlyQuit = true; return; }//tasks.cancel();
 				} else {
 					tables[firstRelIndex].withCombine(firstRel, firstCondition,
 						tables[secondRelIndex], secondRel, secondCondition);
 					if (tables[firstRelIndex].getSize() == 0)
-						tasks.cancel();
+						{ earlyQuit = true; return; }//tasks.cancel();
 					tables.erase(tables.begin() + secondRelIndex);
 
 					for (auto it = inWhichTable.begin(); it != inWhichTable.end(); it++)
@@ -1338,7 +1339,7 @@ void MultiQueryEval::evaluate(list<string>& results)
 		}
 	
 		for (size_t rel = 0; rel < rels.size(); rel++) {
-			MultiQueryEval::Relation relation = rels[rel];
+			const MultiQueryEval::Relation& relation = rels[rel];
 			const RulesOfEngagement::QueryRelations& type = relation.type;
 			const string& firstRel = relation.firstSynonym;
 			const string& secondRel = relation.secondSynonym;
@@ -1354,15 +1355,15 @@ void MultiQueryEval::evaluate(list<string>& results)
 				{
 					AnswerTable firstRelTable = AnswerTable(synonymTable, firstRel);
 					if (firstRelTable.getSize() == 0)
-						tasks.cancel();
+						{ earlyQuit = true; return; }//tasks.cancel();
 
 					AnswerTable secondRelTable = AnswerTable(synonymTable, secondRel);
 					if (secondRelTable.getSize() == 0)
-						tasks.cancel();
+						{ earlyQuit = true; return; }//tasks.cancel();
 
 					firstRelTable.combine(firstRel, secondRelTable, secondRel, type);
 					if (firstRelTable.getSize() == 0)
-						tasks.cancel();
+						{ earlyQuit = true; return; }//tasks.cancel();
 
 					inWhichTable[firstRel] = tables.size();
 					inWhichTable[secondRel] = tables.size();
@@ -1375,22 +1376,22 @@ void MultiQueryEval::evaluate(list<string>& results)
 
 					AnswerTable secondRelTable = AnswerTable(synonymTable, secondRel);
 					if (secondRelTable.getSize() == 0)
-						tasks.cancel();
+						{ earlyQuit = true; return; }//tasks.cancel();
 
 					tables[firstRelIndex].combine(firstRel, secondRelTable, secondRel, type);
 					if (tables[firstRelIndex].getSize() == 0)
-						tasks.cancel();
+						{ earlyQuit = true; return; }//tasks.cancel();
 
 					inWhichTable[secondRel] = firstRelIndex;
 				} else {
 					AnswerTable firstRelTable = AnswerTable(synonymTable, firstRel);
 					if (firstRelTable.getSize() == 0)
-						tasks.cancel();
+						{ earlyQuit = true; return; }//tasks.cancel();
 
 					int secondRelIndex = inWhichTable[secondRel];
 					firstRelTable.combine(firstRel, tables[secondRelIndex], secondRel, type);
 					if (firstRelTable.getSize() == 0)
-						tasks.cancel();
+						{ earlyQuit = true; return; }//tasks.cancel();
 
 					tables[secondRelIndex] = firstRelTable;
 					inWhichTable[firstRel] = secondRelIndex;
@@ -1402,11 +1403,11 @@ void MultiQueryEval::evaluate(list<string>& results)
 				if (firstRelIndex == secondRelIndex) {
 					tables[firstRelIndex].prune(firstRel, secondRel, type);
 					if (tables[firstRelIndex].getSize() == 0)
-						tasks.cancel();
+						{ earlyQuit = true; return; }//tasks.cancel();
 				} else {
 					tables[firstRelIndex].combine(firstRel, tables[secondRelIndex], secondRel, type);
 					if (tables[firstRelIndex].getSize() == 0)
-						tasks.cancel();
+						{ earlyQuit = true; return; }//tasks.cancel();
 					tables.erase(tables.begin() + secondRelIndex);
 
 					for (auto it = inWhichTable.begin(); it != inWhichTable.end(); it++)
@@ -1439,14 +1440,14 @@ void MultiQueryEval::evaluate(list<string>& results)
 		}
 	};
 
-	auto task = make_task([&]() {
+	/*auto task = make_task([&]() {
 		parallel_for(::size_t(0), components.size(), for_each_partition);
 	});
 
 	if (tasks.run_and_wait(task) == canceled) {
 		earlyQuit = true;
 		return;
-	}
+	}*/
 
 	for (auto it = selecteds.begin(); it != selecteds.end(); it++) {
 		AnswerTable table = AnswerTable(synonymTable, *it);

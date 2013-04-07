@@ -1169,21 +1169,21 @@ void AnswerTable::prune(const string& firstSynonym,
 /**
 * Scans through two AnswerTables and combine those rows where the synonyms in each Answertable
 * satisfy the relation as defined with the 'with' keyword.
-* @param ownSynonym name of synonym in this AnswerTable
+* @param firstSynonym name of synonym in this AnswerTable
+* @param firstCondition condition associated with synonym in this AnswerTable
 * @param otherTable pointer to other AnswerTable
 * @param otherSynonym name of synonym in the other AnswerTable
-* @param rel function pointer to method to evaluate satisfiability of relation
+* @param secondCondition condition associated with synonym in the other AnswerTable
 * @return the AnswerTable having combined with the other AnswerTable
 */
-void AnswerTable::withCombine(const SynonymTable& synonymTable, const string& firstSynonym,
-	const string& firstCondition, const AnswerTable& otherTable,
-	const string& secondSynonym, const string& secondCondition)
+void AnswerTable::withCombine(const string& firstSynonym, const string& firstCondition,
+	const AnswerTable& otherTable, const string& secondSynonym, const string& secondCondition)
 {
 	const int firstRelIndex = synonymPosition[firstSynonym];
-	const RulesOfEngagement::QueryVar firstVar = synonymTable.getType(firstSynonym);
+	const RulesOfEngagement::QueryVar firstVar = type[firstRelIndex];
 	
-	const int secondRelIndex = synonymPosition[secondSynonym];
-	const RulesOfEngagement::QueryVar secondVar = synonymTable.getType(secondSynonym);
+	const int secondRelIndex = otherTable.synonymPosition.at(secondSynonym);
+	const RulesOfEngagement::QueryVar secondVar = otherTable.type[secondRelIndex];
 
 	const RulesOfEngagement::QueryVar attributeType =
 		RulesOfEngagement::conditionTypes[firstCondition];
@@ -1253,18 +1253,19 @@ void AnswerTable::withCombine(const SynonymTable& synonymTable, const string& fi
 * Scans through the AnswerTable and keep those rows where the synonyms satisfy the relation
 * as defined with the 'with' keyword.
 * @param firstSynonym name of first synonym
+* @param firstCondition condition associated with first synonym
 * @param secondSynonym name of second synonym
-* @param rel function pointer to method to evaluate satisfiability of relation
+* @param secondCondition condition associated with second synonym
 * @return the AnswerTable
 */
-void AnswerTable::withPrune(const SynonymTable& synonymTable, const string& firstSynonym,
+void AnswerTable::withPrune(const string& firstSynonym,
 	const string& firstCondition, const string& secondSynonym, const string& secondCondition)
 {
 	const int firstRelIndex = synonymPosition[firstSynonym];
-	const RulesOfEngagement::QueryVar firstVar = synonymTable.getType(firstSynonym);
+	const RulesOfEngagement::QueryVar firstVar = type[firstRelIndex];
 	
 	const int secondRelIndex = synonymPosition[secondSynonym];
-	const RulesOfEngagement::QueryVar secondVar = synonymTable.getType(secondSynonym);
+	const RulesOfEngagement::QueryVar secondVar = type[secondRelIndex];
 
 	const RulesOfEngagement::QueryVar attributeType =
 		RulesOfEngagement::conditionTypes[firstCondition];

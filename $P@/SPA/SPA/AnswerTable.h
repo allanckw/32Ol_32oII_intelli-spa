@@ -23,11 +23,11 @@ public:
 	void prune(const string& firstSynonym,
 		const string& secondSynonym, const RulesOfEngagement::QueryRelations rel);
 
-	void withCombine(const SynonymTable& synonymTable, const string& firstSynonym, 
+	void withCombine(const string& firstSynonym,
 		const string& firstCondition, const AnswerTable& otherTable,
 		const string& secondSynonym, const string& secondCondition);
-	void withPrune(const SynonymTable& synonymTable, const string& firstSynonym,
-		const string& firstCondition, const string& secondSynonym, const string& secondCondition);
+	void withPrune(const string& firstSynonym, const string& firstCondition,
+		const string& secondSynonym, const string& secondCondition);
 	
 	void patternPrune(const string& synonym, const RulesOfEngagement::PatternRHSType,
 		const string& RHS, const ASTExprNode* RHSexprs);

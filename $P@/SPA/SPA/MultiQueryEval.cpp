@@ -472,7 +472,6 @@ void MultiQueryEval::validate()
 						//Bug Fix Here.. - Allan pattern a(watever, _) works, but pattern a(watever, _     ) fails
 						secondRel.erase(remove(secondRel.begin(), secondRel.end(), '\t'), secondRel.end());
 						secondRel.erase(remove(secondRel.begin(), secondRel.end(), ' '), secondRel.end());
-
 						if (secondRel != "_") {
 							//remove white spaces
 							size_t length = secondRel.length();
@@ -1277,8 +1276,8 @@ void MultiQueryEval::evaluate(list<string>& results)
 					if (secondRelTable.getSize() == 0)
 						tasks.cancel();
 
-					firstRelTable.withCombine(synonymTable, firstRel,
-						firstCondition, secondRelTable, secondRel, secondCondition);
+					firstRelTable.withCombine(firstRel, firstCondition,
+						secondRelTable, secondRel, secondCondition);
 					if (firstRelTable.getSize() == 0)
 						tasks.cancel();
 
@@ -1295,8 +1294,8 @@ void MultiQueryEval::evaluate(list<string>& results)
 					if (secondRelTable.getSize() == 0)
 						tasks.cancel();
 
-					tables[firstRelIndex].withCombine(synonymTable, firstRel,
-						firstCondition, secondRelTable, secondRel, secondCondition);
+					tables[firstRelIndex].withCombine(firstRel, firstCondition,
+						secondRelTable, secondRel, secondCondition);
 					if (tables[firstRelIndex].getSize() == 0)
 						tasks.cancel();
 
@@ -1307,8 +1306,8 @@ void MultiQueryEval::evaluate(list<string>& results)
 						tasks.cancel();
 
 					int secondRelIndex = inWhichTable[secondRel];
-					firstRelTable.withCombine(synonymTable, firstRel,
-						firstCondition, tables[secondRelIndex], secondRel, secondCondition);
+					firstRelTable.withCombine(firstRel, firstCondition,
+						tables[secondRelIndex], secondRel, secondCondition);
 					if (firstRelTable.getSize() == 0)
 						tasks.cancel();
 
@@ -1320,13 +1319,13 @@ void MultiQueryEval::evaluate(list<string>& results)
 				int firstRelIndex = inWhichTable[firstRel];
 				int secondRelIndex = inWhichTable[secondRel];
 				if (firstRelIndex == secondRelIndex) {
-					tables[firstRelIndex].withPrune(synonymTable,
-						firstRel, firstCondition, secondRel, secondCondition);
+					tables[firstRelIndex].withPrune(firstRel,
+						firstCondition, secondRel, secondCondition);
 					if (tables[firstRelIndex].getSize() == 0)
 						tasks.cancel();
 				} else {
-					tables[firstRelIndex].withCombine(synonymTable, firstRel,
-						firstCondition, tables[secondRelIndex], secondRel, secondCondition);
+					tables[firstRelIndex].withCombine(firstRel, firstCondition,
+						tables[secondRelIndex], secondRel, secondCondition);
 					if (tables[firstRelIndex].getSize() == 0)
 						tasks.cancel();
 					tables.erase(tables.begin() + secondRelIndex);
@@ -1490,7 +1489,7 @@ void MultiQueryEval::evaluate(list<string>& results)
 		const vector<int>& ans = partialAnswers.top();
 		const size_t& pos = partialLocation.top();
 		partialLocation.pop();
-		const AnswerTable& table = projections[position];
+		const AnswerTable& table = projections[toConsider[position]];
 		if (position == toConsider.size() - 1) {
 			for (size_t i = 0, maxSize = table.getSize(); i < maxSize; ++i) {
 				vector<int> newans(ans.begin(), ans.end());

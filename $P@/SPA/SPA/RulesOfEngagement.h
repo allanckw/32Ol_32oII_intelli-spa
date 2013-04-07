@@ -48,6 +48,8 @@ public:
 		Affects,
 		AffectsStar,
 		PatternModifies,
+		PatternSecond,
+		PatternThird,
 		PatternUses,
 		Contains,
 		ContainsStar,
@@ -120,6 +122,8 @@ private:
 	static bool isSibling(const ASTNode * const x, const ASTNode * const y);
 	static bool isContains(const ASTNode * const x, const ASTNode * const y);
 	static bool isContainsStar(const ASTNode * const x, const ASTNode * const y);
+	static bool isPatternSecond(const ASTNode * const x, const ASTNode * const y);
+	static bool isPatternThird(const ASTNode * const x, const ASTNode * const y);
 
 	static unordered_map<QueryRelations, relationFamily> relationByMap;
 	static vector<int> modifiesStmtBy(int x);

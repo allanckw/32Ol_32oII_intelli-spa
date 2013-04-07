@@ -416,6 +416,8 @@ void RulesOfEngagement::initialise()
 	allowableSecondArgument[Sibling].insert(Integer);
 	
 	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(PatternModifies, Variable));
+	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(PatternSecond, Statement_List));
+	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(PatternThird, Statement_List));
 
 	allowableSelfReference.insert(NextStar);
 	allowableSelfReference.insert(NextBipStar);
@@ -473,6 +475,8 @@ void RulesOfEngagement::initialise()
 	relation2Map[Contains] = &isContains;
 	relation2Map[ContainsStar] = &isContainsStar;
 	relation2Map[Sibling] = &isSibling;
+	relation2Map[PatternSecond] = &isPatternSecond;
+	relation2Map[PatternThird] = &isPatternThird;
 
 	relationByMap[ModifiesStmt] = &modifiesStmtBy;
 	relationByMap[ModifiesProc] = &modifiesProcBy;
@@ -771,6 +775,16 @@ bool RulesOfEngagement::isContainsStar(const ASTNode * const x, const ASTNode * 
 		p = p->getAncestor();
 	}
 	return false;
+}
+
+bool RulesOfEngagement::isPatternSecond(const ASTNode * const x, const ASTNode * const y)
+{
+	return x->getChild(1) == y;
+}
+
+bool RulesOfEngagement::isPatternThird(const ASTNode * const x, const ASTNode * const y)
+{
+	return x->getChild(2) == y;
 }
 
 /**

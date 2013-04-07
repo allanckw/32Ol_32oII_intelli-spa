@@ -451,8 +451,7 @@ void MultiQueryEval::validate()
 				string firstRel = getToken();
 
 				switch (type) {
-				case RulesOfEngagement::Assign:
-					{
+				case RulesOfEngagement::Assign: {
 						if (firstRel != "_") {
 							if (stringToQueryVar.count(firstRel) > 0) {
 								if (stringToQueryVar[firstRel] != RulesOfEngagement::Variable)
@@ -486,47 +485,92 @@ void MultiQueryEval::validate()
 							patternAssignUsesStore[synonym].insert(secondRel);
 							//stringCount[synonym]++;
 						}
-					}
+												}
 					break;
 
-				case RulesOfEngagement::If:
+				case RulesOfEngagement::If: {
 					matchToken(",");
-					matchToken("_");
+					const string secondRel = getToken();
 					matchToken(",");
-					matchToken("_");
+					const string thirdRel = getToken();
 					matchToken(")");
+					bool nothing = true;
 
-					if (firstRel == "_")
-						earlyQuit |= !RulesOfEngagement::isExistType(type);
-					else {
+					if (firstRel != "_") {
+						nothing = false;
 						if (stringToQueryVar.count(firstRel) > 0) {
 							if (stringToQueryVar[firstRel] != RulesOfEngagement::Variable)
-								throw new SPAException("The first argument of pattern for if must be a variable");
-						} else if (firstRel.at(0) != '\"' || firstRel.at(firstRel.length() - 1) != '\"')
+								throw new SPAException(
+								"The first argument of pattern for if must be a variable");
+						} else if (firstRel.at(0) != '\"' ||
+							firstRel.at(firstRel.length() - 1) != '\"')
 							throw new SPAException("Could not parse the first argument");
 
 						relationStore[RulesOfEngagement::PatternModifies][synonym].insert(firstRel);
 						//stringCount[synonym]++;
 					}
+
+					if (secondRel != "_") {
+						nothing = false;
+						if (stringToQueryVar.count(secondRel) == 0 ||
+							stringToQueryVar[secondRel] != RulesOfEngagement::Statement_List)
+							throw new SPAException(
+							"The second argument of pattern for if must be a statement list");
+
+						relationStore[RulesOfEngagement::PatternSecond][synonym].insert(secondRel);
+						//stringCount[synonym]++;
+					}
+
+					if (thirdRel != "_") {
+						nothing = false;
+						if (stringToQueryVar.count(thirdRel) == 0 ||
+							stringToQueryVar[thirdRel] != RulesOfEngagement::Statement_List)
+							throw new SPAException(
+							"The third argument of pattern for if must be a statement list");
+
+						relationStore[RulesOfEngagement::PatternSecond][synonym].insert(thirdRel);
+						//stringCount[synonym]++;
+					}
+
+					if (nothing)
+						earlyQuit |= !RulesOfEngagement::isExistType(type);
+											}
 					break;
 
-				case RulesOfEngagement::While:
+				case RulesOfEngagement::While: {
 					matchToken(",");
-					matchToken("_");
+					const string secondRel = getToken();
 					matchToken(")");
+					bool nothing = true;
 
-					if (firstRel == "_")
-						earlyQuit |= !RulesOfEngagement::isExistType(type);
-					else {
+					if (firstRel != "_") {
+						nothing = false;
 						if (stringToQueryVar.count(firstRel) > 0) {
 							if (stringToQueryVar[firstRel] != RulesOfEngagement::Variable)
-								throw new SPAException("The first argument of pattern for while must be a variable");
-						} else if (firstRel.at(0) != '\"' || firstRel.at(firstRel.length() - 1) != '\"')
+								throw new SPAException(
+								"The first argument of pattern for while must be a variable");
+						} else if (firstRel.at(0) != '\"' ||
+							firstRel.at(firstRel.length() - 1) != '\"')
 							throw new SPAException("Could not parse the first argument");
 
 						relationStore[RulesOfEngagement::PatternModifies][synonym].insert(firstRel);
 						//stringCount[synonym]++;
 					}
+
+					if (secondRel != "_") {
+						nothing = false;
+						if (stringToQueryVar.count(secondRel) == 0 ||
+							stringToQueryVar[secondRel] != RulesOfEngagement::Statement_List)
+							throw new SPAException(
+							"The second argument of pattern for while must be a statement list");
+
+						relationStore[RulesOfEngagement::PatternSecond][synonym].insert(secondRel);
+						//stringCount[synonym]++;
+					}
+
+					if (nothing)
+						earlyQuit |= !RulesOfEngagement::isExistType(type);
+											   }
 					break;
 
 				default:

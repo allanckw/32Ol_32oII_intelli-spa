@@ -11,11 +11,11 @@ void PQLController::evaluateQuery(const string& query, list<string>& results)
 {
 	//uncomment for rerouting...
 	int or = query.find("or");
-	//if(or >= 0) {
-	//	Dnf::Eval(query, results);
-	//} else {
-	MultiQueryEval::evaluateQuery(query, results);
-	//}
+	if(or >= 0) {
+		Dnf::Eval(query, results);
+	} else {
+		MultiQueryEval::evaluateQuery(query, results);
+	}
 	PKB::next.tearDownCache();
 	PKB::affects.tearDownCache();
 }

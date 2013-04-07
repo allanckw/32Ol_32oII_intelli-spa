@@ -32,7 +32,7 @@ echo "Source 8 complete"
 
 Call  $P@\SPA\Release\autotester.exe source9.txt  Queries9.1.txt  out9.1.xml > NUL
 
-Call   $P@\SPA\Release\autotester.exe source9.txt  Queries9.1.txt  out9.2.xml > NUL
+Call   $P@\SPA\Release\autotester.exe source9.txt  Queries9.2.txt  out9.2.xml > NUL
 echo "Source 9 complete"
 
 Call  $P@\SPA\Release\autotester.exe source10.txt  Queries10.txt  out10.xml > NUL

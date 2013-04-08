@@ -51,7 +51,7 @@ private:
 	unordered_map<STMT, vector<STMT>> affectsBipStarByMap;	  //Store the results of affectsBip*(a1,_)
 	unordered_map<STMT, vector<STMT>> affectsBipStarFromMap; //Store the results of affectsBip*(_,a2)
 
-	static bool isDuplicate(vector<Affects*> v, Affects* n);
+	static bool isDuplicate(vector<Affects*>& v, Affects* n);
 public:
 	AffectsTable();
 	
@@ -62,18 +62,18 @@ public:
 	
 	void insertAffectsStar (STMT, STMT, bool);
 	bool isAffectsStar (STMT, STMT);
-	vector<STMT>  getAffectsByStar(STMT);
-	vector<STMT>  getAffectsFromStar(STMT);
+	vector<STMT>  getAffectsStarBy(STMT);
+	vector<STMT>  getAffectsStarFrom(STMT);
 
 	void insertAffectsBip(STMT, STMT, bool);
 	bool isAffectsBip (STMT, STMT);
-	vector<STMT>  getAffectsByBip(STMT);
-	vector<STMT>  getAffectsFromBip(STMT);
+	vector<STMT>  getAffectsBipBy(STMT);
+	vector<STMT>  getAffectsBipFrom(STMT);
 
 	void insertAffectsBipStar(STMT, STMT, bool);
 	bool isAffectsBipStar (STMT, STMT);
-	vector<STMT>  getAffectsByBipStar(STMT);
-	vector<STMT>  getAffectsFromBipStar(STMT);
+	vector<STMT>  getAffectsBipStarBy(STMT);
+	vector<STMT>  getAffectsBipStarFrom(STMT);
 
 	void tearDownCache();
 };

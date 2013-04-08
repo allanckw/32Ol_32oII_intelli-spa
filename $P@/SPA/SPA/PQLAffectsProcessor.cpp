@@ -726,7 +726,7 @@ bool PQLAffectsProcessor::isAffectsStar(STMT a1, STMT a2)
 * @param a1	The statement that is going to affect a2
 * @return a list of statement that is affectStar by a1
 */
-vector<STMT> PQLAffectsProcessor::getAffectsByStar(STMT a1)
+vector<STMT> PQLAffectsProcessor::getAffectsStarBy(STMT a1)
 {
 	if (a1 < 0 || a1 > PKB::maxProgLines)
 		return vector<STMT>();
@@ -879,7 +879,7 @@ vector<STMT> PQLAffectsProcessor::getAffectsByStar(STMT a1)
 * @param a2	The statement that is going to affect by a1
 * @return a list of statement that is affectStar a2
 */
-vector<STMT>  PQLAffectsProcessor::getAffectsFromStar(STMT a2)
+vector<STMT>  PQLAffectsProcessor::getAffectsStarFrom(STMT a2)
 {
 	if (a2 < 0 || a2 > PKB::maxProgLines)
 		return vector<STMT>();
@@ -1077,16 +1077,103 @@ bool PQLAffectsProcessor::isAffectsBip(STMT a1, STMT a2)
 			break;
 		}
 	}
+	return false;
 }
 
-vector<STMT> PQLAffectsProcessor::getAffectsByBip(STMT a1)
+vector<STMT> PQLAffectsProcessor::getAffectsBipBy(STMT a1)
 {
-	vector<STMT> answer;
+	if (a1 < 0 || a1 > PKB::maxProgLines)
+		return vector<STMT>();
+	if (PKB::assignTable.count(a1) == 0)
+		return vector<STMT>();
+	
+	struct Information {
+		CFGNode* node;
+		STMT stmt;
+		stack<STMT> callStack;
 
-	return answer;
+		Information(CFGNode* node, STMT stmt, stack<STMT> callStack) :
+		node(node), stmt(stmt), callStack(callStack) {}
+	};
+	
+	unordered_set<STMT> answer;
+	const VAR modifiesVar = PKB::modifies.getModifiedByStmt(a1)[0];
+	queue<Information> search;
+	unordered_set<CFGNode*> seen;
+	search.push(Information(NULL, a1, stack<STMT>()));
+
+	while (!search.empty()) {
+		Information info = search.front();
+		search.pop();
+		STMT stmt = info.stmt;
+		stack<STMT>& callStack = info.callStack;
+		CFGNode* node = (info.node == NULL) ? PKB::stmtRefMap.at(stmt).getCFGNode() : info.node;
+
+		if (stmt == -1 && seen.count(node) > 0)
+			continue;
+		seen.insert(node);
+
+		if (node->type != CFGNode::DummyNode) {
+			if (stmt == -1)
+				stmt = node->first - 1;
+			bool broke = false;
+			for (int i = stmt + 1; i <= node->last; i++) {
+				if (PKB::assignTable.count(i) > 0) {
+					const vector<VAR>& stmtUsesVar = PKB::uses.getUsedByStmt(i);
+					for (auto it = stmtUsesVar.begin(); it != stmtUsesVar.end(); it++)
+						if (modifiesVar == *it) {
+							answer.insert(i);
+							break;
+						}
+					if (modifiesVar == PKB::modifies.getModifiedByStmt(i)[0]) {
+						broke = true;
+						break;
+					}
+				} else if (PKB::callTable.count(i) > 0) {
+					callStack.push(i);
+					search.push(Information(NULL, -1, callStack));
+					broke = true;
+					break;
+				}
+			}
+			if (broke)
+				continue;
+		}
+		
+		switch (node->type) {
+		case CFGNode::DummyNode:
+		case CFGNode::StandardNode: {
+			CFGNode* child = node->children.oneChild;
+			if (child == NULL) {
+				if (callStack.empty()) {						
+					const vector<STMT>& caller = PKB::calls.getStmtCall(node->proc);
+					for (auto it = caller.begin(); it != caller.end(); it++)
+						search.push(Information(NULL, *it, callStack));
+				} else {
+					const STMT last = callStack.top();
+					callStack.pop();
+					search.push(Information(NULL, last, callStack));
+				}
+			} else
+				search.push(Information(child, -1, callStack));
+									}
+			break;
+
+		case CFGNode::WhileNode:
+			search.push(Information(node->children.whileChildren.whileIn, -1, callStack));
+			search.push(Information(node->children.whileChildren.whileOut, -1, callStack));
+			break;
+		
+		case CFGNode::IfNode:
+			search.push(Information(node->children.ifChildren.ifThen, -1, callStack));
+			search.push(Information(node->children.ifChildren.ifElse, -1, callStack));
+			break;
+		}
+	}
+	return vector<STMT>(answer.begin(), answer.end());
 }
 
-vector<STMT> PQLAffectsProcessor::getAffectsFromBip(STMT a2)
+vector<STMT> PQLAffectsProcessor::getAffectsBipFrom(STMT a2)
 {
 	vector<STMT> answer;
 
@@ -1094,7 +1181,7 @@ vector<STMT> PQLAffectsProcessor::getAffectsFromBip(STMT a2)
 }
 
 bool PQLAffectsProcessor::isAffectsBipStar(STMT a1, STMT a2)
-{	
+{
 	if (a1 < 0 || a1 > PKB::maxProgLines || a2 < 0 || a2 > PKB::maxProgLines)
 		return false;
 	if (PKB::assignTable.count(a1) == 0 || PKB::assignTable.count(a2) == 0)
@@ -1216,16 +1303,136 @@ bool PQLAffectsProcessor::isAffectsBipStar(STMT a1, STMT a2)
 			break;
 		}
 	}
+	return false;
 }
 
-vector<STMT> PQLAffectsProcessor::getAffectsByBipStar(STMT a1)
+vector<STMT> PQLAffectsProcessor::getAffectsBipStarBy(STMT a1)
 {
-	vector<STMT> answer;
+	if (a1 < 0 || a1 > PKB::maxProgLines)
+		return vector<STMT>();
+	if (PKB::assignTable.count(a1) == 0)
+		return vector<STMT>();
+	
+	struct Information {
+		CFGNode* node;
+		STMT stmt;
+		unordered_set<VAR> activeVars;
+		stack<STMT> callStack;
 
-	return answer;
+		Information(CFGNode* node, STMT stmt,
+			unordered_set<VAR> activeVars, stack<STMT> callStack) :
+		node(node), stmt(stmt), activeVars(activeVars), callStack(callStack) {}
+	};
+	
+	unordered_set<STMT> answer;
+	queue<Information> search;
+	unordered_map<CFGNode*, unordered_set<int>> seen;
+
+	{
+	const vector<VAR>& modifiesVarVector = PKB::modifies.getModifiedByStmt(a1);
+	const unordered_set<VAR> modifiesVarSet(modifiesVarVector.begin(), modifiesVarVector.end());
+	search.push(Information(NULL, a1, modifiesVarSet, stack<STMT>()));
+	}
+
+	while (!search.empty()) {
+		Information info = search.front();
+		search.pop();
+		STMT stmt = info.stmt;
+		unordered_set<VAR>& activeVars = info.activeVars;
+		stack<STMT>& callStack = info.callStack;
+		CFGNode* node = (info.node == NULL) ? PKB::stmtRefMap.at(stmt).getCFGNode() : info.node;
+
+		if (stmt == -1 && seen.count(node) > 0) {
+			unordered_set<int>& seenVar = seen[node];
+			for (auto it = seenVar.begin(); it != seenVar.end(); it++)
+				activeVars.erase(*it);
+			if (activeVars.empty())
+				continue;
+			for (auto it = activeVars.begin(); it != activeVars.end(); it++)
+				seenVar.insert(*it);
+		} else
+			seen.insert(pair<CFGNode*, unordered_set<int>>(node, activeVars));
+
+		if (node->type != CFGNode::DummyNode) {
+			if (stmt == -1)
+				stmt = node->first - 1;
+			bool broke = false;
+			for (int i = stmt + 1; i <= node->last; i++) {
+				if (PKB::assignTable.count(i) > 0) {
+					const vector<VAR>& usesVar = PKB::uses.getUsedByStmt(i);
+					const VAR modifiesVar = PKB::modifies.getModifiedByStmt(i)[0];
+					if (activeVars.count(modifiesVar)) { //this statement kills value of some prev
+						bool match = false;
+						for (auto it = usesVar.begin(); it != usesVar.end(); it++)
+							if (activeVars.count(*it) > 0) { //this statement uses a variable
+								answer.insert(i);
+								if (modifiesVar == *it) { //overall effect -> do nothing
+									match = true;
+									break;
+								}
+							}
+						if (!match) { //kill previous value
+							activeVars.erase(modifiesVar);
+							if (activeVars.empty()) {
+								broke = true;
+								break;
+							}
+						}
+					} else { //this statement does not kill anything
+						for (auto it = usesVar.begin(); it != usesVar.end(); it++)
+							if (activeVars.count(*it) > 0) { //this statement uses a variable
+								activeVars.insert(modifiesVar); //overall effect -> add it in
+								break;
+							}
+					}
+				} else if (PKB::callTable.count(i) > 0) {
+					callStack.push(i);
+					search.push(Information(NULL, -1, activeVars, callStack));
+					broke = true;
+					break;
+				}
+			}
+
+			if (broke)
+				continue;
+		}
+		
+		switch (node->type) {
+		case CFGNode::DummyNode:
+		case CFGNode::StandardNode: {
+			CFGNode* child = node->children.oneChild;
+			if (child == NULL) {
+				if (callStack.empty()) {						
+					const vector<STMT>& caller = PKB::calls.getStmtCall(node->proc);
+					for (auto it = caller.begin(); it != caller.end(); it++)
+						search.push(Information(NULL, *it, activeVars, callStack));
+				} else {
+					const STMT last = callStack.top();
+					callStack.pop();
+					search.push(Information(NULL, last, activeVars, callStack));
+				}
+			} else
+				search.push(Information(child, -1, activeVars, callStack));
+									}
+			break;
+
+		case CFGNode::WhileNode:
+			search.push(Information(node->children.whileChildren.whileIn,
+				-1, activeVars, callStack));
+			search.push(Information(node->children.whileChildren.whileOut,
+				-1, activeVars, callStack));
+			break;
+		
+		case CFGNode::IfNode:
+			search.push(Information(node->children.ifChildren.ifThen, -1, activeVars, callStack));
+			search.push(Information(node->children.ifChildren.ifElse, -1, activeVars, callStack));
+			break;
+		}
+	}
+	return vector<STMT>(answer.begin(), answer.end());
 }
 
-vector<STMT> PQLAffectsProcessor::getAffectsFromBipStar(STMT a2)
+vector<STMT> PQLAffectsProcessor::getAffectsBipStarFrom(STMT a2)
 {
 	vector<STMT> answer;
 

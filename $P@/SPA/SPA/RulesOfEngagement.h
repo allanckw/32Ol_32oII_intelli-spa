@@ -47,6 +47,8 @@ public:
 		NextBipStar,
 		Affects,
 		AffectsStar,
+		AffectsBip,
+		AffectsBipStar,
 		PatternModifies,
 		PatternSecond,
 		PatternThird,
@@ -116,6 +118,8 @@ private:
 	static bool isNextBipStar(int x, int y);
 	static bool isAffects(int x, int y);
 	static bool isAffectsStar(int x, int y);
+	static bool isAffectsBip(int x, int y);
+	static bool isAffectsBipStar(int x, int y);
 	static bool isPatternModifies(int x, int y);
 	
 	static unordered_map<QueryRelations, isRelation2> relation2Map;
@@ -142,6 +146,8 @@ private:
 	static vector<int> nextBipStarBy(int x);
 	static vector<int> affectsBy(int x);
 	static vector<int> affectsStarBy(int x);
+	static vector<int> affectsBipBy(int x);
+	static vector<int> affectsBipStarBy(int x);
 
 	static unordered_map<QueryRelations, relation2Family> relation2ByMap;
 	static const vector<ASTNode*> containsBy(const ASTNode * const x);
@@ -165,6 +171,8 @@ private:
 	static vector<int> nextBipStarFrom(int y);
 	static vector<int> affectsFrom(int y);
 	static vector<int> affectsStarFrom(int y);
+	static vector<int> affectsBipFrom(int y);
+	static vector<int> affectsBipStarFrom(int y);
 
 	static unordered_map<QueryRelations, relation2Family> relation2FromMap;
 	static const vector<ASTNode*> containsFrom(const ASTNode * const y);

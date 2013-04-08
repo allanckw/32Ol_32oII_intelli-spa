@@ -333,6 +333,24 @@ void RulesOfEngagement::initialise()
 	allowableSecondArgument[AffectsStar].insert(WildCard);
 	allowableSecondArgument[AffectsStar].insert(Integer);
 	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(AffectsStar, Statement));
+	
+	allowableFirstArgument[AffectsBip].insert(Assign);
+	allowableFirstArgument[AffectsBip].insert(WildCard);
+	allowableFirstArgument[AffectsBip].insert(Integer);
+	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(AffectsBip, Statement));
+	allowableSecondArgument[AffectsBip].insert(Assign);
+	allowableSecondArgument[AffectsBip].insert(WildCard);
+	allowableSecondArgument[AffectsBip].insert(Integer);
+	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(AffectsBip, Statement));
+	
+	allowableFirstArgument[AffectsBipStar].insert(Assign);
+	allowableFirstArgument[AffectsBipStar].insert(WildCard);
+	allowableFirstArgument[AffectsBipStar].insert(Integer);
+	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(AffectsBipStar, Statement));
+	allowableSecondArgument[AffectsBipStar].insert(Assign);
+	allowableSecondArgument[AffectsBipStar].insert(WildCard);
+	allowableSecondArgument[AffectsBipStar].insert(Integer);
+	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(AffectsBipStar, Statement));
 
 	allowableFirstArgument[Contains].insert(Procedure);
 	allowableFirstArgument[Contains].insert(Statement_List);
@@ -440,6 +458,8 @@ void RulesOfEngagement::initialise()
 	takesInASTNode.insert(pair<QueryRelations, bool>(NextBipStar, false));
 	takesInASTNode.insert(pair<QueryRelations, bool>(Affects, false));
 	takesInASTNode.insert(pair<QueryRelations, bool>(AffectsStar, false));
+	takesInASTNode.insert(pair<QueryRelations, bool>(AffectsBip, false));
+	takesInASTNode.insert(pair<QueryRelations, bool>(AffectsBipStar, false));
 	takesInASTNode.insert(pair<QueryRelations, bool>(PatternModifies, false));
 	takesInASTNode.insert(pair<QueryRelations, bool>(Contains, true));
 	takesInASTNode.insert(pair<QueryRelations, bool>(ContainsStar, true));
@@ -471,6 +491,8 @@ void RulesOfEngagement::initialise()
 	relationMap[NextBipStar] = &isNextBipStar;
 	relationMap[Affects] = &isAffects;
 	relationMap[AffectsStar] = &isAffectsStar;
+	relationMap[AffectsBip] = &isAffectsBip;
+	relationMap[AffectsBipStar] = &isAffectsBipStar;
 	relationMap[PatternModifies] = &isPatternModifies;
 	relation2Map[Contains] = &isContains;
 	relation2Map[ContainsStar] = &isContainsStar;
@@ -494,6 +516,8 @@ void RulesOfEngagement::initialise()
 	relationByMap[NextBipStar] = &nextBipStarBy;
 	relationByMap[Affects] = &affectsBy;
 	relationByMap[AffectsStar] = &affectsStarBy;
+	relationByMap[AffectsBip] = &affectsBipBy;
+	relationByMap[AffectsBipStar] = &affectsBipStarBy;
 	relation2ByMap[Contains] = &containsBy;
 	relation2ByMap[ContainsStar] = &containsStarBy;
 	relation2ByMap[Sibling] = &siblingBy;
@@ -514,6 +538,8 @@ void RulesOfEngagement::initialise()
 	relationFromMap[NextBipStar] = &nextBipStarFrom;
 	relationFromMap[Affects] = &affectsFrom;
 	relationFromMap[AffectsStar] = &affectsStarFrom;
+	//relationFromMap[AffectsBip] = &affectsBipFrom;
+	//relationFromMap[AffectsBipStar] = &affectsBipStarFrom;
 	relation2FromMap[Contains] = &containsFrom;
 	relation2FromMap[ContainsStar] = &containsStarFrom;
 	relation2FromMap[Sibling] = &siblingBy;
@@ -746,6 +772,16 @@ bool RulesOfEngagement::isAffectsStar(int x, int y)
 	return PKB::affects.isAffectsStar(x, y);
 }
 
+bool RulesOfEngagement::isAffectsBip(int x, int y)
+{
+	return PKB::affects.isAffectsBip(x, y);
+}
+
+bool RulesOfEngagement::isAffectsBipStar(int x, int y)
+{
+	return PKB::affects.isAffectsBipStar(x, y);
+}
+
 RulesOfEngagement::isRelation2
 	RulesOfEngagement::getRelation2(RulesOfEngagement::QueryRelations rel)
 {
@@ -764,10 +800,10 @@ bool RulesOfEngagement::isContains(const ASTNode * const x, const ASTNode * cons
 
 bool RulesOfEngagement::isContainsStar(const ASTNode * const x, const ASTNode * const y)
 {
-	if (x == PKB::rootNode)
-		return true;
 	if (x == y)
 		return false;
+	if (x == PKB::rootNode)
+		return true;
 	ASTNode* p = y->getAncestor();
 	while (p != PKB::rootNode) {
 		if (x == p)
@@ -881,7 +917,17 @@ vector<int> RulesOfEngagement::affectsBy(int x)
 
 vector<int> RulesOfEngagement::affectsStarBy(int x)
 {
-	return PKB::affects.getAffectsByStar(x);
+	return PKB::affects.getAffectsStarBy(x);
+}
+
+vector<int> RulesOfEngagement::affectsBipBy(int x)
+{
+	return PKB::affects.getAffectsBipBy(x);
+}
+
+vector<int> RulesOfEngagement::affectsBipStarBy(int x)
+{
+	return PKB::affects.getAffectsBipStarBy(x);
 }
 
 /*//Stmt Siblings is trivial it is the follows* of both left and right side combined
@@ -1037,7 +1083,17 @@ vector<int> RulesOfEngagement::affectsFrom(int y)
 
 vector<int> RulesOfEngagement::affectsStarFrom(int y)
 {
-	return PKB::affects.getAffectsFromStar(y);
+	return PKB::affects.getAffectsStarFrom(y);
+}
+
+vector<int> RulesOfEngagement::affectsBipFrom(int y)
+{
+	return PKB::affects.getAffectsBipFrom(y);
+}
+
+vector<int> RulesOfEngagement::affectsBipStarFrom(int y)
+{
+	return PKB::affects.getAffectsBipStarFrom(y);
 }
 
 RulesOfEngagement::relation2Family RulesOfEngagement::getRelation2FromFamily(QueryRelations rel)

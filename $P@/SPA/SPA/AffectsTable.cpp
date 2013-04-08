@@ -27,8 +27,8 @@ void AffectsTable::insertAffects (STMT a1, STMT a2, bool isAffected)
 		pair<STMT, vector<Affects*>> newItem (a1, affectsLst);
 		this->affectsMap.insert(newItem);
 	} else {
-		if (!AffectsTable::isDuplicate(this->affectsMap.at(a1), n)){
-			this->affectsMap.at(a1).push_back(n);
+		if (!AffectsTable::isDuplicate(itr->second, n)){
+			itr->second.push_back(n);
 		}
 	}
 }
@@ -48,23 +48,24 @@ bool AffectsTable::isAffects (STMT a1, STMT a2)
 
 	if (itr != this->affectsMap.end()){
 
-		vector<Affects*> affectsLst =  itr->second;
+		vector<Affects*>& affectsLst =  itr->second;
 	
-		for (unsigned int i = 0; i < affectsLst.size(); i++) {
+		for (size_t i = 0; i < affectsLst.size(); i++) {
 			if (affectsLst[i]->getA2() == a2 )
 				return affectsLst[i]->isAffected();
 		}
 	}
 
 	if (PQLAffectsProcessor::isAffects(a1,a2)){
-		PKB::affects.insertAffects(a1, a2, true);
+		insertAffects(a1, a2, true);
 		return true;
 	} else {
-		PKB::affects.insertAffects(a1, a2, false);
+		insertAffects(a1, a2, false);
 		return false;
 	}
 	return false;
 }
+
 /**
 * This method will be used to get a list of a2 that is affects(a1,_)
 * @param a1	The statement that is going to affect a2
@@ -76,25 +77,14 @@ vector<STMT> AffectsTable::getAffectsBy(STMT a1)
 	auto itr = this->affectsByMap.find(a1);
 
 	if (itr != this->affectsByMap.end()){
-		if (itr->second.size() == 0){
-			result =  PQLAffectsProcessor::getAffectsBy(a1);
-			pair<STMT, vector<STMT>> newItem (a1, result);
-			this->affectsByMap.insert(newItem);
-
-			for (int i = 0; i < result.size(); i++)	
-				PKB::affects.insertAffects(a1, result.at(i), true);
-			
-
-		} else {
-			return itr->second;
-		}
+		return itr->second;
 	} else {
 		result =  PQLAffectsProcessor::getAffectsBy(a1);
 		pair<STMT, vector<STMT>> newItem (a1, result);
 		this->affectsByMap.insert(newItem);
 		
-		for (int i = 0; i < result.size(); i++)	
-			PKB::affects.insertAffects(a1, result.at(i), true);
+		for (size_t i = 0; i < result.size(); i++)	
+			insertAffects(a1, result.at(i), true);
 	}
 
 	return result;
@@ -111,22 +101,13 @@ vector<STMT> AffectsTable::getAffectsFrom(STMT a2)
 	auto itr = this->affectsFromMap.find(a2);
 
 	if (itr != this->affectsFromMap.end()){
-		if (itr->second.size() == 0){
-			result =  PQLAffectsProcessor::getAffectsFrom(a2);
-			pair<STMT, vector<STMT>> newItem (a2, result);
-			this->affectsFromMap.insert(newItem);
-			for (int i = 0; i < result.size(); i++)	
-				PKB::affects.insertAffects(result.at(i), a2, true);
-			
-		} else {
-			return itr->second;
-		}
+		return itr->second;
 	} else {
 		result =  PQLAffectsProcessor::getAffectsFrom(a2);
 		pair<STMT, vector<STMT>> newItem (a2, result);
 		this->affectsFromMap.insert(newItem);
-		for (int i = 0; i < result.size(); i++)	
-			PKB::affects.insertAffects(result.at(i), a2, true);
+		for (size_t i = 0; i < result.size(); i++)	
+			insertAffects(result.at(i), a2, true);
 	}
 
 	return result;
@@ -150,8 +131,8 @@ void AffectsTable::insertAffectsStar (STMT a1, STMT a2, bool isAffected)
 		pair<STMT, vector<Affects*>> newItem (a1, affectsLst);
 		this->affectsStarMap.insert(newItem);
 	} else {
-		if (!AffectsTable::isDuplicate(this->affectsStarMap.at(a1), n)){
-			this->affectsStarMap.at(a1).push_back(n);
+		if (!AffectsTable::isDuplicate(itr->second, n)){
+			itr->second.push_back(n);
 		}
 	}
 }
@@ -174,9 +155,9 @@ bool AffectsTable::isAffectsStar (STMT a1, STMT a2)
 
 	if (itr != this->affectsStarMap.end()){
 
-		vector<Affects*> affectsLst =  itr->second;
+		vector<Affects*>& affectsLst =  itr->second;
 	
-		for (unsigned int i = 0; i < affectsLst.size(); i++) {
+		for (size_t i = 0; i < affectsLst.size(); i++) {
 			if (affectsLst[i]->getA2() == a2 )
 				return affectsLst[i]->isAffected();
 		}
@@ -198,31 +179,20 @@ bool AffectsTable::isAffectsStar (STMT a1, STMT a2)
 * @param a1	The statement that is going to affect a2
 * @return a list of statement that is affected by a1
 */
-vector<STMT> AffectsTable::getAffectsByStar(STMT a1)
+vector<STMT> AffectsTable::getAffectsStarBy(STMT a1)
 {
 	vector<STMT> result;
 	auto itr = this->affectsStarByMap.find(a1);
 
 	if (itr != this->affectsStarByMap.end()){
-		if (itr->second.size() == 0){
-			result =  PQLAffectsProcessor::getAffectsByStar(a1);
-			pair<STMT, vector<STMT>> newItem (a1, result);
-			this->affectsStarByMap.insert(newItem);
-
-			for (int i = 0; i < result.size(); i++)	
-				PKB::affects.insertAffectsStar(a1, result.at(i), true);
-			
-
-		} else {
-			return itr->second;
-		}
+		return itr->second;
 	} else {
-		result =  PQLAffectsProcessor::getAffectsByStar(a1);
+		result =  PQLAffectsProcessor::getAffectsStarBy(a1);
 		pair<STMT, vector<STMT>> newItem (a1, result);
 		this->affectsStarByMap.insert(newItem);
 		
-		for (int i = 0; i < result.size(); i++)	
-			PKB::affects.insertAffectsStar(a1, result.at(i), true);
+		for (size_t i = 0; i < result.size(); i++)	
+			insertAffectsStar(a1, result.at(i), true);
 	}
 
 	return result;
@@ -233,27 +203,18 @@ vector<STMT> AffectsTable::getAffectsByStar(STMT a1)
 * @param a2	The statement that is going to affect by a1
 * @return a list of statement that is affect a2
 */
-vector<STMT> AffectsTable::getAffectsFromStar(STMT a2)
+vector<STMT> AffectsTable::getAffectsStarFrom(STMT a2)
 {
 	vector<STMT> result;
 	auto itr = this->affectsStarFromMap.find(a2);
 
 	if (itr != this->affectsStarFromMap.end()){
-		if (itr->second.size() == 0){
-			result =  PQLAffectsProcessor::getAffectsFromStar(a2);
-			pair<STMT, vector<STMT>> newItem (a2, result);
-			this->affectsStarFromMap.insert(newItem);
-			for (int i = 0; i < result.size(); i++)	
-				PKB::affects.insertAffectsStar(result.at(i), a2, true);
-			
-		} else {
-			return itr->second;
-		}
+		return itr->second;
 	} else {
-		result =  PQLAffectsProcessor::getAffectsFromStar(a2);
+		result =  PQLAffectsProcessor::getAffectsStarFrom(a2);
 		pair<STMT, vector<STMT>> newItem (a2, result);
 		this->affectsStarFromMap.insert(newItem);
-		for (int i = 0; i < result.size(); i++)	
+		for (size_t i = 0; i < result.size(); i++)	
 			PKB::affects.insertAffectsStar(result.at(i), a2, true);
 	}
 
@@ -278,8 +239,8 @@ void AffectsTable::insertAffectsBip(STMT a1, STMT a2, bool isAffected)
 		pair<STMT, vector<Affects*>> newItem (a1, affectsLst);
 		this->affectsBipMap.insert(newItem);
 	} else {
-		if (!AffectsTable::isDuplicate(this->affectsBipMap.at(a1), n)){
-			this->affectsBipMap.at(a1).push_back(n);
+		if (!AffectsTable::isDuplicate(itr->second, n)){
+			itr->second.push_back(n);
 		}
 	}
 }
@@ -299,9 +260,9 @@ bool AffectsTable::isAffectsBip (STMT a1, STMT a2)
 
 	if (itr != this->affectsBipMap.end()){
 
-		vector<Affects*> affectsLst =  itr->second;
+		vector<Affects*>& affectsLst =  itr->second;
 	
-		for (unsigned int i = 0; i < affectsLst.size(); i++) {
+		for (size_t i = 0; i < affectsLst.size(); i++) {
 			if (affectsLst[i]->getA2() == a2 )
 				return affectsLst[i]->isAffected();
 		}
@@ -321,30 +282,19 @@ bool AffectsTable::isAffectsBip (STMT a1, STMT a2)
 * @param a1	The statement that is going to affect a2
 * @return a list of statement that is affected by a1
 */
-vector<STMT> AffectsTable::getAffectsByBip(STMT a1)
+vector<STMT> AffectsTable::getAffectsBipBy(STMT a1)
 {
 	vector<STMT> result;
 	auto itr = this->affectsBipByMap.find(a1);
 
 	if (itr != this->affectsBipByMap.end()){
-		if (itr->second.size() == 0){
-			result =  PQLAffectsProcessor::getAffectsByBip(a1);
-			pair<STMT, vector<STMT>> newItem (a1, result);
-			this->affectsBipByMap.insert(newItem);
-
-			for (int i = 0; i < result.size(); i++)	
-				PKB::affects.insertAffectsBip(a1, result.at(i), true);
-			
-
-		} else {
-			return itr->second;
-		}
+		return itr->second;
 	} else {
-		result =  PQLAffectsProcessor::getAffectsByBip(a1);
+		result =  PQLAffectsProcessor::getAffectsBipBy(a1);
 		pair<STMT, vector<STMT>> newItem (a1, result);
 		this->affectsBipByMap.insert(newItem);
 		
-		for (int i = 0; i < result.size(); i++)	
+		for (size_t i = 0; i < result.size(); i++)	
 			PKB::affects.insertAffectsBip(a1, result.at(i), true);
 	}
 
@@ -356,27 +306,18 @@ vector<STMT> AffectsTable::getAffectsByBip(STMT a1)
 * @param a2	The statement that is going to affect by a1
 * @return a list of statement that is affect a2
 */
-vector<STMT> AffectsTable::getAffectsFromBip(STMT a2)
+vector<STMT> AffectsTable::getAffectsBipFrom(STMT a2)
 {
 	vector<STMT> result;
 	auto itr = this->affectsBipFromMap.find(a2);
 
 	if (itr != this->affectsBipFromMap.end()){
-		if (itr->second.size() == 0){
-			result =  PQLAffectsProcessor::getAffectsFromBip(a2);
-			pair<STMT, vector<STMT>> newItem (a2, result);
-			this->affectsBipFromMap.insert(newItem);
-			for (int i = 0; i < result.size(); i++)	
-				PKB::affects.insertAffectsBip(result.at(i), a2, true);
-			
-		} else {
-			return itr->second;
-		}
+		return itr->second;
 	} else {
-		result =  PQLAffectsProcessor::getAffectsFromBip(a2);
+		result =  PQLAffectsProcessor::getAffectsBipFrom(a2);
 		pair<STMT, vector<STMT>> newItem (a2, result);
 		this->affectsBipFromMap.insert(newItem);
-		for (int i = 0; i < result.size(); i++)	
+		for (size_t i = 0; i < result.size(); i++)	
 			PKB::affects.insertAffectsBip(result.at(i), a2, true);
 	}
 
@@ -401,8 +342,8 @@ void AffectsTable::insertAffectsBipStar(STMT a1, STMT a2, bool isAffected)
 		pair<STMT, vector<Affects*>> newItem (a1, affectsLst);
 		this->affectsBipStarMap.insert(newItem);
 	} else {
-		if (!AffectsTable::isDuplicate(this->affectsBipStarMap.at(a1), n)){
-			this->affectsBipStarMap.at(a1).push_back(n);
+		if (!AffectsTable::isDuplicate(itr->second, n)){
+			itr->second.push_back(n);
 		}
 	}
 }
@@ -422,9 +363,9 @@ bool AffectsTable::isAffectsBipStar (STMT a1, STMT a2)
 
 	if (itr != this->affectsBipStarMap.end()){
 
-		vector<Affects*> affectsLst =  itr->second;
+		vector<Affects*>& affectsLst =  itr->second;
 	
-		for (unsigned int i = 0; i < affectsLst.size(); i++) {
+		for (size_t i = 0; i < affectsLst.size(); i++) {
 			if (affectsLst[i]->getA2() == a2 )
 				return affectsLst[i]->isAffected();
 		}
@@ -444,30 +385,19 @@ bool AffectsTable::isAffectsBipStar (STMT a1, STMT a2)
 * @param a1	The statement that is going to affect a2
 * @return a list of statement that is affected by a1
 */
-vector<STMT> AffectsTable::getAffectsByBipStar(STMT a1)
+vector<STMT> AffectsTable::getAffectsBipStarBy(STMT a1)
 {
 	vector<STMT> result;
 	auto itr = this->affectsBipStarByMap.find(a1);
 
 	if (itr != this->affectsBipStarByMap.end()){
-		if (itr->second.size() == 0){
-			result =  PQLAffectsProcessor::getAffectsByBipStar(a1);
-			pair<STMT, vector<STMT>> newItem (a1, result);
-			this->affectsBipStarByMap.insert(newItem);
-
-			for (int i = 0; i < result.size(); i++)	
-				PKB::affects.insertAffectsBipStar(a1, result.at(i), true);
-			
-
-		} else {
-			return itr->second;
-		}
+		return itr->second;
 	} else {
-		result =  PQLAffectsProcessor::getAffectsByBipStar(a1);
+		result =  PQLAffectsProcessor::getAffectsBipStarBy(a1);
 		pair<STMT, vector<STMT>> newItem (a1, result);
 		this->affectsBipStarByMap.insert(newItem);
 		
-		for (int i = 0; i < result.size(); i++)	
+		for (size_t i = 0; i < result.size(); i++)	
 			PKB::affects.insertAffectsBipStar(a1, result.at(i), true);
 	}
 
@@ -479,27 +409,18 @@ vector<STMT> AffectsTable::getAffectsByBipStar(STMT a1)
 * @param a2	The statement that is going to affect by a1
 * @return a list of statement that is affectStar a2
 */
-vector<STMT> AffectsTable::getAffectsFromBipStar(STMT a2)
+vector<STMT> AffectsTable::getAffectsBipStarFrom(STMT a2)
 {
 	vector<STMT> result;
 	auto itr = this->affectsBipStarFromMap.find(a2);
 
 	if (itr != this->affectsBipStarFromMap.end()){
-		if (itr->second.size() == 0){
-			result =  PQLAffectsProcessor::getAffectsFromBipStar(a2);
-			pair<STMT, vector<STMT>> newItem (a2, result);
-			this->affectsBipStarFromMap.insert(newItem);
-			for (int i = 0; i < result.size(); i++)	
-				PKB::affects.insertAffectsBipStar(result.at(i), a2, true);
-			
-		} else {
-			return itr->second;
-		}
+		return itr->second;
 	} else {
-		result =  PQLAffectsProcessor::getAffectsFromBipStar(a2);
+		result =  PQLAffectsProcessor::getAffectsBipStarFrom(a2);
 		pair<STMT, vector<STMT>> newItem (a2, result);
 		this->affectsBipStarFromMap.insert(newItem);
-		for (int i = 0; i < result.size(); i++)	
+		for (size_t i = 0; i < result.size(); i++)	
 			PKB::affects.insertAffectsBipStar(result.at(i), a2, true);
 	}
 
@@ -513,9 +434,9 @@ vector<STMT> AffectsTable::getAffectsFromBipStar(STMT a2)
 * @param a	the affectstar to check for existing record
 * @return whether a exist in v
 */
-bool AffectsTable::isDuplicate(vector<Affects*> v, Affects* a)
+bool AffectsTable::isDuplicate(vector<Affects*>& v, Affects* a)
 {
-	for (unsigned int i = 0; i < v.size(); i++) {
+	for (size_t i = 0; i < v.size(); i++) {
 		if (v[i]->getA1() == a->getA1() && v[i]->getA2() == a->getA2())
 			return true;
 	}

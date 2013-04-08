@@ -18,18 +18,18 @@ public:
 
 	//Affects*
 	static bool isAffectsStar(STMT, STMT);
-	static vector<STMT> getAffectsByStar(STMT a1);
-	static vector<STMT> getAffectsFromStar(STMT a2);
+	static vector<STMT> getAffectsStarBy(STMT a1);
+	static vector<STMT> getAffectsStarFrom(STMT a2);
 
 	//AffectsBip
 	static bool isAffectsBip(STMT, STMT);
-	static vector<STMT> getAffectsByBip(STMT a1);
-	static vector<STMT> getAffectsFromBip(STMT a2);
+	static vector<STMT> getAffectsBipBy(STMT a1);
+	static vector<STMT> getAffectsBipFrom(STMT a2);
 
 	//AffectsBipStar
 	static bool isAffectsBipStar(STMT, STMT);
-	static vector<STMT> getAffectsByBipStar(STMT a1);
-	static vector<STMT> getAffectsFromBipStar(STMT a2);
+	static vector<STMT> getAffectsBipStarBy(STMT a1);
+	static vector<STMT> getAffectsBipStarFrom(STMT a2);
 
 };
 

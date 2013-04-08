@@ -1,4 +1,4 @@
-
+29
 cat: All Category
 1 - Calls, MultipleProcedures, MultiSelect ::
 procedure p1, p2;
@@ -127,12 +127,12 @@ Select <i,v> pattern i(v,_,_)
 500
 22 - pattern ::
 while w; variable v;
-Select w pattern w(v,_,_)
+Select w pattern w(v,_)
 1
 500
 23 - pattern ::
 while w; variable v;
-Select <w,v> pattern w(v,_,_)
+Select <w,v> pattern w(v,_)
 1 i
 500
 24 - with ::

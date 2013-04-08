@@ -39,3 +39,4 @@ Call  $P@\SPA\Release\autotester.exe source10.txt  Queries10.txt  out10.xml > NU
 echo "Source 10 complete"
 
 Call  $P@\SPA\Release\autotester.exe containsstar_contains_sibling_source.txt containsstar_contains_sibling_testcases.txt contains.xml > NUL
+echo "Contains complete"

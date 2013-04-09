@@ -4,12 +4,12 @@
 #include "RulesOfEngagement.h"
 #include "PQLContainPreprocessor.h"
 
-
-int DesignExtractor::totalNumOfProcs;
-unordered_map <PROC, unordered_set<PROC> > DesignExtractor::toProcAdjList;
-unordered_map <PROC, unordered_set<PROC> > DesignExtractor::fromProcAdjList;
-unordered_map <PROC, int> DesignExtractor::procCount;
-unordered_map <PROC, vector< stack<ASTStmtNode*> > > DesignExtractor::savestate;
+int														DesignExtractor::totalNumOfProcs;
+unordered_map <PROC, unordered_set<PROC> >				DesignExtractor::toProcAdjList;
+unordered_map <PROC, unordered_set<PROC> >				DesignExtractor::fromProcAdjList;
+unordered_map <PROC, int>								DesignExtractor::procCount;
+unordered_map <PROC, vector< stack<ASTStmtNode*> > >	DesignExtractor::savestate;
+vector < unordered_set<PROC> >							DesignExtractor::ancestorsList;
 
 /**
 * Extracts the design of the static root node in PKB Class and populate the respective tables
@@ -46,6 +46,7 @@ void DesignExtractor::extractDesign()
 
 	PKB::statementNodes.resize(PKB::maxProgLines + 1); //statements start at 1, so need a dummy
 	PKB::stmtRefMap.resize(PKB::maxProgLines + 1, StmtRef(-1, -1)); //for the 0 index
+	ancestorsList.resize(totalNumOfProcs);
 	
 	//toposort
 	vector<PROC> toposort;
@@ -54,13 +55,13 @@ void DesignExtractor::extractDesign()
 		if (procCount.count(proc) == 0)
 			insertableNodes.push(proc);
 	while (!insertableNodes.empty()) {
-		PROC proc = insertableNodes.front();
+		const PROC proc = insertableNodes.front();
 		insertableNodes.pop();
 		toposort.push_back(proc);
 		if (toProcAdjList.count(proc) > 0) {
-			unordered_set<PROC> calledProcs = toProcAdjList[proc];
+			const unordered_set<PROC>& calledProcs = toProcAdjList[proc];
 			for (auto it = calledProcs.begin(); it != calledProcs.end(); it++) {
-				PROC calledProc = *it;
+				const PROC calledProc = *it;
 				int calledProcCount = procCount[calledProc];
 				if (calledProcCount == 1) {
 					insertableNodes.push(calledProc);
@@ -74,7 +75,7 @@ void DesignExtractor::extractDesign()
 	for (auto it = toposort.begin(); it != toposort.end(); it++)
 		buildOtherTables(*it);
 
-	DesignExtractor::CompleteExtraction();
+	DesignExtractor::completeExtraction();
 
 }
 
@@ -82,13 +83,13 @@ void DesignExtractor::extractDesign()
 * Tables that require optimisation are called to do so here.
 * Various other data in PKB are set.
 */
-void DesignExtractor::CompleteExtraction()
+void DesignExtractor::completeExtraction()
 {
-	//PKB::maxProgLines = PKB::statementTable.size();
 	PKB::calls.optimizeCallsTable();
 	PKB::modifies.optimizeModifiesTable();
 	PKB::uses.optimizeUsesTable();
-	DesignExtractor::initializeStatisticalSortSize();	
+	DesignExtractor::initializeStatisticalSortSize();
+	DesignExtractor::cleanUp();
 	
 	const vector<ASTNode*>& oprNodes = PQLContainPreprocessor::getNodes(ASTNode::Operator);
 	PKB::oprNodes.resize(3);
@@ -148,8 +149,19 @@ void DesignExtractor::initializeStatisticalSortSize()
 	PKB::sortorder.push_back(pair<RulesOfEngagement::QueryRelations, int>(RulesOfEngagement::AffectsStar,
 																								max * (max + PKB::variables.getSize())));
 
+	sort(PKB::sortorder.begin(), PKB::sortorder.end(), sort_pred());
+}
 
-	sort(PKB::sortorder.begin(),PKB::sortorder.end(),sort_pred());
+/**
+* Removes all the maps and sets created during the process of design extraction
+*/
+void DesignExtractor::cleanUp()
+{
+	toProcAdjList.clear();
+	fromProcAdjList.clear();
+	procCount.clear();
+	savestate.clear();
+	ancestorsList.clear();
 }
 
 /**
@@ -165,26 +177,26 @@ void DesignExtractor::buildFirstRound() {
 	ASTNode* programNode = PKB::rootNode; //program
 	
 	for (PROC currentProc = 0; currentProc < totalNumOfProcs; currentProc++) {
-		ASTNode* procedureNode = (*programNode).getChild(currentProc); //procedure
-		ASTStmtLstNode* firstLevelStmtListNode = (ASTStmtLstNode*) (*procedureNode).getChild(0); //stmtList
+		ASTNode* procedureNode = programNode->getChild(currentProc); //procedure
+		ASTStmtLstNode* firstLevelStmtListNode = (ASTStmtLstNode*) procedureNode->getChild(0); //stmtList
 		int firstLevelPosition = 0;
 
 		ASTStmtLstNode* currentStmtListNode = firstLevelStmtListNode;
-		ASTStmtNode* currentStmtNode = (ASTStmtNode*) (*firstLevelStmtListNode).getChild(0); //first statement
+		ASTStmtNode* currentStmtNode = (ASTStmtNode*) firstLevelStmtListNode->getChild(0); //first statement
 		int currentPosition = 0;
-		int firstStatementNumber = (*currentStmtNode).getStmtNumber();
+		int firstStatementNumber = currentStmtNode->getStmtNumber();
 		int lastStatementNumber;
 		bool haveNextChildren = true;
 
 		while (haveNextChildren) {
-			lastStatementNumber = (*currentStmtNode).getStmtNumber();
-			switch ((*currentStmtNode).getType()) {
+			lastStatementNumber = currentStmtNode->getStmtNumber();
+			switch (currentStmtNode->getType()) {
 
 			case ASTNode::Call: {
-				PROC calledProc = (*currentStmtNode).getValue();
+				PROC calledProc = currentStmtNode->getValue();
 				PKB::calls.insertCalls(currentProc, calledProc);
-				PKB::uses.linkCallStmtToProcUses((*currentStmtNode).getStmtNumber(), calledProc);
-				PKB::modifies.linkCallStmtToProcModifies((*currentStmtNode).getStmtNumber(), calledProc);
+				PKB::uses.linkCallStmtToProcUses(currentStmtNode->getStmtNumber(), calledProc);
+				PKB::modifies.linkCallStmtToProcModifies(currentStmtNode->getStmtNumber(), calledProc);
 
 				if (toProcAdjList[currentProc].count(calledProc) == 0) {
 					toProcAdjList[currentProc].insert(calledProc);
@@ -209,30 +221,30 @@ void DesignExtractor::buildFirstRound() {
 
 			//build statement table as well
 			//vector<ASTNode::NodeType> statementTable = PKB::statementTable;
-			PKB::statementTable.push_back((*currentStmtNode).getType());
+			PKB::statementTable.push_back(currentStmtNode->getType());
 
 			//go to the next stmt.
 			//go down if can go down (container statement)
-			if ((*currentStmtNode).getType() == ASTNode::While
-				|| (*currentStmtNode).getType() == ASTNode::If) {
+			if (currentStmtNode->getType() == ASTNode::While
+				|| currentStmtNode->getType() == ASTNode::If) {
 					DFSstack.push(currentStmtNode);
 					DFSstmtLstStack.push(currentStmtListNode);
 					positionStack.push(currentPosition);
 
-					if ((*currentStmtNode).getType() == ASTNode::If)
+					if (currentStmtNode->getType() == ASTNode::If)
 						traversingThenPartOfIfStack.push(true);
 					//indicates is in the 'then' part of the if statement
 
-					currentStmtListNode = (ASTStmtLstNode*) (*currentStmtNode).getChild(1);
-					currentStmtNode = (ASTStmtNode*) (*currentStmtListNode).getChild(0);
+					currentStmtListNode = (ASTStmtLstNode*) currentStmtNode->getChild(1);
+					currentStmtNode = (ASTStmtNode*) currentStmtListNode->getChild(0);
 					currentPosition = 0;
 			} else {
 				//go right if can go right, if cannot, go up until can go right
 				bool notYetGotNextChild = true;
 				while (notYetGotNextChild) {
 					if (DFSstack.empty()) {
-						if (firstLevelPosition + 1 < (*firstLevelStmtListNode).getSize()) {
-							currentStmtNode = (ASTStmtNode*) (*firstLevelStmtListNode).getChild(++firstLevelPosition);
+						if (firstLevelPosition + 1 < firstLevelStmtListNode->getSize()) {
+							currentStmtNode = (ASTStmtNode*) firstLevelStmtListNode->getChild(++firstLevelPosition);
 							currentPosition = firstLevelPosition;
 							notYetGotNextChild = false;
 						} else { //end
@@ -244,24 +256,24 @@ void DesignExtractor::buildFirstRound() {
 							notYetGotNextChild = false;
 						}
 					} else {
-						if (currentPosition + 1 < (*currentStmtListNode).getSize()) { //try right
-							currentStmtNode = (ASTStmtNode*) (*currentStmtListNode).getChild(++currentPosition);
+						if (currentPosition + 1 < currentStmtListNode->getSize()) { //try right
+							currentStmtNode = (ASTStmtNode*) currentStmtListNode->getChild(++currentPosition);
 							notYetGotNextChild = false;
 						} else { //must go up
 							ASTStmtNode* parentNode = DFSstack.top();
 
-							if ((*parentNode).getType() == ASTNode::If &&
+							if (parentNode->getType() == ASTNode::If &&
 								traversingThenPartOfIfStack.top()) { //go to 'else' part of if
 									traversingThenPartOfIfStack.pop();
 									traversingThenPartOfIfStack.push(false);
 
-									currentStmtListNode = (ASTStmtLstNode*) (*parentNode).getChild(2);
-									currentStmtNode = (ASTStmtNode*) (*currentStmtListNode).getChild(0);
+									currentStmtListNode = (ASTStmtLstNode*) parentNode->getChild(2);
+									currentStmtNode = (ASTStmtNode*) currentStmtListNode->getChild(0);
 									currentPosition = 0;
 
 									notYetGotNextChild = false;
 							} else {
-								if ((*parentNode).getType() == ASTNode::If)
+								if (parentNode->getType() == ASTNode::If)
 									traversingThenPartOfIfStack.pop(); //was at 'else' part of if
 
 								currentStmtNode = parentNode;
@@ -287,35 +299,15 @@ void DesignExtractor::buildFirstRound() {
 */
 void DesignExtractor::buildOtherTables(PROC currentProc) {
 
-	//currently, not going to check nodes if it is of
-	//the correct node type before typecasting
-	//not sure whether to do so at all or not
-
-	//build list of ancestors
-	//(to be optimised in the future - do a set union of all the parents)
-	bool *isNotAnAncestor = new bool[totalNumOfProcs];
-	for (int i = 0; i < totalNumOfProcs; i++)
-		isNotAnAncestor[i] = true;
 	unordered_set<PROC> ancestors;
-	stack<PROC> tempStackForProc;
-	tempStackForProc.push(currentProc);
-	isNotAnAncestor[currentProc] = false;
-	do {
-		PROC proc = tempStackForProc.top();
-		tempStackForProc.pop();
-		if (fromProcAdjList.count(proc) > 0) {
-			unordered_set<PROC> parents = fromProcAdjList[proc];
-			for (auto it = parents.begin(); it != parents.end(); it++) {
-				PROC parent = *it;
-				if (isNotAnAncestor[parent]) {
-					tempStackForProc.push(parent);
-					isNotAnAncestor[parent] = false;
-					ancestors.insert(parent);
-				}
-			}
-		}
-	} while (!tempStackForProc.empty());
-	delete [] isNotAnAncestor;
+	const unordered_set<PROC>& parents = fromProcAdjList[currentProc];
+	for (auto it = parents.begin(); it != parents.end(); ++it) {
+		const PROC parent = *it;
+		const unordered_set<PROC>& thatAncestor = ancestorsList[parent];
+		ancestors.insert(thatAncestor.begin(), thatAncestor.end());
+		ancestors.insert(parent);
+	}
+	ancestorsList[currentProc] = ancestors;
 
 	stack<ASTStmtNode*> DFSstack;
 	stack<ASTStmtLstNode*> DFSstmtLstStack;
@@ -323,22 +315,15 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 	stack<bool> traversingThenPartOfIfStack;
 	stack<ASTStmtNode*> tempStack;
 	stack<ASTExprNode*> exprStack;
-	ASTNode* tempASTNode;
 	ASTStmtNode* tempStmtNode;
 
-	ASTNode* programNode = PKB::rootNode; //program
-	
-	ASTNode* procedureNode = (*programNode).getChild(currentProc); //procedure
-
-	tempASTNode = (*procedureNode).getChild(0); //stmtList
-	ASTStmtLstNode* firstLevelStmtListNode = (ASTStmtLstNode*) tempASTNode;
-
-	tempASTNode = (*firstLevelStmtListNode).getChild(0); //first child
+	const ASTNode* const procedureNode = PKB::rootNode->getChild(currentProc); //procedure
+	ASTStmtLstNode* firstLevelStmtListNode = (ASTStmtLstNode*) procedureNode->getChild(0); //stmtList
 	int firstLevelPosition = 0;
-
+	
 	ASTStmtLstNode* currentStmtListNode = firstLevelStmtListNode;
-	ASTStmtNode* currentStmtNode = (ASTStmtNode*) (*firstLevelStmtListNode).getChild(0); //first statement
-	STMT currentStmtNumber = (*currentStmtNode).getStmtNumber();
+	ASTStmtNode* currentStmtNode = (ASTStmtNode*) firstLevelStmtListNode->getChild(0); //first statement
+	STMT currentStmtNumber = currentStmtNode->getStmtNumber();
 	PKB::statementListTable.insert(currentStmtNumber);
 	int currentPosition = 0;
 
@@ -347,23 +332,25 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 		PKB::stmtRefMap[currentStmtNumber] =
 			StmtRef(currentStmtNumber, currentStmtNumber, currentStmtNode);
 
-		switch ((*currentStmtNode).getType()) {
+		switch (currentStmtNode->getType()) {
 		case ASTNode::Assign: {
 			PKB::assignTable.insert(currentStmtNumber);
 			PKB::assignNodes.insert(pair<STMT, ASTNode*>(currentStmtNumber, currentStmtNode));
 			PKB::assignNodesBack.insert(pair<ASTNode*, STMT>(currentStmtNode, currentStmtNumber));
 
-			ASTExprNode* modifiesVarNode = (ASTExprNode*) (*currentStmtNode).getChild(0);
-			VAR modifiesVar = (*modifiesVarNode).getValue();
+			const ASTExprNode* modifiesVarNode = (ASTExprNode*) currentStmtNode->getChild(0);
+			const VAR modifiesVar = modifiesVarNode->getValue();
 
 			PKB::modifies.insertProcModifies(currentProc, modifiesVar);
 			PKB::modifies.insertStmtModifies(currentStmtNumber, modifiesVar);
 			while (!DFSstack.empty()) {
 				tempStmtNode = DFSstack.top();
 				DFSstack.pop();
-				STMT tempNumber = (*tempStmtNode).getStmtNumber();
-				PKB::modifies.insertStmtModifies(tempNumber, modifiesVar);
 				tempStack.push(tempStmtNode);
+				const STMT tempNumber = tempStmtNode->getStmtNumber();
+				if (PKB::modifies.isModifiedStmt(tempNumber, modifiesVar))
+					break;
+				PKB::modifies.insertStmtModifies(tempNumber, modifiesVar);
 			}
 			while (!tempStack.empty()) {
 				tempStmtNode = tempStack.top();
@@ -372,37 +359,61 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 			}
 			//adding all the parent procs. JOY!
 			for (auto it = ancestors.begin(); it != ancestors.end(); it++) {
-				PROC ancestor = *it;
+				const PROC ancestor = *it;
 				PKB::modifies.insertProcModifies(ancestor, modifiesVar);
+				vector< stack<ASTStmtNode*> >& savestates = savestate[ancestor];
+				for (auto it2 = savestates.begin(); it2 != savestates.end(); it2++) {
+					stack<ASTStmtNode*>& state = *it2;
+					while (!state.empty()) {
+						tempStmtNode = state.top();
+						state.pop();
+						tempStack.push(tempStmtNode);
+						const STMT tempNumber = tempStmtNode->getStmtNumber();
+						if (PKB::modifies.isModifiedStmt(tempNumber, modifiesVar))
+							break;
+						PKB::modifies.insertStmtModifies(tempNumber, modifiesVar);
+					}
+					while (!tempStack.empty()) {
+						tempStmtNode = tempStack.top();
+						tempStack.pop();
+						state.push(tempStmtNode);
+					}
+				}
 			}
 			vector< stack<ASTStmtNode*> >& savestates = savestate[currentProc];
 			for (auto it2 = savestates.begin(); it2 != savestates.end(); it2++) {
-				stack<ASTStmtNode*> state = *it2;
+				stack<ASTStmtNode*>& state = *it2;
 				while (!state.empty()) {
 					tempStmtNode = state.top();
 					state.pop();
-					STMT tempNumber = (*tempStmtNode).getStmtNumber();
+					tempStack.push(tempStmtNode);
+					const STMT tempNumber = tempStmtNode->getStmtNumber();
 					if (PKB::modifies.isModifiedStmt(tempNumber, modifiesVar))
 						break;
 					PKB::modifies.insertStmtModifies(tempNumber, modifiesVar);
+				}
+				while (!tempStack.empty()) {
+					tempStmtNode = tempStack.top();
+					tempStack.pop();
+					state.push(tempStmtNode);
 				}
 			}
 
 			//check rhs for all uses relationships
 			if (!exprStack.empty())
 				throw new SPAException("Huh, how come stack not empty?"); 
-			exprStack.push( (ASTExprNode*) (*currentStmtNode).getChild(1) ); //rhs of assign
+			exprStack.push( (ASTExprNode*) currentStmtNode->getChild(1) ); //rhs of assign
 			do {
-				ASTExprNode* exprNode = exprStack.top();
+				const ASTExprNode* const exprNode = exprStack.top();
 				exprStack.pop();
-				if ((*exprNode).getType() == ASTNode::Variable) {
-					VAR usesVar = (*exprNode).getValue();
+				if (exprNode->getType() == ASTNode::Variable) {
+					const VAR usesVar = exprNode->getValue();
 					PKB::uses.insertProcUses(currentProc, usesVar);
 					PKB::uses.insertStmtUses(currentStmtNumber, usesVar);
 					while (!DFSstack.empty()) {
 						tempStmtNode = DFSstack.top();
 						DFSstack.pop();
-						STMT tempNumber = (*tempStmtNode).getStmtNumber();
+						const STMT tempNumber = tempStmtNode->getStmtNumber();
 						PKB::uses.insertStmtUses(tempNumber, usesVar);
 						tempStack.push(tempStmtNode);
 					}
@@ -413,31 +424,57 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 					}
 					//adding all the parent procs. JOY!
 					for (auto it = ancestors.begin(); it != ancestors.end(); it++) {
-						PROC ancestor = *it;
+						const PROC ancestor = *it;
 						PKB::uses.insertProcUses(ancestor, usesVar);
+						vector< stack<ASTStmtNode*> >& savestates = savestate[ancestor];
+						for (auto it2 = savestates.begin(); it2 != savestates.end(); it2++) {
+							stack<ASTStmtNode*>& state = *it2;
+							while (!state.empty()) {
+								tempStmtNode = state.top();
+								state.pop();
+								tempStack.push(tempStmtNode);
+								const STMT tempNumber = tempStmtNode->getStmtNumber();
+								if (PKB::uses.isUsedStmt(tempNumber, usesVar))
+									break;
+								PKB::uses.insertStmtUses(tempNumber, usesVar);
+							}
+							while (!tempStack.empty()) {
+								tempStmtNode = tempStack.top();
+								tempStack.pop();
+								state.push(tempStmtNode);
+							}
+						}
 					}
 					vector< stack<ASTStmtNode*> >& savestates = savestate[currentProc];
 					for (auto it2 = savestates.begin(); it2 != savestates.end(); it2++) {
-						stack<ASTStmtNode*> state = *it2;
+						stack<ASTStmtNode*>& state = *it2;
 						while (!state.empty()) {
 							tempStmtNode = state.top();
 							state.pop();
-							STMT tempNumber = (*tempStmtNode).getStmtNumber();
+							tempStack.push(tempStmtNode);
+							const STMT tempNumber = tempStmtNode->getStmtNumber();
+							if (PKB::uses.isUsedStmt(tempNumber, usesVar))
+								break;
 							PKB::uses.insertStmtUses(tempNumber, usesVar);
 						}
+						while (!tempStack.empty()) {
+							tempStmtNode = tempStack.top();
+							tempStack.pop();
+							state.push(tempStmtNode);
+						}
 					}
-				} else if ((*exprNode).getType() == ASTNode::Constant) {
-					PKB::constantsTable[(*exprNode).getValue()].push_back(currentStmtNumber);
+				} else if (exprNode->getType() == ASTNode::Constant) {
+					PKB::constantsTable[exprNode->getValue()].push_back(currentStmtNumber);
 				} else {
-					exprStack.push((ASTExprNode*) (*exprNode).getChild(1));
-					exprStack.push((ASTExprNode*) (*exprNode).getChild(0));
+					exprStack.push((ASTExprNode*) exprNode->getChild(1));
+					exprStack.push((ASTExprNode*) exprNode->getChild(0));
 				}
 			} while (!exprStack.empty());
 			break; }
 
 		case ASTNode::While:
 		case ASTNode::If: {
-			if ((*currentStmtNode).getType() == ASTNode::While) {
+			if (currentStmtNode->getType() == ASTNode::While) {
 				PKB::whileTable.insert(currentStmtNumber);
 				PKB::whileNodes.insert(pair<STMT, ASTNode*>(currentStmtNumber, currentStmtNode));
 				PKB::whileNodesBack.insert(pair<ASTNode*, STMT>(currentStmtNode, currentStmtNumber));
@@ -447,16 +484,18 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 				PKB::ifNodesBack.insert(pair<ASTNode*, STMT>(currentStmtNode, currentStmtNumber));
 			}
 
-			ASTExprNode* usesVarNode = (ASTExprNode*) (*currentStmtNode).getChild(0);
-			VAR usesVar = (*usesVarNode).getValue(); 
+			const ASTExprNode* usesVarNode = (ASTExprNode*) currentStmtNode->getChild(0);
+			const VAR usesVar = usesVarNode->getValue(); 
 			PKB::uses.insertProcUses(currentProc, usesVar);
 			PKB::uses.insertStmtUses(currentStmtNumber, usesVar);
 			while (!DFSstack.empty()) {
 				tempStmtNode = DFSstack.top();
 				DFSstack.pop();
-				STMT tempNumber = (*tempStmtNode).getStmtNumber();
-				PKB::uses.insertStmtUses(tempNumber, usesVar);
 				tempStack.push(tempStmtNode);
+				STMT tempNumber = tempStmtNode->getStmtNumber();
+				if (PKB::uses.isUsedStmt(tempNumber, usesVar))
+					break;
+				PKB::uses.insertStmtUses(tempNumber, usesVar);
 			}
 			while (!tempStack.empty()) {
 				tempStmtNode = tempStack.top();
@@ -465,17 +504,43 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 			}
 			//adding all the parent procs. JOY!
 			for (auto it = ancestors.begin(); it != ancestors.end(); it++) {
-				PROC ancestor = *it;
+				const PROC ancestor = *it;
 				PKB::uses.insertProcUses(ancestor, usesVar);
-				vector< stack<ASTStmtNode*> > savestates = savestate[ancestor];
+				vector< stack<ASTStmtNode*> >& savestates = savestate[ancestor];
 				for (auto it2 = savestates.begin(); it2 != savestates.end(); it2++) {
-					stack<ASTStmtNode*> state = *it2;
+					stack<ASTStmtNode*>& state = *it2;
 					while (!state.empty()) {
 						tempStmtNode = state.top();
 						state.pop();
-						STMT tempNumber = (*tempStmtNode).getStmtNumber();
+						tempStack.push(tempStmtNode);
+						const STMT tempNumber = tempStmtNode->getStmtNumber();
+						if (PKB::uses.isUsedStmt(tempNumber, usesVar))
+							break;
 						PKB::uses.insertStmtUses(tempNumber, usesVar);
 					}
+					while (!tempStack.empty()) {
+						tempStmtNode = tempStack.top();
+						tempStack.pop();
+						state.push(tempStmtNode);
+					}
+				}
+			}
+			vector< stack<ASTStmtNode*> >& savestates = savestate[currentProc];
+			for (auto it2 = savestates.begin(); it2 != savestates.end(); it2++) {
+				stack<ASTStmtNode*>& state = *it2;
+				while (!state.empty()) {
+					tempStmtNode = state.top();
+					state.pop();
+					tempStack.push(tempStmtNode);
+					const STMT tempNumber = tempStmtNode->getStmtNumber();
+					if (PKB::uses.isUsedStmt(tempNumber, usesVar))
+						break;
+					PKB::uses.insertStmtUses(tempNumber, usesVar);
+				}
+				while (!tempStack.empty()) {
+					tempStmtNode = tempStack.top();
+					tempStack.pop();
+					state.push(tempStmtNode);
 				}
 			}
 			break; }
@@ -484,7 +549,7 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 			PKB::callTable.insert(currentStmtNumber);
 			PKB::callNodes.insert(pair<STMT, ASTNode*>(currentStmtNumber, currentStmtNode));
 			PKB::callNodesBack.insert(pair<ASTNode*, STMT>(currentStmtNode, currentStmtNumber));
-			PKB::calls.insertStmtCall(currentStmtNumber, (*currentStmtNode).getValue());
+			PKB::calls.insertStmtCall(currentStmtNumber, currentStmtNode->getValue());
 			break; }
 
 		default: throw SPAException("Unhandled Node type");
@@ -492,28 +557,28 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 
 		//go to the next stmt.
 		//go down if can go down (container statement)
-		if ((*currentStmtNode).getType() == ASTNode::While
-			|| (*currentStmtNode).getType() == ASTNode::If) {
+		if (currentStmtNode->getType() == ASTNode::While
+			|| currentStmtNode->getType() == ASTNode::If) {
 				DFSstack.push(currentStmtNode);
 				DFSstmtLstStack.push(currentStmtListNode);
 				positionStack.push(currentPosition);
 
-				if ((*currentStmtNode).getType() == ASTNode::If) {
+				if (currentStmtNode->getType() == ASTNode::If) {
 					//indicates is in the 'then' part of the if statement
 					traversingThenPartOfIfStack.push(true);
 
 					//add Parent and Follows relationship for children in 'else' part
-					ASTStmtLstNode* tempStmtListNode =
-						(ASTStmtLstNode*) (*currentStmtNode).getChild(2);
-					ASTStmtNode* olderChild = (ASTStmtNode*) (*tempStmtListNode).getChild(0);
-					STMT olderChildNumber = (*olderChild).getStmtNumber();
+					const ASTStmtLstNode* tempStmtListNode =
+						(ASTStmtLstNode*) currentStmtNode->getChild(2);
+					const ASTStmtNode* olderChild = (ASTStmtNode*) tempStmtListNode->getChild(0);
+					STMT olderChildNumber = olderChild->getStmtNumber();
 					PKB::statementListTable.insert(olderChildNumber);
-					ASTStmtNode* youngerChild;
+					const ASTStmtNode* youngerChild;
 					STMT youngerChildNumber;
 					PKB::parent.insertParent(currentStmtNumber, olderChildNumber);
-					for (int i = 1; i < (*tempStmtListNode).getSize(); i++) {
-						youngerChild = (ASTStmtNode*) (*tempStmtListNode).getChild(i);
-						youngerChildNumber = (*youngerChild).getStmtNumber();
+					for (size_t i = 1; i < tempStmtListNode->getSize(); i++) {
+						youngerChild = (ASTStmtNode*) tempStmtListNode->getChild(i);
+						youngerChildNumber = youngerChild->getStmtNumber();
 						PKB::parent.insertParent(currentStmtNumber, youngerChildNumber);
 						PKB::follows.insertFollows(olderChildNumber, youngerChildNumber);
 						olderChild = youngerChild;
@@ -521,21 +586,21 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 					}
 				}
 
-				currentStmtListNode = (ASTStmtLstNode*) (*currentStmtNode).getChild(1);
-				currentStmtNode = (ASTStmtNode*) (*currentStmtListNode).getChild(0);
-				STMT newStmtNumber = (*currentStmtNode).getStmtNumber();
+				currentStmtListNode = (ASTStmtLstNode*) currentStmtNode->getChild(1);
+				currentStmtNode = (ASTStmtNode*) currentStmtListNode->getChild(0);
+				const STMT newStmtNumber = currentStmtNode->getStmtNumber();
 				PKB::statementListTable.insert(newStmtNumber);
 				currentPosition = 0;
 
 				//add Parent and Follows relationship for all the children
-				ASTStmtNode* olderChild = currentStmtNode;
+				const ASTStmtNode* olderChild = currentStmtNode;
 				STMT olderChildNumber = newStmtNumber;
-				ASTStmtNode* youngerChild;
+				const ASTStmtNode* youngerChild;
 				STMT youngerChildNumber;
 				PKB::parent.insertParent(currentStmtNumber, olderChildNumber);
-				for (int i = 1; i < (*currentStmtListNode).getSize(); i++) {
-					youngerChild = (ASTStmtNode*) (*currentStmtListNode).getChild(i);
-					youngerChildNumber = (*youngerChild).getStmtNumber();
+				for (size_t i = 1; i < currentStmtListNode->getSize(); i++) {
+					youngerChild = (ASTStmtNode*) currentStmtListNode->getChild(i);
+					youngerChildNumber = youngerChild->getStmtNumber();
 					PKB::parent.insertParent(currentStmtNumber, youngerChildNumber);
 					PKB::follows.insertFollows(olderChildNumber, youngerChildNumber);
 					olderChild = youngerChild;
@@ -548,11 +613,11 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 			bool notYetGotNextChild = true;
 			while (notYetGotNextChild) {
 				if (DFSstack.empty()) {
-					if (firstLevelPosition + 1 < (*firstLevelStmtListNode).getSize()) {
-						currentStmtNode = (ASTStmtNode*) (*firstLevelStmtListNode).getChild(++firstLevelPosition);
+					if (firstLevelPosition + 1 < firstLevelStmtListNode->getSize()) {
+						currentStmtNode = (ASTStmtNode*) firstLevelStmtListNode->getChild(++firstLevelPosition);
 						currentPosition = firstLevelPosition;
-						STMT oldStmtNumber = currentStmtNumber;
-						currentStmtNumber = (*currentStmtNode).getStmtNumber();
+						const STMT oldStmtNumber = currentStmtNumber;
+						currentStmtNumber = currentStmtNode->getStmtNumber();
 
 						PKB::follows.insertFollows(oldStmtNumber, currentStmtNumber);
 
@@ -561,30 +626,30 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 						return;
 					}
 				} else {
-					if (currentPosition + 1 < (*currentStmtListNode).getSize()) { //try right
-						currentStmtNode = (ASTStmtNode*) (*currentStmtListNode).getChild(++currentPosition);
-						currentStmtNumber = (*currentStmtNode).getStmtNumber();
+					if (currentPosition + 1 < currentStmtListNode->getSize()) { //try right
+						currentStmtNode = (ASTStmtNode*) currentStmtListNode->getChild(++currentPosition);
+						currentStmtNumber = currentStmtNode->getStmtNumber();
 						notYetGotNextChild = false;
 					} else { //must go up
-						ASTStmtNode* parentNode = DFSstack.top();
+						ASTStmtNode* const parentNode = DFSstack.top();
 
-						if ((*parentNode).getType() == ASTNode::If &&
+						if (parentNode->getType() == ASTNode::If &&
 							traversingThenPartOfIfStack.top()) { //go to 'else' part of if
 								traversingThenPartOfIfStack.pop();
 								traversingThenPartOfIfStack.push(false);
 
-								currentStmtListNode = (ASTStmtLstNode*) (*parentNode).getChild(2);
-								currentStmtNode = (ASTStmtNode*) (*currentStmtListNode).getChild(0);
-								currentStmtNumber = (*currentStmtNode).getStmtNumber();
+								currentStmtListNode = (ASTStmtLstNode*) parentNode->getChild(2);
+								currentStmtNode = (ASTStmtNode*) currentStmtListNode->getChild(0);
+								currentStmtNumber = currentStmtNode->getStmtNumber();
 								currentPosition = 0;
 
 								notYetGotNextChild = false;
 						} else {
-							if ((*parentNode).getType() == ASTNode::If)
+							if (parentNode->getType() == ASTNode::If)
 								traversingThenPartOfIfStack.pop(); //was at 'else' part of if
 
 							currentStmtNode = parentNode;
-							currentStmtNumber = (*currentStmtNode).getStmtNumber();
+							currentStmtNumber = currentStmtNode->getStmtNumber();
 							currentStmtListNode = DFSstmtLstStack.top();
 							currentPosition = positionStack.top();
 

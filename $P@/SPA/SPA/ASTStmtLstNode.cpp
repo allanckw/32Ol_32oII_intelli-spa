@@ -14,7 +14,7 @@ ASTStmtLstNode::ASTStmtLstNode()
 * This method will be used to get the number of statements in the statement list
 * @return the number of statements in the statement list
 */
-int ASTStmtLstNode::getSize()
+int ASTStmtLstNode::getSize() const
 {
 	return children.size();
 }

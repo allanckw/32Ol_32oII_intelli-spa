@@ -201,7 +201,7 @@ void ASTStmtNode::addChildToAssign(ASTNode* c, int childLoc)
 * This method will be used to get statement number of the AST Stmt Node
 * @return the statement number of the node
 */
-int ASTStmtNode::getStmtNumber()
+int ASTStmtNode::getStmtNumber() const
 {
 	return stmtNumber;
 }

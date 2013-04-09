@@ -1,5 +1,16 @@
 ﻿#include "Dnf.h"
 
+
+Dnf::Dnf(void)
+{
+}
+
+
+Dnf::~Dnf(void)
+{
+}
+
+
 string Dnf::getToken(const string& query, int& pos)
 {
 	int first = query.find_first_not_of(' ', pos);
@@ -452,7 +463,8 @@ bool Dnf::isDNF(FormNode* n)
 
 std::vector<pair<std::string,std::string>>* Dnf::CreateDNF(string str)
 {  
-	if(str=="")	{
+	if(str=="")
+	{
 		std::vector<pair<std::string,std::string>>* nth = new std::vector<pair<std::string,std::string>>();
 		nth->push_back(pair<std::string,std::string>("",""));
 		return nth;
@@ -477,7 +489,8 @@ std::vector<pair<std::string,std::string>>* Dnf::CreateDNF(string str)
 
 				for(int j=i;j<k;j++)
 				{
-					if(tokens.at(j) == "\"") {
+					if(tokens.at(j) == "\"")
+					{
 						bracketopenfound = !bracketopenfound;
 
 						if(!bracketopenfound)
@@ -516,6 +529,9 @@ std::vector<pair<std::string,std::string>>* Dnf::CreateDNF(string str)
 
 		FormNode *head;		
 		//at this pt i want to change such that to s
+
+		
+
 		vector<string> finwost;
 
 		bool skipnext = false;
@@ -545,13 +561,20 @@ std::vector<pair<std::string,std::string>>* Dnf::CreateDNF(string str)
 		}
 
 		head = processAssignment(finwost);
+
+
+		
 		FormNode *newhead =  Convert(head);;	
+		
+		//string data1 = newhead->print();
+
 		vector<string>* dnfform = newhead->GetStringVect(&qry);
 		vector<string>* dnfformPruned = newhead->GetStringVectPruned(&qry);
 
 		vector<pair<string,string>>* finalans = new vector<pair<string,string>>();
 
-		for(int i=0;i<dnfform->size();i++) {
+		for(int i=0;i<dnfform->size();i++)
+		{
 			pair<string,string> ans;
 			ans.first = dnfform->at(i);
 			ans.second = dnfformPruned->at(i);
@@ -561,6 +584,24 @@ std::vector<pair<std::string,std::string>>* Dnf::CreateDNF(string str)
 		return finalans;		
 
 	
+}
+
+int Dnf::getOperatorWeight(string token)
+{
+	if (token == "and")
+		return 2; 
+	else if (token == "or") 
+		return 1;
+	else
+		return 0;
+}
+
+int Dnf::compareOprPrecedence(string opr1, string opr2)    
+{    
+	 if (opr1 == ";" || opr2 == ";")
+		return -1;
+	 else
+		return getOperatorWeight(opr1) - getOperatorWeight(opr2);
 }
 
 FormNode* Dnf::processAssignment(vector<string> expr)
@@ -579,7 +620,7 @@ FormNode* Dnf::processAssignment(vector<string> expr)
 		string token = expr[i]; 
 		if(token == "!" && subExprBrackets.size() == 0)
 		{
-			isneg =true;
+			isneg =!isneg;
 			continue;
 		}
 
@@ -617,6 +658,8 @@ FormNode* Dnf::processAssignment(vector<string> expr)
 								tempnode->isneg = false;
 							else
 								tempnode->isneg = true;
+
+							isneg = false;
 						}
 						operands.push(tempnode);
 					//negate the new into opposite
@@ -631,11 +674,11 @@ FormNode* Dnf::processAssignment(vector<string> expr)
 				operators.push(token);
 			
 			} else { //Compare the precedence of + with the top of the stack 
-				//if (compareOprPrecedence(token, operators.top()) > 0)	{
+				if (compareOprPrecedence(token, operators.top()) > 0)	{
 
-				//	operators.push(token); //if it is greater, push
-				//
-				//} else 
+					operators.push(token); //if it is greater, push
+				
+				} else 
 				{ //else pop and form a sub tree
 					
 					FormNode* oprNode = new FormNode(FormNode::Operator, operators.top());
@@ -696,11 +739,9 @@ void Dnf::Eval(std::string query,list<string>& results)
 		{
 			token = getToken(query, pos);
 		}while(token != "Select");
-
+		bool selectBOOLEAN = false;
 		string selected = getToken(query, pos);//nick see=>pos = identify the select something
 	unordered_set<string> selects;
-
-	bool selectBOOLEAN=false;
 	if (selected.at(0) == '<') { //tuple -> multiple selected variables
 		do {
 			selected = getToken(query, pos);
@@ -717,6 +758,9 @@ void Dnf::Eval(std::string query,list<string>& results)
 		selectBOOLEAN = false;
 
 	}
+
+	//naive case just put such that
+
 	string sub = query.substr(pos,query.size()-pos);
 
 	int temp=0;
@@ -758,8 +802,6 @@ void Dnf::Eval(std::string query,list<string>& results)
 				newqry = querystart +" " +substrs->at(i).first;
 			
 			MultiQueryEval::evaluateQuery(newqry,results);
-
-			
 		}
 		else
 		{
@@ -793,29 +835,71 @@ void Dnf::Eval(std::string query,list<string>& results)
 				const string arg = (*it1);
 				std::list<string>::iterator findIter = std::find(results2.begin(), results2.end(), arg);
 
-				if(findIter == results2.end()) {
+				if(findIter == results2.end())
+				{
+					//not found
+					//int zzsfa=1;
 					results.push_back(arg);
 				}
+
+				//int zzz=1;
 			}
 			
 		}
 
+			
+		
+			
+			
+			
+			//allans.push_back(results);
+		
 	}	
+
 	if(selectBOOLEAN)
-	{
-		bool istrue=false;
-		for (auto it1 = results.begin();it1!=results.end();it1++) {
-			if((*it1) == "true"){
-				istrue = true;
-				break;
-			}
-		}
-		results.clear();
-		if(istrue)
-			results.push_back("true");
-		else
-			results.push_back("false");
+ {
+  bool istrue=false;
+  for (auto it1 = results.begin();it1!=results.end();it1++) {
+   if((*it1) == "true"){
+    istrue = true;
+    break;
+   }
+  }
+  results.clear();
+
+  if(istrue)
+   results.push_back("true");
+  else
+	results.push_back("false");
 	}
+
+	//int test1=1;
+	////union and remove dup
+
+	//list<string> lastans;
+	//for(int i=0;i<allans.size();i++)
+	//{
+	//	for (auto it1 = allans.at(i).begin(); it1 != allans.at(i).end(); it1++) {
+	//			const string arg = (*it1);
+	//			std::list<string>::iterator findIter = std::find(lastans.begin(), lastans.end(), arg);
+
+	//			if(findIter == lastans.end())
+	//			{
+	//				//not found
+	//				
+	//				lastans.push_back(arg);
+	//			}
+
+	//			
+	//		}
+
+
+	//}
+
+	////remove dup
+	//lastans.sort(compare);
+	//results = lastans;
+
 	}catch(exception e){
 
 	}

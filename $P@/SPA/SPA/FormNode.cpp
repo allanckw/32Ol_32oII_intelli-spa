@@ -212,12 +212,22 @@ string FormNode::removeBind(std::string str)
 
 	while(index<temp.size())
 	{
-		int end = temp.find_first_of(" ",index);
+		int end = temp.find_first_of("() ",index);
+		
+		
 		string sub = temp.substr(index,end-index);
+
+		char found = temp[end];
+
+		if(found == '(')
+				tpr.push_back("(");
+			else if(end == ')')
+				tpr.push_back(")");
 		if(end == -1)
 		{
 			
 			tpr.push_back(temp.substr(index,temp.size()-index));
+			
 			break;
 		}
 		
@@ -302,11 +312,11 @@ string FormNode::printNoBracketPruned(vector<string>* qry)
 	}
 	if(this->fType==FormNode::Operator && this->value == 0)
 	{
-		return isnot+(""+this->children.at(0)->printNoBracket(qry) +  " such that " + this->children.at(1)->printNoBracket(qry)+"");
+		return isnot+(""+this->children.at(0)->printNoBracketPruned(qry) +  " such that " + this->children.at(1)->printNoBracketPruned(qry)+"");
 	}
 	else if(this->fType==FormNode::Operator && this->value == 1)
 	{
-		return isnot+(""+this->children.at(0)->printNoBracket(qry) +  " or " + this->children.at(1)->printNoBracket(qry)+"");
+		return isnot+(""+this->children.at(0)->printNoBracketPruned(qry) +  " or " + this->children.at(1)->printNoBracketPruned(qry)+"");
 	}
 	else
 	{

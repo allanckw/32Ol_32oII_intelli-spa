@@ -3,12 +3,16 @@
 #include "FormNode.h"
 #include "Helper.h"
 #include "Parser.h"
+#include "PQLController.h"
 #include "MultiQueryEval.h"
-
+#include <sstream>
 
 class Dnf
 {
 public:
+	Dnf(void);
+	~Dnf(void);
+
 	static FormNode* Convert(FormNode* c);
 	static bool isOperator(std::string token);
 	static FormNode* processAssignment(std::vector<std::string> expr);
@@ -18,9 +22,11 @@ public:
 	static bool iscon(std::string str);
 	static std::vector<std::string> tokenizer(std::string line);
 	static char easytolower(char in);
+
+	int static compareOprPrecedence(string opr1, string opr2);  
 	static int find_closer(std::string d);
 	static bool isDNF(FormNode* n);
-
+	int static getOperatorWeight(string token);
 	static std::vector<pair<std::string,std::string>>*  CreateDNF(std::string str);
 
 	static void Eval(std::string query, list<string>& results);

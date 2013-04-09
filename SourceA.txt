@@ -1,0 +1,166 @@
+procedure One {
+	x = 2;
+	y = x;
+	z = a * b + x - y;
+	call Two;
+	while c {
+		call Three;
+	}
+	c = x * y + z + 2;
+	while m {
+		m = n + a;
+		m = m;
+		z = c + m;
+		call Three;
+		y = m * 5 + 1;
+	}
+	if d then {
+		y = 5 + y + z;
+		call Four;
+		c = x + y;
+		e = z + c;
+		a = m + (b + e);
+	}
+	else {
+		a = b + 7;
+		call Two;
+	}
+}
+
+procedure Two {
+	if e then {
+		while x {
+			a = b;
+			b = c;
+			c = d;
+			d = e;
+			e = a;
+		}
+		x = y + 0;
+		b = a + c;
+		call Four;
+		y = x + b;
+		if a then {
+			e = c * 3 - z;
+			z = y - x;
+			call Three;
+			c = e + z;
+			call Five;
+			y = (e + z) * c - a + b;
+		}
+		else {
+			while a {
+				b = c + a;
+				while c {
+					n = m + b;
+				}
+			}
+		}
+	}
+	else {
+		if m then {
+			x = (m + n) + 6;
+			call Four;
+			y = x;
+			call Four;
+			z = x + y;
+			b = x * (y - z);
+		}
+		else {
+			while b {
+				if x then {
+					c = a;
+					b = c;
+				}
+				else {
+					m = n + 4;
+					n = m + 4;
+					m = n + 4;
+				}
+			}
+		}
+	}
+	x = a + n;
+	m = x + 5;
+	n = 3 + x + m - 7;
+	call Three;
+	a = x + m + n;
+	while x {
+		a = b + c;
+		m = b + c - 8;
+		if x then {
+			y = b + c - a;
+			z = y - a;
+			call Five;
+			n = a + y - z;
+			n = n + x + m;
+		}
+		else {
+			c = e + a + x;
+			call Four;
+			y = c;
+		}
+		d = a + m;
+		e = d * (a - m) + 9;
+	}
+}
+
+procedure Three {
+	while y {
+		y = b + c;
+		call Five;
+		b = y;
+		c = y + b;
+		call Four;
+		z = y + b + c;
+		while z {
+			if a then {
+			x = y + z;
+			y = 10;
+			z = x + y;
+			call Five;
+			}
+			else {
+			call Four;
+			x = y;
+			}
+		}
+		n = x + y + z;
+	}
+	if b then {
+		x = b + e;
+		e = x * a + m - d;
+		call Four;
+		y = x + e;
+		z = e + y;
+		call Four;
+	}
+	else {
+		a = 0;
+		call Four;
+	}
+}
+
+procedure Four {
+	a = b + c;
+	d = e;
+	e = 1;
+	if x then {
+		c = b + (x - y) + 10;
+		call Five;
+		d = a + b;
+	}
+	else {
+		call Five;
+		e = 3;
+	}
+	a = b + c + d + e + a;
+	b = m + n - 11;
+}
+
+procedure Five {
+	x = 5 + 10 - 11;
+	x = x;
+	z = y - x;
+	y = z + x;
+}

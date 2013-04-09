@@ -27,7 +27,7 @@ void display(vector<int> x)
 }
 void TestQueryEvaluator::TestQueryEvaluatorM()
 {  
-	PKBController::initializePKB("F:\\3201_3202\\SPA\\source8.txt");
+	PKBController::initializePKB("F:\\3201_3202\\SPA\\source3.txt");
 	//doon("assign a; Select BOOLEAN such that Affects(1, 2)"); 
 	//doon("assign a; Select BOOLEAN such that Affects(1, 3)"); 
 	//doon("assign a; Select BOOLEAN such that Affects(1, 5)"); 
@@ -40,10 +40,16 @@ void TestQueryEvaluator::TestQueryEvaluatorM()
 	//doon("Select BOOLEAN such that Affects*(20, 20)"); 
 	ASTNode* x = PKB::rootNode;
 
-	//doon("stmt s2,s3,s4,s5;constant c;assign s1,a;while w; if iff; variable v; Select <a,s1,w,iff> such that Affects*(a, s1) and Follows* (s1, s2) and Next*(s2,s3) such that Parent*(s3,s4) and Uses(s2,\"x\") and Modifies (s3,\"z\") pattern a(v,_\"x\"_) pattern w(v,_) pattern iff(v,_,_) with c.value = 0");
+	doon("stmt s2,s3,s4,s5;constant c;assign s1,a;while w; if iff; variable v; Select <a,s1,w,iff> such that Affects*(a, s1) and Follows* (s1, s2) and Next*(s2,s3) such that Parent*(s3,s4) and Uses(s2,\"x\") and Modifies (s3,\"z\") pattern a(v,_\"x\"_) pattern w(v,_) pattern iff(v,_,_) with c.value = 0");
 	//doon("assign a; variable v; while w1, w2; select a pattern a(v,_\"k\"_) such that Parent(w1,a) and Follows(w2,w1)");
-	doon("assign a; Select a pattern a (\"x\", _  )");
-	doon("Select <s1,s2> such that Affects*(s1, s2) and Affects*(s3, s4)");
+	//doon("assign a; Select a such that  Uses ( a  ,\"a\")") ;// pattern a ( a , \"l\")");
+	//doon("assign a; Select BOOLEAN such that Follows(1,1) or Follows(1,2)");
+	//Follows 1,1 is false, Follows (1,2) and Follows (1, 1) is false;
+	//doon("assign a; Select BOOLEAN such that Follows(1,1) or                      (Follows(1,2) and Follows(1,  1))");
+	//doon("Select <s1,s2> such that Affects*(s1, s2) and Affects*(s3, s4)");
+	//doon("stmt s; stmt t; Select s such that Follows(s, 2) or Follows(s, 243)"); // 1 and 103
+
+	doon("stmt s; stmt t; Select s such that Follows(s, 2) or ((Follows(s, 243) and Follows(1,1)))");//1
 }
 
 

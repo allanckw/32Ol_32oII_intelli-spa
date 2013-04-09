@@ -1,6 +1,4 @@
 #include "TestWrapper.h"
-#include <sstream>
-
 // implementation code of WrapperFactory - do NOT modify the next 5 lines
 AbstractWrapper* WrapperFactory::wrapper = 0;
 AbstractWrapper* WrapperFactory::createWrapper() {
@@ -14,14 +12,14 @@ volatile bool TestWrapper::GlobalStop = false;
 TestWrapper::TestWrapper() {
   // create any objects here as instance variables of this class
   // as well as any initialization required for your spa program
+	ios_base::sync_with_stdio(false);
+	setvbuf(stdout, 0, _IOFBF, 4096);
+	fclose(stdout);
 }
 
 // method for parsing the SIMPLE source
 void TestWrapper::parse(std::string filename) {
-	ios_base::sync_with_stdio(false);
-	//setvbuf(stdout, 0, _IOFBF, 4096);
-	//fclose(stdout);
-	//freopen(0, "w", stdout);
+
 	try{
 		PKBController::initializePKB(filename);
 	}catch (exception& e){
@@ -33,9 +31,10 @@ void TestWrapper::parse(std::string filename) {
 // method to evaluate a query
 void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
 	try {
+
 		PQLController::evaluateQuery(query, results);
-	} catch (exception& e)
-	{
+
+	} catch (exception& e)	{
 		//Giving u the error result in the results, instead of throwing exception
 		//The exception is thrown in the pre-processor when i encounter some weird stuff
 		//that you type in in your query, for example, you use a variable that you did not declare

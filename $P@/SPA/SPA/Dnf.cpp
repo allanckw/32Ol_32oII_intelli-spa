@@ -452,8 +452,7 @@ bool Dnf::isDNF(FormNode* n)
 
 std::vector<pair<std::string,std::string>>* Dnf::CreateDNF(string str)
 {  
-	if(str=="")
-	{
+	if(str=="")	{
 		std::vector<pair<std::string,std::string>>* nth = new std::vector<pair<std::string,std::string>>();
 		nth->push_back(pair<std::string,std::string>("",""));
 		return nth;
@@ -478,8 +477,7 @@ std::vector<pair<std::string,std::string>>* Dnf::CreateDNF(string str)
 
 				for(int j=i;j<k;j++)
 				{
-					if(tokens.at(j) == "\"")
-					{
+					if(tokens.at(j) == "\"") {
 						bracketopenfound = !bracketopenfound;
 
 						if(!bracketopenfound)
@@ -518,9 +516,6 @@ std::vector<pair<std::string,std::string>>* Dnf::CreateDNF(string str)
 
 		FormNode *head;		
 		//at this pt i want to change such that to s
-
-		
-
 		vector<string> finwost;
 
 		bool skipnext = false;
@@ -550,20 +545,13 @@ std::vector<pair<std::string,std::string>>* Dnf::CreateDNF(string str)
 		}
 
 		head = processAssignment(finwost);
-
-
-		
 		FormNode *newhead =  Convert(head);;	
-		
-		//string data1 = newhead->print();
-
 		vector<string>* dnfform = newhead->GetStringVect(&qry);
 		vector<string>* dnfformPruned = newhead->GetStringVectPruned(&qry);
 
 		vector<pair<string,string>>* finalans = new vector<pair<string,string>>();
 
-		for(int i=0;i<dnfform->size();i++)
-		{
+		for(int i=0;i<dnfform->size();i++) {
 			pair<string,string> ans;
 			ans.first = dnfform->at(i);
 			ans.second = dnfformPruned->at(i);
@@ -711,6 +699,8 @@ void Dnf::Eval(std::string query,list<string>& results)
 
 		string selected = getToken(query, pos);//nick see=>pos = identify the select something
 	unordered_set<string> selects;
+
+	bool selectBOOLEAN=false;
 	if (selected.at(0) == '<') { //tuple -> multiple selected variables
 		do {
 			selected = getToken(query, pos);
@@ -719,17 +709,14 @@ void Dnf::Eval(std::string query,list<string>& results)
 			if (selected == ">")
 				break;
 		} while (true);
-		//selectBOOLEAN = false;
+		selectBOOLEAN = false;
 	} else if (selected == "BOOLEAN") {
-		//selectBOOLEAN = true;
+		selectBOOLEAN = true;
 	} else {
 		selects.insert(selected);
-		//selectBOOLEAN = false;
+		selectBOOLEAN = false;
 
 	}
-
-	//naive case just put such that
-
 	string sub = query.substr(pos,query.size()-pos);
 
 	int temp=0;
@@ -771,6 +758,8 @@ void Dnf::Eval(std::string query,list<string>& results)
 				newqry = querystart +" " +substrs->at(i).first;
 			
 			MultiQueryEval::evaluateQuery(newqry,results);
+
+			
 		}
 		else
 		{
@@ -804,54 +793,29 @@ void Dnf::Eval(std::string query,list<string>& results)
 				const string arg = (*it1);
 				std::list<string>::iterator findIter = std::find(results2.begin(), results2.end(), arg);
 
-				if(findIter == results2.end())
-				{
-					//not found
-					//int zzsfa=1;
+				if(findIter == results2.end()) {
 					results.push_back(arg);
 				}
-
-				//int zzz=1;
 			}
 			
 		}
 
-			
-		
-			
-			
-			
-			//allans.push_back(results);
-		
 	}	
-
-	//int test1=1;
-	////union and remove dup
-
-	//list<string> lastans;
-	//for(int i=0;i<allans.size();i++)
-	//{
-	//	for (auto it1 = allans.at(i).begin(); it1 != allans.at(i).end(); it1++) {
-	//			const string arg = (*it1);
-	//			std::list<string>::iterator findIter = std::find(lastans.begin(), lastans.end(), arg);
-
-	//			if(findIter == lastans.end())
-	//			{
-	//				//not found
-	//				
-	//				lastans.push_back(arg);
-	//			}
-
-	//			
-	//		}
-
-
-	//}
-
-	////remove dup
-	//lastans.sort(compare);
-	//results = lastans;
-
+	if(selectBOOLEAN)
+	{
+		bool istrue=false;
+		for (auto it1 = results.begin();it1!=results.end();it1++) {
+			if((*it1) == "true"){
+				istrue = true;
+				break;
+			}
+		}
+		results.clear();
+		if(istrue)
+			results.push_back("true");
+		else
+			results.push_back("false");
+	}
 	}catch(exception e){
 
 	}

@@ -1,15 +1,15 @@
 procedure One {
-	x = 2;
-	y = x;
-	z = a * b + x - y;
-	call Two;
-	while c {
-		call Three;
+	x = 2; //1
+	y = x; //2
+	z = a * b + x - y;//3
+	call Two; //4
+	while c { //5
+		call Three; //6
 	}
-	c = x * y + z + 2;
-	while m {
-		m = n + a;
-		m = m;
+	c = x * y + z + 2; //7
+	while m { //8
+		m = n + a; //9
+		m = m; //10
 		z = c + m;
 		call Three;
 		y = m * 5 + 1;

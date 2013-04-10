@@ -13,16 +13,17 @@ void PQLController::evaluateQuery(const string& query, list<string>& results)
 	size_t close = std::count(query.begin(), query.end(), ')');
 
 	int or = query.find("or");
+	int not = query.find("!");
+
 	int  emptybracketClause = query.find("()");
 
 	if (emptybracketClause > 0)
 		throw SPAException("Empty Bracket Clause Found!");
 
-
 	if (open != close)
 		throw SPAException("Bracket matching Failed!");
 
-	if(or > 0) {
+	if(or > 0 || not > 0) {
 		Dnf::Eval(query, results);
 	} else {
 		MultiQueryEval::evaluateQuery(query, results);

@@ -135,11 +135,6 @@ while w;
 Select w such that Follows(w, _)
 2,5
 500
-28 - Parent, ImplStmtLine, Typed :: Which is the Parent (type while) of the statement in line number 7
-stmt s!1;
-Select s!1 such that Follows(3, s!1)
-An exception has occured: Invalid variable name or boolean
-500
 29 - Parent, ImplStmtLine, Typed :: Which is the Parent (type while) of the statement in line number 7
 stmt s1;
 Select s1 

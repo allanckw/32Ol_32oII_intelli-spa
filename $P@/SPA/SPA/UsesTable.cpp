@@ -190,33 +190,41 @@ int UsesTable::getUsesStmtSize()
 */
 void UsesTable::displayUsesTables()
 {
+	int x = 0;
 	cout << "OPTIMISED USES BY (STMT):" << endl;
 	cout << "s: v such that Uses(s, v)" << endl;
 	for (auto it = optimizedUsedByStmt.begin(); it != optimizedUsedByStmt.end(); it++) {
 		cout << (*it).first << ": ";
-		for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
-			cout<< (*it2) << " ";
+		for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++){
+			cout<< PKB::variables.getVARName(*it2) << " ";
+			x++;
+		}
 		cout << endl;
 	}
-	
+	cout << "Total No." << x << endl;
+	x=0;
+	cout << "------------------------------------------------------------------------" <<endl;
 	cout << "OPTIMISED USES BY (PROC):" << endl;
 	cout << "p: v such that Uses(p, v)" << endl;
 	for (auto it = optimizedUsedByProc.begin(); it != optimizedUsedByProc.end(); it++) {
 		cout << (*it).first << ": ";
-		for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
-			cout<< (*it2) << " ";
+	for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++){
+			cout<< PKB::variables.getVARName(*it2) << " ";
+			x++;
+	}
 		cout << endl;
 	}
-
+	cout << "Total No." << x << endl;
+	cout << "-----------------------------------------------------------------------" <<endl;
 	cout << "OPTIMISED USES (STMT):" << endl;
 	cout << "v: s such that Uses(s, v)" << endl;
 	for (auto it = optimizedUsesInStmt.begin(); it != optimizedUsesInStmt.end(); it++) {
-		cout << (*it).first << ": ";
+		cout << PKB::variables.getVARName((*it).first) << ": ";
 		for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
 			cout<< (*it2) << " ";
 		cout << endl;
 	}
-	
+	cout << "-----------------------------------------------------------------------" <<endl;
 	cout << "OPTIMISED USES (PROC):" << endl;
 	cout << "v: p such that Uses(p, v)" << endl;
 	for (auto it = optimizedUsesInProc.begin(); it != optimizedUsesInProc.end(); it++) {

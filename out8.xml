@@ -1,7 +1,7 @@
 <?xml-stylesheet type="text/xsl" href="analysis.xsl"?>
 <test_results>
 <info>
-<name>SPA</name><parsing_time_taken>2.000000</parsing_time_taken>
+<name>SPA</name><parsing_time_taken>3.000000</parsing_time_taken>
 </info>
 <queries>
 <category name=" All Category">
@@ -16,14 +16,14 @@
 <id Bonus="1" MultiClause="1" comment="what are assignments with 'k' on right side that is parent of a while loop which is followed by another while loop?" >2</id><querystr><![CDATA[assign a; variable v;while w1,w2; Select a pattern a(v,_"k"_) such that Parent(w1,a) and Follows(w1,w2)]]></querystr>
 <stuans>29,32</stuans>
 <correct>29,32</correct>
-<time_taken>4.000000</time_taken>
+<time_taken>5.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Bonus="1" MultiClause="1" comment="what are variables if there are assignments with 'k' on right side that is parent of a while loop which is followed by another while loop?" >3</id><querystr><![CDATA[assign a; variable v,vv;while w1,w2; Select vv pattern a(v,_"k"_) such that Parent(w1,a) and Follows(w1,w2)]]></querystr>
 <stuans>i,m,x,y,k,z</stuans>
 <correct>i,m,k,x,y,z</correct>
-<time_taken>5.000000</time_taken>
+<time_taken>6.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -37,21 +37,21 @@
 <id Bonus="1" Boolean="1" comment="is it true that 4 follows 3" >5</id><querystr><![CDATA[  Select BOOLEAN such that Follows(3,4)]]></querystr>
 <stuans>true</stuans>
 <correct>true</correct>
-<time_taken>6.000000</time_taken>
+<time_taken>5.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Bonus="1" Boolean="1" comment="is it true that 3 follows 4" >6</id><querystr><![CDATA[  Select BOOLEAN such that Follows(4,3)]]></querystr>
 <stuans>false</stuans>
 <correct>false</correct>
-<time_taken>5.000000</time_taken>
+<time_taken>4.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Bonus="1" Boolean="1" MultiClause="1" comment="is it true that 4 follows 3 and there is an assignment with 'y' on the right side with a variable v one the left side? In addition, there is an assignement which both modifies and uses v?" >7</id><querystr><![CDATA[assign a; assign a2; variable v; Select BOOLEAN such that Follows(4,3) and Modifies(a2,v) and Uses(a2,v) pattern a(v,_"y"_)]]></querystr>
 <stuans>false</stuans>
 <correct>false</correct>
-<time_taken>8.000000</time_taken>
+<time_taken>4.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -72,7 +72,7 @@
 <id Bonus="1" MultiClause="1" comment="What are the variable v such that there is an assignment with 'i' on the right side with v one the left side? In addition, there is an assignement which both modifies and uses v and v is used by 26." >10</id><querystr><![CDATA[assign a, a2; variable v; Select v such that Follows(3,4) and Modifies(a2,v) and Uses(a2,v) pattern a(v,_"i"_) such that Uses(26,v)]]></querystr>
 <stuans>x</stuans>
 <correct>x</correct>
-<time_taken>5.000000</time_taken>
+<time_taken>4.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -86,42 +86,42 @@
 <id Bonus="1" MultiClause="1" comment="a multi clause query with one wrong clause at the end" >12</id><querystr><![CDATA[assign a, a2; variable v;stmt s;while w; Select w such that Follows(3,4) and Modifies(a2,v) and Uses(a2,v) pattern a(v,_"i"_) such that Uses(26,v) and Follows*(s,w) and Parent(w,w)]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>5.000000</time_taken>
+<time_taken>3.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Bonus="1" MultiClause="1" comment="What are the assignments with 'i' on the right side with v one the left side? In addition, there is an assignement which both modifies and uses v and follows the previous assignment." >13</id><querystr><![CDATA[assign a, a2; variable v; Select a such that Follows(3,4) and Modifies(a2,v) and Uses(a2,v) pattern a(v,_"i"_) such that Uses(26,v) and Follows*(a,a2)]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>5.000000</time_taken>
+<time_taken>4.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Bonus="1" MultiClause="1" comment="What are the assignments with 'y' on the right side with v one the left side? In addition, there is an assignement which both modifies and uses v and is followed* by an assignment with pattern(_,_'k'_)" >14</id><querystr><![CDATA[assign a, a2; assign a3;variable v; Select a3 such that Follows(3,4) and Modifies(a2,v) and Uses(a2,v) pattern a(v,_"y"_) pattern a3(_,_"k"_) such that Follows*(a3,a2)]]></querystr>
 <stuans>29</stuans>
 <correct>29</correct>
-<time_taken>4.000000</time_taken>
+<time_taken>3.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Bonus="1" MultiClause="1" comment="What are the assignments with 'y' on the right side with v one the left side? In addition, there is an assignement which both modifies and uses v and is followed* by an assignment with pattern(_,_'k'_)" >15</id><querystr><![CDATA[assign a, a2; assign a3;variable v; Select a2 such that Follows(3,4) and Modifies(a2,v) and Uses(a2,v) pattern a(v,_"y"_) pattern a3(_,_"k"_) such that Follows*(a3,a2)]]></querystr>
 <stuans>32</stuans>
 <correct>32</correct>
-<time_taken>5.000000</time_taken>
+<time_taken>3.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Bonus="1" MultiClause="1" comment="What are the while loop that is the first of a parent-chain of 4 while loop?" >16</id><querystr><![CDATA[while w,w2,w3,w4; Select w such that Parent(w,w2) and Parent(w2,w3) and Parent(w3,w4)]]></querystr>
 <stuans>21,13,5,11,12,16,17</stuans>
 <correct>16,17,21,5,11,12,13</correct>
-<time_taken>3.000000</time_taken>
+<time_taken>4.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Bonus="1" MultiClause="1" comment="What are the while loop that is the first of a parent-chain of 3 while loop and the inner most loop is the parent of an assignment with pattern (m,_'y'_)" >17</id><querystr><![CDATA[while w,w2,w3; assign a; Select w such that Parent(w,w2) and Parent(w2,w3) and Parent(w3,a) pattern a("m",_"y"_)]]></querystr>
 <stuans>22,12</stuans>
 <correct>22,12</correct>
-<time_taken>3.000000</time_taken>
+<time_taken>4.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -142,7 +142,7 @@
 <id Bonus="1" MultiClause="1" comment="What are the variables v and v2 so that v is on the left side of an assignment with _'k'_ on right side and v and v2 is in another assignment that have v on left and v2 on right" >20</id><querystr><![CDATA[variable v,v2; assign a;assign aa; Select v such that Modifies(aa,v) and Uses(aa,v2) pattern a(v,_"k"_)]]></querystr>
 <stuans>z,m</stuans>
 <correct>z,m</correct>
-<time_taken>3.000000</time_taken>
+<time_taken>4.000000</time_taken>
 <passed/>
 </query>
 <query>

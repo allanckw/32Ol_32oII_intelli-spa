@@ -153,17 +153,22 @@ a,b,k,q,v,x
 34 - WhilePattern, Underscore :: What are the while statements with 'x' as a control variable?
 while w; variable v;
 Select w pattern w(v, _)
-
+102,103,104,106,108,114,119,2,22,30,66,82,84,88,91,93,96,97,98
 5000
 35 - Pattern ::  StmtLst while
 stmtLst lst; variable v; while w;
-Select v pattern w(v, lst)
+Select w pattern w(v, lst)
+102,103,104,106,108,114,119,2,22,30,66,82,84,88,91,93,96,97,98
+5000
+36 - Pattern :: StmtLst if
+stmtLst then, else; variable v; if iff;
+Select <v, then, else> pattern iff(v, then, else)
 
 5000
 36 - Pattern :: StmtLst if
 stmtLst then, else; variable v; if iff;
-Select v pattern iff(v, then, else)
-
+Select v pattern iff(v, _, _)
+b,m,v,x,y
 5000
 37 - Pattern ::  StmtLst if
 stmtLst then, else; variable v; if iff; while w;
@@ -262,21 +267,21 @@ Select v such that Contains (ifStmt, v) and Modifies ("John", v) pattern ifStmt(
 5000
 56 - or :: or
 variable v; assign a; while w; if ifStmt;
-Select v such that Contains* (a, v) or Contains*(w, v) or Contains*(ifStmt, v)
+Select v such that Contains*(a, v) or Contains*(w, v) or Contains*(ifStmt, v)
 
 5000
 57 - Contains_Not :: all variables not in the while loop 
 variable v; while w;
-Select v such that !Contains* (w, v)
+Select v such that !Contains*(w, v)
 
 5000
 58 - Contains_Not :: all variables not in the while loop or Contains in an assignment and variable
 variable v; while w; assign a; if ifStmt;
-Select <w, v, a, ifStmt> such that !Contains* (w, v) or (Contains*(a, v) and Contains*(ifStmt, v))
+Select v such that !Contains*(w, v) or (Contains*(a, v) and Contains*(ifStmt, v))
 
 5000
 59 - Contains_Not :: The opposite of query 57 - Gheying with Demorgan 
 variable v; while w; assign a; if ifStmt;
-Select <w, v, a, ifStmt> such that Contains* (w, v) or !(Contains*(a, v) and Contains*(ifStmt, v))
+Select v such that Contains*(w, v) or !(Contains*(a, v) and Contains*(ifStmt, v))
 
 5000

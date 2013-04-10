@@ -36,109 +36,103 @@ string Dnf::getToken(const string& query, int& pos)
 
 FormNode* Dnf::Convert(FormNode* c)
 {
-	
+
 	if(c->fType == FormNode::query)
 	{
-	return c;
+		return c;
 	}
 
 	if(c->isneg != true)
 	{
 
-	if(c->fType == FormNode::Operator && c->value == 0)
-	{
-		c->children.at(0) = Convert(c->children.at(0));
-		c->children.at(1) = Convert(c->children.at(1));
-
-		//need cartesian here
-		
-		std::vector<FormNode*> f1;
-		std::vector<FormNode*> f2;
-		c->children.at(0)->getVect_break_or(&f1);//if see and just take as it is
-		c->children.at(1)->getVect_break_or(&f2);
-
-		vector<FormNode*> new1;
-
-		for(int i=0;i<f1.size();i++)
+		if(c->fType == FormNode::Operator && c->value == 0)
 		{
-			for(int j=0;j<f2.size();j++)
+			c->children.at(0) = Convert(c->children.at(0));
+			c->children.at(1) = Convert(c->children.at(1));
+
+			//need cartesian here
+
+			std::vector<FormNode*> f1;
+			std::vector<FormNode*> f2;
+			c->children.at(0)->getVect_break_or(&f1);//if see and just take as it is
+			c->children.at(1)->getVect_break_or(&f2);
+
+			vector<FormNode*> new1;
+
+			for(int i=0;i<f1.size();i++)
 			{
-				FormNode* newnode = new FormNode(FormNode::Operator,0);//put and
-				newnode->value = 0;
-				newnode->fType = FormNode::Operator;
-				newnode->children.push_back(f1.at(i));
-				newnode->children.at(0)->isneg = f1.at(i)->isneg;
-				newnode->children.at(0)->value = f1.at(i)->value;
-				newnode->children.at(0)->fType = f1.at(i)->fType;
+				for(int j=0;j<f2.size();j++)
+				{
+					FormNode* newnode = new FormNode(FormNode::Operator,0);//put and
+					newnode->value = 0;
+					newnode->fType = FormNode::Operator;
+					newnode->children.push_back(f1.at(i));
+					newnode->children.at(0)->isneg = f1.at(i)->isneg;
+					newnode->children.at(0)->value = f1.at(i)->value;
+					newnode->children.at(0)->fType = f1.at(i)->fType;
 
-				newnode->children.push_back(f2.at(j));
-				newnode->children.at(1)->isneg = f2.at(j)->isneg;
-				newnode->children.at(1)->value = f2.at(j)->value;
-				newnode->children.at(1)->fType = f2.at(j)->fType;
+					newnode->children.push_back(f2.at(j));
+					newnode->children.at(1)->isneg = f2.at(j)->isneg;
+					newnode->children.at(1)->value = f2.at(j)->value;
+					newnode->children.at(1)->fType = f2.at(j)->fType;
 
 
 
-				
-				new1.push_back(newnode);
 
+					new1.push_back(newnode);
+
+				}
 			}
-		}
 
-		FormNode* head;
+			FormNode* head;
 
-		FormNode* prev=0;
-		
-		while(new1.size() > 1)
-		{
-			FormNode* curr = new FormNode(FormNode::Operator,1);
+			FormNode* prev=0;
+
+			while(new1.size() > 1)
+			{
+				FormNode* curr = new FormNode(FormNode::Operator,1);
 				curr->value = 1;
 				curr->fType = FormNode::Operator;
-			if(prev == 0)
+				if(prev == 0)
+				{
+					head = curr;
+				}
+				else
+				{
+					prev->children.push_back(curr);
+				}
+
+				curr->children.push_back(new1.at(new1.size() -1));
+				new1.pop_back();
+				prev = curr;
+			}
+			if(prev != 0)
 			{
-				head = curr;
+				prev->children.push_back(new1.at(0));
+				c=head;
 			}
 			else
 			{
-				prev->children.push_back(curr);
+				c = new1.at(0);
 			}
-			//put left
 
-
-			
-
-			curr->children.push_back(new1.at(new1.size() -1));
-			new1.pop_back();
-		//	prev->children.push_back(curr);
-
-			prev = curr;
+			return c;
 		}
-		if(prev != 0)
+
+		if(c->fType == FormNode::Operator && c->value == 1)
 		{
-		prev->children.push_back(new1.at(0));
-		c=head;
-		}
-		else
-		{
-			c = new1.at(0);
-		}
-		
-		return c;
-	}
+			c->children.at(0) = Convert(c->children.at(0));
+			c->children.at(1) = Convert(c->children.at(1));
 
-	if(c->fType == FormNode::Operator && c->value == 1)
-	{
-		c->children.at(0) = Convert(c->children.at(0));
-		c->children.at(1) = Convert(c->children.at(1));
-
-		//need cartesian here
-		//ok
-		return c;
-	}
+			//need cartesian here
+			//ok
+			return c;
+		}
 	}
 
 	if(c->isneg == true)
 	{
-	
+
 		if(c->fType == FormNode::Operator && c->value == 1)
 		{
 			c->value = 0;
@@ -160,10 +154,10 @@ FormNode* Dnf::Convert(FormNode* c)
 
 
 	}
-	
+
 
 	return c;
-	
+
 }
 
 bool Dnf::isQuery(std::string str)
@@ -171,20 +165,16 @@ bool Dnf::isQuery(std::string str)
 	string data2 = str;
 	std::transform(data2.begin(), data2.end(), data2.begin(), ::tolower);
 
-	if(data2.compare("follows") == 0 || data2.compare("follows*") == 0 
-		|| data2 == "uses" 
-		|| data2 == "modifies" 
-		|| data2 == "pattern"
-		|| data2 == "contains" || data2 == "sibling"
-		|| data2 == "affects" || data2 == "affects*"
-		|| data2 == "parent" || data2 == "parent*" 
-		|| data2 == "next" || data2 == "next*"
-		|| data2 == "calls" || data2 == "calls*"
-		|| data2 == "nextbip" || data2 == "nextbip*"
-		|| data2 == "affectsBip" || data2 == "affectsBip*"
-		|| data2 == "sibling"
-		
-		)//need to add the rest here
+	if(data2.compare("follows") == 0 || data2.compare("follows*") == 0
+		|| data2.compare("uses") == 0 || data2.compare("modifies") == 0 
+		|| data2.compare("pattern") == 0 ||  data2.compare("contains*") == 0
+		|| data2.compare("contains") == 0 || data2.compare("sibling") == 0
+		|| data2.compare("affects") == 0 || data2.compare("affects*") == 0
+		|| data2.compare("parent") == 0 || data2.compare("parent*") == 0 
+		|| data2.compare("next") == 0 || data2.compare("next*") == 0
+		|| data2.compare("calls") == 0 || data2.compare("calls*") == 0
+		|| data2.compare("nextbip") == 0 || data2.compare("nextbip*") == 0
+		|| data2.compare("affectsbip") == 0 || data2.compare("affectsbip*") == 0)
 		return true;
 	return false;
 
@@ -214,7 +204,7 @@ vector<string> Dnf::tokenizer(std::string line)//split the string into tokens
 	int position = 0;//starting position
 	int startindex = -1;
 	int endindex = -1;
-	
+
 	do	{ //loop thru the string
 		startindex = line.find_first_not_of(delimiter,position);
 
@@ -230,60 +220,50 @@ vector<string> Dnf::tokenizer(std::string line)//split the string into tokens
 		}
 
 		if(endindex != -1 && endindex<line.size())
+		{
+			string tempstr1; //temp str to store subset of currently working substring
+			if(startindex == -1)
 			{
-				string tempstr1; //temp str to store subset of currently working substring
-				if(startindex == -1)
-				{
-					tempstr1 = line.substr(endindex,line.size() - endindex);
-				}
-				else
-				{
-					tempstr1 = line.substr(endindex,startindex - endindex);
-				}
-				for(unsigned int i=0;i<tempstr1.size();) {
-					string tempstr2 = tempstr1.substr(0,1);
-					tempstr1 = tempstr1.substr(1,tempstr1.size()-1);
-					
-						//AddToList(list,tempstr2);
-					if(Trim(tempstr2).size() > 0)
+				tempstr1 = line.substr(endindex,line.size() - endindex);
+			}
+			else
+			{
+				tempstr1 = line.substr(endindex,startindex - endindex);
+			}
+			for(unsigned int i=0;i<tempstr1.size();) {
+				string tempstr2 = tempstr1.substr(0,1);
+				tempstr1 = tempstr1.substr(1,tempstr1.size()-1);
+
+				//AddToList(list,tempstr2);
+				if(Trim(tempstr2).size() > 0)
 					list.push_back(tempstr2);
-				}
 			}
+		}
 
-			endindex = line.find_first_of(delimiter,startindex);
-			position = endindex;
-		
-			if(startindex != -1 || line.size() == 1) {
-				string tempstr;
-				if(line.size() == 1)
-					tempstr= line;
-				else
-					tempstr= line.substr(startindex,endindex-startindex);
+		endindex = line.find_first_of(delimiter,startindex);
+		position = endindex;
 
-				
-				if(Trim(tempstr).size() > 0)
+		if(startindex != -1 || line.size() == 1) {
+			string tempstr;
+			if(line.size() == 1)
+				tempstr= line;
+			else
+				tempstr= line.substr(startindex,endindex-startindex);
+
+
+			if(Trim(tempstr).size() > 0)
 				list.push_back(tempstr);
-			}
+		}
 
 	}while(startindex != -1 && position < line.size() && endindex != -1);
 
 	return list;
-	//house keeping
-	//if(Parser::tokenized_codes.size() > 1)	{
-	//	vector<string> temp_vec = Parser::tokenized_codes.at(0);
-	//	temp_vec.insert(temp_vec.end(), Parser::tokenized_codes.at(1).begin(),Parser::tokenized_codes.at(1).end());
-	//	Parser::tokenized_codes.erase(Parser::tokenized_codes.begin());
-	//	Parser::tokenized_codes.at(0) = temp_vec;
-	//}
-
-	//if(list.size() > 0)
-	//Parser::tokenized_codes.push_back(list);
 }
 char Dnf::easytolower(char in){
-										  if(in<='Z' && in>='A')
-											return in-('Z'-'z');
-										  return in;
-										} 
+	if(in<='Z' && in>='A')
+		return in-('Z'-'z');
+	return in;
+} 
 
 
 int Dnf::find_closer(vector<string> l, int cur)
@@ -295,11 +275,11 @@ int Dnf::find_closer(vector<string> l, int cur)
 	//case3: found and (
 	//case 4 found such
 	/*if(cur==20)
-				int l=1;*/
+	int l=1;*/
 	for(int i=(cur+1);i<l.size();i++)
 	{
 		/*if(cur==20 && i==28)
-			int lol =1;*/
+		int lol =1;*/
 		string temp = l.at(i);
 		if((isQuery(temp) || temp == "!") && iscon(l.at(i-1)))//case 1
 		{
@@ -308,37 +288,37 @@ int Dnf::find_closer(vector<string> l, int cur)
 
 
 		if(l.at(i) == "\"")
+		{
+			if(nodesStack.size() == 0 || nodesStack.top() != "str")
 			{
-				if(nodesStack.size() == 0 || nodesStack.top() != "str")
-				{
-					nodesStack.push("str");
-				}
-				else if(nodesStack.top() == "str")
-				{
-					nodesStack.pop();
-				}
+				nodesStack.push("str");
 			}
-			else if(nodesStack.size()> 0 &&nodesStack.top() == "str")
+			else if(nodesStack.top() == "str")
 			{
-				
+				nodesStack.pop();
 			}
-			else if(l.at(i) == "such" || l.at(i)=="Such")
-			{
+		}
+		else if(nodesStack.size()> 0 &&nodesStack.top() == "str")
+		{
+
+		}
+		else if(l.at(i) == "such" || l.at(i)=="Such")
+		{
+			return i;
+		}
+		else if((l.at(i) == "(" || l.at(i) == "!" ) && i>0 && iscon(l.at(i-1)))
+		{
+			return i-1;
+		}
+		else if(l.at(i) == "(")
+			nodesStack.push("(");
+		else if(l.at(i) == ")")
+		{
+			if(nodesStack.size() >0 && nodesStack.top() == "(")
+				nodesStack.pop();
+			else
 				return i;
-			}
-			else if((l.at(i) == "(" || l.at(i) == "!" ) && i>0 && iscon(l.at(i-1)))
-			{
-				return i-1;
-			}
-			else if(l.at(i) == "(")
-				nodesStack.push("(");
-			else if(l.at(i) == ")")
-			{
-				if(nodesStack.size() >0 && nodesStack.top() == "(")
-					nodesStack.pop();
-				else
-					return i;
-			}
+		}
 	}
 
 
@@ -357,7 +337,7 @@ int Dnf::find_closer(string d)
 		int end =d.find_first_of(" ",f);
 
 		string key = d.substr(f,end-f);
-		
+
 
 		//chk izzit a queries
 		if(key.size() > 3)
@@ -365,7 +345,7 @@ int Dnf::find_closer(string d)
 			string comparing = key.substr(0,3);
 			if(comparing == "Use")
 				int zlo = 1;
-//			std::transform(comparing.begin(), comparing.end(), comparing.begin(), easytolower);
+			//			std::transform(comparing.begin(), comparing.end(), comparing.begin(), easytolower);
 			if(comparing == "fol" ||comparing == "Fol" || comparing == "nex" || comparing == "pat" || comparing == "use" 
 				||comparing == "Use" || comparing == "mod" || comparing == "aff")
 			{
@@ -374,7 +354,7 @@ int Dnf::find_closer(string d)
 			}
 		}
 		//std::transform(key.begin(), key.end(), key.begin(), easytolower);
-		
+
 		for(int i=0;i<key.size();i++)
 		{
 			if(key.at(i) == '"')
@@ -390,7 +370,7 @@ int Dnf::find_closer(string d)
 			}
 			else if(nodesStack.size()> 0 &&nodesStack.top() == "str")
 			{
-				
+
 			}
 			else if(key.at(i) == '(' && (test.at(test.size() -1) == "and" || test.at(test.size() -1) == "or"))
 			{
@@ -429,7 +409,7 @@ bool Dnf::isDNF(FormNode* n)
 	{
 		pair<FormNode*,bool> top = q.front();
 		q.pop();
-		
+
 		FormNode* cur = top.first;
 
 		if(cur->fType == FormNode::Operator && cur->value == 1 && top.second == true)//its and or
@@ -448,17 +428,17 @@ bool Dnf::isDNF(FormNode* n)
 
 			q.push(pair<FormNode*,bool>(left,b));
 			q.push(pair<FormNode*,bool>(right,b));
-			
+
 
 
 
 		}
-		
-	
+
+
 	}while(q.size() >0);
 
 	return true;
-	
+
 }
 
 std::vector<pair<std::string,std::string>>* Dnf::CreateDNF(string str)
@@ -469,121 +449,121 @@ std::vector<pair<std::string,std::string>>* Dnf::CreateDNF(string str)
 		nth->push_back(pair<std::string,std::string>("",""));
 		return nth;
 	}
-		vector<string> qry;
+	vector<string> qry;
 
-		vector<string> tokens = tokenizer(str);
-		vector<string> fin;
-		int counter=0;
-		for(int i=0;i<tokens.size();i++)
+	vector<string> tokens = tokenizer(str);
+	vector<string> fin;
+	int counter=0;
+	for(int i=0;i<tokens.size();i++)
+	{
+
+		if(isQuery(tokens.at(i)))
 		{
-			
-			if(isQuery(tokens.at(i)))
+			int k = find_closer(tokens,i);
+			int h=1;
+
+			string temp="";
+
+			bool bracketopenfound = false;
+			bool nextnospace = false;
+
+			for(int j=i;j<k;j++)
 			{
-				int k = find_closer(tokens,i);
-				int h=1;
-
-				string temp="";
-
-				bool bracketopenfound = false;
-				bool nextnospace = false;
-
-				for(int j=i;j<k;j++)
+				if(tokens.at(j) == "\"")
 				{
-					if(tokens.at(j) == "\"")
-					{
-						bracketopenfound = !bracketopenfound;
+					bracketopenfound = !bracketopenfound;
 
-						if(!bracketopenfound)
+					if(!bracketopenfound)
 						temp.append(tokens.at(j));
-						else
-							temp.append(" "+tokens.at(j));
-							nextnospace = true;
-						continue;
-					}
-					if(!nextnospace)
-						temp.append(" "+tokens.at(j));
 					else
-					{
-						temp.append(tokens.at(j));
-						nextnospace = false;
-					}
-				}
-				qry.push_back(temp);
-				ostringstream convert; 
-
-				convert<<counter;
-				string temp2 = "" + convert.str()+"stub";
-				fin.push_back(temp2);
-				counter++;
-				i = k-1;
-				int l=1;
-				//find its closure
-			}
-			else
-			{
-				fin.push_back(tokens.at(i));
-			}
-		}
-		if(qry.size() == 0)
-		return 0;
-
-		FormNode *head;		
-		//at this pt i want to change such that to s
-
-		
-
-		vector<string> finwost;
-
-		bool skipnext = false;
-		for(int i=0;i<fin.size();i++)
-		{
-			if(skipnext)
-			{
-				skipnext=false;
-				continue;
-			}
-			string t = fin.at(i);
-			std::transform(t.begin(), t.end(), t.begin(), ::tolower);
-
-			if(t == "such" && i <= (fin.size()-1))
-			{
-				string t2 = fin.at(i+1);
-				std::transform(t2.begin(), t2.end(), t2.begin(), ::tolower);
-				if(t2 == "that")
-				{
-					finwost.push_back("st");
-					skipnext = true;
+						temp.append(" "+tokens.at(j));
+					nextnospace = true;
 					continue;
 				}
+				if(!nextnospace)
+					temp.append(" "+tokens.at(j));
+				else
+				{
+					temp.append(tokens.at(j));
+					nextnospace = false;
+				}
 			}
+			qry.push_back(temp);
+			ostringstream convert; 
 
-			finwost.push_back(t);
+			convert<<counter;
+			string temp2 = "" + convert.str()+"stub";
+			fin.push_back(temp2);
+			counter++;
+			i = k-1;
+			int l=1;
+			//find its closure
 		}
-
-		head = processAssignment(finwost);
-
-
-		
-		FormNode *newhead =  Convert(head);;	
-		
-		//string data1 = newhead->print();
-
-		vector<string>* dnfform = newhead->GetStringVect(&qry);
-		vector<string>* dnfformPruned = newhead->GetStringVectPruned(&qry);
-
-		vector<pair<string,string>>* finalans = new vector<pair<string,string>>();
-
-		for(int i=0;i<dnfform->size();i++)
+		else
 		{
-			pair<string,string> ans;
-			ans.first = dnfform->at(i);
-			ans.second = dnfformPruned->at(i);
-			finalans->push_back(ans);
+			fin.push_back(tokens.at(i));
+		}
+	}
+	if(qry.size() == 0)
+		return 0;
+
+	FormNode *head;		
+	//at this pt i want to change such that to s
+
+
+
+	vector<string> finwost;
+
+	bool skipnext = false;
+	for(int i=0;i<fin.size();i++)
+	{
+		if(skipnext)
+		{
+			skipnext=false;
+			continue;
+		}
+		string t = fin.at(i);
+		std::transform(t.begin(), t.end(), t.begin(), ::tolower);
+
+		if(t == "such" && i <= (fin.size()-1))
+		{
+			string t2 = fin.at(i+1);
+			std::transform(t2.begin(), t2.end(), t2.begin(), ::tolower);
+			if(t2 == "that")
+			{
+				finwost.push_back("st");
+				skipnext = true;
+				continue;
+			}
 		}
 
-		return finalans;		
+		finwost.push_back(t);
+	}
 
-	
+	head = processAssignment(finwost);
+
+
+
+	FormNode *newhead =  Convert(head);;	
+
+	//string data1 = newhead->print();
+
+	vector<string>* dnfform = newhead->GetStringVect(&qry);
+	vector<string>* dnfformPruned = newhead->GetStringVectPruned(&qry);
+
+	vector<pair<string,string>>* finalans = new vector<pair<string,string>>();
+
+	for(int i=0;i<dnfform->size();i++)
+	{
+		pair<string,string> ans;
+		ans.first = dnfform->at(i);
+		ans.second = dnfformPruned->at(i);
+		finalans->push_back(ans);
+	}
+
+	return finalans;		
+
+
 }
 
 int Dnf::getOperatorWeight(string token)
@@ -598,15 +578,15 @@ int Dnf::getOperatorWeight(string token)
 
 int Dnf::compareOprPrecedence(string opr1, string opr2)    
 {    
-	 if (opr1 == ";" || opr2 == ";")
+	if (opr1 == ";" || opr2 == ";")
 		return -1;
-	 else
+	else
 		return getOperatorWeight(opr1) - getOperatorWeight(opr2);
 }
 
 FormNode* Dnf::processAssignment(vector<string> expr)
 {
-	
+
 	stack<bool> negstack;
 	stack<string> operators, subExprBrackets; 
 	stack<FormNode*> operands;
@@ -615,7 +595,7 @@ FormNode* Dnf::processAssignment(vector<string> expr)
 
 	bool isneg = false;
 
-	
+
 	for (unsigned int i = 0; i < expr.size(); i++ ) {
 		string token = expr[i]; 
 		if(token == "!" && subExprBrackets.size() == 0)
@@ -626,7 +606,7 @@ FormNode* Dnf::processAssignment(vector<string> expr)
 
 		if (token == "/" || token == "^" || token == "%")
 			throw SPAException("Operator not supported, use '+', '-' or '*' only");
-		
+
 		if (token == ";") //terminating sequence for assignment
 			break; 
 
@@ -642,7 +622,7 @@ FormNode* Dnf::processAssignment(vector<string> expr)
 				subExpr.push_back(token);
 
 			} else if (token == ")") {
-				
+
 				subExprBrackets.pop();
 
 				if (subExprBrackets.size() > 0) {
@@ -650,18 +630,18 @@ FormNode* Dnf::processAssignment(vector<string> expr)
 
 				} else if (subExprBrackets.size() == 0) {
 					subExpr.push_back(";");
-					 //recursive call here
+					//recursive call here
 					FormNode* tempnode = processAssignment(subExpr);
-						if(isneg)
-						{
-							if(tempnode->isneg == true)
-								tempnode->isneg = false;
-							else
-								tempnode->isneg = true;
+					if(isneg)
+					{
+						if(tempnode->isneg == true)
+							tempnode->isneg = false;
+						else
+							tempnode->isneg = true;
 
-							isneg = false;
-						}
-						operands.push(tempnode);
+						isneg = false;
+					}
+					operands.push(tempnode);
 					//negate the new into opposite
 					subExpr.clear();
 				}
@@ -672,15 +652,15 @@ FormNode* Dnf::processAssignment(vector<string> expr)
 		} else if (iscon(token)) {
 			if (operators.empty()) {//if the operator stack is empty simply push
 				operators.push(token);
-			
+
 			} else { //Compare the precedence of + with the top of the stack 
 				if (compareOprPrecedence(token, operators.top()) > 0)	{
 
 					operators.push(token); //if it is greater, push
-				
+
 				} else 
 				{ //else pop and form a sub tree
-					
+
 					FormNode* oprNode = new FormNode(FormNode::Operator, operators.top());
 					oprNode->isneg = isneg;
 					isneg = false;
@@ -689,7 +669,7 @@ FormNode* Dnf::processAssignment(vector<string> expr)
 
 					FormNode* rightChild = operands.top();
 					operands.pop();
-					
+
 					FormNode* leftChild = operands.top();
 					operands.pop();
 
@@ -702,22 +682,22 @@ FormNode* Dnf::processAssignment(vector<string> expr)
 			}
 		} else { //it is an operand
 
-		
-					FormNode* varNode = new FormNode(FormNode::query, token);
-					varNode->isneg = isneg;
-					isneg = false;
-					operands.push(varNode);
-				
+
+			FormNode* varNode = new FormNode(FormNode::query, token);
+			varNode->isneg = isneg;
+			isneg = false;
+			operands.push(varNode);
+
 		}
 	}
-	
+
 	//Build the complete right sub tree to be returned to assign node
 	while (!operators.empty()) {
 		FormNode* oprNode = new FormNode(FormNode::Operator, operators.top());
-					
+
 		FormNode* rightChild = operands.top();
 		operands.pop();
-					
+
 		FormNode* leftChild = operands.top();
 		operands.pop();
 
@@ -734,13 +714,13 @@ FormNode* Dnf::processAssignment(vector<string> expr)
 void Dnf::Eval(std::string query,list<string>& results)
 {
 	int pos =0;
-		string token="";// = QueryPreprocessor::getToken(query, pos);
-		do
-		{
-			token = getToken(query, pos);
-		}while(token != "Select");
-		bool selectBOOLEAN = false;
-		string selected = getToken(query, pos);//nick see=>pos = identify the select something
+	string token="";// = QueryPreprocessor::getToken(query, pos);
+	do
+	{
+		token = getToken(query, pos);
+	}while(token != "Select");
+	bool selectBOOLEAN = false;
+	string selected = getToken(query, pos);//nick see=>pos = identify the select something
 	unordered_set<string> selects;
 	if (selected.at(0) == '<') { //tuple -> multiple selected variables
 		do {
@@ -779,127 +759,99 @@ void Dnf::Eval(std::string query,list<string>& results)
 	if(substrs==0)//no relation
 	{
 		MultiQueryEval::evaluateQuery(query, results);
-		
+
 		return;
 	}
 
 	vector<list<string>> allans;
 	vector<string> newsubstrs;
 	try{
-	for(int i=0;i<substrs->size();i++)
-	{
-		 //list<string> results;
-		 
-		//vector<string> answers;
-		if(substrs->at(i).first.compare(substrs->at(i).second)==0)
+		for(int i=0;i<substrs->size();i++)
 		{
-			//both same just do 1 query
-			string newqry = "";
-			int pfound = substrs->at(i).first.find("pattern", 0);
-			if((pfound == -1 || pfound > 3) && substrs->at(i).first != "")
-				newqry = querystart + " such that " +substrs->at(i).first;
-			else 
-				newqry = querystart +" " +substrs->at(i).first;
-			
-			MultiQueryEval::evaluateQuery(newqry,results);
-		}
-		else
-		{
-			//do 2 and intersect .second is the big 1
-		
-			list<string> results1;
-			list<string> results2;
-			{
-			string newqry = "";
-			int pfound = substrs->at(i).second.find("pattern",0);
-			if(pfound == -1 || pfound > 3)
-				newqry = querystart + " such that " +substrs->at(i).second;
-			else 
-				newqry = querystart + " " +substrs->at(i).second;
-		
-			MultiQueryEval::evaluateQuery(newqry, results1);
-			
-			}
-			{
-			string newqry = "";
-			int pfound = substrs->at(i).first.find("pattern",0);
-			if(pfound == -1 || pfound > 3)
-				newqry = querystart + " such that " +substrs->at(i).first;
-			else 
-				newqry = querystart +" " +substrs->at(i).first;
-			MultiQueryEval::evaluateQuery(newqry,results2);
-			}
-			//intersect
+			//list<string> results;
 
-			for (auto it1 = results1.begin(); it1 != results1.end(); it1++) {
-				const string arg = (*it1);
-				std::list<string>::iterator findIter = std::find(results2.begin(), results2.end(), arg);
+			//vector<string> answers;
+			if(substrs->at(i).first.compare(substrs->at(i).second)==0)
+			{
+				//both same just do 1 query
+				string newqry = "";
+				int pfound = substrs->at(i).first.find("pattern", 0);
+				if((pfound == -1 || pfound > 3) && substrs->at(i).first != "")
+					newqry = querystart + " such that " +substrs->at(i).first;
+				else 
+					newqry = querystart +" " +substrs->at(i).first;
 
-				if(findIter == results2.end())
+				MultiQueryEval::evaluateQuery(newqry,results);
+			}
+			else
+			{
+				//do 2 and intersect .second is the big 1
+
+				list<string> results1;
+				list<string> results2;
 				{
-					//not found
-					//int zzsfa=1;
-					results.push_back(arg);
+					string newqry = "";
+					int pfound = substrs->at(i).second.find("pattern",0);
+					if(pfound == -1 || pfound > 3)
+						newqry = querystart + " such that " +substrs->at(i).second;
+					else 
+						newqry = querystart + " " +substrs->at(i).second;
+
+					MultiQueryEval::evaluateQuery(newqry, results1);
+
+				}
+				{
+					string newqry = "";
+					int pfound = substrs->at(i).first.find("pattern",0);
+					if(pfound == -1 || pfound > 3)
+						newqry = querystart + " such that " +substrs->at(i).first;
+					else 
+						newqry = querystart +" " +substrs->at(i).first;
+					MultiQueryEval::evaluateQuery(newqry,results2);
+				}
+				//intersect
+
+				for (auto it1 = results1.begin(); it1 != results1.end(); it1++) {
+					const string arg = (*it1);
+					std::list<string>::iterator findIter = std::find(results2.begin(), results2.end(), arg);
+
+					if(findIter == results2.end())
+					{
+						//not found
+						//int zzsfa=1;
+						results.push_back(arg);
+					}
+
+					//int zzz=1;
 				}
 
-				//int zzz=1;
 			}
-			
-		}
 
-			
-		
-			
-			
-			
+
+
+
+
+
 			//allans.push_back(results);
-		
-	}	
 
-	if(selectBOOLEAN)
- {
-  bool istrue=false;
-  for (auto it1 = results.begin();it1!=results.end();it1++) {
-   if((*it1) == "true"){
-    istrue = true;
-    break;
-   }
-  }
-  results.clear();
+		}	
 
-  if(istrue)
-   results.push_back("true");
-  else
-	results.push_back("false");
-	}
+		if(selectBOOLEAN)
+		{
+			bool istrue=false;
+			for (auto it1 = results.begin();it1!=results.end();it1++) {
+				if((*it1) == "true"){
+					istrue = true;
+					break;
+				}
+			}
+			results.clear();
 
-	//int test1=1;
-	////union and remove dup
-
-	//list<string> lastans;
-	//for(int i=0;i<allans.size();i++)
-	//{
-	//	for (auto it1 = allans.at(i).begin(); it1 != allans.at(i).end(); it1++) {
-	//			const string arg = (*it1);
-	//			std::list<string>::iterator findIter = std::find(lastans.begin(), lastans.end(), arg);
-
-	//			if(findIter == lastans.end())
-	//			{
-	//				//not found
-	//				
-	//				lastans.push_back(arg);
-	//			}
-
-	//			
-	//		}
-
-
-	//}
-
-	////remove dup
-	//lastans.sort(compare);
-	//results = lastans;
-
+			if(istrue)
+				results.push_back("true");
+			else
+				results.push_back("false");
+		}
 	}catch(exception e){
 
 	}

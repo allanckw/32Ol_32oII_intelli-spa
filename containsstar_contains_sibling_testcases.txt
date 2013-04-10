@@ -1,4 +1,4 @@
-33
+59
 cat: All Category
 1 - Contains :: s2
 procedure p1,p2; if i1,i2; variable v1;
@@ -150,127 +150,132 @@ if i1; plus add; minus m; times mult; variable v; procedure p;
 Select v such that Contains*(i1,v) and Contains*(p,i1) with p.procName = "Bob"
 a,b,k,q,v,x
 5000
-34 - Pattern :: StmtLst if
-stmtLst then, else; variable v; if iff;
-Select v such that pattern iff(v, then, else)
+34 - WhilePattern, Underscore :: What are the while statements with 'x' as a control variable?
+while w; variable v;
+Select w pattern w(v, _)
 
 5000
 35 - Pattern ::  StmtLst while
 stmtLst lst; variable v; while w;
-Select v such that pattern w(v, lst)
+Select v pattern w(v, lst)
 
 5000
-36 - Pattern ::  StmtLst if
-stmtLst then, else; variable v if iff; while w;
-Select v such that pattern iff(v, then, else) with v.varName = "b" such that Contains*(then, w) such that Contains*(else, w)
+36 - Pattern :: StmtLst if
+stmtLst then, else; variable v; if iff;
+Select v pattern iff(v, then, else)
 
 5000
-37 - Pattern ::  StmtLst while
+37 - Pattern ::  StmtLst if
+stmtLst then, else; variable v; if iff; while w;
+Select v pattern iff(v, then, else) with v.varName = "b" such that Contains*(then, w) such that Contains*(else, w)
+
+5000
+38 - Pattern ::  StmtLst while
 stmtLst lst; variable v; while w; if iff; assign a;
-Select v such that pattern w(v, lst) with v.varName = "x" such that Contains(lst, iff) such that Contains(a, v)
+Select v pattern w(v, lst) with v.varName = "x" such that Contains(lst, iff) such that Contains(a, v)
 
 5000
-38 - Pattern ::  StmtLst if
-stmtLst then, else; variable v if iff; while w;
-Select <v, then, else> such that pattern iff(v, then, else) with v.varName = "b" such that Contains*(then, w) such that Contains*(else, w)
+39 - Pattern ::  StmtLst if
+stmtLst then, else; variable v; if iff; while w;
+Select <v, then, else> pattern iff(v, then, else) with v.varName = "b" such that Contains*(then, w) such that Contains*(else, w)
 
 5000
-39 - Pattern ::  StmtLst while
+40 - Pattern ::  StmtLst while
 stmtLst lst; variable v; while w; if iff; assign a;
-Select <v, lst> such that pattern w(v, lst) with v.varName = "x" such that Contains(lst, iff) such that Contains(a, v)
+Select <v, lst> pattern w(v, lst) with v.varName = "x" such that Contains(lst, iff) such that Contains(a, v)
 
 5000
-40 - Pattern ::  StmtLst if
-stmtLst then, else; variable v if iff; while w;
-Select <v, then, w> such that pattern iff(v, then, else) with v.varName = "b" such that Contains*(then, w) 
+41 - Pattern ::  StmtLst if
+stmtLst then, else; variable v; if iff; while w;
+Select <v, then, w> pattern iff(v, then, else) with v.varName = "b" such that Contains*(then, w) 
 
 5000
-41 - Pattern ::  StmtLst while
+42 - Pattern ::  StmtLst while
 stmtLst lst; variable v; while w; if iff; assign a;
-Select <v, lst, iff, a> such that pattern w(v, lst) with v.varName = "x" such that Contains(lst, iff) such that Contains(iff, a)
+Select <v, lst, iff, a> pattern w(v, lst) with v.varName = "x" such that Contains(lst, iff) such that Contains(iff, a)
 
 5000
-42 - Pattern ::  StmtLst if
-stmtLst then, else; variable v if iff; while w;
-Select <v, else, w> such that pattern iff(v, then, else) with v.varName = "b" such that  Contains*(else, w )
+43 - Pattern ::  StmtLst if
+stmtLst then, else; variable v; if iff; while w;
+Select <v, else, w> pattern iff(v, then, else) with v.varName = "b" such that  Contains*(else, w )
 
 5000
-43 - Pattern ::  StmtLst while
+44 - Pattern ::  StmtLst while
 stmtLst lst; variable v; while w; if if1, if2; assign a;
-Select <if1, if2> such that pattern w(v, lst) with v.varName = "x" such that Contains(lst, if1) such that Contains*(if1, if2)
+Select <if1, if2> pattern w(v, lst) with v.varName = "x" such that Contains(lst, if1) such that Contains*(if1, if2)
 
 5000
-44 - Proc :: 
+45 - Proc :: 
 assign a1,a2; stmt s1, s2, s3; procedure p; constant c; variable v;
 Select <v.varName,c.value> such that Contains*(a1, c) and Sibling(v,c) with c.value = 0
 
 5000
-45 - Contains :: Assignment 4 returns all the variables that control some if statement
+46 - Contains :: Assignment 4 returns all the variables that control some if statement
 variable v; if ifStmt;
 Select v such that Contains (ifStmt, v)
 
 5000
-46 - Contains :: Assignment 4 returns all the variables that control some if statement but in addition if statement must be in procedure Peter
+47 - Contains :: Assignment 4 returns all the variables that control some if statement but in addition if statement must be in procedure Peter
 variable v; if ifStmt; procedure p;
 Select v such that Contains (ifStmt, v) and Contains* (p, ifStmt) with p.procName="Peter"
 
 5000 
-47 - Contains :: Assignment 4 returns all the assignments that refer to x (either on the left- or right-hand-side)
+48 - Contains :: Assignment 4 returns all the assignments that refer to x (either on the left- or right-hand-side)
 assign a; variable v;
 Select a such that Contains* (a, v) with v.varName="x"
 
 5000
-48 - Contains :: Assignment 4 returns all the procedures that refer to constant 2
+49 - Contains :: Assignment 4 returns all the procedures that refer to constant 2
 procedure p; constant c;
 Select p such that Contains* (p, c) with c.value=2 
 
 5000
-49 - Contains :: Assignment 4 returns all the assignments with plus nodes that refer to x (either on the left- or right-hand-side of plus)
+50 - Contains :: Assignment 4 returns all the assignments with plus nodes that refer to x (either on the left- or right-hand-side of plus)
 plus add; variable v; assign a;
 Select a such that Contains* (a, add) and Contains* (add, v) with v.varName="x"
 
 5000
-50 - Contains :: Assignment 4 return all procedures in which while is nested in if statement
+51 - Contains :: Assignment 4 return all procedures in which while is nested in if statement
 procedure p; if ifStmt; while w;
 Select p such that Contains* (p, ifStmt) and Contains* (ifStmt, w)
 
 5000
-51 - Contains :: Assignment 4 the same as Parent* (9, s)
+52 - Contains :: Assignment 4 the same as Parent* (9, s)
 stmt s;
 Select s such that Contains* (9, s) 
 
 5000
-52 - Contains :: Assignment 4 - true if some stmt is nested in statement 9
+53 - Contains :: Assignment 4 - true if some stmt is nested in statement 9
 stmt s;
 Select BOOLEAN such that Contains*(9, s) 
 
 5000
-53 - Contains :: Assignment 4 returns all variables referred to in statement 10
+54 - Contains :: Assignment 4 returns all variables referred to in statement 10
 variable v;
 Select v such that Contains* (10, v)
 
 5000
-54 - Contains :: Assignment 4 Complex mix and match
+55 - Contains :: Assignment 4 Complex mix and match
 variable v; if ifStmt; while w; stmtLst then, else;
 Select v such that Contains (ifStmt, v) and Modifies ("John", v) pattern ifStmt("i", then, else) such that Contains (then, w) and Contains (else ifStmt)
 
 5000
-55 - or :: or
+56 - or :: or
 variable v; assign a; while w; if ifStmt;
 Select v such that Contains* (a, v) or Contains*(w, v) or Contains*(ifStmt, v)
 
 5000
-56 - Contains_Not :: all variables not in the while loop 
+57 - Contains_Not :: all variables not in the while loop 
 variable v; while w;
 Select v such that !Contains* (w, v)
 
 5000
-57 - Contains_Not :: all variables not in the while loop or Contains in an assignment and variable
+58 - Contains_Not :: all variables not in the while loop or Contains in an assignment and variable
 variable v; while w; assign a; if ifStmt;
 Select <w, v, a, ifStmt> such that !Contains* (w, v) or (Contains*(a, v) and Contains*(ifStmt, v))
 
 5000
-58 - Contains_Not :: The opposite of query 57 - Gheying with Demorgan 
+59 - Contains_Not :: The opposite of query 57 - Gheying with Demorgan 
 variable v; while w; assign a; if ifStmt;
 Select <w, v, a, ifStmt> such that Contains* (w, v) or !(Contains*(a, v) and Contains*(ifStmt, v))
 

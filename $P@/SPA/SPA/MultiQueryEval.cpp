@@ -130,7 +130,7 @@ void MultiQueryEval::evaluateQuery(const string& query, list<string>& results)
     queryEvaluator.optimise();
     queryEvaluator.evaluate(results);
     if (queryEvaluator.selectBOOLEAN && queryEvaluator.earlyQuit)
-    results.push_back("false");
+		results.push_back("false");
 }
 
 /**

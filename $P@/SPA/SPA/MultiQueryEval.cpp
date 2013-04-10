@@ -282,7 +282,7 @@ void MultiQueryEval::validate()
 					}
 				if (type == RulesOfEngagement::PatternUses)
 					{ earlyQuit = true; return; } //throw new SPAException("The argument " + firstRel +
-					" was not valid for the first argument of " + relation);
+					//" was not valid for the first argument of " + relation);
 
 				RulesOfEngagement::QueryVar secondRelType;
 				if (secondRel == "_")
@@ -298,7 +298,7 @@ void MultiQueryEval::validate()
 
 				if (RulesOfEngagement::allowableSecondArgument[type].count(secondRelType) == 0)
 					{ earlyQuit = true; return; } //throw new SPAException("The argument " + secondRel +
-					" was not valid for the second argument of " + relation);
+					//" was not valid for the second argument of " + relation);
 				
 				relationStore[type][firstRel].insert(secondRel);
 				/*if (stringToQueryVar.count(firstRel) > 0) {
@@ -343,7 +343,7 @@ void MultiQueryEval::validate()
 							if (RulesOfEngagement::allowableConditions[type].count(
 								condition) == 0)
 								{ earlyQuit = true; return; } //throw new SPAException(token +
-								" does not have the " + condition + " condition");
+								//" does not have the " + condition + " condition");
 							RHSType = RulesOfEngagement::conditionTypes[condition];
 						}
 
@@ -357,7 +357,7 @@ void MultiQueryEval::validate()
 							{ earlyQuit = true; return; } //throw new SPAException("Unable to parse with");
 						if (LHSType != RHSType)
 							{ earlyQuit = true; return; } //throw new SPAException(
-							"Left and right hand side of with are not of same type");
+							//"Left and right hand side of with are not of same type");
 						
 						if (conditionStore[token].count(condition) == 0)
 							conditionStore[token].insert(
@@ -378,7 +378,7 @@ void MultiQueryEval::validate()
 						condition = getToken();
 						if (RulesOfEngagement::allowableConditions[type].count(condition) == 0)
 							{ earlyQuit = true; return; } //throw new SPAException(synonym +
-							" does not have the " + condition + " condition");
+							//" does not have the " + condition + " condition");
 						LHSType = RulesOfEngagement::conditionTypes[condition];
 					}
 
@@ -416,12 +416,12 @@ void MultiQueryEval::validate()
 
 						if (RulesOfEngagement::allowableConditions[type2].count(condition2) == 0)
 							{ earlyQuit = true; return; } //throw new SPAException(token +
-							" does not have the " + condition2 + " condition");
+							//" does not have the " + condition2 + " condition");
 						RulesOfEngagement::QueryVar RHSType =
 							RulesOfEngagement::conditionTypes[condition2];
 						if (LHSType != RHSType)
 							{ earlyQuit = true; return; } //throw new SPAException(
-							"Left and right hand side of with are not of same type");
+							//"Left and right hand side of with are not of same type");
 
 						if (condition2Store.count(token) > 0) {
 							if (condition2Store[token].count(condition2) > 0 && condition2Store[token][condition2].count(synonym) > 0)
@@ -503,7 +503,7 @@ void MultiQueryEval::validate()
 						if (stringToQueryVar.count(firstRel) > 0) {
 							if (stringToQueryVar[firstRel] != RulesOfEngagement::Variable)
 								{ earlyQuit = true; return; } //throw new SPAException(
-								"The first argument of pattern for if must be a variable");
+								//"The first argument of pattern for if must be a variable");
 						} else if (firstRel.at(0) != '\"' ||
 							firstRel.at(firstRel.length() - 1) != '\"')
 							{ earlyQuit = true; return; } //throw new SPAException("Could not parse the first argument");
@@ -517,7 +517,7 @@ void MultiQueryEval::validate()
 						if (stringToQueryVar.count(secondRel) == 0 ||
 							stringToQueryVar[secondRel] != RulesOfEngagement::Statement_List)
 							{ earlyQuit = true; return; } //throw new SPAException(
-							"The second argument of pattern for if must be a statement list");
+							//"The second argument of pattern for if must be a statement list");
 
 						relationStore[RulesOfEngagement::PatternSecond][synonym].insert(secondRel);
 						//stringCount[synonym]++;
@@ -528,7 +528,7 @@ void MultiQueryEval::validate()
 						if (stringToQueryVar.count(thirdRel) == 0 ||
 							stringToQueryVar[thirdRel] != RulesOfEngagement::Statement_List)
 							{ earlyQuit = true; return; } //throw new SPAException(
-							"The third argument of pattern for if must be a statement list");
+							//"The third argument of pattern for if must be a statement list");
 
 						relationStore[RulesOfEngagement::PatternThird][synonym].insert(thirdRel);
 						//stringCount[synonym]++;
@@ -550,7 +550,7 @@ void MultiQueryEval::validate()
 						if (stringToQueryVar.count(firstRel) > 0) {
 							if (stringToQueryVar[firstRel] != RulesOfEngagement::Variable)
 								{ earlyQuit = true; return; } //throw new SPAException(
-								"The first argument of pattern for while must be a variable");
+								//"The first argument of pattern for while must be a variable");
 						} else if (firstRel.at(0) != '\"' ||
 							firstRel.at(firstRel.length() - 1) != '\"')
 							{ earlyQuit = true; return; } //throw new SPAException("Could not parse the first argument");
@@ -564,7 +564,7 @@ void MultiQueryEval::validate()
 						if (stringToQueryVar.count(secondRel) == 0 ||
 							stringToQueryVar[secondRel] != RulesOfEngagement::Statement_List)
 							{ earlyQuit = true; return; } //throw new SPAException(
-							"The second argument of pattern for while must be a statement list");
+							//"The second argument of pattern for while must be a statement list");
 
 						relationStore[RulesOfEngagement::PatternSecond][synonym].insert(secondRel);
 						//stringCount[synonym]++;

@@ -1,4 +1,4 @@
-59
+60
 cat: All Category
 1 - Contains :: s2
 procedure p1,p2; if i1,i2; variable v1;
@@ -262,7 +262,7 @@ Select v such that Contains* (10, v)
 5000
 55 - Contains :: Assignment 4 Complex mix and match
 variable v; if ifStmt; while w; stmtLst then, else;
-Select v such that Contains (ifStmt, v) and Modifies ("John", v) pattern ifStmt("i", then, else) such that Contains (then, w) and Contains (else ifStmt)
+Select v such that Contains (ifStmt, v) and Modifies ("John", v) pattern ifStmt("i", then, else) such that Contains (then, w) and Contains (else, ifStmt)
 
 5000
 56 - or :: or
@@ -270,9 +270,9 @@ variable v; assign a; while w; if ifStmt;
 Select v such that Contains*(a, v) or Contains*(w, v) or Contains*(ifStmt, v)
 
 5000
-57 - Contains_Not :: all variables not in the while loop 
+57 - Contains :: all variables not in the while loop 
 variable v; while w;
-Select v such that !Contains*(w, v)
+Select v such that Contains*(w, v)
 
 5000
 58 - Contains_Not :: all variables not in the while loop or Contains in an assignment and variable
@@ -283,5 +283,10 @@ Select v such that !Contains*(w, v) or (Contains*(a, v) and Contains*(ifStmt, v)
 59 - Contains_Not :: The opposite of query 57 - Gheying with Demorgan 
 variable v; while w; assign a; if ifStmt;
 Select v such that Contains*(w, v) or !(Contains*(a, v) and Contains*(ifStmt, v))
+
+5000
+60 - Contains_Not :: all variables not in the while loop 
+variable v; while w;
+Select v such that !Contains*(w, v)
 
 5000

@@ -228,12 +228,12 @@ AnswerTable::AnswerTable(const SynonymTable& synonymTable, const string& synonym
 							}
 						break;
 					default:
-						for (auto it2 = answers.begin(); it2 != answers.end(); it2++) {
-							unordered_set<ASTNode*> uset;
-							uset.insert(*it2);
-							table.push_back(pair<int, unordered_set<ASTNode*>>
-								(((ASTStmtNode*) *it2)->getStmtNumber(), uset));
-						}
+						unordered_map<int, unordered_set<ASTNode*>> simplify;
+						for (auto it2 = answers.begin(); it2 != answers.end(); it2++)
+							simplify[RulesOfEngagement::convertASTNodeToInteger(synType, *it2)].
+							insert(*it2);
+						
+						table.insert(table.end(), simplify.begin(), simplify.end());
 					}
 					unrestricted = false;
 				} else {
@@ -395,12 +395,12 @@ AnswerTable::AnswerTable(const SynonymTable& synonymTable, const string& synonym
 							}
 						break;
 					default:
-						for (auto it2 = answers.begin(); it2 != answers.end(); it2++) {
-							unordered_set<ASTNode*> uset;
-							uset.insert(*it2);
-							table.push_back(pair<int, unordered_set<ASTNode*>>
-								(((ASTStmtNode*) *it2)->getStmtNumber(), uset));
-						}
+						unordered_map<int, unordered_set<ASTNode*>> simplify;
+						for (auto it2 = answers.begin(); it2 != answers.end(); it2++)
+							simplify[RulesOfEngagement::convertASTNodeToInteger(synType, *it2)].
+							insert(*it2);
+						
+						table.insert(table.end(), simplify.begin(), simplify.end());
 					}
 					unrestricted = false;
 				} else {
@@ -1196,7 +1196,7 @@ void AnswerTable::withCombine(const string& firstSynonym, const string& firstCon
 	case RulesOfEngagement::Integer:
 		for (auto it = answers.begin(); it != answers.end(); it++)
 			for (auto it2 = otherTable.answers.begin(); it2 != otherTable.answers.end(); it2++)
-				if ((*it)[firstRelIndex] == (*it2)[secondRelIndex]) {
+				if ((*it)[firstRelIndex].first == (*it2)[secondRelIndex].first) {
 					vector<pair<int, unordered_set<ASTNode*>>> newRow(*it);
 					newRow.insert(newRow.end(), (*it2).begin(), (*it2).end());
 					newTable.push_back(newRow);
@@ -1215,6 +1215,7 @@ void AnswerTable::withCombine(const string& firstSynonym, const string& firstCon
 			case RulesOfEngagement::Variable: //varName
 				RHSequiv = PKB::variables.getVARName(RHS);
 			}
+			RHSequivs.push_back(RHSequiv);
 		}
 
 		for (auto it = answers.begin(); it != answers.end(); it++) {
@@ -1277,7 +1278,7 @@ void AnswerTable::withPrune(const string& firstSynonym,
 	switch (attributeType) {
 	case RulesOfEngagement::Integer:
 		for (auto it = answers.begin(); it != answers.end(); it++)
-			if ((*it)[firstRelIndex] == (*it)[secondRelIndex])
+			if ((*it)[firstRelIndex].first == (*it)[secondRelIndex].first)
 				newTable.push_back(*it);
 		break;
 		

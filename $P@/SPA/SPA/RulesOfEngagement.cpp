@@ -8,6 +8,7 @@ unordered_map<string, unordered_set<RulesOfEngagement::QueryRelations>>
 unordered_map<string, RulesOfEngagement::QueryVar> RulesOfEngagement::tokenToVar;
 unordered_map<RulesOfEngagement::QueryVar, set<string>> RulesOfEngagement::allowableConditions;
 unordered_map<string, RulesOfEngagement::QueryVar> RulesOfEngagement::conditionTypes;
+unordered_set<string> RulesOfEngagement::cannotAlias;
 unordered_map<RulesOfEngagement::QueryVar, bool> RulesOfEngagement::formOfASTNode;
 
 unordered_map<RulesOfEngagement::QueryRelations, set<RulesOfEngagement::QueryVar>>
@@ -92,6 +93,9 @@ void RulesOfEngagement::initialise()
 
 	conditionTypes["procName"] = conditionTypes["varName"] = String;
 	conditionTypes["value"] = conditionTypes["stmt#"] = conditionTypes[""] = Integer;
+
+	cannotAlias.insert("varName");
+	cannotAlias.insert("value");
 
 	formOfASTNode.insert(pair<QueryVar, bool>(Procedure, false));
 	formOfASTNode.insert(pair<QueryVar, bool>(Statement_List, false));
@@ -338,7 +342,7 @@ void RulesOfEngagement::initialise()
 	allowableSecondArgument[Affects].insert(Integer);
 	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(Affects, Statement));
 	
-		allowableFirstArgument[AffectsStar].insert(Statement);
+	allowableFirstArgument[AffectsStar].insert(Statement);
 	allowableFirstArgument[AffectsStar].insert(Assign);
 	allowableFirstArgument[AffectsStar].insert(Call); //returns none / false straight
 	allowableFirstArgument[AffectsStar].insert(While); //returns none / false straight
@@ -518,6 +522,10 @@ void RulesOfEngagement::initialise()
 	emptyRel[Calls] = emptyRel[CallsStar] = PKB::calls.isEmpty();
 	emptyRel[Follows] = emptyRel[FollowsStar] = PKB::follows.isEmpty();
 	emptyRel[Parent] = emptyRel[ParentStar] = PKB::parent.isEmpty();
+	/*emptyRel[Next] = emptyRel[NextStar] = PKB::next.isNextEmpty();
+	emptyRel[NextBip] = emptyRel[NextBipStar] = PKB::next.isNextBipEmpty();
+	emptyRel[Affects] = emptyRel[AffectsStar] = PKB::next.isAffectsEmpty();
+	emptyRel[AffectsBip] = emptyRel[AffectsBipStar] = PKB::next.isAffectsBipEmpty();*/
 
 	relationMap[ModifiesStmt] = &isModifiesStmt;
 	relationMap[ModifiesProc] = &isModifiesProc;
@@ -582,8 +590,8 @@ void RulesOfEngagement::initialise()
 	relationFromMap[NextBipStar] = &nextBipStarFrom;
 	relationFromMap[Affects] = &affectsFrom;
 	relationFromMap[AffectsStar] = &affectsStarFrom;
-	relationFromMap[AffectsBip] = &affectsBipFrom;
-	relationFromMap[AffectsBipStar] = &affectsBipStarFrom;
+	//relationFromMap[AffectsBip] = &affectsBipFrom;
+	//relationFromMap[AffectsBipStar] = &affectsBipStarFrom;
 	relation2FromMap[Contains] = &containsFrom;
 	relation2FromMap[ContainsStar] = &containsStarFrom;
 	relation2FromMap[Sibling] = &siblingBy;
@@ -696,6 +704,28 @@ unordered_set<ASTNode*> RulesOfEngagement::convertIntegerToASTNode(
 		throw new SPAException("Unknown type");
 	}
 	return answers;
+}
+
+int RulesOfEngagement::convertASTNodeToInteger(const QueryVar type, const ASTNode* node)
+{
+	switch (type) {
+	case Procedure:
+		return node->getValue();
+	case Statement_List:
+		return ((ASTStmtNode*) node->getChild(0))->getStmtNumber();
+	case Statement:
+	case Assign:
+	case Call:
+	case While:
+	case If:
+	case Prog_Line:
+		return ((ASTStmtNode*) node)->getStmtNumber();
+	case Variable:
+		return node->getValue();
+		return node->getValue();
+	default:
+		throw new SPAException("Unknown type");
+	}
 }
 
 /**

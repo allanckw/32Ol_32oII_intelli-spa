@@ -10,9 +10,6 @@
 class Dnf
 {
 public:
-	Dnf(void);
-	~Dnf(void);
-
 	static FormNode* Convert(FormNode* c);
 	static bool isOperator(std::string token);
 	static FormNode* processAssignment(std::vector<std::string> expr);

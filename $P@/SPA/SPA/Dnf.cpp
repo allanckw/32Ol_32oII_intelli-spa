@@ -1,16 +1,5 @@
 ﻿#include "Dnf.h"
 
-
-Dnf::Dnf(void)
-{
-}
-
-
-Dnf::~Dnf(void)
-{
-}
-
-
 string Dnf::getToken(const string& query, int& pos)
 {
 	int first = query.find_first_not_of(' ', pos);
@@ -36,11 +25,9 @@ string Dnf::getToken(const string& query, int& pos)
 
 FormNode* Dnf::Convert(FormNode* c)
 {
-
 	if(c->fType == FormNode::query)
-	{
 		return c;
-	}
+
 
 	if(c->isneg != true)
 	{
@@ -75,17 +62,10 @@ FormNode* Dnf::Convert(FormNode* c)
 					newnode->children.at(1)->isneg = f2.at(j)->isneg;
 					newnode->children.at(1)->value = f2.at(j)->value;
 					newnode->children.at(1)->fType = f2.at(j)->fType;
-
-
-
-
 					new1.push_back(newnode);
-
 				}
 			}
-
 			FormNode* head;
-
 			FormNode* prev=0;
 
 			while(new1.size() > 1)
@@ -115,7 +95,6 @@ FormNode* Dnf::Convert(FormNode* c)
 			{
 				c = new1.at(0);
 			}
-
 			return c;
 		}
 
@@ -123,9 +102,6 @@ FormNode* Dnf::Convert(FormNode* c)
 		{
 			c->children.at(0) = Convert(c->children.at(0));
 			c->children.at(1) = Convert(c->children.at(1));
-
-			//need cartesian here
-			//ok
 			return c;
 		}
 	}
@@ -265,7 +241,6 @@ char Dnf::easytolower(char in){
 	return in;
 } 
 
-
 int Dnf::find_closer(vector<string> l, int cur)
 {
 	stack<string> nodesStack;
@@ -320,10 +295,9 @@ int Dnf::find_closer(vector<string> l, int cur)
 				return i;
 		}
 	}
-
-
 	return l.size();
 }
+
 int Dnf::find_closer(string d)
 {
 	stack<string> nodesStack;
@@ -337,8 +311,6 @@ int Dnf::find_closer(string d)
 		int end =d.find_first_of(" ",f);
 
 		string key = d.substr(f,end-f);
-
-
 		//chk izzit a queries
 		if(key.size() > 3)
 		{
@@ -393,8 +365,6 @@ int Dnf::find_closer(string d)
 		//do till key = follows or )
 		previndex = end;
 	}
-
-
 	return d.size();
 }
 
@@ -428,17 +398,10 @@ bool Dnf::isDNF(FormNode* n)
 
 			q.push(pair<FormNode*,bool>(left,b));
 			q.push(pair<FormNode*,bool>(right,b));
-
-
-
-
 		}
-
-
 	}while(q.size() >0);
 
 	return true;
-
 }
 
 std::vector<pair<std::string,std::string>>* Dnf::CreateDNF(string str)
@@ -509,9 +472,6 @@ std::vector<pair<std::string,std::string>>* Dnf::CreateDNF(string str)
 
 	FormNode *head;		
 	//at this pt i want to change such that to s
-
-
-
 	vector<string> finwost;
 
 	bool skipnext = false;
@@ -536,17 +496,10 @@ std::vector<pair<std::string,std::string>>* Dnf::CreateDNF(string str)
 				continue;
 			}
 		}
-
 		finwost.push_back(t);
 	}
-
 	head = processAssignment(finwost);
-
-
-
 	FormNode *newhead =  Convert(head);;	
-
-	//string data1 = newhead->print();
 
 	vector<string>* dnfform = newhead->GetStringVect(&qry);
 	vector<string>* dnfformPruned = newhead->GetStringVectPruned(&qry);
@@ -562,8 +515,6 @@ std::vector<pair<std::string,std::string>>* Dnf::CreateDNF(string str)
 	}
 
 	return finalans;		
-
-
 }
 
 int Dnf::getOperatorWeight(string token)
@@ -590,11 +541,9 @@ FormNode* Dnf::processAssignment(vector<string> expr)
 	stack<bool> negstack;
 	stack<string> operators, subExprBrackets; 
 	stack<FormNode*> operands;
-
 	vector<string> subExpr;
 
 	bool isneg = false;
-
 
 	for (unsigned int i = 0; i < expr.size(); i++ ) {
 		string token = expr[i]; 
@@ -655,11 +604,9 @@ FormNode* Dnf::processAssignment(vector<string> expr)
 
 			} else { //Compare the precedence of + with the top of the stack 
 				if (compareOprPrecedence(token, operators.top()) > 0)	{
-
 					operators.push(token); //if it is greater, push
 
-				} else 
-				{ //else pop and form a sub tree
+				} else { //else pop and form a sub tree
 
 					FormNode* oprNode = new FormNode(FormNode::Operator, operators.top());
 					oprNode->isneg = isneg;
@@ -681,13 +628,10 @@ FormNode* Dnf::processAssignment(vector<string> expr)
 				}
 			}
 		} else { //it is an operand
-
-
 			FormNode* varNode = new FormNode(FormNode::query, token);
 			varNode->isneg = isneg;
 			isneg = false;
 			operands.push(varNode);
-
 		}
 	}
 
@@ -714,7 +658,7 @@ FormNode* Dnf::processAssignment(vector<string> expr)
 void Dnf::Eval(std::string query,list<string>& results)
 {
 	int pos =0;
-	string token="";// = QueryPreprocessor::getToken(query, pos);
+	string token="";
 	do
 	{
 		token = getToken(query, pos);
@@ -817,23 +761,11 @@ void Dnf::Eval(std::string query,list<string>& results)
 
 					if(findIter == results2.end())
 					{
-						//not found
-						//int zzsfa=1;
 						results.push_back(arg);
 					}
-
-					//int zzz=1;
 				}
 
 			}
-
-
-
-
-
-
-			//allans.push_back(results);
-
 		}	
 
 		if(selectBOOLEAN)
@@ -856,7 +788,6 @@ void Dnf::Eval(std::string query,list<string>& results)
 
 	}
 }
-
 
 bool Dnf::compare(string s1,string s2)
 {

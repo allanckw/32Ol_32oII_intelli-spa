@@ -318,38 +318,82 @@ void RulesOfEngagement::initialise()
 	allowableSecondArgument[NextBipStar].insert(Integer);
 	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(NextBipStar, Statement));
 	
+	allowableFirstArgument[Affects].insert(Statement);
 	allowableFirstArgument[Affects].insert(Assign);
+	allowableFirstArgument[Affects].insert(Call); //returns none / false straight
+	allowableFirstArgument[Affects].insert(While); //returns none / false straight
+	allowableFirstArgument[Affects].insert(If); //returns none / false straight
+	allowableFirstArgument[Affects].insert(Prog_Line);
 	allowableFirstArgument[Affects].insert(WildCard);
 	allowableFirstArgument[Affects].insert(Integer);
 	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(Affects, Statement));
+	
+	allowableSecondArgument[Affects].insert(Statement);
 	allowableSecondArgument[Affects].insert(Assign);
+	allowableSecondArgument[Affects].insert(Call); //returns none / false straight
+	allowableSecondArgument[Affects].insert(While); //returns none / false straight
+	allowableSecondArgument[Affects].insert(If); //returns none / false straight
+	allowableSecondArgument[Affects].insert(Prog_Line);
 	allowableSecondArgument[Affects].insert(WildCard);
 	allowableSecondArgument[Affects].insert(Integer);
 	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(Affects, Statement));
 	
+		allowableFirstArgument[AffectsStar].insert(Statement);
 	allowableFirstArgument[AffectsStar].insert(Assign);
+	allowableFirstArgument[AffectsStar].insert(Call); //returns none / false straight
+	allowableFirstArgument[AffectsStar].insert(While); //returns none / false straight
+	allowableFirstArgument[AffectsStar].insert(If); //returns none / false straight
+	allowableFirstArgument[AffectsStar].insert(Prog_Line);
 	allowableFirstArgument[AffectsStar].insert(WildCard);
 	allowableFirstArgument[AffectsStar].insert(Integer);
 	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(AffectsStar, Statement));
+	
+	allowableSecondArgument[AffectsStar].insert(Statement);
 	allowableSecondArgument[AffectsStar].insert(Assign);
+	allowableSecondArgument[AffectsStar].insert(Call); //returns none / false straight
+	allowableSecondArgument[AffectsStar].insert(While); //returns none / false straight
+	allowableSecondArgument[AffectsStar].insert(If); //returns none / false straight
+	allowableSecondArgument[AffectsStar].insert(Prog_Line);
 	allowableSecondArgument[AffectsStar].insert(WildCard);
 	allowableSecondArgument[AffectsStar].insert(Integer);
 	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(AffectsStar, Statement));
 	
+	allowableFirstArgument[AffectsBip].insert(Statement);
 	allowableFirstArgument[AffectsBip].insert(Assign);
+	allowableFirstArgument[AffectsBip].insert(Call); //returns none / false straight
+	allowableFirstArgument[AffectsBip].insert(While); //returns none / false straight
+	allowableFirstArgument[AffectsBip].insert(If); //returns none / false straight
+	allowableFirstArgument[AffectsBip].insert(Prog_Line);
 	allowableFirstArgument[AffectsBip].insert(WildCard);
 	allowableFirstArgument[AffectsBip].insert(Integer);
 	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(AffectsBip, Statement));
+	
+	allowableSecondArgument[AffectsBip].insert(Statement);
 	allowableSecondArgument[AffectsBip].insert(Assign);
+	allowableSecondArgument[AffectsBip].insert(Call); //returns none / false straight
+	allowableSecondArgument[AffectsBip].insert(While); //returns none / false straight
+	allowableSecondArgument[AffectsBip].insert(If); //returns none / false straight
+	allowableSecondArgument[AffectsBip].insert(Prog_Line);
 	allowableSecondArgument[AffectsBip].insert(WildCard);
 	allowableSecondArgument[AffectsBip].insert(Integer);
 	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(AffectsBip, Statement));
 	
+	allowableFirstArgument[AffectsBipStar].insert(Statement);
 	allowableFirstArgument[AffectsBipStar].insert(Assign);
+	allowableFirstArgument[AffectsBipStar].insert(Call); //returns none / false straight
+	allowableFirstArgument[AffectsBipStar].insert(While); //returns none / false straight
+	allowableFirstArgument[AffectsBipStar].insert(If); //returns none / false straight
+	allowableFirstArgument[AffectsBipStar].insert(Prog_Line);
 	allowableFirstArgument[AffectsBipStar].insert(WildCard);
 	allowableFirstArgument[AffectsBipStar].insert(Integer);
 	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(AffectsBipStar, Statement));
+	
+	allowableSecondArgument[AffectsBipStar].insert(Statement);
 	allowableSecondArgument[AffectsBipStar].insert(Assign);
+	allowableSecondArgument[AffectsBipStar].insert(Call); //returns none / false straight
+	allowableSecondArgument[AffectsBipStar].insert(While); //returns none / false straight
+	allowableSecondArgument[AffectsBipStar].insert(If); //returns none / false straight
+	allowableSecondArgument[AffectsBipStar].insert(Prog_Line);
 	allowableSecondArgument[AffectsBipStar].insert(WildCard);
 	allowableSecondArgument[AffectsBipStar].insert(Integer);
 	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(AffectsBipStar, Statement));
@@ -474,10 +518,6 @@ void RulesOfEngagement::initialise()
 	emptyRel[Calls] = emptyRel[CallsStar] = PKB::calls.isEmpty();
 	emptyRel[Follows] = emptyRel[FollowsStar] = PKB::follows.isEmpty();
 	emptyRel[Parent] = emptyRel[ParentStar] = PKB::parent.isEmpty();
-	/*emptyRel[Next] = emptyRel[NextStar] = PKB::next.isNextEmpty();
-	emptyRel[NextBip] = emptyRel[NextBipStar] = PKB::next.isNextBipEmpty();
-	emptyRel[Affects] = emptyRel[AffectsStar] = PKB::next.isAffectsEmpty();
-	emptyRel[AffectsBip] = emptyRel[AffectsBipStar] = PKB::next.isAffectsBipEmpty();*/
 
 	relationMap[ModifiesStmt] = &isModifiesStmt;
 	relationMap[ModifiesProc] = &isModifiesProc;
@@ -542,8 +582,8 @@ void RulesOfEngagement::initialise()
 	relationFromMap[NextBipStar] = &nextBipStarFrom;
 	relationFromMap[Affects] = &affectsFrom;
 	relationFromMap[AffectsStar] = &affectsStarFrom;
-	//relationFromMap[AffectsBip] = &affectsBipFrom;
-	//relationFromMap[AffectsBipStar] = &affectsBipStarFrom;
+	relationFromMap[AffectsBip] = &affectsBipFrom;
+	relationFromMap[AffectsBipStar] = &affectsBipStarFrom;
 	relation2FromMap[Contains] = &containsFrom;
 	relation2FromMap[ContainsStar] = &containsStarFrom;
 	relation2FromMap[Sibling] = &siblingBy;

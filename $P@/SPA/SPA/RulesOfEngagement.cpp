@@ -59,6 +59,8 @@ void RulesOfEngagement::initialise()
 	tokenToRel["NextBip*"].insert(NextBipStar);
 	tokenToRel["Affects"].insert(Affects);
 	tokenToRel["Affects*"].insert(AffectsStar);
+	tokenToRel["AffectsBip"].insert(Affects);
+	tokenToRel["AffectsBip*"].insert(AffectsStar);
 	tokenToRel["Contains"].insert(Contains);
 	tokenToRel["Contains*"].insert(ContainsStar);
 	tokenToRel["Sibling"].insert(Sibling);
@@ -464,6 +466,8 @@ void RulesOfEngagement::initialise()
 	takesInASTNode.insert(pair<QueryRelations, bool>(Contains, true));
 	takesInASTNode.insert(pair<QueryRelations, bool>(ContainsStar, true));
 	takesInASTNode.insert(pair<QueryRelations, bool>(Sibling, true));
+	takesInASTNode.insert(pair<QueryRelations, bool>(PatternSecond, true));
+	takesInASTNode.insert(pair<QueryRelations, bool>(PatternThird, true));
 		
 	emptyRel[ModifiesStmt] = emptyRel[ModifiesProc] = PKB::modifies.isEmpty();
 	emptyRel[UsesStmt] =  emptyRel[UsesProc] = PKB::uses.isEmpty();
@@ -632,7 +636,7 @@ unordered_set<ASTNode*> RulesOfEngagement::convertIntegerToASTNode(
 		answers.insert(PKB::rootNode->getChild(integer));
 		break;
 	case Statement_List:
-		answers.insert(PKB::statementNodes[integer]->getParent());
+		answers.insert(PKB::statementNodes[integer]->getAncestor());
 		break;
 	case Statement:
 	case Assign:

@@ -1002,25 +1002,25 @@ void AnswerTable::combine(const string& ownSynonym, AnswerTable& otherTable,
 					otherTable.type[secondRelIndex], info2.first);
 				const unordered_set<ASTNode*>& second = info2.second;
 
-				bool satisfy = false;
 				for (auto it3 = first.begin(); it3 != first.end(); it3++) {
 					unordered_map<ASTNode*, bool> memofirst = memo[*it3];
+					unordered_set<ASTNode*> survive;
 					for (auto it4 = second.begin(); it4 != second.end(); it4++) {
 						if (memofirst.count(*it4) == 0)
 							memofirst.insert(pair<ASTNode*, bool>(*it4, fn(*it3, *it4)));
 
 						if (memofirst[*it4]) {
-							satisfy = true;
-							break;
+							survive.insert(*it4);
 						}
 					}
-					if (satisfy)
-						break;
-				}
-				if (satisfy) {
-					vector<pair<int, unordered_set<ASTNode*>>> newRow(*it);
-					newRow.insert(newRow.end(), (*it2).begin(), (*it2).end());
-					newTable.push_back(newRow);
+					if (!survive.empty()) {
+						vector<pair<int, unordered_set<ASTNode*>>> newRow(*it);
+						newRow.insert(newRow.end(), (*it2).begin(), (*it2).end());
+						newRow[firstRelIndex].second.clear();
+						newRow[firstRelIndex].second.insert(*it3);
+						newRow[header.size() + secondRelIndex].second = survive;
+						newTable.push_back(newRow);
+					}
 				}
 			}
 		}
@@ -1131,23 +1131,26 @@ void AnswerTable::prune(const string& firstSynonym,
 				RulesOfEngagement::convertIntegerToASTNode(type[secondRelIndex], info2.first);
 			unordered_set<ASTNode*> second = info2.second;
 
-			bool satisfy = false;
 			for (auto it2 = first.begin(); it2 != first.end(); it2++) {
 				unordered_map<ASTNode*, bool> memofirst = memo[*it2];
+				unordered_set<ASTNode*> survive;
 				for (auto it3 = second.begin(); it3 != second.end(); it3++) {
 					if (memofirst.count(*it3) == 0)
 						memofirst.insert(pair<ASTNode*, bool>(*it3, fn(*it2, *it3)));
 
 					if (memofirst[*it3]) {
-						satisfy = true;
+						survive.insert(*it3);
 						break;
 					}
 				}
-				if (satisfy)
-					break;
+				if (!survive.empty()) {
+					vector<pair<int, unordered_set<ASTNode*>>> newRow(*it);
+					newRow[firstRelIndex].second.clear();
+					newRow[firstRelIndex].second.insert(*it2);
+					newRow[secondRelIndex].second = survive;
+					newTable.push_back(newRow);
+				}
 			}
-			if (satisfy)
-				newTable.push_back(*it);
 		}
 	} else { //the normal relations
 		RulesOfEngagement::isRelation fn = RulesOfEngagement::getRelation(rel);

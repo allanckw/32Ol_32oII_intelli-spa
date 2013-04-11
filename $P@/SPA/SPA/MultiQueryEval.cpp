@@ -102,8 +102,10 @@ string MultiQueryEval::getToken2()
 bool MultiQueryEval::matchToken(const string& match, bool error = true)
 {
 	if (error) {
-		if (getToken()!= match)
-			throw new SPAException("Error in parsing query");
+		if (getToken() != match) {
+			died = true;
+			return false;
+		}
 		return true;
 	} else {
 		int tempPos = pos;
@@ -262,7 +264,8 @@ void MultiQueryEval::validate()
 		if (clause == "") {
 			break;
 		} else if (clause == "such") {
-			matchToken("that");
+			if (!matchToken("that"))
+				return;
 			clauseType = Such_That;
 		} else if (clause == "with") {
 			clauseType = With;
@@ -278,11 +281,14 @@ void MultiQueryEval::validate()
 		case Such_That:
 			{
 				string relation = getToken();
-				matchToken("(");
+				if (!matchToken("("))
+					return;
 				string firstRel = getToken();
-				matchToken(",");			
+				if (!matchToken(","))
+					return;
 				string secondRel = getToken();
-				matchToken(")");
+				if (!matchToken(")"))
+					return;
 
 				if (RulesOfEngagement::tokenToRel.count(relation) == 0)
 					throw new SPAException("Unrecognised relationship " + relation);
@@ -369,7 +375,8 @@ void MultiQueryEval::validate()
 					}
 						//throw new SPAException("Unable to parse with");
 
-					matchToken("=");
+					if (!matchToken("="))
+						return;
 					string token = getToken();
 					if (stringToQueryVar.count(token) == 0) {
 						earlyQuit |= (synonym != token);
@@ -381,7 +388,8 @@ void MultiQueryEval::validate()
 							condition = "";
 							RHSType = RulesOfEngagement::Integer;
 						} else {
-							matchToken(".");
+							if (!matchToken("."))
+								return;
 							condition = getToken();
 							if (RulesOfEngagement::allowableConditions[type].count(
 								condition) == 0) {
@@ -432,7 +440,8 @@ void MultiQueryEval::validate()
 						condition = "";
 						LHSType = RulesOfEngagement::Integer;
 					} else {
-						matchToken(".");
+						if (!matchToken("."))
+							return;
 						condition = getToken();
 						if (RulesOfEngagement::allowableConditions[type].count(condition) == 0) {
 							died = true;
@@ -443,7 +452,8 @@ void MultiQueryEval::validate()
 						LHSType = RulesOfEngagement::conditionTypes[condition];
 					}
 
-					matchToken("=");
+					if (!matchToken("="))
+						return;
 					//either c.value = 10 OR c.value = s.stmt#
 					string token = getToken();
 					if (stringToQueryVar.count(token) == 0) { //c.value = 10
@@ -477,7 +487,8 @@ void MultiQueryEval::validate()
 						if (type2 == RulesOfEngagement::Prog_Line) {
 							condition2 = "";
 						} else {
-							matchToken(".");
+							if (!matchToken("."))
+								return;
 							condition2 = getToken();
 						}
 
@@ -528,7 +539,8 @@ void MultiQueryEval::validate()
 					//throw new SPAException("The variable " + synonym + " is not recognised");
 				RulesOfEngagement::QueryVar type = stringToQueryVar[synonym];
 
-				matchToken("(");
+				if (!matchToken("("))
+					return;
 				string firstRel = getToken();
 
 				switch (type) {
@@ -551,9 +563,11 @@ void MultiQueryEval::validate()
 							//stringCount[synonym]++;
 						}
 						
-						matchToken(",");
+						if (!matchToken(","))
+							return;
 						string secondRel = getToken2();
-						matchToken(")");
+						if (!matchToken(")"))
+							return;
 
 						//Bug Fix Here.. - Allan pattern a(watever, _) works, but pattern a(watever, _     ) fails
 						secondRel.erase(remove(secondRel.begin(), secondRel.end(), '\t'), secondRel.end());
@@ -585,11 +599,14 @@ void MultiQueryEval::validate()
 					break;
 
 				case RulesOfEngagement::If: {
-					matchToken(",");
+					if (!matchToken(","))
+						return;
 					const string secondRel = getToken();
-					matchToken(",");
+					if (!matchToken(","))
+						return;
 					const string thirdRel = getToken();
-					matchToken(")");
+					if (!matchToken(")"))
+						return;
 					bool nothing = true;
 
 					if (firstRel != "_") {
@@ -646,9 +663,11 @@ void MultiQueryEval::validate()
 					break;
 
 				case RulesOfEngagement::While: {
-					matchToken(",");
+					if (!matchToken(","))
+						return;
 					const string secondRel = getToken();
-					matchToken(")");
+					if (!matchToken(")"))
+						return;
 					bool nothing = true;
 
 					if (firstRel != "_") {

@@ -290,3 +290,13 @@ variable v; while w;
 Select v such that !Contains*(w, v)
 
 5000
+61 - Not_Siblings :: all stmts that are siblings are while loops
+variable v; while w; stmt s;
+Select s such that Sibling(w, s) 
+
+5000
+62 - Not_Siblings :: all stmts that are siblings are while loops
+variable v; while w; stmt s;
+Select s such that !Sibling(w, s) 
+
+5000

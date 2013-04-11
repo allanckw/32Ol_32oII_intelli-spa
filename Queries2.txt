@@ -163,7 +163,7 @@ Select a such that Modifies (a, v)
 33 - Modifies :: Which statements modifies 'i'?
 variable v;
 Select v such that Modifies (_, v)
-: Modifies and Uses cannot have '_' as the first parameter
+
 5000
 34 - Follows* :: What are the while statements that is followed directly/indirectly by another while statements?
 while w1,w2;

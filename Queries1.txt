@@ -93,12 +93,12 @@ a, i, pika, q, t, x, y2s, z
 19 - Typed, FollowsStar, Modifies, Uses, With, And-Multi ::
 procedure p; 
 Select p such that Modifies(_, _)
-An exception has occured: Modifies and Uses cannot have '_' as the first parameter
+
 500
 20 - Typed, NextStar, ParentStar, ImplStmtLine, And-Tuple ::
 procedure p; 
 Select p such that Uses(_, _)
-An exception has occured: Modifies and Uses cannot have '_' as the first parameter
+
 500
 21 - Typed, NextStar, ParentStar, ImplStmtLine, And-Tuple ::
 constant c; 

@@ -233,7 +233,7 @@ vector<STMT> PQLAffectsProcessor::getAffectsFrom(STMT a2)
 				if (usesVarSet.count(stmtModifiesVar) > 0) {
 					answer.insert(i);
 					usesVarSet.erase(stmtModifiesVar);
-					if (usesVarSet.size() == 0)
+					if (usesVarSet.empty())
 						return vector<STMT>(answer.begin(), answer.end());
 				}
 			} else if (PKB::callTable.count(i) > 0) {
@@ -241,7 +241,7 @@ vector<STMT> PQLAffectsProcessor::getAffectsFrom(STMT a2)
 				for (auto it = stmtModifiesVar.begin(); it != stmtModifiesVar.end(); it++)
 					if (usesVarSet.count(*it) > 0) {
 						usesVarSet.erase(*it);
-						if (usesVarSet.size() == 0)
+						if (usesVarSet.empty())
 							return vector<STMT>(answer.begin(), answer.end());
 					}
 			}
@@ -303,7 +303,7 @@ vector<STMT> PQLAffectsProcessor::getAffectsFrom(STMT a2)
 					if (usesVar.count(stmtModifiesVar) > 0) {
 						answer.insert(i);
 						usesVar.erase(stmtModifiesVar);
-						if (usesVar.size() == 0)
+						if (usesVar.empty())
 							break;
 					}
 				} else if (PKB::callTable.count(i) > 0) {
@@ -311,11 +311,11 @@ vector<STMT> PQLAffectsProcessor::getAffectsFrom(STMT a2)
 					for (auto it = stmtModifiesVar.begin(); it != stmtModifiesVar.end(); it++) {
 						if (usesVar.count(*it) > 0) {
 							usesVar.erase(*it);
-							if (usesVar.size() == 0)
+							if (usesVar.empty())
 								break;
 						}
 					}
-					if (usesVar.size() == 0)
+					if (usesVar.empty())
 						break;
 				}
 		}
@@ -506,40 +506,33 @@ bool PQLAffectsProcessor::isAffectsStar(STMT a1, STMT a2)
 	if (a2 <= s1->last && s1->whileAncestor == NULL) {
 		if (a1 >= a2)
 			return false;
-		for (int i = a1 + 1; i < a2; i++)
+		for (int i = a1 + 1; i < a2; i++) {
 			if (PKB::assignTable.count(i) > 0) {
 				const vector<VAR>& usesVar = PKB::uses.getUsedByStmt(i);
 				const VAR modifiesVar = PKB::modifies.getModifiedByStmt(i)[0];
-				if (modifiesVarSet.count(modifiesVar)) { //this statement kills value of some prev
-					bool match = false;
-					for (auto it = usesVar.begin(); it != usesVar.end(); it++)
-						if (modifiesVarSet.count(*it) > 0) { //this statement uses a variable
-							if (modifiesVar == *it) { //overall effect -> do nothing
-								match = true;
-								break;
-							}
-						}
-					if (!match) { //kill previous value
-						modifiesVarSet.erase(modifiesVar);
-						if (modifiesVarSet.size() == 0)
-							return false;
+				bool toCheck = true;
+				for (auto it = usesVar.begin(); it != usesVar.end(); it++) {
+					if (modifiesVarSet.count(*it) > 0) { //this statement uses a variable
+						modifiesVarSet.insert(modifiesVar); //-> add it in
+						toCheck = false;
+						break;
 					}
-				} else { //this statement does not kill anything
-					for (auto it = usesVar.begin(); it != usesVar.end(); it++)
-						if (modifiesVarSet.count(*it) > 0) { //this statement uses a variable
-							modifiesVarSet.insert(modifiesVar); //overall effect -> add it in
-							break;
-						}
+				}
+				if (toCheck && modifiesVarSet.count(modifiesVar)) { //this statement kills value of some prev
+					modifiesVarSet.erase(modifiesVar);
+					if (modifiesVarSet.empty())
+						return false;
 				}
 			} else if (PKB::callTable.count(i) > 0) {
 				const vector<VAR>& stmtModifiesVar = PKB::modifies.getModifiedByStmt(i);
 				for (auto it = stmtModifiesVar.begin(); it != stmtModifiesVar.end(); it++)
 					if (modifiesVarSet.count(*it) > 0) {
 						modifiesVarSet.erase(*it);
-						if (modifiesVarSet.size() == 0)
+						if (modifiesVarSet.empty())
 							return false;
 					}
 			}
+		}
 		const vector<VAR>& usesVar = PKB::uses.getUsedByStmt(a2);
 		for (auto it = usesVar.begin(); it != usesVar.end(); it++)
 			if (modifiesVarSet.count(*it) > 0)
@@ -563,30 +556,24 @@ bool PQLAffectsProcessor::isAffectsStar(STMT a1, STMT a2)
 				return false;
 		}
 
-		for (int i = a1 + 1; i <= s1->last; i++)
+		for (int i = a1 + 1; i <= s1->last; i++) {
 			if (PKB::assignTable.count(i) > 0) {
 				const vector<VAR>& usesVar = PKB::uses.getUsedByStmt(i);
 				const VAR modifiesVar = PKB::modifies.getModifiedByStmt(i)[0];
-				if (modifiesVarSet.count(modifiesVar)) { //this statement kills value of some prev
-					bool match = false;
-					for (auto it = usesVar.begin(); it != usesVar.end(); it++)
-						if (modifiesVarSet.count(*it) > 0) { //this statement uses a variable
-							if (modifiesVar == *it) { //overall effect -> do nothing
-								match = true;
-								break;
-							}
-						}
-					if (!match) { //kill previous value
-						modifiesVarSet.erase(modifiesVar);
-						if (modifiesVarSet.empty())
-							return false;
+				bool toCheck = true;
+				for (auto it = usesVar.begin(); it != usesVar.end(); it++) {
+					if (modifiesVarSet.count(*it) > 0) { //this statement uses a variable
+						if (i == a2)
+							return true;
+						modifiesVarSet.insert(modifiesVar); //-> add it in
+						toCheck = false;
+						break;
 					}
-				} else { //this statement does not kill anything
-					for (auto it = usesVar.begin(); it != usesVar.end(); it++)
-						if (modifiesVarSet.count(*it) > 0) { //this statement uses a variable
-							modifiesVarSet.insert(modifiesVar); //overall effect -> add it in
-							break;
-						}
+				}
+				if (toCheck && modifiesVarSet.count(modifiesVar)) { //this statement kills value of some prev
+					modifiesVarSet.erase(modifiesVar);
+					if (modifiesVarSet.empty())
+						return false;
 				}
 			} else if (PKB::callTable.count(i) > 0) {
 				const vector<VAR>& stmtModifiesVar = PKB::modifies.getModifiedByStmt(i);
@@ -597,6 +584,7 @@ bool PQLAffectsProcessor::isAffectsStar(STMT a1, STMT a2)
 							return false;
 					}
 			}
+		}
 	}
 
 	queue<pair<CFGNode*, unordered_set<int>>> search;
@@ -658,30 +646,20 @@ bool PQLAffectsProcessor::isAffectsStar(STMT a1, STMT a2)
 				if (PKB::assignTable.count(i) > 0) {
 					const vector<VAR>& usesVar = PKB::uses.getUsedByStmt(i);
 					const VAR modifiesVar = PKB::modifies.getModifiedByStmt(i)[0];
-					if (currVar.count(modifiesVar)) { //this statement kills value of some prev
-						bool match = false;
-						for (auto it = usesVar.begin(); it != usesVar.end(); it++)
-							if (currVar.count(*it) > 0) { //this statement uses a variable
-								if (i == a2)
-									return true;
-								if (modifiesVar == *it) { //overall effect -> do nothing
-									match = true;
-									break;
-								}
-							}
-						if (!match) { //kill previous value
-							currVar.erase(modifiesVar);
-							if (currVar.empty())
-								break;
+					bool toCheck = true;
+					for (auto it = usesVar.begin(); it != usesVar.end(); it++) {
+						if (currVar.count(*it) > 0) { //this statement uses a variable
+							if (i == a2)
+								return true;
+							currVar.insert(modifiesVar); //-> add it in
+							toCheck = false;
+							break;
 						}
-					} else { //this statement does not kill anything
-						for (auto it = usesVar.begin(); it != usesVar.end(); it++)
-							if (currVar.count(*it) > 0) { //this statement uses a variable
-								if (i == a2)
-									return true;
-								currVar.insert(modifiesVar); //overall effect -> add it in
-								break;
-							}
+					}
+					if (toCheck && currVar.count(modifiesVar)) { //this statement kills value of some prev
+						currVar.erase(modifiesVar);
+						if (currVar.empty())
+							break;
 					}
 				} else if (PKB::callTable.count(i) > 0) {
 					const vector<VAR>& stmtModifiesVar = PKB::modifies.getModifiedByStmt(i);
@@ -743,26 +721,26 @@ vector<STMT> PQLAffectsProcessor::getAffectsStarBy(STMT a1)
 		if (PKB::assignTable.count(i) > 0) {
 			const vector<VAR>& usesVar = PKB::uses.getUsedByStmt(i);
 			const VAR modifiesVar = PKB::modifies.getModifiedByStmt(i)[0];
-			bool match = false;
-			for (auto it = usesVar.begin(); it != usesVar.end(); it++)
+			bool toCheck = true;
+			for (auto it = usesVar.begin(); it != usesVar.end(); it++) {
 				if (modifiesVarSet.count(*it) > 0) { //this statement uses a variable
 					answer.insert(i);
-					if (modifiesVarSet.count(modifiesVar) == 0) //this statement modifies a new variable
-						modifiesVarSet.insert(modifiesVar); //add it in
-					match = true;
+					modifiesVarSet.insert(modifiesVar); //-> add it in
+					toCheck = false;
 					break;
 				}
-			if (!match && modifiesVarSet.count(modifiesVar) > 0) { //this statement kills value of some prev
+			}
+			if (toCheck && modifiesVarSet.count(modifiesVar)) { //this statement kills value of some prev
 				modifiesVarSet.erase(modifiesVar);
-				if (modifiesVarSet.size() == 0)
-					break;
+				if (modifiesVarSet.empty())
+					return vector<STMT>(answer.begin(), answer.end());
 			}
 		} else if (PKB::callTable.count(i) > 0) {
 			const vector<VAR>& stmtModifiesVar = PKB::modifies.getModifiedByStmt(i);
 			for (auto it = stmtModifiesVar.begin(); it != stmtModifiesVar.end(); it++)
 				if (modifiesVarSet.count(*it) > 0) {
 					modifiesVarSet.erase(*it);
-					if (modifiesVarSet.size() == 0)
+					if (modifiesVarSet.empty())
 						return vector<STMT>(answer.begin(), answer.end());
 				}
 		}
@@ -800,7 +778,7 @@ vector<STMT> PQLAffectsProcessor::getAffectsStarBy(STMT a1)
 			unordered_set<int>& seenVar = seen[currCFG];
 			for (auto it = seenVar.begin(); it != seenVar.end(); it++)
 				currVar.erase(*it);
-			if (currVar.size() == 0)
+			if (currVar.empty())
 				continue;
 			for (auto it = currVar.begin(); it != currVar.end(); it++)
 				seenVar.insert(*it);
@@ -825,18 +803,18 @@ vector<STMT> PQLAffectsProcessor::getAffectsStarBy(STMT a1)
 				if (PKB::assignTable.count(i) > 0) {
 					const vector<VAR>& usesVar = PKB::uses.getUsedByStmt(i);
 					const VAR modifiesVar = PKB::modifies.getModifiedByStmt(i)[0];
-					bool match = false;
-					for (auto it = usesVar.begin(); it != usesVar.end(); it++)
+					bool toCheck = true;
+					for (auto it = usesVar.begin(); it != usesVar.end(); it++) {
 						if (currVar.count(*it) > 0) { //this statement uses a variable
 							answer.insert(i);
-							if (currVar.count(modifiesVar) == 0) //this statement modifies a new variable
-								currVar.insert(modifiesVar); //add it in
-							match = true;
+							currVar.insert(modifiesVar); //-> add it in
+							toCheck = false;
 							break;
 						}
-					if (!match && currVar.count(modifiesVar) > 0) { //this statement kills value of some prev
+					}
+					if (toCheck && currVar.count(modifiesVar)) { //this statement kills value of some prev
 						currVar.erase(modifiesVar);
-						if (currVar.size() == 0)
+						if (currVar.empty())
 							break;
 					}
 				} else if (PKB::callTable.count(i) > 0) {
@@ -844,7 +822,7 @@ vector<STMT> PQLAffectsProcessor::getAffectsStarBy(STMT a1)
 					for (auto it = stmtModifiesVar.begin(); it != stmtModifiesVar.end(); it++)
 						if (currVar.count(*it) > 0) {
 							currVar.erase(*it);
-							if (currVar.size() == 0)
+							if (currVar.empty())
 								break;
 						}
 				}
@@ -906,7 +884,7 @@ vector<STMT>  PQLAffectsProcessor::getAffectsStarFrom(STMT a2)
 					usesVarSet.erase(stmtModifiesVar);
 					const vector<VAR>& stmtUsesVar = PKB::uses.getUsedByStmt(i);
 					usesVarSet.insert(stmtUsesVar.begin(), stmtUsesVar.end());
-					if (usesVarSet.size() == 0)
+					if (usesVarSet.empty())
 						return vector<STMT>(answer.begin(), answer.end());
 				}
 			} else if (PKB::callTable.count(i) > 0) {
@@ -914,7 +892,7 @@ vector<STMT>  PQLAffectsProcessor::getAffectsStarFrom(STMT a2)
 				for (auto it = stmtModifiesVar.begin(); it != stmtModifiesVar.end(); it++)
 					if (usesVarSet.count(*it) > 0) {
 						usesVarSet.erase(*it);
-						if (usesVarSet.size() == 0)
+						if (usesVarSet.empty())
 							return vector<STMT>(answer.begin(), answer.end());
 					}
 			}
@@ -933,7 +911,7 @@ vector<STMT>  PQLAffectsProcessor::getAffectsStarFrom(STMT a2)
 			unordered_set<int>& seenVar = seen[currCFG];
 			for (auto it = seenVar.begin(); it != seenVar.end(); it++)
 				currVar.erase(*it);
-			if (currVar.size() == 0)
+			if (currVar.empty())
 				continue;
 			for (auto it = currVar.begin(); it != currVar.end(); it++)
 				seenVar.insert(*it);
@@ -955,7 +933,7 @@ vector<STMT>  PQLAffectsProcessor::getAffectsStarFrom(STMT a2)
 						currVar.erase(stmtModifiesVar);
 						const vector<VAR>& stmtcurrVar = PKB::uses.getUsedByStmt(i);
 						currVar.insert(stmtcurrVar.begin(), stmtcurrVar.end());
-						if (currVar.size() == 0)
+						if (currVar.empty())
 							break;
 					}
 				} else if (PKB::callTable.count(i) > 0) {
@@ -963,10 +941,10 @@ vector<STMT>  PQLAffectsProcessor::getAffectsStarFrom(STMT a2)
 					for (auto it = stmtModifiesVar.begin(); it != stmtModifiesVar.end(); it++) {
 						if (currVar.count(*it) > 0) {
 							currVar.erase(*it);
-							if (currVar.size() == 0)
+							if (currVar.empty())
 								break;
 						}
-						if (currVar.size() == 0)
+						if (currVar.empty())
 							break;
 					}
 				}
@@ -1234,30 +1212,22 @@ bool PQLAffectsProcessor::isAffectsBipStar(STMT a1, STMT a2)
 				if (PKB::assignTable.count(i) > 0) {
 					const vector<VAR>& usesVar = PKB::uses.getUsedByStmt(i);
 					const VAR modifiesVar = PKB::modifies.getModifiedByStmt(i)[0];
-					if (activeVars.count(modifiesVar)) { //this statement kills value of some prev
-						bool match = false;
-						for (auto it = usesVar.begin(); it != usesVar.end(); it++)
-							if (activeVars.count(*it) > 0) { //this statement uses a variable
-								if (i == a2)
-									return true;
-								if (modifiesVar == *it) { //overall effect -> do nothing
-									match = true;
-									break;
-								}
-							}
-						if (!match) { //kill previous value
-							activeVars.erase(modifiesVar);
-							if (activeVars.empty()) {
-								broke = true;
-								break;
-							}
+					bool toCheck = true;
+					for (auto it = usesVar.begin(); it != usesVar.end(); it++) {
+						if (activeVars.count(*it) > 0) { //this statement uses a variable
+							if (i == a2)
+								return true;
+							activeVars.insert(modifiesVar); //-> add it in
+							toCheck = false;
+							break;
 						}
-					} else { //this statement does not kill anything
-						for (auto it = usesVar.begin(); it != usesVar.end(); it++)
-							if (activeVars.count(*it) > 0) { //this statement uses a variable
-								activeVars.insert(modifiesVar); //overall effect -> add it in
-								break;
-							}
+					}
+					if (toCheck && activeVars.count(modifiesVar)) { //this statement kills value of some prev
+						activeVars.erase(modifiesVar);
+						if (activeVars.empty()) {
+							broke = true;
+							break;
+						}
 					}
 				} else if (PKB::callTable.count(i) > 0) {
 					callStack.push(i);
@@ -1361,29 +1331,21 @@ vector<STMT> PQLAffectsProcessor::getAffectsBipStarBy(STMT a1)
 				if (PKB::assignTable.count(i) > 0) {
 					const vector<VAR>& usesVar = PKB::uses.getUsedByStmt(i);
 					const VAR modifiesVar = PKB::modifies.getModifiedByStmt(i)[0];
-					if (activeVars.count(modifiesVar)) { //this statement kills value of some prev
-						bool match = false;
-						for (auto it = usesVar.begin(); it != usesVar.end(); it++)
-							if (activeVars.count(*it) > 0) { //this statement uses a variable
-								answer.insert(i);
-								if (modifiesVar == *it) { //overall effect -> do nothing
-									match = true;
-									break;
-								}
-							}
-						if (!match) { //kill previous value
-							activeVars.erase(modifiesVar);
-							if (activeVars.empty()) {
-								broke = true;
-								break;
-							}
+					bool toCheck = true;
+					for (auto it = usesVar.begin(); it != usesVar.end(); it++) {
+						if (activeVars.count(*it) > 0) { //this statement uses a variable
+							answer.insert(i);
+							activeVars.insert(modifiesVar); //-> add it in
+							toCheck = false;
+							break;
 						}
-					} else { //this statement does not kill anything
-						for (auto it = usesVar.begin(); it != usesVar.end(); it++)
-							if (activeVars.count(*it) > 0) { //this statement uses a variable
-								activeVars.insert(modifiesVar); //overall effect -> add it in
-								break;
-							}
+					}
+					if (toCheck && activeVars.count(modifiesVar)) { //this statement kills value of some prev
+						activeVars.erase(modifiesVar);
+						if (activeVars.empty()) {
+							broke = true;
+							break;
+						}
 					}
 				} else if (PKB::callTable.count(i) > 0) {
 					callStack.push(i);

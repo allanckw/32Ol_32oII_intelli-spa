@@ -2,6 +2,8 @@
 #include "RulesOfEngagement.h"
 #include "PKB.h"
 #include "Helper.h"
+#include "PQLAffectsProcessor.h"
+#include "PQLNextProcessor.h"
 
 unordered_map<string, unordered_set<RulesOfEngagement::QueryRelations>>
 	RulesOfEngagement::tokenToRel;
@@ -818,42 +820,50 @@ bool RulesOfEngagement::isPatternModifies(int x, int y)
 
 bool RulesOfEngagement::isNext(int x, int y)
 {
-	return PKB::next.isNext(x, y);
+	//return PKB::next.isNext(x, y);	
+	return PQLNextProcessor::isNext(x, y);
 }
 
 bool RulesOfEngagement::isNextStar(int x, int y)
 {
-	return PKB::next.isNextStar(x, y);
+	//return PKB::next.isNextStar(x, y);
+	return PQLNextProcessor::isNextStar(x, y);
 }
 
 bool RulesOfEngagement::isNextBip(int x, int y)
 {
-	return PKB::next.isNextBip(x, y);
+	//return PKB::next.isNextBip(x, y);
+	return PQLNextProcessor::isNextBip(x, y);
 }
 
 bool RulesOfEngagement::isNextBipStar(int x, int y)
 {
-	return PKB::next.isNextBipStar(x, y);
+	//return PKB::next.isNextBipStar(x, y);
+	return PQLNextProcessor::isNextBipStar(x, y);
 }
 
 bool RulesOfEngagement::isAffects(int x, int y)
 {
-	return PKB::affects.isAffects(x, y);
+	//return PKB::affects.isAffects(x, y);
+	return PQLAffectsProcessor::isAffects(x, y);
 }
 
 bool RulesOfEngagement::isAffectsStar(int x, int y)
 {
-	return PKB::affects.isAffectsStar(x, y);
+	//return PKB::affects.isAffectsStar(x, y);
+	return PQLAffectsProcessor::isAffectsStar(x, y);
 }
 
 bool RulesOfEngagement::isAffectsBip(int x, int y)
 {
-	return PKB::affects.isAffectsBip(x, y);
+	//return PKB::affects.isAffectsBip(x, y);
+	return PQLAffectsProcessor::isAffectsBip(x, y);
 }
 
 bool RulesOfEngagement::isAffectsBipStar(int x, int y)
 {
-	return PKB::affects.isAffectsBipStar(x, y);
+	//return PKB::affects.isAffectsBipStar(x, y);
+	return PQLAffectsProcessor::isAffectsBipStar(x, y);
 }
 
 RulesOfEngagement::isRelation2
@@ -966,42 +976,50 @@ vector<int> RulesOfEngagement::parentStarBy(int x)
 
 vector<int> RulesOfEngagement::nextBy(int x)
 {
-	return PKB::next.getNext(x);
+	//return PKB::next.getNext(x);
+	return PQLNextProcessor::getNext(x);
 }
 
 vector<int> RulesOfEngagement::nextStarBy(int x)
 {
-	return PKB::next.getNextStar(x);
+	//return PKB::next.getNextStar(x);
+	return PQLNextProcessor::getNextStar(x);
 }
 
 vector<int> RulesOfEngagement::nextBipBy(int x)
 {
-	return PKB::next.getNextBip(x);
+	//return PKB::next.getNextBip(x);
+	return PQLNextProcessor::getNextBip(x);
 }
 
 vector<int> RulesOfEngagement::nextBipStarBy(int x)
 {
-	return PKB::next.getNextBipStar(x);
+	//return PKB::next.getNextBipStar(x);
+	return PQLNextProcessor::getNextBipStar(x);
 }
 
 vector<int> RulesOfEngagement::affectsBy(int x)
 {
-	return PKB::affects.getAffectsBy(x);
+	//return PKB::affects.getAffectsBy(x);
+	return PQLAffectsProcessor::getAffectsBy(x);
 }
 
 vector<int> RulesOfEngagement::affectsStarBy(int x)
 {
-	return PKB::affects.getAffectsStarBy(x);
+	//return PKB::affects.getAffectsStarBy(x);
+	return PQLAffectsProcessor::getAffectsStarBy(x);
 }
 
 vector<int> RulesOfEngagement::affectsBipBy(int x)
 {
-	return PKB::affects.getAffectsBipBy(x);
+	//return PKB::affects.getAffectsBipBy(x);
+	return PQLAffectsProcessor::getAffectsBipBy(x);
 }
 
 vector<int> RulesOfEngagement::affectsBipStarBy(int x)
 {
-	return PKB::affects.getAffectsBipStarBy(x);
+	//return PKB::affects.getAffectsBipStarBy(x);
+	return PQLAffectsProcessor::getAffectsBipStarBy(x);
 }
 
 /*//Stmt Siblings is trivial it is the follows* of both left and right side combined
@@ -1132,42 +1150,50 @@ vector<int> RulesOfEngagement::parentStarFrom(int y)
 
 vector<int> RulesOfEngagement::nextFrom(int y)
 {
-	return PKB::next.getPrevious(y);
+	//return PKB::next.getPrevious(y);
+	return PQLNextProcessor::getPrevious(y);
 }
 
 vector<int> RulesOfEngagement::nextStarFrom(int y)
 {
-	return PKB::next.getPreviousStar(y);
+	//return PKB::next.getPreviousStar(y);
+	return PQLNextProcessor::getPreviousStar(y);
 }
 
 vector<int> RulesOfEngagement::nextBipFrom(int y)
 {
-	return PKB::next.getPreviousBip(y);
+	//return PKB::next.getPreviousBip(y);
+	return PQLNextProcessor::getPreviousBip(y);
 }
 
 vector<int> RulesOfEngagement::nextBipStarFrom(int y)
 {
-	return PKB::next.getPreviousBipStar(y);
+	//return PKB::next.getPreviousBipStar(y);
+	return PQLNextProcessor::getPreviousBipStar(y);
 }
 
 vector<int> RulesOfEngagement::affectsFrom(int y)
 {
-	return PKB::affects.getAffectsFrom(y);
+	//return PKB::affects.getAffectsFrom(y);
+	return PQLAffectsProcessor::getAffectsFrom(y);
 }
 
 vector<int> RulesOfEngagement::affectsStarFrom(int y)
 {
-	return PKB::affects.getAffectsStarFrom(y);
+	//return PKB::affects.getAffectsStarFrom(y);
+	return PQLAffectsProcessor::getAffectsStarFrom(y);
 }
 
 vector<int> RulesOfEngagement::affectsBipFrom(int y)
 {
-	return PKB::affects.getAffectsBipFrom(y);
+	//return PKB::affects.getAffectsBipFrom(y);
+	return PQLAffectsProcessor::getAffectsBipFrom(y);
 }
 
 vector<int> RulesOfEngagement::affectsBipStarFrom(int y)
 {
-	return PKB::affects.getAffectsBipStarFrom(y);
+	//return PKB::affects.getAffectsBipStarFrom(y);
+	return PQLAffectsProcessor::getAffectsBipStarFrom(y);
 }
 
 RulesOfEngagement::relation2Family RulesOfEngagement::getRelation2FromFamily(QueryRelations rel)

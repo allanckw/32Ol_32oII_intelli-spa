@@ -53,14 +53,14 @@ vector<PROG_LINE> NextTable::getPrevious(PROG_LINE p2)
 */
 void NextTable::insertNextStar(PROG_LINE p1, PROG_LINE p2, bool next)
 {
-	Next* n = new Next(p1, p2, next);
+	Next n = Next(p1, p2, next);
 	
 	//auto itr = this->nextStarMap.find(p1);
 	
 	if (this->nextStarMap.count(p1)>0) {
-		vector<Next*> nextLst;
+		vector<Next> nextLst;
 		nextLst.push_back(n);
-		pair<PROG_LINE, vector<Next*>> newItem (p1, nextLst);
+		pair<PROG_LINE, vector<Next>> newItem (p1, nextLst);
 		this->nextStarMap.insert(newItem);
 	} else {
 		if (!NextTable::isDuplicate(this->nextStarMap.at(p1), n)){
@@ -87,11 +87,11 @@ bool NextTable::isNextStar (PROG_LINE p1, PROG_LINE p2)
 
 	if (this->nextStarMap.count(p1) > 0){
 
-		vector<Next*> nxtLst = nextStarMap[p1];
+		vector<Next> nxtLst = nextStarMap[p1];
 	
 		for (size_t i = 0; i < nxtLst.size(); i++) {
-			if (nxtLst[i]->getP2() == p2 )
-				return nxtLst[i]->isNext();
+			if (nxtLst[i].getP2() == p2 )
+				return nxtLst[i].isNext();
 		}
 	}
 
@@ -181,14 +181,14 @@ vector<PROG_LINE> NextTable::getPreviousStar(PROG_LINE p2)
 */
 void NextTable::insertNextBip(PROG_LINE p1, PROG_LINE p2, bool next)
 {
-	Next* n = new Next(p1, p2, next);
+	Next n =  Next(p1, p2, next);
 	
 	//auto itr = this->nextBipMap.find(p1);
 	
 	if (this->nextBipMap.count(p1) > 0) {
-		vector<Next*> nextLst;
+		vector<Next> nextLst;
 		nextLst.push_back(n);
-		pair<PROG_LINE, vector<Next*>> newItem (p1, nextLst);
+		pair<PROG_LINE, vector<Next>> newItem (p1, nextLst);
 		this->nextBipMap.insert(newItem);
 	} else {
 		if (!NextTable::isDuplicate(this->nextBipMap.at(p1), n)){
@@ -212,11 +212,11 @@ bool NextTable::isNextBip (PROG_LINE p1, PROG_LINE p2)
 
 	if (this->nextBipMap.count(p1) > 0){
 
-		vector<Next*> nxtLst = nextBipMap[p1];
+		vector<Next> nxtLst = nextBipMap[p1];
 	
 		for (size_t i = 0; i < nxtLst.size(); i++) {
-			if (nxtLst[i]->getP2() == p2 )
-				return nxtLst[i]->isNext();
+			if (nxtLst[i].getP2() == p2 )
+				return nxtLst[i].isNext();
 		}
 	}
 
@@ -306,14 +306,14 @@ vector<PROG_LINE> NextTable::getPreviousBip(PROG_LINE p2)
 */
 void NextTable::insertNextBipStar(PROG_LINE p1, PROG_LINE p2, bool next)
 {
-	Next* n = new Next(p1, p2, next);
+	Next n =  Next(p1, p2, next);
 	
 	//auto itr = this->nextBipStarMap.find(p1);
 	
 	if (this->nextBipStarMap.count(p1) > 0) {
-		vector<Next*> nextLst;
+		vector<Next> nextLst;
 		nextLst.push_back(n);
-		pair<PROG_LINE, vector<Next*>> newItem (p1, nextLst);
+		pair<PROG_LINE, vector<Next>> newItem (p1, nextLst);
 		this->nextBipStarMap.insert(newItem);
 	} else {
 		if (!NextTable::isDuplicate(this->nextBipStarMap.at(p1), n)){
@@ -337,11 +337,11 @@ bool NextTable::isNextBipStar (PROG_LINE p1, PROG_LINE p2)
 
 	if (this->nextBipStarMap.count(p1) > 0){
 
-		vector<Next*> nxtLst =  nextBipStarMap[p1];
+		vector<Next> nxtLst =  nextBipStarMap[p1];
 	
 		for (size_t i = 0; i < nxtLst.size(); i++) {
-			if (nxtLst[i]->getP2() == p2 )
-				return nxtLst[i]->isNext();
+			if (nxtLst[i].getP2() == p2 )
+				return nxtLst[i].isNext();
 		}
 	}
 
@@ -428,10 +428,10 @@ vector<PROG_LINE> NextTable::getPreviousBipStar(PROG_LINE p2)
 * @param n	the nextstar to check for existing record
 * @return whether n exist in v
 */
-bool NextTable::isDuplicate(vector<Next*> v, Next* n)
+bool NextTable::isDuplicate(vector<Next> v, Next n)
 {
 	for (size_t i = 0; i < v.size(); i++) {
-		if (v[i]->getP1() == n->getP1() && v[i]->getP2() == n->getP2())
+		if (v[i].getP1() == n.getP1() && v[i].getP2() == n.getP2())
 			return true;
 	}
 

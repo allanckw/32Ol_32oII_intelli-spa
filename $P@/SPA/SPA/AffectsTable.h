@@ -35,23 +35,23 @@ private:
 	};
 
 
-	unordered_map<STMT, vector<Affects*>> affectsMap; //Store the results of affects(a1,a2)
+	unordered_map<STMT, vector<Affects>> affectsMap; //Store the results of affects(a1,a2)
 	unordered_map<STMT, vector<STMT>> affectsByMap;	  //Store the results of affects(a1,_)
 	unordered_map<STMT, vector<STMT>> affectsFromMap; //Store the results of affects(_,a2)
 	
-	unordered_map<STMT, vector<Affects*>> affectsStarMap; //Store the results of affects*(a1,a2)
+	unordered_map<STMT, vector<Affects>> affectsStarMap; //Store the results of affects*(a1,a2)
 	unordered_map<STMT, vector<STMT>> affectsStarByMap;	  //Store the results of affects*(a1,_)
 	unordered_map<STMT, vector<STMT>> affectsStarFromMap; //Store the results of affects*(_,a2)
 
-	unordered_map<STMT, vector<Affects*>> affectsBipMap;  ////Store the results of affectsBip(a1,a2)
+	unordered_map<STMT, vector<Affects>> affectsBipMap;  ////Store the results of affectsBip(a1,a2)
 	unordered_map<STMT, vector<STMT>> affectsBipByMap;	  //Store the results of affectsBip(a1,_)
 	unordered_map<STMT, vector<STMT>> affectsBipFromMap; //Store the results of affectsBip(_,a2)
 
-	unordered_map<STMT, vector<Affects*>> affectsBipStarMap;  //Store the results of affectsBip*(a1,a2)
+	unordered_map<STMT, vector<Affects>> affectsBipStarMap;  //Store the results of affectsBip*(a1,a2)
 	unordered_map<STMT, vector<STMT>> affectsBipStarByMap;	  //Store the results of affectsBip*(a1,_)
 	unordered_map<STMT, vector<STMT>> affectsBipStarFromMap; //Store the results of affectsBip*(_,a2)
 
-	static bool isDuplicate(vector<Affects*>& v, Affects* n);
+	static bool isDuplicate(vector<Affects>, Affects);
 public:
 	AffectsTable();
 	

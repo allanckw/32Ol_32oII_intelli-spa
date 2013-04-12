@@ -17,12 +17,12 @@ AffectsTable::AffectsTable()
 */
 void AffectsTable::insertAffects (STMT a1, STMT a2, bool isAffected)
 {
-	Affects* n = new Affects(a1, a2, isAffected);
+	Affects n = Affects(a1, a2, isAffected);
 
 	if (this->affectsMap.count(a1) > 0) {
-		vector<Affects*> affectsLst;
+		vector<Affects> affectsLst;
 		affectsLst.push_back(n);
-		pair<STMT, vector<Affects*>> newItem (a1, affectsLst);
+		pair<STMT, vector<Affects>> newItem (a1, affectsLst);
 		this->affectsMap.insert(newItem);
 
 	} else {
@@ -45,11 +45,11 @@ bool AffectsTable::isAffects (STMT a1, STMT a2)
 
 	if (this->affectsMap.count(a1) > 0){
 
-		vector<Affects*>& affectsLst =  affectsMap[a1];
+		vector<Affects>& affectsLst =  affectsMap[a1];
 
 		for (size_t i = 0; i < affectsLst.size(); i++) {
-			if (affectsLst[i]->getA2() == a2 )
-				return affectsLst[i]->isAffected();
+			if (affectsLst[i].getA2() == a2 )
+				return affectsLst[i].isAffected();
 		}
 	}
 
@@ -118,14 +118,14 @@ vector<STMT> AffectsTable::getAffectsFrom(STMT a2)
 */
 void AffectsTable::insertAffectsStar (STMT a1, STMT a2, bool isAffected)
 {
-	Affects* n = new Affects(a1, a2, isAffected);
+	Affects n = Affects(a1, a2, isAffected);
 
 	//auto itr = this->affectsStarMap.find(a1);
 
 	if (this->affectsStarMap.count(a1) > 0) {
-		vector<Affects*> affectsLst;
+		vector<Affects> affectsLst;
 		affectsLst.push_back(n);
-		pair<STMT, vector<Affects*>> newItem (a1, affectsLst);
+		pair<STMT, vector<Affects>> newItem (a1, affectsLst);
 		this->affectsStarMap.insert(newItem);
 	} else {
 		if (!AffectsTable::isDuplicate(affectsStarMap[a1], n)){
@@ -152,11 +152,11 @@ bool AffectsTable::isAffectsStar (STMT a1, STMT a2)
 
 	if (this->affectsStarMap.count(a1) > 0){
 
-		vector<Affects*>& affectsLst =  affectsStarMap[a1];
+		vector<Affects>& affectsLst =  affectsStarMap[a1];
 
 		for (size_t i = 0; i < affectsLst.size(); i++) {
-			if (affectsLst[i]->getA2() == a2 )
-				return affectsLst[i]->isAffected();
+			if (affectsLst[i].getA2() == a2 )
+				return affectsLst[i].isAffected();
 		}
 	}
 
@@ -172,7 +172,7 @@ bool AffectsTable::isAffectsStar (STMT a1, STMT a2)
 }
 
 /**
-* This method will be used to get a list of a2 that is affects*(a1,_)
+* This method will be used to get a list of a2 that is Affects(a1,_)
 * @param a1	The statement that is going to affect a2
 * @return a list of statement that is affected by a1
 */
@@ -196,7 +196,7 @@ vector<STMT> AffectsTable::getAffectsStarBy(STMT a1)
 }
 
 /**
-* This method will be used to get a list of a2 that is affects*(_,a2)
+* This method will be used to get a list of a2 that is Affects(_,a2)
 * @param a2	The statement that is going to affect by a1
 * @return a list of statement that is affect a2
 */
@@ -226,14 +226,14 @@ vector<STMT> AffectsTable::getAffectsStarFrom(STMT a2)
 */
 void AffectsTable::insertAffectsBip(STMT a1, STMT a2, bool isAffected)
 {
-	Affects* n = new Affects(a1, a2, isAffected);
+	Affects n = Affects(a1, a2, isAffected);
 
 	//auto itr = this->affectsBipMap.find(a1);
 
 	if (this->affectsBipMap.count(a1) > 0) {
-		vector<Affects*> affectsLst;
+		vector<Affects> affectsLst;
 		affectsLst.push_back(n);
-		pair<STMT, vector<Affects*>> newItem (a1, affectsLst);
+		pair<STMT, vector<Affects>> newItem (a1, affectsLst);
 		this->affectsBipMap.insert(newItem);
 	} else {
 		if (!AffectsTable::isDuplicate(affectsBipMap[a1], n)){
@@ -257,11 +257,11 @@ bool AffectsTable::isAffectsBip (STMT a1, STMT a2)
 
 	if (this->affectsBipMap.count(a1) > 0){
 
-		vector<Affects*>& affectsLst =  affectsBipMap[a1];
+		vector<Affects>& affectsLst =  affectsBipMap[a1];
 
 		for (size_t i = 0; i < affectsLst.size(); i++) {
-			if (affectsLst[i]->getA2() == a2 )
-				return affectsLst[i]->isAffected();
+			if (affectsLst[i].getA2() == a2 )
+				return affectsLst[i].isAffected();
 		}
 	}
 
@@ -330,14 +330,14 @@ vector<STMT> AffectsTable::getAffectsBipFrom(STMT a2)
 */
 void AffectsTable::insertAffectsBipStar(STMT a1, STMT a2, bool isAffected)
 {
-	Affects* n = new Affects(a1, a2, isAffected);
+	Affects n = Affects(a1, a2, isAffected);
 
 	//auto itr = this->affectsBipStarMap.find(a1);
 
 	if (this->affectsBipStarMap.count(a1) > 0) {
-		vector<Affects*> affectsLst;
+		vector<Affects> affectsLst;
 		affectsLst.push_back(n);
-		pair<STMT, vector<Affects*>> newItem (a1, affectsLst);
+		pair<STMT, vector<Affects>> newItem (a1, affectsLst);
 		this->affectsBipStarMap.insert(newItem);
 	} else {
 		if (!AffectsTable::isDuplicate(affectsBipStarMap[a1], n)){
@@ -361,11 +361,11 @@ bool AffectsTable::isAffectsBipStar (STMT a1, STMT a2)
 
 	if (this->affectsBipStarMap.count(a1) > 0){
 
-		vector<Affects*>& affectsLst = affectsBipStarMap[a1];
+		vector<Affects>& affectsLst = affectsBipStarMap[a1];
 
 		for (size_t i = 0; i < affectsLst.size(); i++) {
-			if (affectsLst[i]->getA2() == a2 )
-				return affectsLst[i]->isAffected();
+			if (affectsLst[i].getA2() == a2 )
+				return affectsLst[i].isAffected();
 		}
 	}
 
@@ -432,10 +432,10 @@ vector<STMT> AffectsTable::getAffectsBipStarFrom(STMT a2)
 * @param a	the affectstar to check for existing record
 * @return whether a exist in v
 */
-bool AffectsTable::isDuplicate(vector<Affects*>& v, Affects* a)
+bool AffectsTable::isDuplicate(vector<Affects> v, Affects a)
 {
 	for (size_t i = 0; i < v.size(); i++) {
-		if (v[i]->getA1() == a->getA1() && v[i]->getA2() == a->getA2())
+		if (v[i].getA1() == a.getA1() && v[i].getA2() == a.getA2())
 			return true;
 	}
 

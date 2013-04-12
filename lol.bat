@@ -16,6 +16,7 @@ Call   $P@\SPA\Release\autotester.exe source3.txt  Queries3Uses.txt  out3ParentU
 echo "Source 3 complete"
 
 Call  $P@\SPA\Release\autotester.exe source4.txt  Queries4.txt  out4.xml > NUL
+Call  $P@\SPA\Release\autotester.exe source4.txt  Queries4Contains.txt  outContains4.xml > NUL
 echo "Source 4 complete"
 
 Call  $P@\SPA\Release\autotester.exe source5.txt  Queries5.txt  out5.xml > NUL

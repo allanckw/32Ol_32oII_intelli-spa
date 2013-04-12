@@ -300,3 +300,13 @@ variable v; while w; stmt s;
 Select s such that !Sibling(w, s) 
 
 5000
+63 - Not_Siblings :: lol
+stmt s1, s2, s3; while w;
+Select w such that Sibling(s3, s) and Parent (w, s2)
+
+5000
+64 - Not_Siblings :: lol
+stmt s1, s2, s3; while w;
+Select w such that !Sibling(s3, s) and Parent (w, s2)
+
+5000

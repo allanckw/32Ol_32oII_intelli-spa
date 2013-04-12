@@ -339,16 +339,17 @@ vector<PROG_LINE> PQLNextProcessor::getSelfNextStar(){
 			CFGNode* cfg = PKB::stmtRefMap.at(*it).getCFGNode();
 			CFGNode* cfg2 = cfg->children.whileChildren.whileOut;
 			
-			while (cfg2 != NULL && cfg2->type == CFGNode::DummyNode) 
-				cfg2 = cfg2->children.oneChild; 
-				
-			if (cfg2 == NULL) {
-				for (int i = cfg->first; i <= PKB::TheBeginningAndTheEnd[cfg->proc].second; i++) 
-					seen.insert(i);
-			} else {
-				for (int i = cfg->first; i < cfg2->first; i++)
-					seen.insert(i);
-			}
+			int last;
+			if (cfg2->type == CFGNode::DummyNode) {
+				const IntervalList* ilist = cfg2->prevList;
+				while (ilist->next != NULL)
+					ilist = ilist->next;
+				last = ilist->last;
+			} else
+				last = cfg2->first - 1;
+			
+			for (int i = cfg->first; i <= last; i++)
+				seen.insert(i);
 		}
 	return vector<int>(seen.begin(), seen.end());
 }

@@ -153,7 +153,7 @@ Select n such that Next(356, n)
 31 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select n such that Next(n, 508)
-507, 576, 581
+507, 520, 581
 5000
 32 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
@@ -168,7 +168,7 @@ Select n such that Next(538, n)
 34 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 
 Select n such that Next(544, n)
-545, 556, 566
+545, 532
 5000
 35 - Parent, ImplStmtLine, Typed :: 
 prog_line n; 

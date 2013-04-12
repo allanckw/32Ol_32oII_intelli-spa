@@ -16,7 +16,7 @@ private:
 
 public:
 	ASTStmtNode(int stmtNo, NodeType nodeType, Index value);
-	int getStmtNumber();
+	int getStmtNumber() const;
 
 	virtual ASTNode* addChild(ASTNode* c);
 	virtual ASTNode* addChild(ASTNode* c, int childLoc);

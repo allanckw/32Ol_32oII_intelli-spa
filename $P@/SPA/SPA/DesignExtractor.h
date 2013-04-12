@@ -19,22 +19,21 @@ private:
 	static unordered_map <PROC, unordered_set<PROC> > fromProcAdjList;
 	static unordered_map <PROC, int> procCount;
 	static unordered_map <PROC, vector< stack<ASTStmtNode*> > > savestate;
-
+	static vector < unordered_set<PROC> > ancestorsList;
 
 	static void buildFirstRound();
 	static void buildOtherTables(PROC);
-	static void CompleteExtraction();
+	static void completeExtraction();
+	static void cleanUp();
 
 	static void initializeStatisticalSortSize();
-	
-		
+
 	struct sort_pred {
 		bool operator()(const pair<RulesOfEngagement::QueryRelations, int> &i, 
 			const pair<RulesOfEngagement::QueryRelations, int> &j) {
 			return i.second < j.second;
 		}
-	};
-
+	};	
 public:
 	static void extractDesign();
 };

@@ -62,6 +62,7 @@ public:
 	static unordered_map<string, QueryVar> tokenToVar;
 	static unordered_map<QueryVar, set<string>> allowableConditions;
 	static unordered_map<string, QueryVar> conditionTypes;
+	static unordered_set<string> cannotAlias;
 	static unordered_map<QueryVar, bool> formOfASTNode;
 
 	static unordered_map<QueryRelations, set<QueryVar>> allowableFirstArgument;
@@ -76,6 +77,7 @@ public:
 	static string convertIntegerToArgument(const QueryVar type,
 		const string& condition, const int);
 	static unordered_set<ASTNode*> convertIntegerToASTNode(const QueryVar type, const int);
+	static int convertASTNodeToInteger(const QueryVar type, const ASTNode*);
 
 	static bool isExistType(QueryVar var);
 

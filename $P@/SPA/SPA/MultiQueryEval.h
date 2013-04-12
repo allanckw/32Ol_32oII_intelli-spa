@@ -22,6 +22,8 @@ private:
 
 	bool selectBOOLEAN;
 	bool earlyQuit;
+	bool died;
+
 	int pos;
 	const string query;
 	

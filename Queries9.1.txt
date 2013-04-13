@@ -528,10 +528,10 @@ Select s such that Follows(1,2)
 106  - Next* :: Self Next*
 stmt s1 s2;
 Select s1 such that Next*(s1,s1)
-
+16,23,24,25,28,29,3,31,33,35,53,80,84
 5000
 106  - Next* :: Self Next*
-stmt s1;
-Select s1 such that Next*(3, _)
-
+prog_line n;
+Select n such that Next*(n,n)
+16,23,24,25,28,29,3,31,33,35,53,80,84
 5000

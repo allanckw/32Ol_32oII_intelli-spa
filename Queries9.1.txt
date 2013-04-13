@@ -525,3 +525,13 @@ stmtLst s;
 Select s such that Follows(1,2)
 1 ,11 ,13 ,17 ,21 ,24 ,25 ,26 ,29 ,30 ,32 ,34 ,36 ,4 ,40 ,41 ,44 ,49 ,51 ,52 ,54 ,56 ,58 ,59 ,61 ,62 ,63 ,65 ,66 ,67 ,70 ,73 ,75 ,77 ,78 ,79 ,81 ,82 ,85 ,86 ,9
 5000
+106  - Next* :: Self Next*
+stmt s1 s2;
+Select s1 such that Next*(s1,s1)
+
+5000
+106  - Next* :: Self Next*
+stmt s1;
+Select s1 such that Next*(3, _)
+
+5000

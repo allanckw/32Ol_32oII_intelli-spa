@@ -2,8 +2,6 @@
 #include "RulesOfEngagement.h"
 #include "PKB.h"
 #include "Helper.h"
-#include "PQLAffectsProcessor.h"
-#include "PQLNextProcessor.h"
 
 unordered_map<string, unordered_set<RulesOfEngagement::QueryRelations>>
 	RulesOfEngagement::tokenToRel;
@@ -132,7 +130,7 @@ void RulesOfEngagement::initialise()
 	allowableSecondArgument[ModifiesProc].insert(WildCard);
 	allowableSecondArgument[ModifiesProc].insert(String);
 	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(ModifiesProc, Variable));
-
+	
 	allowableFirstArgument[UsesStmt].insert(Statement);
 	allowableFirstArgument[UsesStmt].insert(Assign);
 	allowableFirstArgument[UsesStmt].insert(Call);
@@ -171,7 +169,7 @@ void RulesOfEngagement::initialise()
 	allowableSecondArgument[CallsStar].insert(WildCard);
 	allowableSecondArgument[CallsStar].insert(String);
 	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(CallsStar, Procedure));
-
+	
 	allowableFirstArgument[Parent].insert(Statement);
 	allowableFirstArgument[Parent].insert(Assign);
 	allowableFirstArgument[Parent].insert(Call);
@@ -190,7 +188,7 @@ void RulesOfEngagement::initialise()
 	allowableSecondArgument[Parent].insert(WildCard);
 	allowableSecondArgument[Parent].insert(Integer);
 	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(Parent, Statement));
-
+	
 	allowableFirstArgument[ParentStar].insert(Statement);
 	allowableFirstArgument[ParentStar].insert(Assign);
 	allowableFirstArgument[ParentStar].insert(Call);
@@ -209,7 +207,7 @@ void RulesOfEngagement::initialise()
 	allowableSecondArgument[ParentStar].insert(WildCard);
 	allowableSecondArgument[ParentStar].insert(Integer);
 	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(ParentStar, Statement));
-
+	
 	allowableFirstArgument[Follows].insert(Statement);
 	allowableFirstArgument[Follows].insert(Assign);
 	allowableFirstArgument[Follows].insert(Call);
@@ -228,7 +226,7 @@ void RulesOfEngagement::initialise()
 	allowableSecondArgument[Follows].insert(WildCard);
 	allowableSecondArgument[Follows].insert(Integer);
 	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(Follows, Statement));
-
+	
 	allowableFirstArgument[FollowsStar].insert(Statement);
 	allowableFirstArgument[FollowsStar].insert(Assign);
 	allowableFirstArgument[FollowsStar].insert(Call);
@@ -247,7 +245,7 @@ void RulesOfEngagement::initialise()
 	allowableSecondArgument[FollowsStar].insert(WildCard);
 	allowableSecondArgument[FollowsStar].insert(Integer);
 	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(FollowsStar, Statement));
-
+	
 	allowableFirstArgument[Next].insert(Statement);
 	allowableFirstArgument[Next].insert(Assign);
 	allowableFirstArgument[Next].insert(Call);
@@ -266,7 +264,7 @@ void RulesOfEngagement::initialise()
 	allowableSecondArgument[Next].insert(WildCard);
 	allowableSecondArgument[Next].insert(Integer);
 	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(Next, Statement));
-
+	
 	allowableFirstArgument[NextStar].insert(Statement);
 	allowableFirstArgument[NextStar].insert(Assign);
 	allowableFirstArgument[NextStar].insert(Call);
@@ -285,7 +283,7 @@ void RulesOfEngagement::initialise()
 	allowableSecondArgument[NextStar].insert(WildCard);
 	allowableSecondArgument[NextStar].insert(Integer);
 	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(NextStar, Statement));
-
+	
 	allowableFirstArgument[NextBip].insert(Statement);
 	allowableFirstArgument[NextBip].insert(Assign);
 	allowableFirstArgument[NextBip].insert(Call);
@@ -304,7 +302,7 @@ void RulesOfEngagement::initialise()
 	allowableSecondArgument[NextBip].insert(WildCard);
 	allowableSecondArgument[NextBip].insert(Integer);
 	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(NextBip, Statement));
-
+	
 	allowableFirstArgument[NextBipStar].insert(Statement);
 	allowableFirstArgument[NextBipStar].insert(Assign);
 	allowableFirstArgument[NextBipStar].insert(Call);
@@ -323,7 +321,7 @@ void RulesOfEngagement::initialise()
 	allowableSecondArgument[NextBipStar].insert(WildCard);
 	allowableSecondArgument[NextBipStar].insert(Integer);
 	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(NextBipStar, Statement));
-
+	
 	allowableFirstArgument[Affects].insert(Statement);
 	allowableFirstArgument[Affects].insert(Assign);
 	allowableFirstArgument[Affects].insert(Call); //returns none / false straight
@@ -333,7 +331,7 @@ void RulesOfEngagement::initialise()
 	allowableFirstArgument[Affects].insert(WildCard);
 	allowableFirstArgument[Affects].insert(Integer);
 	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(Affects, Statement));
-
+	
 	allowableSecondArgument[Affects].insert(Statement);
 	allowableSecondArgument[Affects].insert(Assign);
 	allowableSecondArgument[Affects].insert(Call); //returns none / false straight
@@ -343,7 +341,7 @@ void RulesOfEngagement::initialise()
 	allowableSecondArgument[Affects].insert(WildCard);
 	allowableSecondArgument[Affects].insert(Integer);
 	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(Affects, Statement));
-
+	
 	allowableFirstArgument[AffectsStar].insert(Statement);
 	allowableFirstArgument[AffectsStar].insert(Assign);
 	allowableFirstArgument[AffectsStar].insert(Call); //returns none / false straight
@@ -353,7 +351,7 @@ void RulesOfEngagement::initialise()
 	allowableFirstArgument[AffectsStar].insert(WildCard);
 	allowableFirstArgument[AffectsStar].insert(Integer);
 	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(AffectsStar, Statement));
-
+	
 	allowableSecondArgument[AffectsStar].insert(Statement);
 	allowableSecondArgument[AffectsStar].insert(Assign);
 	allowableSecondArgument[AffectsStar].insert(Call); //returns none / false straight
@@ -363,7 +361,7 @@ void RulesOfEngagement::initialise()
 	allowableSecondArgument[AffectsStar].insert(WildCard);
 	allowableSecondArgument[AffectsStar].insert(Integer);
 	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(AffectsStar, Statement));
-
+	
 	allowableFirstArgument[AffectsBip].insert(Statement);
 	allowableFirstArgument[AffectsBip].insert(Assign);
 	allowableFirstArgument[AffectsBip].insert(Call); //returns none / false straight
@@ -373,7 +371,7 @@ void RulesOfEngagement::initialise()
 	allowableFirstArgument[AffectsBip].insert(WildCard);
 	allowableFirstArgument[AffectsBip].insert(Integer);
 	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(AffectsBip, Statement));
-
+	
 	allowableSecondArgument[AffectsBip].insert(Statement);
 	allowableSecondArgument[AffectsBip].insert(Assign);
 	allowableSecondArgument[AffectsBip].insert(Call); //returns none / false straight
@@ -383,7 +381,7 @@ void RulesOfEngagement::initialise()
 	allowableSecondArgument[AffectsBip].insert(WildCard);
 	allowableSecondArgument[AffectsBip].insert(Integer);
 	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(AffectsBip, Statement));
-
+	
 	allowableFirstArgument[AffectsBipStar].insert(Statement);
 	allowableFirstArgument[AffectsBipStar].insert(Assign);
 	allowableFirstArgument[AffectsBipStar].insert(Call); //returns none / false straight
@@ -393,7 +391,7 @@ void RulesOfEngagement::initialise()
 	allowableFirstArgument[AffectsBipStar].insert(WildCard);
 	allowableFirstArgument[AffectsBipStar].insert(Integer);
 	privilegedFirstArgument.insert(pair<QueryRelations, QueryVar>(AffectsBipStar, Statement));
-
+	
 	allowableSecondArgument[AffectsBipStar].insert(Statement);
 	allowableSecondArgument[AffectsBipStar].insert(Assign);
 	allowableSecondArgument[AffectsBipStar].insert(Call); //returns none / false straight
@@ -484,7 +482,7 @@ void RulesOfEngagement::initialise()
 	allowableSecondArgument[Sibling].insert(Variable);
 	allowableSecondArgument[Sibling].insert(Constant);
 	allowableSecondArgument[Sibling].insert(Integer);
-
+	
 	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(PatternModifies, Variable));
 	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(PatternSecond, Statement_List));
 	privilegedSecondArgument.insert(pair<QueryRelations, QueryVar>(PatternThird, Statement_List));
@@ -518,12 +516,16 @@ void RulesOfEngagement::initialise()
 	takesInASTNode.insert(pair<QueryRelations, bool>(Sibling, true));
 	takesInASTNode.insert(pair<QueryRelations, bool>(PatternSecond, true));
 	takesInASTNode.insert(pair<QueryRelations, bool>(PatternThird, true));
-
+		
 	emptyRel[ModifiesStmt] = emptyRel[ModifiesProc] = PKB::modifies.isEmpty();
 	emptyRel[UsesStmt] =  emptyRel[UsesProc] = PKB::uses.isEmpty();
 	emptyRel[Calls] = emptyRel[CallsStar] = PKB::calls.isEmpty();
 	emptyRel[Follows] = emptyRel[FollowsStar] = PKB::follows.isEmpty();
 	emptyRel[Parent] = emptyRel[ParentStar] = PKB::parent.isEmpty();
+	/*emptyRel[Next] = emptyRel[NextStar] = PKB::next.isNextEmpty();
+	emptyRel[NextBip] = emptyRel[NextBipStar] = PKB::next.isNextBipEmpty();
+	emptyRel[Affects] = emptyRel[AffectsStar] = PKB::next.isAffectsEmpty();
+	emptyRel[AffectsBip] = emptyRel[AffectsBipStar] = PKB::next.isAffectsBipEmpty();*/
 
 	relationMap[ModifiesStmt] = &isModifiesStmt;
 	relationMap[ModifiesProc] = &isModifiesProc;
@@ -588,12 +590,12 @@ void RulesOfEngagement::initialise()
 	relationFromMap[NextBipStar] = &nextBipStarFrom;
 	relationFromMap[Affects] = &affectsFrom;
 	relationFromMap[AffectsStar] = &affectsStarFrom;
-	relationFromMap[AffectsBip] = &affectsBipFrom;
-	relationFromMap[AffectsBipStar] = &affectsBipStarFrom;
+	//relationFromMap[AffectsBip] = &affectsBipFrom;
+	//relationFromMap[AffectsBipStar] = &affectsBipStarFrom;
 	relation2FromMap[Contains] = &containsFrom;
 	relation2FromMap[ContainsStar] = &containsStarFrom;
 	relation2FromMap[Sibling] = &siblingBy;
-
+	
 	typeMap[Procedure] = &getAllProc;
 	typeMap[Statement_List] = &getAllStmtList;
 	typeMap[Statement] = &getAllStmt;
@@ -816,50 +818,50 @@ bool RulesOfEngagement::isPatternModifies(int x, int y)
 
 bool RulesOfEngagement::isNext(int x, int y)
 {
-	//return PKB::next.isNext(x, y);	
-	return PQLNextProcessor::isNext(x, y);
+	return PKB::next.isNext(x, y);	
+	//return PQLNextProcessor::isNext(x, y);
 }
 
 bool RulesOfEngagement::isNextStar(int x, int y)
 {
-	//return PKB::next.isNextStar(x, y);
-	return PQLNextProcessor::isNextStar(x, y);
+	return PKB::next.isNextStar(x, y);
+	//return PQLNextProcessor::isNextStar(x, y);
 }
 
 bool RulesOfEngagement::isNextBip(int x, int y)
 {
-	//return PKB::next.isNextBip(x, y);
-	return PQLNextProcessor::isNextBip(x, y);
+	return PKB::next.isNextBip(x, y);
+	//return PQLNextProcessor::isNextBip(x, y);
 }
 
 bool RulesOfEngagement::isNextBipStar(int x, int y)
 {
-	//return PKB::next.isNextBipStar(x, y);
-	return PQLNextProcessor::isNextBipStar(x, y);
+	return PKB::next.isNextBipStar(x, y);
+	//return PQLNextProcessor::isNextBipStar(x, y);
 }
 
 bool RulesOfEngagement::isAffects(int x, int y)
 {
-	//return PKB::affects.isAffects(x, y);
-	return PQLAffectsProcessor::isAffects(x, y);
+	return PKB::affects.isAffects(x, y);
+	//return PQLAffectsProcessor::isAffects(x, y);
 }
 
 bool RulesOfEngagement::isAffectsStar(int x, int y)
 {
-	//return PKB::affects.isAffectsStar(x, y);
-	return PQLAffectsProcessor::isAffectsStar(x, y);
+	return PKB::affects.isAffectsStar(x, y);
+	//return PQLAffectsProcessor::isAffectsStar(x, y);
 }
 
 bool RulesOfEngagement::isAffectsBip(int x, int y)
 {
-	//return PKB::affects.isAffectsBip(x, y);
-	return PQLAffectsProcessor::isAffectsBip(x, y);
+	return PKB::affects.isAffectsBip(x, y);
+	//return PQLAffectsProcessor::isAffectsBip(x, y);
 }
 
 bool RulesOfEngagement::isAffectsBipStar(int x, int y)
 {
-	//return PKB::affects.isAffectsBipStar(x, y);
-	return PQLAffectsProcessor::isAffectsBipStar(x, y);
+	return PKB::affects.isAffectsBipStar(x, y);
+	//return PQLAffectsProcessor::isAffectsBipStar(x, y);
 }
 
 RulesOfEngagement::isRelation2
@@ -972,62 +974,62 @@ vector<int> RulesOfEngagement::parentStarBy(int x)
 
 vector<int> RulesOfEngagement::nextBy(int x)
 {
-	//return PKB::next.getNext(x);
-	return PQLNextProcessor::getNext(x);
+	return PKB::next.getNext(x);
+	//return PQLNextProcessor::getNext(x);
 }
 
 vector<int> RulesOfEngagement::nextStarBy(int x)
 {
-	//return PKB::next.getNextStar(x);
-	return PQLNextProcessor::getNextStar(x);
+	return PKB::next.getNextStar(x);
+	//return PQLNextProcessor::getNextStar(x);
 }
 
 vector<int> RulesOfEngagement::nextBipBy(int x)
 {
-	//return PKB::next.getNextBip(x);
-	return PQLNextProcessor::getNextBip(x);
+	return PKB::next.getNextBip(x);
+	//return PQLNextProcessor::getNextBip(x);
 }
 
 vector<int> RulesOfEngagement::nextBipStarBy(int x)
 {
-	//return PKB::next.getNextBipStar(x);
-	return PQLNextProcessor::getNextBipStar(x);
+	return PKB::next.getNextBipStar(x);
+	//return PQLNextProcessor::getNextBipStar(x);
 }
 
 vector<int> RulesOfEngagement::affectsBy(int x)
 {
-	//return PKB::affects.getAffectsBy(x);
-	return PQLAffectsProcessor::getAffectsBy(x);
+	return PKB::affects.getAffectsBy(x);
+	//return PQLAffectsProcessor::getAffectsBy(x);
 }
 
 vector<int> RulesOfEngagement::affectsStarBy(int x)
 {
-	//return PKB::affects.getAffectsStarBy(x);
-	return PQLAffectsProcessor::getAffectsStarBy(x);
+	return PKB::affects.getAffectsStarBy(x);
+	//return PQLAffectsProcessor::getAffectsStarBy(x);
 }
 
 vector<int> RulesOfEngagement::affectsBipBy(int x)
 {
-	//return PKB::affects.getAffectsBipBy(x);
-	return PQLAffectsProcessor::getAffectsBipBy(x);
+	return PKB::affects.getAffectsBipBy(x);
+	//return PQLAffectsProcessor::getAffectsBipBy(x);
 }
 
 vector<int> RulesOfEngagement::affectsBipStarBy(int x)
 {
-	//return PKB::affects.getAffectsBipStarBy(x);
-	return PQLAffectsProcessor::getAffectsBipStarBy(x);
+	return PKB::affects.getAffectsBipStarBy(x);
+	//return PQLAffectsProcessor::getAffectsBipStarBy(x);
 }
 
 /*//Stmt Siblings is trivial it is the follows* of both left and right side combined
 //Can use previous results
 vector<int> RulesOfEngagement::getStmtSiblings(int x)
 {
-vector<int> followsBy = PKB::follows.getFollowsStarBy(x);
-vector<int> followsFrom = PKB::follows.getFollowsStarFrom(x);
+	vector<int> followsBy = PKB::follows.getFollowsStarBy(x);
+	vector<int> followsFrom = PKB::follows.getFollowsStarFrom(x);
 
-followsBy.insert(followsBy.end(), followsFrom.begin(), followsFrom.end());
+	followsBy.insert(followsBy.end(), followsFrom.begin(), followsFrom.end());
 
-return followsBy;
+	return followsBy;
 }*/
 RulesOfEngagement::relation2Family RulesOfEngagement::getRelation2ByFamily(QueryRelations rel)
 {
@@ -1146,50 +1148,50 @@ vector<int> RulesOfEngagement::parentStarFrom(int y)
 
 vector<int> RulesOfEngagement::nextFrom(int y)
 {
-	//return PKB::next.getPrevious(y);
-	return PQLNextProcessor::getPrevious(y);
+	return PKB::next.getPrevious(y);
+	//return PQLNextProcessor::getPrevious(y);
 }
 
 vector<int> RulesOfEngagement::nextStarFrom(int y)
 {
-	//return PKB::next.getPreviousStar(y);
-	return PQLNextProcessor::getPreviousStar(y);
+	return PKB::next.getPreviousStar(y);
+	//return PQLNextProcessor::getPreviousStar(y);
 }
 
 vector<int> RulesOfEngagement::nextBipFrom(int y)
 {
-	//return PKB::next.getPreviousBip(y);
-	return PQLNextProcessor::getPreviousBip(y);
+	return PKB::next.getPreviousBip(y);
+	//return PQLNextProcessor::getPreviousBip(y);
 }
 
 vector<int> RulesOfEngagement::nextBipStarFrom(int y)
 {
-	//return PKB::next.getPreviousBipStar(y);
-	return PQLNextProcessor::getPreviousBipStar(y);
+	return PKB::next.getPreviousBipStar(y);
+	//return PQLNextProcessor::getPreviousBipStar(y);
 }
 
 vector<int> RulesOfEngagement::affectsFrom(int y)
 {
-	//return PKB::affects.getAffectsFrom(y);
-	return PQLAffectsProcessor::getAffectsFrom(y);
+	return PKB::affects.getAffectsFrom(y);
+	//return PQLAffectsProcessor::getAffectsFrom(y);
 }
 
 vector<int> RulesOfEngagement::affectsStarFrom(int y)
 {
-	//return PKB::affects.getAffectsStarFrom(y);
-	return PQLAffectsProcessor::getAffectsStarFrom(y);
+	return PKB::affects.getAffectsStarFrom(y);
+	//return PQLAffectsProcessor::getAffectsStarFrom(y);
 }
 
 vector<int> RulesOfEngagement::affectsBipFrom(int y)
 {
-	//return PKB::affects.getAffectsBipFrom(y);
-	return PQLAffectsProcessor::getAffectsBipFrom(y);
+	return PKB::affects.getAffectsBipFrom(y);
+	//return PQLAffectsProcessor::getAffectsBipFrom(y);
 }
 
 vector<int> RulesOfEngagement::affectsBipStarFrom(int y)
 {
-	//return PKB::affects.getAffectsBipStarFrom(y);
-	return PQLAffectsProcessor::getAffectsBipStarFrom(y);
+	return PKB::affects.getAffectsBipStarFrom(y);
+	//return PQLAffectsProcessor::getAffectsBipStarFrom(y);
 }
 
 RulesOfEngagement::relation2Family RulesOfEngagement::getRelation2FromFamily(QueryRelations rel)
@@ -1333,67 +1335,67 @@ vector<ASTNode*> RulesOfEngagement::getAllTimesNodes()
 
 /*vector<ASTNode*> RulesOfEngagement::getAllVarNodes()
 {
-return PKB::varNodes;
+	return PKB::varNodes;
 }
 
 vector<ASTNode*> RulesOfEngagement::getAllProcNodes()
 {
-return PKB::rootNode->getChildren();
+	return PKB::rootNode->getChildren();
 }
 
 vector<ASTNode*> RulesOfEngagement::getAllConstantNodes()
 {
-return PKB::constNodes;
+	return PKB::constNodes;
 }
 
 vector<ASTNode*> RulesOfEngagement::getAllVarNodes(VAR v)
 {
-return PKB::getNodes(ASTNode::Variable, v);
+	return PKB::getNodes(ASTNode::Variable, v);
 }
 
 vector<ASTNode*> RulesOfEngagement::getAllProcNodes(PROC p)
 {
-return PKB::getNodes(ASTNode::Procedure, p);
+	return PKB::getNodes(ASTNode::Procedure, p);
 }
 
 vector<ASTNode*> RulesOfEngagement::getAllConstantNodes(int c)
 {
-return PKB::getNodes(ASTNode::Constant, c);
+	return PKB::getNodes(ASTNode::Constant, c);
 }
 
 /*vector<ASTNode*> RulesOfEngagement::getAllStmtLstNodes()
 {
-return PKB::stmtLstNodes;
+	return PKB::stmtLstNodes;
 }
 
 ASTNode* RulesOfEngagement::getStmtNode(STMT s)
 {
-return PKB::stmtRefMap.at(s).getASTStmtNode();
+	return PKB::stmtRefMap.at(s).getASTStmtNode();
 }
 
 vector<ASTNode*> RulesOfEngagement::getAllAssignNodes()
 {
-return PKB::getNodes(ASTNode::Assign);
+	return PKB::getNodes(ASTNode::Assign);
 }
 
 vector<ASTNode*> RulesOfEngagement::getAllWhileNodes()
 {
-return PKB::getNodes(ASTNode::While);
+	return PKB::getNodes(ASTNode::While);
 }
 
 vector<ASTNode*> RulesOfEngagement::getAllIfNodes()
 {
-return PKB::getNodes(ASTNode::If);
+	return PKB::getNodes(ASTNode::If);
 }
 
 vector<ASTNode*> RulesOfEngagement::getAllCallNodes()
 {
-return PKB::getNodes(ASTNode::Call);
+	return PKB::getNodes(ASTNode::Call);
 }
 
 vector<ASTNode*> RulesOfEngagement::getAllCallNodes(PROC p)
 {
-return PKB::getNodes(ASTNode::Call, p);
+	return PKB::getNodes(ASTNode::Call, p);
 }*/
 //end type map
 
@@ -1412,7 +1414,7 @@ bool RulesOfEngagement::satisfyPattern(const int index, const RulesOfEngagement:
 {
 	/*static unordered_map<int, unordered_map<string, bool>> map;
 	if (map.count(index) > 0 && map[index].count(RHSVarName) > 0)
-	return map[index][RHSVarName];*/
+		return map[index][RHSVarName];*/
 
 	//return /*map[index][RHSVarName] = */
 	return TryMatch(PKB::assignNodes[index], RHS, RHSexprs);
@@ -1467,7 +1469,7 @@ bool RulesOfEngagement::MatcherTree(const ASTNode* Original, const ASTNode* Patt
 		(Original->getType() == ASTNode::Constant ||
 		Original->getType() == ASTNode::Variable ||
 		(Original->getType() == ASTNode::Operator &&
-		MatcherTree(Original->getChild(0), Pattern->getChild(0)) &&
-		MatcherTree(Original->getChild(1), Pattern->getChild(1)))));
+			MatcherTree(Original->getChild(0), Pattern->getChild(0)) &&
+			MatcherTree(Original->getChild(1), Pattern->getChild(1)))));
 }
 //end pattern

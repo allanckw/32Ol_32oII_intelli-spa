@@ -17,19 +17,20 @@ AffectsTable::AffectsTable()
 */
 void AffectsTable::insertAffects (STMT a1, STMT a2, bool isAffected)
 {
-	Affects n = Affects(a1, a2, isAffected);
-
-	if (this->affectsMap.count(a1) > 0) {
+	const Affects n(a1, a2, isAffected);
+	
+	affectsLock.lock();
+	if (affectsMap.count(a1) == 0) {
 		vector<Affects> affectsLst;
 		affectsLst.push_back(n);
 		pair<STMT, vector<Affects>> newItem (a1, affectsLst);
 		this->affectsMap.insert(newItem);
-
 	} else {
 		if (!AffectsTable::isDuplicate(affectsMap[a1], n)){
 			affectsMap[a1].push_back(n);
 		}
 	}
+	affectsLock.unlock();
 }
 
 /**
@@ -43,13 +44,16 @@ bool AffectsTable::isAffects (STMT a1, STMT a2)
 	if (a1 <= 0 || a2 <= 0)
 		return false;
 
-	if (this->affectsMap.count(a1) > 0){
+	{
+		Concurrency::reader_writer_lock::scoped_lock_read hi(affectsLock);
+		if (affectsMap.count(a1) > 0) {
 
-		vector<Affects>& affectsLst =  affectsMap[a1];
-
-		for (size_t i = 0; i < affectsLst.size(); i++) {
-			if (affectsLst[i].getA2() == a2 )
-				return affectsLst[i].isAffected();
+			const vector<Affects>& affectsLst = affectsMap[a1];
+	
+			for (size_t i = 0; i < affectsLst.size(); i++) {
+				if (affectsLst[i].getA2() == a2 )
+					return affectsLst[i].isAffected();
+			}
 		}
 	}
 
@@ -70,21 +74,23 @@ bool AffectsTable::isAffects (STMT a1, STMT a2)
 */
 vector<STMT> AffectsTable::getAffectsBy(STMT a1)
 {
-	vector<STMT> result;
-	////auto itr = this->affectsByMap.find(a1);
-
-	if (this->affectsByMap.count(a1) > 0){
-		return  affectsByMap[a1];
-	} else {
-		result =  PQLAffectsProcessor::getAffectsBy(a1);
-		pair<STMT, vector<STMT>> newItem (a1, result);
-		this->affectsByMap.insert(newItem);
-
-		for (size_t i = 0; i < result.size(); i++)	
-			insertAffects(a1, result.at(i), true);
+	{
+		Concurrency::reader_writer_lock::scoped_lock_read hi(affectsByLock);
+		if (affectsByMap.count(a1) > 0)
+			return vector<STMT>(affectsByMap[a1].begin(), affectsByMap[a1].end());
 	}
+	
+	const vector<STMT>& result = PQLAffectsProcessor::getAffectsBy(a1);
+	const pair<STMT, vector<STMT>> newItem (a1, result);
 
-	return result;
+	affectsByLock.lock();
+	this->affectsByMap.insert(newItem);
+	affectsByLock.unlock();
+		
+	for (size_t i = 0; i < result.size(); i++)	
+		insertAffects(a1, result.at(i), true);
+
+	return result;	
 }
 
 /**
@@ -94,19 +100,22 @@ vector<STMT> AffectsTable::getAffectsBy(STMT a1)
 */
 vector<STMT> AffectsTable::getAffectsFrom(STMT a2)
 {
-	vector<STMT> result;
-	////auto itr = this->affectsFromMap.find(a2);
-
-	if (this->affectsFromMap.count(a2) > 0){
-		return affectsFromMap[a2];
-	} else {
-		result =  PQLAffectsProcessor::getAffectsFrom(a2);
-		pair<STMT, vector<STMT>> newItem (a2, result);
-		this->affectsFromMap.insert(newItem);
-		for (size_t i = 0; i < result.size(); i++)	
-			insertAffects(result.at(i), a2, true);
+	{
+		Concurrency::reader_writer_lock::scoped_lock_read hi(affectsFromLock);
+		if (affectsFromMap.count(a2) > 0)
+			return vector<STMT>(affectsFromMap[a2].begin(), affectsFromMap[a2].end());
 	}
+	
+	const vector<STMT>& result = PQLAffectsProcessor::getAffectsFrom(a2);
+	const pair<STMT, vector<STMT>> newItem (a2, result);
 
+	affectsFromLock.lock();
+	this->affectsFromMap.insert(newItem);
+	affectsFromLock.unlock();
+		
+	for (size_t i = 0; i < result.size(); i++)	
+		insertAffects(result.at(i), a2, true);
+	
 	return result;
 }
 
@@ -118,11 +127,10 @@ vector<STMT> AffectsTable::getAffectsFrom(STMT a2)
 */
 void AffectsTable::insertAffectsStar (STMT a1, STMT a2, bool isAffected)
 {
-	Affects n = Affects(a1, a2, isAffected);
-
-	//auto itr = this->affectsStarMap.find(a1);
-
-	if (this->affectsStarMap.count(a1) > 0) {
+	const Affects n(a1, a2, isAffected);
+	
+	affectsStarLock.lock();
+	if (affectsStarMap.count(a1) == 0) {
 		vector<Affects> affectsLst;
 		affectsLst.push_back(n);
 		pair<STMT, vector<Affects>> newItem (a1, affectsLst);
@@ -132,6 +140,7 @@ void AffectsTable::insertAffectsStar (STMT a1, STMT a2, bool isAffected)
 			affectsStarMap[a1].push_back(n);
 		}
 	}
+	affectsStarLock.unlock();
 }
 
 /**
@@ -145,18 +154,16 @@ bool AffectsTable::isAffectsStar (STMT a1, STMT a2)
 	if (a1 <= 0 || a2 <= 0)
 		return false;
 
-	if (PKB::affects.isAffects(a1, a2))
-		return true;
+	{
+		Concurrency::reader_writer_lock::scoped_lock_read hi(affectsStarLock);
+		if (affectsStarMap.count(a1) > 0) {
 
-	//auto itr = this->affectsStarMap.find(a1);
-
-	if (this->affectsStarMap.count(a1) > 0){
-
-		vector<Affects>& affectsLst =  affectsStarMap[a1];
-
-		for (size_t i = 0; i < affectsLst.size(); i++) {
-			if (affectsLst[i].getA2() == a2 )
-				return affectsLst[i].isAffected();
+			const vector<Affects>& affectsStarLst = affectsStarMap[a1];
+	
+			for (size_t i = 0; i < affectsStarLst.size(); i++) {
+				if (affectsStarLst[i].getA2() == a2 )
+					return affectsStarLst[i].isAffected();
+			}
 		}
 	}
 
@@ -167,8 +174,6 @@ bool AffectsTable::isAffectsStar (STMT a1, STMT a2)
 		PKB::affects.insertAffectsStar(a1, a2, false);
 		return false;
 	}
-
-	return false;
 }
 
 /**
@@ -178,19 +183,21 @@ bool AffectsTable::isAffectsStar (STMT a1, STMT a2)
 */
 vector<STMT> AffectsTable::getAffectsStarBy(STMT a1)
 {
-	vector<STMT> result;
-	//auto itr = this->affectsStarByMap.find(a1);
-
-	if (this->affectsStarByMap.count(a1) > 0){
-		return affectsStarByMap[a1];
-	} else {
-		result =  PQLAffectsProcessor::getAffectsStarBy(a1);
-		pair<STMT, vector<STMT>> newItem (a1, result);
-		this->affectsStarByMap.insert(newItem);
-
-		for (size_t i = 0; i < result.size(); i++)	
-			insertAffectsStar(a1, result.at(i), true);
+	{
+		Concurrency::reader_writer_lock::scoped_lock_read hi(affectsStarByLock);
+		if (affectsStarByMap.count(a1) > 0)
+			return vector<STMT>(affectsStarByMap[a1].begin(), affectsStarByMap[a1].end());
 	}
+	
+	const vector<STMT>& result = PQLAffectsProcessor::getAffectsStarBy(a1);
+	const pair<STMT, vector<STMT>> newItem (a1, result);
+
+	affectsStarByLock.lock();
+	this->affectsStarByMap.insert(newItem);
+	affectsStarByLock.unlock();
+		
+	for (size_t i = 0; i < result.size(); i++)	
+		insertAffectsStar(a1, result.at(i), true);
 
 	return result;
 }
@@ -202,19 +209,22 @@ vector<STMT> AffectsTable::getAffectsStarBy(STMT a1)
 */
 vector<STMT> AffectsTable::getAffectsStarFrom(STMT a2)
 {
-	vector<STMT> result;
-	//auto itr = this->affectsStarFromMap.find(a2);
-
-	if (this->affectsStarFromMap.count(a2) > 0){
-		return affectsStarFromMap[a2];
-	} else {
-		result =  PQLAffectsProcessor::getAffectsStarFrom(a2);
-		pair<STMT, vector<STMT>> newItem (a2, result);
-		this->affectsStarFromMap.insert(newItem);
-		for (size_t i = 0; i < result.size(); i++)	
-			PKB::affects.insertAffectsStar(result.at(i), a2, true);
+	{
+		Concurrency::reader_writer_lock::scoped_lock_read hi(affectsStarFromLock);
+		if (affectsStarFromMap.count(a2) > 0)
+			return vector<STMT>(affectsStarFromMap[a2].begin(), affectsStarFromMap[a2].end());
 	}
+	
+	const vector<STMT>& result = PQLAffectsProcessor::getAffectsStarFrom(a2);
+	const pair<STMT, vector<STMT>> newItem (a2, result);
 
+	affectsStarFromLock.lock();
+	this->affectsStarFromMap.insert(newItem);
+	affectsStarFromLock.unlock();
+		
+	for (size_t i = 0; i < result.size(); i++)	
+		insertAffectsStar(result.at(i), a2, true);
+	
 	return result;
 }
 
@@ -226,11 +236,10 @@ vector<STMT> AffectsTable::getAffectsStarFrom(STMT a2)
 */
 void AffectsTable::insertAffectsBip(STMT a1, STMT a2, bool isAffected)
 {
-	Affects n = Affects(a1, a2, isAffected);
-
-	//auto itr = this->affectsBipMap.find(a1);
-
-	if (this->affectsBipMap.count(a1) > 0) {
+	const Affects n(a1, a2, isAffected);
+	
+	affectsBipLock.lock();
+	if (affectsBipMap.count(a1) == 0) {
 		vector<Affects> affectsLst;
 		affectsLst.push_back(n);
 		pair<STMT, vector<Affects>> newItem (a1, affectsLst);
@@ -240,6 +249,7 @@ void AffectsTable::insertAffectsBip(STMT a1, STMT a2, bool isAffected)
 			affectsBipMap[a1].push_back(n);
 		}
 	}
+	affectsBipLock.unlock();
 }
 
 /**
@@ -253,15 +263,16 @@ bool AffectsTable::isAffectsBip (STMT a1, STMT a2)
 	if (a1 <= 0 || a2 <= 0)
 		return false;
 
-	//auto itr = this->affectsBipMap.find(a1);
+	{
+		Concurrency::reader_writer_lock::scoped_lock_read hi(affectsBipLock);
+		if (affectsBipMap.count(a1) > 0) {
 
-	if (this->affectsBipMap.count(a1) > 0){
-
-		vector<Affects>& affectsLst =  affectsBipMap[a1];
-
-		for (size_t i = 0; i < affectsLst.size(); i++) {
-			if (affectsLst[i].getA2() == a2 )
-				return affectsLst[i].isAffected();
+			const vector<Affects>& affectsBipLst = affectsBipMap[a1];
+	
+			for (size_t i = 0; i < affectsBipLst.size(); i++) {
+				if (affectsBipLst[i].getA2() == a2 )
+					return affectsBipLst[i].isAffected();
+			}
 		}
 	}
 
@@ -281,20 +292,21 @@ bool AffectsTable::isAffectsBip (STMT a1, STMT a2)
 */
 vector<STMT> AffectsTable::getAffectsBipBy(STMT a1)
 {
-	vector<STMT> result;
-	//auto itr = this->affectsBipByMap.find(a1);
-
-	if (this->affectsBipByMap.count(a1) > 0){
-		return affectsBipByMap[a1];
-
-	} else {
-		result =  PQLAffectsProcessor::getAffectsBipBy(a1);
-		pair<STMT, vector<STMT>> newItem (a1, result);
-		this->affectsBipByMap.insert(newItem);
-
-		for (size_t i = 0; i < result.size(); i++)	
-			PKB::affects.insertAffectsBip(a1, result.at(i), true);
+	{
+		Concurrency::reader_writer_lock::scoped_lock_read hi(affectsBipByLock);
+		if (affectsBipByMap.count(a1) > 0)
+			return vector<STMT>(affectsBipByMap[a1].begin(), affectsBipByMap[a1].end());
 	}
+	
+	const vector<STMT>& result = PQLAffectsProcessor::getAffectsBipBy(a1);
+	const pair<STMT, vector<STMT>> newItem (a1, result);
+
+	affectsBipByLock.lock();
+	this->affectsBipByMap.insert(newItem);
+	affectsBipByLock.unlock();
+		
+	for (size_t i = 0; i < result.size(); i++)	
+		insertAffectsBip(a1, result.at(i), true);
 
 	return result;
 }
@@ -306,19 +318,22 @@ vector<STMT> AffectsTable::getAffectsBipBy(STMT a1)
 */
 vector<STMT> AffectsTable::getAffectsBipFrom(STMT a2)
 {
-	vector<STMT> result;
-	//auto itr = this->affectsBipFromMap.find(a2);
-
-	if (this->affectsBipFromMap.count(a2) > 0){
-		return affectsBipFromMap[a2];
-	} else {
-		result =  PQLAffectsProcessor::getAffectsBipFrom(a2);
-		pair<STMT, vector<STMT>> newItem (a2, result);
-		this->affectsBipFromMap.insert(newItem);
-		for (size_t i = 0; i < result.size(); i++)	
-			PKB::affects.insertAffectsBip(result.at(i), a2, true);
+	{
+		Concurrency::reader_writer_lock::scoped_lock_read hi(affectsBipFromLock);
+		if (affectsBipFromMap.count(a2) > 0)
+			return vector<STMT>(affectsBipFromMap[a2].begin(), affectsBipFromMap[a2].end());
 	}
+	
+	const vector<STMT>& result = PQLAffectsProcessor::getAffectsBipFrom(a2);
+	const pair<STMT, vector<STMT>> newItem (a2, result);
 
+	affectsBipFromLock.lock();
+	this->affectsBipFromMap.insert(newItem);
+	affectsBipFromLock.unlock();
+		
+	for (size_t i = 0; i < result.size(); i++)	
+		insertAffectsBip(result.at(i), a2, true);
+	
 	return result;
 }
 
@@ -330,11 +345,10 @@ vector<STMT> AffectsTable::getAffectsBipFrom(STMT a2)
 */
 void AffectsTable::insertAffectsBipStar(STMT a1, STMT a2, bool isAffected)
 {
-	Affects n = Affects(a1, a2, isAffected);
-
-	//auto itr = this->affectsBipStarMap.find(a1);
-
-	if (this->affectsBipStarMap.count(a1) > 0) {
+	const Affects n(a1, a2, isAffected);
+	
+	affectsBipStarLock.lock();
+	if (affectsBipStarMap.count(a1) == 0) {
 		vector<Affects> affectsLst;
 		affectsLst.push_back(n);
 		pair<STMT, vector<Affects>> newItem (a1, affectsLst);
@@ -344,6 +358,7 @@ void AffectsTable::insertAffectsBipStar(STMT a1, STMT a2, bool isAffected)
 			affectsBipStarMap[a1].push_back(n);
 		}
 	}
+	affectsBipStarLock.unlock();
 }
 
 /**
@@ -357,15 +372,16 @@ bool AffectsTable::isAffectsBipStar (STMT a1, STMT a2)
 	if (a1 <= 0 || a2 <= 0)
 		return false;
 
-	//auto itr = this->affectsBipStarMap.find(a1);
+	{
+		Concurrency::reader_writer_lock::scoped_lock_read hi(affectsBipStarLock);
+		if (affectsBipStarMap.count(a1) > 0) {
 
-	if (this->affectsBipStarMap.count(a1) > 0){
-
-		vector<Affects>& affectsLst = affectsBipStarMap[a1];
-
-		for (size_t i = 0; i < affectsLst.size(); i++) {
-			if (affectsLst[i].getA2() == a2 )
-				return affectsLst[i].isAffected();
+			const vector<Affects>& affectsBipStarLst = affectsBipStarMap[a1];
+	
+			for (size_t i = 0; i < affectsBipStarLst.size(); i++) {
+				if (affectsBipStarLst[i].getA2() == a2 )
+					return affectsBipStarLst[i].isAffected();
+			}
 		}
 	}
 
@@ -385,19 +401,21 @@ bool AffectsTable::isAffectsBipStar (STMT a1, STMT a2)
 */
 vector<STMT> AffectsTable::getAffectsBipStarBy(STMT a1)
 {
-	vector<STMT> result;
-	//auto itr = this->affectsBipStarByMap.find(a1);
-
-	if (this->affectsBipStarByMap.count(a1) > 0){
-		return affectsBipStarByMap[a1];
-	} else {
-		result =  PQLAffectsProcessor::getAffectsBipStarBy(a1);
-		pair<STMT, vector<STMT>> newItem (a1, result);
-		this->affectsBipStarByMap.insert(newItem);
-
-		for (size_t i = 0; i < result.size(); i++)	
-			PKB::affects.insertAffectsBipStar(a1, result.at(i), true);
+	{
+		Concurrency::reader_writer_lock::scoped_lock_read hi(affectsBipStarByLock);
+		if (affectsBipStarByMap.count(a1) > 0)
+			return vector<STMT>(affectsBipStarByMap[a1].begin(), affectsBipStarByMap[a1].end());
 	}
+	
+	const vector<STMT>& result = PQLAffectsProcessor::getAffectsBipStarBy(a1);
+	const pair<STMT, vector<STMT>> newItem (a1, result);
+
+	affectsBipStarByLock.lock();
+	this->affectsBipStarByMap.insert(newItem);
+	affectsBipStarByLock.unlock();
+		
+	for (size_t i = 0; i < result.size(); i++)	
+		insertAffectsBipStar(a1, result.at(i), true);
 
 	return result;
 }
@@ -409,19 +427,22 @@ vector<STMT> AffectsTable::getAffectsBipStarBy(STMT a1)
 */
 vector<STMT> AffectsTable::getAffectsBipStarFrom(STMT a2)
 {
-	vector<STMT> result;
-	//auto itr = this->affectsBipStarFromMap.find(a2);
-
-	if (this->affectsBipStarFromMap.count(a2) > 0){
-		return affectsBipStarFromMap[a2];
-	} else {
-		result =  PQLAffectsProcessor::getAffectsBipStarFrom(a2);
-		pair<STMT, vector<STMT>> newItem (a2, result);
-		this->affectsBipStarFromMap.insert(newItem);
-		for (size_t i = 0; i < result.size(); i++)	
-			PKB::affects.insertAffectsBipStar(result.at(i), a2, true);
+	{
+		Concurrency::reader_writer_lock::scoped_lock_read hi(affectsBipStarFromLock);
+		if (affectsBipStarFromMap.count(a2) > 0)
+			return vector<STMT>(affectsBipStarFromMap[a2].begin(), affectsBipStarFromMap[a2].end());
 	}
+	
+	const vector<STMT>& result = PQLAffectsProcessor::getAffectsBipStarFrom(a2);
+	const pair<STMT, vector<STMT>> newItem (a2, result);
 
+	affectsBipStarFromLock.lock();
+	this->affectsBipStarFromMap.insert(newItem);
+	affectsBipStarFromLock.unlock();
+		
+	for (size_t i = 0; i < result.size(); i++)	
+		insertAffectsBipStar(result.at(i), a2, true);
+	
 	return result;
 }
 
@@ -432,7 +453,7 @@ vector<STMT> AffectsTable::getAffectsBipStarFrom(STMT a2)
 * @param a	the affectstar to check for existing record
 * @return whether a exist in v
 */
-bool AffectsTable::isDuplicate(vector<Affects> v, Affects a)
+bool AffectsTable::isDuplicate(const vector<Affects>& v, const Affects& a)
 {
 	for (size_t i = 0; i < v.size(); i++) {
 		if (v[i].getA1() == a.getA1() && v[i].getA2() == a.getA2())
@@ -443,9 +464,9 @@ bool AffectsTable::isDuplicate(vector<Affects> v, Affects a)
 }
 
 /**
-* Tear down the cache after evaluation 
-* CALL AFTER EVALUATION IS COMPLETE 
-*/
+ * Tear down the cache after evaluation 
+ * CALL AFTER EVALUATION IS COMPLETE 
+ */
 void AffectsTable::tearDownCache() {
 	this->affectsByMap.clear();
 	this->affectsFromMap.clear();
@@ -454,7 +475,7 @@ void AffectsTable::tearDownCache() {
 	this->affectsStarByMap.clear();
 	this->affectsStarFromMap.clear();
 	this->affectsStarMap.clear();
-
+	
 	this->affectsBipByMap.clear();
 	this->affectsBipFromMap.clear();
 	this->affectsBipMap.clear();

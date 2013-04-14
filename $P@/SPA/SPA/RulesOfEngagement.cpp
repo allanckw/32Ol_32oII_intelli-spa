@@ -60,8 +60,8 @@ void RulesOfEngagement::initialise()
 	tokenToRel["NextBip*"].insert(NextBipStar);
 	tokenToRel["Affects"].insert(Affects);
 	tokenToRel["Affects*"].insert(AffectsStar);
-	tokenToRel["AffectsBip"].insert(Affects);
-	tokenToRel["AffectsBip*"].insert(AffectsStar);
+	tokenToRel["AffectsBip"].insert(AffectsBip);
+	tokenToRel["AffectsBip*"].insert(AffectsBipStar);
 	tokenToRel["Contains"].insert(Contains);
 	tokenToRel["Contains*"].insert(ContainsStar);
 	tokenToRel["Sibling"].insert(Sibling);

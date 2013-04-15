@@ -42,6 +42,10 @@ void GetStringVectPruned(std::vector<std::string>* str,std::vector<std::string>*
 	bool allOpsSame(int i);
 	FormNode* addChild(FormNode* c, int childLoc);
 
+	void FormNode::printNotNoBracket(vector<string>* qry,vector<string>* storage);
+void FormNode::GetNotStringVect(std::vector<std::vector<std::string>>* ,std::vector<std::string>* qry);
+std::vector<std::vector<std::string>>* FormNode::GetNotStringVect(std::vector<std::string>* qry);
+
 };
 
 

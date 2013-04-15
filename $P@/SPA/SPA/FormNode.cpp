@@ -67,7 +67,77 @@ bool FormNode::allOpsSame(int i)
 		return true;
 }
 
+std::vector<std::vector<std::string>>* FormNode::GetNotStringVect(std::vector<std::string>* qry)
+{
+	std::vector<std::vector<std::string>>* str = new std::vector<std::vector<std::string>>();
+	GetNotStringVect(str,qry);
+	return str;
+	
+}
 
+void FormNode::GetNotStringVect(std::vector<std::vector<std::string>>*  str,std::vector<std::string>* qry)
+{
+	string isnot="";
+
+	//if(this->isneg)
+	{
+		//isnot = "!";
+	}
+	if(this->fType==FormNode::Operator && this->value == 0)
+	{
+		vector<string>* temp = new std::vector<string>();
+		
+		this->children.at(0)->printNotNoBracket(qry,temp);
+		this->children.at(1)->printNotNoBracket(qry,temp);
+		str->push_back(*temp);
+	}
+	else if(this->fType==FormNode::Operator && this->value == 1)
+	{
+		this->children.at(0)->GetNotStringVect(str,qry);
+			this->children.at(1)->GetNotStringVect(str,qry);
+	}
+	else
+	{
+		vector<string>* temp = new std::vector<string>();
+
+		if(this->isneg == true)
+		temp->push_back(qry->at(this->value));
+
+		str->push_back(*temp);
+	}
+}
+
+void FormNode::printNotNoBracket(vector<string>* qry,vector<string>* storage)
+{
+
+	string isnot="";
+
+
+	//if(this->isneg)
+	{
+	//	isnot = "!";
+	}
+	if(this->fType==FormNode::Operator && this->value == 0)
+	{
+		
+			this->children.at(0)->printNotNoBracket(qry,storage);
+			this->children.at(1)->printNotNoBracket(qry,storage);
+	}
+	else if(this->fType==FormNode::Operator && this->value == 1)
+	{
+		
+		this->children.at(0)->printNotNoBracket(qry,storage);
+			this->children.at(1)->printNotNoBracket(qry,storage);
+	}
+	else
+	{
+		if(this->isneg == true)
+		storage->push_back(qry->at(this->value));
+		
+	}
+
+	
+}
 
 std::vector<std::string>* FormNode::GetStringVect(std::vector<std::string>* qry)
 {
@@ -122,8 +192,23 @@ void FormNode::GetStringVectPruned(std::vector<std::string>* str,std::vector<std
 	{
 		string s1 = this->children.at(0)->printNoBracketPruned(qry);
 		string s2 = this->children.at(1)->printNoBracketPruned(qry)+"";
+
+		if(s1 == "" && s2 =="")
+		{
+			str->push_back("");
+		}
+		else if(s1 == "")
+		{
+			str->push_back(s2);
+		}
+		else if(s2=="")
+		{
+			str->push_back(s1);
+		}
+		else{
 		string temp = isnot+""+ s1+  " such that " +s2 ;
 		str->push_back(temp);
+		}
 	}
 	else if(this->fType==FormNode::Operator && this->value == 1)
 	{
@@ -136,7 +221,9 @@ void FormNode::GetStringVectPruned(std::vector<std::string>* str,std::vector<std
 		if(!this->isneg)
 		str->push_back(isnot+qry->at(this->value));
 		else
-		str->push_back(removeBind(isnot+qry->at(this->value)));
+		{
+			str->push_back("");//removeBind(isnot+qry->at(this->value)));
+		}
 	}
 }
 
@@ -303,20 +390,35 @@ string FormNode::removeBind(std::string str)
 string FormNode::printNoBracketPruned(vector<string>* qry)
 {
 
-	string isnot="";
-
-
+	
 	//if(this->isneg)
 	{
 		//isnot = "!";
 	}
 	if(this->fType==FormNode::Operator && this->value == 0)
 	{
-		return isnot+(""+this->children.at(0)->printNoBracketPruned(qry) +  " such that " + this->children.at(1)->printNoBracketPruned(qry)+"");
+		string s1 = this->children.at(0)->printNoBracketPruned(qry);
+		string s2 = this->children.at(1)->printNoBracketPruned(qry);
+
+		if(s1=="" && s2=="")
+		{return "";
+		}
+		else if(s1=="")
+		{
+			return s2;
+		}
+		else if(s2=="")
+		{
+			return s1;
+		}
+		else
+		return (""+ s1+  " such that " + s2+"");
 	}
 	else if(this->fType==FormNode::Operator && this->value == 1)
 	{
-		return isnot+(""+this->children.at(0)->printNoBracketPruned(qry) +  " or " + this->children.at(1)->printNoBracketPruned(qry)+"");
+		string s1 = this->children.at(0)->printNoBracketPruned(qry);
+		string s2 = this->children.at(1)->printNoBracketPruned(qry);
+		return (""+s1 +  " or " +s2 +"");
 	}
 	else
 	{
@@ -326,9 +428,9 @@ string FormNode::printNoBracketPruned(vector<string>* qry)
 
 		//string Result = asd.str();
 		if(!this->isneg)
-			return isnot+qry->at(this->value);
+			return qry->at(this->value);
 		else
-			return removeBind(isnot+qry->at(this->value));
+			return "";//removeBind(isnot+qry->at(this->value));
 	}
 }
 

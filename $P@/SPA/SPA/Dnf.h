@@ -24,12 +24,14 @@ public:
 	static int find_closer(std::string d);
 	static bool isDNF(FormNode* n);
 	int static getOperatorWeight(string token);
-	static std::vector<pair<std::string,std::string>>*  CreateDNF(std::string str);
+	static vector<pair<string,pair<string,vector<string>>>>*  CreateDNF(std::string str);
 
 	static void Eval(std::string query, list<string>& results);
 	static string getToken(const string& query, int& pos);
 
 	static bool compare(string s1,string s2);
+
+	static bool isVarType(string str);
 
 	
 

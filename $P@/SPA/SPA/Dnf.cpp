@@ -404,12 +404,19 @@ bool Dnf::isDNF(FormNode* n)
 	return true;
 }
 
-std::vector<pair<std::string,std::string>>* Dnf::CreateDNF(string str)
+vector<pair<string,pair<string,vector<string>>>>* Dnf::CreateDNF(string str)
 {  
+	
 	if(str=="")
 	{
-		std::vector<pair<std::string,std::string>>* nth = new std::vector<pair<std::string,std::string>>();
-		nth->push_back(pair<std::string,std::string>("",""));
+		vector<pair<string,pair<string,vector<string>>>>* nth = new vector<pair<string,pair<string,vector<string>>>>();
+		vector<string>* t= new vector<string>();
+		pair<std::string,vector<string>>* t2 = new pair<std::string,vector<string>>();
+		t2->first="";
+		t2->second = *t;
+		nth->push_back(pair<string,pair<string,vector<string>>>("",*t2));
+		
+		//nth->push_back();
 		return nth;
 	}
 	vector<string> qry;
@@ -501,16 +508,21 @@ std::vector<pair<std::string,std::string>>* Dnf::CreateDNF(string str)
 	head = processAssignment(finwost);
 	FormNode *newhead =  Convert(head);;	
 
-	vector<string>* dnfform = newhead->GetStringVect(&qry);
-	vector<string>* dnfformPruned = newhead->GetStringVectPruned(&qry);
+	vector<string>* dnfform = newhead->GetStringVect(&qry);//orignal with no not
+	vector<string>* dnfformPruned = newhead->GetStringVectPruned(&qry);//pruned to give total ans
+	vector<vector<string>>* dnffromnot = newhead->GetNotStringVect(&qry);//to add new 1 to show if this vect got not anot if == 0 means no not.
 
-	vector<pair<string,string>>* finalans = new vector<pair<string,string>>();
+	vector<pair<string,pair<string,vector<string>>>>* finalans = new vector<pair<string,pair<string,vector<string>>>>();
 
 	for(int i=0;i<dnfform->size();i++)
 	{
-		pair<string,string> ans;
+		pair<string,pair<string,vector<string>>> ans;
+		pair<string,vector<string>> inner_ans;
+		ans.second = inner_ans;
+
 		ans.first = dnfform->at(i);
-		ans.second = dnfformPruned->at(i);
+		ans.second.first = dnfformPruned->at(i);
+		ans.second.second = dnffromnot->at(i);
 		finalans->push_back(ans);
 	}
 
@@ -654,22 +666,64 @@ FormNode* Dnf::processAssignment(vector<string> expr)
 	return operands.top();
 }
 
-
+bool Dnf::isVarType(string str)
+{
+	if(
+		str.compare("variable") == 0 ||
+		str.compare("stmt") == 0 ||
+		str.compare("assign") == 0 ||
+		str.compare("while") == 0 ||
+		str.compare("procedure") == 0 ||
+		str.compare("call") == 0 ||
+		str.compare("if") == 0 ||
+		str.compare("plus") == 0 ||
+		str.compare("minus") == 0 ||
+		str.compare("times") == 0 ||
+		str.compare("constant") == 0 ||
+		
+		str.compare("prog_line") == 0 ||
+		str.compare("if") == 0 ||
+		str.compare(",") == 0 ||
+		str.compare(";") == 0 ||
+		str.compare("stmtLst") == 0
+		)
+	{
+		return true;
+	}
+	return false;
+}
 void Dnf::Eval(std::string query,list<string>& results)
 {
 	int pos =0;
 	string token="";
+	vector<string> varvect;
+	vector<string> allvars;
+	int selectedstart = 0;
+	string varsection = "";
 	do
 	{
+		if(token != "")
+		{
+			varvect.push_back(token);
+			if(isVarType(token) == false)
+			{
+				allvars.push_back(token);
+			}
+		}
 		token = getToken(query, pos);
 	}while(token != "Select");
+	selectedstart = pos-6;
+
+	varsection = query.substr(0,selectedstart);
+
 	bool selectBOOLEAN = false;
 	string selected = getToken(query, pos);//nick see=>pos = identify the select something
-	unordered_set<string> selects;
+	//unordered_set<string> selects;
+	vector<string> selects;
 	if (selected.at(0) == '<') { //tuple -> multiple selected variables
 		do {
 			selected = getToken(query, pos);
-			selects.insert(selected);
+			selects.push_back(selected);
 			selected = getToken(query, pos);
 			if (selected == ">")
 				break;
@@ -678,12 +732,33 @@ void Dnf::Eval(std::string query,list<string>& results)
 	} else if (selected == "BOOLEAN") {
 		selectBOOLEAN = true;
 	} else {
-		selects.insert(selected);
+		selects.push_back(selected);
 		selectBOOLEAN = false;
 
 	}
 
 	//naive case just put such that
+
+	string notstr = "";
+	string midsection = "";
+	if(allvars.size() == 1)
+	{
+		midsection = allvars.at(0);
+	}
+	else
+	{
+		midsection = midsection + "<";
+		for(int i=0;i<allvars.size();i++)
+		{
+			midsection = midsection + allvars.at(i);
+
+			if(i!=allvars.size()-1)
+			midsection = midsection + ",";
+		}
+
+		 midsection = midsection + ">";
+	}
+	notstr = varsection +" Select " + midsection;
 
 	string sub = query.substr(pos,query.size()-pos);
 
@@ -697,7 +772,7 @@ void Dnf::Eval(std::string query,list<string>& results)
 
 	int cutoffpt = pos;
 	string querystart = query.substr(0,pos);
-	vector<pair<string,string>>* substrs = Dnf::CreateDNF(sub);
+	vector<pair<string,pair<string,vector<string>>>>* substrs = Dnf::CreateDNF(sub);
 
 
 	if(substrs==0)//no relation
@@ -715,7 +790,7 @@ void Dnf::Eval(std::string query,list<string>& results)
 			//list<string> results;
 
 			//vector<string> answers;
-			if(substrs->at(i).first.compare(substrs->at(i).second)==0)
+			if(substrs->at(i).second.second.size() == 0)
 			{
 				//both same just do 1 query
 				string newqry = "";
@@ -730,32 +805,170 @@ void Dnf::Eval(std::string query,list<string>& results)
 			else
 			{
 				//do 2 and intersect .second is the big 1
+				//not section
 
+				unordered_set<string> workingansset;
+
+				vector<vector<string>> Maxresult;
 				list<string> results1;
-				list<string> results2;
+				list<vector<string>> results2;
 				{
+					//notstr
 					string newqry = "";
-					int pfound = substrs->at(i).second.find("pattern",0);
-					if(pfound == -1 || pfound > 3)
-						newqry = querystart + " such that " +substrs->at(i).second;
+					int pfound = substrs->at(i).second.first.find("pattern",0);
+					if((pfound == -1 || pfound > 3) && substrs->at(i).second.first != "")
+						newqry = notstr + " such that " +substrs->at(i).second.first;
 					else 
-						newqry = querystart + " " +substrs->at(i).second;
+						newqry = notstr + " " +substrs->at(i).second.first;
 
 					MultiQueryEval::evaluateQuery(newqry, results1);
 
+
+					list<string>::iterator  p = results1.begin();
+					
+					while(p != results1.end()) {
+						string res = (*p);
+						vector<string> temp1;
+						int cur = 0;
+						workingansset.insert(res);
+						/*for(int j=0;j<res.size();j++)
+						{
+							if(res.at(j) == ' ')
+							{
+								temp1.push_back(res.substr(cur, j-cur));
+								cur = j;
+							}
+						}
+
+						temp1.push_back(res.substr(cur, res.size() - cur));
+						Maxresult.push_back(temp1);*/
+						p++;
+					}   
+					//seprate whole set to proper struct
+
+					
+
 				}
 				{
+					//////////////////////////////////////
+					//loop thru all not statement
 					string newqry = "";
-					int pfound = substrs->at(i).first.find("pattern",0);
-					if(pfound == -1 || pfound > 3)
-						newqry = querystart + " such that " +substrs->at(i).first;
-					else 
-						newqry = querystart +" " +substrs->at(i).first;
-					MultiQueryEval::evaluateQuery(newqry,results2);
-				}
-				//intersect
+					list<string> results3;
+					vector<string> notqeurys = substrs->at(i).second.second;
+					//workingansset
+					for(int k=0;k<notqeurys.size();k++)
+					{
 
-				for (auto it1 = results1.begin(); it1 != results1.end(); it1++) {
+						int pfound = substrs->at(i).first.find("pattern",0);
+					if(pfound == -1 || pfound > 3)
+						newqry = notstr + " such that " +notqeurys.at(k);
+						//newqry = querystart + " such that " +notqeurys.at(k);
+					else 
+						newqry = notstr +" " +notqeurys.at(k);
+						//newqry = querystart +" " +notqeurys.at(k);
+
+
+					MultiQueryEval::evaluateQuery(newqry,results3);
+					//AnswerTable
+					//something
+					//chlk result3 and minus from the maxresult
+					list<string>::iterator  p = results3.begin();
+					
+					while(p != results3.end()) {
+						string res = (*p);
+
+						if(workingansset.count(res) > 0)
+							workingansset.erase(res);
+						//vector<string> temp1;
+						//int cur = 0;
+						/*workingansset.insert(res);
+						for(int j=0;j<res.size();j++)
+						{
+							if(res.at(j) == ' ')
+							{
+								temp1.push_back(res.substr(cur, j-cur));
+								cur = j;
+							}
+						}
+
+						temp1.push_back(res.substr(cur, res.size() - cur));
+						Maxresult.push_back(temp1);*/
+						p++;
+					}   
+
+					}
+					
+
+					//
+					
+					vector<int> indexs;
+
+					for(int h=0;h<selects.size();h++)
+					{
+						int curindex = -1;
+						string vartofind = selects.at(h);
+
+						for(int g=0;g<allvars.size();g++)
+						{
+							if(allvars.at(g) == vartofind)
+							{
+								curindex = g;
+								break;
+							}
+						}
+						//allvars
+						//selects
+
+						indexs.push_back(curindex);
+					}
+					//
+					//list<string> finalans;
+					
+					std::unordered_set<string> dup_elimnator;
+					for (std::unordered_set<string>::iterator itr = workingansset.begin(); itr != workingansset.end(); ++itr)
+					{
+						string res = (*itr);
+
+						vector<string> temp1;
+						int cur = 0;
+						//workingansset.insert(res);
+						for(int j=0;j<res.size();j++)
+						{
+							if(res.at(j) == ' ')
+							{
+								temp1.push_back(res.substr(cur, j-cur));
+								cur = j+1;
+							}
+						}
+
+						temp1.push_back(res.substr(cur, res.size() - cur));
+
+						string ansstr="";
+						for(int h=0;h<indexs.size();h++)
+						{
+						//int curindex = -1;
+						int position = indexs.at(h);
+						string subans = temp1.at(position);
+
+						//replace(subans.begin(), subans.end(), " ", "");
+						ansstr = ansstr + subans;
+						if(h != (indexs.size() -1))
+							ansstr = ansstr + " ";
+						}
+						
+						if(dup_elimnator.count(ansstr) == 0)
+						{
+						dup_elimnator.insert(ansstr);
+						results.push_back(ansstr);
+						}
+						//Maxresult.push_back(temp1);
+					}
+					//
+					
+				}
+				//intersect//no need
+				////////////////////////////////////////////////////////////////
+	/*			for (auto it1 = results1.begin(); it1 != results1.end(); it1++) {
 					const string arg = (*it1);
 					std::list<string>::iterator findIter = std::find(results2.begin(), results2.end(), arg);
 
@@ -763,8 +976,8 @@ void Dnf::Eval(std::string query,list<string>& results)
 					{
 						results.push_back(arg);
 					}
-				}
-
+				}*/
+				/////////////////////////////////////////////////////
 			}
 		}	
 

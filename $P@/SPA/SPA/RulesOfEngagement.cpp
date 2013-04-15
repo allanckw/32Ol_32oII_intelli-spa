@@ -675,6 +675,12 @@ string RulesOfEngagement::convertIntegerToArgument(
 	}
 }
 
+/**
+* Method that helps to convert the value stored in AnswerTable to the proper description.
+* @param type type of synonym
+* @param integer integer to be converted
+* @return Unordered Set of ASTNode that the integer was representing
+*/
 unordered_set<ASTNode*> RulesOfEngagement::convertIntegerToASTNode(
 	const RulesOfEngagement::QueryVar type, const int integer)
 {
@@ -706,6 +712,12 @@ unordered_set<ASTNode*> RulesOfEngagement::convertIntegerToASTNode(
 	return answers;
 }
 
+/**
+* Method that helps to convert the ASTNode value to the value stored in AnswerTable.
+* @param type type of synonym
+* @param node ASTnode to be converted
+* @return the value
+*/
 int RulesOfEngagement::convertASTNodeToInteger(const QueryVar type, const ASTNode* node)
 {
 	switch (type) {
@@ -761,125 +773,262 @@ RulesOfEngagement::isRelation
 	return relationMap[rel];
 }
 
+/**
+* This method is used to check whether modifies(x,y) holds
+* @param x the stmt No
+* @param y the variable in the VarTable
+* @return the result
+*/
 bool RulesOfEngagement::isModifiesStmt(int x, int y)
 {
 	return PKB::modifies.isModifiedStmt(x, y);
 }
 
+/**
+* This method is used to check whether modifies(x,y) holds
+* @param x the procedure value in PROCTable
+* @param y the variable in the VarTable
+* @return the result
+*/
 bool RulesOfEngagement::isModifiesProc(int x, int y)
 {
 	return PKB::modifies.isModifiedProc(x, y);
 }
 
+/**
+* This method is used to check whether uses(x,y) holds
+* @param x the stmt No
+* @param y the variable in the VarTable
+* @return the result
+*/
 bool RulesOfEngagement::isUsesStmt(int x, int y)
 {
 	return PKB::uses.isUsedStmt(x, y);
 }
 
+/**
+* This method is used to check whether uses(x,y)
+* @param x the procedure value in PROCTable
+* @param y the variable in the VarTable
+* @return the result
+*/
 bool RulesOfEngagement::isUsesProc(int x, int y)
 {
 	return PKB::uses.isUsedProc(x, y);
 }
 
+/**
+* This method is used to check whether the call(x,y) hold
+* @param x the procedure value in PROCTable
+* @param y the procedure value in PROCTable
+* @return the result
+*/
 bool RulesOfEngagement::isCalls(int x, int y)
 {
 	return PKB::calls.isCalled(x, y);
 }
 
+/**
+* This method is used to check whether call*(x,y) holds
+* @param x the procedure value in PROCTable
+* @param y the procedure value in PROCTable
+* @return the result
+*/
 bool RulesOfEngagement::isCallsStar(int x, int y)
 {
 	return PKB::calls.isCalledStar(x, y);
 }
 
+/**
+* This method is used to check whether the follow(x,y)
+* @param x the stmt
+* @param y the stmt
+* @return the result
+*/
 bool RulesOfEngagement::isFollows(int x, int y)
 {
 	return PKB::follows.isFollows(x, y);
 }
 
+/**
+* This method is used to check whether the follows*(x,y) holds
+* @param x the stmt
+* @param y the stmt
+* @return the result
+*/
 bool RulesOfEngagement::isFollowsStar(int x, int y)
 {
 	return PKB::follows.isFollowsStar(x, y);
 }
 
+/**
+* This method is used to check whether parent(x,y) holds
+* @param x the child to be used
+* @param y the parent to be used
+* @return the result
+*/
 bool RulesOfEngagement::isParent(int x, int y)
 {
 	return PKB::parent.isParent(x, y);
 }
 
+/**
+* This method is used to check whether parent*(x,y) holds
+* @param x the child to be used
+* @param y the parent to be used
+* @return the result
+*/
 bool RulesOfEngagement::isParentStar(int x, int y)
 {
 	return PKB::parent.isParentStar(x, y);
 }
 
+/**
+* This method is used to check for patternModifies
+* @param x value of stmtNode
+* @param y value of stmtNode
+* @return the result
+*/
 bool RulesOfEngagement::isPatternModifies(int x, int y)
 {
 	return PKB::statementNodes[x]->getChild(0)->getValue() == y;
 }
 
+/**
+* This method is used to check whether the next(x,y) holds
+* @param x stmtNo
+* @param y stmtNo
+* @return the result
+*/
 bool RulesOfEngagement::isNext(int x, int y)
 {
 	return PKB::next.isNext(x, y);	
 	//return PQLNextProcessor::isNext(x, y);
 }
 
+/**
+* This method is used to check whether the next*(x,y) holds
+* @param x stmtNo
+* @param y stmtNo
+* @return the result
+*/
 bool RulesOfEngagement::isNextStar(int x, int y)
 {
 	return PKB::next.isNextStar(x, y);
 	//return PQLNextProcessor::isNextStar(x, y);
 }
 
+/**
+* This method is used to check whether the nextBip(x,y) holds
+* @param x stmtNo
+* @param y stmtNo
+* @return the result
+*/
 bool RulesOfEngagement::isNextBip(int x, int y)
 {
 	return PKB::next.isNextBip(x, y);
 	//return PQLNextProcessor::isNextBip(x, y);
 }
 
+/**
+* This method is used to check whether the nextBip*(x,y) holds
+* @param x stmtNo
+* @param y stmtNo
+* @return the result
+*/
 bool RulesOfEngagement::isNextBipStar(int x, int y)
 {
 	return PKB::next.isNextBipStar(x, y);
 	//return PQLNextProcessor::isNextBipStar(x, y);
 }
 
+/**
+* This method is used to check whether the affect(x,y) holds
+* @param x stmtNo
+* @param y stmtNo
+* @return the result
+*/
 bool RulesOfEngagement::isAffects(int x, int y)
 {
 	return PKB::affects.isAffects(x, y);
 	//return PQLAffectsProcessor::isAffects(x, y);
 }
 
+/**
+* This method is used to check whether the affect*(x,y) holds
+* @param x stmtNo
+* @param y stmtNo
+* @return the result
+*/
 bool RulesOfEngagement::isAffectsStar(int x, int y)
 {
 	return PKB::affects.isAffectsStar(x, y);
 	//return PQLAffectsProcessor::isAffectsStar(x, y);
 }
 
+/**
+* This method is used to check whether the affectBip(x,y) holds
+* @param x stmtNo
+* @param y stmtNo
+* @return the result
+*/
 bool RulesOfEngagement::isAffectsBip(int x, int y)
 {
 	return PKB::affects.isAffectsBip(x, y);
 	//return PQLAffectsProcessor::isAffectsBip(x, y);
 }
 
+/**
+* This method is used to check whether the affectBip*(x,y) holds
+* @param x stmtNo
+* @param y stmtNo
+* @return the result
+*/
 bool RulesOfEngagement::isAffectsBipStar(int x, int y)
 {
 	return PKB::affects.isAffectsBipStar(x, y);
 	//return PQLAffectsProcessor::isAffectsBipStar(x, y);
 }
 
+/**
+* This method is used to get relationship
+* @param rel the query relation
+* @return the result
+*/
 RulesOfEngagement::isRelation2
 	RulesOfEngagement::getRelation2(RulesOfEngagement::QueryRelations rel)
 {
 	return relation2Map[rel];
 }
 
+/**
+* This method is used to check whether the siblings(x,y) holds
+* @param x ASTNode
+* @param y ASTnode
+* @return the result
+*/
 bool RulesOfEngagement::isSibling(const ASTNode * const x, const ASTNode * const y)
 {
 	return ((x != y) && x->getAncestor() == y->getAncestor());
 }
 
+/**
+* This method is used to check whether the contains(x,y) holds
+* @param x ASTNode
+* @param y ASTnode
+* @return the result
+*/
 bool RulesOfEngagement::isContains(const ASTNode * const x, const ASTNode * const y)
 {
 	return (x == y->getAncestor());
 }
 
+/**
+* This method is used to check whether the contains*(x,y) holds
+* @param x ASTNode
+* @param y ASTnode
+* @return the result
+*/
 bool RulesOfEngagement::isContainsStar(const ASTNode * const x, const ASTNode * const y)
 {
 	if (x == y)
@@ -894,6 +1043,7 @@ bool RulesOfEngagement::isContainsStar(const ASTNode * const x, const ASTNode * 
 	}
 	return false;
 }
+
 
 bool RulesOfEngagement::isPatternSecond(const ASTNode * const x, const ASTNode * const y)
 {

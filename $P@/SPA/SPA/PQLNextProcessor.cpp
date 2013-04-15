@@ -853,6 +853,9 @@ vector<PROG_LINE> PQLNextProcessor::getPreviousBipStar(PROG_LINE p2)
 	return answer;
 }
 
+/**
+* This method is only for special case which happens for while loops
+*/
 vector<PROG_LINE> PQLNextProcessor::getSelfNextBipStar(){
 	vector<PROG_LINE> ans;
 

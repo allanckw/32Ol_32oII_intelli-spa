@@ -52,6 +52,12 @@ bool Helper::isNumber(string s)
     return !s.empty() && it == s.end();
 }
 
+/**
+* Check that p1 contain inside the list
+* @param list the list to be check
+* @param p1 the integer to be check whether inside the list
+* @return True if the list contain p1, false otherwise
+*/
 bool Helper::contains(vector<int> list, int p1)
 {
 	if(find(list.begin(),list.end(), p1) != list.end())

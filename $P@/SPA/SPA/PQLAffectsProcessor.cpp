@@ -456,8 +456,8 @@ vector<STMT> PQLAffectsProcessor::getAffectsBy(STMT a1)
 //Affects*
 /**
 * This method will be used to check whether a1 and a2 satisfy Affect* Condition
-* @param a1	The statement that is going to affect a2
-* @param a2	The statement that is affected by a1
+* @param a1	The statement that is going to affect* a2
+* @param a2	The statement that is affect* by a1
 * @return whether Affect(a1,a2) satisfy the condition of affectStar
 */
 bool PQLAffectsProcessor::isSatifyAffectsStar(STMT a1, STMT a2)
@@ -488,8 +488,8 @@ bool PQLAffectsProcessor::isSatifyAffectsStar(STMT a1, STMT a2)
 
 /**
 * This method will be used to check Affect*(a1,a2)
-* @param a1	The statement that is going to affect a2
-* @param a2	The statement that is affected by a1
+* @param a1	The statement that is going to affect* a2
+* @param a2	The statement that is affect* by a1
 * @return whether AffectStar(a1,a2) holds
 */
 bool PQLAffectsProcessor::isAffectsStar(STMT a1, STMT a2)
@@ -701,8 +701,8 @@ bool PQLAffectsProcessor::isAffectsStar(STMT a1, STMT a2)
 
 /**
 * This method will be used to get a list of a2 that is affects*(a1,_)
-* @param a1	The statement that is going to affect a2
-* @return a list of statement that is affectStar by a1
+* @param a1	The statement that is going to affect* a2
+* @return a list of statement that is affect* by a1
 */
 vector<STMT> PQLAffectsProcessor::getAffectsStarBy(STMT a1)
 {
@@ -854,8 +854,8 @@ vector<STMT> PQLAffectsProcessor::getAffectsStarBy(STMT a1)
 
 /**
 * This method will be used to get a list of a2 that is affects*(_,a2)
-* @param a2	The statement that is going to affect by a1
-* @return a list of statement that is affectStar a2
+* @param a2	The statement that is going to affect* by a1
+* @return a list of statement that is affect* a2
 */
 vector<STMT>  PQLAffectsProcessor::getAffectsStarFrom(STMT a2)
 {
@@ -956,7 +956,13 @@ vector<STMT>  PQLAffectsProcessor::getAffectsStarFrom(STMT a2)
 	return vector<STMT>(answer.begin(), answer.end());
 }
 
-
+//AffectBip
+/**
+* This method will be used to check AffectBip(a1,a2)
+* @param a1	The statement that is going to affectBip a2
+* @param a2	The statement that is affectBip by a1
+* @return whether AffectBip(a1,a2) holds
+*/
 bool PQLAffectsProcessor::isAffectsBip(STMT a1, STMT a2)
 {
 	if (a1 < 0 || a1 > PKB::maxProgLines || a2 < 0 || a2 > PKB::maxProgLines)
@@ -1128,6 +1134,11 @@ bool PQLAffectsProcessor::isAffectsBip(STMT a1, STMT a2)
 	return false;
 }
 
+/**
+* This method will be used to get a list of a2 that is affectsBip(a1,_)
+* @param a1	The statement that is going to affectBip a2
+* @return a list of statement that is affectBip by a1
+*/
 vector<STMT> PQLAffectsProcessor::getAffectsBipBy(STMT a1)
 {
 	if (a1 < 0 || a1 > PKB::maxProgLines)
@@ -1295,6 +1306,11 @@ vector<STMT> PQLAffectsProcessor::getAffectsBipBy(STMT a1)
 	return vector<STMT>(answer.begin(), answer.end());
 }
 
+/**
+* This method will be used to get a list of a2 that is affectsBip(_,a2)
+* @param a2	The statement that is going to affectBip by a1
+* @return a list of statement that is affectBip a2
+*/
 vector<STMT> PQLAffectsProcessor::getAffectsBipFrom(STMT a2)
 {
 	vector<STMT> answer;
@@ -1302,6 +1318,13 @@ vector<STMT> PQLAffectsProcessor::getAffectsBipFrom(STMT a2)
 	return answer;
 }
 
+//AffectBip*
+/**
+* This method will be used to check AffectBip*(a1,a2)
+* @param a1	The statement that is going to affectBip* a2
+* @param a2	The statement that is affectBip* by a1
+* @return whether AffectBip*(a1,a2) holds
+*/
 bool PQLAffectsProcessor::isAffectsBipStar(STMT a1, STMT a2)
 {
 	if (a1 < 0 || a1 > PKB::maxProgLines || a2 < 0 || a2 > PKB::maxProgLines)
@@ -1423,6 +1446,11 @@ bool PQLAffectsProcessor::isAffectsBipStar(STMT a1, STMT a2)
 	return false;
 }
 
+/**
+* This method will be used to get a list of a2 that is affectsBip*(a1,_)
+* @param a1	The statement that is going to affectBip* a2
+* @return a list of statement that is affectBip* by a1
+*/
 vector<STMT> PQLAffectsProcessor::getAffectsBipStarBy(STMT a1)
 {
 	if (a1 < 0 || a1 > PKB::maxProgLines)
@@ -1544,6 +1572,11 @@ vector<STMT> PQLAffectsProcessor::getAffectsBipStarBy(STMT a1)
 	return vector<STMT>(answer.begin(), answer.end());
 }
 
+/**
+* This method will be used to get a list of a2 that is affectsBip*(_,a2)
+* @param a2	The statement that is going to affectBip* by a1
+* @return a list of statement that is affectBip* a2
+*/
 vector<STMT> PQLAffectsProcessor::getAffectsBipStarFrom(STMT a2)
 {
 	vector<STMT> answer;

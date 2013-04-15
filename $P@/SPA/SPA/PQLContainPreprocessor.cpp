@@ -3,6 +3,11 @@
 #include "ASTNode.h"
 #include "ASTStmtLstNode.h"
 
+/**
+* This method will be used to get the all the ASTNode of the type with specified value
+* @param type the NodeType to get
+* @return list of ASTNode that is of the type and value
+*/
 vector<ASTNode*> PQLContainPreprocessor::getNodes(ASTNode::NodeType type)
 {
 	vector<ASTNode*> results;
@@ -11,6 +16,12 @@ vector<ASTNode*> PQLContainPreprocessor::getNodes(ASTNode::NodeType type)
 	return results;
 }
 
+/**
+* This method will be used to get the all the ASTNode of the type with specified value
+* @param type the NodeType to get
+* @param value the value of the Node to get
+* @return list of ASTNode that is of the type and value
+*/
 vector<ASTNode*> PQLContainPreprocessor::getAllNodesByType(ASTNode::NodeType type)
 {
 	vector<ASTNode*> answer;
@@ -45,6 +56,13 @@ vector<ASTNode*> PQLContainPreprocessor::getAllNodesByType(ASTNode::NodeType typ
 	return answer;
 }
 
+/**
+* This method will be used to process the whileASTNode and return the answer of getNodes
+* @param type the NodeType to get
+* @parama stmtNode the whileStmt ASTNode
+* @param answer the current answer that holds all the same NodeType
+* @return list of ASTNode that is of the type and value
+*/
 vector<ASTNode*> PQLContainPreprocessor::processWhile(ASTNode::NodeType type, ASTStmtNode *stmtNode, vector<ASTNode*>& answer)	
 {
 	ASTStmtNode* currNode;
@@ -77,6 +95,13 @@ vector<ASTNode*> PQLContainPreprocessor::processWhile(ASTNode::NodeType type, AS
 	return answer;
 }
 
+/**
+* This method will be used to process the ifASTNode and return the answer of getNodes
+* @param type the NodeType to get
+* @parama stmtNode the ifStmt ASTNode
+* @param answer the current answer that holds all the same NodeType
+* @return list of ASTNode that is of the type and value
+*/
 vector<ASTNode*> PQLContainPreprocessor::processIf(ASTNode::NodeType type, ASTStmtNode *stmtNode, vector<ASTNode*>& answer)
 {
 	ASTStmtNode* currNode;
@@ -130,6 +155,13 @@ vector<ASTNode*> PQLContainPreprocessor::processIf(ASTNode::NodeType type, ASTSt
 	return answer;
 }
 
+/**
+* This method will be used to process the assignASTNode and return the answer of getNodes
+* @param type the NodeType to get
+* @parama stmtNode the assignStmt ASTNode
+* @param answer the current answer that holds all the same NodeType
+* @return list of ASTNode that is of the type and value
+*/
 vector<ASTNode*> PQLContainPreprocessor::processAssign(ASTNode::NodeType type, ASTStmtNode *stmtNode, vector<ASTNode*>& answer)
 {
 	ASTNode* current;

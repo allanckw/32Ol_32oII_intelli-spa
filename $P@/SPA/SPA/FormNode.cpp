@@ -1,6 +1,11 @@
 #include "FormNode.h"
 #include <sstream>
 
+/**
+* This method is the constructor of FormNode
+* @param nodeType the type of the node
+* @param value the value of formNode
+*/
 FormNode::FormNode(FormType nodeType, int value)
 {
 	
@@ -9,6 +14,10 @@ FormNode::FormNode(FormType nodeType, int value)
 
 }
 
+/**
+* This method is used to insert query into a list
+* @param f the formNode to be used
+*/
 void FormNode::getVect(std::vector<FormNode*>* f)
 {
 	if(this->fType == FormNode::query)
@@ -21,6 +30,10 @@ void FormNode::getVect(std::vector<FormNode*>* f)
 	}
 }
 
+/**
+* This method is used to insert all the 'query' and 'or' into a list
+* @param f the formNode to be used
+*/
 void FormNode::getVect_break_or(std::vector<FormNode*>* f)
 {
 	if(this->fType == FormNode::query)
@@ -37,9 +50,10 @@ void FormNode::getVect_break_or(std::vector<FormNode*>* f)
 	}
 }
 
-
-
-
+/**
+* This method is used to check whether all operator is the same
+* @return true if all operator is the same else false
+*/
 bool FormNode::allOpsSame()
 {
 	if(this->fType==FormNode::Operator)
@@ -52,6 +66,12 @@ bool FormNode::allOpsSame()
 	else
 		return true;
 }
+
+/**
+* This method is used to check whether all operator is the same
+* @param i next index to check
+* @return true if all operator is the same else false
+*/
 bool FormNode::allOpsSame(int i)
 {
 	if(this->fType==FormNode::Operator)
@@ -67,6 +87,11 @@ bool FormNode::allOpsSame(int i)
 		return true;
 }
 
+/**
+* This method is used to get those that is not string
+* @param qry
+* @return list of string that is not a string type
+*/
 std::vector<std::vector<std::string>>* FormNode::GetNotStringVect(std::vector<std::string>* qry)
 {
 	std::vector<std::vector<std::string>>* str = new std::vector<std::vector<std::string>>();
@@ -75,6 +100,10 @@ std::vector<std::vector<std::string>>* FormNode::GetNotStringVect(std::vector<st
 	
 }
 
+/**
+* This method is used to insert all the not string into a list
+* @param qry the qry to be used
+*/
 void FormNode::GetNotStringVect(std::vector<std::vector<std::string>>*  str,std::vector<std::string>* qry)
 {
 	string isnot="";
@@ -107,6 +136,11 @@ void FormNode::GetNotStringVect(std::vector<std::vector<std::string>>*  str,std:
 	}
 }
 
+/**
+* This method is used to print Not no Bracket
+* @param qry the qry to be used
+* @param storage to store the Not Query
+*/
 void FormNode::printNotNoBracket(vector<string>* qry,vector<string>* storage)
 {
 
@@ -139,6 +173,11 @@ void FormNode::printNotNoBracket(vector<string>* qry,vector<string>* storage)
 	
 }
 
+/**
+* This method is used to get the List of String from query
+* @param qry the qry to be used
+* @return list of string
+*/
 std::vector<std::string>* FormNode::GetStringVect(std::vector<std::string>* qry)
 {
 	std::vector<std::string>* str = new std::vector<std::string>();
@@ -146,6 +185,12 @@ std::vector<std::string>* FormNode::GetStringVect(std::vector<std::string>* qry)
 	return str;
 	
 }
+
+/**
+* This method is used to get the pruned List of String from query
+* @param qry the qry to be used
+* @return list of string
+*/
 std::vector<std::string>* FormNode::GetStringVectPruned(std::vector<std::string>* qry)
 {
 	std::vector<std::string>* str = new std::vector<std::string>();
@@ -154,6 +199,10 @@ std::vector<std::string>* FormNode::GetStringVectPruned(std::vector<std::string>
 	
 }
 
+/**
+* This method is used to insert the List of String from query
+* @param qry the qry to be used
+*/
 void FormNode::GetStringVect(std::vector<std::string>* str,std::vector<std::string>* qry)
 {
 	string isnot="";
@@ -180,6 +229,10 @@ void FormNode::GetStringVect(std::vector<std::string>* str,std::vector<std::stri
 	}
 }
 
+/**
+* This method is used to insert the pruned List of String from query
+* @param qry the qry to be used
+*/
 void FormNode::GetStringVectPruned(std::vector<std::string>* str,std::vector<std::string>* qry)
 {
 	string isnot="";
@@ -227,6 +280,10 @@ void FormNode::GetStringVectPruned(std::vector<std::string>* str,std::vector<std
 	}
 }
 
+/**
+* This method is used to print the list of FormNode
+* @return string to be print out
+*/
 string FormNode::print() 
 {
 	
@@ -255,6 +312,10 @@ string FormNode::print()
 	}
 }
 
+/**
+* This method is used to print the list of NoBracket of FormNode
+* @return string to be print out
+*/
 string FormNode::printNoBracket()
 {
 
@@ -284,6 +345,11 @@ string FormNode::printNoBracket()
 	}
 }
 
+/**
+* This method is used to remove bound of a query
+* @param str string to be used
+* @return processed String
+*/
 string FormNode::removeBind(std::string str)
 {
 	if(str.find("with",0) != -1)
@@ -387,6 +453,11 @@ string FormNode::removeBind(std::string str)
 	return finalq;
 }
 
+/**
+* This method is used to remove bound of a query
+* @param qry string to be used
+* @return processed String
+*/
 string FormNode::printNoBracketPruned(vector<string>* qry)
 {
 
@@ -434,6 +505,11 @@ string FormNode::printNoBracketPruned(vector<string>* qry)
 	}
 }
 
+/**
+* This method is used to remove bound of a query
+* @param qry string to be used
+* @return processed String
+*/
 string FormNode::printNoBracket(vector<string>* qry)
 {
 
@@ -463,6 +539,10 @@ string FormNode::printNoBracket(vector<string>* qry)
 	}
 }
 
+/**
+* This method is clone the formNode
+* @return Cloned FormNode
+*/
 FormNode* FormNode::Clone()
 {
 	FormNode* f;
@@ -478,11 +558,19 @@ FormNode* FormNode::Clone()
 
 }
 
+/**
+* This method is for negation
+*/
 void FormNode::negate()
 {
 	this->isneg = !this->isneg;
 }
 
+/**
+* This method is the constructor of FormNode
+* @param nodeType the type of the node
+* @param value the value of formNode
+*/
 FormNode::FormNode(FormType nodeType, string value)//std::vector<std::string> value)
 {
 	isneg = false;
@@ -509,11 +597,18 @@ FormNode::FormNode(FormType nodeType, string value)//std::vector<std::string> va
 
 }
 
-
+/**
+* This method is used to deconstruct
+*/
 FormNode::~FormNode(void)
 {
 }
 
+/**
+* Add a child node to the FormNode, 
+* @param c the child node to add
+* @return its reference
+*/
 FormNode* FormNode::addChild(FormNode* c, int childLoc)
 {
 	

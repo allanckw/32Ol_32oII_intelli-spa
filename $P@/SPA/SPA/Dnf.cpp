@@ -1,5 +1,11 @@
 ﻿#include "Dnf.h"
 
+/**
+* Returns the answer of the DNF
+* @param query the query string
+* @param pos the index of the token
+* @return the name of the representative
+*/
 string Dnf::getToken(const string& query, int& pos)
 {
 	int first = query.find_first_not_of(' ', pos);
@@ -23,6 +29,11 @@ string Dnf::getToken(const string& query, int& pos)
 	return query.substr(first, pos - first);
 }
 
+/**
+* Returns the Converted FormNode
+* @param c The FormNode to convert
+* @return the converted FormNode
+*/
 FormNode* Dnf::Convert(FormNode* c)
 {
 	if(c->fType == FormNode::query)
@@ -136,6 +147,11 @@ FormNode* Dnf::Convert(FormNode* c)
 
 }
 
+/**
+* Returns whether the query is valid
+* @param str the Query
+* @return true if it is query else false
+*/
 bool Dnf::isQuery(std::string str)
 {
 	string data2 = str;
@@ -156,6 +172,11 @@ bool Dnf::isQuery(std::string str)
 
 }
 
+/**
+* Returns the Converted FormNode
+* @param str The FormNode to convert
+* @return the converted FormNode
+*/
 bool Dnf::iscon(std::string str)
 {
 	string data2 = str;
@@ -167,12 +188,23 @@ bool Dnf::iscon(std::string str)
 
 }
 
+/**
+* Returns the trim string
+* @param str the string to be trimmed
+* @return the trimmed string
+*/
 string Dnf::Trim(string str)
 {
 	str.erase(remove(str.begin(), str.end(), '\t'), str.end());
 	str.erase(remove(str.begin(), str.end(), ' '), str.end());
 	return str;
 }
+
+/**
+* This method will tokenize the code into a list of tokens
+* @param line the line of code being tokenized
+* @return the list of tokens
+*/
 vector<string> Dnf::tokenizer(std::string line)//split the string into tokens
 {
 	vector<string> list;
@@ -235,12 +267,24 @@ vector<string> Dnf::tokenizer(std::string line)//split the string into tokens
 
 	return list;
 }
+
+/**
+* This method will convert the char to lower case
+* @param in char to convert into lower case
+* @return the lower case char
+*/
 char Dnf::easytolower(char in){
 	if(in<='Z' && in>='A')
 		return in-('Z'-'z');
 	return in;
 } 
 
+/**
+* This method will used to get the closure of the query
+* @param l the string of query
+* @param cur the current position of the query
+* @return the index of the closure
+*/
 int Dnf::find_closer(vector<string> l, int cur)
 {
 	stack<string> nodesStack;
@@ -298,6 +342,11 @@ int Dnf::find_closer(vector<string> l, int cur)
 	return l.size();
 }
 
+/**
+* This method will used to get the closure of the query
+* @param d the string of query
+* @return the index of the closure
+*/
 int Dnf::find_closer(string d)
 {
 	stack<string> nodesStack;
@@ -368,6 +417,11 @@ int Dnf::find_closer(string d)
 	return d.size();
 }
 
+/**
+* Returns whether the formNode is DNF
+* @param n the formNode to check
+* @return true if it is DNF else false
+*/
 bool Dnf::isDNF(FormNode* n)
 {
 	//bfs //chk if previous had and and i am or
@@ -404,6 +458,11 @@ bool Dnf::isDNF(FormNode* n)
 	return true;
 }
 
+/**
+* This method used to get DNF from query
+* @param str the query
+* @return the list of DNF
+*/
 vector<pair<string,pair<string,vector<string>>>>* Dnf::CreateDNF(string str)
 {  
 	
@@ -529,6 +588,11 @@ vector<pair<string,pair<string,vector<string>>>>* Dnf::CreateDNF(string str)
 	return finalans;		
 }
 
+/**
+* This method used to get weight of Operator
+* @param token the string to get the weight
+* @return the weight of the token
+*/
 int Dnf::getOperatorWeight(string token)
 {
 	if (token == "and")
@@ -539,6 +603,12 @@ int Dnf::getOperatorWeight(string token)
 		return 0;
 }
 
+/**
+* This method used to compare operator precedence
+* @param opr1 first operator
+* @param opr2 second operator
+* @return result of comparison
+*/
 int Dnf::compareOprPrecedence(string opr1, string opr2)    
 {    
 	if (opr1 == ";" || opr2 == ";")
@@ -547,6 +617,11 @@ int Dnf::compareOprPrecedence(string opr1, string opr2)
 		return getOperatorWeight(opr1) - getOperatorWeight(opr2);
 }
 
+/**
+* This method used to create the formNode of assignment
+* @param expr the assignment Expression
+* @return the FormNode of assignment
+*/
 FormNode* Dnf::processAssignment(vector<string> expr)
 {
 
@@ -666,6 +741,11 @@ FormNode* Dnf::processAssignment(vector<string> expr)
 	return operands.top();
 }
 
+/**
+* This method used to check whether the string is a variable
+* @param str the string to be check
+* @return true if the string is a varaible else false
+*/
 bool Dnf::isVarType(string str)
 {
 	if(
@@ -692,6 +772,11 @@ bool Dnf::isVarType(string str)
 	}
 	return false;
 }
+
+/**
+* This method used to evaluate DNF
+* @param str the string to be check
+*/
 void Dnf::Eval(std::string query,list<string>& results)
 {
 	int pos =0;
@@ -1002,6 +1087,12 @@ void Dnf::Eval(std::string query,list<string>& results)
 	}
 }
 
+/**
+* This method used to compare two string
+* @param s1 first string
+* @param s2 second string
+* @return result of comparison
+*/
 bool Dnf::compare(string s1,string s2)
 {
 	return (s1.compare(s2) == 0);

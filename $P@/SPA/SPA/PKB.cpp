@@ -55,7 +55,11 @@ unordered_map<int, vector<ASTNode*>> PKB::constNodes;
 vector<pair<STMT, STMT>> PKB::TheBeginningAndTheEnd;
 unordered_map<int, vector<STMT>> PKB::constantsTable;
 
-
+/**
+* This method will be used to get the all the ASTNode of the type
+* @param type the NodeType to get
+* @return list of ASTNode that is of the type
+*/
 vector<ASTNode*> PKB::getNodes(ASTNode::NodeType type ){
 	vector<ASTNode*> result;
 	switch (type)
@@ -110,6 +114,12 @@ vector<ASTNode*> PKB::getNodes(ASTNode::NodeType type ){
 	}
 }
 
+/**
+* This method will be used to get the all the ASTNode of the type with specified value
+* @param type the NodeType to get
+* @param value the value of the Node to get
+* @return list of ASTNode that is of the type and value
+*/
 vector<ASTNode*> PKB::getNodes(ASTNode::NodeType type, int value)
 {
 	vector<ASTNode*> result;

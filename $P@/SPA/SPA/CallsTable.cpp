@@ -219,11 +219,18 @@ PROC CallsTable::getProcCall(STMT s)
 	return -1;
 }
 
+/**
+* This method will be used to get the size of CallTable
+* @return the size of CallTable
+*/
 int CallsTable::getCallsSize()
 {
 	return size;
 }
-
+/**
+* This method will be used to get the size of CallStarTable
+* @return the size of CallStarTable
+*/
 int CallsTable::getCallsStarSize()
 {
 	return starSize;

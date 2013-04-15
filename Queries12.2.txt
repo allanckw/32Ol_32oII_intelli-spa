@@ -1,0 +1,92 @@
+10
+cat: All Category
+1 - test01
+prog_line n; assign a;
+Select n such that Next*(15,n) and Next* (n,48) 
+6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48
+5000
+1a - test01a
+prog_line n; assign a;
+Select a such that Next*(15,n) and Next* (n,48) and Affects*(a,n)
+1,2,3,4,7,11,13,21,28,32,33,35,37,38,41,42,44,46,48,12,22,40,47,27
+5000
+1b - test01b
+prog_line n; assign a;
+Select n such that Next*(15,n) and Next* (n,48) and Affects*(a,n)
+7,11,12,13,21,22,27,28,33,35,37,38,39,40,41,42,46,47,48
+5000
+1c - test01c
+prog_line n; assign a;
+Select n such that Next*(15,n) and Next* (n,48) and Affects*(a,n) with a.stmt#=7
+7,11,12,13,21,22,27,39,40,41,42,46,47,48
+5000
+2 - test02
+prog_line n; assign a;
+Select a such that Next*(15,n) and Next* (n,48) and Affects*(a,n) with n=39
+1,2,3,4,7,11,13,21,28,32,33,35,37,38,41,42,44,46,48
+5000
+2a - test02a
+prog_line n; assign a, b;
+Select a such that Next*(15,n) and Next* (n,48) and Affects*(a,n) with n=a.stmt# and a.stmt#=42
+42
+5000
+3 - test03
+prog_line n; assign a, b;
+Select n such that Next*(6,n) and Next* (n,48) and Affects*(a,n) and Affects*(b,n) with b.stmt#=1
+7,11,12,13,21,22,27,28,35,37,38,39,40,41,42,46,47,48
+5000
+3a - test03a
+prog_line n; assign a, b;
+Select a such that Next*(6,n) and Next* (n,48) and Affects*(a,n) and Affects*(b,n) with b.stmt#=1
+1,2,3,4,7,11,13,21,28,32,33,35,37,38,41,42,44,46,48,12,22,40,47,27
+5000
+4 - test04
+prog_line n; assign a, b;
+Select n such that Next*(6,n) and Next* (n,48) and Affects*(a,n) and Affects*(b,n) with b.stmt#=1 pattern a(_,"n*3-1")
+7,11,12,13,21,22,27,39,40,41,42,46,47,48
+5000
+4a - test04a
+prog_line n; assign a, b;
+Select a such that Next*(6,n) and Next* (n,48) and Affects*(a,n) and Affects*(b,n) with b.stmt#=1 pattern a(_,"n")
+38
+5000
+4a - test04b
+prog_line n; assign a, b;
+Select n such that Next*(6,n) and Next* (n,48) and Affects*(a,n) and Affects*(b,n) with b.stmt#=1 pattern a(_,"a")
+7,11,12,13,21,22,27,35,37,38,39,40,41,42,46,47,48
+5000
+4a - test04c
+prog_line n,n2; assign a, b;
+Select n2 such that Affects*(a,n) and Affects*(b,n2) and Next*(51,n2) and Next*(6,24) and Next*(24,38) pattern a(_,"a")
+54,55,56,63,65
+5000
+5a - test05
+prog_line n,n2; assign a, b;
+Select n2 such that Affects*(a,n) and Affects*(b,n2) and Next*(51,n2) and Next*(6,24) and Next*(24,51) pattern a(_,"a")
+none
+5000
+6a - test06
+prog_line n,n2; assign a, b;
+Select n2 such that Affects*(a,n) and Next*(16,n) and Affects*(b,n2) and Next*(51,n2) and Next*(6,24) and Next*(24,48) pattern a(_,"a")
+54,55,56,63,65
+5000
+7a - test07
+prog_line n,n2; assign a, b;
+Select a such that Affects*(a,n) and Next*(16,n) and Affects*(b,n2) and Next*(51,n2) and Next*(6,24) and Next*(24,48) pattern a(_,_"a"_)
+7,11,13,21,35,37,42,46,12,40,27
+5000
+8a - test08
+prog_line n,n2; assign a, b;
+Select n such that Affects*(a,n) and Next*(16,n) and Affects*(b,n2) and Next*(51,n2) and Next*(6,24) and Next*(24,48) pattern a(_,_"a"_)
+7,11,12,13,21,22,27,35,37,38,39,40,41,42,46,47,48
+5000
+9a - test09
+prog_line n,n2; assign a, b;
+Select a such that Affects*(a,n) and Next*(16,n) and Affects*(b,n2) and Next*(51,n2) and Next*(6,24) and Next*(24,48) pattern a(_,_)
+1,2,3,4,7,11,13,21,28,32,33,35,37,38,41,42,44,46,48,12,22,40,47,27
+5000
+10a - test10
+prog_line n,n2; assign a, b;
+Select n such that Affects*(a,n) and Next*(16,n) and Affects*(b,n2) and Next*(51,n2) and Next*(6,24) and Next*(24,48) pattern a(_,_)
+7,11,12,13,21,22,27,28,33,35,37,38,39,40,41,42,46,47,48
+5000

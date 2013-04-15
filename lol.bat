@@ -47,3 +47,8 @@ echo "Source A complete"
 
 Call  $P@\SPA\Release\autotester.exe Sample-Source.txt  Sample-Queries.txt  outSample.xml > NUL
 echo "Sample Source complete"
+
+Call  $P@\SPA\Release\autotester.exe Sample-Source.txt  Sample-Queries.txt  outSample.xml > NUL
+echo "Sample Source complete"
+
+Call $P@\SPA\Release\autotester.exe not_simple_source.txt not_simple_query.txt outNotSimple.xml > NUL

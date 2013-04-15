@@ -175,11 +175,19 @@ void UsesTable::optimizeUsesTable()
 	}
 }
 
+/**
+* This method will be used to get the size of UsesTable by Procedure
+* @return size of the usesTable by Proc
+*/
 int UsesTable::getUsesProcSize()
 {
 	return procSize;
 }
 
+/**
+* This method will be used to get the size of UsesTable by Procedure
+* @return size of the usesTable by Stmt
+*/
 int UsesTable::getUsesStmtSize()
 {
 	return stmtSize;

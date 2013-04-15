@@ -1,0 +1,621 @@
+<?xml-stylesheet type="text/xsl" href="analysis.xsl"?>
+<test_results>
+<info>
+<name>SPA</name><parsing_time_taken>5.000000</parsing_time_taken>
+</info>
+<queries>
+<category name=" All Category">
+<query>
+<id Contains="1" comment="s2" >1</id><querystr><![CDATA[procedure p1,p2; if i1,i2; variable v1; Select v1 such that Contains(i1,v1)]]></querystr>
+<stuans>y,b,m,x,v</stuans>
+<correct>b,m,v,x,y</correct>
+<time_taken>5.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Contains="1" comment="s2" >2</id><querystr><![CDATA[procedure p1,p2; if i1,i2; variable v1,v2; Select v1 such that Contains*(p1,i1)  and Contains(i1,v1) with p1.procName="John"]]></querystr>
+<stuans>y,x,m</stuans>
+<correct>m,x,y</correct>
+<time_taken>4.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Contains="1" comment="s2" >3</id><querystr><![CDATA[procedure p1,p2; if i1,i2; variable v1,v2; assign a1,a2,a3; Select a1 such that Contains*(a1,v1) with v1.varName = "x"]]></querystr>
+<stuans>3,132,80,83,85,86,87,25,89,28,94,31,99,101,107,109,110,47,111,113,116,118,120,123,130,26,55,57,59,61,64,72,75,77,20</stuans>
+<correct>3,20,25,26,28,31,47,55,57,59,61,64,72,75,77,80,83,85,86,87,89,94,99,101,107,109,110,111,113,116,118,120,123,130,132</correct>
+<time_taken>7.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Contains="1" comment="s2" >4</id><querystr><![CDATA[procedure p1,p2; if i1,i2; variable v1,v2; assign a1,a2,a3; Select a1 such that Contains(a1,v1) with v1.varName = "x"]]></querystr>
+<stuans>132,80,85,25,99,101,107,111,118,123,55,57,59,61,64,75,77</stuans>
+<correct>25,55,57,59,61,64,75,77,80,85,99,101,107,111,118,123,132</correct>
+<time_taken>7.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Contains="1" comment="s2" >5</id><querystr><![CDATA[procedure p1,p2; if i1,i2; variable v1,v2; assign a1,a2,a3; constant c1,c2; Select p1 such that Contains*(p1,c1) with c1.value = 2]]></querystr>
+<stuans>Peter,Mary,John</stuans>
+<correct>Peter,Mary,John</correct>
+<time_taken>6.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Contains="1" comment="s2" >6</id><querystr><![CDATA[assign a1,a2,a3; constant c1,c2; minus sub; Select a1 such that Contains*(a1,sub)]]></querystr>
+<stuans>11,12,8,10,15,25,43,47,52,130,26,32,38,39,54,57,59,72</stuans>
+<correct>10,11,12,130,15,25,26,32,38,39,43,47,52,54,57,59,72,8</correct>
+<time_taken>6.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Contains="1" comment="s2" >7</id><querystr><![CDATA[procedure p1,p2; if i1,i2; variable v1,v2; assign a1,a2,a3; constant c1,c2; plus add; while w1,w2; Select i1 such that Contains*(i1,w1) and Contains(w1,v1) with v1.varName="x"]]></querystr>
+<stuans>27,19</stuans>
+<correct>19,27</correct>
+<time_taken>6.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Contains="1" comment="s2" >8</id><querystr><![CDATA[procedure p1,p2; if i1,i2; variable v1,v2; assign a1,a2,a3; constant c1,c2; plus add; while w1,w2; Select w1 such that Contains(w1,v1) with v1.varName="x"]]></querystr>
+<stuans>2,106,30,22</stuans>
+<correct>2,22,30,106</correct>
+<time_taken>7.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Contains="1" comment="s2" >9</id><querystr><![CDATA[procedure p1,p2; if i1,i2; variable v1,v2; assign a1,a2,a3; constant c1,c2; plus add; while w1,w2; Select w1 such that Contains(w1,v1) with v1.varName="x"]]></querystr>
+<stuans>2,106,30,22</stuans>
+<correct>2,22,30,106</correct>
+<time_taken>5.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Contains="1" comment="s2" >10</id><querystr><![CDATA[procedure p1,p2; if i1,i2; variable v1,v2; assign a1,a2,a3; constant c1,c2; plus add; while w1,w2; Select w1 such that Contains(w1,v1) with v1.varName="x"]]></querystr>
+<stuans>2,106,30,22</stuans>
+<correct>2,22,30,106</correct>
+<time_taken>5.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Variable="1" Modifies="1" comment="s1" >11</id><querystr><![CDATA[constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2; Select v1 such that Contains(i1,v1)]]></querystr>
+<stuans>y,b,m,x,v</stuans>
+<correct>b,m,v,x,y</correct>
+<time_taken>9.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Variable="1" Modifies="1" comment="s1" >12</id><querystr><![CDATA[constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2; Select v1 such that Contains*(i1,v1)]]></querystr>
+<stuans>x,m,y,z,i,a,b,n,k,v,q</stuans>
+<correct>b,m,v,x,y,a,i,k,n,q,z</correct>
+<time_taken>9.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Variable="1" Modifies="1" comment="s1" >13</id><querystr><![CDATA[constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2; Select p1.procName such that Contains*(p1,i1) such that Uses(i1,"m")]]></querystr>
+<stuans>Peter,Mary,John</stuans>
+<correct>John,Mary,Peter</correct>
+<time_taken>7.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Variable="1" Modifies="1" comment="s1" >14</id><querystr><![CDATA[constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2; Select p1.procName such that Contains*(p1,a1) with a1.stmt#=a2.stmt# pattern a2("m",_"b"_)]]></querystr>
+<stuans>Peter,Mary</stuans>
+<correct>Peter,Mary</correct>
+<time_taken>4.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Variable="1" Modifies="1" comment="s1" >16</id><querystr><![CDATA[constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2; Select <a1,a2> with a1.stmt#=89 such that Contains*(a1,v1) with v1.varName = "z" such that Contains*(a2,v2) with v2.varName = "q"]]></querystr>
+<stuans>89 89,89 92,89 20,89 23,89 24</stuans>
+<correct>89 20,89 23,89 24,89 89,89 92</correct>
+<time_taken>6.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Variable="1" Modifies="1" comment="s1" >17</id><querystr><![CDATA[constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2; Select a2 such that Contains*(a2,v2) with v2.varName = "x"]]></querystr>
+<stuans>3,132,80,83,85,86,87,25,89,28,94,31,99,101,107,109,110,47,111,113,116,118,120,123,130,26,55,57,59,61,64,72,75,77,20</stuans>
+<correct>3,20,25,26,28,31,47,55,57,59,61,64,72,75,77,80,83,85,86,87,89,94,99,101,107,109,110,111,113,116,118,120,123,130,132</correct>
+<time_taken>8.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Variable="1" Modifies="1" comment="s1" >18</id><querystr><![CDATA[constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2; Select <a1,a2,a3> with a1.stmt#=a2.stmt# and a3.stmt#=a2.stmt# such that Contains*(a2,v2) with v2.varName = "x"]]></querystr>
+<stuans>3 3 3,132 132 132,80 80 80,83 83 83,85 85 85,86 86 86,87 87 87,25 25 25,89 89 89,28 28 28,94 94 94,31 31 31,99 99 99,101 101 101,107 107 107,109 109 109,110 110 110,47 47 47,111 111 111,113 113 113,116 116 116,118 118 118,120 120 120,123 123 123,130 130 130,26 26 26,55 55 55,57 57 57,59 59 59,61 61 61,64 64 64,72 72 72,75 75 75,77 77 77,20 20 20</stuans>
+<correct>3 3 3,20 20 20,25 25 25,26 26 26,28 28 28,31 31 31,47 47 47,55 55 55,57 57 57,59 59 59,61 61 61,64 64 64,72 72 72,75 75 75,77 77 77,80 80 80,83 83 83,85 85 85,86 86 86,87 87 87,89 89 89,94 94 94,99 99 99,101 101 101,107 107 107,109 109 109,110 110 110,111 111 111,113 113 113,116 116 116,118 118 118,120 120 120,123 123 123,130 130 130,132 132 132</correct>
+<time_taken>10.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Variable="1" Modifies="1" comment="s1" >19</id><querystr><![CDATA[constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2; Select p1 such that Contains*(p1, c1)  such that Contains*(p1,c2) with c1.value = 10 with c2.value = 2]]></querystr>
+<stuans>Mary,John</stuans>
+<correct>John,Mary</correct>
+<time_taken>6.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Variable="1" Modifies="1" comment="s1" >20</id><querystr><![CDATA[constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2; plus add; Select a1 such that Contains*(a1, add)]]></querystr>
+<stuans>129,11,3,4,6,7,10,15,80,81,83,85,86,87,25,89,28,92,94,31,95,35,99,43,45,109,110,47,112,49,113,51,115,52,116,117,120,127,130,26,32,36,38,39,42,44,53,54,55,59,61,69,71,72,74,20</stuans>
+<correct>3,4,6,7,10,11,15,20,25,26,28,31,32,35,36,38,39,42,43,44,45,47,49,51,52,53,54,55,59,61,69,71,72,74,80,81,83,85,86,87,89,92,94,95,99,109,110,112,113,115,116,117,120,127,129,130</correct>
+<time_taken>8.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Variable="1" Modifies="1" comment="s1" >22</id><querystr><![CDATA[constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2; plus add; minus m; Select <a1,a2> such that Contains*(a1, c1) and Contains*(a2,v1) and Contains*(a1,v2) and Contains*(a2,v3) with c1.value = 5 and v1.varName = "x" and v2.varName = "i" and v3.varName = v2.varName]]></querystr>
+<stuans>94 80,110 80,115 80,94 85,110 85,115 85,94 94,110 94,115 94,94 110,110 110,115 110,94 113,110 113,115 113,94 116,110 116,115 116,94 118,110 118,115 118,94 120,110 120,115 120,94 130,110 130,115 130,94 72,110 72,115 72</stuans>
+<correct>110 110,110 113,110 116,110 118,110 120,110 130,110 72,110 80,110 85,110 94,115 110,115 113,115 116,115 118,115 120,115 130,115 72,115 80,115 85,115 94,94 110,94 113,94 116,94 118,94 120,94 130,94 72,94 80,94 85,94 94</correct>
+<time_taken>10.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Variable="1" Modifies="1" comment="s1" >23</id><querystr><![CDATA[constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2; plus add; minus m; Select <a1,a2> such that Contains*(a1, c1) and Contains*(a2,v1) and Contains*(a1,v2) and Contains*(a2,v3) with c1.value = 5 and v1.varName = "x" and v2.varName = "i" and v3.varName = v2.varName]]></querystr>
+<stuans>94 80,110 80,115 80,94 85,110 85,115 85,94 94,110 94,115 94,94 110,110 110,115 110,94 113,110 113,115 113,94 116,110 116,115 116,94 118,110 118,115 118,94 120,110 120,115 120,94 130,110 130,115 130,94 72,110 72,115 72</stuans>
+<correct>110 110,110 113,110 116,110 118,110 120,110 130,110 72,110 80,110 85,110 94,115 110,115 113,115 116,115 118,115 120,115 130,115 72,115 80,115 85,115 94,94 110,94 113,94 116,94 118,94 120,94 130,94 72,94 80,94 85,94 94</correct>
+<time_taken>9.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Variable="1" Modifies="1" comment="s1" >24</id><querystr><![CDATA[constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2; plus add; minus m; Select s1 such that Sibling (s1, 4)]]></querystr>
+<stuans>3,5,15,16</stuans>
+<correct>3,5,15,16</correct>
+<time_taken>5.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Variable="1" Modifies="1" comment="s1" >25</id><querystr><![CDATA[constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2; plus add; minus m; Select <s1,s2> such that Sibling(s1, 29) such that Sibling(s1,s2) such that Uses(s2,"x")]]></querystr>
+<stuans>44 28,44 30,44 46,28 30,28 46,46 28,46 30,30 28,30 46,43 28,43 30,43 46,45 28,45 30,45 46</stuans>
+<correct>43 28,44 28,45 28,46 28,28 30,28 46,30 28,30 46,43 30,43 46,44 30,44 46,45 30,45 46,46 30</correct>
+<time_taken>6.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Variable="1" Modifies="1" comment="s1" >26</id><querystr><![CDATA[constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2; plus add; minus m; Select <s1,s2> with s1.stmt#=6 such that Sibling(s1,s2) and Contains*(s2,v1) with v1.varName = "b" such that Contains*(s1,c1) with c1.value = 9]]></querystr>
+<stuans>6 7,6 8,6 10</stuans>
+<correct>6 7,6 8,6 10</correct>
+<time_taken>126.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Variable="1" Modifies="1" comment="s1" >27</id><querystr><![CDATA[constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2; plus add; minus m; Select <a1,a2> such that Affects(a1, a2) with a1.stmt#=a2.stmt# such that Sibling(a1,a2)]]></querystr>
+<stuans></stuans>
+<correct></correct>
+<time_taken>3.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Pattern_Matching="1" comment="W" >29</id><querystr><![CDATA[assign a1,a2; stmt s1, s2, s3; procedure p; constant c; Select c.value such that Contains*(p,c)]]></querystr>
+<stuans>5,3,2,9,0,10,1,8,20,7</stuans>
+<correct>0,1,2,3,5,7,8,9,10,20</correct>
+<time_taken>8.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Pattern_Matching="1" comment="W" >30</id><querystr><![CDATA[assign a1,a2; stmt s1, s2, s3; procedure p; constant c; variable v; Select <v.varName,c.value> such that Contains*(p,c) and Sibling(v,c)]]></querystr>
+<stuans>a 5,x 3,x 10,x 5,x 20,x 1,b 5,b 3,b 9,b 0,t 3,t 2,n 2,n 3,m 9,m 2,m 1,m 3,k 3,k 5,k 1,q 1,y 10,z 1,i 2,i 1</stuans>
+<correct>a 5,b 0,b 3,b 5,b 9,i 1,i 2,k 1,k 3,k 5,m 1,m 2,m 3,m 9,n 2,n 3,q 1,t 2,t 3,x 1,x 10,x 20,x 3,x 5,y 10,z 1</correct>
+<time_taken>20.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Variable="1" Modifies="1" comment="s1" >31</id><querystr><![CDATA[constant c1,c2,c3; variable v1,v2,v3; procedure p1,p2; stmt s1,s2,s3; assign a1,a2,a3,a4; while w1,w2; if i1,i2; plus add; minus m; Select <p1,a1,v1> such that Uses(p1,v1) with p1.procName=  "Peter" such that Contains*(a1,v1) with v1.varName = "b" such that Contains*(p1,a1)]]></querystr>
+<stuans>Peter 11 b,Peter 3 b,Peter 12 b,Peter 6 b,Peter 7 b,Peter 8 b,Peter 10 b,Peter 14 b,Peter 15 b</stuans>
+<correct>Peter 10 b,Peter 11 b,Peter 12 b,Peter 14 b,Peter 15 b,Peter 3 b,Peter 6 b,Peter 7 b,Peter 8 b</correct>
+<time_taken>10.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Variable="1" Modifies="1" comment="s1" >32</id><querystr><![CDATA[assign a1,a2,a3,a4; plus add; minus m; times mult; Select a1 such that Contains*(a1,mult) and Contains*(a1,add) and Contains*(a1,m)]]></querystr>
+<stuans>11,10,15,25,43,47,130,26,32,38,39,59,72</stuans>
+<correct>10,11,130,15,25,26,32,38,39,43,47,59,72</correct>
+<time_taken>10.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Variable="1" Modifies="1" comment="s1" >33</id><querystr><![CDATA[if i1; plus add; minus m; times mult; variable v; procedure p; Select v such that Contains*(i1,v) and Contains*(p,i1) with p.procName = "Bob"]]></querystr>
+<stuans>a,x,b,k,v,q</stuans>
+<correct>a,b,k,q,v,x</correct>
+<time_taken>7.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id WhilePattern="1" Underscore="1" comment="What are the while statements with 'x' as a control variable?" >34</id><querystr><![CDATA[while w; variable v; Select w pattern w(v, _)]]></querystr>
+<stuans>98,82,66,2,84,96,88,91,93,97,102,103,104,106,108,114,119,30,22</stuans>
+<correct>102,103,104,106,108,114,119,2,22,30,66,82,84,88,91,93,96,97,98</correct>
+<time_taken>4.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Pattern="1" comment="StmtLst while" >35</id><querystr><![CDATA[stmtLst lst; variable v; while w; Select w pattern w(v, lst)]]></querystr>
+<stuans>98,82,66,2,84,96,88,91,93,97,102,103,104,106,108,114,119,30,22</stuans>
+<correct>102,103,104,106,108,114,119,2,22,30,66,82,84,88,91,93,96,97,98</correct>
+<time_taken>5.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Pattern="1" comment="StmtLst if" >36</id><querystr><![CDATA[stmtLst then, else; variable v; if iff; Select <v, then, else> pattern iff(v, then, else)]]></querystr>
+<stuans>y 126 130,b 6 11,m 51 53,m 35 39,x 123 132,m 127 129,y 68 72,v 28 47,x 64 75,m 69 71,v 20 24</stuans>
+<correct></correct>
+<time_taken>6.000000</time_taken>
+<failed>
+<missing></missing>
+<additional>b 6 11,m 127 129,m 35 39,m 51 53,m 69 71,v 20 24,v 28 47,x 123 132,x 64 75,y 126 130,y 68 72</additional>
+<summary>
+<expected>0</expected>
+<matched>0</matched>
+<missing>0</missing>
+<additional>11</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Pattern="1" comment="StmtLst if" >36</id><querystr><![CDATA[stmtLst then, else; variable v; if iff; Select v pattern iff(v, _, _)]]></querystr>
+<stuans>y,b,m,x,v</stuans>
+<correct>b,m,v,x,y</correct>
+<time_taken>3.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Pattern="1" comment="StmtLst if" >37</id><querystr><![CDATA[stmtLst then, else; variable v; if iff; while w; Select v pattern iff(v, then, else) with v.varName = "b" such that Contains*(then, w) such that Contains*(else, w)]]></querystr>
+<stuans></stuans>
+<correct></correct>
+<time_taken>5.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Pattern="1" comment="StmtLst while" >38</id><querystr><![CDATA[stmtLst lst; variable v; while w; if iff; assign a; Select v pattern w(v, lst) with v.varName = "x" such that Contains(lst, iff) such that Contains(a, v)]]></querystr>
+<stuans>x</stuans>
+<correct></correct>
+<time_taken>7.000000</time_taken>
+<failed>
+<missing></missing>
+<additional>x</additional>
+<summary>
+<expected>0</expected>
+<matched>0</matched>
+<missing>0</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Pattern="1" comment="StmtLst if" >39</id><querystr><![CDATA[stmtLst then, else; variable v; if iff; while w; Select <v, then, else> pattern iff(v, then, else) with v.varName = "b" such that Contains*(then, w) such that Contains*(else, w)]]></querystr>
+<stuans></stuans>
+<correct></correct>
+<time_taken>4.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Pattern="1" comment="StmtLst while" >40</id><querystr><![CDATA[stmtLst lst; variable v; while w; if iff; assign a; Select <v, lst> pattern w(v, lst) with v.varName = "x" such that Contains(lst, iff) such that Contains(a, v)]]></querystr>
+<stuans>x 3,x 31</stuans>
+<correct></correct>
+<time_taken>7.000000</time_taken>
+<failed>
+<missing></missing>
+<additional>x 3,x 31</additional>
+<summary>
+<expected>0</expected>
+<matched>0</matched>
+<missing>0</missing>
+<additional>2</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Pattern="1" comment="StmtLst if" >41</id><querystr><![CDATA[stmtLst then, else; variable v; if iff; while w; Select <v, then, w> pattern iff(v, then, else) with v.varName = "b" such that Contains*(then, w) ]]></querystr>
+<stuans></stuans>
+<correct></correct>
+<time_taken>5.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Pattern="1" comment="StmtLst while" >42</id><querystr><![CDATA[stmtLst lst; variable v; while w; if iff; assign a; Select <v, lst, iff, a> pattern w(v, lst) with v.varName = "x" such that Contains(lst, iff) such that Contains(iff, a)]]></querystr>
+<stuans></stuans>
+<correct></correct>
+<time_taken>4.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Pattern="1" comment="StmtLst if" >43</id><querystr><![CDATA[stmtLst then, else; variable v; if iff; while w; Select <v, else, w> pattern iff(v, then, else) with v.varName = "b" such that  Contains*(else, w )]]></querystr>
+<stuans></stuans>
+<correct></correct>
+<time_taken>5.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Pattern="1" comment="StmtLst while" >44</id><querystr><![CDATA[stmtLst lst; variable v; while w; if if1, if2; assign a; Select <if1, if2> pattern w(v, lst) with v.varName = "x" such that Contains(lst, if1) such that Contains*(if1, if2)]]></querystr>
+<stuans></stuans>
+<correct></correct>
+<time_taken>5.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Proc="1" comment="" >45</id><querystr><![CDATA[assign a1,a2; stmt s1, s2, s3; procedure p; constant c; variable v; Select <v.varName,c.value> such that Contains*(a1, c) and Sibling(v,c) with c.value = 0]]></querystr>
+<stuans>b 0</stuans>
+<correct></correct>
+<time_taken>7.000000</time_taken>
+<failed>
+<missing></missing>
+<additional>b 0</additional>
+<summary>
+<expected>0</expected>
+<matched>0</matched>
+<missing>0</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Contains="1" comment="Assignment 4 returns all the variables that control some if statement" >46</id><querystr><![CDATA[variable v; if ifStmt; Select v such that Contains (ifStmt, v)]]></querystr>
+<stuans>y,b,m,x,v</stuans>
+<correct></correct>
+<time_taken>4.000000</time_taken>
+<failed>
+<missing></missing>
+<additional>b,m,v,x,y</additional>
+<summary>
+<expected>0</expected>
+<matched>0</matched>
+<missing>0</missing>
+<additional>5</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Contains="1" comment="Assignment 4 returns all the variables that control some if statement but in addition if statement must be in procedure Peter" >47</id><querystr><![CDATA[variable v; if ifStmt; procedure p; Select v such that Contains (ifStmt, v) and Contains* (p, ifStmt) with p.procName="Peter"]]></querystr>
+<stuans>b</stuans>
+<correct></correct>
+<time_taken>4.000000</time_taken>
+<failed>
+<missing></missing>
+<additional>b</additional>
+<summary>
+<expected>0</expected>
+<matched>0</matched>
+<missing>0</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Contains="1" comment="Assignment 4 returns all the assignments that refer to x (either on the left- or right-hand-side)" >48</id><querystr><![CDATA[assign a; variable v; Select a such that Contains* (a, v) with v.varName="x"]]></querystr>
+<stuans>3,132,80,83,85,86,87,25,89,28,94,31,99,101,107,109,110,47,111,113,116,118,120,123,130,26,55,57,59,61,64,72,75,77,20</stuans>
+<correct></correct>
+<time_taken>4.000000</time_taken>
+<failed>
+<missing></missing>
+<additional>101,107,109,110,111,113,116,118,120,123,130,132,20,25,26,28,3,31,47,55,57,59,61,64,72,75,77,80,83,85,86,87,89,94,99</additional>
+<summary>
+<expected>0</expected>
+<matched>0</matched>
+<missing>0</missing>
+<additional>35</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Contains="1" comment="Assignment 4 returns all the procedures that refer to constant 2" >49</id><querystr><![CDATA[procedure p; constant c; Select p such that Contains* (p, c) with c.value=2 ]]></querystr>
+<stuans>Peter,Mary,John</stuans>
+<correct></correct>
+<time_taken>2.000000</time_taken>
+<failed>
+<missing></missing>
+<additional>John,Mary,Peter</additional>
+<summary>
+<expected>0</expected>
+<matched>0</matched>
+<missing>0</missing>
+<additional>3</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Contains="1" comment="Assignment 4 returns all the assignments with plus nodes that refer to x (either on the left- or right-hand-side of plus)" >50</id><querystr><![CDATA[plus add; variable v; assign a; Select a such that Contains* (a, add) and Contains* (add, v) with v.varName="x"]]></querystr>
+<stuans>3,83,85,86,87,89,28,94,31,99,109,110,47,113,116,120,130,26,72,20</stuans>
+<correct></correct>
+<time_taken>8.000000</time_taken>
+<failed>
+<missing></missing>
+<additional>109,110,113,116,120,130,20,26,28,3,31,47,72,83,85,86,87,89,94,99</additional>
+<summary>
+<expected>0</expected>
+<matched>0</matched>
+<missing>0</missing>
+<additional>20</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Contains="1" comment="Assignment 4 return all procedures in which while is nested in if statement" >51</id><querystr><![CDATA[procedure p; if ifStmt; while w; Select p such that Contains* (p, ifStmt) and Contains* (ifStmt, w)]]></querystr>
+<stuans>Bob,Mary</stuans>
+<correct></correct>
+<time_taken>3.000000</time_taken>
+<failed>
+<missing></missing>
+<additional>Bob,Mary</additional>
+<summary>
+<expected>0</expected>
+<matched>0</matched>
+<missing>0</missing>
+<additional>2</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Contains="1" comment="Assignment 4 the same as Parent* (9, s)" >52</id><querystr><![CDATA[stmt s; Select s such that Contains* (9, s) ]]></querystr>
+<stuans></stuans>
+<correct></correct>
+<time_taken>3.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id Contains="1" comment="Assignment 4 - true if some stmt is nested in statement 9" >53</id><querystr><![CDATA[stmt s; Select BOOLEAN such that Contains*(9, s) ]]></querystr>
+<stuans>false</stuans>
+<correct></correct>
+<time_taken>3.000000</time_taken>
+<failed>
+<missing></missing>
+<additional>false</additional>
+<summary>
+<expected>0</expected>
+<matched>0</matched>
+<missing>0</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Contains="1" comment="Assignment 4 returns all variables referred to in statement 10" >54</id><querystr><![CDATA[variable v; Select v such that Contains* (10, v)]]></querystr>
+<stuans>m,a,b,y,x,n,k,t</stuans>
+<correct></correct>
+<time_taken>3.000000</time_taken>
+<failed>
+<missing></missing>
+<additional>a,b,k,m,n,t,x,y</additional>
+<summary>
+<expected>0</expected>
+<matched>0</matched>
+<missing>0</missing>
+<additional>8</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Contains="1" comment="Assignment 4 Complex mix and match" >55</id><querystr><![CDATA[variable v; if ifStmt; while w; stmtLst then, else; Select v such that Contains (ifStmt, v) and Modifies ("John", v) pattern ifStmt("i", then, else) such that Contains (then, w) and Contains (else, ifStmt)]]></querystr>
+<stuans></stuans>
+<correct></correct>
+<time_taken>4.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id or="1" comment="or" >56</id><querystr><![CDATA[variable v; assign a; while w; if ifStmt; Select v such that Contains*(a, v) or Contains*(w, v) or Contains*(ifStmt, v)]]></querystr>
+<stuans>m,a,b,x,t,n,k,i,y,z,q,x,k,m,q,y,z,i,a,b,t,n,x,m,y,z,i,a,b,n,k,v,q</stuans>
+<correct></correct>
+<time_taken>17.000000</time_taken>
+<failed>
+<missing></missing>
+<additional>a,b,i,k,m,n,q,t,v,x,y,z</additional>
+<summary>
+<expected>0</expected>
+<matched>0</matched>
+<missing>0</missing>
+<additional>12</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Contains="1" comment="all variables not in the while loop" >57</id><querystr><![CDATA[variable v; while w; Select v such that Contains*(w, v)]]></querystr>
+<stuans>x,k,m,q,y,z,i,a,b,t,n</stuans>
+<correct></correct>
+<time_taken>6.000000</time_taken>
+<failed>
+<missing></missing>
+<additional>a,b,i,k,m,n,q,t,x,y,z</additional>
+<summary>
+<expected>0</expected>
+<matched>0</matched>
+<missing>0</missing>
+<additional>11</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Contains_Not="1" comment="all variables not in the while loop or Contains in an assignment and variable" >58</id><querystr><![CDATA[variable v; while w; assign a; if ifStmt; Select v such that !Contains*(w, v) or (Contains*(a, v) and Contains*(ifStmt, v))]]></querystr>
+<stuans>a,b,k,t,v,n,z,i,m,q,y,x,m,a,b,x,n,k,y,z,i,q</stuans>
+<correct></correct>
+<time_taken>1949.000000</time_taken>
+<failed>
+<missing></missing>
+<additional>a,b,i,k,m,n,q,t,v,x,y,z</additional>
+<summary>
+<expected>0</expected>
+<matched>0</matched>
+<missing>0</missing>
+<additional>12</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Contains_Not="1" comment="The opposite of query 57 - Gheying with Demorgan" >59</id><querystr><![CDATA[variable v; while w; assign a; if ifStmt; Select v such that Contains*(w, v) or !(Contains*(a, v) and Contains*(ifStmt, v))]]></querystr>
+<stuans>x,k,m,q,y,z,i,a,b,t,n,a,b,t,x,i,m,v,n,y,z,k,q,a,b,t,x,v,z,n,y,i,q,k,m</stuans>
+<correct></correct>
+<time_taken>3624.000000</time_taken>
+<failed>
+<missing></missing>
+<additional>a,b,i,k,m,n,q,t,v,x,y,z</additional>
+<summary>
+<expected>0</expected>
+<matched>0</matched>
+<missing>0</missing>
+<additional>12</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Contains_Not="1" comment="all variables not in the while loop" >60</id><querystr><![CDATA[variable v; while w; Select v such that !Contains*(w, v)]]></querystr>
+<stuans>a,t,n,b,i,z,x,k,v,m,y,q</stuans>
+<correct></correct>
+<time_taken>6.000000</time_taken>
+<failed>
+<missing></missing>
+<additional>a,b,i,k,m,n,q,t,v,x,y,z</additional>
+<summary>
+<expected>0</expected>
+<matched>0</matched>
+<missing>0</missing>
+<additional>12</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Not_Siblings="1" comment="all stmts that are siblings are while loops" >61</id><querystr><![CDATA[variable v; while w; stmt s; Select s such that Sibling(w, s) ]]></querystr>
+<stuans>100,101,102,78,79,80,81,119,121,122,64,65,74,1,17,83,87,88,94,95,114,84,89,90,117,118,92,116,110,111,112,113,98,106,104,107,96,82,28,29,43,44,45,46,20,21</stuans>
+<correct></correct>
+<time_taken>5.000000</time_taken>
+<failed>
+<missing></missing>
+<additional>1,100,101,102,104,106,107,110,111,112,113,114,116,117,118,119,121,122,17,20,21,28,29,43,44,45,46,64,65,74,78,79,80,81,82,83,84,87,88,89,90,92,94,95,96,98</additional>
+<summary>
+<expected>0</expected>
+<matched>0</matched>
+<missing>0</missing>
+<additional>46</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Not_Siblings="1" comment="all stmts that are siblings are while loops" >62</id><querystr><![CDATA[variable v; while w; stmt s; Select s such that !Sibling(w, s) ]]></querystr>
+<stuans>115,2,79,29,65,108,28,91,22,9,39,36,20,101,75,99,1,35,23,102,76,34,103,77,3,33,90,130,25,104,70,4,32,131,24,105,71,5,31,92,132,27,106,72,6,30,26,107,73,7,114,78,64,109,8,119,121,10,118,120,11,12,13,69,113,46,127,86,53,58,14,68,112,47,126,87,52,59,15,16,98,17,54,111,129,124,21,97,18,19,55,110,128,125,96,66,116,49,57,67,117,100,48,56,51,50,62,84,123,63,85,122,38,37,45,44,40,41,42,43,89,88,82,83,60,61,74,80,81,94,95,93</stuans>
+<correct></correct>
+<time_taken>159.000000</time_taken>
+<failed>
+<missing></missing>
+<additional>1,10,100,101,102,103,104,105,106,107,108,109,11,110,111,112,113,114,115,116,117,118,119,12,120,121,122,123,124,125,126,127,128,129,13,130,131,132,14,15,16,17,18,19,2,20,21,22,23,24,25,26,27,28,29,3,30,31,32,33,34,35,36,37,38,39,4,40,41,42,43,44,45,46,47,48,49,5,50,51,52,53,54,55,56,57,58,59,6,60,61,62,63,64,65,66,67,68,69,7,70,71,72,73,74,75,76,77,78,79,8,80,81,82,83,84,85,86,87,88,89,9,90,91,92,93,94,95,96,97,98,99</additional>
+<summary>
+<expected>0</expected>
+<matched>0</matched>
+<missing>0</missing>
+<additional>132</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Not_Siblings="1" comment="lol" >63</id><querystr><![CDATA[stmt s1, s2, s3; while w; Select w such that Sibling(s3, s2) and Parent (w, s2)]]></querystr>
+<stuans>2,30,82,84,88,91,93,96,97,103,106</stuans>
+<correct></correct>
+<time_taken>10.000000</time_taken>
+<failed>
+<missing></missing>
+<additional>103,106,2,30,82,84,88,91,93,96,97</additional>
+<summary>
+<expected>0</expected>
+<matched>0</matched>
+<missing>0</missing>
+<additional>11</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Not_Siblings="1" comment="lol" >64</id><querystr><![CDATA[stmt s1, s2, s3; while w; Select w such that !Sibling(s3, s2) and Parent (w, s2)]]></querystr>
+<timeout/>
+</query>
+</category>
+</queries>
+</test_results>

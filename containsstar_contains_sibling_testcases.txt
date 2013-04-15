@@ -163,7 +163,7 @@ Select w pattern w(v, lst)
 36 - Pattern :: StmtLst if
 stmtLst then, else; variable v; if iff;
 Select <v, then, else> pattern iff(v, then, else)
-b 6 11,m 127 129,m 35 39,m 51 53,m 69 71,v 20 24,v 28 47,x 123 132,x 64 75,y 126 130,y 68 72
+
 5000
 36 - Pattern :: StmtLst if
 stmtLst then, else; variable v; if iff;
@@ -173,12 +173,12 @@ b,m,v,x,y
 37 - Pattern ::  StmtLst if
 stmtLst then, else; variable v; if iff; while w;
 Select v pattern iff(v, then, else) with v.varName = "b" such that Contains*(then, w) such that Contains*(else, w)
-x
+
 5000
 38 - Pattern ::  StmtLst while
 stmtLst lst; variable v; while w; if iff; assign a;
 Select v pattern w(v, lst) with v.varName = "x" such that Contains(lst, iff) such that Contains(a, v)
-x
+
 5000
 39 - Pattern ::  StmtLst if
 stmtLst then, else; variable v; if iff; while w;
@@ -188,7 +188,7 @@ Select <v, then, else> pattern iff(v, then, else) with v.varName = "b" such that
 40 - Pattern ::  StmtLst while
 stmtLst lst; variable v; while w; if iff; assign a;
 Select <v, lst> pattern w(v, lst) with v.varName = "x" such that Contains(lst, iff) such that Contains(a, v)
-x 3,x 31
+
 5000
 41 - Pattern ::  StmtLst if
 stmtLst then, else; variable v; if iff; while w;
@@ -213,37 +213,37 @@ Select <if1, if2> pattern w(v, lst) with v.varName = "x" such that Contains(lst,
 45 - Proc :: 
 assign a1,a2; stmt s1, s2, s3; procedure p; constant c; variable v;
 Select <v.varName,c.value> such that Contains*(a1, c) and Sibling(v,c) with c.value = 0
-b 0
+
 5000
 46 - Contains :: Assignment 4 returns all the variables that control some if statement
 variable v; if ifStmt;
 Select v such that Contains (ifStmt, v)
-b,m,v,x,y
+
 5000
 47 - Contains :: Assignment 4 returns all the variables that control some if statement but in addition if statement must be in procedure Peter
 variable v; if ifStmt; procedure p;
 Select v such that Contains (ifStmt, v) and Contains* (p, ifStmt) with p.procName="Peter"
-b
+
 5000 
 48 - Contains :: Assignment 4 returns all the assignments that refer to x (either on the left- or right-hand-side)
 assign a; variable v;
 Select a such that Contains* (a, v) with v.varName="x"
-101,107,109,110,111,113,116,118,120,123,130,132,20,25,26,28,3,31,47,55,57,59,61,64,72,75,77,80,83,85,86,87,89,94,99
+
 5000
 49 - Contains :: Assignment 4 returns all the procedures that refer to constant 2
 procedure p; constant c;
 Select p such that Contains* (p, c) with c.value=2 
-John,Mary,Peter
+
 5000
 50 - Contains :: Assignment 4 returns all the assignments with plus nodes that refer to x (either on the left- or right-hand-side of plus)
 plus add; variable v; assign a;
 Select a such that Contains* (a, add) and Contains* (add, v) with v.varName="x"
-109,110,113,116,120,130,20,26,28,3,31,47,72,83,85,86,87,89,94,99
+
 5000
 51 - Contains :: Assignment 4 return all procedures in which while is nested in if statement
 procedure p; if ifStmt; while w;
 Select p such that Contains* (p, ifStmt) and Contains* (ifStmt, w)
-Bob,Mary
+
 5000
 52 - Contains :: Assignment 4 the same as Parent* (9, s)
 stmt s;
@@ -253,12 +253,12 @@ Select s such that Contains* (9, s)
 53 - Contains :: Assignment 4 - true if some stmt is nested in statement 9
 stmt s;
 Select BOOLEAN such that Contains*(9, s) 
-false
+
 5000
 54 - Contains :: Assignment 4 returns all variables referred to in statement 10
 variable v;
 Select v such that Contains* (10, v)
-m,b,k,n
+
 5000
 55 - Contains :: Assignment 4 Complex mix and match
 variable v; if ifStmt; while w; stmtLst then, else;
@@ -268,12 +268,12 @@ Select v such that Contains (ifStmt, v) and Modifies ("John", v) pattern ifStmt(
 56 - or :: or
 variable v; assign a; while w; if ifStmt;
 Select v such that Contains*(a, v) or Contains*(w, v) or Contains*(ifStmt, v)
-a,b,i,k,m,n,q,t,v,x,y,z
+
 5000
-57 - Contains :: all variables in the while loop 
+57 - Contains :: all variables not in the while loop 
 variable v; while w;
 Select v such that Contains*(w, v)
-a,b,i,k,m,n,q,t,x,y,z
+
 5000
 58 - Contains_Not :: all variables not in the while loop or Contains in an assignment and variable
 variable v; while w; assign a; if ifStmt;
@@ -293,7 +293,7 @@ Select v such that !Contains*(w, v)
 61 - Not_Siblings :: all stmts that are siblings are while loops
 variable v; while w; stmt s;
 Select s such that Sibling(w, s) 
-1,100,101,102,104,106,107,110,111,112,113,114,116,117,118,119,121,122,17,20,21,28,29,43,44,45,46,64,65,74,78,79,80,81,82,83,84,87,88,89,90,92,94,95,96,98
+
 5000
 62 - Not_Siblings :: all stmts that are siblings are while loops
 variable v; while w; stmt s;
@@ -303,10 +303,10 @@ Select s such that !Sibling(w, s)
 63 - Not_Siblings :: lol
 stmt s1, s2, s3; while w;
 Select w such that Sibling(s3, s2) and Parent (w, s2)
-2,30,82,84,88,93,96,97,103,106
+
 5000
 64 - Not_Siblings :: lol
 stmt s1, s2, s3; while w;
-Select w such that !Sibling(s3, s) and Parent (w, s2)
+Select w such that !Sibling(s3, s2) and Parent (w, s2)
 
 5000

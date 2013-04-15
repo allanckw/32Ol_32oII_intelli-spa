@@ -135,6 +135,9 @@ vector <STMT> ParentTable::getParentStar(STMT s2)
 	return answer;
 }
 
+/**
+* This method will be used to get the Size of ParentTable
+*/
 int ParentTable::getSize()
 {
 	 return this->parentFrom.size();

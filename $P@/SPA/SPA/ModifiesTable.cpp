@@ -173,11 +173,17 @@ void ModifiesTable::optimizeModifiesTable()
 	}
 }
 
+/**
+* This method will be used to get the Size of ModTable by PROC
+*/
 int ModifiesTable::getModProcSize()
 {
 	return this->optimizedModifiedByProc.size();
 }
 
+/**
+* This method will be used to get the Size of ModTable by STMT
+*/
 int ModifiesTable::getModStmtSize()
 {
 	return this->optimizedModifiedByStmt.size();

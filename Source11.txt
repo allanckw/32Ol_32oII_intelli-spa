@@ -1,0 +1,40 @@
+procedure John{	
+	i=1; //1
+	m=i; //2 
+	x = i+m+2; //3
+	y =    i+m; //4
+	while i{ //5
+		k=m+x; //6
+		while z{ //7
+			x = x+i; //8
+			z=x+1;} //9
+		m=x+1; //10
+		while m { //11
+			while i{ //12
+				while z{ //13
+					i= x+5+3+m; //14
+					z=z+1; //15
+					while m{ //16
+						while y{ //17
+							while k{ //18
+								x = x+1;} //19
+							x=y; //20
+							while m { //21
+								while z{ //22
+									while i{ //23
+										m=3;} //24
+									while x{ //25
+										x=x; //26
+										while z{ //27
+											m = x+y;}}}}} //28
+						z=x+5+1+x+m+y+i+k; //29
+						z=x; //30
+						i=m+1; //31
+						m=i+m+x+k+y;} //32
+					while m{ //33
+						i=1+5;}} //34
+				m=x+i;}			//35
+			z=z+1 //36;
+			x=i;}} //37
+	while z{
+		m=i+m+x+k+y;}}

@@ -1,0 +1,26 @@
+procedure Natalie {
+                a = 1; //1
+                call Allan; //2
+                b = c; //3
+}
+
+procedure Allan {
+                c = 1; //4
+                if x then {//5
+                                d = e; //6     
+                                e = 4; //7
+                } else { 
+		 e = 3; //8
+                }
+}
+
+procedure Sorry {
+                f = 1; //9
+                g = a; //10
+}
+
+procedure DbdCl {
+	while a {
+		call Sorry;
+	}
+}

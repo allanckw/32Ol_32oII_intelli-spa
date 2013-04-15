@@ -1,6 +1,9 @@
 #pragma once
 #include "DisjointSet.h"
 
+/**
+* This method will be used as a default constructor
+*/
 DisjointSet::DisjointSet()
 {
 	dirty = false;

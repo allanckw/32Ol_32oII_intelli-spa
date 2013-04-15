@@ -73,6 +73,10 @@ ASTNode* ASTNode::setParent(ASTNode * p)
 	return this;
 }
 
+/**
+* Set ancestor to the node
+* @param p	the ancestor node to set
+*/
 void ASTNode::setAncestor(ASTNode* p)
 {
 	if (this->root){
@@ -83,7 +87,10 @@ void ASTNode::setAncestor(ASTNode* p)
 		this->ancestorNode = p;
 	}
 }
-
+/**
+* Set ancestor to the node
+* @return Ancestor ASTNode
+*/
 ASTNode* ASTNode::getAncestor() const
 {
 	return this->ancestorNode;

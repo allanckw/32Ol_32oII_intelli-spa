@@ -39,6 +39,12 @@ echo "Source 9 complete"
 Call  $P@\SPA\Release\autotester.exe source10.txt  Queries10.txt  out10.xml > NUL
 echo "Source 10 complete"
 
+Call  $P@\SPA\Release\autotester.exe source11.txt  Queries11.txt  out11.xml > NUL
+echo "Source 11 complete"
+
+Call  $P@\SPA\Release\autotester.exe source12.txt  Queries12.2.txt  out12.2.xml > NUL
+echo "Source 12 complete"
+
 Call  $P@\SPA\Release\autotester.exe containsstar_contains_sibling_source.txt containsstar_contains_sibling_testcases.txt outContains.xml > NUL
 echo "Contains complete"
 
@@ -47,3 +53,5 @@ echo "Source A complete"
 
 Call  $P@\SPA\Release\autotester.exe Sample-Source.txt  Sample-Queries.txt  outSample.xml > NUL
 echo "Sample Source complete"
+
+Call $P@\SPA\Release\autotester.exe not_simple_source.txt not_simple_query.txt outNotSimple.xml > NUL

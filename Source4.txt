@@ -1,43 +1,43 @@
 procedure Natalie {
-	z = 10;
-	x = z + 5;
-	y = x * z + 4;
-	d = x + y * 12;
-	call Allan;
-	d = d + z + x;
-	call Jane;
-	e = d + z * x;
-	while i {
-		e = x - y;
-		if z then {
-			y = y + z;
-			i = y + 1; }
+	z = 10; //1
+	x = z + 5; //2
+	y = x * z + 4; //3
+	d = x + y * 12; //4
+	call Allan; //5
+	d = d + z + x; //6
+	call Jane; //7
+	e = d + z * x; //8
+	while i { //9
+		e = x - y; //10
+		if z then { //11
+			y = y + z; //12
+			i = y + 1; } //13 
 		else {
-			x = y + z;
-			call Jane;
-			i = i - 1; }
-		x = y + z; 
+			x = y + z; //14
+			call Jane; //15
+			i = i - 1; } //16
+		x = y + z; //17
 	}
-	call Mary; 
+	call Mary; //18
 }
 
 procedure Mary {
-	while i {
-		z = y*3 + 2*x;
-		call Allan;
-		i = i - 1; }
-	y = y + z + i; }
+	while i { //19
+		z = y*3 + 2*x; //20
+		call Allan; //21
+		i = i - 1; } //22
+	y = y + z + i; }//23
 
 procedure Jane {
-	while d {
-		z = x + z; 
-	}
-		x = z + x; 
+	while d { //24
+		z = x + z; //25 
+	} 
+		x = z + x; //26 
 }
 
 procedure Allan {
-	while e {
-		if i then {
-			y = z + 1; }
+	while e { //27
+		if i then {//28
+			y = z + 1; } //29
 		else {
-			z = z * x + y + e * d; } } }
+			z = z * x + y + e * d; } } } //30

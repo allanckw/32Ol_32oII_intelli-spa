@@ -130,12 +130,18 @@ vector <STMT> FollowsTable::getFollowsStarFrom(STMT s2)
 	} while (true);
 }
 
-
+/**
+* This method will be used to get the size of FollowsTable
+* @return the size of FollowsTable
+*/
 int FollowsTable::getFollowsSize()
 {
 	return followsFrom.size();
 }
-
+/**
+* This method will be used to get the size of FollowsStarTable
+* @return the size of FollowsStarTable
+*/
 int FollowsTable::getFollowsStarSize()
 {
 	if (starSize == 0) {

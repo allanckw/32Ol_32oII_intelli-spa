@@ -456,8 +456,8 @@ vector<STMT> PQLAffectsProcessor::getAffectsBy(STMT a1)
 //Affects*
 /**
 * This method will be used to check whether a1 and a2 satisfy Affect* Condition
-* @param a1	The statement that is going to affect a2
-* @param a2	The statement that is affected by a1
+* @param a1	The statement that is going to affect* a2
+* @param a2	The statement that is affect* by a1
 * @return whether Affect(a1,a2) satisfy the condition of affectStar
 */
 bool PQLAffectsProcessor::isSatifyAffectsStar(STMT a1, STMT a2)
@@ -488,8 +488,8 @@ bool PQLAffectsProcessor::isSatifyAffectsStar(STMT a1, STMT a2)
 
 /**
 * This method will be used to check Affect*(a1,a2)
-* @param a1	The statement that is going to affect a2
-* @param a2	The statement that is affected by a1
+* @param a1	The statement that is going to affect* a2
+* @param a2	The statement that is affect* by a1
 * @return whether AffectStar(a1,a2) holds
 */
 bool PQLAffectsProcessor::isAffectsStar(STMT a1, STMT a2)
@@ -701,8 +701,8 @@ bool PQLAffectsProcessor::isAffectsStar(STMT a1, STMT a2)
 
 /**
 * This method will be used to get a list of a2 that is affects*(a1,_)
-* @param a1	The statement that is going to affect a2
-* @return a list of statement that is affectStar by a1
+* @param a1	The statement that is going to affect* a2
+* @return a list of statement that is affect* by a1
 */
 vector<STMT> PQLAffectsProcessor::getAffectsStarBy(STMT a1)
 {
@@ -854,8 +854,8 @@ vector<STMT> PQLAffectsProcessor::getAffectsStarBy(STMT a1)
 
 /**
 * This method will be used to get a list of a2 that is affects*(_,a2)
-* @param a2	The statement that is going to affect by a1
-* @return a list of statement that is affectStar a2
+* @param a2	The statement that is going to affect* by a1
+* @return a list of statement that is affect* a2
 */
 vector<STMT>  PQLAffectsProcessor::getAffectsStarFrom(STMT a2)
 {
@@ -956,7 +956,13 @@ vector<STMT>  PQLAffectsProcessor::getAffectsStarFrom(STMT a2)
 	return vector<STMT>(answer.begin(), answer.end());
 }
 
-
+//AffectBip
+/**
+* This method will be used to check AffectBip(a1,a2)
+* @param a1	The statement that is going to affectBip a2
+* @param a2	The statement that is affectBip by a1
+* @return whether AffectBip(a1,a2) holds
+*/
 bool PQLAffectsProcessor::isAffectsBip(STMT a1, STMT a2)
 {
 	if (a1 < 0 || a1 > PKB::maxProgLines || a2 < 0 || a2 > PKB::maxProgLines)
@@ -987,22 +993,42 @@ bool PQLAffectsProcessor::isAffectsBip(STMT a1, STMT a2)
 			return false;
 	}
 
+	//queue of nodes/statements to be analysed
 	queue<Information> search;
-	unordered_set<CFGNode*> seen;
-	unordered_set<PROC> seenProc;
+	search.push(Information(NULL, a1, stack<STMT>()));
+
+	//set of nodes that have been stepped through
+	unordered_set<const CFGNode*> seen;
+
+	//int represents:
+	//-1: in progress,
+	//0: will invalidate,
+	//1: exists control path that does not invalidate
+	unordered_map<PROC, int> procIsGood;
+	
+	//related to above map.
+	//counts the number of unanalysed nodes/statements in the proc
+	unordered_map<PROC, int> procCount;
+
+	//vector of nodes/statements waiting for another one already
+	//stepping through to indicate whether the procedure has a
+	//control flow path that does not invalidate the variable.
+	unordered_map<PROC, vector<Information>> waitingProcs;
+
+	//another set of procedures that have reached the end, so that
+	//all statements calling those procedures are being analysed.
 	unordered_set<PROC> doneProc;
-	search.push(Information(NULL, a1, stack<STMT>()));	
-	stack<STMT> tempStack;
 
 	while (!search.empty()) {
 		Information info = search.front();
 		search.pop();
-		STMT stmt = info.stmt;
+		const STMT stmt = info.stmt;
 		stack<STMT>& callStack = info.callStack;
-		CFGNode* node = (info.node == NULL) ? PKB::stmtRefMap.at(stmt).getCFGNode() : info.node;
+		const CFGNode * const node =
+			(info.node == NULL) ? PKB::stmtRefMap.at(stmt).getCFGNode() : info.node;
 
-		if (stmt == -1) {
-			if (seen.count(node) == 0)
+		if (stmt == -1) { //starting at the start of the node
+			if (seen.count(node) == 0) //so we no need to analyse it next time
 				seen.insert(node);
 			else
 				continue;
@@ -1014,19 +1040,42 @@ bool PQLAffectsProcessor::isAffectsBip(STMT a1, STMT a2)
 				start = node->first;
 			else
 				start = stmt + 1;
-			bool broke = false;
+			bool broke = false; //indicates that control flow has stopped/branched
 			for (int i = start; i <= node->last; i++) {
 				if (i == a2)
 					return true;
 				if (PKB::assignTable.count(i) > 0) {
+					//assignment invalidated the variable
 					if (modifiesVar == PKB::modifies.getModifiedByStmt(i)[0]) {
+						if (!callStack.empty()) { //if in procedure
+							if (procIsGood[node->proc] < 1) {
+								procCount[node->proc]--; //->remove count
+								if (procCount[node->proc] == 0) { //if count = 0
+									procIsGood[node->proc] = 0; //->proc is 'no good'
+									if (waitingProcs.count(node->proc) > 0)
+										//remove all nodes/statments
+										//waiting on this procedure
+										waitingProcs[node->proc].clear();
+								}
+							}
+						}
 						broke = true;
 						break;
 					}
 				} else if (PKB::callTable.count(i) > 0) {
 					const PROC proc = PKB::calls.getProcCall(i);
-					if (seenProc.count(proc) == 0) {
-						seenProc.insert(proc);
+					if (procIsGood.count(proc) > 0) { //some other analysis has beaten
+						switch (procIsGood[proc]) {   //this one to this procedure
+						case -1: //in progress
+							waitingProcs[proc].push_back(Information(NULL, i, callStack));
+						case 0: //will invalidate
+							broke = true;
+						case 1: //exists control path that does not invalidate
+							;
+						} //No breaks above by (good) design!
+					} else {
+						procIsGood.insert(pair<PROC, int>(proc, -1));
+						procCount.insert(pair<PROC, int>(proc, 1));
 						callStack.push(i);
 						search.push(Information(PKB::stmtRefMap.at(PKB::TheBeginningAndTheEnd[
 							proc].first).getCFGNode(), -1, callStack));
@@ -1045,6 +1094,15 @@ bool PQLAffectsProcessor::isAffectsBip(STMT a1, STMT a2)
 		case CFGNode::StandardNode: {
 			CFGNode* child = node->children.oneChild;
 			if (child == NULL) { //end of procedure
+				//means that there exists a control flow path through the start to
+				//the end of this procedure that does not invalidate the variable.
+				//-> signal all waiting nodes/statements
+				if (waitingProcs.count(node->proc) > 0) {
+					const vector<Information>& waiters = waitingProcs[node->proc];
+					for (auto it = waiters.begin(); it != waiters.end(); ++it)
+						search.push(*it);
+				}
+
 				if (callStack.empty()) { //can jump to anywhere now
 					if (doneProc.count(node->proc) == 0) {
 						doneProc.insert(node->proc);
@@ -1076,6 +1134,11 @@ bool PQLAffectsProcessor::isAffectsBip(STMT a1, STMT a2)
 	return false;
 }
 
+/**
+* This method will be used to get a list of a2 that is affectsBip(a1,_)
+* @param a1	The statement that is going to affectBip a2
+* @return a list of statement that is affectBip by a1
+*/
 vector<STMT> PQLAffectsProcessor::getAffectsBipBy(STMT a1)
 {
 	if (a1 < 0 || a1 > PKB::maxProgLines)
@@ -1092,35 +1155,59 @@ vector<STMT> PQLAffectsProcessor::getAffectsBipBy(STMT a1)
 		node(node), stmt(stmt), callStack(callStack) {}
 	};
 	
-	unordered_set<STMT> answer;
 	const VAR modifiesVar = PKB::modifies.getModifiedByStmt(a1)[0];
+	
+	//set of answers
+	unordered_set<STMT> answer;
+	
+	//queue of nodes/statements to be analysed
 	queue<Information> search;
-	unordered_set<CFGNode*> seen;
-	unordered_set<PROC> seenProc;
-	unordered_set<PROC> doneProc;
 	search.push(Information(NULL, a1, stack<STMT>()));
+
+	//set of nodes that have been stepped through
+	unordered_set<const CFGNode*> seen;
+
+	//int represents:
+	//-1: in progress,
+	//0: will invalidate,
+	//1: exists control path that does not invalidate
+	unordered_map<PROC, int> procIsGood;
+	
+	//related to above map.
+	//counts the number of unanalysed nodes/statements in the proc
+	unordered_map<PROC, int> procCount;
+
+	//vector of nodes/statements waiting for another one already
+	//stepping through to indicate whether the procedure has a
+	//control flow path that does not invalidate the variable.
+	unordered_map<PROC, vector<Information>> waitingProcs;
+
+	//another set of procedures that have reached the end, so that
+	//all statements calling those procedures are being analysed.
+	unordered_set<PROC> doneProc;
 
 	while (!search.empty()) {
 		Information info = search.front();
 		search.pop();
 		STMT stmt = info.stmt;
 		stack<STMT>& callStack = info.callStack;
-		CFGNode* node = (info.node == NULL) ? PKB::stmtRefMap.at(stmt).getCFGNode() : info.node;
+		const CFGNode * const node =
+			(info.node == NULL) ? PKB::stmtRefMap.at(stmt).getCFGNode() : info.node;
 		
-		if (stmt == -1) {
-			if (seen.count(node) == 0)
+		if (stmt == -1) { //starting at the start of the node
+			if (seen.count(node) == 0) //so we no need to analyse it next time
 				seen.insert(node);
 			else
 				continue;
 		}
-		
+				
 		if (node->type != CFGNode::DummyNode) {
 			int start;
 			if (stmt == -1)
 				start = node->first;
 			else
 				start = stmt + 1;
-			bool broke = false;
+			bool broke = false; //indicates that control flow has stopped/branched
 			for (int i = start; i <= node->last; i++) {
 				if (PKB::assignTable.count(i) > 0) {
 					const vector<VAR>& stmtUsesVar = PKB::uses.getUsedByStmt(i);
@@ -1129,14 +1216,37 @@ vector<STMT> PQLAffectsProcessor::getAffectsBipBy(STMT a1)
 							answer.insert(i);
 							break;
 						}
+					//assignment invalidated the variable
 					if (modifiesVar == PKB::modifies.getModifiedByStmt(i)[0]) {
+						if (!callStack.empty()) { //if in procedure
+							if (procIsGood[node->proc] < 1) {
+								procCount[node->proc]--; //->remove count
+								if (procCount[node->proc] == 0) { //if count = 0
+									procIsGood[node->proc] = 0; //->proc is 'no good'
+									if (waitingProcs.count(node->proc) > 0)
+										//remove all nodes/statments
+										//waiting on this procedure
+										waitingProcs[node->proc].clear();
+								}
+							}
+						}
 						broke = true;
 						break;
 					}
 				} else if (PKB::callTable.count(i) > 0) {
 					const PROC proc = PKB::calls.getProcCall(i);
-					if (seenProc.count(proc) == 0) {
-						seenProc.insert(proc);
+					if (procIsGood.count(proc) > 0) { //some other analysis has beaten
+						switch (procIsGood[proc]) {   //this one to this procedure
+						case -1: //in progress
+							waitingProcs[proc].push_back(Information(NULL, i, callStack));
+						case 0: //will invalidate
+							broke = true;
+						case 1: //exists control path that does not invalidate
+							;
+						} //No breaks above by (good) design!
+					} else {
+						procIsGood.insert(pair<PROC, int>(proc, -1));
+						procCount.insert(pair<PROC, int>(proc, 1));
 						callStack.push(i);
 						search.push(Information(PKB::stmtRefMap.at(PKB::TheBeginningAndTheEnd[
 							proc].first).getCFGNode(), -1, callStack));
@@ -1149,11 +1259,22 @@ vector<STMT> PQLAffectsProcessor::getAffectsBipBy(STMT a1)
 				continue;
 		}
 		
+		//finish with this CFGNode -> go to the next node after this
 		switch (node->type) {
 		case CFGNode::DummyNode:
 		case CFGNode::StandardNode: {
 			CFGNode* child = node->children.oneChild;
-			if (child == NULL) {
+			if (child == NULL) { //end of procedure
+				//means that there exists a control flow path through the start to
+				//the end of this procedure that does not invalidate the variable.
+				//-> signal all waiting nodes/statements
+				if (waitingProcs.count(node->proc) > 0) {
+					procIsGood[node->proc] = 1; //->proc is good
+					const vector<Information>& waiters = waitingProcs[node->proc];
+					for (auto it = waiters.begin(); it != waiters.end(); ++it)
+						search.push(*it);
+				}
+
 				if (callStack.empty()) {
 					if (doneProc.count(node->proc) == 0) {
 						doneProc.insert(node->proc);
@@ -1185,6 +1306,11 @@ vector<STMT> PQLAffectsProcessor::getAffectsBipBy(STMT a1)
 	return vector<STMT>(answer.begin(), answer.end());
 }
 
+/**
+* This method will be used to get a list of a2 that is affectsBip(_,a2)
+* @param a2	The statement that is going to affectBip by a1
+* @return a list of statement that is affectBip a2
+*/
 vector<STMT> PQLAffectsProcessor::getAffectsBipFrom(STMT a2)
 {
 	vector<STMT> answer;
@@ -1192,6 +1318,13 @@ vector<STMT> PQLAffectsProcessor::getAffectsBipFrom(STMT a2)
 	return answer;
 }
 
+//AffectBip*
+/**
+* This method will be used to check AffectBip*(a1,a2)
+* @param a1	The statement that is going to affectBip* a2
+* @param a2	The statement that is affectBip* by a1
+* @return whether AffectBip*(a1,a2) holds
+*/
 bool PQLAffectsProcessor::isAffectsBipStar(STMT a1, STMT a2)
 {
 	if (a1 < 0 || a1 > PKB::maxProgLines || a2 < 0 || a2 > PKB::maxProgLines)
@@ -1313,6 +1446,11 @@ bool PQLAffectsProcessor::isAffectsBipStar(STMT a1, STMT a2)
 	return false;
 }
 
+/**
+* This method will be used to get a list of a2 that is affectsBip*(a1,_)
+* @param a1	The statement that is going to affectBip* a2
+* @return a list of statement that is affectBip* by a1
+*/
 vector<STMT> PQLAffectsProcessor::getAffectsBipStarBy(STMT a1)
 {
 	if (a1 < 0 || a1 > PKB::maxProgLines)
@@ -1434,6 +1572,11 @@ vector<STMT> PQLAffectsProcessor::getAffectsBipStarBy(STMT a1)
 	return vector<STMT>(answer.begin(), answer.end());
 }
 
+/**
+* This method will be used to get a list of a2 that is affectsBip*(_,a2)
+* @param a2	The statement that is going to affectBip* by a1
+* @return a list of statement that is affectBip* a2
+*/
 vector<STMT> PQLAffectsProcessor::getAffectsBipStarFrom(STMT a2)
 {
 	vector<STMT> answer;

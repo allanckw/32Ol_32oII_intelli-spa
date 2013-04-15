@@ -54,8 +54,41 @@ bool Helper::isNumber(string s)
 
 bool Helper::contains(vector<int> list, int p1)
 {
-	if(std::find(list.begin(),list.end(), p1) != list.end())
+	if(find(list.begin(),list.end(), p1) != list.end())
 		return true;
 	else
 		return false;
+}
+
+string Helper::trim(const string& str, string whitespace)
+{
+    const auto strBegin = str.find_first_not_of(whitespace);
+    if (strBegin == string::npos)
+        return ""; // no content
+
+    const auto strEnd = str.find_last_not_of(whitespace);
+    const auto strRange = strEnd - strBegin + 1;
+
+    return str.substr(strBegin, strRange);
+}
+
+string Helper::reduce(const string& str, string fill, string whitespace)
+{
+    // trim first
+    auto result = trim(str, whitespace);
+
+    // replace sub ranges
+    auto beginSpace = result.find_first_of(whitespace);
+    while (beginSpace != string::npos)
+    {
+        const auto endSpace = result.find_first_not_of(whitespace, beginSpace);
+        const auto range = endSpace - beginSpace;
+
+        result.replace(beginSpace, range, fill);
+
+        const auto newStart = beginSpace + fill.length();
+        beginSpace = result.find_first_of(whitespace, newStart);
+    }
+
+    return result;
 }

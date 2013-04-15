@@ -2,8 +2,8 @@
 cat: All Category
 1 - z :: z
 stmt s1; assign a; variable v; procedure p;
-Select  v such that Modifies("Natalie", v )
-a, b, c, d, e
+Select  v such that Modifies(a, v )
+a, b, c, d, e, f, g
 5000
 2 - z :: Not 1
 stmt s1; assign a2; variable v;

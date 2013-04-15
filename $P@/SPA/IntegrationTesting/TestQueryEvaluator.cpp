@@ -27,7 +27,7 @@ void display(vector<int> x)
 }
 void TestQueryEvaluator::TestQueryEvaluatorM()
 {  
-	PKBController::initializePKB("F:\\3201_3202\\SPA\\sourceA.txt");
+	PKBController::initializePKB("F:\\3201_3202\\SPA\\source11.txt");
 	//doon("assign a; Select BOOLEAN such that Affects(1, 2)"); 
 	//doon("assign a; Select BOOLEAN such that Affects(1, 3)"); 
 	//doon("assign a; Select BOOLEAN such that Affects(1, 5)"); 
@@ -51,8 +51,9 @@ void TestQueryEvaluator::TestQueryEvaluatorM()
 
 	//doon("stmt s; stmt t; Select s such that Follows(s, 2) or ((Follows(s, 243) and Follows(1,1)))");//1
 	
-	doon("while w; variable v; Select w pattern w(v, _)");
-	doon("while w; variable v; stmtLst lst; Select w pattern w(v, lst)");
+	doon("assign a; while w; Select 	a pattern a(_,_\"z\"_) such that Follows*(			w,a)");
+	doon("assign a; while w;  Select 	a pattern a(_,_\"z\"_) such that Follows*(w,a)");
+	//doon("Select 	a pattern a(_,_\"z\"_) such that Follows*(w,a)");
 }
 
 

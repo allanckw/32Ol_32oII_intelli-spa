@@ -49,6 +49,7 @@ Call  $P@\SPA\Release\autotester.exe containsstar_contains_sibling_source.txt co
 echo "Contains complete"
 
 Call  $P@\SPA\Release\autotester.exe sourceA.txt  QueriesA_Buggy.txt  outABuggy.xml > NUL
+Call  $P@\SPA\Release\autotester.exe sourceA.txt  QueriesA.txt  outA.xml > NUL
 echo "Source A complete"
 
 Call  $P@\SPA\Release\autotester.exe Sample-Source.txt  Sample-Queries.txt  outSample.xml > NUL

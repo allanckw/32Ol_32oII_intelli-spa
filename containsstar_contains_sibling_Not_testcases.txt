@@ -1,0 +1,32 @@
+6
+cat: All Category
+1 - Contains_Not :: all variables not in the while loop or Contains in an assignment and variable
+variable v; while w; assign a; if ifStmt;
+Select v such that !Contains*(w, v) or (Contains*(a, v) and Contains*(ifStmt, v))
+
+5000
+2 - Contains_Not :: all variables not in the while loop or Contains in an assignment and variable
+variable v; while w; assign a; if ifStmt;
+Select v such that !Contains*(w, v) or (Contains*(a, v) and Contains*(ifStmt, v))
+
+5000
+3 - Contains_Not :: The opposite of query 57 - Gheying with Demorgan 
+variable v; while w; assign a; if ifStmt;
+Select v such that Contains*(w, v) or !(Contains*(a, v) and Contains*(ifStmt, v))
+
+5000
+4 - Contains_Not :: all variables not in the while loop 
+variable v; while w;
+Select v such that !Contains*(w, v)
+
+5000
+5 - Not_Siblings :: lol
+stmt s1, s2, s3; while w;
+Select w such that !Sibling(s3, s) and Parent (w, s2)
+
+5000
+6 - Not_Siblings :: all stmts that are siblings are while loops
+variable v; while w; stmt s;
+Select s such that !Sibling(w, s) 
+
+5000

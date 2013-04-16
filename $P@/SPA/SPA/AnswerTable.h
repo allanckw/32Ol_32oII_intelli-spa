@@ -9,6 +9,7 @@ private:
 	vector<string> header;
 	vector<RulesOfEngagement::QueryVar> type;
 	vector<vector<pair<int, unordered_set<ASTNode*>>>> answers;
+	unordered_map<string, unordered_set<string>> patterns;
 
 	static vector<string> MiniTokenizer(const string& line);
 
@@ -32,6 +33,7 @@ public:
 	void patternPrune(const string& synonym, const RulesOfEngagement::PatternRHSType,
 		const string& RHS, const ASTExprNode* RHSexprs);
 	
+	void finishHimOff();
 	AnswerTable project(const vector<string>& selection);
 	void cartesian(const AnswerTable& otherTable);
 

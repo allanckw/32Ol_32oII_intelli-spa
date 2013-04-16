@@ -722,6 +722,8 @@ int RulesOfEngagement::convertASTNodeToInteger(const QueryVar type, const ASTNod
 {
 	switch (type) {
 	case Procedure:
+	case Variable:
+	case Constant:
 		return node->getValue();
 	case Statement_List:
 		return ((ASTStmtNode*) node->getChild(0))->getStmtNumber();
@@ -732,12 +734,103 @@ int RulesOfEngagement::convertASTNodeToInteger(const QueryVar type, const ASTNod
 	case If:
 	case Prog_Line:
 		return ((ASTStmtNode*) node)->getStmtNumber();
-	case Variable:
-		return node->getValue();
-		return node->getValue();
 	default:
 		throw new SPAException("Unknown type");
 	}
+}
+
+vector<pair<int, unordered_set<ASTNode*>>>
+		RulesOfEngagement::putNiceNiceASTNode(const RulesOfEngagement::QueryVar var,
+		const vector<ASTNode*>& answers)
+{
+	vector<pair<int, unordered_set<ASTNode*>>> result;
+	
+	switch (var) {
+	case Procedure:
+	case Statement:
+	case Prog_Line: {
+		unordered_map<int, unordered_set<ASTNode*>> simplify;
+		for (auto it = answers.begin(); it != answers.end(); it++)
+			simplify[convertASTNodeToInteger(var, *it)].insert(*it);
+						
+		return vector<pair<int, unordered_set<ASTNode*>>>(simplify.begin(), simplify.end());
+					}
+		break;
+	case Assign:
+		for (auto it = answers.begin(); it != answers.end(); it++)
+			if (PKB::assignNodesBack.count(*it) > 0) {
+				unordered_set<ASTNode*> uset;
+				uset.insert(*it);
+				result.push_back(pair<int, unordered_set<ASTNode*>>
+					(PKB::assignNodesBack[*it], uset));
+			}
+		break;
+	case Call:
+		for (auto it = answers.begin(); it != answers.end(); it++)
+			if (PKB::callNodesBack.count(*it) > 0) {
+				unordered_set<ASTNode*> uset;
+				uset.insert(*it);
+				result.push_back(pair<int, unordered_set<ASTNode*>>
+					(PKB::callNodesBack[*it], uset));
+			}
+		break;
+	case While:
+		for (auto it = answers.begin(); it != answers.end(); it++)
+			if (PKB::whileNodesBack.count(*it) > 0) {
+				unordered_set<ASTNode*> uset;
+				uset.insert(*it);
+				result.push_back(pair<int, unordered_set<ASTNode*>>
+					(PKB::whileNodesBack[*it], uset));
+			}
+		break;
+	case If:
+		for (auto it = answers.begin(); it != answers.end(); it++)
+			if (PKB::ifNodesBack.count(*it) > 0) {
+				unordered_set<ASTNode*> uset;
+				uset.insert(*it);
+				result.push_back(pair<int, unordered_set<ASTNode*>>
+					(PKB::ifNodesBack[*it], uset));
+			}
+		break;
+	case Statement_List:
+		for (auto it = answers.begin(); it != answers.end(); it++)
+			if (PKB::statementListNodesBack.count(*it) > 0) {
+				unordered_set<ASTNode*> uset;
+				uset.insert(*it);
+				result.push_back(pair<int, unordered_set<ASTNode*>>
+					(PKB::statementListNodesBack[*it], uset));
+			}
+		break;
+	case Variable: {
+		unordered_map<int, unordered_set<ASTNode*>> simplify;
+		for (auto it = answers.begin(); it != answers.end(); it++)
+			if ((*it)->getType() == ASTNode::Variable)
+				simplify[convertASTNodeToInteger(var, *it)].insert(*it);
+		return vector<pair<int, unordered_set<ASTNode*>>>(simplify.begin(), simplify.end());
+				   }
+		break;
+	case Constant: {
+		unordered_map<int, unordered_set<ASTNode*>> simplify;
+		for (auto it = answers.begin(); it != answers.end(); it++)
+			if ((*it)->getType() == ASTNode::Constant)
+				simplify[convertASTNodeToInteger(var, *it)].insert(*it);
+		return vector<pair<int, unordered_set<ASTNode*>>>(simplify.begin(), simplify.end());
+				   }
+		break;
+	case Plus:
+	case Minus:
+	case Times:
+		for (auto it = answers.begin(); it != answers.end(); it++) {
+			unordered_set<ASTNode*> uset;
+			uset.insert(*it);
+			result.push_back(pair<int, unordered_set<ASTNode*>>(-1, uset));
+		}
+		break;
+	default:
+		throw new SPAException("Unknown type");
+	}
+
+	return result;
 }
 
 /**

@@ -33,7 +33,8 @@ private:
 			const pair<RulesOfEngagement::QueryRelations, int> &j) {
 			return i.second < j.second;
 		}
-	};	
+	};
+	
 public:
 	static void extractDesign();
 };

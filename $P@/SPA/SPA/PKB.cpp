@@ -45,6 +45,7 @@ unordered_map<ASTNode*, STMT> PKB::assignNodesBack;
 unordered_map<ASTNode*, STMT> PKB::callNodesBack;
 unordered_map<ASTNode*, STMT> PKB::whileNodesBack;
 unordered_map<ASTNode*, STMT> PKB::ifNodesBack;
+unordered_map<ASTNode*, STMT> PKB::statementListNodesBack;
 
 vector<vector<ASTNode*>> PKB::oprNodes;
 vector<vector<ASTNode*>> PKB::varNodes;

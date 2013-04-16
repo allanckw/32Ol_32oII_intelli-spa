@@ -78,6 +78,8 @@ public:
 		const string& condition, const int);
 	static unordered_set<ASTNode*> convertIntegerToASTNode(const QueryVar type, const int);
 	static int convertASTNodeToInteger(const QueryVar type, const ASTNode*);
+	static vector<pair<int, unordered_set<ASTNode*>>>
+		putNiceNiceASTNode(const QueryVar var, const vector<ASTNode*>& answers);
 
 	static bool isExistType(QueryVar var);
 

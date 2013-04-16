@@ -325,6 +325,7 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 	ASTStmtNode* currentStmtNode = (ASTStmtNode*) firstLevelStmtListNode->getChild(0); //first statement
 	STMT currentStmtNumber = currentStmtNode->getStmtNumber();
 	PKB::statementListTable.insert(currentStmtNumber);
+	PKB::statementListNodesBack.insert(pair<ASTNode*, STMT>(currentStmtNode, currentStmtNumber));
 	int currentPosition = 0;
 
 	while (true) {
@@ -474,6 +475,8 @@ void DesignExtractor::buildOtherTables(PROC currentProc) {
 
 		case ASTNode::While:
 		case ASTNode::If: {
+			PKB::statementListNodesBack.insert(
+				pair<ASTNode*, STMT>(currentStmtNode, currentStmtNumber));
 			if (currentStmtNode->getType() == ASTNode::While) {
 				PKB::whileTable.insert(currentStmtNumber);
 				PKB::whileNodes.insert(pair<STMT, ASTNode*>(currentStmtNumber, currentStmtNode));

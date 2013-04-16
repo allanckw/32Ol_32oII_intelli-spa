@@ -190,51 +190,7 @@ AnswerTable::AnswerTable(const SynonymTable& synonymTable, const string& synonym
 			} else {
 				const vector<ASTNode*>& answers = fn(arg);
 				if (unrestricted) {
-					switch (synType) {
-					case RulesOfEngagement::Assign:
-						for (auto it2 = answers.begin(); it2 != answers.end(); it2++)
-							if (PKB::assignNodesBack.count(*it2) > 0) {
-								unordered_set<ASTNode*> uset;
-								uset.insert(*it2);
-								table.push_back(pair<int, unordered_set<ASTNode*>>
-									(PKB::assignNodesBack[*it2], uset));
-							}
-						break;
-					case RulesOfEngagement::While:
-						for (auto it2 = answers.begin(); it2 != answers.end(); it2++)
-							if (PKB::whileNodesBack.count(*it2) > 0) {
-								unordered_set<ASTNode*> uset;
-								uset.insert(*it2);
-								table.push_back(pair<int, unordered_set<ASTNode*>>
-									(PKB::whileNodesBack[*it2], uset));
-							}
-						break;
-					case RulesOfEngagement::If:
-						for (auto it2 = answers.begin(); it2 != answers.end(); it2++)
-							if (PKB::ifNodesBack.count(*it2) > 0) {
-								unordered_set<ASTNode*> uset;
-								uset.insert(*it2);
-								table.push_back(pair<int, unordered_set<ASTNode*>>
-									(PKB::ifNodesBack[*it2], uset));
-							}
-						break;
-					case RulesOfEngagement::Call:
-						for (auto it2 = answers.begin(); it2 != answers.end(); it2++)
-							if (PKB::callNodesBack.count(*it2) > 0) {
-								unordered_set<ASTNode*> uset;
-								uset.insert(*it2);
-								table.push_back(pair<int, unordered_set<ASTNode*>>
-									(PKB::callNodesBack[*it2], uset));
-							}
-						break;
-					default:
-						unordered_map<int, unordered_set<ASTNode*>> simplify;
-						for (auto it2 = answers.begin(); it2 != answers.end(); it2++)
-							simplify[RulesOfEngagement::convertASTNodeToInteger(synType, *it2)].
-							insert(*it2);
-						
-						table.insert(table.end(), simplify.begin(), simplify.end());
-					}
+					table = RulesOfEngagement::putNiceNiceASTNode(synType, answers);
 					unrestricted = false;
 				} else {
 					vector<pair<int, unordered_set<ASTNode*>>> newTable;
@@ -357,51 +313,7 @@ AnswerTable::AnswerTable(const SynonymTable& synonymTable, const string& synonym
 			} else {
 				const vector<ASTNode*>& answers = fn(arg);
 				if (unrestricted) {
-					switch (synType) {
-					case RulesOfEngagement::Assign:
-						for (auto it2 = answers.begin(); it2 != answers.end(); it2++)
-							if (PKB::assignNodesBack.count(*it2) > 0) {
-								unordered_set<ASTNode*> uset;
-								uset.insert(*it2);
-								table.push_back(pair<int, unordered_set<ASTNode*>>
-									(PKB::assignNodesBack[*it2], uset));
-							}
-						break;
-					case RulesOfEngagement::While:
-						for (auto it2 = answers.begin(); it2 != answers.end(); it2++)
-							if (PKB::whileNodesBack.count(*it2) > 0) {
-								unordered_set<ASTNode*> uset;
-								uset.insert(*it2);
-								table.push_back(pair<int, unordered_set<ASTNode*>>
-									(PKB::whileNodesBack[*it2], uset));
-							}
-						break;
-					case RulesOfEngagement::If:
-						for (auto it2 = answers.begin(); it2 != answers.end(); it2++)
-							if (PKB::ifNodesBack.count(*it2) > 0) {
-								unordered_set<ASTNode*> uset;
-								uset.insert(*it2);
-								table.push_back(pair<int, unordered_set<ASTNode*>>
-									(PKB::ifNodesBack[*it2], uset));
-							}
-						break;
-					case RulesOfEngagement::Call:
-						for (auto it2 = answers.begin(); it2 != answers.end(); it2++)
-							if (PKB::callNodesBack.count(*it2) > 0) {
-								unordered_set<ASTNode*> uset;
-								uset.insert(*it2);
-								table.push_back(pair<int, unordered_set<ASTNode*>>
-									(PKB::callNodesBack[*it2], uset));
-							}
-						break;
-					default:
-						unordered_map<int, unordered_set<ASTNode*>> simplify;
-						for (auto it2 = answers.begin(); it2 != answers.end(); it2++)
-							simplify[RulesOfEngagement::convertASTNodeToInteger(synType, *it2)].
-							insert(*it2);
-						
-						table.insert(table.end(), simplify.begin(), simplify.end());
-					}
+					table = RulesOfEngagement::putNiceNiceASTNode(synType, answers);
 					unrestricted = false;
 				} else {
 					vector<pair<int, unordered_set<ASTNode*>>> newTable;
@@ -930,35 +842,9 @@ AnswerTable::AnswerTable(const SynonymTable& synonymTable, const string& synonym
 	}
 
 	{
-	const vector<string>& patterns = synonymTable.getAllPattern(synonym);
-	for (auto it = patterns.begin(); it != patterns.end(); it++) {
-		const string& expression = *it;
-
-		//actual setting up of patterns of assign for the right hand side
-		RulesOfEngagement::PatternRHSType RHS;
-		string RHSVarName;
-		if (expression.at(0) == '_' && expression.at(expression.size() - 1) == '_') {
-			RHS = RulesOfEngagement::PRSub;
-			RHSVarName = expression.substr(1, expression.length() - 2);
-		} else {
-			RHS = RulesOfEngagement::PRNoSub;
-			RHSVarName = expression;
-		}
-		RHSVarName = RHSVarName.substr(1, RHSVarName.length() - 2);
-		ASTExprNode* RHSexprs;
-		try {
-			RHSexprs = AssignmentParser::processAssignment(MiniTokenizer(RHSVarName));
-		} catch (SPAException& e) {	//exception indicates that the right hand side
-			table.clear();		//is not correct, probably due to it containing
-			return;					//a variable that is not actually present.
-		}
-
-		vector<pair<int, unordered_set<ASTNode*>>> table2;
-		for (auto it = table.begin(); it != table.end(); it++)
-			if (RulesOfEngagement::satisfyPattern(it->first, RHS, RHSVarName, RHSexprs))
-				table2.push_back(*it);
-		table = table2;
-	}
+	const vector<string>& pattern = synonymTable.getAllPattern(synonym);
+	for (auto it = pattern.begin(); it != pattern.end(); ++it)
+		patterns[synonym].insert(*it);
 	}
 
 	//convert vector<int> to vector<vector<int>>
@@ -966,6 +852,43 @@ AnswerTable::AnswerTable(const SynonymTable& synonymTable, const string& synonym
 		vector<pair<int, unordered_set<ASTNode*>>> temp;
 		temp.push_back(*it);
 		answers.push_back(temp);
+	}
+}
+
+void AnswerTable::finishHimOff()
+{
+	for (auto it = patterns.begin(); it != patterns.end(); it++) {
+		const string synonym = it->first;
+		const size_t index = synonymPosition[synonym];
+		const unordered_set<string> pattern = it->second;
+		for (auto it2 = pattern.begin(); it2 != pattern.end(); ++it2) {
+			const string& expression = *it2;
+
+			//actual setting up of patterns of assign for the right hand side
+			RulesOfEngagement::PatternRHSType RHS;
+			string RHSVarName;
+			if (expression.at(0) == '_' && expression.at(expression.size() - 1) == '_') {
+				RHS = RulesOfEngagement::PRSub;
+				RHSVarName = expression.substr(1, expression.length() - 2);
+			} else {
+				RHS = RulesOfEngagement::PRNoSub;
+				RHSVarName = expression;
+			}
+			RHSVarName = RHSVarName.substr(1, RHSVarName.length() - 2);
+			ASTExprNode* RHSexprs;
+			try {
+				RHSexprs = AssignmentParser::processAssignment(MiniTokenizer(RHSVarName));
+			} catch (SPAException& e) {	//exception indicates that the right hand side
+				answers.clear();		//is not correct, probably due to it containing
+				return;					//a variable that is not actually present.
+			}
+
+			vector<vector<pair<int, unordered_set<ASTNode*>>>> answers2;
+			for (auto it = answers.begin(); it != answers.end(); it++)
+				if (RulesOfEngagement::satisfyPattern((*it)[index].first, RHS, RHSVarName, RHSexprs))
+					answers2.push_back(*it);
+			answers = answers2;
+		}
 	}
 }
 
@@ -1003,7 +926,7 @@ void AnswerTable::combine(const string& ownSynonym, AnswerTable& otherTable,
 				const unordered_set<ASTNode*>& second = info2.second;
 
 				for (auto it3 = first.begin(); it3 != first.end(); it3++) {
-					unordered_map<ASTNode*, bool> memofirst = memo[*it3];
+					unordered_map<ASTNode*, bool>& memofirst = memo[*it3];
 					unordered_set<ASTNode*> survive;
 					for (auto it4 = second.begin(); it4 != second.end(); it4++) {
 						if (memofirst.count(*it4) == 0)
@@ -1032,7 +955,7 @@ void AnswerTable::combine(const string& ownSynonym, AnswerTable& otherTable,
 			unordered_map<int, unordered_map<int, bool>> memo;
 			for (auto it = answers.begin(); it != answers.end(); it++) {
 				int first = (*it)[firstRelIndex].first;
-				unordered_map<int, bool> memofirst = memo[first];
+				unordered_map<int, bool>& memofirst = memo[first];
 
 				for (auto it2 = otherTable.answers.begin(); it2 != otherTable.answers.end(); it2++) {
 					int second = (*it2)[secondRelIndex].first;
@@ -1099,6 +1022,9 @@ void AnswerTable::combine(const string& ownSynonym, AnswerTable& otherTable,
 	for (auto it = otherTable.type.begin(); it != otherTable.type.end(); it++) {
 		type.push_back(*it);
 	}
+	for (auto it = otherTable.patterns.begin(); it != otherTable.patterns.end(); it++) {
+		patterns.insert(*it);
+	}
 }
 
 /**
@@ -1132,7 +1058,7 @@ void AnswerTable::prune(const string& firstSynonym,
 			unordered_set<ASTNode*> second = info2.second;
 
 			for (auto it2 = first.begin(); it2 != first.end(); it2++) {
-				unordered_map<ASTNode*, bool> memofirst = memo[*it2];
+				unordered_map<ASTNode*, bool>& memofirst = memo[*it2];
 				unordered_set<ASTNode*> survive;
 				for (auto it3 = second.begin(); it3 != second.end(); it3++) {
 					if (memofirst.count(*it3) == 0)

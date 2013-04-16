@@ -302,12 +302,12 @@ y,x,z,i
 5000
 62 - Contains :: Assignment 4 returns all constants referred to in statement 130 -> y = y = (x + z - i * 2)*y;)
 constant c;
-Select v such that Contains* (130, c)
+Select c such that Contains* (130, c)
 2
 5000
 63 - Contains :: Assignment 4 returns all variables referred to in statement 110 -> z=x+5+1+x+m+y+i+k;
 constant c;
-Select v such that Contains* (110, c)
+Select c such that Contains* (110, c)
 1, 5
 5000
 64 - Contains :: Assignment 4 returns all variables referred to in statement 126 -> if m

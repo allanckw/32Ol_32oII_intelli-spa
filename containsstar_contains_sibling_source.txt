@@ -145,3 +145,17 @@ procedure John{
 			call Bob;}}											//131
 	else {
 		x = 20;}}												//132
+
+procedure Natalie
+{
+	if cat then {
+		while c {
+			a = miao; }
+	}
+	else
+	{
+		while sorry {
+			call Peter;
+		}
+	}
+}

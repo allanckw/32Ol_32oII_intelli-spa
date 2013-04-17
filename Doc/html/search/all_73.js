@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['satisfypattern',['satisfyPattern',['../class_rules_of_engagement.html#a6d82299f9e291ea53856f9eeff143451',1,'RulesOfEngagement']]],
+  ['satisfypattern',['satisfyPattern',['../class_rules_of_engagement.html#ae832edd4f052f7ed5d3385851a76dfa0',1,'RulesOfEngagement']]],
+  ['setancestor',['setAncestor',['../class_a_s_t_node.html#a33e7c3d514ec8adffd2b7fca4d838c9c',1,'ASTNode']]],
   ['setaststmtnode',['setASTStmtNode',['../class_stmt_ref.html#a253c944e7df29b33029081518708366d',1,'StmtRef']]],
   ['setcfgnode',['setCFGNode',['../class_stmt_ref.html#a793f7e7b6509f12584ddb5b0da80164a',1,'StmtRef']]],
   ['setfirstgeneric',['setFirstGeneric',['../class_synonym_table.html#ad53932d85419c69ff93db7a0b094791b',1,'SynonymTable']]],
@@ -15,6 +16,7 @@ var searchData=
   ['setselfreference',['setSelfReference',['../class_synonym_table.html#a394f3fe82c0e8908e531fed0353a043b',1,'SynonymTable']]],
   ['setspecificattribute',['setSpecificAttribute',['../class_synonym_table.html#aedd5d18cb3c7f31827142e52b76f725a',1,'SynonymTable']]],
   ['setunion',['setUnion',['../class_disjoint_set.html#a22cc258d720bca3005988d0d0332407f',1,'DisjointSet']]],
+  ['sibling',['Sibling',['../class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817a820527f4b3f47e146e9cf9ec59fa77c9',1,'RulesOfEngagement']]],
   ['sortorder',['sortorder',['../class_p_k_b.html#aa0386fc54ac3aa101697cec565cd97ab',1,'PKB']]],
   ['spaexception',['SPAException',['../class_s_p_a_exception.html',1,'SPAException'],['../class_s_p_a_exception.html#a8f17fd2540fce63ba93e51c51765010d',1,'SPAException::SPAException()'],['../class_s_p_a_exception.html#a422623fc7b2c546620c231cf8eebd53b',1,'SPAException::SPAException(string)']]],
   ['spaexception_2ecpp',['SPAException.cpp',['../_s_p_a_exception_8cpp.html',1,'']]],
@@ -22,6 +24,7 @@ var searchData=
   ['standardnode',['StandardNode',['../class_c_f_g_node.html#aa0933713506a9c0226e705703ee5b079aa2e8603898955894b9dee1c4357f7438',1,'CFGNode']]],
   ['statement',['Statement',['../class_rules_of_engagement.html#a5dd2b28fd0c906d9b08e29e371713eadaa8e11c65c22baf0626ac3993cd82f37c',1,'RulesOfEngagement']]],
   ['statement_5flist',['Statement_List',['../class_rules_of_engagement.html#a5dd2b28fd0c906d9b08e29e371713eadaf2f49b1a5bb530fff2bb591349d850cd',1,'RulesOfEngagement']]],
+  ['statementlistnodesback',['statementListNodesBack',['../class_p_k_b.html#a3f711ce4ac82d663ebdd540c1d191ebe',1,'PKB']]],
   ['statementlisttable',['statementListTable',['../class_p_k_b.html#adc4120ed1f3472e49ba743fdb5a7f57e',1,'PKB']]],
   ['statementnodes',['statementNodes',['../class_p_k_b.html#a04aa565187bc3a566ac0163027e46f46',1,'PKB']]],
   ['statementtable',['statementTable',['../class_p_k_b.html#a295e1559f863827d703055a49a1b888b',1,'PKB']]],

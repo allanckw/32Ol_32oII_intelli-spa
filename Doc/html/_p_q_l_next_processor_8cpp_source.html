@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="intellispa-small.jpg"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">SPA
-   &#160;<span id="projectnumber">3</span>
+   &#160;<span id="projectnumber">4</span>
    </div>
    <div id="projectbrief">Static Program Analyzer - Team 11 CS3202 AY12/13 S2</div>
   </td>
@@ -113,7 +113,7 @@ $(document).ready(function(){initNavTree('_p_q_l_next_processor_8cpp_source.html
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
 <div class="line"><a name="l00011"></a><span class="lineno"><a class="code" href="class_p_q_l_next_processor.html#a7504e6289a468982bf0ae3342892ec73">   11</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_p_q_l_next_processor.html#a7504e6289a468982bf0ae3342892ec73">PQLNextProcessor::isNext</a>(<a class="code" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> p1, <a class="code" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> p2)</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;{</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordflow">if</span> (p1 &lt; 0 || p1 &gt; <a class="code" href="class_p_k_b.html#ae3b310bfb545d59911cd4f6bb54ebd94">PKB::maxProgLines</a> || p2 &lt; 0 || p2 &gt; <a class="code" href="class_p_k_b.html#ae3b310bfb545d59911cd4f6bb54ebd94">PKB::maxProgLines</a>){</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordflow">if</span> (p1 &lt;= 0 || p1 &gt; <a class="code" href="class_p_k_b.html#ae3b310bfb545d59911cd4f6bb54ebd94">PKB::maxProgLines</a> || p2 &lt;= 0 || p2 &gt; <a class="code" href="class_p_k_b.html#ae3b310bfb545d59911cd4f6bb54ebd94">PKB::maxProgLines</a>){</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    }</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
@@ -174,7 +174,7 @@ $(document).ready(function(){initNavTree('_p_q_l_next_processor_8cpp_source.html
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
 <div class="line"><a name="l00077"></a><span class="lineno"><a class="code" href="class_p_q_l_next_processor.html#a2ff7fad26252a0c1d11282949ef60e8b">   77</a></span>&#160;vector&lt;PROG_LINE&gt; <a class="code" href="class_p_q_l_next_processor.html#a2ff7fad26252a0c1d11282949ef60e8b">PQLNextProcessor::getNext</a>(<a class="code" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> p1)</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;{</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordflow">if</span> (p1 &lt; 0 || p1 &gt; <a class="code" href="class_p_k_b.html#ae3b310bfb545d59911cd4f6bb54ebd94">PKB::maxProgLines</a>)</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordflow">if</span> (p1 &lt;= 0 || p1 &gt; <a class="code" href="class_p_k_b.html#ae3b310bfb545d59911cd4f6bb54ebd94">PKB::maxProgLines</a>)</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        <span class="keywordflow">return</span> vector&lt;PROG_LINE&gt;();</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <a class="code" href="class_c_f_g_node.html">CFGNode</a>* s1 = <a class="code" href="class_p_k_b.html#a5d6117050599ff7205c7fc88426b4435">PKB::stmtRefMap</a>.at(p1).getCFGNode();</div>
@@ -241,7 +241,7 @@ $(document).ready(function(){initNavTree('_p_q_l_next_processor_8cpp_source.html
 <div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;</div>
 <div class="line"><a name="l00149"></a><span class="lineno"><a class="code" href="class_p_q_l_next_processor.html#a62fbf8a3d630cb98ddc4057c12dd61f1">  149</a></span>&#160;vector&lt;PROG_LINE&gt; <a class="code" href="class_p_q_l_next_processor.html#a62fbf8a3d630cb98ddc4057c12dd61f1">PQLNextProcessor::getPrevious</a>(<a class="code" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> p2)</div>
 <div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;{</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="keywordflow">if</span> (p2 &lt; 0 || p2 &gt; <a class="code" href="class_p_k_b.html#ae3b310bfb545d59911cd4f6bb54ebd94">PKB::maxProgLines</a>){</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="keywordflow">if</span> (p2 &lt;= 0 || p2 &gt; <a class="code" href="class_p_k_b.html#ae3b310bfb545d59911cd4f6bb54ebd94">PKB::maxProgLines</a>){</div>
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        <span class="keywordflow">return</span> vector&lt;PROG_LINE&gt;();</div>
 <div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    }</div>
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;</div>
@@ -274,7 +274,7 @@ $(document).ready(function(){initNavTree('_p_q_l_next_processor_8cpp_source.html
 <div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;</div>
 <div class="line"><a name="l00188"></a><span class="lineno"><a class="code" href="class_p_q_l_next_processor.html#a1c8da8e2b325162392a59b8715caf9be">  188</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_p_q_l_next_processor.html#a1c8da8e2b325162392a59b8715caf9be">PQLNextProcessor::isNextStar</a>(<a class="code" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> p1, <a class="code" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> p2)</div>
 <div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;{</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    <span class="keywordflow">if</span> (p1 &lt; 0 || p1 &gt; <a class="code" href="class_p_k_b.html#ae3b310bfb545d59911cd4f6bb54ebd94">PKB::maxProgLines</a> || p2 &lt; 0 || p2 &gt; <a class="code" href="class_p_k_b.html#ae3b310bfb545d59911cd4f6bb54ebd94">PKB::maxProgLines</a>){</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    <span class="keywordflow">if</span> (p1 &lt;= 0 || p1 &gt; <a class="code" href="class_p_k_b.html#ae3b310bfb545d59911cd4f6bb54ebd94">PKB::maxProgLines</a> || p2 &lt;= 0 || p2 &gt; <a class="code" href="class_p_k_b.html#ae3b310bfb545d59911cd4f6bb54ebd94">PKB::maxProgLines</a>){</div>
 <div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    }</div>
 <div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;</div>
@@ -326,110 +326,110 @@ $(document).ready(function(){initNavTree('_p_q_l_next_processor_8cpp_source.html
 <div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;</div>
 <div class="line"><a name="l00245"></a><span class="lineno"><a class="code" href="class_p_q_l_next_processor.html#a44447b6cfcbfe9b0d592a0cc77577ba2">  245</a></span>&#160;vector&lt;PROG_LINE&gt; <a class="code" href="class_p_q_l_next_processor.html#a44447b6cfcbfe9b0d592a0cc77577ba2">PQLNextProcessor::getNextStar</a>(<a class="code" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> p1)</div>
 <div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;{</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;    <span class="keywordflow">if</span> (p1 &lt; 0 || p1 &gt; <a class="code" href="class_p_k_b.html#ae3b310bfb545d59911cd4f6bb54ebd94">PKB::maxProgLines</a>){</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;    <span class="keywordflow">if</span> (p1 &lt; 0 || p1 &gt; <a class="code" href="class_p_k_b.html#ae3b310bfb545d59911cd4f6bb54ebd94">PKB::maxProgLines</a>)</div>
 <div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;        <span class="keywordflow">return</span> vector&lt;PROG_LINE&gt;();</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    }</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    </div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;    <span class="keywordflow">if</span> (p1 == 0)</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="class_p_q_l_next_processor.html#a9c10951edfc8b0ad09535b124f7b2845">PQLNextProcessor::getSelfNextStar</a>();</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    vector&lt;PROG_LINE&gt; answer;</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;    </div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;    <a class="code" href="class_c_f_g_node.html">CFGNode</a>* s1 = <a class="code" href="class_p_k_b.html#a5d6117050599ff7205c7fc88426b4435">PKB::stmtRefMap</a>.at(p1).getCFGNode();</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = p1 + 1; i &lt;= s1-&gt;<a class="code" href="class_c_f_g_node.html#aa2ed16b97347a8daa3ae6a7b0022284b">last</a>; i++){</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;        answer.push_back(i);</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    }</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;    <span class="keyword">const</span> <a class="code" href="class_interval_list.html">IntervalList</a> * node = s1-&gt;<a class="code" href="class_c_f_g_node.html#aa6b60346fb038bfd0c1f1b5d10164fcb">nextList</a>;</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    <span class="keywordflow">if</span> (node != NULL) {</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = node-&gt;<a class="code" href="class_interval_list.html#ae0cdf99da88c06a7d684964e2330eade">first</a>; i &lt;= node-&gt;last; i++){</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;            answer.push_back(i);</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;        }</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;        <span class="keyword">const</span> <a class="code" href="class_interval_list.html">IntervalList</a> * prevNode = node-&gt;<a class="code" href="class_interval_list.html#a65f0ce062c99c24b5890550f3c0fcbd5">prev</a>;</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;        <span class="keywordflow">while</span> (prevNode != NULL) {</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = prevNode-&gt;<a class="code" href="class_interval_list.html#ae0cdf99da88c06a7d684964e2330eade">first</a>; i &lt;= prevNode-&gt;last; i++){</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;                answer.push_back(i);</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;            }</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;            prevNode = prevNode-&gt;<a class="code" href="class_interval_list.html#a65f0ce062c99c24b5890550f3c0fcbd5">prev</a>;</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;        }</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;        node = node-&gt;<a class="code" href="class_interval_list.html#ae97a594b41b0e48efb55d1377fc84126">next</a>;</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;        </div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;        <span class="keywordflow">while</span> (node != NULL) {</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = node-&gt;<a class="code" href="class_interval_list.html#ae0cdf99da88c06a7d684964e2330eade">first</a>; i &lt;= node-&gt;last; i++){</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;                answer.push_back(i);</div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;            }</div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;            node = node-&gt;<a class="code" href="class_interval_list.html#ae97a594b41b0e48efb55d1377fc84126">next</a>;</div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;        }</div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;    }</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;    <span class="keywordflow">return</span> answer;</div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;}</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;</div>
-<div class="line"><a name="l00295"></a><span class="lineno"><a class="code" href="class_p_q_l_next_processor.html#a3f7f0293f38902ac84b5527f2fb06a59">  295</a></span>&#160;vector&lt;PROG_LINE&gt; <a class="code" href="class_p_q_l_next_processor.html#a3f7f0293f38902ac84b5527f2fb06a59">PQLNextProcessor::getPreviousStar</a>(<a class="code" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> p2) {</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;    <span class="keywordflow">if</span> (p2 &lt; 0 || p2 &gt; <a class="code" href="class_p_k_b.html#ae3b310bfb545d59911cd4f6bb54ebd94">PKB::maxProgLines</a>)</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;        <span class="keywordflow">return</span> vector&lt;PROG_LINE&gt;();</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;</div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;    vector&lt;PROG_LINE&gt; answer;</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;    <a class="code" href="class_c_f_g_node.html">CFGNode</a>* s2 = <a class="code" href="class_p_k_b.html#a5d6117050599ff7205c7fc88426b4435">PKB::stmtRefMap</a>.at(p2).getCFGNode();</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = s2-&gt;<a class="code" href="class_c_f_g_node.html#a916b31fb1fc28e3a708d3c7913970f66">first</a>; i &lt; p2; i++){</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;        answer.push_back(i);</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;    }</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;    <span class="keyword">const</span> <a class="code" href="class_interval_list.html">IntervalList</a> * node = s2-&gt;<a class="code" href="class_c_f_g_node.html#afd5d0654a254ef7a1c62e47d7ff66f75">prevList</a>;</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;    <span class="keywordflow">if</span> (node != NULL) {</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = node-&gt;<a class="code" href="class_interval_list.html#ae0cdf99da88c06a7d684964e2330eade">first</a>; i &lt;= node-&gt;last; i++){</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;            answer.push_back(i);</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;        }</div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;        <span class="keyword">const</span> <a class="code" href="class_interval_list.html">IntervalList</a> * prevNode = node-&gt;<a class="code" href="class_interval_list.html#a65f0ce062c99c24b5890550f3c0fcbd5">prev</a>;</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;        <span class="keywordflow">while</span> (prevNode != NULL) {</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = prevNode-&gt;<a class="code" href="class_interval_list.html#ae0cdf99da88c06a7d684964e2330eade">first</a>; i &lt;= prevNode-&gt;last; i++)</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;                answer.push_back(i);</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;            prevNode = prevNode-&gt;<a class="code" href="class_interval_list.html#a65f0ce062c99c24b5890550f3c0fcbd5">prev</a>;</div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;        }</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;</div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;        node = node-&gt;<a class="code" href="class_interval_list.html#ae97a594b41b0e48efb55d1377fc84126">next</a>;</div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;        <span class="keywordflow">while</span> (node != NULL) {</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = node-&gt;<a class="code" href="class_interval_list.html#ae0cdf99da88c06a7d684964e2330eade">first</a>; i &lt;= node-&gt;last; i++)</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;                answer.push_back(i);</div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;            node = node-&gt;<a class="code" href="class_interval_list.html#ae97a594b41b0e48efb55d1377fc84126">next</a>;</div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;        }</div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;    }</div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;    <span class="keywordflow">return</span> answer;</div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;}</div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;</div>
-<div class="line"><a name="l00335"></a><span class="lineno"><a class="code" href="class_p_q_l_next_processor.html#a9c10951edfc8b0ad09535b124f7b2845">  335</a></span>&#160;vector&lt;PROG_LINE&gt; <a class="code" href="class_p_q_l_next_processor.html#a9c10951edfc8b0ad09535b124f7b2845">PQLNextProcessor::getSelfNextStar</a>(){ </div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;    unordered_set&lt;int&gt; seen;</div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code" href="class_p_k_b.html#ac2d6057e757e3f104e38866f8b6a16e9">PKB::whileTable</a>.begin(); it != <a class="code" href="class_p_k_b.html#ac2d6057e757e3f104e38866f8b6a16e9">PKB::whileTable</a>.end(); it++)</div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;        <span class="keywordflow">if</span> (seen.count(*it) == 0) {</div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;            <a class="code" href="class_c_f_g_node.html">CFGNode</a>* cfg = <a class="code" href="class_p_k_b.html#a5d6117050599ff7205c7fc88426b4435">PKB::stmtRefMap</a>.at(*it).getCFGNode();</div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;            <a class="code" href="class_c_f_g_node.html">CFGNode</a>* cfg2 = cfg-&gt;<a class="code" href="class_c_f_g_node.html#a47d7f27cf88007b5663eae31f903f95a">children</a>.<a class="code" href="union_c_f_g_node_1_1_children.html#a2047e28982d12e37280e67961a3e3522">whileChildren</a>.<a class="code" href="struct_c_f_g_node_1_1_while_children.html#aa7eacf6afada7bab8a07c677fc5466d5">whileOut</a>;</div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;            </div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;            <span class="keywordflow">while</span> (cfg2 != NULL &amp;&amp; cfg2-&gt;<a class="code" href="class_c_f_g_node.html#a71c611eee5b784222a2c51b7a7b6d169">type</a> == <a class="code" href="class_c_f_g_node.html#aa0933713506a9c0226e705703ee5b079a653298400dbc11a4a806566fc8da20d3">CFGNode::DummyNode</a>) </div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;                cfg2 = cfg2-&gt;<a class="code" href="class_c_f_g_node.html#a47d7f27cf88007b5663eae31f903f95a">children</a>.<a class="code" href="union_c_f_g_node_1_1_children.html#afc60bae44a853ec41443f1c923860959">oneChild</a>; </div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;                </div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;            <span class="keywordflow">if</span> (cfg2 == NULL) {</div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;                <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = cfg-&gt;<a class="code" href="class_c_f_g_node.html#a916b31fb1fc28e3a708d3c7913970f66">first</a>; i &lt;= <a class="code" href="class_p_k_b.html#a960218307dbb38c796142a0f392205b6">PKB::TheBeginningAndTheEnd</a>[cfg-&gt;<a class="code" href="class_c_f_g_node.html#a4c29d551dc1b8ac7465ebf4ddd1e3437">proc</a>].second; i++) </div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;                    seen.insert(i);</div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;            } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;                <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = cfg-&gt;<a class="code" href="class_c_f_g_node.html#a916b31fb1fc28e3a708d3c7913970f66">first</a>; i &lt; cfg2-&gt;first; i++)</div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;                    seen.insert(i);</div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;            }</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    </div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    <span class="keywordflow">if</span> (p1 == 0)</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="class_p_q_l_next_processor.html#a9c10951edfc8b0ad09535b124f7b2845">PQLNextProcessor::getSelfNextStar</a>();</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;    vector&lt;PROG_LINE&gt; answer;</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    </div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;    <a class="code" href="class_c_f_g_node.html">CFGNode</a>* s1 = <a class="code" href="class_p_k_b.html#a5d6117050599ff7205c7fc88426b4435">PKB::stmtRefMap</a>.at(p1).getCFGNode();</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = p1 + 1; i &lt;= s1-&gt;<a class="code" href="class_c_f_g_node.html#aa2ed16b97347a8daa3ae6a7b0022284b">last</a>; i++){</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;        answer.push_back(i);</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;    }</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;    <span class="keyword">const</span> <a class="code" href="class_interval_list.html">IntervalList</a> * node = s1-&gt;<a class="code" href="class_c_f_g_node.html#aa6b60346fb038bfd0c1f1b5d10164fcb">nextList</a>;</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;    <span class="keywordflow">if</span> (node != NULL) {</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = node-&gt;<a class="code" href="class_interval_list.html#ae0cdf99da88c06a7d684964e2330eade">first</a>; i &lt;= node-&gt;last; i++){</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;            answer.push_back(i);</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;        }</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;        <span class="keyword">const</span> <a class="code" href="class_interval_list.html">IntervalList</a> * prevNode = node-&gt;<a class="code" href="class_interval_list.html#a65f0ce062c99c24b5890550f3c0fcbd5">prev</a>;</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;        <span class="keywordflow">while</span> (prevNode != NULL) {</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = prevNode-&gt;<a class="code" href="class_interval_list.html#ae0cdf99da88c06a7d684964e2330eade">first</a>; i &lt;= prevNode-&gt;last; i++){</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;                answer.push_back(i);</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;            }</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;            prevNode = prevNode-&gt;<a class="code" href="class_interval_list.html#a65f0ce062c99c24b5890550f3c0fcbd5">prev</a>;</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;        }</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;        node = node-&gt;<a class="code" href="class_interval_list.html#ae97a594b41b0e48efb55d1377fc84126">next</a>;</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;        </div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;        <span class="keywordflow">while</span> (node != NULL) {</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = node-&gt;<a class="code" href="class_interval_list.html#ae0cdf99da88c06a7d684964e2330eade">first</a>; i &lt;= node-&gt;last; i++){</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;                answer.push_back(i);</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;            }</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;            node = node-&gt;<a class="code" href="class_interval_list.html#ae97a594b41b0e48efb55d1377fc84126">next</a>;</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;        }</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;    }</div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;    <span class="keywordflow">return</span> answer;</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;}</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;</div>
+<div class="line"><a name="l00294"></a><span class="lineno"><a class="code" href="class_p_q_l_next_processor.html#a3f7f0293f38902ac84b5527f2fb06a59">  294</a></span>&#160;vector&lt;PROG_LINE&gt; <a class="code" href="class_p_q_l_next_processor.html#a3f7f0293f38902ac84b5527f2fb06a59">PQLNextProcessor::getPreviousStar</a>(<a class="code" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> p2) {</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;    <span class="keywordflow">if</span> (p2 &lt;= 0 || p2 &gt; <a class="code" href="class_p_k_b.html#ae3b310bfb545d59911cd4f6bb54ebd94">PKB::maxProgLines</a>)</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;        <span class="keywordflow">return</span> vector&lt;PROG_LINE&gt;();</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;    vector&lt;PROG_LINE&gt; answer;</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;    <a class="code" href="class_c_f_g_node.html">CFGNode</a>* s2 = <a class="code" href="class_p_k_b.html#a5d6117050599ff7205c7fc88426b4435">PKB::stmtRefMap</a>.at(p2).getCFGNode();</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = s2-&gt;<a class="code" href="class_c_f_g_node.html#a916b31fb1fc28e3a708d3c7913970f66">first</a>; i &lt; p2; i++){</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;        answer.push_back(i);</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;    }</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;    <span class="keyword">const</span> <a class="code" href="class_interval_list.html">IntervalList</a> * node = s2-&gt;<a class="code" href="class_c_f_g_node.html#afd5d0654a254ef7a1c62e47d7ff66f75">prevList</a>;</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;    <span class="keywordflow">if</span> (node != NULL) {</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = node-&gt;<a class="code" href="class_interval_list.html#ae0cdf99da88c06a7d684964e2330eade">first</a>; i &lt;= node-&gt;last; i++){</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;            answer.push_back(i);</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;        }</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;        <span class="keyword">const</span> <a class="code" href="class_interval_list.html">IntervalList</a> * prevNode = node-&gt;<a class="code" href="class_interval_list.html#a65f0ce062c99c24b5890550f3c0fcbd5">prev</a>;</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;        <span class="keywordflow">while</span> (prevNode != NULL) {</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = prevNode-&gt;<a class="code" href="class_interval_list.html#ae0cdf99da88c06a7d684964e2330eade">first</a>; i &lt;= prevNode-&gt;last; i++)</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;                answer.push_back(i);</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;            prevNode = prevNode-&gt;<a class="code" href="class_interval_list.html#a65f0ce062c99c24b5890550f3c0fcbd5">prev</a>;</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;        }</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;        node = node-&gt;<a class="code" href="class_interval_list.html#ae97a594b41b0e48efb55d1377fc84126">next</a>;</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;        <span class="keywordflow">while</span> (node != NULL) {</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = node-&gt;<a class="code" href="class_interval_list.html#ae0cdf99da88c06a7d684964e2330eade">first</a>; i &lt;= node-&gt;last; i++)</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;                answer.push_back(i);</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;            node = node-&gt;<a class="code" href="class_interval_list.html#ae97a594b41b0e48efb55d1377fc84126">next</a>;</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;        }</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;    }</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;    <span class="keywordflow">return</span> answer;</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;}</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;</div>
+<div class="line"><a name="l00334"></a><span class="lineno"><a class="code" href="class_p_q_l_next_processor.html#a9c10951edfc8b0ad09535b124f7b2845">  334</a></span>&#160;vector&lt;PROG_LINE&gt; <a class="code" href="class_p_q_l_next_processor.html#a9c10951edfc8b0ad09535b124f7b2845">PQLNextProcessor::getSelfNextStar</a>(){ </div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;    unordered_set&lt;int&gt; seen;</div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code" href="class_p_k_b.html#ac2d6057e757e3f104e38866f8b6a16e9">PKB::whileTable</a>.begin(); it != <a class="code" href="class_p_k_b.html#ac2d6057e757e3f104e38866f8b6a16e9">PKB::whileTable</a>.end(); it++)</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;        <span class="keywordflow">if</span> (seen.count(*it) == 0) {</div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;            <a class="code" href="class_c_f_g_node.html">CFGNode</a>* cfg = <a class="code" href="class_p_k_b.html#a5d6117050599ff7205c7fc88426b4435">PKB::stmtRefMap</a>.at(*it).getCFGNode();</div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;            <a class="code" href="class_c_f_g_node.html">CFGNode</a>* cfg2 = cfg-&gt;<a class="code" href="class_c_f_g_node.html#a47d7f27cf88007b5663eae31f903f95a">children</a>.<a class="code" href="union_c_f_g_node_1_1_children.html#a2047e28982d12e37280e67961a3e3522">whileChildren</a>.<a class="code" href="struct_c_f_g_node_1_1_while_children.html#aa7eacf6afada7bab8a07c677fc5466d5">whileOut</a>;</div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;            </div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;            <span class="keywordtype">int</span> last;</div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;            <span class="keywordflow">if</span> (cfg2-&gt;<a class="code" href="class_c_f_g_node.html#a71c611eee5b784222a2c51b7a7b6d169">type</a> == <a class="code" href="class_c_f_g_node.html#aa0933713506a9c0226e705703ee5b079a653298400dbc11a4a806566fc8da20d3">CFGNode::DummyNode</a>) {</div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;                <span class="keyword">const</span> <a class="code" href="class_interval_list.html">IntervalList</a>* ilist = cfg2-&gt;<a class="code" href="class_c_f_g_node.html#afd5d0654a254ef7a1c62e47d7ff66f75">prevList</a>;</div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;                <span class="keywordflow">while</span> (ilist-&gt;<a class="code" href="class_interval_list.html#ae97a594b41b0e48efb55d1377fc84126">next</a> != NULL)</div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;                    ilist = ilist-&gt;<a class="code" href="class_interval_list.html#ae97a594b41b0e48efb55d1377fc84126">next</a>;</div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;                last = ilist-&gt;<a class="code" href="class_interval_list.html#aa93f98ec04c2960f0f573ad44437a92b">last</a>;</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;            } <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;                last = cfg2-&gt;<a class="code" href="class_c_f_g_node.html#a916b31fb1fc28e3a708d3c7913970f66">first</a> - 1;</div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;            </div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = cfg-&gt;<a class="code" href="class_c_f_g_node.html#a916b31fb1fc28e3a708d3c7913970f66">first</a>; i &lt;= last; i++)</div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;                seen.insert(i);</div>
 <div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;        }</div>
 <div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;    <span class="keywordflow">return</span> vector&lt;int&gt;(seen.begin(), seen.end());</div>
 <div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;}</div>
 <div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;</div>
 <div class="line"><a name="l00362"></a><span class="lineno"><a class="code" href="class_p_q_l_next_processor.html#afafe4dddd86be11d0947cc7b5d52fe7f">  362</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_p_q_l_next_processor.html#afafe4dddd86be11d0947cc7b5d52fe7f">PQLNextProcessor::isNextBip</a>(<a class="code" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> p1, <a class="code" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> p2)</div>
 <div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;{</div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;    <span class="keywordflow">if</span> (p1 &lt; 0 || p1 &gt; <a class="code" href="class_p_k_b.html#ae3b310bfb545d59911cd4f6bb54ebd94">PKB::maxProgLines</a> || p2 &lt; 0 || p2 &gt; <a class="code" href="class_p_k_b.html#ae3b310bfb545d59911cd4f6bb54ebd94">PKB::maxProgLines</a>){</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;    <span class="keywordflow">if</span> (p1 &lt;= 0 || p1 &gt; <a class="code" href="class_p_k_b.html#ae3b310bfb545d59911cd4f6bb54ebd94">PKB::maxProgLines</a> || p2 &lt;= 0 || p2 &gt; <a class="code" href="class_p_k_b.html#ae3b310bfb545d59911cd4f6bb54ebd94">PKB::maxProgLines</a>){</div>
 <div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;    }</div>
 <div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;</div>
@@ -502,7 +502,7 @@ $(document).ready(function(){initNavTree('_p_q_l_next_processor_8cpp_source.html
 <div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;</div>
 <div class="line"><a name="l00440"></a><span class="lineno"><a class="code" href="class_p_q_l_next_processor.html#a6bdffbf13a78f08a19af007f50d5c8ef">  440</a></span>&#160;vector&lt;PROG_LINE&gt; <a class="code" href="class_p_q_l_next_processor.html#a6bdffbf13a78f08a19af007f50d5c8ef">PQLNextProcessor::getNextBip</a>(<a class="code" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> p1)</div>
 <div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;{</div>
-<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;    <span class="keywordflow">if</span> (p1 &lt; 0 || p1 &gt; <a class="code" href="class_p_k_b.html#ae3b310bfb545d59911cd4f6bb54ebd94">PKB::maxProgLines</a>)</div>
+<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;    <span class="keywordflow">if</span> (p1 &lt;= 0 || p1 &gt; <a class="code" href="class_p_k_b.html#ae3b310bfb545d59911cd4f6bb54ebd94">PKB::maxProgLines</a>)</div>
 <div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;        <span class="keywordflow">return</span> vector&lt;PROG_LINE&gt;();</div>
 <div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;</div>
 <div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;    <a class="code" href="class_c_f_g_node.html">CFGNode</a>* s1 = <a class="code" href="class_p_k_b.html#a5d6117050599ff7205c7fc88426b4435">PKB::stmtRefMap</a>.at(p1).getCFGNode();</div>
@@ -575,11 +575,11 @@ $(document).ready(function(){initNavTree('_p_q_l_next_processor_8cpp_source.html
 <div class="line"><a name="l00512"></a><span class="lineno">  512</span>&#160;</div>
 <div class="line"><a name="l00518"></a><span class="lineno"><a class="code" href="class_p_q_l_next_processor.html#ae6d1593f8ee5c66f29aded6d77a0370d">  518</a></span>&#160;vector&lt;PROG_LINE&gt; <a class="code" href="class_p_q_l_next_processor.html#ae6d1593f8ee5c66f29aded6d77a0370d">PQLNextProcessor::getPreviousBip</a>(<a class="code" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> p2)</div>
 <div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160;{</div>
-<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;    <span class="keywordflow">if</span> (p2 &lt; 0 || p2 &gt; <a class="code" href="class_p_k_b.html#ae3b310bfb545d59911cd4f6bb54ebd94">PKB::maxProgLines</a>){</div>
+<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;    <span class="keywordflow">if</span> (p2 &lt;= 0 || p2 &gt; <a class="code" href="class_p_k_b.html#ae3b310bfb545d59911cd4f6bb54ebd94">PKB::maxProgLines</a>){</div>
 <div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160;        <span class="keywordflow">return</span> vector&lt;PROG_LINE&gt;();</div>
 <div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160;    }</div>
 <div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160;</div>
-<div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160;    <a class="code" href="class_c_f_g_node.html">CFGNode</a>* s2 = <a class="code" href="class_p_k_b.html#a5d6117050599ff7205c7fc88426b4435">PKB::stmtRefMap</a>.at(p2).getCFGNode();</div>
+<div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160;    <span class="keyword">const</span> <a class="code" href="class_c_f_g_node.html">CFGNode</a> * <span class="keyword">const</span> s2 = <a class="code" href="class_p_k_b.html#a5d6117050599ff7205c7fc88426b4435">PKB::stmtRefMap</a>.at(p2).getCFGNode();</div>
 <div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160;    vector&lt;PROG_LINE&gt; answer;</div>
 <div class="line"><a name="l00526"></a><span class="lineno">  526</span>&#160;    queue&lt;CFGNode*&gt; parents;</div>
 <div class="line"><a name="l00527"></a><span class="lineno">  527</span>&#160;</div>
@@ -589,7 +589,7 @@ $(document).ready(function(){initNavTree('_p_q_l_next_processor_8cpp_source.html
 <div class="line"><a name="l00531"></a><span class="lineno">  531</span>&#160;</div>
 <div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160;        parents.push(<a class="code" href="class_p_k_b.html#a7ac760f862b42c416691e6c3b389639a">PKB::CFGTails</a>[<a class="code" href="class_p_k_b.html#a7876c3653d636ee8a726941d0f98e3ae">PKB::calls</a>.getProcCall(p2 - 1)]);</div>
 <div class="line"><a name="l00533"></a><span class="lineno">  533</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00534"></a><span class="lineno">  534</span>&#160;        vector&lt;CFGNode*&gt; s2parents = s2-&gt;<a class="code" href="class_c_f_g_node.html#a9c9bf36df87bdf73c6aa507f52efc702">parents</a>;</div>
+<div class="line"><a name="l00534"></a><span class="lineno">  534</span>&#160;        <span class="keyword">const</span> vector&lt;CFGNode*&gt;&amp; s2parents = s2-&gt;<a class="code" href="class_c_f_g_node.html#a9c9bf36df87bdf73c6aa507f52efc702">parents</a>;</div>
 <div class="line"><a name="l00535"></a><span class="lineno">  535</span>&#160;        <span class="keywordflow">if</span> (s2parents.empty())</div>
 <div class="line"><a name="l00536"></a><span class="lineno">  536</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="class_p_k_b.html#a7876c3653d636ee8a726941d0f98e3ae">PKB::calls</a>.getStmtCall(s2-&gt;<a class="code" href="class_c_f_g_node.html#a4c29d551dc1b8ac7465ebf4ddd1e3437">proc</a>);</div>
 <div class="line"><a name="l00537"></a><span class="lineno">  537</span>&#160;        </div>
@@ -619,7 +619,7 @@ $(document).ready(function(){initNavTree('_p_q_l_next_processor_8cpp_source.html
 <div class="line"><a name="l00561"></a><span class="lineno">  561</span>&#160;</div>
 <div class="line"><a name="l00568"></a><span class="lineno"><a class="code" href="class_p_q_l_next_processor.html#a27de668208018adafe072f72073a217e">  568</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_p_q_l_next_processor.html#a27de668208018adafe072f72073a217e">PQLNextProcessor::isNextBipStar</a>(<a class="code" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> p1, <a class="code" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> p2)</div>
 <div class="line"><a name="l00569"></a><span class="lineno">  569</span>&#160;{</div>
-<div class="line"><a name="l00570"></a><span class="lineno">  570</span>&#160;    <span class="keywordflow">if</span> (p1 &lt; 0 || p1 &gt; <a class="code" href="class_p_k_b.html#ae3b310bfb545d59911cd4f6bb54ebd94">PKB::maxProgLines</a> || p2 &lt; 0 || p2 &gt; <a class="code" href="class_p_k_b.html#ae3b310bfb545d59911cd4f6bb54ebd94">PKB::maxProgLines</a>){</div>
+<div class="line"><a name="l00570"></a><span class="lineno">  570</span>&#160;    <span class="keywordflow">if</span> (p1 &lt;= 0 || p1 &gt; <a class="code" href="class_p_k_b.html#ae3b310bfb545d59911cd4f6bb54ebd94">PKB::maxProgLines</a> || p2 &lt;= 0 || p2 &gt; <a class="code" href="class_p_k_b.html#ae3b310bfb545d59911cd4f6bb54ebd94">PKB::maxProgLines</a>){</div>
 <div class="line"><a name="l00571"></a><span class="lineno">  571</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00572"></a><span class="lineno">  572</span>&#160;    }</div>
 <div class="line"><a name="l00573"></a><span class="lineno">  573</span>&#160;</div>
@@ -725,42 +725,210 @@ $(document).ready(function(){initNavTree('_p_q_l_next_processor_8cpp_source.html
 <div class="line"><a name="l00673"></a><span class="lineno">  673</span>&#160;            }</div>
 <div class="line"><a name="l00674"></a><span class="lineno">  674</span>&#160;        }</div>
 <div class="line"><a name="l00675"></a><span class="lineno">  675</span>&#160;</div>
-<div class="line"><a name="l00676"></a><span class="lineno">  676</span>&#160;        <span class="keyword">const</span> vector&lt;STMT&gt;&amp; returnStmts = <a class="code" href="class_p_k_b.html#a7876c3653d636ee8a726941d0f98e3ae">PKB::calls</a>.<a class="code" href="class_calls_table.html#ad03ad8e545d3d1225d6388c97ab0d268">getStmtCall</a>(s1-&gt;<a class="code" href="class_c_f_g_node.html#a4c29d551dc1b8ac7465ebf4ddd1e3437">proc</a>);</div>
-<div class="line"><a name="l00677"></a><span class="lineno">  677</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = returnStmts.begin(); it != returnStmts.end(); it++) {</div>
-<div class="line"><a name="l00678"></a><span class="lineno">  678</span>&#160;            <span class="keywordflow">if</span> (seenStmt.count(*it) == 0) {</div>
-<div class="line"><a name="l00679"></a><span class="lineno">  679</span>&#160;                <a class="code" href="std_afx_8h.html#aa07ea1d188c7b45668f1bd82ffd6d87e">PROC</a> proc = <a class="code" href="class_p_k_b.html#a5d6117050599ff7205c7fc88426b4435">PKB::stmtRefMap</a>[*it].getCFGNode()-&gt;proc;</div>
-<div class="line"><a name="l00680"></a><span class="lineno">  680</span>&#160;                <span class="keywordflow">if</span> (seenProc.count(proc) == 0)</div>
-<div class="line"><a name="l00681"></a><span class="lineno">  681</span>&#160;                    starter.push(*it);</div>
-<div class="line"><a name="l00682"></a><span class="lineno">  682</span>&#160;                    seenStmt.insert(*it);</div>
-<div class="line"><a name="l00683"></a><span class="lineno">  683</span>&#160;            }</div>
-<div class="line"><a name="l00684"></a><span class="lineno">  684</span>&#160;        }</div>
-<div class="line"><a name="l00685"></a><span class="lineno">  685</span>&#160;    }</div>
-<div class="line"><a name="l00686"></a><span class="lineno">  686</span>&#160;    </div>
-<div class="line"><a name="l00687"></a><span class="lineno">  687</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00688"></a><span class="lineno">  688</span>&#160;}</div>
-<div class="line"><a name="l00689"></a><span class="lineno">  689</span>&#160;</div>
-<div class="line"><a name="l00695"></a><span class="lineno"><a class="code" href="class_p_q_l_next_processor.html#a79afcebbf5730528acb596456a27b053">  695</a></span>&#160;vector&lt;PROG_LINE&gt; <a class="code" href="class_p_q_l_next_processor.html#a79afcebbf5730528acb596456a27b053">PQLNextProcessor::getNextBipStar</a>(<a class="code" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> p1)</div>
-<div class="line"><a name="l00696"></a><span class="lineno">  696</span>&#160;{</div>
-<div class="line"><a name="l00697"></a><span class="lineno">  697</span>&#160;    <span class="keywordflow">return</span> vector&lt;PROG_LINE&gt;();</div>
-<div class="line"><a name="l00698"></a><span class="lineno">  698</span>&#160;}</div>
-<div class="line"><a name="l00699"></a><span class="lineno">  699</span>&#160;</div>
-<div class="line"><a name="l00705"></a><span class="lineno"><a class="code" href="class_p_q_l_next_processor.html#aeb5fdad0409a1f5fde325a31fb354475">  705</a></span>&#160;vector&lt;PROG_LINE&gt; <a class="code" href="class_p_q_l_next_processor.html#aeb5fdad0409a1f5fde325a31fb354475">PQLNextProcessor::getPreviousBipStar</a>(<a class="code" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> p2)</div>
-<div class="line"><a name="l00706"></a><span class="lineno">  706</span>&#160;{</div>
-<div class="line"><a name="l00707"></a><span class="lineno">  707</span>&#160;    <span class="keywordflow">return</span> vector&lt;PROG_LINE&gt;();</div>
-<div class="line"><a name="l00708"></a><span class="lineno">  708</span>&#160;}</div>
-<div class="line"><a name="l00709"></a><span class="lineno">  709</span>&#160;</div>
-<div class="line"><a name="l00710"></a><span class="lineno"><a class="code" href="class_p_q_l_next_processor.html#ad6bee589727c2bb87a1ccd949a89aa8f">  710</a></span>&#160;vector&lt;PROG_LINE&gt; <a class="code" href="class_p_q_l_next_processor.html#ad6bee589727c2bb87a1ccd949a89aa8f">PQLNextProcessor::getSelfNextBipStar</a>(){</div>
-<div class="line"><a name="l00711"></a><span class="lineno">  711</span>&#160;    vector&lt;PROG_LINE&gt; ans;</div>
-<div class="line"><a name="l00712"></a><span class="lineno">  712</span>&#160;</div>
-<div class="line"><a name="l00713"></a><span class="lineno">  713</span>&#160;    <span class="keywordflow">return</span> ans;</div>
-<div class="line"><a name="l00714"></a><span class="lineno">  714</span>&#160;}</div>
+<div class="line"><a name="l00676"></a><span class="lineno">  676</span>&#160;        stack&lt;PROC&gt; backtrack;</div>
+<div class="line"><a name="l00677"></a><span class="lineno">  677</span>&#160;        backtrack.push(s1-&gt;<a class="code" href="class_c_f_g_node.html#a4c29d551dc1b8ac7465ebf4ddd1e3437">proc</a>);</div>
+<div class="line"><a name="l00678"></a><span class="lineno">  678</span>&#160;        <span class="keywordflow">while</span> (!backtrack.empty()) {</div>
+<div class="line"><a name="l00679"></a><span class="lineno">  679</span>&#160;            <span class="keyword">const</span> <a class="code" href="std_afx_8h.html#aa07ea1d188c7b45668f1bd82ffd6d87e">PROC</a> proc = backtrack.top();</div>
+<div class="line"><a name="l00680"></a><span class="lineno">  680</span>&#160;            backtrack.pop();</div>
+<div class="line"><a name="l00681"></a><span class="lineno">  681</span>&#160;            <span class="keyword">const</span> vector&lt;STMT&gt;&amp; returnStmts = <a class="code" href="class_p_k_b.html#a7876c3653d636ee8a726941d0f98e3ae">PKB::calls</a>.<a class="code" href="class_calls_table.html#ad03ad8e545d3d1225d6388c97ab0d268">getStmtCall</a>(proc);</div>
+<div class="line"><a name="l00682"></a><span class="lineno">  682</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = returnStmts.begin(); it != returnStmts.end(); it++) {</div>
+<div class="line"><a name="l00683"></a><span class="lineno">  683</span>&#160;                <span class="keywordflow">if</span> (seenStmt.count(*it) == 0) {</div>
+<div class="line"><a name="l00684"></a><span class="lineno">  684</span>&#160;                    <span class="keyword">const</span> <a class="code" href="std_afx_8h.html#aa07ea1d188c7b45668f1bd82ffd6d87e">PROC</a> proc2 = <a class="code" href="class_p_k_b.html#a5d6117050599ff7205c7fc88426b4435">PKB::stmtRefMap</a>[*it].getCFGNode()-&gt;proc;</div>
+<div class="line"><a name="l00685"></a><span class="lineno">  685</span>&#160;                    <span class="keywordflow">if</span> (seenProc.count(proc2) == 0) {</div>
+<div class="line"><a name="l00686"></a><span class="lineno">  686</span>&#160;                        <span class="keyword">const</span> vector&lt;STMT&gt; nextStmt = <a class="code" href="class_p_q_l_next_processor.html#a2ff7fad26252a0c1d11282949ef60e8b">getNext</a>(*it);</div>
+<div class="line"><a name="l00687"></a><span class="lineno">  687</span>&#160;                        <span class="keywordflow">if</span> (nextStmt.empty())</div>
+<div class="line"><a name="l00688"></a><span class="lineno">  688</span>&#160;                            backtrack.push(proc2);</div>
+<div class="line"><a name="l00689"></a><span class="lineno">  689</span>&#160;                        <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00690"></a><span class="lineno">  690</span>&#160;                            starter.push(*it);</div>
+<div class="line"><a name="l00691"></a><span class="lineno">  691</span>&#160;                            seenStmt.insert(*it);</div>
+<div class="line"><a name="l00692"></a><span class="lineno">  692</span>&#160;                        }</div>
+<div class="line"><a name="l00693"></a><span class="lineno">  693</span>&#160;                    }</div>
+<div class="line"><a name="l00694"></a><span class="lineno">  694</span>&#160;                }</div>
+<div class="line"><a name="l00695"></a><span class="lineno">  695</span>&#160;            }</div>
+<div class="line"><a name="l00696"></a><span class="lineno">  696</span>&#160;        }</div>
+<div class="line"><a name="l00697"></a><span class="lineno">  697</span>&#160;    }</div>
+<div class="line"><a name="l00698"></a><span class="lineno">  698</span>&#160;    </div>
+<div class="line"><a name="l00699"></a><span class="lineno">  699</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00700"></a><span class="lineno">  700</span>&#160;}</div>
+<div class="line"><a name="l00701"></a><span class="lineno">  701</span>&#160;</div>
+<div class="line"><a name="l00707"></a><span class="lineno"><a class="code" href="class_p_q_l_next_processor.html#a79afcebbf5730528acb596456a27b053">  707</a></span>&#160;vector&lt;PROG_LINE&gt; <a class="code" href="class_p_q_l_next_processor.html#a79afcebbf5730528acb596456a27b053">PQLNextProcessor::getNextBipStar</a>(<a class="code" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> p1)</div>
+<div class="line"><a name="l00708"></a><span class="lineno">  708</span>&#160;{</div>
+<div class="line"><a name="l00709"></a><span class="lineno">  709</span>&#160;    <span class="keywordflow">if</span> (p1 &lt;= 0 || p1 &gt; <a class="code" href="class_p_k_b.html#ae3b310bfb545d59911cd4f6bb54ebd94">PKB::maxProgLines</a>)</div>
+<div class="line"><a name="l00710"></a><span class="lineno">  710</span>&#160;        <span class="keywordflow">return</span> vector&lt;PROG_LINE&gt;();</div>
+<div class="line"><a name="l00711"></a><span class="lineno">  711</span>&#160;    </div>
+<div class="line"><a name="l00712"></a><span class="lineno">  712</span>&#160;    vector&lt;PROG_LINE&gt; answer;</div>
+<div class="line"><a name="l00713"></a><span class="lineno">  713</span>&#160;    set&lt;PROC&gt; seenProc;</div>
+<div class="line"><a name="l00714"></a><span class="lineno">  714</span>&#160;    set&lt;STMT&gt; seenStmt;</div>
+<div class="line"><a name="l00715"></a><span class="lineno">  715</span>&#160;    queue&lt;PROC&gt; toSee;</div>
+<div class="line"><a name="l00716"></a><span class="lineno">  716</span>&#160;    queue&lt;PROG_LINE&gt; starter;</div>
+<div class="line"><a name="l00717"></a><span class="lineno">  717</span>&#160;</div>
+<div class="line"><a name="l00718"></a><span class="lineno">  718</span>&#160;    seenStmt.insert(p1);</div>
+<div class="line"><a name="l00719"></a><span class="lineno">  719</span>&#160;    starter.push(p1);</div>
+<div class="line"><a name="l00720"></a><span class="lineno">  720</span>&#160;</div>
+<div class="line"><a name="l00721"></a><span class="lineno">  721</span>&#160;    <span class="keywordflow">while</span> (!starter.empty()) {</div>
+<div class="line"><a name="l00722"></a><span class="lineno">  722</span>&#160;        <span class="keyword">const</span> <a class="code" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> start = starter.front();</div>
+<div class="line"><a name="l00723"></a><span class="lineno">  723</span>&#160;        starter.pop();</div>
+<div class="line"><a name="l00724"></a><span class="lineno">  724</span>&#160;        <span class="keyword">const</span> <a class="code" href="class_c_f_g_node.html">CFGNode</a>* s1 = <a class="code" href="class_p_k_b.html#a5d6117050599ff7205c7fc88426b4435">PKB::stmtRefMap</a>.at(start).getCFGNode();</div>
+<div class="line"><a name="l00725"></a><span class="lineno">  725</span>&#160;</div>
+<div class="line"><a name="l00726"></a><span class="lineno">  726</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = p1 + 1; i &lt;= s1-&gt;<a class="code" href="class_c_f_g_node.html#aa2ed16b97347a8daa3ae6a7b0022284b">last</a>; ++i)</div>
+<div class="line"><a name="l00727"></a><span class="lineno">  727</span>&#160;            answer.push_back(i);</div>
+<div class="line"><a name="l00728"></a><span class="lineno">  728</span>&#160;</div>
+<div class="line"><a name="l00729"></a><span class="lineno">  729</span>&#160;        <span class="keyword">const</span> <a class="code" href="class_interval_list.html">IntervalList</a> * node = s1-&gt;<a class="code" href="class_c_f_g_node.html#aa6b60346fb038bfd0c1f1b5d10164fcb">nextList</a>;</div>
+<div class="line"><a name="l00730"></a><span class="lineno">  730</span>&#160;</div>
+<div class="line"><a name="l00731"></a><span class="lineno">  731</span>&#160;        <span class="keywordflow">if</span> (node != NULL) {</div>
+<div class="line"><a name="l00732"></a><span class="lineno">  732</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = node-&gt;<a class="code" href="class_interval_list.html#ae0cdf99da88c06a7d684964e2330eade">first</a>; i &lt;= node-&gt;last; i++)</div>
+<div class="line"><a name="l00733"></a><span class="lineno">  733</span>&#160;                answer.push_back(i);</div>
+<div class="line"><a name="l00734"></a><span class="lineno">  734</span>&#160;</div>
+<div class="line"><a name="l00735"></a><span class="lineno">  735</span>&#160;            <span class="keyword">const</span> <a class="code" href="class_interval_list.html">IntervalList</a> * prevNode = node-&gt;<a class="code" href="class_interval_list.html#a65f0ce062c99c24b5890550f3c0fcbd5">prev</a>;</div>
+<div class="line"><a name="l00736"></a><span class="lineno">  736</span>&#160;</div>
+<div class="line"><a name="l00737"></a><span class="lineno">  737</span>&#160;            <span class="keywordflow">while</span> (prevNode != NULL) {</div>
+<div class="line"><a name="l00738"></a><span class="lineno">  738</span>&#160;                <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = prevNode-&gt;<a class="code" href="class_interval_list.html#ae0cdf99da88c06a7d684964e2330eade">first</a>; i &lt;= prevNode-&gt;last; i++)</div>
+<div class="line"><a name="l00739"></a><span class="lineno">  739</span>&#160;                    answer.push_back(i);</div>
+<div class="line"><a name="l00740"></a><span class="lineno">  740</span>&#160;                prevNode = prevNode-&gt;<a class="code" href="class_interval_list.html#a65f0ce062c99c24b5890550f3c0fcbd5">prev</a>;</div>
+<div class="line"><a name="l00741"></a><span class="lineno">  741</span>&#160;            }</div>
+<div class="line"><a name="l00742"></a><span class="lineno">  742</span>&#160;</div>
+<div class="line"><a name="l00743"></a><span class="lineno">  743</span>&#160;            node = node-&gt;<a class="code" href="class_interval_list.html#ae97a594b41b0e48efb55d1377fc84126">next</a>;</div>
+<div class="line"><a name="l00744"></a><span class="lineno">  744</span>&#160;        </div>
+<div class="line"><a name="l00745"></a><span class="lineno">  745</span>&#160;            <span class="keywordflow">while</span> (node != NULL) {</div>
+<div class="line"><a name="l00746"></a><span class="lineno">  746</span>&#160;                <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = node-&gt;<a class="code" href="class_interval_list.html#ae0cdf99da88c06a7d684964e2330eade">first</a>; i &lt;= node-&gt;last; i++)</div>
+<div class="line"><a name="l00747"></a><span class="lineno">  747</span>&#160;                    answer.push_back(i);</div>
+<div class="line"><a name="l00748"></a><span class="lineno">  748</span>&#160;                node = node-&gt;<a class="code" href="class_interval_list.html#ae97a594b41b0e48efb55d1377fc84126">next</a>;</div>
+<div class="line"><a name="l00749"></a><span class="lineno">  749</span>&#160;            }</div>
+<div class="line"><a name="l00750"></a><span class="lineno">  750</span>&#160;        }</div>
+<div class="line"><a name="l00751"></a><span class="lineno">  751</span>&#160;        </div>
+<div class="line"><a name="l00752"></a><span class="lineno">  752</span>&#160;        <span class="keyword">const</span> vector&lt;PROC&gt;&amp; s1procs = <a class="code" href="class_p_k_b.html#a7876c3653d636ee8a726941d0f98e3ae">PKB::calls</a>.<a class="code" href="class_calls_table.html#af50654db975ad7d3b9fa74f8547998eb">getCalledBy</a>(s1-&gt;<a class="code" href="class_c_f_g_node.html#a4c29d551dc1b8ac7465ebf4ddd1e3437">proc</a>);</div>
+<div class="line"><a name="l00753"></a><span class="lineno">  753</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = s1procs.begin(); it != s1procs.end(); it++) {</div>
+<div class="line"><a name="l00754"></a><span class="lineno">  754</span>&#160;            <span class="keywordflow">if</span> (seenProc.count(*it) &gt; 0)</div>
+<div class="line"><a name="l00755"></a><span class="lineno">  755</span>&#160;                <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l00756"></a><span class="lineno">  756</span>&#160;            <span class="keywordtype">bool</span> found = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00757"></a><span class="lineno">  757</span>&#160;            <span class="keyword">const</span> vector&lt;STMT&gt;&amp; stmts = <a class="code" href="class_p_k_b.html#a7876c3653d636ee8a726941d0f98e3ae">PKB::calls</a>.<a class="code" href="class_calls_table.html#ad03ad8e545d3d1225d6388c97ab0d268">getStmtCall</a>(*it);</div>
+<div class="line"><a name="l00758"></a><span class="lineno">  758</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">auto</span> it2 = stmts.begin(); it2 != stmts.end(); it2++) {</div>
+<div class="line"><a name="l00759"></a><span class="lineno">  759</span>&#160;                <span class="keywordflow">if</span> (*it2 &gt;= start &amp;&amp; *it2 &lt;= s1-&gt;last) {</div>
+<div class="line"><a name="l00760"></a><span class="lineno">  760</span>&#160;                    found = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00761"></a><span class="lineno">  761</span>&#160;                    <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00762"></a><span class="lineno">  762</span>&#160;                }</div>
+<div class="line"><a name="l00763"></a><span class="lineno">  763</span>&#160;</div>
+<div class="line"><a name="l00764"></a><span class="lineno">  764</span>&#160;                <span class="keyword">const</span> <a class="code" href="class_interval_list.html">IntervalList</a> * list = s1-&gt;<a class="code" href="class_c_f_g_node.html#aa6b60346fb038bfd0c1f1b5d10164fcb">nextList</a>;</div>
+<div class="line"><a name="l00765"></a><span class="lineno">  765</span>&#160;                <span class="keywordflow">if</span> (list != NULL) {</div>
+<div class="line"><a name="l00766"></a><span class="lineno">  766</span>&#160;                    <span class="keywordflow">if</span> (*it2 &lt; list-&gt;first) {</div>
+<div class="line"><a name="l00767"></a><span class="lineno">  767</span>&#160;                        list = list-&gt;<a class="code" href="class_interval_list.html#a65f0ce062c99c24b5890550f3c0fcbd5">prev</a>;</div>
+<div class="line"><a name="l00768"></a><span class="lineno">  768</span>&#160;                        <span class="keywordflow">while</span> (list != NULL &amp;&amp; *it2 &lt; list-&gt;first)</div>
+<div class="line"><a name="l00769"></a><span class="lineno">  769</span>&#160;                            list = list-&gt;<a class="code" href="class_interval_list.html#a65f0ce062c99c24b5890550f3c0fcbd5">prev</a>;</div>
+<div class="line"><a name="l00770"></a><span class="lineno">  770</span>&#160;                        <span class="keywordflow">if</span> (list != NULL &amp;&amp; *it2 &lt;= list-&gt;last) {</div>
+<div class="line"><a name="l00771"></a><span class="lineno">  771</span>&#160;                            found = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00772"></a><span class="lineno">  772</span>&#160;                            <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00773"></a><span class="lineno">  773</span>&#160;                        }</div>
+<div class="line"><a name="l00774"></a><span class="lineno">  774</span>&#160;                    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (*it2 &gt; list-&gt;<a class="code" href="class_interval_list.html#aa93f98ec04c2960f0f573ad44437a92b">last</a>) {</div>
+<div class="line"><a name="l00775"></a><span class="lineno">  775</span>&#160;                        list = list-&gt;<a class="code" href="class_interval_list.html#ae97a594b41b0e48efb55d1377fc84126">next</a>;</div>
+<div class="line"><a name="l00776"></a><span class="lineno">  776</span>&#160;                        <span class="keywordflow">while</span> (list != NULL &amp;&amp; *it2 &gt; list-&gt;<a class="code" href="class_interval_list.html#aa93f98ec04c2960f0f573ad44437a92b">last</a>)</div>
+<div class="line"><a name="l00777"></a><span class="lineno">  777</span>&#160;                            list = list-&gt;<a class="code" href="class_interval_list.html#ae97a594b41b0e48efb55d1377fc84126">next</a>;</div>
+<div class="line"><a name="l00778"></a><span class="lineno">  778</span>&#160;                        <span class="keywordflow">if</span> (list != NULL &amp;&amp; *it2 &gt;= list-&gt;<a class="code" href="class_interval_list.html#ae0cdf99da88c06a7d684964e2330eade">first</a>) {</div>
+<div class="line"><a name="l00779"></a><span class="lineno">  779</span>&#160;                            found = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00780"></a><span class="lineno">  780</span>&#160;                            <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00781"></a><span class="lineno">  781</span>&#160;                        }</div>
+<div class="line"><a name="l00782"></a><span class="lineno">  782</span>&#160;                    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00783"></a><span class="lineno">  783</span>&#160;                        found = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00784"></a><span class="lineno">  784</span>&#160;                        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00785"></a><span class="lineno">  785</span>&#160;                    }</div>
+<div class="line"><a name="l00786"></a><span class="lineno">  786</span>&#160;                }</div>
+<div class="line"><a name="l00787"></a><span class="lineno">  787</span>&#160;            } <span class="comment">//end for each statement that calls the procedure</span></div>
+<div class="line"><a name="l00788"></a><span class="lineno">  788</span>&#160;            <span class="keywordflow">if</span> (found) {</div>
+<div class="line"><a name="l00789"></a><span class="lineno">  789</span>&#160;                toSee.push(*it);</div>
+<div class="line"><a name="l00790"></a><span class="lineno">  790</span>&#160;                seenProc.insert(*it);</div>
+<div class="line"><a name="l00791"></a><span class="lineno">  791</span>&#160;            }</div>
+<div class="line"><a name="l00792"></a><span class="lineno">  792</span>&#160;        }</div>
+<div class="line"><a name="l00793"></a><span class="lineno">  793</span>&#160;    </div>
+<div class="line"><a name="l00794"></a><span class="lineno">  794</span>&#160;        <span class="keywordflow">while</span> (!toSee.empty()) {</div>
+<div class="line"><a name="l00795"></a><span class="lineno">  795</span>&#160;            <span class="keyword">const</span> <a class="code" href="std_afx_8h.html#aa07ea1d188c7b45668f1bd82ffd6d87e">PROC</a> currProc = toSee.front();</div>
+<div class="line"><a name="l00796"></a><span class="lineno">  796</span>&#160;            toSee.pop();</div>
+<div class="line"><a name="l00797"></a><span class="lineno">  797</span>&#160;</div>
+<div class="line"><a name="l00798"></a><span class="lineno">  798</span>&#160;            <span class="keyword">const</span> pair&lt;STMT, STMT&gt;&amp; pair = <a class="code" href="class_p_k_b.html#a960218307dbb38c796142a0f392205b6">PKB::TheBeginningAndTheEnd</a>[currProc];</div>
+<div class="line"><a name="l00799"></a><span class="lineno">  799</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = pair.first; i &lt;= pair.second; ++i)</div>
+<div class="line"><a name="l00800"></a><span class="lineno">  800</span>&#160;                answer.push_back(i);</div>
+<div class="line"><a name="l00801"></a><span class="lineno">  801</span>&#160;</div>
+<div class="line"><a name="l00802"></a><span class="lineno">  802</span>&#160;            <span class="keyword">const</span> vector&lt;PROC&gt;&amp; currProcProcs = <a class="code" href="class_p_k_b.html#a7876c3653d636ee8a726941d0f98e3ae">PKB::calls</a>.<a class="code" href="class_calls_table.html#af50654db975ad7d3b9fa74f8547998eb">getCalledBy</a>(currProc);</div>
+<div class="line"><a name="l00803"></a><span class="lineno">  803</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = currProcProcs.begin(); it != currProcProcs.end(); it++) {</div>
+<div class="line"><a name="l00804"></a><span class="lineno">  804</span>&#160;                <span class="keywordflow">if</span> (seenProc.count(*it) == 0) {</div>
+<div class="line"><a name="l00805"></a><span class="lineno">  805</span>&#160;                    toSee.push(*it);</div>
+<div class="line"><a name="l00806"></a><span class="lineno">  806</span>&#160;                    seenProc.insert(*it);</div>
+<div class="line"><a name="l00807"></a><span class="lineno">  807</span>&#160;                }</div>
+<div class="line"><a name="l00808"></a><span class="lineno">  808</span>&#160;            }</div>
+<div class="line"><a name="l00809"></a><span class="lineno">  809</span>&#160;        }</div>
+<div class="line"><a name="l00810"></a><span class="lineno">  810</span>&#160;</div>
+<div class="line"><a name="l00811"></a><span class="lineno">  811</span>&#160;        stack&lt;PROC&gt; backtrack;</div>
+<div class="line"><a name="l00812"></a><span class="lineno">  812</span>&#160;        backtrack.push(s1-&gt;<a class="code" href="class_c_f_g_node.html#a4c29d551dc1b8ac7465ebf4ddd1e3437">proc</a>);</div>
+<div class="line"><a name="l00813"></a><span class="lineno">  813</span>&#160;        <span class="keywordflow">while</span> (!backtrack.empty()) {</div>
+<div class="line"><a name="l00814"></a><span class="lineno">  814</span>&#160;            <span class="keyword">const</span> <a class="code" href="std_afx_8h.html#aa07ea1d188c7b45668f1bd82ffd6d87e">PROC</a> proc = backtrack.top();</div>
+<div class="line"><a name="l00815"></a><span class="lineno">  815</span>&#160;            backtrack.pop();</div>
+<div class="line"><a name="l00816"></a><span class="lineno">  816</span>&#160;            <span class="keyword">const</span> vector&lt;STMT&gt;&amp; returnStmts = <a class="code" href="class_p_k_b.html#a7876c3653d636ee8a726941d0f98e3ae">PKB::calls</a>.<a class="code" href="class_calls_table.html#ad03ad8e545d3d1225d6388c97ab0d268">getStmtCall</a>(proc);</div>
+<div class="line"><a name="l00817"></a><span class="lineno">  817</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = returnStmts.begin(); it != returnStmts.end(); it++) {</div>
+<div class="line"><a name="l00818"></a><span class="lineno">  818</span>&#160;                <span class="keywordflow">if</span> (seenStmt.count(*it) == 0) {</div>
+<div class="line"><a name="l00819"></a><span class="lineno">  819</span>&#160;                    <span class="keyword">const</span> <a class="code" href="std_afx_8h.html#aa07ea1d188c7b45668f1bd82ffd6d87e">PROC</a> proc2 = <a class="code" href="class_p_k_b.html#a5d6117050599ff7205c7fc88426b4435">PKB::stmtRefMap</a>[*it].getCFGNode()-&gt;proc;</div>
+<div class="line"><a name="l00820"></a><span class="lineno">  820</span>&#160;                    <span class="keywordflow">if</span> (seenProc.count(proc2) == 0) {</div>
+<div class="line"><a name="l00821"></a><span class="lineno">  821</span>&#160;                        <span class="keyword">const</span> vector&lt;STMT&gt; nextStmt = <a class="code" href="class_p_q_l_next_processor.html#a2ff7fad26252a0c1d11282949ef60e8b">getNext</a>(*it);</div>
+<div class="line"><a name="l00822"></a><span class="lineno">  822</span>&#160;                        <span class="keywordflow">if</span> (nextStmt.empty())</div>
+<div class="line"><a name="l00823"></a><span class="lineno">  823</span>&#160;                            backtrack.push(proc2);</div>
+<div class="line"><a name="l00824"></a><span class="lineno">  824</span>&#160;                        <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00825"></a><span class="lineno">  825</span>&#160;                            starter.push(*it);</div>
+<div class="line"><a name="l00826"></a><span class="lineno">  826</span>&#160;                            seenStmt.insert(*it);</div>
+<div class="line"><a name="l00827"></a><span class="lineno">  827</span>&#160;                        }</div>
+<div class="line"><a name="l00828"></a><span class="lineno">  828</span>&#160;                    }</div>
+<div class="line"><a name="l00829"></a><span class="lineno">  829</span>&#160;                }</div>
+<div class="line"><a name="l00830"></a><span class="lineno">  830</span>&#160;            }</div>
+<div class="line"><a name="l00831"></a><span class="lineno">  831</span>&#160;        }</div>
+<div class="line"><a name="l00832"></a><span class="lineno">  832</span>&#160;    }</div>
+<div class="line"><a name="l00833"></a><span class="lineno">  833</span>&#160;    </div>
+<div class="line"><a name="l00834"></a><span class="lineno">  834</span>&#160;    <span class="keywordflow">return</span> answer;</div>
+<div class="line"><a name="l00835"></a><span class="lineno">  835</span>&#160;}</div>
+<div class="line"><a name="l00836"></a><span class="lineno">  836</span>&#160;</div>
+<div class="line"><a name="l00842"></a><span class="lineno"><a class="code" href="class_p_q_l_next_processor.html#aeb5fdad0409a1f5fde325a31fb354475">  842</a></span>&#160;vector&lt;PROG_LINE&gt; <a class="code" href="class_p_q_l_next_processor.html#aeb5fdad0409a1f5fde325a31fb354475">PQLNextProcessor::getPreviousBipStar</a>(<a class="code" href="std_afx_8h.html#abcc2d0120d16c2587a85b314010f6399">PROG_LINE</a> p2)</div>
+<div class="line"><a name="l00843"></a><span class="lineno">  843</span>&#160;{</div>
+<div class="line"><a name="l00844"></a><span class="lineno">  844</span>&#160;    <span class="keywordflow">if</span> (p2 &lt;= 0 || p2 &gt; <a class="code" href="class_p_k_b.html#ae3b310bfb545d59911cd4f6bb54ebd94">PKB::maxProgLines</a>)</div>
+<div class="line"><a name="l00845"></a><span class="lineno">  845</span>&#160;        <span class="keywordflow">return</span> vector&lt;PROG_LINE&gt;();</div>
+<div class="line"><a name="l00846"></a><span class="lineno">  846</span>&#160;</div>
+<div class="line"><a name="l00847"></a><span class="lineno">  847</span>&#160;    <span class="keyword">const</span> <a class="code" href="class_c_f_g_node.html">CFGNode</a> * <span class="keyword">const</span> s2 = <a class="code" href="class_p_k_b.html#a5d6117050599ff7205c7fc88426b4435">PKB::stmtRefMap</a>.at(p2).getCFGNode();</div>
+<div class="line"><a name="l00848"></a><span class="lineno">  848</span>&#160;    vector&lt;PROG_LINE&gt; answer;</div>
+<div class="line"><a name="l00849"></a><span class="lineno">  849</span>&#160;    queue&lt;CFGNode*&gt; parents;</div>
+<div class="line"><a name="l00850"></a><span class="lineno">  850</span>&#160;</div>
+<div class="line"><a name="l00851"></a><span class="lineno">  851</span>&#160;    <span class="keywordflow">if</span> (p2 &gt; s2-&gt;first) {</div>
+<div class="line"><a name="l00852"></a><span class="lineno">  852</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="class_p_k_b.html#a4df9c934e4846c58863ed3513a1ff34a">PKB::callTable</a>.count(p2 - 1) == 0)</div>
+<div class="line"><a name="l00853"></a><span class="lineno">  853</span>&#160;            <span class="keywordflow">return</span> vector&lt;PROG_LINE&gt;(1, p2 - 1);</div>
+<div class="line"><a name="l00854"></a><span class="lineno">  854</span>&#160;</div>
+<div class="line"><a name="l00855"></a><span class="lineno">  855</span>&#160;        parents.push(<a class="code" href="class_p_k_b.html#a7ac760f862b42c416691e6c3b389639a">PKB::CFGTails</a>[<a class="code" href="class_p_k_b.html#a7876c3653d636ee8a726941d0f98e3ae">PKB::calls</a>.getProcCall(p2 - 1)]);</div>
+<div class="line"><a name="l00856"></a><span class="lineno">  856</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00857"></a><span class="lineno">  857</span>&#160;        <span class="keyword">const</span> vector&lt;CFGNode*&gt;&amp; s2parents = s2-&gt;parents;</div>
+<div class="line"><a name="l00858"></a><span class="lineno">  858</span>&#160;        <span class="keywordflow">if</span> (s2parents.empty())</div>
+<div class="line"><a name="l00859"></a><span class="lineno">  859</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="class_p_k_b.html#a7876c3653d636ee8a726941d0f98e3ae">PKB::calls</a>.getStmtCall(s2-&gt;proc);</div>
+<div class="line"><a name="l00860"></a><span class="lineno">  860</span>&#160;        </div>
+<div class="line"><a name="l00861"></a><span class="lineno">  861</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = s2parents.begin(); it != s2parents.end(); it++)</div>
+<div class="line"><a name="l00862"></a><span class="lineno">  862</span>&#160;            parents.push(*it);</div>
+<div class="line"><a name="l00863"></a><span class="lineno">  863</span>&#160;    }</div>
+<div class="line"><a name="l00864"></a><span class="lineno">  864</span>&#160;</div>
+<div class="line"><a name="l00865"></a><span class="lineno">  865</span>&#160;    <span class="keywordflow">while</span> (!parents.empty()) {</div>
+<div class="line"><a name="l00866"></a><span class="lineno">  866</span>&#160;        <span class="keyword">const</span> <a class="code" href="class_c_f_g_node.html">CFGNode</a> * <span class="keyword">const</span> curr = parents.front();</div>
+<div class="line"><a name="l00867"></a><span class="lineno">  867</span>&#160;        parents.pop();</div>
+<div class="line"><a name="l00868"></a><span class="lineno">  868</span>&#160;        <span class="keywordflow">if</span> (curr-&gt;<a class="code" href="class_c_f_g_node.html#a71c611eee5b784222a2c51b7a7b6d169">type</a> == <a class="code" href="class_c_f_g_node.html#aa0933713506a9c0226e705703ee5b079a653298400dbc11a4a806566fc8da20d3">CFGNode::DummyNode</a>) {</div>
+<div class="line"><a name="l00869"></a><span class="lineno">  869</span>&#160;            <span class="keyword">const</span> vector&lt;CFGNode*&gt;&amp; s2parents = s2-&gt;<a class="code" href="class_c_f_g_node.html#a9c9bf36df87bdf73c6aa507f52efc702">parents</a>;</div>
+<div class="line"><a name="l00870"></a><span class="lineno">  870</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = s2parents.begin(); it != s2parents.end(); it++)</div>
+<div class="line"><a name="l00871"></a><span class="lineno">  871</span>&#160;                parents.push(*it);</div>
+<div class="line"><a name="l00872"></a><span class="lineno">  872</span>&#160;        } <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00873"></a><span class="lineno">  873</span>&#160;            answer.push_back(curr-&gt;<a class="code" href="class_c_f_g_node.html#aa2ed16b97347a8daa3ae6a7b0022284b">last</a>);</div>
+<div class="line"><a name="l00874"></a><span class="lineno">  874</span>&#160;    }</div>
+<div class="line"><a name="l00875"></a><span class="lineno">  875</span>&#160;    <span class="keywordflow">return</span> answer;</div>
+<div class="line"><a name="l00876"></a><span class="lineno">  876</span>&#160;}</div>
+<div class="line"><a name="l00877"></a><span class="lineno">  877</span>&#160;</div>
+<div class="line"><a name="l00881"></a><span class="lineno"><a class="code" href="class_p_q_l_next_processor.html#ad6bee589727c2bb87a1ccd949a89aa8f">  881</a></span>&#160;vector&lt;PROG_LINE&gt; <a class="code" href="class_p_q_l_next_processor.html#ad6bee589727c2bb87a1ccd949a89aa8f">PQLNextProcessor::getSelfNextBipStar</a>(){</div>
+<div class="line"><a name="l00882"></a><span class="lineno">  882</span>&#160;    vector&lt;PROG_LINE&gt; ans;</div>
+<div class="line"><a name="l00883"></a><span class="lineno">  883</span>&#160;</div>
+<div class="line"><a name="l00884"></a><span class="lineno">  884</span>&#160;    <span class="keywordflow">return</span> ans;</div>
+<div class="line"><a name="l00885"></a><span class="lineno">  885</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_28240f1e82be414ac37674cd3ff4adc3.html">$P@</a></li><li class="navelem"><a class="el" href="dir_f0a66c18035a04f3accc68e6ea4db1f5.html">SPA</a></li><li class="navelem"><a class="el" href="dir_9072de41565413c7baeba4ab62bcf7d0.html">SPA</a></li><li class="navelem"><a class="el" href="_p_q_l_next_processor_8cpp.html">PQLNextProcessor.cpp</a></li>
-    <li class="footer">Generated on Mon Mar 25 2013 02:14:47 for SPA by
+    <li class="footer">Generated on Thu Apr 18 2013 05:18:48 for SPA by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3.1 </li>
   </ul>

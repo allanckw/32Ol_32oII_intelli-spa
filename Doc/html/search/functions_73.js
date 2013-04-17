@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['satisfypattern',['satisfyPattern',['../class_rules_of_engagement.html#a6d82299f9e291ea53856f9eeff143451',1,'RulesOfEngagement']]],
+  ['satisfypattern',['satisfyPattern',['../class_rules_of_engagement.html#ae832edd4f052f7ed5d3385851a76dfa0',1,'RulesOfEngagement']]],
+  ['setancestor',['setAncestor',['../class_a_s_t_node.html#a33e7c3d514ec8adffd2b7fca4d838c9c',1,'ASTNode']]],
   ['setaststmtnode',['setASTStmtNode',['../class_stmt_ref.html#a253c944e7df29b33029081518708366d',1,'StmtRef']]],
   ['setcfgnode',['setCFGNode',['../class_stmt_ref.html#a793f7e7b6509f12584ddb5b0da80164a',1,'StmtRef']]],
   ['setfirstgeneric',['setFirstGeneric',['../class_synonym_table.html#ad53932d85419c69ff93db7a0b094791b',1,'SynonymTable']]],

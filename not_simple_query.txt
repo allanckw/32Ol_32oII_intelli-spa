@@ -185,3 +185,8 @@ variable v; stmt s1;
 Select s1 such that Modifies("Natalie", v) or Follows*(s1, _) with v.varName = "x"
 1,2,3,4,5,6,7,8,9,10,11,12
 5000
+38 - Z :: some ands
+variable v; stmt s1;
+Select s1 such that Modifies("Natalie", v) and !Modifies("Natalie", v)
+
+5000

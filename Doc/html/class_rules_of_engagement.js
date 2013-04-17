@@ -1,12 +1,11 @@
 var class_rules_of_engagement =
 [
     [ "getAllTypes", "class_rules_of_engagement.html#a1a051f48865a7a4d7f07f0a89f16aafe", null ],
+    [ "getAllTypes2", "class_rules_of_engagement.html#a7b192449953ebcf2c3956624a85025ba", null ],
     [ "isRelation", "class_rules_of_engagement.html#aad838c0ef69d7c4ee9bef23a431ff6c1", null ],
+    [ "isRelation2", "class_rules_of_engagement.html#af012bf032c10e605de6bd3a054deea91", null ],
+    [ "relation2Family", "class_rules_of_engagement.html#af65d32fa565fc5c0281621e26af9f465", null ],
     [ "relationFamily", "class_rules_of_engagement.html#a81832aa421c58fe508e3ace862e1288e", null ],
-    [ "PatternLHSType", "class_rules_of_engagement.html#adbb576232837064bb23c3f3564335079", [
-      [ "PLWildcard", "class_rules_of_engagement.html#adbb576232837064bb23c3f3564335079a83af3c000bcbddb7c2f85b1657cd97bd", null ],
-      [ "PLStringVariable", "class_rules_of_engagement.html#adbb576232837064bb23c3f3564335079aecba1553cf1b1e91cb699c87c2230d44", null ]
-    ] ],
     [ "PatternRHSType", "class_rules_of_engagement.html#a97613ded2253a252de010070d7c54ac1", [
       [ "PRWildcard", "class_rules_of_engagement.html#a97613ded2253a252de010070d7c54ac1ab823799dfda20af778a3848abfc46e84", null ],
       [ "PRSub", "class_rules_of_engagement.html#a97613ded2253a252de010070d7c54ac1a956642bd04a30d5d37ea95257f79d331", null ],
@@ -29,8 +28,15 @@ var class_rules_of_engagement =
       [ "NextBipStar", "class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817a931ece6470dc969e0069e0350fe11f66", null ],
       [ "Affects", "class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817a9c8683c88dcfe00106bc8b0b37217bbe", null ],
       [ "AffectsStar", "class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817a3222933186b8d29c1cafb28b56237299", null ],
+      [ "AffectsBip", "class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817a886d384533b9912c58c96692c2d3c490", null ],
+      [ "AffectsBipStar", "class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817af8713545d5c6f263df88df7400563fd1", null ],
       [ "PatternModifies", "class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817ab9e971b0219e177c3344a68cf17aa2fd", null ],
-      [ "PatternUses", "class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817a2bfef6c7a0d6a15f89ff2e2e66c2569d", null ]
+      [ "PatternSecond", "class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817a8a3747397986e8fdd5353bacde7c9df3", null ],
+      [ "PatternThird", "class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817a69f61c6842bd8c082ede6b0e3d63fba6", null ],
+      [ "PatternUses", "class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817a2bfef6c7a0d6a15f89ff2e2e66c2569d", null ],
+      [ "Contains", "class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817aab4f2c59fcdb826ccc1b714f0bad5470", null ],
+      [ "ContainsStar", "class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817aaca14fda8ad7a390069fd44d5c04e2f1", null ],
+      [ "Sibling", "class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817a820527f4b3f47e146e9cf9ec59fa77c9", null ]
     ] ],
     [ "QueryVar", "class_rules_of_engagement.html#a5dd2b28fd0c906d9b08e29e371713ead", [
       [ "Procedure", "class_rules_of_engagement.html#a5dd2b28fd0c906d9b08e29e371713eadaab34e372c1b64076502beba90e0afaf9", null ],
@@ -40,6 +46,9 @@ var class_rules_of_engagement =
       [ "Call", "class_rules_of_engagement.html#a5dd2b28fd0c906d9b08e29e371713eada36c5ed1bbf1ea556a09749d743eb2b51", null ],
       [ "While", "class_rules_of_engagement.html#a5dd2b28fd0c906d9b08e29e371713eadaea50c71b856bf8fa6b50ebd5bd1602b6", null ],
       [ "If", "class_rules_of_engagement.html#a5dd2b28fd0c906d9b08e29e371713eadae83e4c31ffaacea1cb82bb0c92ebec1f", null ],
+      [ "Plus", "class_rules_of_engagement.html#a5dd2b28fd0c906d9b08e29e371713eada813178e421dbe5af8f1a54bf493bd0e5", null ],
+      [ "Minus", "class_rules_of_engagement.html#a5dd2b28fd0c906d9b08e29e371713eada833f8b6178752efdc12ff413fb30e4b1", null ],
+      [ "Times", "class_rules_of_engagement.html#a5dd2b28fd0c906d9b08e29e371713eada57d894bf484d1d62a70dac041a8c4d09", null ],
       [ "Prog_Line", "class_rules_of_engagement.html#a5dd2b28fd0c906d9b08e29e371713eada2cbcab2ebd1a31dfd75cf5f8ec2f9a83", null ],
       [ "Variable", "class_rules_of_engagement.html#a5dd2b28fd0c906d9b08e29e371713eada22bb3bc5b545fb86bd4db389985f26a0", null ],
       [ "Constant", "class_rules_of_engagement.html#a5dd2b28fd0c906d9b08e29e371713eada50808eddb9dd64f550ed8a5d303c415e", null ],

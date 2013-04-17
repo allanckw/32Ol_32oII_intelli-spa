@@ -312,32 +312,6 @@ vector<STMT> AffectsTable::getAffectsBipBy(STMT a1)
 }
 
 /**
-* This method will be used to get a list of a2 that is affectsBip(_,a2)
-* @param a2	The statement that is going to affect by a1
-* @return a list of statement that is affect a2
-*/
-vector<STMT> AffectsTable::getAffectsBipFrom(STMT a2)
-{
-	{
-		Concurrency::reader_writer_lock::scoped_lock_read hi(affectsBipFromLock);
-		if (affectsBipFromMap.count(a2) > 0)
-			return vector<STMT>(affectsBipFromMap[a2].begin(), affectsBipFromMap[a2].end());
-	}
-	
-	const vector<STMT>& result = PQLAffectsProcessor::getAffectsBipFrom(a2);
-	const pair<STMT, vector<STMT>> newItem (a2, result);
-
-	affectsBipFromLock.lock();
-	this->affectsBipFromMap.insert(newItem);
-	affectsBipFromLock.unlock();
-		
-	for (size_t i = 0; i < result.size(); i++)	
-		insertAffectsBip(result.at(i), a2, true);
-	
-	return result;
-}
-
-/**
 * This method will be used to insert AffectsBipStar(a1,a2)
 * @param a1	The statement that is going to affect a2
 * @param a2	The statement that is affected by a1
@@ -420,31 +394,7 @@ vector<STMT> AffectsTable::getAffectsBipStarBy(STMT a1)
 	return result;
 }
 
-/**
-* This method will be used to get a list of a2 that is affectsBipStar(_,a2)
-* @param a2	The statement that is going to affect by a1
-* @return a list of statement that is affectStar a2
-*/
-vector<STMT> AffectsTable::getAffectsBipStarFrom(STMT a2)
-{
-	{
-		Concurrency::reader_writer_lock::scoped_lock_read hi(affectsBipStarFromLock);
-		if (affectsBipStarFromMap.count(a2) > 0)
-			return vector<STMT>(affectsBipStarFromMap[a2].begin(), affectsBipStarFromMap[a2].end());
-	}
-	
-	const vector<STMT>& result = PQLAffectsProcessor::getAffectsBipStarFrom(a2);
-	const pair<STMT, vector<STMT>> newItem (a2, result);
 
-	affectsBipStarFromLock.lock();
-	this->affectsBipStarFromMap.insert(newItem);
-	affectsBipStarFromLock.unlock();
-		
-	for (size_t i = 0; i < result.size(); i++)	
-		insertAffectsBipStar(result.at(i), a2, true);
-	
-	return result;
-}
 
 
 /**
@@ -477,10 +427,10 @@ void AffectsTable::tearDownCache() {
 	this->affectsStarMap.clear();
 	
 	this->affectsBipByMap.clear();
-	this->affectsBipFromMap.clear();
+	//this->affectsBipFromMap.clear();
 	this->affectsBipMap.clear();
 
 	this->affectsBipStarByMap.clear();
-	this->affectsBipStarFromMap.clear();
+	//this->affectsBipStarFromMap.clear();
 	this->affectsBipStarMap.clear();
 }

@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="intellispa-small.jpg"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">SPA
-   &#160;<span id="projectnumber">3</span>
+   &#160;<span id="projectnumber">4</span>
    </div>
    <div id="projectbrief">Static Program Analyzer - Team 11 CS3202 AY12/13 S2</div>
   </td>
@@ -110,21 +110,40 @@ $(document).ready(function(){initNavTree('_p_q_l_controller_8cpp_source.html',''
 <a href="_p_q_l_controller_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_p_q_l_controller_8h.html">PQLController.h</a>&quot;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_multi_query_eval_8h.html">MultiQueryEval.h</a>&quot;</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_p_k_b_8h.html">PKB.h</a>&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_dnf_8h.html">Dnf.h</a>&quot;</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno"><a class="code" href="class_p_q_l_controller.html#a9c530d22c1e7e10ec1fb7e81989016f8">   10</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_p_q_l_controller.html#a9c530d22c1e7e10ec1fb7e81989016f8">PQLController::evaluateQuery</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; query, list&lt;string&gt;&amp; results)</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;{</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <a class="code" href="class_multi_query_eval.html#a971423aef9a8e04a1a6e0728f1c9bc0f">MultiQueryEval::evaluateQuery</a>(query, results);</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <a class="code" href="class_p_k_b.html#a72e85289ddb59ff230cc7aace31826b5">PKB::next</a>.<a class="code" href="class_next_table.html#a88fcfe96e9d5be528a741f709387002c">tearDownCache</a>();</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <a class="code" href="class_p_k_b.html#ad9d778faa5c6d938082d07d90da6fea0">PKB::affects</a>.<a class="code" href="class_affects_table.html#a0ea66213d38d932c110f3f3e69560aa9">tearDownCache</a>();</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;}</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keywordtype">size_t</span> open = std::count(query.begin(), query.end(), <span class="charliteral">&#39;(&#39;</span>);</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordtype">size_t</span> close = std::count(query.begin(), query.end(), <span class="charliteral">&#39;)&#39;</span>);</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keywordtype">int</span> or = query.find(<span class="stringliteral">&quot;or&quot;</span>);</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keywordtype">int</span> not = query.find(<span class="stringliteral">&quot;!&quot;</span>);</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keywordtype">int</span>  emptybracketClause = query.find(<span class="stringliteral">&quot;()&quot;</span>);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordflow">if</span> (emptybracketClause &gt; 0)</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="class_s_p_a_exception.html">SPAException</a>(<span class="stringliteral">&quot;Empty Bracket Clause Found!&quot;</span>);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordflow">if</span> (open != close)</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="class_s_p_a_exception.html">SPAException</a>(<span class="stringliteral">&quot;Bracket matching Failed!&quot;</span>);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordflow">if</span>(or &gt; 0 || not &gt; 0) {</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <a class="code" href="class_dnf.html#aa8127957d3693f5989e84303e081e776">Dnf::Eval</a>(query, results);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <a class="code" href="class_multi_query_eval.html#a971423aef9a8e04a1a6e0728f1c9bc0f">MultiQueryEval::evaluateQuery</a>(query, results);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    }</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <a class="code" href="class_p_k_b.html#a72e85289ddb59ff230cc7aace31826b5">PKB::next</a>.<a class="code" href="class_next_table.html#a88fcfe96e9d5be528a741f709387002c">tearDownCache</a>();</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <a class="code" href="class_p_k_b.html#ad9d778faa5c6d938082d07d90da6fea0">PKB::affects</a>.<a class="code" href="class_affects_table.html#a0ea66213d38d932c110f3f3e69560aa9">tearDownCache</a>();</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;}</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_28240f1e82be414ac37674cd3ff4adc3.html">$P@</a></li><li class="navelem"><a class="el" href="dir_f0a66c18035a04f3accc68e6ea4db1f5.html">SPA</a></li><li class="navelem"><a class="el" href="dir_9072de41565413c7baeba4ab62bcf7d0.html">SPA</a></li><li class="navelem"><a class="el" href="_p_q_l_controller_8cpp.html">PQLController.cpp</a></li>
-    <li class="footer">Generated on Mon Mar 25 2013 02:14:47 for SPA by
+    <li class="footer">Generated on Thu Apr 18 2013 05:18:48 for SPA by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3.1 </li>
   </ul>

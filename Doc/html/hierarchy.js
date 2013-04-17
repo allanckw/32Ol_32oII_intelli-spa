@@ -14,10 +14,12 @@ var hierarchy =
     [ "CFGNode::Children", "union_c_f_g_node_1_1_children.html", null ],
     [ "DesignExtractor", "class_design_extractor.html", null ],
     [ "DisjointSet", "class_disjoint_set.html", null ],
+    [ "Dnf", "class_dnf.html", null ],
     [ "exception", null, [
       [ "SPAException", "class_s_p_a_exception.html", null ]
     ] ],
     [ "FollowsTable", "class_follows_table.html", null ],
+    [ "FormNode", "class_form_node.html", null ],
     [ "Helper", "class_helper.html", null ],
     [ "CFGNode::IfChildren", "struct_c_f_g_node_1_1_if_children.html", null ],
     [ "IntervalList", "class_interval_list.html", null ],
@@ -33,7 +35,6 @@ var hierarchy =
     [ "PQLController", "class_p_q_l_controller.html", null ],
     [ "PQLNextProcessor", "class_p_q_l_next_processor.html", null ],
     [ "PROCTable", "class_p_r_o_c_table.html", null ],
-    [ "QueryPreprocessor", "class_query_preprocessor.html", null ],
     [ "RulesOfEngagement", "class_rules_of_engagement.html", null ],
     [ "StmtRef", "class_stmt_ref.html", null ],
     [ "SynonymTable", "class_synonym_table.html", null ],

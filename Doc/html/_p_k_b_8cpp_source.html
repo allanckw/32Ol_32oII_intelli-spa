@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="intellispa-small.jpg"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">SPA
-   &#160;<span id="projectnumber">3</span>
+   &#160;<span id="projectnumber">4</span>
    </div>
    <div id="projectbrief">Static Program Analyzer - Team 11 CS3202 AY12/13 S2</div>
   </td>
@@ -146,133 +146,131 @@ $(document).ready(function(){initNavTree('_p_k_b_8cpp_source.html','');});
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;vector&lt;ASTNode*&gt; <a class="code" href="class_p_k_b.html#a04aa565187bc3a566ac0163027e46f46">PKB::statementNodes</a>;</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;vector&lt;StmtRef&gt; <a class="code" href="class_p_k_b.html#a5d6117050599ff7205c7fc88426b4435">PKB::stmtRefMap</a>;</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;unordered_map&lt;int, ASTNode*&gt; <a class="code" href="class_p_k_b.html#a4bed7a639eeaebec0f877429f1b73079">PKB::assignNodes</a>;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;unordered_map&lt;int, ASTNode*&gt; <a class="code" href="class_p_k_b.html#a54cdb3a6553fd54b689a812d3187ccce">PKB::callNodes</a>;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;unordered_map&lt;int, ASTNode*&gt; <a class="code" href="class_p_k_b.html#abc04a09157ed8733ea6ce207af0a837d">PKB::ifNodes</a>;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;unordered_map&lt;int, ASTNode*&gt; <a class="code" href="class_p_k_b.html#a4be6809486f222460f02b45261602dc7">PKB::whileNodes</a>;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;vector&lt;ASTNode*&gt; <a class="code" href="class_p_k_b.html#a32969a9bf41b581dca9b0a6ca62fa4ca">PKB::oprNodes</a>;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;vector&lt;ASTNode*&gt; <a class="code" href="class_p_k_b.html#aa2e4e2bdc8095069f97bd1e1b2cc3f99">PKB::varNodes</a>;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;vector&lt;ASTNode*&gt; <a class="code" href="class_p_k_b.html#a09d2b801a44f09b620058ab7a2b0dc51">PKB::stmtLstNodes</a>;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;vector&lt;ASTNode*&gt; <a class="code" href="class_p_k_b.html#ab02f88b9d3655e8a22e188279bdfebb8">PKB::constNodes</a>;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;unordered_map&lt;STMT, ASTNode*&gt; <a class="code" href="class_p_k_b.html#ae15abcc3434378ab71ea37ee950783ad">PKB::assignNodes</a>;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;unordered_map&lt;STMT, ASTNode*&gt; <a class="code" href="class_p_k_b.html#aa968894247eb018b4188e51fd98a0d25">PKB::callNodes</a>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;unordered_map&lt;STMT, ASTNode*&gt; <a class="code" href="class_p_k_b.html#a58f622cc8d5a5c08869715bb8d6c5434">PKB::whileNodes</a>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;unordered_map&lt;STMT, ASTNode*&gt; <a class="code" href="class_p_k_b.html#a47599f6b6ea430da6f0117a16f8c6ddc">PKB::ifNodes</a>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;unordered_map&lt;ASTNode*, STMT&gt; <a class="code" href="class_p_k_b.html#ae3d86f21f9ada218f056693ca5af7ccb">PKB::assignNodesBack</a>;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;unordered_map&lt;ASTNode*, STMT&gt; <a class="code" href="class_p_k_b.html#ad901a2ce620e610d3662b2b3a87be0e9">PKB::callNodesBack</a>;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;unordered_map&lt;ASTNode*, STMT&gt; <a class="code" href="class_p_k_b.html#a238e363907813eedbc08a2396d1ddf1b">PKB::whileNodesBack</a>;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;unordered_map&lt;ASTNode*, STMT&gt; <a class="code" href="class_p_k_b.html#a1706a65cf8bf900c3ce44cdbc5b5b9dd">PKB::ifNodesBack</a>;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;unordered_map&lt;ASTNode*, STMT&gt; <a class="code" href="class_p_k_b.html#a3f711ce4ac82d663ebdd540c1d191ebe">PKB::statementListNodesBack</a>;</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;vector&lt;pair&lt;STMT, STMT&gt;&gt; <a class="code" href="class_p_k_b.html#a960218307dbb38c796142a0f392205b6">PKB::TheBeginningAndTheEnd</a>;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;unordered_map&lt;int, vector&lt;STMT&gt;&gt; <a class="code" href="class_p_k_b.html#a3354b7bf1c997e868b9273e5d19d673e">PKB::constantsTable</a>;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;vector&lt;vector&lt;ASTNode*&gt;&gt; <a class="code" href="class_p_k_b.html#aaf913ae9141ec83c01e7448297a33484">PKB::oprNodes</a>;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;vector&lt;vector&lt;ASTNode*&gt;&gt; <a class="code" href="class_p_k_b.html#ae43b3b37eb0510b4092a234fc4630857">PKB::varNodes</a>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;vector&lt;ASTNode*&gt; <a class="code" href="class_p_k_b.html#a09d2b801a44f09b620058ab7a2b0dc51">PKB::stmtLstNodes</a>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;unordered_map&lt;int, vector&lt;ASTNode*&gt;&gt; <a class="code" href="class_p_k_b.html#a582687d4b08820ed08ca76b67444912d">PKB::constNodes</a>;</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="code" href="class_p_k_b.html#a984e5a12e9cc792d0ed5fda9322b9b55">   55</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_p_k_b.html#a984e5a12e9cc792d0ed5fda9322b9b55">PKB::addToCFGList</a>(<a class="code" href="class_c_f_g_node.html">CFGNode</a>* node)</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;{</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <a class="code" href="class_p_k_b.html#a4d3f4d3cbcb58fa599b7d747b3dbeb02">PKB::CFGHeads</a>.push_back(node);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno"><a class="code" href="class_p_k_b.html#a598a3c59ebdee3517429183a86f83509">   61</a></span>&#160;vector&lt;ASTNode*&gt; <a class="code" href="class_p_k_b.html#a598a3c59ebdee3517429183a86f83509">PKB::getNodes</a>(<a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859">ASTNode::NodeType</a> type ){</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    vector&lt;ASTNode*&gt; result;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">switch</span> (type)</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    {</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859a96afa6f10aedf44a6e509b83015d8196">ASTNode::Procedure</a>:</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    {</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            <span class="keywordflow">return</span> PKB::rootNode-&gt;<a class="code" href="class_a_s_t_node.html#aa5af8818f4756fda1f8628c47477c6f1">getChildren</a>();</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    }</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859a3268f5ccc42956fa2011adac0700803d">ASTNode::StmtLst</a>:</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;         {</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;             <span class="keywordflow">return</span> <a class="code" href="class_p_k_b.html#a09d2b801a44f09b620058ab7a2b0dc51">PKB::stmtLstNodes</a>;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;         }</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859abc11d3cef1a08db1d7489c8a70c73c75">ASTNode::Assign</a>:</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        {</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code" href="class_p_k_b.html#a4bed7a639eeaebec0f877429f1b73079">PKB::assignNodes</a>.begin(); it != <a class="code" href="class_p_k_b.html#a4bed7a639eeaebec0f877429f1b73079">PKB::assignNodes</a>.end(); it++){</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                result.push_back((*it).second);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            }</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        }</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859a20e38466c592b716e5ac11969753de1c">ASTNode::Call</a>:</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        {</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code" href="class_p_k_b.html#a54cdb3a6553fd54b689a812d3187ccce">PKB::callNodes</a>.begin(); it != <a class="code" href="class_p_k_b.html#a54cdb3a6553fd54b689a812d3187ccce">PKB::callNodes</a>.end(); it++){</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                result.push_back((*it).second);</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            }</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        }</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859a57ddbd1d98e862fd5deaeec85c5483c4">ASTNode::While</a>:</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        {</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code" href="class_p_k_b.html#a4be6809486f222460f02b45261602dc7">PKB::whileNodes</a>.begin(); it != <a class="code" href="class_p_k_b.html#a4be6809486f222460f02b45261602dc7">PKB::whileNodes</a>.end(); it++){</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                result.push_back((*it).second);</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            }</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        }</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859a2c6c2af563ff11ef2e968214c790593c">ASTNode::If</a>:</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        {</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code" href="class_p_k_b.html#abc04a09157ed8733ea6ce207af0a837d">PKB::ifNodes</a>.begin(); it != <a class="code" href="class_p_k_b.html#abc04a09157ed8733ea6ce207af0a837d">PKB::ifNodes</a>.end(); it++){</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                result.push_back((*it).second);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            }</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        }</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859a4ea10d7791557fbcf1057136cf012e16">ASTNode::Operator</a>:</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        {</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="class_p_k_b.html#a32969a9bf41b581dca9b0a6ca62fa4ca">PKB::oprNodes</a>;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        }</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;     <span class="keywordflow">case</span> <a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859ad1626bafffaf48dc7bd22f2f13f5a50a">ASTNode::Variable</a>:</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;         {</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;             <span class="keywordflow">return</span> <a class="code" href="class_p_k_b.html#aa2e4e2bdc8095069f97bd1e1b2cc3f99">PKB::varNodes</a>;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;         }</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;     <span class="keywordflow">case</span> <a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859a114b1c32de0827e6ee5ff81613b5bb19">ASTNode::Constant</a>:</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;         {</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;             <span class="keywordflow">return</span> <a class="code" href="class_p_k_b.html#ab02f88b9d3655e8a22e188279bdfebb8">PKB::constNodes</a>;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;         }</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;     </div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        <span class="keywordflow">return</span> result;</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    }</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;}</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
-<div class="line"><a name="l00115"></a><span class="lineno"><a class="code" href="class_p_k_b.html#a7078739524e51d20768fb3765a5951c5">  115</a></span>&#160;vector&lt;ASTNode*&gt; <a class="code" href="class_p_k_b.html#a598a3c59ebdee3517429183a86f83509">PKB::getNodes</a>(<a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859">ASTNode::NodeType</a> type, <span class="keywordtype">int</span> value)</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;{</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    vector&lt;ASTNode*&gt; result;</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="keywordflow">switch</span> (type)</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    {</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859a96afa6f10aedf44a6e509b83015d8196">ASTNode::Procedure</a>:</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    {</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; PKB::rootNode-&gt;<a class="code" href="class_a_s_t_node.html#aa5af8818f4756fda1f8628c47477c6f1">getChildren</a>().size(); i++){</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;            <span class="keywordflow">if</span> (PKB::rootNode-&gt;getChildren().at(i)-&gt;<a class="code" href="class_a_s_t_node.html#a899c8bb0314158fc8ca7d5688b89e165">getValue</a>() == value)</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                    result.push_back(PKB::rootNode-&gt;<a class="code" href="class_a_s_t_node.html#aa5af8818f4756fda1f8628c47477c6f1">getChildren</a>().at(i));</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        }</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    }</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859a20e38466c592b716e5ac11969753de1c">ASTNode::Call</a>:</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        {</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code" href="class_p_k_b.html#a54cdb3a6553fd54b689a812d3187ccce">PKB::callNodes</a>.begin(); it != <a class="code" href="class_p_k_b.html#a54cdb3a6553fd54b689a812d3187ccce">PKB::callNodes</a>.end(); it++){</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;                <span class="keywordflow">if</span> ((*it).second-&gt;getValue() == value)</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;                    result.push_back((*it).second);</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;            }</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        }</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859a4ea10d7791557fbcf1057136cf012e16">ASTNode::Operator</a>:</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        {</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="class_p_k_b.html#a32969a9bf41b581dca9b0a6ca62fa4ca">PKB::oprNodes</a>.size(); i++){</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;                <span class="keywordflow">if</span> (<a class="code" href="class_p_k_b.html#a32969a9bf41b581dca9b0a6ca62fa4ca">PKB::oprNodes</a>.at(i)-&gt;getValue() == value)</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;                    result.push_back(<a class="code" href="class_p_k_b.html#a32969a9bf41b581dca9b0a6ca62fa4ca">PKB::oprNodes</a>.at(i));</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;            }</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        }</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;     <span class="keywordflow">case</span> <a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859ad1626bafffaf48dc7bd22f2f13f5a50a">ASTNode::Variable</a>:</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;         {</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="class_p_k_b.html#aa2e4e2bdc8095069f97bd1e1b2cc3f99">PKB::varNodes</a>.size(); i++){</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;                <span class="keywordflow">if</span> (<a class="code" href="class_p_k_b.html#aa2e4e2bdc8095069f97bd1e1b2cc3f99">PKB::varNodes</a>.at(i)-&gt;getValue() == value)</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;                    result.push_back(<a class="code" href="class_p_k_b.html#aa2e4e2bdc8095069f97bd1e1b2cc3f99">PKB::varNodes</a>.at(i));</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;            }</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;         }</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;     <span class="keywordflow">case</span> <a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859a114b1c32de0827e6ee5ff81613b5bb19">ASTNode::Constant</a>:</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;         {</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="class_p_k_b.html#ab02f88b9d3655e8a22e188279bdfebb8">PKB::constNodes</a>.size(); i++){</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;                <span class="keywordflow">if</span> (<a class="code" href="class_p_k_b.html#ab02f88b9d3655e8a22e188279bdfebb8">PKB::constNodes</a>.at(i)-&gt;getValue() == value)</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;                    result.push_back(<a class="code" href="class_p_k_b.html#ab02f88b9d3655e8a22e188279bdfebb8">PKB::constNodes</a>.at(i));</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;            }</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;         }</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;     </div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    }</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        </div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    <span class="keywordflow">return</span> result;</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;}</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;vector&lt;pair&lt;STMT, STMT&gt;&gt; <a class="code" href="class_p_k_b.html#a960218307dbb38c796142a0f392205b6">PKB::TheBeginningAndTheEnd</a>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;unordered_map&lt;int, vector&lt;STMT&gt;&gt; <a class="code" href="class_p_k_b.html#a3354b7bf1c997e868b9273e5d19d673e">PKB::constantsTable</a>;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno"><a class="code" href="class_p_k_b.html#a598a3c59ebdee3517429183a86f83509">   64</a></span>&#160;vector&lt;ASTNode*&gt; <a class="code" href="class_p_k_b.html#a598a3c59ebdee3517429183a86f83509">PKB::getNodes</a>(<a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859">ASTNode::NodeType</a> type ){</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    vector&lt;ASTNode*&gt; result;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordflow">switch</span> (type)</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    {</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859a96afa6f10aedf44a6e509b83015d8196">ASTNode::Procedure</a>:</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    {</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            <span class="keywordflow">return</span> PKB::rootNode-&gt;<a class="code" href="class_a_s_t_node.html#aa5af8818f4756fda1f8628c47477c6f1">getChildren</a>();</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    }</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859a3268f5ccc42956fa2011adac0700803d">ASTNode::StmtLst</a>:</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;         {</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;             <span class="keywordflow">return</span> <a class="code" href="class_p_k_b.html#a09d2b801a44f09b620058ab7a2b0dc51">PKB::stmtLstNodes</a>;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;         }</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859abc11d3cef1a08db1d7489c8a70c73c75">ASTNode::Assign</a>:</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        {</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code" href="class_p_k_b.html#ae15abcc3434378ab71ea37ee950783ad">PKB::assignNodes</a>.begin(); it != <a class="code" href="class_p_k_b.html#ae15abcc3434378ab71ea37ee950783ad">PKB::assignNodes</a>.end(); it++){</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                result.push_back((*it).second);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            }</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        }</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859a20e38466c592b716e5ac11969753de1c">ASTNode::Call</a>:</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        {</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code" href="class_p_k_b.html#aa968894247eb018b4188e51fd98a0d25">PKB::callNodes</a>.begin(); it != <a class="code" href="class_p_k_b.html#aa968894247eb018b4188e51fd98a0d25">PKB::callNodes</a>.end(); it++){</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                result.push_back((*it).second);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            }</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        }</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859a57ddbd1d98e862fd5deaeec85c5483c4">ASTNode::While</a>:</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        {</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code" href="class_p_k_b.html#a58f622cc8d5a5c08869715bb8d6c5434">PKB::whileNodes</a>.begin(); it != <a class="code" href="class_p_k_b.html#a58f622cc8d5a5c08869715bb8d6c5434">PKB::whileNodes</a>.end(); it++){</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                result.push_back((*it).second);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            }</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        }</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859a2c6c2af563ff11ef2e968214c790593c">ASTNode::If</a>:</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        {</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code" href="class_p_k_b.html#a47599f6b6ea430da6f0117a16f8c6ddc">PKB::ifNodes</a>.begin(); it != <a class="code" href="class_p_k_b.html#a47599f6b6ea430da6f0117a16f8c6ddc">PKB::ifNodes</a>.end(); it++){</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                result.push_back((*it).second);</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            }</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        }</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="comment">/*case ASTNode::Operator:</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="comment">        {</span></div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="comment">            return PKB::oprNodes;</span></div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="comment">        }</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="comment">     case ASTNode::Variable:</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="comment">         {</span></div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="comment">             return PKB::varNodes;</span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="comment">         }</span></div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="comment">     case ASTNode::Constant:</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="comment">         {</span></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="comment">             return PKB::constNodes;</span></div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="comment">         }*/</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;     </div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <span class="keywordflow">return</span> result;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    }</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;}</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
+<div class="line"><a name="l00124"></a><span class="lineno"><a class="code" href="class_p_k_b.html#a7078739524e51d20768fb3765a5951c5">  124</a></span>&#160;vector&lt;ASTNode*&gt; <a class="code" href="class_p_k_b.html#a598a3c59ebdee3517429183a86f83509">PKB::getNodes</a>(<a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859">ASTNode::NodeType</a> type, <span class="keywordtype">int</span> value)</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;{</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    vector&lt;ASTNode*&gt; result;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <span class="keywordflow">switch</span> (type)</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    {</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859a96afa6f10aedf44a6e509b83015d8196">ASTNode::Procedure</a>:</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    {</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; PKB::rootNode-&gt;<a class="code" href="class_a_s_t_node.html#aa5af8818f4756fda1f8628c47477c6f1">getChildren</a>().size(); i++){</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;            <span class="keywordflow">if</span> (PKB::rootNode-&gt;getChildren().at(i)-&gt;<a class="code" href="class_a_s_t_node.html#a899c8bb0314158fc8ca7d5688b89e165">getValue</a>() == value)</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;                    result.push_back(PKB::rootNode-&gt;<a class="code" href="class_a_s_t_node.html#aa5af8818f4756fda1f8628c47477c6f1">getChildren</a>().at(i));</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        }</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    }</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    <span class="keywordflow">case</span> <a class="code" href="class_a_s_t_node.html#a4fd016b5f0e44ea6aca3542d27de3859a20e38466c592b716e5ac11969753de1c">ASTNode::Call</a>:</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        {</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code" href="class_p_k_b.html#aa968894247eb018b4188e51fd98a0d25">PKB::callNodes</a>.begin(); it != <a class="code" href="class_p_k_b.html#aa968894247eb018b4188e51fd98a0d25">PKB::callNodes</a>.end(); it++){</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;                <span class="keywordflow">if</span> ((*it).second-&gt;getValue() == value)</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;                    result.push_back((*it).second);</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;            }</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        }</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <span class="comment">/*case ASTNode::Operator:</span></div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;<span class="comment">        {</span></div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;<span class="comment">            for (int i = 0; i &lt; PKB::oprNodes.size(); i++){</span></div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;<span class="comment">                if (PKB::oprNodes.at(i)-&gt;getValue() == value)</span></div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="comment">                    result.push_back(PKB::oprNodes.at(i));</span></div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;<span class="comment">            }</span></div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;<span class="comment">        }</span></div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;<span class="comment">     case ASTNode::Variable:</span></div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;<span class="comment">         {</span></div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;<span class="comment">            for (int i = 0; i &lt; PKB::varNodes.size(); i++){</span></div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;<span class="comment">                if (PKB::varNodes.at(i)-&gt;getValue() == value)</span></div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;<span class="comment">                    result.push_back(PKB::varNodes.at(i));</span></div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;<span class="comment">            }</span></div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;<span class="comment">         }</span></div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;<span class="comment">     case ASTNode::Constant:</span></div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;<span class="comment">         {</span></div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;<span class="comment">            for (int i = 0; i &lt; PKB::constNodes.size(); i++){</span></div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;<span class="comment">                if (PKB::constNodes.at(i)-&gt;getValue() == value)</span></div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;<span class="comment">                    result.push_back(PKB::constNodes.at(i));</span></div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;<span class="comment">            }</span></div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;<span class="comment">         }*/</span></div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;     </div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    }</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        </div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    <span class="keywordflow">return</span> result;</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_28240f1e82be414ac37674cd3ff4adc3.html">$P@</a></li><li class="navelem"><a class="el" href="dir_f0a66c18035a04f3accc68e6ea4db1f5.html">SPA</a></li><li class="navelem"><a class="el" href="dir_9072de41565413c7baeba4ab62bcf7d0.html">SPA</a></li><li class="navelem"><a class="el" href="_p_k_b_8cpp.html">PKB.cpp</a></li>
-    <li class="footer">Generated on Mon Mar 25 2013 02:14:46 for SPA by
+    <li class="footer">Generated on Thu Apr 18 2013 05:18:48 for SPA by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3.1 </li>
   </ul>

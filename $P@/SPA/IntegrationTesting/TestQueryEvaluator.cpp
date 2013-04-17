@@ -1,6 +1,7 @@
 #include "TestQueryEvaluator.h"
 #include <cppunit/config/SourcePrefix.h>
 #include "../SPA/PQLAffectsProcessor.h"
+#include <time.h>
 
 
 //Registers the fixture into the 'registry'
@@ -27,7 +28,7 @@ void display(vector<int> x)
 }
 void TestQueryEvaluator::TestQueryEvaluatorM()
 {  
-	PKBController::initializePKB("F:\\3201_3202\\SPA\\source11.txt");
+	PKBController::initializePKB("F:\\3201_3202\\SPA\\pewpewpew.txt");
 	//doon("assign a; Select BOOLEAN such that Affects(1, 2)"); 
 	//doon("assign a; Select BOOLEAN such that Affects(1, 3)"); 
 	//doon("assign a; Select BOOLEAN such that Affects(1, 5)"); 
@@ -51,9 +52,14 @@ void TestQueryEvaluator::TestQueryEvaluatorM()
 
 	//doon("stmt s; stmt t; Select s such that Follows(s, 2) or ((Follows(s, 243) and Follows(1,1)))");//1
 	
-	doon("assign a; while w; Select 	a pattern a(_,_\"z\"_) such that Follows*(			w,a)");
-	doon("assign a; while w;  Select 	a pattern a(_,_\"z\"_) such that Follows*(w,a)");
+	//doon("procedure p1,p2; assign a1,a2,a3,a4; Select <p1.procName, a2> such that Contains*(p1,a1) with a1.stmt#=a2.stmt# pattern a2(\"m\",_\"b\"_)");
+	//doon("assign a; while w;  Select 	a pattern a(_,_\"z\"_) such that Follows*(w,a)");
 	//doon("Select 	a pattern a(_,_\"z\"_) such that Follows*(w,a)");
+	const clock_t begin_time = clock();
+	//doon("prog_line n; assign a, b; stmt s1,s2; Select n such that Affects*(a,n) and Affects*(b,n) and Affects*(s1,s2) and Next*(6,n) and Next* (n,48) with b.stmt#=1");
+	doon("assign a1, a2; Select a2 such that AffectsBip*(1, a2)");
+
+	//std::cout << float( clock () - begin_time ) /  CLOCKS_PER_SEC;
 }
 
 

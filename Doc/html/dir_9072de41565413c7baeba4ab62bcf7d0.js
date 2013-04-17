@@ -45,9 +45,17 @@ var dir_9072de41565413c7baeba4ab62bcf7d0 =
     [ "DisjointSet.h", "_disjoint_set_8h.html", [
       [ "DisjointSet", "class_disjoint_set.html", "class_disjoint_set" ]
     ] ],
+    [ "Dnf.cpp", "_dnf_8cpp.html", null ],
+    [ "Dnf.h", "_dnf_8h.html", [
+      [ "Dnf", "class_dnf.html", null ]
+    ] ],
     [ "FollowsTable.cpp", "_follows_table_8cpp.html", null ],
     [ "FollowsTable.h", "_follows_table_8h.html", [
       [ "FollowsTable", "class_follows_table.html", "class_follows_table" ]
+    ] ],
+    [ "FormNode.cpp", "_form_node_8cpp.html", null ],
+    [ "FormNode.h", "_form_node_8h.html", [
+      [ "FormNode", "class_form_node.html", "class_form_node" ]
     ] ],
     [ "Helper.cpp", "_helper_8cpp.html", null ],
     [ "Helper.h", "_helper_8h.html", [
@@ -103,10 +111,6 @@ var dir_9072de41565413c7baeba4ab62bcf7d0 =
     ] ],
     [ "PROCTable.cpp", "_p_r_o_c_table_8cpp.html", null ],
     [ "PROCTable.h", "_p_r_o_c_table_8h.html", "_p_r_o_c_table_8h" ],
-    [ "QueryPreprocessor.cpp", "_query_preprocessor_8cpp.html", null ],
-    [ "QueryPreprocessor.h", "_query_preprocessor_8h.html", [
-      [ "QueryPreprocessor", "class_query_preprocessor.html", null ]
-    ] ],
     [ "RulesOfEngagement.cpp", "_rules_of_engagement_8cpp.html", null ],
     [ "RulesOfEngagement.h", "_rules_of_engagement_8h.html", [
       [ "RulesOfEngagement", "class_rules_of_engagement.html", "class_rules_of_engagement" ]

@@ -1,5 +1,5 @@
 procedure Natalie {
-                a = 1; //1
+                a = a+b+c+d*e-f-g+x; //1
                 call Allan; //2
                 b = c; //3
 }

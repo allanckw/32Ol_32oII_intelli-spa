@@ -1,0 +1,82 @@
+10
+cat: All Category
+1 - test01
+stmt s;
+Select s such that AffectsBip(51, s)
+54
+5000
+1a - test01a
+stmt s;
+Select s such that AffectsBip*(51, s)
+54,55,56
+5000
+1b - test01b
+stmt s;
+Select s such that AffectsBip(52, s)
+54,55
+5000
+1c - test01c
+stmt s;
+Select s such that AffectsBip*(52, s)
+54,55,56
+5000
+2 - test02
+stmt s;
+Select s such that AffectsBip(62, s)
+63,65,73
+5000
+2a - test02a
+stmt s;
+Select s such that AffectsBip*(62, s)
+63,65,73,77,79,80,81
+5000
+2b - test02b
+stmt s;
+Select s such that AffectsBip(63, s)
+65
+5000
+2c - test02c
+stmt s;
+Select s such that AffectsBip*(63, s)
+65
+5000
+3 - test03
+stmt s;
+Select s such that AffectsBip(73, s)
+73,77,79,81
+5000
+3a - test03a
+stmt s;
+Select s such that AffectsBip*(73, s)
+73,77,79,80,81
+5000
+4 - test04
+stmt s;
+Select s such that AffectsBip(67, s)
+73,77,79,81
+5000
+4a - test04a
+stmt s;
+Select s such that AffectsBip*(67, s)
+73,77,79,80,81
+5000
+5 - test05
+stmt s;
+Select s such that AffectsBip(56, s)
+54,55
+5000
+5a - test05a
+stmt s;
+Select s such that AffectsBip*(56, s)
+54,55,56
+5000
+6 - test06
+stmt s;
+Select s such that AffectsBip(54, s)
+55,56
+5000
+6a - test06a
+stmt s;
+Select s such that AffectsBip*(54, s)
+54,55,56
+5000

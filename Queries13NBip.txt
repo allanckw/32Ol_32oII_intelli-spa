@@ -1,0 +1,102 @@
+10
+cat: All Category
+1 - test01
+prog_line n;
+Select n such that NextBip(n, 1)
+none
+5000
+1a - test01a
+prog_line n;
+Select n such that NextBip(1, n)
+2
+5000
+1b - test01b
+prog_line n;
+Select n such that NextBip*(n, 1)
+none
+5000
+1c - test01c
+prog_line n;
+Select n such that NextBip*(1, n)
+2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87
+5000
+1d - test01d
+prog_line n;
+Select n such that NextBip(5, n)
+6, 49
+5000
+2 - test02
+prog_line n;
+Select n such that NextBip(49, n)
+50
+5000
+2a - test02a
+prog_line n;
+Select n such that NextBip(n, 49)
+5,50
+5000
+2b - test02b
+prog_line n;
+Select n such that NextBip*(49, n)
+49, 50
+5000
+2c - test02c
+prog_line n;
+Select n such that NextBip*(n, 49)
+1,2,3,4,5,49,50
+5000
+3 - test03
+prog_line n;
+Select n such that NextBip(50, n)
+49
+5000
+3a - test03a
+prog_line n;
+Select n such that NextBip(n, 50)
+49
+5000
+3b - test03b
+prog_line n;
+Select n such that NextBip*(50, n)
+49, 50
+5000
+2c - test02c
+prog_line n;
+Select n such that NextBip*(n, 50)
+1,2,3,4,5,49,50
+5000
+3 - test03
+prog_line n;
+Select n such that NextBip(6, n)
+7
+5000
+4 - test04
+prog_line n;
+Select n such that NextBip(9, n)
+51
+5000
+5 - test05
+prog_line n;
+Select n such that NextBip(13, n)
+14
+5000
+6 - test06
+prog_line n;
+Select n such that NextBip(85, n)
+86
+5000
+6a - test06a
+prog_line n;
+Select n such that NextBip*(85, n)
+86,87
+5000
+7 - test07
+prog_line n;
+Select n such that NextBip(86, n)
+87
+5000
+7a - test07a
+prog_line n;
+Select n such that NextBip*(86, n)
+87
+5000

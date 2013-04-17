@@ -1233,7 +1233,7 @@ void AnswerTable::finishHimOff()
 
 			vector<vector<pair<int, unordered_set<ASTNode*>>>> answers2;
 			for (auto it = answers.begin(); it != answers.end(); it++)
-				if (RulesOfEngagement::satisfyPattern((*it)[index].first, RHS, RHSVarName, RHSexprs))
+				if (RulesOfEngagement::satisfyPattern((*it)[index].first, RHS, RHSexprs))
 					answers2.push_back(*it);
 			answers = answers2;
 		}

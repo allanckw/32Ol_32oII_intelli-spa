@@ -43,7 +43,7 @@ public:
 	void setRoot(PROC);
 
 	ASTNode::NodeType getType() const;
-	ASTNode* getChild(unsigned int) const;
+	ASTNode* getChild(size_t) const;
 	ASTNode* getParent() const; 
 
 	int getValue() const;

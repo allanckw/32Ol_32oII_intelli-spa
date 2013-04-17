@@ -6,7 +6,7 @@
 * This method will be used to check whether a1 and a2 satisfy Affect Condition
 * @param a1	The statement that is going to affect a2
 * @param a2	The statement that is affected by a1
-* @return whether (a1,a2) satisfy the condition of Affect
+* @return whether (a1,a2) satisfy the conditions of Affect
 */
 bool PQLAffectsProcessor::isSatifyAffects(STMT a1, STMT a2)
 {
@@ -457,7 +457,7 @@ vector<STMT> PQLAffectsProcessor::getAffectsFrom(STMT a2)
 * This method will be used to check whether a1 and a2 satisfy Affect* Condition
 * @param a1	The statement that is going to Affect* a2
 * @param a2	The statement that is Affect*ed by a1
-* @return whether (a1,a2) satisfy the condition of Affect*
+* @return whether (a1,a2) satisfy the conditions of Affect*
 */
 bool PQLAffectsProcessor::isSatifyAffectsStar(STMT a1, STMT a2)
 {

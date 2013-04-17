@@ -76,18 +76,18 @@ string MultiQueryEval::getToken2()
 				charstack.pop();
 			else {
 				died = true;
-				return;
+				return "";
 			}
 		}
 		else {
 			died = true;
-			return;
+			return "";
 		}
 		tempt = pos+1;
 	}
 	if(charstack.size() != 0 ) {
 		died = true;
-		return;
+		return "";
 	}
 
 	if (pos == first) {
@@ -974,7 +974,7 @@ void MultiQueryEval::evaluate(list<string>& results)
 	list<pair<RulesOfEngagement::QueryRelations,pair<string, string>>> temptwosyno;
 
 	//sort
-	for(int i=0;i<PKB::sortorder.size();i++)
+	for(size_t i=0;i<PKB::sortorder.size();i++)
 	{
 		list<pair<RulesOfEngagement::QueryRelations,pair<string, string>>>::iterator
 			j = onesyno.begin();
@@ -1379,6 +1379,11 @@ void MultiQueryEval::evaluate(list<string>& results)
 					earlyQuit = true;
 					return;
 				}
+				table.finishHimOff();
+				if (table.getSize() == 0) {
+					earlyQuit = true;
+					return;
+				}
 			}
 		}
 	}
@@ -1571,18 +1576,23 @@ void MultiQueryEval::evaluate(list<string>& results)
 			}
 		}
 
-		if (tables.size() > 1)
+		size_t tablesSize = tables.size();
+
+		if (tablesSize > 1)
 			throw SPAException("Wrong number of tables");
 
-		if (tables.size() == 1) {
+		if (tablesSize == 1) {
+			AnswerTable& table = tables[0];
 			//finish off all the patterns now
-			tables[0].finishHimOff();
+			table.finishHimOff();
+			if (table.getSize() == 0)
+				tasks.cancel();
 
 			if (!toProjectIndex[classIndex].empty()) {
-				if (toProjectIndex[classIndex].size() == tables[0].getHeaderSize())
-					projections[classIndex] = tables[0];
+				if (toProjectIndex[classIndex].size() == table.getHeaderSize())
+					projections[classIndex] = table;
 				else
-					projections[classIndex] = tables[0].project(toProjectIndex[classIndex]);
+					projections[classIndex] = table.project(toProjectIndex[classIndex]);
 			}
 		}
 	};

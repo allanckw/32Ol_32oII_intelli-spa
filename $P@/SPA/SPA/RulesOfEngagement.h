@@ -175,8 +175,8 @@ private:
 	static vector<int> nextBipStarFrom(int y);
 	static vector<int> affectsFrom(int y);
 	static vector<int> affectsStarFrom(int y);
-	static vector<int> affectsBipFrom(int y);
-	static vector<int> affectsBipStarFrom(int y);
+	//static vector<int> affectsBipFrom(int y);
+	//static vector<int> affectsBipStarFrom(int y);
 
 	static unordered_map<QueryRelations, relation2Family> relation2FromMap;
 	static const vector<ASTNode*> containsFrom(const ASTNode * const y);
@@ -223,17 +223,12 @@ private:
 	static vector<ASTNode*> getAllCallNodes(PROC p);*/
 	
 public:
-	enum PatternLHSType { 
-		PLWildcard, PLStringVariable
-	};
-
 	enum PatternRHSType { 
 		PRWildcard, PRSub, PRNoSub
 	};
 	
-	static bool satisfyPattern(const int index, const RulesOfEngagement::PatternRHSType RHS,
-		const string& RHSVarName, const ASTExprNode* RHSexprs);
+	static bool satisfyPattern(const int index,
+		const PatternRHSType RHS, const ASTExprNode* RHSexprs);
 private:
-	static bool TryMatch(ASTNode* testedNode, PatternRHSType RHS, const ASTExprNode* RHSexpr);
 	static bool MatcherTree(const ASTNode* Original, const ASTNode* Pattern);//, bool isSub);
 };

@@ -995,8 +995,7 @@ bool RulesOfEngagement::isPatternModifies(int x, int y)
 */
 bool RulesOfEngagement::isNext(int x, int y)
 {
-	return PKB::next.isNext(x, y);	
-	//return PQLNextProcessor::isNext(x, y);
+	return PKB::next.isNext(x, y);
 }
 
 /**
@@ -1008,7 +1007,6 @@ bool RulesOfEngagement::isNext(int x, int y)
 bool RulesOfEngagement::isNextStar(int x, int y)
 {
 	return PKB::next.isNextStar(x, y);
-	//return PQLNextProcessor::isNextStar(x, y);
 }
 
 /**
@@ -1020,7 +1018,6 @@ bool RulesOfEngagement::isNextStar(int x, int y)
 bool RulesOfEngagement::isNextBip(int x, int y)
 {
 	return PKB::next.isNextBip(x, y);
-	//return PQLNextProcessor::isNextBip(x, y);
 }
 
 /**
@@ -1032,7 +1029,6 @@ bool RulesOfEngagement::isNextBip(int x, int y)
 bool RulesOfEngagement::isNextBipStar(int x, int y)
 {
 	return PKB::next.isNextBipStar(x, y);
-	//return PQLNextProcessor::isNextBipStar(x, y);
 }
 
 /**
@@ -1044,7 +1040,6 @@ bool RulesOfEngagement::isNextBipStar(int x, int y)
 bool RulesOfEngagement::isAffects(int x, int y)
 {
 	return PKB::affects.isAffects(x, y);
-	//return PQLAffectsProcessor::isAffects(x, y);
 }
 
 /**
@@ -1056,7 +1051,6 @@ bool RulesOfEngagement::isAffects(int x, int y)
 bool RulesOfEngagement::isAffectsStar(int x, int y)
 {
 	return PKB::affects.isAffectsStar(x, y);
-	//return PQLAffectsProcessor::isAffectsStar(x, y);
 }
 
 /**
@@ -1068,7 +1062,6 @@ bool RulesOfEngagement::isAffectsStar(int x, int y)
 bool RulesOfEngagement::isAffectsBip(int x, int y)
 {
 	return PKB::affects.isAffectsBip(x, y);
-	//return PQLAffectsProcessor::isAffectsBip(x, y);
 }
 
 /**
@@ -1080,7 +1073,6 @@ bool RulesOfEngagement::isAffectsBip(int x, int y)
 bool RulesOfEngagement::isAffectsBipStar(int x, int y)
 {
 	return PKB::affects.isAffectsBipStar(x, y);
-	//return PQLAffectsProcessor::isAffectsBipStar(x, y);
 }
 
 /**
@@ -1218,49 +1210,41 @@ vector<int> RulesOfEngagement::parentStarBy(int x)
 vector<int> RulesOfEngagement::nextBy(int x)
 {
 	return PKB::next.getNext(x);
-	//return PQLNextProcessor::getNext(x);
 }
 
 vector<int> RulesOfEngagement::nextStarBy(int x)
 {
 	return PKB::next.getNextStar(x);
-	//return PQLNextProcessor::getNextStar(x);
 }
 
 vector<int> RulesOfEngagement::nextBipBy(int x)
 {
 	return PKB::next.getNextBip(x);
-	//return PQLNextProcessor::getNextBip(x);
 }
 
 vector<int> RulesOfEngagement::nextBipStarBy(int x)
 {
 	return PKB::next.getNextBipStar(x);
-	//return PQLNextProcessor::getNextBipStar(x);
 }
 
 vector<int> RulesOfEngagement::affectsBy(int x)
 {
 	return PKB::affects.getAffectsBy(x);
-	//return PQLAffectsProcessor::getAffectsBy(x);
 }
 
 vector<int> RulesOfEngagement::affectsStarBy(int x)
 {
 	return PKB::affects.getAffectsStarBy(x);
-	//return PQLAffectsProcessor::getAffectsStarBy(x);
 }
 
 vector<int> RulesOfEngagement::affectsBipBy(int x)
 {
 	return PKB::affects.getAffectsBipBy(x);
-	//return PQLAffectsProcessor::getAffectsBipBy(x);
 }
 
 vector<int> RulesOfEngagement::affectsBipStarBy(int x)
 {
 	return PKB::affects.getAffectsBipStarBy(x);
-	//return PQLAffectsProcessor::getAffectsBipStarBy(x);
 }
 
 /*//Stmt Siblings is trivial it is the follows* of both left and right side combined
@@ -1392,50 +1376,42 @@ vector<int> RulesOfEngagement::parentStarFrom(int y)
 vector<int> RulesOfEngagement::nextFrom(int y)
 {
 	return PKB::next.getPrevious(y);
-	//return PQLNextProcessor::getPrevious(y);
 }
 
 vector<int> RulesOfEngagement::nextStarFrom(int y)
 {
 	return PKB::next.getPreviousStar(y);
-	//return PQLNextProcessor::getPreviousStar(y);
 }
 
 vector<int> RulesOfEngagement::nextBipFrom(int y)
 {
 	return PKB::next.getPreviousBip(y);
-	//return PQLNextProcessor::getPreviousBip(y);
 }
 
 vector<int> RulesOfEngagement::nextBipStarFrom(int y)
 {
 	return PKB::next.getPreviousBipStar(y);
-	//return PQLNextProcessor::getPreviousBipStar(y);
 }
 
 vector<int> RulesOfEngagement::affectsFrom(int y)
 {
 	return PKB::affects.getAffectsFrom(y);
-	//return PQLAffectsProcessor::getAffectsFrom(y);
 }
 
 vector<int> RulesOfEngagement::affectsStarFrom(int y)
 {
 	return PKB::affects.getAffectsStarFrom(y);
-	//return PQLAffectsProcessor::getAffectsStarFrom(y);
 }
 
-vector<int> RulesOfEngagement::affectsBipFrom(int y)
+/*vector<int> RulesOfEngagement::affectsBipFrom(int y)
 {
 	return PKB::affects.getAffectsBipFrom(y);
-	//return PQLAffectsProcessor::getAffectsBipFrom(y);
 }
 
 vector<int> RulesOfEngagement::affectsBipStarFrom(int y)
 {
 	return PKB::affects.getAffectsBipStarFrom(y);
-	//return PQLAffectsProcessor::getAffectsBipStarFrom(y);
-}
+}*/
 
 RulesOfEngagement::relation2Family RulesOfEngagement::getRelation2FromFamily(QueryRelations rel)
 {
@@ -1648,34 +1624,13 @@ vector<ASTNode*> RulesOfEngagement::getAllCallNodes(PROC p)
 with the pattern being checked
 * @param index index of the assingent being checked
 * @param RHS the right hand side's type
-* @param RHSVarName right hand side's variable name
 * @param RHSexprs a right hand side expression tree
 * @return true if the assignment satisfied the pattern, and false otherwise
 */
-bool RulesOfEngagement::satisfyPattern(const int index, const RulesOfEngagement::PatternRHSType RHS,
-	const string& RHSVarName, const ASTExprNode* RHSexprs)
+bool RulesOfEngagement::satisfyPattern(const int index,
+	const RulesOfEngagement::PatternRHSType RHS, const ASTExprNode* pattern)
 {
-	/*static unordered_map<int, unordered_map<string, bool>> map;
-	if (map.count(index) > 0 && map[index].count(RHSVarName) > 0)
-		return map[index][RHSVarName];*/
-
-	//return /*map[index][RHSVarName] = */
-	return TryMatch(PKB::assignNodes[index], RHS, RHSexprs);
-}
-
-//RHS for now handles patterns in the form of "a" or _"a"_
-/**
-* this method will return the result if whether an AST node is valid
-with a pattern
-* @param testedNode the AST node being tested
-* @param RHS the right hand side's type
-* @param RHSVarName right hand side's variable name
-* @param RHSexprs a right hand side expression tree
-* @return true if the assignment satisfied the pattern, and false otherwise
-*/
-bool RulesOfEngagement::TryMatch(ASTNode* testedNode,
-	RulesOfEngagement::PatternRHSType RHS, const ASTExprNode* pattern)
-{
+	ASTNode* testedNode = PKB::assignNodes[index];
 	ASTNode* head = testedNode->getChild(1);
 	stack<ASTNode*> nodesStack;
 	nodesStack.push(head);

@@ -23,7 +23,7 @@ private:
 	bool selectBOOLEAN;
 	bool died;
 	bool earlyQuit;
-	int pos;
+	size_t pos;
 	const string query;
 	
 	//SYMBOL MEANINGS

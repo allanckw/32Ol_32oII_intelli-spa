@@ -1091,6 +1091,8 @@ bool PQLAffectsProcessor::isAffectsBip(STMT a1, STMT a2)
 				//means that there exists a control flow path through the start to
 				//the end of this procedure that does not invalidate the variable.
 				//-> signal all waiting nodes/statements
+				if (procIsGood.count(node->proc) > 0)
+					procIsGood[node->proc] = 1; //->proc is good
 				if (waitingProcs.count(node->proc) > 0) {
 					const vector<Information>& waiters = waitingProcs[node->proc];
 					for (auto it = waiters.begin(); it != waiters.end(); ++it)
@@ -1260,8 +1262,9 @@ vector<STMT> PQLAffectsProcessor::getAffectsBipBy(STMT a1)
 				//means that there exists a control flow path through the start to
 				//the end of this procedure that does not invalidate the variable.
 				//-> signal all waiting nodes/statements
-				if (waitingProcs.count(node->proc) > 0) {
+				if (procIsGood.count(node->proc) > 0)
 					procIsGood[node->proc] = 1; //->proc is good
+				if (waitingProcs.count(node->proc) > 0) {
 					const vector<Information>& waiters = waitingProcs[node->proc];
 					for (auto it = waiters.begin(); it != waiters.end(); ++it)
 						search.push(*it);
@@ -1493,6 +1496,11 @@ bool PQLAffectsProcessor::isAffectsBipStar(STMT a1, STMT a2)
 				//means that there exists a control flow path through the start to the
 				//end of this procedure that does not invalidate those active variables.
 				//-> signal all waiting nodes/statements
+				if (procIsGood.count(node->proc) > 0) {
+					unordered_map<VAR, int>& theProc = procIsGood[node->proc];
+					for (auto it = activeVars.begin(); it != activeVars.end(); ++it)
+						theProc[*it] = 1; //->proc is good
+				}
 				if (waitingProcs.count(node->proc) > 0) {
 					const vector<Information>& waiters = waitingProcs[node->proc];
 					vector<Information> newWaiters;
@@ -1739,6 +1747,11 @@ vector<STMT> PQLAffectsProcessor::getAffectsBipStarBy(STMT a1)
 				//means that there exists a control flow path through the start to the
 				//end of this procedure that does not invalidate those active variables.
 				//-> signal all waiting nodes/statements
+				if (procIsGood.count(node->proc) > 0) {
+					unordered_map<VAR, int>& theProc = procIsGood[node->proc];
+					for (auto it = activeVars.begin(); it != activeVars.end(); ++it)
+						theProc[*it] = 1; //->proc is good
+				}
 				if (waitingProcs.count(node->proc) > 0) {
 					const vector<Information>& waiters = waitingProcs[node->proc];
 					vector<Information> newWaiters;

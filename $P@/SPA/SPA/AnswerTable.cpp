@@ -1101,8 +1101,10 @@ void AnswerTable::withCombine(const string& firstSynonym, const string& firstCon
 			switch (secondVar) {
 			case RulesOfEngagement::Procedure: //procName
 				RHSequiv = PKB::procedures.getPROCName(RHS);
+				break;
 			case RulesOfEngagement::Variable: //varName
 				RHSequiv = PKB::variables.getVARName(RHS);
+				break;
 			}
 			RHSequivs.push_back(RHSequiv);
 		}
@@ -1113,8 +1115,10 @@ void AnswerTable::withCombine(const string& firstSynonym, const string& firstCon
 			switch (firstVar) {
 			case RulesOfEngagement::Procedure: //procName
 				LHSequiv = PKB::procedures.getPROCName(LHS);
+				break;
 			case RulesOfEngagement::Variable: //varName
 				LHSequiv = PKB::variables.getVARName(LHS);
+				break;
 			}
 
 			auto it2 = otherTable.answers.begin();
@@ -1181,8 +1185,10 @@ void AnswerTable::withPrune(const string& firstSynonym,
 			switch (firstVar) {
 			case RulesOfEngagement::Procedure: //procName
 				LHSequiv = PKB::procedures.getPROCName(LHS);
+				break;
 			case RulesOfEngagement::Variable: //varName
 				LHSequiv = PKB::variables.getVARName(LHS);
+				break;
 			}
 
 			int RHS = (*it)[secondRelIndex].first;
@@ -1190,8 +1196,10 @@ void AnswerTable::withPrune(const string& firstSynonym,
 			switch (secondVar) {
 			case RulesOfEngagement::Procedure: //procName
 				RHSequiv = PKB::procedures.getPROCName(RHS);
+				break;
 			case RulesOfEngagement::Variable: //varName
 				RHSequiv = PKB::variables.getVARName(RHS);
+				break;
 			}
 			if (LHSequiv == RHSequiv)
 				newTable.push_back(*it);

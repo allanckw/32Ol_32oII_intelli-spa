@@ -887,7 +887,7 @@ void MultiQueryEval::optimise()
 	//		SET UP ALIASING
 	const vector<unordered_set<string>>& aliasSets = dsAlias.getComponents();
 	for (auto it = aliasSets.begin(); it != aliasSets.end(); it++) {
-		const unordered_set<string> set = *it;
+		const unordered_set<string>& set = *it;
 		const string& target = *set.begin();
 		for (auto it2 = set.begin(); it2 != set.end(); it2++)
 			aliasMap.insert(pair<string, string>(*it2, target));
@@ -896,7 +896,7 @@ void MultiQueryEval::optimise()
 
 	//		ALIAS SYNONYMS IN CONDITIONLIST
 	for (auto it = conditionsList.begin(); it != conditionsList.end(); it++) {
-		Condition cond = *it;
+		Condition& cond = *it;
 		if (aliasMap.count(cond.firstRel) > 0)
 			cond.firstRel = aliasMap[cond.firstRel];
 		if (aliasMap.count(cond.secondRel) > 0)
@@ -1369,7 +1369,7 @@ void MultiQueryEval::evaluate(list<string>& results)
 	vector<unordered_set<string>> components = dsSynonym.getComponents();
 	for (size_t classIndex = 0; classIndex < components.size(); classIndex++)
 		for (auto it = components[classIndex].begin(); it != components[classIndex].end(); it++)
-			synonymTable.putIntoClass(*it, classIndex);
+			synonymTable.putIntoClass(aliasMap.count(*it) > 0 ? aliasMap[*it] : *it, classIndex);
 	
 	/*for (auto it = relFirstToIndices.begin(); it != relFirstToIndices.end(); it++)
 		for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)

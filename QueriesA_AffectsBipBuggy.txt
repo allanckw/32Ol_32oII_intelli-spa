@@ -1,0 +1,12 @@
+2
+cat: All Category
+1 - Multiple :: Affects
+assign a1, a2;
+Select <a1, a2> such that AffectsBip*(a1, a2)
+
+5000
+2 - Multiple :: Affects
+assign a;
+Select <a1, a2> such that AffectsBip*(a, a) 
+
+5000

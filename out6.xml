@@ -1,7 +1,7 @@
 <?xml-stylesheet type="text/xsl" href="analysis.xsl"?>
 <test_results>
 <info>
-<name>SPA</name><parsing_time_taken>2.000000</parsing_time_taken>
+<name>SPA</name><parsing_time_taken>0.000000</parsing_time_taken>
 </info>
 <queries>
 <category name=" All Category">
@@ -9,14 +9,14 @@
 <id Calls="1" MultipleProcedures="1" MultiSelect="1" comment="" >1</id><querystr><![CDATA[procedure p1, p2; Select <p1,p2> such that Calls(p1,p2)]]></querystr>
 <stuans>p1 p2,p1 p3,p1 p4</stuans>
 <correct>p1 p2,p1 p3,p1 p4</correct>
-<time_taken>5.000000</time_taken>
+<time_taken>4.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Modifies="1" MultipleProcedures="1" MultiSelect="1" comment="" >2</id><querystr><![CDATA[stmt s; variable v;  Select <s,v> such that Modifies(s, v)]]></querystr>
 <stuans>1 x,2 x,3 y,3 z,4 y,5 z,6 x,7 y,8 z</stuans>
 <correct>1 x,2 x,3 y,3 z,4 y,5 z,6 x,7 y,8 z</correct>
-<time_taken>6.000000</time_taken>
+<time_taken>4.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -30,14 +30,14 @@
 <id Modifies="1" MultipleProcedures="1" MultiSelect="1" comment="" >4</id><querystr><![CDATA[procedure p; variable v;  Select <p,v> such that Modifies(p, v)]]></querystr>
 <stuans>p1 x,p1 y,p1 z,p2 x,p3 y,p4 z</stuans>
 <correct>p1 x,p1 y,p1 z,p2 x,p3 y,p4 z</correct>
-<time_taken>6.000000</time_taken>
+<time_taken>4.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Modifies="1" MultipleProcedures="1" MultiSelect="1" comment="" >5</id><querystr><![CDATA[procedure p; variable v;  Select <p,v> such that Uses(p, v)]]></querystr>
 <stuans>p1 i,p1 j,p1 a,p1 b,p1 c,p2 a,p3 b,p4 c</stuans>
 <correct>p1 i,p1 a,p1 j,p1 b,p1 c,p2 a,p3 b,p4 c</correct>
-<time_taken>5.000000</time_taken>
+<time_taken>4.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -51,14 +51,14 @@
 <id with="1" MultipleProcedures="1" comment="" >7</id><querystr><![CDATA[procedure p; Select p with p.procName = "p2"]]></querystr>
 <stuans>p2</stuans>
 <correct>p2</correct>
-<time_taken>5.000000</time_taken>
+<time_taken>4.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id with="1" MultipleProcedures="1" comment="" >8</id><querystr><![CDATA[procedure p; Select p with p.procName = "FAIL"]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>4.000000</time_taken>
+<time_taken>3.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -86,7 +86,7 @@
 <id with="1" MultipleProcedures="1" comment="" >12</id><querystr><![CDATA[constant c; Select c with c.value = 1337]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>4.000000</time_taken>
+<time_taken>3.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -100,7 +100,7 @@
 <id with="1" MultipleProcedures="1" comment="" >13</id><querystr><![CDATA[stmt s; Select s with s.stmt# = 1337]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>3.000000</time_taken>
+<time_taken>4.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -121,42 +121,42 @@
 <id pattern="1" comment="" >15</id><querystr><![CDATA[assign a; Select a pattern a(_,_"a*2"_)]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>4.000000</time_taken>
+<time_taken>3.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id pattern="1" comment="" >16</id><querystr><![CDATA[assign a; Select a pattern a(_,"a*2")]]></querystr>
 <stuans></stuans>
 <correct></correct>
-<time_taken>4.000000</time_taken>
+<time_taken>3.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id pattern="1" comment="" >17</id><querystr><![CDATA[assign a; Select a pattern a(_,"a*1")]]></querystr>
 <stuans>6</stuans>
 <correct>6</correct>
-<time_taken>4.000000</time_taken>
+<time_taken>3.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id pattern="1" comment="" >18</id><querystr><![CDATA[assign a; Select a pattern a("x","a*1")]]></querystr>
 <stuans>6</stuans>
 <correct>6</correct>
-<time_taken>3.000000</time_taken>
+<time_taken>4.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id pattern="1" comment="" >19</id><querystr><![CDATA[assign a; variable v; Select a pattern a(v,"a*1")]]></querystr>
 <stuans>6</stuans>
 <correct>6</correct>
-<time_taken>4.000000</time_taken>
+<time_taken>7.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id pattern="1" comment="" >18</id><querystr><![CDATA[assign a; Select a pattern a("x",_"a*1"_)]]></querystr>
 <stuans>6</stuans>
 <correct>6</correct>
-<time_taken>3.000000</time_taken>
+<time_taken>5.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -170,14 +170,14 @@
 <id pattern="1" comment="" >20</id><querystr><![CDATA[if i; variable v; Select i pattern i(v,_,_)]]></querystr>
 <stuans>3</stuans>
 <correct>3</correct>
-<time_taken>4.000000</time_taken>
+<time_taken>3.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id pattern="1" comment="" >21</id><querystr><![CDATA[if i; variable v; Select <i,v> pattern i(v,_,_)]]></querystr>
 <stuans>3 j</stuans>
 <correct>3 j</correct>
-<time_taken>3.000000</time_taken>
+<time_taken>5.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -191,7 +191,7 @@
 <id pattern="1" comment="" >23</id><querystr><![CDATA[while w; variable v; Select <w,v> pattern w(v,_)]]></querystr>
 <stuans>1 i</stuans>
 <correct>1 i</correct>
-<time_taken>3.000000</time_taken>
+<time_taken>4.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -205,7 +205,7 @@
 <id with="1" comment="" >24</id><querystr><![CDATA[stmt s; constant c; Select s with s.stmt# = c.value]]></querystr>
 <stuans>1</stuans>
 <correct>1</correct>
-<time_taken>5.000000</time_taken>
+<time_taken>3.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -233,14 +233,14 @@
 <id with="1" comment="" >28</id><querystr><![CDATA[constant c; stmt s1, s2; Select <s1,s2,c> with s1.stmt# = c.value and s2.stmt# = c.value]]></querystr>
 <stuans>1 1 1</stuans>
 <correct>1 1 1</correct>
-<time_taken>4.000000</time_taken>
+<time_taken>3.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id Uses="1" Underscore="1" comment="" >29</id><querystr><![CDATA[variable v; Select v such that Uses (1,_)]]></querystr>
 <stuans>i,j,x,a,y,b,z,c</stuans>
 <correct>a,b,c,i,j,x,y,z</correct>
-<time_taken>4.000000</time_taken>
+<time_taken>3.000000</time_taken>
 <passed/>
 </query>
 </category>

@@ -4,6 +4,7 @@ var searchData=
   ['mathexpression',['MathExpression',['../_assignment_parser_8h.html#a0010edefe335219faef92129305dbb82',1,'AssignmentParser.h']]],
   ['maxproglines',['maxProgLines',['../class_p_k_b.html#ae3b310bfb545d59911cd4f6bb54ebd94',1,'PKB']]],
   ['message',['message',['../class_s_p_a_exception.html#a01dacc987941a94c516cb08988dc7d51',1,'SPAException']]],
+  ['minus',['Minus',['../class_rules_of_engagement.html#a5dd2b28fd0c906d9b08e29e371713eada833f8b6178752efdc12ff413fb30e4b1',1,'RulesOfEngagement']]],
   ['modifies',['modifies',['../class_p_k_b.html#acdeea65712ec5e26401bf04ca41fa526',1,'PKB']]],
   ['modifiesproc',['ModifiesProc',['../class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817ab6fb0c84110b127d5c5fc1cf480e968f',1,'RulesOfEngagement']]],
   ['modifiesstmt',['ModifiesStmt',['../class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817abae4f52e1c993a6380df3dd62572c642',1,'RulesOfEngagement']]],

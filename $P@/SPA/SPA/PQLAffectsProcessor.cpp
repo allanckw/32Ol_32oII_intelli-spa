@@ -1309,18 +1309,6 @@ vector<STMT> PQLAffectsProcessor::getAffectsBipBy(STMT a1)
 	return vector<STMT>(answer.begin(), answer.end());
 }
 
-/**
-* This method will be used to get a list of statements that are going to AffectBip a2
-* @param a2	The statement that is AffectBiped by a1
-* @return a list of statements that AffectBip a2
-*/
-vector<STMT> PQLAffectsProcessor::getAffectsBipFrom(STMT a2)
-{
-	vector<STMT> answer;
-
-	return answer;
-}
-
 //AffectBip*
 /**
 * This method will be used to check AffectBip*(a1,a2)
@@ -1854,14 +1842,3 @@ vector<STMT> PQLAffectsProcessor::getAffectsBipStarBy(STMT a1)
 	return vector<STMT>(answers.begin(), answers.end());
 }
 
-/**
-* This method will be used to get a list of statements that are going to AffectBip* a2
-* @param a2	The statement that is AffectBip*ed by a1
-* @return a list of statements that AffectBip* a2
-*/
-vector<STMT> PQLAffectsProcessor::getAffectsBipStarFrom(STMT a2)
-{
-	vector<STMT> answer;
-
-	return answer;
-}

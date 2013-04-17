@@ -66,6 +66,12 @@ bool Helper::contains(vector<int> list, int p1)
 		return false;
 }
 
+/**
+* Trim the string by removing unnecessary white space characters  from the front and the end of the string
+* @param str the input 
+* @param whitespace the white space characters to remove
+* @return the resultant string
+*/
 string Helper::trim(const string& str, string whitespace)
 {
     const auto strBegin = str.find_first_not_of(whitespace);
@@ -78,6 +84,12 @@ string Helper::trim(const string& str, string whitespace)
     return str.substr(strBegin, strRange);
 }
 
+/**
+* Reduce the string by removing unnecessary white space characters from everywhere
+* @param str the input 
+* @param whitespace the white space characters to remove
+* @return the resultant string
+*/
 string Helper::reduce(const string& str, string fill, string whitespace)
 {
     // trim first

@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="intellispa-small.jpg"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">SPA
-   &#160;<span id="projectnumber">3</span>
+   &#160;<span id="projectnumber">4</span>
    </div>
    <div id="projectbrief">Static Program Analyzer - Team 11 CS3202 AY12/13 S2</div>
   </td>
@@ -116,49 +116,47 @@ $(document).ready(function(){initNavTree('_answer_table_8h_source.html','');});
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;{</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">private</span>:</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    vector&lt;string&gt; header;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    vector&lt;vector&lt;int&gt;&gt; answers;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keyword">static</span> vector&lt;string&gt; MiniTokenizer(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; line);</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    vector&lt;RulesOfEngagement::QueryVar&gt; type;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    vector&lt;vector&lt;pair&lt;int, unordered_set&lt;ASTNode*&gt;&gt;&gt;&gt; answers;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    unordered_map&lt;string, unordered_set&lt;string&gt;&gt; patterns;</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00015"></a><span class="lineno"><a class="code" href="class_answer_table.html#a53431094ba04eb9bc510e9cc63172fb1">   15</a></span>&#160;    unordered_map&lt;string, int&gt; <a class="code" href="class_answer_table.html#a53431094ba04eb9bc510e9cc63172fb1">synonymPosition</a>;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    </div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <a class="code" href="class_answer_table.html#af5179e87834fc5b23dd804ffa03b1346">AnswerTable</a>();</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <a class="code" href="class_answer_table.html#af5179e87834fc5b23dd804ffa03b1346">AnswerTable</a>(<span class="keyword">const</span> <a class="code" href="class_synonym_table.html">SynonymTable</a>&amp; synonymTable, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; synonym);</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_answer_table.html#a7da446da9661e0d041cdf418adf98512">combine</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; ownSynonym, <span class="keyword">const</span> <a class="code" href="class_answer_table.html">AnswerTable</a>&amp; otherTable, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; otherSynonym,</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keyword">const</span> <a class="code" href="class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817">RulesOfEngagement::QueryRelations</a> rel); <span class="comment">//synonyms are all disjoint</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_answer_table.html#a5c3bbb34b61b0dc49edcf62c817c994a">prune</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; firstSynonym,</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; secondSynonym, <span class="keyword">const</span> <a class="code" href="class_rules_of_engagement.html#aad838c0ef69d7c4ee9bef23a431ff6c1">RulesOfEngagement::isRelation</a> rel);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_answer_table.html#affa20cce217db5e4618490224c32ad22">withCombine</a>(<span class="keyword">const</span> <a class="code" href="class_synonym_table.html">SynonymTable</a>&amp; synonymTable, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; firstSynonym, </div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; firstCondition, <span class="keyword">const</span> <a class="code" href="class_answer_table.html">AnswerTable</a>&amp; otherTable,</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; secondSynonym, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; secondCondition);</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_answer_table.html#af420ffab72e6f473cd09f577aac7e518">withPrune</a>(<span class="keyword">const</span> <a class="code" href="class_synonym_table.html">SynonymTable</a>&amp; synonymTable, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; firstSynonym,</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; firstCondition, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; secondSynonym, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; secondCondition);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    </div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_answer_table.html#a476cd4e95ee3dcd392d6d9bb66240cc5">patternPrune</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; synonym,</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keyword">const</span> <a class="code" href="class_rules_of_engagement.html#a97613ded2253a252de010070d7c54ac1">RulesOfEngagement::PatternRHSType</a>, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; RHS, <span class="keyword">const</span> <a class="code" href="class_a_s_t_expr_node.html">ASTExprNode</a>* RHSexprs);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="comment">/*void patternPrune(const string&amp; synonym, const bool, const int modifies,</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment">        const RulesOfEngagement::PatternRHSType, const string&amp; RHS, const ASTExprNode* RHSexprs);*/</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <a class="code" href="class_answer_table.html">AnswerTable</a> <a class="code" href="class_answer_table.html#a44d359653923049566c8815d7f0616b2">project</a>(<span class="keyword">const</span> vector&lt;string&gt;&amp; selection);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_answer_table.html#a6402136f56eccb33fd311b9c5208b884">cartesian</a>(<span class="keyword">const</span> <a class="code" href="class_answer_table.html">AnswerTable</a>&amp; otherTable);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_answer_table.html#a22ebb0846580b8d90320c322052fb519">isEmpty</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    vector&lt;string&gt; <a class="code" href="class_answer_table.html#a7d8957160038486ced90cffc680d491c">getHeader</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="class_answer_table.html#a53f9b463b98d79290b6e3528d7f9e464">getHeaderSize</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="class_answer_table.html#af97a334c1ffcd4b185ddf8d981ef91bf">getSize</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    vector&lt;int&gt; <a class="code" href="class_answer_table.html#a28df331881ed15b3012b0d717109096c">getRow</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> index) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="comment">//int getEntry(int index, string synonym);*/</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;};</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keyword">static</span> vector&lt;string&gt; MiniTokenizer(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; line);</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="code" href="class_answer_table.html#a53431094ba04eb9bc510e9cc63172fb1">   17</a></span>&#160;    unordered_map&lt;string, int&gt; <a class="code" href="class_answer_table.html#a53431094ba04eb9bc510e9cc63172fb1">synonymPosition</a>;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    </div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <a class="code" href="class_answer_table.html#af5179e87834fc5b23dd804ffa03b1346">AnswerTable</a>();</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <a class="code" href="class_answer_table.html#af5179e87834fc5b23dd804ffa03b1346">AnswerTable</a>(<span class="keyword">const</span> <a class="code" href="class_synonym_table.html">SynonymTable</a>&amp; synonymTable, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; synonym);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_answer_table.html#af860ceb79914e89b0c6cb33bbc561e9c">combine</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; ownSynonym, <a class="code" href="class_answer_table.html">AnswerTable</a>&amp; otherTable,</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; otherSynonym, <span class="keyword">const</span> <a class="code" href="class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817">RulesOfEngagement::QueryRelations</a> rel);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_answer_table.html#af90d7dcf9b24cb98f06de48d79103d40">prune</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; firstSynonym,</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; secondSynonym, <span class="keyword">const</span> <a class="code" href="class_rules_of_engagement.html#a5e08db2a0638b98dbb06ad923a33d817">RulesOfEngagement::QueryRelations</a> rel);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_answer_table.html#a25c5e551995bd5eef25f362fd32ebc0e">withCombine</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; firstSynonym,</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; firstCondition, <span class="keyword">const</span> <a class="code" href="class_answer_table.html">AnswerTable</a>&amp; otherTable,</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; secondSynonym, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; secondCondition);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_answer_table.html#a72c192be8178a52e89e3703986a01a7c">withPrune</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; firstSynonym, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; firstCondition,</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; secondSynonym, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; secondCondition);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    </div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_answer_table.html#a22578676ee5cd02a23c00e03c9ec5353">finishHimOff</a>();</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <a class="code" href="class_answer_table.html">AnswerTable</a> <a class="code" href="class_answer_table.html#a44d359653923049566c8815d7f0616b2">project</a>(<span class="keyword">const</span> vector&lt;string&gt;&amp; selection);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_answer_table.html#a6402136f56eccb33fd311b9c5208b884">cartesian</a>(<span class="keyword">const</span> <a class="code" href="class_answer_table.html">AnswerTable</a>&amp; otherTable);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_answer_table.html#a22ebb0846580b8d90320c322052fb519">isEmpty</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    vector&lt;string&gt; <a class="code" href="class_answer_table.html#a7d8957160038486ced90cffc680d491c">getHeader</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordtype">size_t</span> <a class="code" href="class_answer_table.html#a3e55f61bbf781e1ee285a053658244fc">getHeaderSize</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">size_t</span> <a class="code" href="class_answer_table.html#ad31fd29ea67acdc6fe9a62b6366986ae">getSize</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    vector&lt;pair&lt;int, unordered_set&lt;ASTNode*&gt;&gt;&gt; <a class="code" href="class_answer_table.html#a27377a36875dd0601bd5fe3b013d964b">getRow</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> index) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="comment">//int getEntry(int index, string synonym);*/</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;};</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_28240f1e82be414ac37674cd3ff4adc3.html">$P@</a></li><li class="navelem"><a class="el" href="dir_f0a66c18035a04f3accc68e6ea4db1f5.html">SPA</a></li><li class="navelem"><a class="el" href="dir_9072de41565413c7baeba4ab62bcf7d0.html">SPA</a></li><li class="navelem"><a class="el" href="_answer_table_8h.html">AnswerTable.h</a></li>
-    <li class="footer">Generated on Mon Mar 25 2013 02:14:46 for SPA by
+    <li class="footer">Generated on Thu Apr 18 2013 05:18:47 for SPA by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3.1 </li>
   </ul>

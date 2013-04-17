@@ -1,6 +1,12 @@
 REM Usage: Call [AutoTester.exe] [Source] [Queries] [ out__.xml] > NUL
 REM Just add to this file, this will run all test cases generated so far in sequence
 
+Call  $P@\SPA\Release\autotester.exe source13.txt  Queries13ABip.txt  out13ABip.xml > NUL
+echo "Source 13 complete"
+
+Call  $P@\SPA\Release\autotester.exe source15.txt  Queries15.txt  out15Bip.xml > NUL
+echo "Source 15 complete"
+
 Call $P@\SPA\Release\autotester.exe source1.txt  Queries1.txt  out1.xml > NUL
 echo "Source 1 complete"
 
@@ -17,6 +23,7 @@ echo "Source 3 complete"
 
 Call  $P@\SPA\Release\autotester.exe source4.txt  Queries4.txt  out4.xml > NUL
 Call  $P@\SPA\Release\autotester.exe source4.txt  Queries4Contains.txt  outContains4.xml > NUL
+Call  $P@\SPA\Release\autotester.exe source14.txt  Queries14ABip.txt  out14ABip.xml > NUL
 echo "Source 4 complete"
 
 Call  $P@\SPA\Release\autotester.exe source5.txt  Queries5.txt  out5.xml > NUL
@@ -44,6 +51,8 @@ echo "Source 11 complete"
 
 Call  $P@\SPA\Release\autotester.exe source12.txt  Queries12.2.txt  out12.2.xml > NUL
 echo "Source 12 complete"
+
+
 
 Call  $P@\SPA\Release\autotester.exe containsstar_contains_sibling_source.txt containsstar_contains_sibling_testcases.txt outContains.xml > NUL
 echo "Contains complete"

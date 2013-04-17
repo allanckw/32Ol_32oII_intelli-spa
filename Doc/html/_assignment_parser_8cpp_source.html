@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="intellispa-small.jpg"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">SPA
-   &#160;<span id="projectnumber">3</span>
+   &#160;<span id="projectnumber">4</span>
    </div>
    <div id="projectbrief">Static Program Analyzer - Team 11 CS3202 AY12/13 S2</div>
   </td>
@@ -155,13 +155,13 @@ $(document).ready(function(){initNavTree('_assignment_parser_8cpp_source.html','
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="comment">//then there is no point going thru the shunting yard algorithm</span></div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordflow">if</span> (!AssignmentParser::isValidExpr(expr)){</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordtype">string</span> msg;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i = 0; i &lt; expr.size(); i++) {</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; expr.size(); i++) {</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            msg += expr.at(i);</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        }</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="class_s_p_a_exception.html">SPAException</a>(msg + <span class="stringliteral">&quot; is an invalid expression&quot;</span>);</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    }</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i = 0; i &lt; expr.size(); i++ ) {</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; expr.size(); i++ ) {</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keywordtype">string</span> token = expr[i]; </div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keywordflow">if</span> (token == <span class="stringliteral">&quot;/&quot;</span> || token == <span class="stringliteral">&quot;^&quot;</span> || token == <span class="stringliteral">&quot;%&quot;</span>)</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="class_s_p_a_exception.html">SPAException</a>(<span class="stringliteral">&quot;Operator not supported, use &#39;+&#39;, &#39;-&#39; or &#39;*&#39; only&quot;</span>);</div>
@@ -269,7 +269,7 @@ $(document).ready(function(){initNavTree('_assignment_parser_8cpp_source.html','
 <div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    stack&lt;string&gt; <a class="code" href="_parser_8cpp.html#a2841508dac8162f8432368bda90c7e38">brackets</a>;</div>
 <div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    <span class="keywordtype">int</span> expect = 0; <span class="comment">//0=constant or var, 1 = opr</span></div>
 <div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i=0; i&lt;expr.size(); i++) {</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">size_t</span> i=0; i&lt;expr.size(); i++) {</div>
 <div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        <span class="keywordtype">string</span> token = expr.at(i);</div>
 <div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        </div>
 <div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        <span class="keywordflow">if</span> (token == <span class="stringliteral">&quot;;&quot;</span> &amp;&amp; i == expr.size() - 1)  <span class="comment">//terminating sequence for assignment</span></div>
@@ -313,7 +313,7 @@ $(document).ready(function(){initNavTree('_assignment_parser_8cpp_source.html','
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_28240f1e82be414ac37674cd3ff4adc3.html">$P@</a></li><li class="navelem"><a class="el" href="dir_f0a66c18035a04f3accc68e6ea4db1f5.html">SPA</a></li><li class="navelem"><a class="el" href="dir_9072de41565413c7baeba4ab62bcf7d0.html">SPA</a></li><li class="navelem"><a class="el" href="_assignment_parser_8cpp.html">AssignmentParser.cpp</a></li>
-    <li class="footer">Generated on Mon Mar 25 2013 02:14:46 for SPA by
+    <li class="footer">Generated on Thu Apr 18 2013 05:18:47 for SPA by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3.1 </li>
   </ul>

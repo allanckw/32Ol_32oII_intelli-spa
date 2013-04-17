@@ -495,7 +495,6 @@ bool PQLAffectsProcessor::isAffectsStar(STMT a1, STMT a2)
 {
 	if (!PQLAffectsProcessor::isSatifyAffectsStar(a1, a2)) 
 		return false;
-
 	
 	const vector<VAR>& modifiesVarVector = PKB::modifies.getModifiedByStmt(a1);
 	unordered_set<VAR> modifiesVarSet(modifiesVarVector.begin(), modifiesVarVector.end());
@@ -706,11 +705,8 @@ bool PQLAffectsProcessor::isAffectsStar(STMT a1, STMT a2)
 */
 vector<STMT> PQLAffectsProcessor::getAffectsStarBy(STMT a1)
 {
-	if (a1 <= 0 || a1 > PKB::maxProgLines)
+	if (a1 <= 0 || a1 > PKB::maxProgLines || PKB::assignTable.count(a1) == 0)
 		return vector<STMT>();
-	if (PKB::assignTable.count(a1) == 0)
-		//throw SPAException("Both arguments to Affects must be assignments");
-		return vector<STMT>(); //TODO: double check with cristina
 
 	vector<VAR>& modifiesVarVector = PKB::modifies.getModifiedByStmt(a1);
 	unordered_set<VAR> modifiesVarSet(modifiesVarVector.begin(), modifiesVarVector.end());
@@ -859,10 +855,8 @@ vector<STMT> PQLAffectsProcessor::getAffectsStarBy(STMT a1)
 */
 vector<STMT>  PQLAffectsProcessor::getAffectsStarFrom(STMT a2)
 {
-	if (a2 <= 0 || a2 > PKB::maxProgLines)
+	if (a2 <= 0 || a2 > PKB::maxProgLines || PKB::assignTable.count(a2) == 0)
 		return vector<STMT>();
-	if (PKB::assignTable.count(a2) == 0)
-		return vector<STMT>(); //TODO: double check with cristina
 
 	const vector<VAR>& usesVarVector = PKB::uses.getUsedByStmt(a2);
 	unordered_set<VAR> usesVarSet(usesVarVector.begin(), usesVarVector.end());
@@ -1141,9 +1135,7 @@ bool PQLAffectsProcessor::isAffectsBip(STMT a1, STMT a2)
 */
 vector<STMT> PQLAffectsProcessor::getAffectsBipBy(STMT a1)
 {
-	if (a1 <= 0 || a1 > PKB::maxProgLines)
-		return vector<STMT>();
-	if (PKB::assignTable.count(a1) == 0)
+	if (a1 <= 0 || a1 > PKB::maxProgLines || PKB::assignTable.count(a1) == 0)
 		return vector<STMT>();
 	
 	struct Information {
@@ -1574,7 +1566,7 @@ bool PQLAffectsProcessor::isAffectsBipStar(STMT a1, STMT a2)
 */
 vector<STMT> PQLAffectsProcessor::getAffectsBipStarBy(STMT a1)
 {
-	if (a1 <= 0 || a1 > PKB::maxProgLines || PKB::assignTable.count(a1))
+	if (a1 <= 0 || a1 > PKB::maxProgLines || PKB::assignTable.count(a1) == 0)
 		return vector<STMT>();
 	
 	struct Information {

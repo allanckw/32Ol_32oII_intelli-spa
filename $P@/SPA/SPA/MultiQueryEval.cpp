@@ -179,7 +179,7 @@ void MultiQueryEval::validate()
 				return;
 			}
 			stringToQueryVar.insert(pair<string, RulesOfEngagement::QueryVar>(variable, type));
-			//stringCount.insert(pair<string, int>(variable, 0));
+			stringCount.insert(pair<string, int>(variable, 0));
 		} while ((variable = getToken()) == ",");
 		if (variable != ";") {
 			died = true;
@@ -338,23 +338,21 @@ void MultiQueryEval::validate()
 				}
 				
 				relationStore[type][firstRel].insert(secondRel);
-				/*if (stringToQueryVar.count(firstRel) > 0) {
+				if (stringToQueryVar.count(firstRel) > 0) {
 					if (stringToQueryVar.count(secondRel) > 0) {
-						if (firstRel != secondRel) {
-							stringCount[firstRel]++;
-							stringCount[secondRel]++;
-						}
+						++stringCount[firstRel];
+						++stringCount[secondRel];
 					} else
-						stringCount[firstRel]++;
+					mustHandle.insert(firstRel);
 				} else if (stringToQueryVar.count(secondRel) > 0)
-					stringCount[secondRel]++;*/
+					mustHandle.insert(secondRel);
 			}
 			break;
 
 		case With:
 			{
 				string synonym = getToken();
-				if (stringToQueryVar.count(synonym) == 0) {
+				if (stringToQueryVar.count(synonym) == 0) { //10 = c.value OR 10 = 5
 					RulesOfEngagement::QueryVar LHSType;
 					if (Helper::isNumber(synonym))
 						LHSType = RulesOfEngagement::Integer;
@@ -368,9 +366,9 @@ void MultiQueryEval::validate()
 					if (!matchToken("="))
 						return;
 					string token = getToken();
-					if (stringToQueryVar.count(token) == 0) {
+					if (stringToQueryVar.count(token) == 0) { //10 = 5
 						earlyQuit |= (synonym != token);
-					} else {
+					} else { //10 = c.value
 						RulesOfEngagement::QueryVar type = stringToQueryVar[token];
 						string condition;
 						RulesOfEngagement::QueryVar RHSType;
@@ -383,7 +381,7 @@ void MultiQueryEval::validate()
 							condition = getToken();
 							if (RulesOfEngagement::allowableConditions[type].count(
 								condition) == 0) {
-								died= true;
+								died = true;
 								return;
 							}
 							RHSType = RulesOfEngagement::conditionTypes[condition];
@@ -413,7 +411,7 @@ void MultiQueryEval::validate()
 							pair<string, string>(condition, synonym));
 						else
 							earlyQuit |= (conditionStore[token][condition] != synonym);
-						//stringCount[token]++;
+						mustHandle.insert(token);
 					}
 				} else {
 					RulesOfEngagement::QueryVar type = stringToQueryVar[synonym];
@@ -445,21 +443,21 @@ void MultiQueryEval::validate()
 							}
 						} else if (LHSType == RulesOfEngagement::String) {
 							if (token.at(0) != '"' || token.at(token.length() - 1) != '"') {
-							died = true;
-							return;
-						}
+								died = true;
+								return;
+							}
 						} else {
 							died = true;
 							return;
 						}
 
-						if (conditionStore[synonym].count(condition) == 0)
+						if (conditionStore[synonym].count(condition) == 0) {
 							conditionStore[synonym].insert(
 							pair<string, string>(condition, token));
-						else
+							mustHandle.insert(synonym);
+						} else
 							earlyQuit |= (conditionStore[synonym][condition] != token);
-						//stringCount[synonym]++;
-					} else { //c.value = s.stmt# //c.value = s.stmt# OR c.value = n
+					} else { //c.value = s.stmt# (OR c.value = n)
 						RulesOfEngagement::QueryVar type2 = stringToQueryVar[token];
 						string condition2;
 						if (type2 == RulesOfEngagement::Prog_Line) {
@@ -495,9 +493,8 @@ void MultiQueryEval::validate()
 							else
 								condition2Store[synonym][condition].insert(pair<string, string>(token, condition2));
 						}
-						//stringCount[synonym]++;
-						//stringCount[token]++;
-
+						mustHandle.insert(synonym);
+						mustHandle.insert(token);
 					}
 				}
 			}
@@ -505,16 +502,16 @@ void MultiQueryEval::validate()
 
 		case Pattern:
 			{
-				string synonym = getToken();
+				const string synonym = getToken();
 				if (stringToQueryVar.count(synonym) == 0) {
 					died = true;
 					return;
 				}
-				RulesOfEngagement::QueryVar type = stringToQueryVar[synonym];
+				const RulesOfEngagement::QueryVar type = stringToQueryVar[synonym];
 
 				if (!matchToken("("))
 					return;
-				string firstRel = getToken();
+				const string firstRel = getToken();
 
 				switch (type) {
 				case RulesOfEngagement::Assign: {
@@ -524,14 +521,19 @@ void MultiQueryEval::validate()
 									died = true;
 									return;
 								}
-							}
-							else if (firstRel.at(0) != '\"' || firstRel.at(firstRel.length() - 1) != '\"') {
+								stringCount[firstRel]++;
+							} else if (firstRel.at(0) != '\"' ||
+								firstRel.at(firstRel.length() - 1) != '\"') {
 								died = true;
 								return;
 							}
-
+							
 							relationStore[RulesOfEngagement::ModifiesStmt][synonym].insert(firstRel);
-							//stringCount[synonym]++;
+							if (stringToQueryVar.count(firstRel) > 0) {
+								stringCount[synonym]++;
+								stringCount[firstRel]++;
+							} else
+								mustHandle.insert(synonym);
 						}
 						
 						if (!matchToken(","))
@@ -540,28 +542,44 @@ void MultiQueryEval::validate()
 						if (!matchToken(")"))
 							return;
 
-						//Bug Fix Here.. - Allan pattern a(watever, _) works, but pattern a(watever, _     ) fails
-						secondRel.erase(remove(secondRel.begin(), secondRel.end(), '\t'), secondRel.end());
-						secondRel.erase(remove(secondRel.begin(), secondRel.end(), ' '), secondRel.end());
+						secondRel.erase(remove(secondRel.begin(), secondRel.end(), '\t'),
+							secondRel.end());
+						secondRel.erase(remove(secondRel.begin(), secondRel.end(), ' '),
+							secondRel.end());
 						if (secondRel != "_") {
 							//remove white spaces
-							size_t length = secondRel.length();
+							const size_t length = secondRel.length();
 							if (length <= 2) {
 								died = true;
 								return;
 							}
 							if (secondRel.at(0) == '_' && secondRel.at(length - 1) == '_') {
-								if (length <= 4 || secondRel.at(1) != '\"' || secondRel.at(length - 2) != '\"') {
+								if (length <= 4 || secondRel.at(1) != '\"' ||
+									secondRel.at(length - 2) != '\"') {
 									died = true;
 									return;
 								}
-							} else if (secondRel.at(0) != '\"' || secondRel.at(length - 1) != '\"') {
+							} else if (secondRel.at(0) != '\"' ||
+								secondRel.at(length - 1) != '\"') {
 								died = true;
 								return;
 							}
 
-							patternAssignUsesStore[synonym].insert(secondRel);
-							//stringCount[synonym]++;
+							if (secondRel.at(0) == '_' && secondRel.at(length - 1) == '_' &&
+								secondRel.at(1) == '\"' && secondRel.at(length - 2) == '\"' &&
+								PKB::variables.getVARIndex(secondRel.substr(2, length - 4)) != -1) {
+									const string& variable = secondRel.substr(1, length - 2);
+									relationStore[RulesOfEngagement::UsesStmt][synonym].
+										insert(variable);
+									mustHandle.insert(synonym);
+							} else {
+								patternAssignUsesStore[synonym].insert(secondRel);
+								if (stringToQueryVar.count(secondRel) > 0) {
+									stringCount[synonym]++;
+									stringCount[secondRel]++;
+								} else
+									mustHandle.insert(synonym);
+							}
 						}
 												}
 					break;
@@ -591,7 +609,11 @@ void MultiQueryEval::validate()
 						}
 
 						relationStore[RulesOfEngagement::PatternModifies][synonym].insert(firstRel);
-						//stringCount[synonym]++;
+						if (stringToQueryVar.count(firstRel) > 0) {
+							stringCount[synonym]++;
+							stringCount[firstRel]++;
+						} else
+							mustHandle.insert(synonym);
 					}
 
 					if (secondRel != "_") {
@@ -603,7 +625,8 @@ void MultiQueryEval::validate()
 						}
 
 						relationStore[RulesOfEngagement::PatternSecond][synonym].insert(secondRel);
-						//stringCount[synonym]++;
+						stringCount[synonym]++;
+						stringCount[secondRel]++;
 					}
 
 					if (thirdRel != "_") {
@@ -615,7 +638,8 @@ void MultiQueryEval::validate()
 						}
 
 						relationStore[RulesOfEngagement::PatternThird][synonym].insert(thirdRel);
-						//stringCount[synonym]++;
+						stringCount[synonym]++;
+						stringCount[thirdRel]++;
 					}
 
 					if (nothing)
@@ -645,7 +669,11 @@ void MultiQueryEval::validate()
 						}
 
 						relationStore[RulesOfEngagement::PatternModifies][synonym].insert(firstRel);
-						//stringCount[synonym]++;
+						if (stringToQueryVar.count(firstRel) > 0) {
+							stringCount[synonym]++;
+							stringCount[firstRel]++;
+						} else
+							mustHandle.insert(synonym);
 					}
 
 					if (secondRel != "_") {
@@ -657,7 +685,8 @@ void MultiQueryEval::validate()
 						}
 
 						relationStore[RulesOfEngagement::PatternSecond][synonym].insert(secondRel);
-						//stringCount[synonym]++;
+						stringCount[synonym]++;
+						stringCount[secondRel]++;
 					}
 
 					if (nothing)
@@ -681,9 +710,6 @@ void MultiQueryEval::validate()
 */
 void MultiQueryEval::optimise()
 {
-	if (earlyQuit)
-		return;
-
 	//apply special rules
 	//1) stmt s1, s2, ... s_n; 
 	//   Follows(s1,s2) and Follows(s2,s3) and ... and Follows(sk,1)
@@ -785,11 +811,6 @@ void MultiQueryEval::optimise()
 	//parse equality of attributes, alias those that can be aliased
 
 	for (auto it = condition2Store.begin(); it != condition2Store.end(); it++) {
-		/*const Condition& condition = *it;
-		const string& firstRel = condition.firstRel;
-		const string& firstCondition = condition.firstCondition;
-		const string& secondRel = condition.secondRel;
-		const string& secondCondition = condition.secondCondition;*/
 		const string& firstRel = it->first;
 		const auto itsecond = it->second;
 		for (auto it2 = itsecond.begin(); it2 != itsecond.end(); it2++) {
@@ -897,29 +918,24 @@ void MultiQueryEval::evaluate(list<string>& results)
 	//analyse synonyms part 2. those selected and with count of more than 1 are put into the synonym table
 	for (auto it = stringToQueryVar.begin(); it != stringToQueryVar.end(); it++) {
 		const string& synonym = it->first;
-		//const int count = it->second;
 		if (aliasMap.count(synonym) > 0) {
 			if (aliasMap[synonym] == synonym) {
-				synonymTable.insert(synonym, stringToQueryVar[synonym]);
+				synonymTable.insert(synonym, it->second);
 				for (auto it2 = aliasMap.begin(); it2 != aliasMap.end(); it2++)
 					if (selectsSet.count(it2->first)) {
 						synonymTable.setSelected(synonym);
 						break;
 					}
 			}
-		} else {
-			synonymTable.insert(synonym, stringToQueryVar[synonym]);
-			if (selectsSet.count(synonym) > 0)
-				synonymTable.setSelected(synonym);
-		}
-		/*if (selects.count(synonym) > 0) {
-			synonymTable.insert(synonym, stringToQueryVar[synonym]);
-			dsSynonym.makeSet(synonym);
+		} else if (selectsSet.count(synonym) > 0) {
+			synonymTable.insert(synonym, it->second);
+			//dsSynonym.makeSet(synonym);
 			synonymTable.setSelected(synonym);
-		} else if (count > 1) {
-			synonymTable.insert(synonym, stringToQueryVar[synonym]);
-			dsSynonym.makeSet(synonym);
-		}*/
+		} else if (mustHandle.count(synonym) > 0 ||
+			(stringCount.count(synonym) > 0 && stringCount[synonym] > 0)) {
+			synonymTable.insert(synonym, it->second);
+			//dsSynonym.makeSet(synonym);
+		}
 	}
 	
 	//relationship table

@@ -45,7 +45,8 @@ private:
 	//< [a1, {_"x"_, _"a+b"_} ], [a2, {"x", "y"}] >
 	
 	unordered_map<string, RulesOfEngagement::QueryVar> stringToQueryVar;
-	//unordered_map<string, int> stringCount;
+	unordered_map<string, int> stringCount;
+	unordered_set<string> mustHandle;
 	vector<pair<string, string>> selects;
 	unordered_map<string, unordered_set<string>> selectsSet;
 

@@ -1,0 +1,4 @@
+procedure p1 {
+   while x {
+	x = 1;}
+}

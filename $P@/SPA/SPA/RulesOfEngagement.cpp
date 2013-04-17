@@ -587,7 +587,7 @@ void RulesOfEngagement::initialise()
 	relationFromMap[Next] = &nextFrom;
 	relationFromMap[NextStar] = &nextStarFrom;
 	relationFromMap[NextBip] = &nextBipFrom;
-	relationFromMap[NextBipStar] = &nextBipStarFrom;
+	//relationFromMap[NextBipStar] = &nextBipStarFrom;
 	relationFromMap[Affects] = &affectsFrom;
 	relationFromMap[AffectsStar] = &affectsStarFrom;
 	//relationFromMap[AffectsBip] = &affectsBipFrom;

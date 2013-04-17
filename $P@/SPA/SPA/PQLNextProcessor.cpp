@@ -10,7 +10,7 @@
 */
 bool PQLNextProcessor::isNext(PROG_LINE p1, PROG_LINE p2)
 {
-	if (p1 < 0 || p1 > PKB::maxProgLines || p2 < 0 || p2 > PKB::maxProgLines){
+	if (p1 <= 0 || p1 > PKB::maxProgLines || p2 <= 0 || p2 > PKB::maxProgLines){
 		return false;
 	}
 
@@ -76,7 +76,7 @@ bool PQLNextProcessor::isNext(PROG_LINE p1, PROG_LINE p2)
 */
 vector<PROG_LINE> PQLNextProcessor::getNext(PROG_LINE p1)
 {
-	if (p1 < 0 || p1 > PKB::maxProgLines)
+	if (p1 <= 0 || p1 > PKB::maxProgLines)
 		return vector<PROG_LINE>();
 
 	CFGNode* s1 = PKB::stmtRefMap.at(p1).getCFGNode();
@@ -148,7 +148,7 @@ vector<PROG_LINE> PQLNextProcessor::getNext(PROG_LINE p1)
 */
 vector<PROG_LINE> PQLNextProcessor::getPrevious(PROG_LINE p2)
 {
-	if (p2 < 0 || p2 > PKB::maxProgLines){
+	if (p2 <= 0 || p2 > PKB::maxProgLines){
 		return vector<PROG_LINE>();
 	}
 
@@ -187,7 +187,7 @@ vector<PROG_LINE> PQLNextProcessor::getPrevious(PROG_LINE p2)
 */
 bool PQLNextProcessor::isNextStar(PROG_LINE p1, PROG_LINE p2)
 {
-	if (p1 < 0 || p1 > PKB::maxProgLines || p2 < 0 || p2 > PKB::maxProgLines){
+	if (p1 <= 0 || p1 > PKB::maxProgLines || p2 <= 0 || p2 > PKB::maxProgLines){
 		return false;
 	}
 
@@ -244,9 +244,8 @@ bool PQLNextProcessor::isNextStar(PROG_LINE p1, PROG_LINE p2)
 */
 vector<PROG_LINE> PQLNextProcessor::getNextStar(PROG_LINE p1)
 {
-	if (p1 < 0 || p1 > PKB::maxProgLines){
+	if (p1 < 0 || p1 > PKB::maxProgLines)
 		return vector<PROG_LINE>();
-	}
 	
 	if (p1 == 0)
 		return PQLNextProcessor::getSelfNextStar();
@@ -293,7 +292,7 @@ vector<PROG_LINE> PQLNextProcessor::getNextStar(PROG_LINE p1)
 * @return a list of prog_line that can reach p2
 */
 vector<PROG_LINE> PQLNextProcessor::getPreviousStar(PROG_LINE p2) {
-	if (p2 < 0 || p2 > PKB::maxProgLines)
+	if (p2 <= 0 || p2 > PKB::maxProgLines)
 		return vector<PROG_LINE>();
 
 	vector<PROG_LINE> answer;
@@ -362,7 +361,7 @@ vector<PROG_LINE> PQLNextProcessor::getSelfNextStar(){
 */
 bool PQLNextProcessor::isNextBip(PROG_LINE p1, PROG_LINE p2)
 {
-	if (p1 < 0 || p1 > PKB::maxProgLines || p2 < 0 || p2 > PKB::maxProgLines){
+	if (p1 <= 0 || p1 > PKB::maxProgLines || p2 <= 0 || p2 > PKB::maxProgLines){
 		return false;
 	}
 
@@ -440,7 +439,7 @@ bool PQLNextProcessor::isNextBip(PROG_LINE p1, PROG_LINE p2)
 */
 vector<PROG_LINE> PQLNextProcessor::getNextBip(PROG_LINE p1)
 {
-	if (p1 < 0 || p1 > PKB::maxProgLines)
+	if (p1 <= 0 || p1 > PKB::maxProgLines)
 		return vector<PROG_LINE>();
 
 	CFGNode* s1 = PKB::stmtRefMap.at(p1).getCFGNode();
@@ -518,7 +517,7 @@ vector<PROG_LINE> PQLNextProcessor::getNextBip(PROG_LINE p1)
 */
 vector<PROG_LINE> PQLNextProcessor::getPreviousBip(PROG_LINE p2)
 {
-	if (p2 < 0 || p2 > PKB::maxProgLines){
+	if (p2 <= 0 || p2 > PKB::maxProgLines){
 		return vector<PROG_LINE>();
 	}
 
@@ -568,7 +567,7 @@ vector<PROG_LINE> PQLNextProcessor::getPreviousBip(PROG_LINE p2)
 */
 bool PQLNextProcessor::isNextBipStar(PROG_LINE p1, PROG_LINE p2)
 {
-	if (p1 < 0 || p1 > PKB::maxProgLines || p2 < 0 || p2 > PKB::maxProgLines){
+	if (p1 <= 0 || p1 > PKB::maxProgLines || p2 <= 0 || p2 > PKB::maxProgLines){
 		return false;
 	}
 
@@ -674,13 +673,25 @@ bool PQLNextProcessor::isNextBipStar(PROG_LINE p1, PROG_LINE p2)
 			}
 		}
 
-		const vector<STMT>& returnStmts = PKB::calls.getStmtCall(s1->proc);
-		for (auto it = returnStmts.begin(); it != returnStmts.end(); it++) {
-			if (seenStmt.count(*it) == 0) {
-				PROC proc = PKB::stmtRefMap[*it].getCFGNode()->proc;
-				if (seenProc.count(proc) == 0)
-					starter.push(*it);
-					seenStmt.insert(*it);
+		stack<PROC> backtrack;
+		backtrack.push(s1->proc);
+		while (!backtrack.empty()) {
+			const PROC proc = backtrack.top();
+			backtrack.pop();
+			const vector<STMT>& returnStmts = PKB::calls.getStmtCall(proc);
+			for (auto it = returnStmts.begin(); it != returnStmts.end(); it++) {
+				if (seenStmt.count(*it) == 0) {
+					const PROC proc2 = PKB::stmtRefMap[*it].getCFGNode()->proc;
+					if (seenProc.count(proc2) == 0) {
+						const vector<STMT> nextStmt = getNext(*it);
+						if (nextStmt.empty())
+							backtrack.push(proc2);
+						else {
+							starter.push(*it);
+							seenStmt.insert(*it);
+						}
+					}
+				}
 			}
 		}
 	}
@@ -695,7 +706,7 @@ bool PQLNextProcessor::isNextBipStar(PROG_LINE p1, PROG_LINE p2)
 */
 vector<PROG_LINE> PQLNextProcessor::getNextBipStar(PROG_LINE p1)
 {
-	if (p1 < 0 || p1 > PKB::maxProgLines)
+	if (p1 <= 0 || p1 > PKB::maxProgLines)
 		return vector<PROG_LINE>();
 	
 	vector<PROG_LINE> answer;
@@ -797,13 +808,25 @@ vector<PROG_LINE> PQLNextProcessor::getNextBipStar(PROG_LINE p1)
 			}
 		}
 
-		const vector<STMT>& returnStmts = PKB::calls.getStmtCall(s1->proc);
-		for (auto it = returnStmts.begin(); it != returnStmts.end(); it++) {
-			if (seenStmt.count(*it) == 0) {
-				PROC proc = PKB::stmtRefMap[*it].getCFGNode()->proc;
-				if (seenProc.count(proc) == 0)
-					starter.push(*it);
-					seenStmt.insert(*it);
+		stack<PROC> backtrack;
+		backtrack.push(s1->proc);
+		while (!backtrack.empty()) {
+			const PROC proc = backtrack.top();
+			backtrack.pop();
+			const vector<STMT>& returnStmts = PKB::calls.getStmtCall(proc);
+			for (auto it = returnStmts.begin(); it != returnStmts.end(); it++) {
+				if (seenStmt.count(*it) == 0) {
+					const PROC proc2 = PKB::stmtRefMap[*it].getCFGNode()->proc;
+					if (seenProc.count(proc2) == 0) {
+						const vector<STMT> nextStmt = getNext(*it);
+						if (nextStmt.empty())
+							backtrack.push(proc2);
+						else {
+							starter.push(*it);
+							seenStmt.insert(*it);
+						}
+					}
+				}
 			}
 		}
 	}
@@ -818,11 +841,10 @@ vector<PROG_LINE> PQLNextProcessor::getNextBipStar(PROG_LINE p1)
 */
 vector<PROG_LINE> PQLNextProcessor::getPreviousBipStar(PROG_LINE p2)
 {
-	if (p2 < 0 || p2 > PKB::maxProgLines){
+	if (p2 <= 0 || p2 > PKB::maxProgLines)
 		return vector<PROG_LINE>();
-	}
 
-	CFGNode* s2 = PKB::stmtRefMap.at(p2).getCFGNode();
+	const CFGNode * const s2 = PKB::stmtRefMap.at(p2).getCFGNode();
 	vector<PROG_LINE> answer;
 	queue<CFGNode*> parents;
 
@@ -832,19 +854,19 @@ vector<PROG_LINE> PQLNextProcessor::getPreviousBipStar(PROG_LINE p2)
 
 		parents.push(PKB::CFGTails[PKB::calls.getProcCall(p2 - 1)]);
 	} else {
-		vector<CFGNode*> s2parents = s2->parents;
+		const vector<CFGNode*>& s2parents = s2->parents;
 		if (s2parents.empty())
-			return PKB::calls.getStmtCall(p2);
+			return PKB::calls.getStmtCall(s2->proc);
 		
 		for (auto it = s2parents.begin(); it != s2parents.end(); it++)
 			parents.push(*it);
 	}
 
 	while (!parents.empty()) {
-		CFGNode* curr = parents.front();
+		const CFGNode * const curr = parents.front();
 		parents.pop();
 		if (curr->type == CFGNode::DummyNode) {
-			vector<CFGNode*> s2parents = s2->parents;
+			const vector<CFGNode*>& s2parents = s2->parents;
 			for (auto it = s2parents.begin(); it != s2parents.end(); it++)
 				parents.push(*it);
 		} else

@@ -80,3 +80,53 @@ stmt s;
 Select s such that AffectsBip*(54, s)
 54,55,56
 5000
+7 - test01
+stmt s;
+Select s such that AffectsBip(1, s)
+4,12,34,38,40,42,
+5000
+7a - test01a
+stmt s;
+Select s such that AffectsBip*(1, s)
+4,5,6,12,13,34,38,40,41,42,46,49,51,52,53
+5000
+8 - test02
+stmt s;
+Select s such that AffectsBip(4, s)
+5,6
+5000
+8a - test02a
+stmt s;
+Select s such that AffectsBip*(4, s)
+4,5,6,12,13,34,38,40,41,42,46,49,51,52,53
+5000
+9 - test03
+stmt s;
+Select s such that AffectsBip(8, s)
+34,46
+5000
+9a - test03a
+stmt s;
+Select s such that AffectsBip*(8, s)
+12,13,34,38,40,41,42,46,49,51,52,53
+5000
+10 - test04
+stmt s;
+Select s such that AffectsBip(12, s)
+13
+5000
+10a - test04a
+stmt s;
+Select s such that AffectsBip*(12, s)
+13
+5000
+11 - test05
+stmt s;
+Select s such that AffectsBip(13, s)
+
+5000
+11a - test05a
+stmt s;
+Select s such that AffectsBip*(13, s)
+
+5000

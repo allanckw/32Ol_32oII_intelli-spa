@@ -1119,11 +1119,15 @@ bool PQLAffectsProcessor::isAffectsBip(STMT a1, STMT a2)
 		case CFGNode::WhileNode:
 			search.push(Information(node->children.whileChildren.whileIn, -1, callStack));
 			search.push(Information(node->children.whileChildren.whileOut, -1, callStack));
+			if (procIsGood.count(node->proc) > 0 && procIsGood[node->proc] == -1)
+				++procCount[node->proc];
 			break;
 		
 		case CFGNode::IfNode:
 			search.push(Information(node->children.ifChildren.ifThen, -1, callStack));
 			search.push(Information(node->children.ifChildren.ifElse, -1, callStack));
+			if (procIsGood.count(node->proc) > 0 && procIsGood[node->proc] == -1)
+				++procCount[node->proc];
 			break;
 		}
 	}
@@ -1213,7 +1217,7 @@ vector<STMT> PQLAffectsProcessor::getAffectsBipBy(STMT a1)
 					//assignment invalidated the variable
 					if (modifiesVar == PKB::modifies.getModifiedByStmt(i)[0]) {
 						if (!callStack.empty()) { //if in procedure
-							if (procIsGood[node->proc] < 1) {
+							if (procIsGood.count(node->proc) > 0 && procIsGood[node->proc] < 1) {
 								procCount[node->proc]--; //->remove count
 								if (procCount[node->proc] == 0) { //if count = 0
 									procIsGood[node->proc] = 0; //->proc is 'no good'
@@ -1290,11 +1294,15 @@ vector<STMT> PQLAffectsProcessor::getAffectsBipBy(STMT a1)
 		case CFGNode::WhileNode:
 			search.push(Information(node->children.whileChildren.whileIn, -1, callStack));
 			search.push(Information(node->children.whileChildren.whileOut, -1, callStack));
+			if (procIsGood.count(node->proc) > 0 && procIsGood[node->proc] == -1)
+				++procCount[node->proc];
 			break;
 		
 		case CFGNode::IfNode:
 			search.push(Information(node->children.ifChildren.ifThen, -1, callStack));
 			search.push(Information(node->children.ifChildren.ifElse, -1, callStack));
+			if (procIsGood.count(node->proc) > 0 && procIsGood[node->proc] == -1)
+				++procCount[node->proc];
 			break;
 		}
 	}
@@ -1556,11 +1564,25 @@ bool PQLAffectsProcessor::isAffectsBipStar(STMT a1, STMT a2)
 				-1, activeVars, callStack));
 			search.push(Information(node->children.whileChildren.whileOut,
 				-1, activeVars, callStack));
+			if (procIsGood.count(node->proc) > 0) {
+				const unordered_map<VAR, int>& thisProc = procIsGood[node->proc];
+				unordered_map<VAR, int>& thisProcCount = procIsGood[node->proc];
+				for (auto it = thisProc.begin(); it != thisProc.end(); ++it)
+					if (it->second == -1)
+						++thisProcCount[it->first];
+			}
 			break;
 		
 		case CFGNode::IfNode:
 			search.push(Information(node->children.ifChildren.ifThen, -1, activeVars, callStack));
 			search.push(Information(node->children.ifChildren.ifElse, -1, activeVars, callStack));
+			if (procIsGood.count(node->proc) > 0) {
+				const unordered_map<VAR, int>& thisProc = procIsGood[node->proc];
+				unordered_map<VAR, int>& thisProcCount = procIsGood[node->proc];
+				for (auto it = thisProc.begin(); it != thisProc.end(); ++it)
+					if (it->second == -1)
+						++thisProcCount[it->first];
+			}
 			break;
 		}
 	}
@@ -1807,11 +1829,25 @@ vector<STMT> PQLAffectsProcessor::getAffectsBipStarBy(STMT a1)
 				-1, activeVars, callStack));
 			search.push(Information(node->children.whileChildren.whileOut,
 				-1, activeVars, callStack));
+			if (procIsGood.count(node->proc) > 0) {
+				const unordered_map<VAR, int>& thisProc = procIsGood[node->proc];
+				unordered_map<VAR, int>& thisProcCount = procIsGood[node->proc];
+				for (auto it = thisProc.begin(); it != thisProc.end(); ++it)
+					if (it->second == -1)
+						++thisProcCount[it->first];
+			}
 			break;
 		
 		case CFGNode::IfNode:
 			search.push(Information(node->children.ifChildren.ifThen, -1, activeVars, callStack));
 			search.push(Information(node->children.ifChildren.ifElse, -1, activeVars, callStack));
+			if (procIsGood.count(node->proc) > 0) {
+				const unordered_map<VAR, int>& thisProc = procIsGood[node->proc];
+				unordered_map<VAR, int>& thisProcCount = procIsGood[node->proc];
+				for (auto it = thisProc.begin(); it != thisProc.end(); ++it)
+					if (it->second == -1)
+						++thisProcCount[it->first];
+			}
 			break;
 		}
 	}

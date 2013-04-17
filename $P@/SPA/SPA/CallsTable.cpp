@@ -227,6 +227,7 @@ int CallsTable::getCallsSize()
 {
 	return size;
 }
+
 /**
 * This method will be used to get the size of CallStarTable
 * @return the size of CallStarTable

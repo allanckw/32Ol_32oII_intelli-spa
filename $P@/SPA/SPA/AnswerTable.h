@@ -30,9 +30,6 @@ public:
 	void withPrune(const string& firstSynonym, const string& firstCondition,
 		const string& secondSynonym, const string& secondCondition);
 	
-	void patternPrune(const string& synonym, const RulesOfEngagement::PatternRHSType,
-		const string& RHS, const ASTExprNode* RHSexprs);
-	
 	void finishHimOff();
 	AnswerTable project(const vector<string>& selection);
 	void cartesian(const AnswerTable& otherTable);

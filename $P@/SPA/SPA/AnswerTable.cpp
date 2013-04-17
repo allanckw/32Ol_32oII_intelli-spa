@@ -855,43 +855,6 @@ AnswerTable::AnswerTable(const SynonymTable& synonymTable, const string& synonym
 	}
 }
 
-void AnswerTable::finishHimOff()
-{
-	for (auto it = patterns.begin(); it != patterns.end(); it++) {
-		const string synonym = it->first;
-		const size_t index = synonymPosition[synonym];
-		const unordered_set<string> pattern = it->second;
-		for (auto it2 = pattern.begin(); it2 != pattern.end(); ++it2) {
-			const string& expression = *it2;
-
-			//actual setting up of patterns of assign for the right hand side
-			RulesOfEngagement::PatternRHSType RHS;
-			string RHSVarName;
-			if (expression.at(0) == '_' && expression.at(expression.size() - 1) == '_') {
-				RHS = RulesOfEngagement::PRSub;
-				RHSVarName = expression.substr(1, expression.length() - 2);
-			} else {
-				RHS = RulesOfEngagement::PRNoSub;
-				RHSVarName = expression;
-			}
-			RHSVarName = RHSVarName.substr(1, RHSVarName.length() - 2);
-			ASTExprNode* RHSexprs;
-			try {
-				RHSexprs = AssignmentParser::processAssignment(MiniTokenizer(RHSVarName));
-			} catch (SPAException& e) {	//exception indicates that the right hand side
-				answers.clear();		//is not correct, probably due to it containing
-				return;					//a variable that is not actually present.
-			}
-
-			vector<vector<pair<int, unordered_set<ASTNode*>>>> answers2;
-			for (auto it = answers.begin(); it != answers.end(); it++)
-				if (RulesOfEngagement::satisfyPattern((*it)[index].first, RHS, RHSVarName, RHSexprs))
-					answers2.push_back(*it);
-			answers = answers2;
-		}
-	}
-}
-
 /**
 * Scans through two AnswerTables and combine those rows where the synonyms in each Answertable
 * satisfy the relation.
@@ -1177,6 +1140,9 @@ void AnswerTable::withCombine(const string& firstSynonym, const string& firstCon
 	for (auto it = otherTable.type.begin(); it != otherTable.type.end(); it++) {
 		type.push_back(*it);
 	}
+	for (auto it = otherTable.patterns.begin(); it != otherTable.patterns.end(); it++) {
+		patterns.insert(*it);
+	}
 }
 
 /**
@@ -1233,29 +1199,46 @@ void AnswerTable::withPrune(const string& firstSynonym,
 	}
 	answers = newTable;
 }
+
 /**
-* This method will be used to evaluate the pattern relation and return
-the assignment,if,while that are valid
-* @param synonym the pattern's LHS var
-* @param RHS the right hand side's type
-* @param RHSVarName right hand side's variable name
-* @param RHSexprs a right hand side expression tree
-* @return the AnswerTable
+* Evaluates all remaining patterns
 */
-void AnswerTable::patternPrune(const string& synonym,
-	const RulesOfEngagement::PatternRHSType RHS,
-	const string& RHSVarName, const ASTExprNode* RHSexprs)
+void AnswerTable::finishHimOff()
 {
-	const int firstRelIndex = synonymPosition[synonym];
+	for (auto it = patterns.begin(); it != patterns.end(); it++) {
+		const string synonym = it->first;
+		const size_t index = synonymPosition[synonym];
+		const unordered_set<string> pattern = it->second;
+		for (auto it2 = pattern.begin(); it2 != pattern.end(); ++it2) {
+			const string& expression = *it2;
 
-	vector<vector<pair<int, unordered_set<ASTNode*>>>> newTable;
-	for (auto it = answers.begin(); it != answers.end(); it++)
-		if (RulesOfEngagement::satisfyPattern(
-			(*it)[firstRelIndex].first, RHS, RHSVarName, RHSexprs))
-			newTable.push_back(*it);
-	answers = newTable;
+			//actual setting up of patterns of assign for the right hand side
+			RulesOfEngagement::PatternRHSType RHS;
+			string RHSVarName;
+			if (expression.at(0) == '_' && expression.at(expression.size() - 1) == '_') {
+				RHS = RulesOfEngagement::PRSub;
+				RHSVarName = expression.substr(1, expression.length() - 2);
+			} else {
+				RHS = RulesOfEngagement::PRNoSub;
+				RHSVarName = expression;
+			}
+			RHSVarName = RHSVarName.substr(1, RHSVarName.length() - 2);
+			ASTExprNode* RHSexprs;
+			try {
+				RHSexprs = AssignmentParser::processAssignment(MiniTokenizer(RHSVarName));
+			} catch (SPAException& e) {	//exception indicates that the right hand side
+				answers.clear();		//is not correct, probably due to it containing
+				return;					//a variable that is not actually present.
+			}
+
+			vector<vector<pair<int, unordered_set<ASTNode*>>>> answers2;
+			for (auto it = answers.begin(); it != answers.end(); it++)
+				if (RulesOfEngagement::satisfyPattern((*it)[index].first, RHS, RHSVarName, RHSexprs))
+					answers2.push_back(*it);
+			answers = answers2;
+		}
+	}
 }
-
 
 /**
 * Creates a new AnswerTable with only the columns corresponding to the synonyms that are

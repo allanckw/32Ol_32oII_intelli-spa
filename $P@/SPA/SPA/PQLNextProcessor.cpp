@@ -522,7 +522,7 @@ vector<PROG_LINE> PQLNextProcessor::getPreviousBip(PROG_LINE p2)
 		return vector<PROG_LINE>();
 	}
 
-	CFGNode* s2 = PKB::stmtRefMap.at(p2).getCFGNode();
+	const CFGNode * const s2 = PKB::stmtRefMap.at(p2).getCFGNode();
 	vector<PROG_LINE> answer;
 	queue<CFGNode*> parents;
 
@@ -532,7 +532,7 @@ vector<PROG_LINE> PQLNextProcessor::getPreviousBip(PROG_LINE p2)
 
 		parents.push(PKB::CFGTails[PKB::calls.getProcCall(p2 - 1)]);
 	} else {
-		vector<CFGNode*> s2parents = s2->parents;
+		const vector<CFGNode*>& s2parents = s2->parents;
 		if (s2parents.empty())
 			return PKB::calls.getStmtCall(s2->proc);
 		

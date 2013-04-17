@@ -64,7 +64,7 @@ bool Parser::isStrCheckNoSpecialChar(string newtoken)
 */
 bool Parser::isEmpty(string str)
 {
-	for(unsigned int index=0;index<str.size();index++){
+	for(size_t index=0;index<str.size();index++){
 		if(str.at(index)!= ' ')
 			return false;
 	}
@@ -205,7 +205,7 @@ void Parser::tokenizer(string line)//split the string into tokens
 				{
 					tempstr1 = line.substr(endindex,startindex - endindex);
 				}
-				for(unsigned int i=0;i<tempstr1.size();) {
+				for(size_t i=0;i<tempstr1.size();) {
 					string tempstr2 = tempstr1.substr(0,1);
 					tempstr1 = tempstr1.substr(1,tempstr1.size()-1);
 					
@@ -320,7 +320,7 @@ ASTStmtNode* Parser::processWhile(int *i, int *j, Index procIdx)
 	ASTStmtNode* stmtNode = new ASTStmtNode(*line, ASTNode::While, vi);
 	ASTStmtLstNode* stmtLstNode=new ASTStmtLstNode();
 
-	for(unsigned int idx=*index; idx<inner.size(); idx++)
+	for(size_t idx=*index; idx<inner.size(); idx++)
 	{
 		if(inner.at(idx)=="{")
 		{
@@ -682,7 +682,7 @@ ASTNode* Parser::processProcedure(int *i, int *j)
 	ASTNode* procNode = new ASTNode(ASTNode::Procedure, pi );
 	ASTStmtLstNode* stmtLstNode=new ASTStmtLstNode();
 	
-	for(unsigned int idx=*index; idx<inner.size(); idx++)
+	for(size_t idx=*index; idx<inner.size(); idx++)
 	{
 		if(inner.at(idx)=="{")
 		{

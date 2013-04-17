@@ -51,13 +51,13 @@ ASTExprNode* AssignmentParser::processAssignment(MathExpression expr)
 	//then there is no point going thru the shunting yard algorithm
 	if (!AssignmentParser::isValidExpr(expr)){
 		string msg;
-		for (unsigned int i = 0; i < expr.size(); i++) {
+		for (size_t i = 0; i < expr.size(); i++) {
 			msg += expr.at(i);
 		}
 		throw SPAException(msg + " is an invalid expression");
 	}
 
-	for (unsigned int i = 0; i < expr.size(); i++ ) {
+	for (size_t i = 0; i < expr.size(); i++ ) {
 		string token = expr[i]; 
 		if (token == "/" || token == "^" || token == "%")
 			throw SPAException("Operator not supported, use '+', '-' or '*' only");
@@ -169,7 +169,7 @@ bool AssignmentParser::isValidExpr(MathExpression expr)
 	stack<string> brackets;
 	int expect = 0; //0=constant or var, 1 = opr
 
-	for(unsigned int i=0; i<expr.size(); i++) {
+	for(size_t i=0; i<expr.size(); i++) {
 		string token = expr.at(i);
 		
 		if (token == ";" && i == expr.size() - 1)  //terminating sequence for assignment

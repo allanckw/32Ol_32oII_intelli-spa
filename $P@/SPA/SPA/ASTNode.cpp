@@ -88,7 +88,7 @@ void ASTNode::setAncestor(ASTNode* p)
 	}
 }
 /**
-* Set ancestor to the node
+* Gets ancestor to the node
 * @return Ancestor ASTNode
 */
 ASTNode* ASTNode::getAncestor() const
@@ -194,7 +194,7 @@ ASTNode::NodeType ASTNode::getType() const
 * @param the index of the child node, starts from 0, 0 denotes left most child
 * @return the child ASTNode  
 */
-ASTNode* ASTNode::getChild(unsigned int i) const
+ASTNode* ASTNode::getChild(size_t i) const
 {
 	if (i > children.size() -1)
 	{

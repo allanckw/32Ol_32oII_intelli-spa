@@ -6,7 +6,7 @@
 * This method will be used to check whether a1 and a2 satisfy Affect Condition
 * @param a1	The statement that is going to affect a2
 * @param a2	The statement that is affected by a1
-* @return whether Affect(a1,a2) satisfy the condition of affect
+* @return whether (a1,a2) satisfy the condition of Affect
 */
 bool PQLAffectsProcessor::isSatifyAffects(STMT a1, STMT a2)
 {
@@ -37,13 +37,13 @@ bool PQLAffectsProcessor::isSatifyAffects(STMT a1, STMT a2)
 
 /**
 * This method will be used to check Affect(a1,a2)
-* @param a1	The statement that is going to affect a2
-* @param a2	The statement that is affected by a1
+* @param a1	The statement that is going to Affect a2
+* @param a2	The statement that is Affected by a1
 * @return whether Affect(a1,a2) holds
 */
 bool PQLAffectsProcessor::isAffects(STMT a1, STMT a2) {
 
-	if (a1 < 0 || a1 > PKB::maxProgLines || a2 < 0 || a2 > PKB::maxProgLines)
+	if (a1 <= 0 || a1 > PKB::maxProgLines || a2 <= 0 || a2 > PKB::maxProgLines)
 		return false;
 	if (PKB::assignTable.count(a1) == 0 || PKB::assignTable.count(a2) == 0)
 		return false;
@@ -203,142 +203,14 @@ bool PQLAffectsProcessor::isAffects(STMT a1, STMT a2) {
 }
 
 /**
-* This method will be used to get a list of statement that is affected by a1
-* @param a1	The statement that is going to affect a2
-* @return a list of statement that is affected by a1
-*/
-vector<STMT> PQLAffectsProcessor::getAffectsFrom(STMT a2)
-{
-	if ((PKB::stmtRefMap.at(a2).getASTStmtNode()->getType() != ASTNode::Assign) ||
-		(a2 < 0 || a2 > PKB::maxProgLines) || (PKB::assignTable.count(a2) == 0))
-		return vector<STMT>();
-
-	const vector<VAR>& usesVarVector = PKB::uses.getUsedByStmt(a2);
-	unordered_set<VAR> usesVarSet(usesVarVector.begin(), usesVarVector.end());
-	CFGNode* s2 = PKB::stmtRefMap.at(a2).getCFGNode();
-
-	unordered_set<STMT> answer;
-
-	bool toStep = false;
-	for (auto it = s2->modifySet.begin(); it != s2->modifySet.end(); it++) {
-		if (usesVarSet.count(*it) > 0) {
-			toStep = true;
-			break;
-		}
-	}
-	if (toStep) {
-		for (int i = a2 - 1; i >= s2->first; i--)
-			if (PKB::assignTable.count(i) > 0) {
-				const VAR stmtModifiesVar = PKB::modifies.getModifiedByStmt(i)[0];
-				if (usesVarSet.count(stmtModifiesVar) > 0) {
-					answer.insert(i);
-					usesVarSet.erase(stmtModifiesVar);
-					if (usesVarSet.empty())
-						return vector<STMT>(answer.begin(), answer.end());
-				}
-			} else if (PKB::callTable.count(i) > 0) {
-				const vector<VAR>& stmtModifiesVar = PKB::modifies.getModifiedByStmt(i);
-				for (auto it = stmtModifiesVar.begin(); it != stmtModifiesVar.end(); it++)
-					if (usesVarSet.count(*it) > 0) {
-						usesVarSet.erase(*it);
-						if (usesVarSet.empty())
-							return vector<STMT>(answer.begin(), answer.end());
-					}
-			}
-	}
-	queue<pair<CFGNode*, unordered_set<int>>> search;
-	list<pair<CFGNode*, unordered_set<int>>> ifQueue;
-	unordered_set<CFGNode*> seen;
-	for (auto it = s2->parents.begin(); it != s2->parents.end(); it++) {
-		search.push(pair<CFGNode*, unordered_set<int>>(*it, usesVarSet));
-	}
-	while (!(search.empty() && ifQueue.empty())) {
-		pair<CFGNode*, unordered_set<int>> currPair;
-		CFGNode* currCFG;
-		unordered_set<int> usesVar;
-		if (search.empty()) {
-			currPair = ifQueue.front();
-			ifQueue.erase(ifQueue.begin());
-			currCFG = currPair.first;
-			usesVar = currPair.second;
-		} else {
-			currPair = search.front();
-			search.pop();
-			currCFG = currPair.first;
-			if (currCFG->type == CFGNode::IfNode) {
-				bool match = false;
-				for (auto it = ifQueue.begin(); it != ifQueue.end(); it++)
-					if (currCFG == it->first) {
-						match = true;
-						usesVar = currPair.second;
-						usesVar.insert(it->second.begin(), it->second.end());
-						break;
-					}
-				if (!match) {
-					ifQueue.push_back(currPair);
-					continue;
-				}
-			} else {
-				usesVar = currPair.second;
-			}
-		}
-
-		if (seen.count(currCFG) > 0) {
-			continue;
-		}
-		seen.insert(currCFG);
-		
-		bool toStep = false;
-		for (auto it = currCFG->modifySet.begin(); it != currCFG->modifySet.end(); it++) {
-			if (usesVar.count(*it) > 0) {
-				toStep = true;
-				break;
-			}
-		}
-
-		if (toStep) { //some statement will modify some of the used variables
-			for (int i = currCFG->last; i >= currCFG->first; i--)
-				if (PKB::assignTable.count(i) > 0) {
-					const VAR stmtModifiesVar = PKB::modifies.getModifiedByStmt(i)[0];
-					if (usesVar.count(stmtModifiesVar) > 0) {
-						answer.insert(i);
-						usesVar.erase(stmtModifiesVar);
-						if (usesVar.empty())
-							break;
-					}
-				} else if (PKB::callTable.count(i) > 0) {
-					const vector<VAR>& stmtModifiesVar = PKB::modifies.getModifiedByStmt(i);
-					for (auto it = stmtModifiesVar.begin(); it != stmtModifiesVar.end(); it++) {
-						if (usesVar.count(*it) > 0) {
-							usesVar.erase(*it);
-							if (usesVar.empty())
-								break;
-						}
-					}
-					if (usesVar.empty())
-						break;
-				}
-		}
-
-		if (usesVar.size() != 0) {
-			for (auto it = currCFG->parents.begin(); it != currCFG->parents.end(); it++) {
-				search.push(pair<CFGNode*, unordered_set<int>>(*it, usesVar));
-			}
-		}
-	}
-	return vector<STMT>(answer.begin(), answer.end());
-
-}
-
-/**
-* This method will be used to get a list of statement that is going to affect a2
-* @param a2	The statement that is affected by a1
-* @return a list of statement that is going to affect a2
+* This method will be used to get a list of statements that are Affected by a1
+* @param a1	The statement that is going to Affect a2
+* @return a list of statements that are Affected by a1
 */
 vector<STMT> PQLAffectsProcessor::getAffectsBy(STMT a1)
 {
-	if ((a1 < 0 || a1 > PKB::maxProgLines) || (PKB::assignTable.count(a1) == 0))
-		return vector<STMT>(); //TODO: double check with cristina
+	if (a1 <= 0 || a1 > PKB::maxProgLines || PKB::assignTable.count(a1) == 0)
+		return vector<STMT>();
 
 	const VAR modifiesVar = PKB::modifies.getModifiedByStmt(a1)[0];
 	CFGNode* s1 = PKB::stmtRefMap.at(a1).getCFGNode();
@@ -453,12 +325,139 @@ vector<STMT> PQLAffectsProcessor::getAffectsBy(STMT a1)
 	return vector<STMT>(answer.begin(), answer.end());
 }
 
+/**
+* This method will be used to get a list of statements that are going to Affect a2
+* @param a2	The statement that is Affected by a1
+* @return a list of statements that Affect a2
+*/
+vector<STMT> PQLAffectsProcessor::getAffectsFrom(STMT a2)
+{
+	if (a2 <= 0 || a2 > PKB::maxProgLines || PKB::assignTable.count(a2) == 0)
+		return vector<STMT>();
+
+	const vector<VAR>& usesVarVector = PKB::uses.getUsedByStmt(a2);
+	unordered_set<VAR> usesVarSet(usesVarVector.begin(), usesVarVector.end());
+	CFGNode* s2 = PKB::stmtRefMap.at(a2).getCFGNode();
+
+	unordered_set<STMT> answer;
+
+	bool toStep = false;
+	for (auto it = s2->modifySet.begin(); it != s2->modifySet.end(); it++) {
+		if (usesVarSet.count(*it) > 0) {
+			toStep = true;
+			break;
+		}
+	}
+	if (toStep) {
+		for (int i = a2 - 1; i >= s2->first; i--)
+			if (PKB::assignTable.count(i) > 0) {
+				const VAR stmtModifiesVar = PKB::modifies.getModifiedByStmt(i)[0];
+				if (usesVarSet.count(stmtModifiesVar) > 0) {
+					answer.insert(i);
+					usesVarSet.erase(stmtModifiesVar);
+					if (usesVarSet.empty())
+						return vector<STMT>(answer.begin(), answer.end());
+				}
+			} else if (PKB::callTable.count(i) > 0) {
+				const vector<VAR>& stmtModifiesVar = PKB::modifies.getModifiedByStmt(i);
+				for (auto it = stmtModifiesVar.begin(); it != stmtModifiesVar.end(); it++)
+					if (usesVarSet.count(*it) > 0) {
+						usesVarSet.erase(*it);
+						if (usesVarSet.empty())
+							return vector<STMT>(answer.begin(), answer.end());
+					}
+			}
+	}
+	queue<pair<CFGNode*, unordered_set<VAR>>> search;
+	list<pair<CFGNode*, unordered_set<VAR>>> ifQueue;
+	unordered_set<CFGNode*> seen;
+	for (auto it = s2->parents.begin(); it != s2->parents.end(); it++) {
+		search.push(pair<CFGNode*, unordered_set<VAR>>(*it, usesVarSet));
+	}
+	while (!(search.empty() && ifQueue.empty())) {
+		pair<CFGNode*, unordered_set<VAR>> currPair;
+		CFGNode* currCFG;
+		unordered_set<VAR> usesVar;
+		if (search.empty()) {
+			currPair = ifQueue.front();
+			ifQueue.erase(ifQueue.begin());
+			currCFG = currPair.first;
+			usesVar = currPair.second;
+		} else {
+			currPair = search.front();
+			search.pop();
+			currCFG = currPair.first;
+			if (currCFG->type == CFGNode::IfNode) {
+				bool match = false;
+				for (auto it = ifQueue.begin(); it != ifQueue.end(); it++)
+					if (currCFG == it->first) {
+						match = true;
+						usesVar = currPair.second;
+						usesVar.insert(it->second.begin(), it->second.end());
+						break;
+					}
+				if (!match) {
+					ifQueue.push_back(currPair);
+					continue;
+				}
+			} else {
+				usesVar = currPair.second;
+			}
+		}
+
+		if (seen.count(currCFG) > 0) {
+			continue;
+		}
+		seen.insert(currCFG);
+		
+		bool toStep = false;
+		for (auto it = currCFG->modifySet.begin(); it != currCFG->modifySet.end(); it++) {
+			if (usesVar.count(*it) > 0) {
+				toStep = true;
+				break;
+			}
+		}
+
+		if (toStep) { //some statement will modify some of the used variables
+			for (int i = currCFG->last; i >= currCFG->first; i--)
+				if (PKB::assignTable.count(i) > 0) {
+					const VAR stmtModifiesVar = PKB::modifies.getModifiedByStmt(i)[0];
+					if (usesVar.count(stmtModifiesVar) > 0) {
+						answer.insert(i);
+						usesVar.erase(stmtModifiesVar);
+						if (usesVar.empty())
+							break;
+					}
+				} else if (PKB::callTable.count(i) > 0) {
+					const vector<VAR>& stmtModifiesVar = PKB::modifies.getModifiedByStmt(i);
+					for (auto it = stmtModifiesVar.begin(); it != stmtModifiesVar.end(); it++) {
+						if (usesVar.count(*it) > 0) {
+							usesVar.erase(*it);
+							if (usesVar.empty())
+								break;
+						}
+					}
+					if (usesVar.empty())
+						break;
+				}
+		}
+
+		if (usesVar.size() != 0) {
+			for (auto it = currCFG->parents.begin(); it != currCFG->parents.end(); it++) {
+				search.push(pair<CFGNode*, unordered_set<VAR>>(*it, usesVar));
+			}
+		}
+	}
+	return vector<STMT>(answer.begin(), answer.end());
+
+}
+
 //Affects*
 /**
 * This method will be used to check whether a1 and a2 satisfy Affect* Condition
-* @param a1	The statement that is going to affect* a2
-* @param a2	The statement that is affect* by a1
-* @return whether Affect(a1,a2) satisfy the condition of affectStar
+* @param a1	The statement that is going to Affect* a2
+* @param a2	The statement that is Affect*ed by a1
+* @return whether (a1,a2) satisfy the condition of Affect*
 */
 bool PQLAffectsProcessor::isSatifyAffectsStar(STMT a1, STMT a2)
 {
@@ -488,9 +487,9 @@ bool PQLAffectsProcessor::isSatifyAffectsStar(STMT a1, STMT a2)
 
 /**
 * This method will be used to check Affect*(a1,a2)
-* @param a1	The statement that is going to affect* a2
-* @param a2	The statement that is affect* by a1
-* @return whether AffectStar(a1,a2) holds
+* @param a1	The statement that is going to Affect* a2
+* @param a2	The statement that is Affect*ed by a1
+* @return whether Affect*(a1,a2) holds
 */
 bool PQLAffectsProcessor::isAffectsStar(STMT a1, STMT a2)
 {
@@ -587,38 +586,38 @@ bool PQLAffectsProcessor::isAffectsStar(STMT a1, STMT a2)
 		}
 	}
 
-	queue<pair<CFGNode*, unordered_set<int>>> search;
-	unordered_map<CFGNode*, unordered_set<int>> seen;
+	queue<pair<CFGNode*, unordered_set<VAR>>> search;
+	unordered_map<CFGNode*, unordered_set<VAR>> seen;
 	
 	switch (s1->type) {
 	case CFGNode::StandardNode:
 	case CFGNode::DummyNode:
 		if (s1->children.oneChild != NULL)
-			search.push(pair<CFGNode*, unordered_set<int>>(s1->children.oneChild, modifiesVarSet));
+			search.push(pair<CFGNode*, unordered_set<VAR>>(s1->children.oneChild, modifiesVarSet));
 		break;
 
 	case CFGNode::WhileNode:
-		search.push(pair<CFGNode*, unordered_set<int>>(
+		search.push(pair<CFGNode*, unordered_set<VAR>>(
 			s1->children.whileChildren.whileIn, modifiesVarSet));
-		search.push(pair<CFGNode*, unordered_set<int>>(
+		search.push(pair<CFGNode*, unordered_set<VAR>>(
 			s1->children.whileChildren.whileOut, modifiesVarSet));
 		break;
 
 	case CFGNode::IfNode:
-		search.push(pair<CFGNode*, unordered_set<int>>(
+		search.push(pair<CFGNode*, unordered_set<VAR>>(
 			s1->children.ifChildren.ifThen, modifiesVarSet));
-		search.push(pair<CFGNode*, unordered_set<int>>(
+		search.push(pair<CFGNode*, unordered_set<VAR>>(
 			s1->children.ifChildren.ifElse, modifiesVarSet));
 		break;
 	}
 
 	while (!search.empty()) {
-		pair<CFGNode*, unordered_set<int>> currPair = search.front();
+		pair<CFGNode*, unordered_set<VAR>> currPair = search.front();
 		search.pop();
 		CFGNode* currCFG = currPair.first;
-		unordered_set<int>& currVar = currPair.second;
+		unordered_set<VAR>& currVar = currPair.second;
 		if (seen.count(currCFG) > 0) {
-			unordered_set<int>& seenVar = seen[currCFG];
+			unordered_set<VAR>& seenVar = seen[currCFG];
 			for (auto it = seenVar.begin(); it != seenVar.end(); it++)
 				currVar.erase(*it);
 			if (currVar.empty())
@@ -626,7 +625,7 @@ bool PQLAffectsProcessor::isAffectsStar(STMT a1, STMT a2)
 			for (auto it = currVar.begin(); it != currVar.end(); it++)
 				seenVar.insert(*it);
 		} else
-			seen.insert(pair<CFGNode*, unordered_set<int>>(currCFG, currVar));
+			seen.insert(pair<CFGNode*, unordered_set<VAR>>(currCFG, currVar));
 
 		bool step = false;
 		for (auto it = currCFG->modifySet.begin(); it != currCFG->modifySet.end(); it++)
@@ -678,20 +677,21 @@ bool PQLAffectsProcessor::isAffectsStar(STMT a1, STMT a2)
 		case CFGNode::StandardNode:
 		case CFGNode::DummyNode:
 			if (currCFG->children.oneChild != NULL)
-				search.push(pair<CFGNode*, unordered_set<int>>(currCFG->children.oneChild, currVar));
+				search.push(pair<CFGNode*, unordered_set<VAR>>(
+				currCFG->children.oneChild, currVar));
 			break;
 
 		case CFGNode::WhileNode:
-			search.push(pair<CFGNode*, unordered_set<int>>(
+			search.push(pair<CFGNode*, unordered_set<VAR>>(
 				currCFG->children.whileChildren.whileIn, currVar));
-			search.push(pair<CFGNode*, unordered_set<int>>(
+			search.push(pair<CFGNode*, unordered_set<VAR>>(
 				currCFG->children.whileChildren.whileOut, currVar));
 			break;
 
 		case CFGNode::IfNode:
-			search.push(pair<CFGNode*, unordered_set<int>>(
+			search.push(pair<CFGNode*, unordered_set<VAR>>(
 				currCFG->children.ifChildren.ifThen, currVar));
-			search.push(pair<CFGNode*, unordered_set<int>>(
+			search.push(pair<CFGNode*, unordered_set<VAR>>(
 				currCFG->children.ifChildren.ifElse, currVar));
 			break;
 		}
@@ -700,13 +700,13 @@ bool PQLAffectsProcessor::isAffectsStar(STMT a1, STMT a2)
 }
 
 /**
-* This method will be used to get a list of a2 that is affects*(a1,_)
-* @param a1	The statement that is going to affect* a2
-* @return a list of statement that is affect* by a1
+* This method will be used to get a list of statements that are Affect*ed by a1
+* @param a1	The statement that is going to Affect* a2
+* @return a list of statement that are Affect*ed by a1
 */
 vector<STMT> PQLAffectsProcessor::getAffectsStarBy(STMT a1)
 {
-	if (a1 < 0 || a1 > PKB::maxProgLines)
+	if (a1 <= 0 || a1 > PKB::maxProgLines)
 		return vector<STMT>();
 	if (PKB::assignTable.count(a1) == 0)
 		//throw SPAException("Both arguments to Affects must be assignments");
@@ -745,37 +745,37 @@ vector<STMT> PQLAffectsProcessor::getAffectsStarBy(STMT a1)
 				}
 		}
 
-	queue<pair<CFGNode*, unordered_set<int>>> search;
-	unordered_map<CFGNode*, unordered_set<int>> seen;
+	queue<pair<CFGNode*, unordered_set<VAR>>> search;
+	unordered_map<CFGNode*, unordered_set<VAR>> seen;
 	
 	switch (s1->type) {
 	case CFGNode::StandardNode:
 		if (s1->children.oneChild != NULL)
-			search.push(pair<CFGNode*, unordered_set<int>>(s1->children.oneChild, modifiesVarSet));
+			search.push(pair<CFGNode*, unordered_set<VAR>>(s1->children.oneChild, modifiesVarSet));
 		break;
 
 	case CFGNode::WhileNode:
-		search.push(pair<CFGNode*, unordered_set<int>>(
+		search.push(pair<CFGNode*, unordered_set<VAR>>(
 			s1->children.whileChildren.whileIn, modifiesVarSet));
-		search.push(pair<CFGNode*, unordered_set<int>>(
+		search.push(pair<CFGNode*, unordered_set<VAR>>(
 			s1->children.whileChildren.whileOut, modifiesVarSet));
 		break;
 
 	case CFGNode::IfNode:
-		search.push(pair<CFGNode*, unordered_set<int>>(
+		search.push(pair<CFGNode*, unordered_set<VAR>>(
 			s1->children.ifChildren.ifThen, modifiesVarSet));
-		search.push(pair<CFGNode*, unordered_set<int>>(
+		search.push(pair<CFGNode*, unordered_set<VAR>>(
 			s1->children.ifChildren.ifElse, modifiesVarSet));
 		break;
 	}
 
 	while (!search.empty()) {
-		pair<CFGNode*, unordered_set<int>> currPair = search.front();
+		pair<CFGNode*, unordered_set<VAR>> currPair = search.front();
 		search.pop();
 		CFGNode* currCFG = currPair.first;
-		unordered_set<int>& currVar = currPair.second;
+		unordered_set<VAR>& currVar = currPair.second;
 		if (seen.count(currCFG) > 0) {
-			unordered_set<int>& seenVar = seen[currCFG];
+			unordered_set<VAR>& seenVar = seen[currCFG];
 			for (auto it = seenVar.begin(); it != seenVar.end(); it++)
 				currVar.erase(*it);
 			if (currVar.empty())
@@ -783,7 +783,7 @@ vector<STMT> PQLAffectsProcessor::getAffectsStarBy(STMT a1)
 			for (auto it = currVar.begin(); it != currVar.end(); it++)
 				seenVar.insert(*it);
 		} else
-			seen.insert(pair<CFGNode*, unordered_set<int>>(currCFG, currVar));
+			seen.insert(pair<CFGNode*, unordered_set<VAR>>(currCFG, currVar));
 
 		bool step = false;
 		for (auto it = currCFG->modifySet.begin(); it != currCFG->modifySet.end(); it++)
@@ -831,20 +831,20 @@ vector<STMT> PQLAffectsProcessor::getAffectsStarBy(STMT a1)
 		case CFGNode::StandardNode:
 		case CFGNode::DummyNode:
 			if (currCFG->children.oneChild != NULL)
-				search.push(pair<CFGNode*, unordered_set<int>>(currCFG->children.oneChild, currVar));
+				search.push(pair<CFGNode*, unordered_set<VAR>>(currCFG->children.oneChild, currVar));
 			break;
 
 		case CFGNode::WhileNode:
-			search.push(pair<CFGNode*, unordered_set<int>>(
+			search.push(pair<CFGNode*, unordered_set<VAR>>(
 				currCFG->children.whileChildren.whileIn, currVar));
-			search.push(pair<CFGNode*, unordered_set<int>>(
+			search.push(pair<CFGNode*, unordered_set<VAR>>(
 				currCFG->children.whileChildren.whileOut, currVar));
 			break;
 
 		case CFGNode::IfNode:
-			search.push(pair<CFGNode*, unordered_set<int>>(
+			search.push(pair<CFGNode*, unordered_set<VAR>>(
 				currCFG->children.ifChildren.ifThen, currVar));
-			search.push(pair<CFGNode*, unordered_set<int>>(
+			search.push(pair<CFGNode*, unordered_set<VAR>>(
 				currCFG->children.ifChildren.ifElse, currVar));
 			break;
 		}
@@ -853,13 +853,13 @@ vector<STMT> PQLAffectsProcessor::getAffectsStarBy(STMT a1)
 }
 
 /**
-* This method will be used to get a list of a2 that is affects*(_,a2)
-* @param a2	The statement that is going to affect* by a1
-* @return a list of statement that is affect* a2
+* This method will be used to get a list of statements that are going to Affect* a2
+* @param a2	The statement that is Affect*ed by a1
+* @return a list of statements that Affect* a2
 */
 vector<STMT>  PQLAffectsProcessor::getAffectsStarFrom(STMT a2)
 {
-	if (a2 < 0 || a2 > PKB::maxProgLines)
+	if (a2 <= 0 || a2 > PKB::maxProgLines)
 		return vector<STMT>();
 	if (PKB::assignTable.count(a2) == 0)
 		return vector<STMT>(); //TODO: double check with cristina
@@ -897,18 +897,18 @@ vector<STMT>  PQLAffectsProcessor::getAffectsStarFrom(STMT a2)
 					}
 			}
 
-	queue<pair<CFGNode*, unordered_set<int>>> search;
-	unordered_map<CFGNode*, unordered_set<int>> seen;
+	queue<pair<CFGNode*, unordered_set<VAR>>> search;
+	unordered_map<CFGNode*, unordered_set<VAR>> seen;
 	for (auto it = s2->parents.begin(); it != s2->parents.end(); it++)
-		search.push(pair<CFGNode*, unordered_set<int>>(*it, usesVarSet));
+		search.push(pair<CFGNode*, unordered_set<VAR>>(*it, usesVarSet));
 
 	while (!search.empty()) {
-		pair<CFGNode*, unordered_set<int>> currPair = search.front();
+		pair<CFGNode*, unordered_set<VAR>> currPair = search.front();
 		search.pop();
 		CFGNode* currCFG = currPair.first;
-		unordered_set<int>& currVar = currPair.second;
+		unordered_set<VAR>& currVar = currPair.second;
 		if (seen.count(currCFG) > 0) {
-			unordered_set<int>& seenVar = seen[currCFG];
+			unordered_set<VAR>& seenVar = seen[currCFG];
 			for (auto it = seenVar.begin(); it != seenVar.end(); it++)
 				currVar.erase(*it);
 			if (currVar.empty())
@@ -916,7 +916,7 @@ vector<STMT>  PQLAffectsProcessor::getAffectsStarFrom(STMT a2)
 			for (auto it = currVar.begin(); it != currVar.end(); it++)
 				seenVar.insert(*it);
 		} else
-			seen.insert(pair<CFGNode*, unordered_set<int>>(currCFG, currVar));
+			seen.insert(pair<CFGNode*, unordered_set<VAR>>(currCFG, currVar));
 
 		bool toStep = false;
 		for (auto it = currCFG->modifySet.begin(); it != currCFG->modifySet.end(); it++)
@@ -951,7 +951,7 @@ vector<STMT>  PQLAffectsProcessor::getAffectsStarFrom(STMT a2)
 		
 		if (currVar.size() != 0)
 			for (auto it = currCFG->parents.begin(); it != currCFG->parents.end(); it++)
-				search.push(pair<CFGNode*, unordered_set<int>>(*it, currVar));
+				search.push(pair<CFGNode*, unordered_set<VAR>>(*it, currVar));
 	}
 	return vector<STMT>(answer.begin(), answer.end());
 }
@@ -959,13 +959,13 @@ vector<STMT>  PQLAffectsProcessor::getAffectsStarFrom(STMT a2)
 //AffectBip
 /**
 * This method will be used to check AffectBip(a1,a2)
-* @param a1	The statement that is going to affectBip a2
-* @param a2	The statement that is affectBip by a1
+* @param a1	The statement that is going to AffectBip a2
+* @param a2	The statement that is AffectBiped by a1
 * @return whether AffectBip(a1,a2) holds
 */
 bool PQLAffectsProcessor::isAffectsBip(STMT a1, STMT a2)
 {
-	if (a1 < 0 || a1 > PKB::maxProgLines || a2 < 0 || a2 > PKB::maxProgLines)
+	if (a1 <= 0 || a1 > PKB::maxProgLines || a2 <= 0 || a2 > PKB::maxProgLines)
 		return false;
 	if (PKB::assignTable.count(a1) == 0 || PKB::assignTable.count(a2) == 0)
 		return false;
@@ -1135,13 +1135,13 @@ bool PQLAffectsProcessor::isAffectsBip(STMT a1, STMT a2)
 }
 
 /**
-* This method will be used to get a list of a2 that is affectsBip(a1,_)
-* @param a1	The statement that is going to affectBip a2
-* @return a list of statement that is affectBip by a1
+* This method will be used to get a list of statements that are AffectBiped by a1
+* @param a1	The statement that is going to AffectBip a2
+* @return a list of statement that are AffectBiped by a1
 */
 vector<STMT> PQLAffectsProcessor::getAffectsBipBy(STMT a1)
 {
-	if (a1 < 0 || a1 > PKB::maxProgLines)
+	if (a1 <= 0 || a1 > PKB::maxProgLines)
 		return vector<STMT>();
 	if (PKB::assignTable.count(a1) == 0)
 		return vector<STMT>();
@@ -1307,9 +1307,9 @@ vector<STMT> PQLAffectsProcessor::getAffectsBipBy(STMT a1)
 }
 
 /**
-* This method will be used to get a list of a2 that is affectsBip(_,a2)
-* @param a2	The statement that is going to affectBip by a1
-* @return a list of statement that is affectBip a2
+* This method will be used to get a list of statements that are going to AffectBip a2
+* @param a2	The statement that is AffectBiped by a1
+* @return a list of statements that AffectBip a2
 */
 vector<STMT> PQLAffectsProcessor::getAffectsBipFrom(STMT a2)
 {
@@ -1321,13 +1321,14 @@ vector<STMT> PQLAffectsProcessor::getAffectsBipFrom(STMT a2)
 //AffectBip*
 /**
 * This method will be used to check AffectBip*(a1,a2)
-* @param a1	The statement that is going to affectBip* a2
-* @param a2	The statement that is affectBip* by a1
+* @param a1	The statement that is going to AffectBip* a2
+* @param a2	The statement that is AffectBip*ed by a1
 * @return whether AffectBip*(a1,a2) holds
 */
+
 bool PQLAffectsProcessor::isAffectsBipStar(STMT a1, STMT a2)
 {
-	if (a1 < 0 || a1 > PKB::maxProgLines || a2 < 0 || a2 > PKB::maxProgLines)
+	if (a1 <= 0 || a1 > PKB::maxProgLines || a2 <= 0 || a2 > PKB::maxProgLines)
 		return false;
 	if (PKB::assignTable.count(a1) == 0 || PKB::assignTable.count(a2) == 0)
 		return false;
@@ -1342,41 +1343,67 @@ bool PQLAffectsProcessor::isAffectsBipStar(STMT a1, STMT a2)
 			unordered_set<VAR> activeVars, stack<STMT> callStack) :
 		node(node), stmt(stmt), activeVars(activeVars), callStack(callStack) {}
 	};
-
+	
+	//queue of nodes/statements to be analysed
 	queue<Information> search;
-	unordered_map<CFGNode*, unordered_set<int>> seen;
-
 	{
 	const vector<VAR>& modifiesVarVector = PKB::modifies.getModifiedByStmt(a1);
 	const unordered_set<VAR> modifiesVarSet(modifiesVarVector.begin(), modifiesVarVector.end());
 	search.push(Information(NULL, a1, modifiesVarSet, stack<STMT>()));
 	}
+	
+	//set of (nodes and the active variables) that have been stepped through
+	unordered_map<const CFGNode*, unordered_set<VAR>> seen;
+
+	//int represents:
+	//-1: in progress,
+	//0: will invalidate,
+	//1: exists control path that does not invalidate
+	unordered_map<PROC, unordered_map<VAR, int>> procIsGood;
+	
+	//related to above map.
+	//counts the number of unanalysed nodes/statements in the proc
+	unordered_map<PROC, unordered_map<VAR, int>> procCount;
+
+	//vector of nodes/statements waiting for another one already
+	//stepping through to indicate whether the procedure has a
+	//control flow path that does not invalidate the variable.
+	unordered_map<PROC, vector<Information>> waitingProcs;
+
+	//another set of procedures that have reached the end, so that
+	//all statements calling those procedures are being analysed.
+	unordered_map<PROC, unordered_set<VAR>> doneProc;
 
 	while (!search.empty()) {
 		Information info = search.front();
 		search.pop();
-		STMT stmt = info.stmt;
+		const STMT stmt = info.stmt;
 		unordered_set<VAR>& activeVars = info.activeVars;
 		stack<STMT>& callStack = info.callStack;
-		CFGNode* node = (info.node == NULL) ? PKB::stmtRefMap.at(stmt).getCFGNode() : info.node;
+		const CFGNode * const node =
+			(info.node == NULL) ? PKB::stmtRefMap.at(stmt).getCFGNode() : info.node;
 
-		bool toStep = true;
-		if (stmt == -1 && seen.count(node) > 0) {
-			unordered_set<int>& seenVar = seen[node];
-			for (auto it = seenVar.begin(); it != seenVar.end(); it++)
-				activeVars.erase(*it);
-			if (activeVars.empty())
-				toStep = false;
-			for (auto it = activeVars.begin(); it != activeVars.end(); it++)
-				seenVar.insert(*it);
-		} else
-			seen.insert(pair<CFGNode*, unordered_set<int>>(node, activeVars));
+		if (stmt == -1) { //starting at the start of the node, so
+			if (seen.count(node) > 0) { //no need to analyse those variables next time
+				unordered_set<VAR>& seenVar = seen[node];
+				for (auto it = seenVar.begin(); it != seenVar.end(); it++)
+					activeVars.erase(*it);
+				if (activeVars.empty())
+					continue;
+				for (auto it = activeVars.begin(); it != activeVars.end(); it++)
+					seenVar.insert(*it);
+			} else
+				seen.insert(pair<const CFGNode*, unordered_set<VAR>>(node, activeVars));
+		}
 
-		if (toStep && node->type != CFGNode::DummyNode) {
+		if (node->type != CFGNode::DummyNode) {
+			int start;
 			if (stmt == -1)
-				stmt = node->first - 1;
-			bool broke = false;
-			for (int i = stmt + 1; i <= node->last; i++) {
+				start = node->first;
+			else
+				start = stmt + 1;
+			bool broke = false; //indicates that control flow has stopped/branched
+			for (int i = start; i <= node->last; i++) {
 				if (PKB::assignTable.count(i) > 0) {
 					const vector<VAR>& usesVar = PKB::uses.getUsedByStmt(i);
 					const VAR modifiesVar = PKB::modifies.getModifiedByStmt(i)[0];
@@ -1398,12 +1425,66 @@ bool PQLAffectsProcessor::isAffectsBipStar(STMT a1, STMT a2)
 						}
 					}
 				} else if (PKB::callTable.count(i) > 0) {
-					callStack.push(i);
-					search.push(Information(PKB::stmtRefMap.at(PKB::TheBeginningAndTheEnd[
-						PKB::calls.getProcCall(i)].first).getCFGNode(),
-							-1, activeVars, callStack));
-					broke = true;
-					break;
+					const PROC proc = PKB::calls.getProcCall(i);
+					if (procIsGood.count(proc) > 0) { //some other analysis has beaten this one to
+						unordered_map<VAR, int>& status = procIsGood[proc]; //this procedure
+						unordered_set<VAR> toWaitVars;
+						unordered_set<VAR> toEnterCallVars;
+						unordered_set<VAR> stillActiveVars;
+						for (auto it = activeVars.begin(); it != activeVars.end(); ++it) {
+							if (status.count(*it) > 0) {
+								switch (status[*it]) {
+								case -1: //in progress
+									toWaitVars.insert(*it);
+									break;
+								case 0: //will invalidate
+									break;
+								case 1: //exists control path that does not invalidate
+									stillActiveVars.insert(*it);
+									break;
+								}
+							} else
+								toEnterCallVars.insert(*it);
+						}
+						//handle the waiting ones
+						if (!toWaitVars.empty()) {
+							waitingProcs[proc].push_back(
+							Information(NULL, i, toWaitVars, callStack));
+						}
+
+						//handle those that will step into the call
+						if (!toEnterCallVars.empty()) {
+							unordered_map<VAR, int>& countStatus = procCount[proc];
+							for (auto it = toEnterCallVars.begin();
+								it != toEnterCallVars.end(); ++it) {
+								status.insert(pair<VAR, int>(*it, -1));
+								countStatus.insert(pair<VAR, int>(*it, 1));
+							}
+							callStack.push(i);
+							search.push(Information(PKB::stmtRefMap.at(PKB::TheBeginningAndTheEnd[
+								proc].first).getCFGNode(), -1, toEnterCallVars, callStack));
+						}
+
+						//handle those that will continue stepping
+						if (stillActiveVars.empty()) {
+							broke = true;
+							break;
+						} else {
+							activeVars = stillActiveVars;
+						}
+					} else { //all will enter the call
+						unordered_map<VAR, int>& status = procIsGood[proc];
+						unordered_map<VAR, int>& countStatus = procCount[proc];
+						for (auto it = activeVars.begin(); it != activeVars.end(); ++it) {
+							status.insert(pair<VAR, int>(*it, -1));
+							countStatus.insert(pair<VAR, int>(*it, 1));
+						}
+						callStack.push(i);
+						search.push(Information(PKB::stmtRefMap.at(PKB::TheBeginningAndTheEnd[
+							proc].first).getCFGNode(), -1, activeVars, callStack));
+						broke = true;
+						break;
+					}
 				}
 			}
 
@@ -1411,12 +1492,52 @@ bool PQLAffectsProcessor::isAffectsBipStar(STMT a1, STMT a2)
 				continue;
 		}
 		
+		//finished with this CFGNode -> go to the next node after this
 		switch (node->type) {
 		case CFGNode::DummyNode:
 		case CFGNode::StandardNode: {
 			CFGNode* child = node->children.oneChild;
-			if (child == NULL) {
-				if (callStack.empty()) {						
+			if (child == NULL) { //end of procedure
+				//means that there exists a control flow path through the start to the
+				//end of this procedure that does not invalidate those active variables.
+				//-> signal all waiting nodes/statements
+				if (waitingProcs.count(node->proc) > 0) {
+					const vector<Information>& waiters = waitingProcs[node->proc];
+					vector<Information> newWaiters;
+					for (auto it = waiters.begin(); it != waiters.end(); ++it) {
+						const Information waiter = *it;
+						unordered_set<VAR> goOn;
+						unordered_set<VAR> continueWaiting;
+						for (auto it2 = waiter.activeVars.begin();   //all those
+							it2 != waiter.activeVars.end(); ++it2) { //that are waitng
+								if (activeVars.count(*it2) == 0) //can go on
+									goOn.insert(*it2);
+								else
+									continueWaiting.insert(*it2);
+						}
+						if (!goOn.empty())
+							search.push(Information(
+							waiter.node, waiter.stmt, goOn, waiter.callStack));
+						if (!continueWaiting.empty())
+							newWaiters.push_back(Information(
+							waiter.node, waiter.stmt, continueWaiting, waiter.callStack));
+					}
+				}
+
+				if (callStack.empty()) { //can jump to anywhere now
+					if (doneProc.count(node->proc) > 0) { //some variables have passed, don't 
+						unordered_set<VAR>& seenVar = doneProc[node->proc]; //send them again
+						for (auto it = seenVar.begin(); it != seenVar.end(); it++)
+							activeVars.erase(*it);
+						if (activeVars.empty())
+							continue;
+						for (auto it = activeVars.begin(); it != activeVars.end(); it++)
+							seenVar.insert(*it);
+						if (activeVars.empty())
+							continue;
+					} else
+						doneProc.insert(pair<PROC, unordered_set<VAR>>(node->proc, activeVars));
+					
 					const vector<STMT>& caller = PKB::calls.getStmtCall(node->proc);
 					for (auto it = caller.begin(); it != caller.end(); it++)
 						search.push(Information(NULL, *it, activeVars, callStack));
@@ -1447,15 +1568,13 @@ bool PQLAffectsProcessor::isAffectsBipStar(STMT a1, STMT a2)
 }
 
 /**
-* This method will be used to get a list of a2 that is affectsBip*(a1,_)
-* @param a1	The statement that is going to affectBip* a2
-* @return a list of statement that is affectBip* by a1
+* This method will be used to get a list of statements that are AffectBip*ed by a1
+* @param a1	The statement that is going to AffectBip* a2
+* @return a list of statement that are AffectBip*ed by a1
 */
 vector<STMT> PQLAffectsProcessor::getAffectsBipStarBy(STMT a1)
 {
-	if (a1 < 0 || a1 > PKB::maxProgLines)
-		return vector<STMT>();
-	if (PKB::assignTable.count(a1) == 0)
+	if (a1 <= 0 || a1 > PKB::maxProgLines || PKB::assignTable.count(a1))
 		return vector<STMT>();
 	
 	struct Information {
@@ -1469,48 +1588,76 @@ vector<STMT> PQLAffectsProcessor::getAffectsBipStarBy(STMT a1)
 		node(node), stmt(stmt), activeVars(activeVars), callStack(callStack) {}
 	};
 	
-	unordered_set<STMT> answer;
+	//queue of nodes/statements to be analysed
 	queue<Information> search;
-	unordered_map<CFGNode*, unordered_set<int>> seen;
-
 	{
 	const vector<VAR>& modifiesVarVector = PKB::modifies.getModifiedByStmt(a1);
 	const unordered_set<VAR> modifiesVarSet(modifiesVarVector.begin(), modifiesVarVector.end());
 	search.push(Information(NULL, a1, modifiesVarSet, stack<STMT>()));
 	}
 
+	//set of answers
+	unordered_set<STMT> answers;
+	
+	//set of (nodes and the active variables) that have been stepped through
+	unordered_map<const CFGNode*, unordered_set<VAR>> seen;
+
+	//int represents:
+	//-1: in progress,
+	//0: will invalidate,
+	//1: exists control path that does not invalidate
+	unordered_map<PROC, unordered_map<VAR, int>> procIsGood;
+	
+	//related to above map.
+	//counts the number of unanalysed nodes/statements in the proc
+	unordered_map<PROC, unordered_map<VAR, int>> procCount;
+
+	//vector of nodes/statements waiting for another one already
+	//stepping through to indicate whether the procedure has a
+	//control flow path that does not invalidate the variable.
+	unordered_map<PROC, vector<Information>> waitingProcs;
+
+	//another set of procedures that have reached the end, so that
+	//all statements calling those procedures are being analysed.
+	unordered_map<PROC, unordered_set<VAR>> doneProc;
+
 	while (!search.empty()) {
 		Information info = search.front();
 		search.pop();
-		STMT stmt = info.stmt;
+		const STMT stmt = info.stmt;
 		unordered_set<VAR>& activeVars = info.activeVars;
 		stack<STMT>& callStack = info.callStack;
-		CFGNode* node = (info.node == NULL) ? PKB::stmtRefMap.at(stmt).getCFGNode() : info.node;
+		const CFGNode * const node =
+			(info.node == NULL) ? PKB::stmtRefMap.at(stmt).getCFGNode() : info.node;
 
-		bool toStep = true;
-		if (stmt == -1 && seen.count(node) > 0) {
-			unordered_set<int>& seenVar = seen[node];
-			for (auto it = seenVar.begin(); it != seenVar.end(); it++)
-				activeVars.erase(*it);
-			if (activeVars.empty())
-				toStep = false;
-			for (auto it = activeVars.begin(); it != activeVars.end(); it++)
-				seenVar.insert(*it);
-		} else
-			seen.insert(pair<CFGNode*, unordered_set<int>>(node, activeVars));
+		if (stmt == -1) { //starting at the start of the node, so
+			if (seen.count(node) > 0) { //no need to analyse those variables next time
+				unordered_set<VAR>& seenVar = seen[node];
+				for (auto it = seenVar.begin(); it != seenVar.end(); it++)
+					activeVars.erase(*it);
+				if (activeVars.empty())
+					continue;
+				for (auto it = activeVars.begin(); it != activeVars.end(); it++)
+					seenVar.insert(*it);
+			} else
+				seen.insert(pair<const CFGNode*, unordered_set<VAR>>(node, activeVars));
+		}
 
-		if (toStep && node->type != CFGNode::DummyNode) {
+		if (node->type != CFGNode::DummyNode) {
+			int start;
 			if (stmt == -1)
-				stmt = node->first - 1;
-			bool broke = false;
-			for (int i = stmt + 1; i <= node->last; i++) {
+				start = node->first;
+			else
+				start = stmt + 1;
+			bool broke = false; //indicates that control flow has stopped/branched
+			for (int i = start; i <= node->last; i++) {
 				if (PKB::assignTable.count(i) > 0) {
 					const vector<VAR>& usesVar = PKB::uses.getUsedByStmt(i);
 					const VAR modifiesVar = PKB::modifies.getModifiedByStmt(i)[0];
 					bool toCheck = true;
 					for (auto it = usesVar.begin(); it != usesVar.end(); it++) {
 						if (activeVars.count(*it) > 0) { //this statement uses a variable
-							answer.insert(i);
+							answers.insert(i);
 							activeVars.insert(modifiesVar); //-> add it in
 							toCheck = false;
 							break;
@@ -1524,12 +1671,66 @@ vector<STMT> PQLAffectsProcessor::getAffectsBipStarBy(STMT a1)
 						}
 					}
 				} else if (PKB::callTable.count(i) > 0) {
-					callStack.push(i);
-					search.push(Information(PKB::stmtRefMap.at(PKB::TheBeginningAndTheEnd[
-						PKB::calls.getProcCall(i)].first).getCFGNode(),
-							-1, activeVars, callStack));
-					broke = true;
-					break;
+					const PROC proc = PKB::calls.getProcCall(i);
+					if (procIsGood.count(proc) > 0) { //some other analysis has beaten this one to
+						unordered_map<VAR, int>& status = procIsGood[proc]; //this procedure
+						unordered_set<VAR> toWaitVars;
+						unordered_set<VAR> toEnterCallVars;
+						unordered_set<VAR> stillActiveVars;
+						for (auto it = activeVars.begin(); it != activeVars.end(); ++it) {
+							if (status.count(*it) > 0) {
+								switch (status[*it]) {
+								case -1: //in progress
+									toWaitVars.insert(*it);
+									break;
+								case 0: //will invalidate
+									break;
+								case 1: //exists control path that does not invalidate
+									stillActiveVars.insert(*it);
+									break;
+								}
+							} else
+								toEnterCallVars.insert(*it);
+						}
+						//handle the waiting ones
+						if (!toWaitVars.empty()) {
+							waitingProcs[proc].push_back(
+							Information(NULL, i, toWaitVars, callStack));
+						}
+
+						//handle those that will step into the call
+						if (!toEnterCallVars.empty()) {
+							unordered_map<VAR, int>& countStatus = procCount[proc];
+							for (auto it = toEnterCallVars.begin();
+								it != toEnterCallVars.end(); ++it) {
+								status.insert(pair<VAR, int>(*it, -1));
+								countStatus.insert(pair<VAR, int>(*it, 1));
+							}
+							callStack.push(i);
+							search.push(Information(PKB::stmtRefMap.at(PKB::TheBeginningAndTheEnd[
+								proc].first).getCFGNode(), -1, toEnterCallVars, callStack));
+						}
+
+						//handle those that will continue stepping
+						if (stillActiveVars.empty()) {
+							broke = true;
+							break;
+						} else {
+							activeVars = stillActiveVars;
+						}
+					} else { //all will enter the call
+						unordered_map<VAR, int>& status = procIsGood[proc];
+						unordered_map<VAR, int>& countStatus = procCount[proc];
+						for (auto it = activeVars.begin(); it != activeVars.end(); ++it) {
+							status.insert(pair<VAR, int>(*it, -1));
+							countStatus.insert(pair<VAR, int>(*it, 1));
+						}
+						callStack.push(i);
+						search.push(Information(PKB::stmtRefMap.at(PKB::TheBeginningAndTheEnd[
+							proc].first).getCFGNode(), -1, activeVars, callStack));
+						broke = true;
+						break;
+					}
 				}
 			}
 
@@ -1537,12 +1738,52 @@ vector<STMT> PQLAffectsProcessor::getAffectsBipStarBy(STMT a1)
 				continue;
 		}
 		
+		//finished with this CFGNode -> go to the next node after this
 		switch (node->type) {
 		case CFGNode::DummyNode:
 		case CFGNode::StandardNode: {
 			CFGNode* child = node->children.oneChild;
-			if (child == NULL) {
-				if (callStack.empty()) {						
+			if (child == NULL) { //end of procedure
+				//means that there exists a control flow path through the start to the
+				//end of this procedure that does not invalidate those active variables.
+				//-> signal all waiting nodes/statements
+				if (waitingProcs.count(node->proc) > 0) {
+					const vector<Information>& waiters = waitingProcs[node->proc];
+					vector<Information> newWaiters;
+					for (auto it = waiters.begin(); it != waiters.end(); ++it) {
+						const Information waiter = *it;
+						unordered_set<VAR> goOn;
+						unordered_set<VAR> continueWaiting;
+						for (auto it2 = waiter.activeVars.begin();   //all those
+							it2 != waiter.activeVars.end(); ++it2) { //that are waitng
+								if (activeVars.count(*it2) == 0) //can go on
+									goOn.insert(*it2);
+								else
+									continueWaiting.insert(*it2);
+						}
+						if (!goOn.empty())
+							search.push(Information(
+							waiter.node, waiter.stmt, goOn, waiter.callStack));
+						if (!continueWaiting.empty())
+							newWaiters.push_back(Information(
+							waiter.node, waiter.stmt, continueWaiting, waiter.callStack));
+					}
+				}
+
+				if (callStack.empty()) { //can jump to anywhere now
+					if (doneProc.count(node->proc) > 0) { //some variables have passed, don't 
+						unordered_set<VAR>& seenVar = doneProc[node->proc]; //send them again
+						for (auto it = seenVar.begin(); it != seenVar.end(); it++)
+							activeVars.erase(*it);
+						if (activeVars.empty())
+							continue;
+						for (auto it = activeVars.begin(); it != activeVars.end(); it++)
+							seenVar.insert(*it);
+						if (activeVars.empty())
+							continue;
+					} else
+						doneProc.insert(pair<PROC, unordered_set<VAR>>(node->proc, activeVars));
+					
 					const vector<STMT>& caller = PKB::calls.getStmtCall(node->proc);
 					for (auto it = caller.begin(); it != caller.end(); it++)
 						search.push(Information(NULL, *it, activeVars, callStack));
@@ -1569,13 +1810,13 @@ vector<STMT> PQLAffectsProcessor::getAffectsBipStarBy(STMT a1)
 			break;
 		}
 	}
-	return vector<STMT>(answer.begin(), answer.end());
+	return vector<STMT>(answers.begin(), answers.end());
 }
 
 /**
-* This method will be used to get a list of a2 that is affectsBip*(_,a2)
-* @param a2	The statement that is going to affectBip* by a1
-* @return a list of statement that is affectBip* a2
+* This method will be used to get a list of statements that are going to AffectBip* a2
+* @param a2	The statement that is AffectBip*ed by a1
+* @return a list of statements that AffectBip* a2
 */
 vector<STMT> PQLAffectsProcessor::getAffectsBipStarFrom(STMT a2)
 {

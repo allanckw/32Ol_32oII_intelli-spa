@@ -21,9 +21,8 @@ private:
 	//MultiQueryEval(const string& query, list<string>& results);
 
 	bool selectBOOLEAN;
-	bool earlyQuit;
 	bool died;
-
+	bool earlyQuit;
 	int pos;
 	const string query;
 	

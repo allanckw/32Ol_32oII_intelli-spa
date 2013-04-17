@@ -448,9 +448,9 @@ vector<STMT> AffectsTable::getAffectsBipStarFrom(STMT a2)
 
 
 /**
-* This method will be used to check existing record
-* @param v	a list of affects
-* @param a	the affects to check for existing record
+* This method will be used the check for the existence of Affects in the existing record
+* @param v	the existing record, a list of affects
+* @param a	the Affects to check for 
 * @return whether a exist in v
 */
 bool AffectsTable::isDuplicate(const vector<Affects>& v, const Affects& a)

@@ -64,8 +64,8 @@ public:
 	static unordered_map<ASTNode*, STMT> callNodesBack;
 	static unordered_map<ASTNode*, STMT> whileNodesBack;
 	static unordered_map<ASTNode*, STMT> ifNodesBack;
-	static vector<ASTNode*> statementNodes;
 	static unordered_map<ASTNode*, STMT> statementListNodesBack;
+	static vector<ASTNode*> statementNodes;
 
 	static vector<vector<ASTNode*>> varNodes;
 	static vector<vector<ASTNode*>> oprNodes;

@@ -1,12 +1,7 @@
-2
+1
 cat: All Category
 1 - Multiple :: Affects
 assign a1, a2;
-Select <a1, a2> such that AffectsBip*(a1, a2)
-
-5000
-2 - Multiple :: Affects
-assign a;
-Select <a1, a2> such that AffectsBip*(a, a) 
-
+Select <a1, a2> such that AffectsBip(a1, a2) and Modifies(a1, "b")
+112 102,112 106,112 108,112 111,112 19,112 20,112 24,112 32,112 39,112 64,112 65,112 67,112 78,112 83,112 94,25 24,30 102,30 106,30 108,30 111,41 102,41 106,41 108,41 111,41 43,41 78,41 94,50 102,50 106,50 108,50 111,50 78,50 94,54 102,54 106,54 108,54 111,54 78, 54 94,80 102,80 106,80 108,80 111,80 81
 5000

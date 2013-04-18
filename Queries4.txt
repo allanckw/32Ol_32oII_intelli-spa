@@ -598,5 +598,5 @@ Select <p1, p2> such that Next*(p1, p2)
 120 - Parent, ImplStmtLine, Typed :: 
 prog_line p1, p2;
 Select p1 such that NextBip*(23, p1)
-false
+
 5000

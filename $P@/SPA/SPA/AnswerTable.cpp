@@ -1248,6 +1248,57 @@ void AnswerTable::finishHimOff()
 	}
 }
 
+void AnswerTable::projectAway(const string& name)
+{
+	const size_t index = synonymPosition[name];
+	vector<vector<pair<int, unordered_set<ASTNode*>>>> answers2;
+	unordered_set<string> seen;
+	set<ASTNode*> temp;
+	for (auto it = answers.begin(); it != answers.end(); ++it) {
+		const vector<pair<int, unordered_set<ASTNode*>>>& row = *it;
+		string equiv = "";
+		const auto it2end = row.begin() + index;
+		for (auto it2 = row.begin(); it2 != it2end; ++it2) {
+			const pair<int, unordered_set<ASTNode*>>& thepair = *it2;
+			equiv += Helper::intToString(thepair.first);
+			if (!thepair.second.empty()) {
+				equiv += "{";
+				temp.insert(thepair.second.begin(), thepair.second.end());
+				for (auto it3 = temp.begin(); it3 != temp.end(); ++it3)
+					equiv += Helper::intToString((int) *it3) + ",";
+				temp.clear();
+				equiv += "}";
+			}
+		}
+		for (auto it2 = row.begin() + index + 1; it2 != row.end(); ++it2) {
+			const pair<int, unordered_set<ASTNode*>>& thepair = *it2;
+			equiv += Helper::intToString(thepair.first);
+			if (!thepair.second.empty()) {
+				equiv += ",{";
+				temp.insert(thepair.second.begin(), thepair.second.end());
+				for (auto it3 = temp.begin(); it3 != temp.end(); ++it3)
+					equiv += Helper::intToString((int) *it3) + ",";
+				temp.clear();
+				equiv += "}";
+			}
+		}
+		if (seen.count(equiv) == 0) {
+			seen.insert(equiv);
+			vector<pair<int, unordered_set<ASTNode*>>> newAns(it->begin(), it->begin() + index);
+			newAns.insert(newAns.end(), it->begin() + index + 1, it->end());
+			answers2.push_back(newAns);
+		}
+	}
+	answers = answers2;
+
+	header.erase(header.begin() + index);
+	type.erase(type.begin() + index);
+	synonymPosition.erase(name);
+	for (auto it = synonymPosition.begin(); it != synonymPosition.end(); ++it)
+		if (it->second >= index)
+			--it->second;
+}
+
 /**
 * Creates a new AnswerTable with only the columns corresponding to the synonyms that are
 * required. The required synonyms are given in a vector given in the argument.

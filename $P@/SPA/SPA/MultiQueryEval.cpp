@@ -876,7 +876,7 @@ void MultiQueryEval::optimise()
 						condSecondRel.push_back(secondRel);
 						condSecondCondition.push_back(secondCondition);*/
 						conditionsList.push_back(
-							Condition(firstRel, firstCondition, secondRel, secondCondition));
+							RulesOfEngagement::Condition(firstRel, firstCondition, secondRel, secondCondition));
 						dsSynonym.setUnion(firstRel, secondRel);
 					/*}
 				}*/
@@ -896,7 +896,7 @@ void MultiQueryEval::optimise()
 
 	//		ALIAS SYNONYMS IN CONDITIONLIST
 	for (auto it = conditionsList.begin(); it != conditionsList.end(); it++) {
-		Condition& cond = *it;
+		RulesOfEngagement::Condition& cond = *it;
 		if (aliasMap.count(cond.firstRel) > 0)
 			cond.firstRel = aliasMap[cond.firstRel];
 		if (aliasMap.count(cond.secondRel) > 0)
@@ -939,7 +939,7 @@ void MultiQueryEval::evaluate(list<string>& results)
 	}
 	
 	//relationship table
-	vector<Relation> relList;
+	vector<RulesOfEngagement::Relation> relList;
 
 	vector<pair<RulesOfEngagement::QueryRelations,pair<string, string>>> zerosyno;
 	list<pair<RulesOfEngagement::QueryRelations,pair<string, string>>> onesyno;
@@ -1337,7 +1337,9 @@ void MultiQueryEval::evaluate(list<string>& results)
 					relFirst.push_back(firstRel);
 					relSecond.push_back(secondRel);
 					relClass.push_back(-1);*/
-					relList.push_back(Relation(type, firstRel, secondRel));
+					const RulesOfEngagement::Relation rell(type, firstRel, secondRel);
+					relList.push_back(rell);
+					synonymTable.setRelation(rell);
 
 					dsSynonym.setUnion(firstRel, secondRel);
 					break;
@@ -1364,9 +1366,17 @@ void MultiQueryEval::evaluate(list<string>& results)
 			}
 		}
 	}
+
+	for (auto it = conditionsList.begin(); it != conditionsList.end(); it++) {
+		synonymTable.setCondition(*it);
+	}
 	//	END PARSE CONDITIONS
 
-	vector<unordered_set<string>> components = dsSynonym.getComponents();
+	//	ONE LAST OPTIMISATION
+	//synonymTable.alias();
+	//	END ONE LAST OPTIMISATION
+
+	const vector<unordered_set<string>>& components = dsSynonym.getComponents();
 	for (size_t classIndex = 0; classIndex < components.size(); classIndex++)
 		for (auto it = components[classIndex].begin(); it != components[classIndex].end(); it++)
 			synonymTable.putIntoClass(aliasMap.count(*it) > 0 ? aliasMap[*it] : *it, classIndex);
@@ -1375,8 +1385,10 @@ void MultiQueryEval::evaluate(list<string>& results)
 		for (auto it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
 			relClass[*it2] = synonymTable.getClass((*it).first);*/
 
-	vector<vector<Relation>> relPartitioned(components.size(), vector<Relation>());
-	vector<vector<Condition>> condPartitioned(components.size(), vector<Condition>());
+	vector<vector<RulesOfEngagement::Relation>>
+		relPartitioned(components.size(), vector<RulesOfEngagement::Relation>());
+	vector<vector<RulesOfEngagement::Condition>>
+		condPartitioned(components.size(), vector<RulesOfEngagement::Condition>());
 
 	for (auto it = relList.begin(); it != relList.end(); it++)
 		relPartitioned[synonymTable.getClass(it->firstSynonym)].push_back(*it);
@@ -1419,13 +1431,13 @@ void MultiQueryEval::evaluate(list<string>& results)
 	auto for_each_partition = [&](const int classIndex) {
 	//for (size_t classIndex = 0; classIndex < components.size(); classIndex++) {
 		vector<AnswerTable> tables;
-		const vector<MultiQueryEval::Relation>& rels = relPartitioned[classIndex];
-		const vector<MultiQueryEval::Condition>& conds = condPartitioned[classIndex];
+		const vector<RulesOfEngagement::Relation>& rels = relPartitioned[classIndex];
+		const vector<RulesOfEngagement::Condition>& conds = condPartitioned[classIndex];
 		unordered_map<string, int> inWhichTable;
 
 		//evaluate equality of attributes
 		for (unsigned i = 0; i < conds.size(); i++) {
-			const MultiQueryEval::Condition& condition = conds[i];
+			const RulesOfEngagement::Condition& condition = conds[i];
 			const string& firstRel = condition.firstRel;
 			const string& firstCondition = condition.firstCondition;
 			const string& secondRel = condition.secondRel;
@@ -1453,6 +1465,12 @@ void MultiQueryEval::evaluate(list<string>& results)
 					if (firstRelTable.getSize() == 0)
 						tasks.cancel();//{ earlyQuit = true; return; }
 
+					synonymTable.doneCondition(condition);
+					if (!synonymTable.stillActive(firstRel))
+						firstRelTable.projectAway(firstRel);
+					if (!synonymTable.stillActive(secondRel))
+						firstRelTable.projectAway(secondRel);
+
 					inWhichTable[firstRel] = tables.size();
 					inWhichTable[secondRel] = tables.size();
 					tables.push_back(firstRelTable);
@@ -1471,6 +1489,12 @@ void MultiQueryEval::evaluate(list<string>& results)
 					if (tables[firstRelIndex].getSize() == 0)
 						tasks.cancel();//{ earlyQuit = true; return; }
 
+					synonymTable.doneCondition(condition);
+					if (!synonymTable.stillActive(firstRel))
+						tables[firstRelIndex].projectAway(firstRel);
+					if (!synonymTable.stillActive(secondRel))
+						tables[firstRelIndex].projectAway(secondRel);
+
 					inWhichTable[secondRel] = firstRelIndex;
 				} else {
 					AnswerTable firstRelTable = AnswerTable(synonymTable, firstRel);
@@ -1482,6 +1506,12 @@ void MultiQueryEval::evaluate(list<string>& results)
 						tables[secondRelIndex], secondRel, secondCondition);
 					if (firstRelTable.getSize() == 0)
 						tasks.cancel();//{ earlyQuit = true; return; }
+
+					synonymTable.doneCondition(condition);
+					if (!synonymTable.stillActive(firstRel))
+						firstRelTable.projectAway(firstRel);
+					if (!synonymTable.stillActive(secondRel))
+						firstRelTable.projectAway(secondRel);
 
 					tables[secondRelIndex] = firstRelTable;
 					inWhichTable[firstRel] = secondRelIndex;
@@ -1495,11 +1525,24 @@ void MultiQueryEval::evaluate(list<string>& results)
 						firstCondition, secondRel, secondCondition);
 					if (tables[firstRelIndex].getSize() == 0)
 						tasks.cancel();//{ earlyQuit = true; return; }
+
+					synonymTable.doneCondition(condition);
+					if (!synonymTable.stillActive(firstRel))
+						tables[firstRelIndex].projectAway(firstRel);
+					if (!synonymTable.stillActive(secondRel))
+						tables[firstRelIndex].projectAway(secondRel);
 				} else {
 					tables[firstRelIndex].withCombine(firstRel, firstCondition,
 						tables[secondRelIndex], secondRel, secondCondition);
 					if (tables[firstRelIndex].getSize() == 0)
 						tasks.cancel();//{ earlyQuit = true; return; }
+
+					synonymTable.doneCondition(condition);
+					if (!synonymTable.stillActive(firstRel))
+						tables[firstRelIndex].projectAway(firstRel);
+					if (!synonymTable.stillActive(secondRel))
+						tables[firstRelIndex].projectAway(secondRel);
+
 					tables.erase(tables.begin() + secondRelIndex);
 
 					for (auto it = inWhichTable.begin(); it != inWhichTable.end(); it++)
@@ -1510,7 +1553,7 @@ void MultiQueryEval::evaluate(list<string>& results)
 		}
 	
 		for (size_t rel = 0; rel < rels.size(); rel++) {
-			const MultiQueryEval::Relation& relation = rels[rel];
+			const RulesOfEngagement::Relation& relation = rels[rel];
 			const RulesOfEngagement::QueryRelations& type = relation.type;
 			const string& firstRel = relation.firstSynonym;
 			const string& secondRel = relation.secondSynonym;
@@ -1536,6 +1579,12 @@ void MultiQueryEval::evaluate(list<string>& results)
 					if (firstRelTable.getSize() == 0)
 						tasks.cancel();//{ earlyQuit = true; return; }
 
+					synonymTable.doneRelation(relation);
+					if (!synonymTable.stillActive(firstRel))
+						firstRelTable.projectAway(firstRel);
+					if (!synonymTable.stillActive(secondRel))
+						firstRelTable.projectAway(secondRel);
+
 					inWhichTable[firstRel] = tables.size();
 					inWhichTable[secondRel] = tables.size();
 					tables.push_back(firstRelTable);
@@ -1553,6 +1602,12 @@ void MultiQueryEval::evaluate(list<string>& results)
 					if (tables[firstRelIndex].getSize() == 0)
 						tasks.cancel();//{ earlyQuit = true; return; }
 
+					synonymTable.doneRelation(relation);
+					if (!synonymTable.stillActive(firstRel))
+						tables[firstRelIndex].projectAway(firstRel);
+					if (!synonymTable.stillActive(secondRel))
+						tables[firstRelIndex].projectAway(secondRel);
+
 					inWhichTable[secondRel] = firstRelIndex;
 				} else {
 					AnswerTable firstRelTable = AnswerTable(synonymTable, firstRel);
@@ -1563,6 +1618,12 @@ void MultiQueryEval::evaluate(list<string>& results)
 					firstRelTable.combine(firstRel, tables[secondRelIndex], secondRel, type);
 					if (firstRelTable.getSize() == 0)
 						tasks.cancel();//{ earlyQuit = true; return; }
+
+					synonymTable.doneRelation(relation);
+					if (!synonymTable.stillActive(firstRel))
+						firstRelTable.projectAway(firstRel);
+					if (!synonymTable.stillActive(secondRel))
+						firstRelTable.projectAway(secondRel);
 
 					tables[secondRelIndex] = firstRelTable;
 					inWhichTable[firstRel] = secondRelIndex;
@@ -1575,10 +1636,22 @@ void MultiQueryEval::evaluate(list<string>& results)
 					tables[firstRelIndex].prune(firstRel, secondRel, type);
 					if (tables[firstRelIndex].getSize() == 0)
 						tasks.cancel();//{ earlyQuit = true; return; }
+
+					synonymTable.doneRelation(relation);
+					if (!synonymTable.stillActive(firstRel))
+						tables[firstRelIndex].projectAway(firstRel);
+					if (!synonymTable.stillActive(secondRel))
+						tables[firstRelIndex].projectAway(secondRel);
 				} else {
 					tables[firstRelIndex].combine(firstRel, tables[secondRelIndex], secondRel, type);
 					if (tables[firstRelIndex].getSize() == 0)
 						tasks.cancel();//{ earlyQuit = true; return; }
+
+					synonymTable.doneRelation(relation);
+					if (!synonymTable.stillActive(firstRel))
+						tables[firstRelIndex].projectAway(firstRel);
+					if (!synonymTable.stillActive(secondRel))
+						tables[firstRelIndex].projectAway(secondRel);
 
 					for (auto it = inWhichTable.begin(); it != inWhichTable.end(); it++)
 						if ((*it).second == secondRelIndex)

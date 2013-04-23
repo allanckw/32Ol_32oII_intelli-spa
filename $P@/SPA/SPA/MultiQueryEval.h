@@ -49,43 +49,13 @@ private:
 	unordered_set<string> mustHandle;
 	vector<pair<string, string>> selects;
 	unordered_map<string, unordered_set<string>> selectsSet;
-
-	struct Relation {
-		RulesOfEngagement::QueryRelations type;
-		string firstSynonym;
-		string secondSynonym;
-
-		Relation(const RulesOfEngagement::QueryRelations type,
-			const string firstSynonym, const string secondSynonym)
-			: type(type), firstSynonym(firstSynonym), secondSynonym(secondSynonym) {}
-	};
-	
-	struct Condition {
-		string firstRel;
-		string firstCondition;
-		string secondRel;
-		string secondCondition;
-
-		Condition(const string firstRel, const string firstCondition,
-			const string secondRel, const string secondCondition)
-			: firstRel(firstRel), firstCondition(firstCondition),
-			secondRel(secondRel), secondCondition(secondCondition) {}
-	};
-
-	struct Pattern {
-		string synonym;
-		string expression;
-
-		Pattern(const string synonym, const string expression)
-			: synonym(synonym), expression(expression) {}
-	};
 	
 	SynonymTable synonymTable;
 	DisjointSet dsSynonym;
 	DisjointSet dsAlias;
 	unordered_map<string, string> aliasMap;
 	//list of condition, with double synonyms
-	vector<Condition> conditionsList;
+	vector<RulesOfEngagement::Condition> conditionsList;
 
 public:
 	static void evaluateQuery(const string& query, list<string>& results);

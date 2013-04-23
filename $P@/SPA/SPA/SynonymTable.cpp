@@ -8,7 +8,7 @@
 */
 int SynonymTable::getSize() const
 {
-	return synName.size();
+	return synonyms.size();
 }
 
 /**
@@ -16,36 +16,26 @@ int SynonymTable::getSize() const
 * @param name name of synonym
 * @param type type of variable
 */
-void SynonymTable::insert(const string& name, RulesOfEngagement::QueryVar type)
+void SynonymTable::insert(const string& name, const RulesOfEngagement::QueryVar type)
 {
 	if (stringToIndex.count(name) > 0)
 		return;
 		//throw new SPAException("Double declaration of synonym");
 
-	int index = synName.size();
-
-	synName.push_back(name);
-	synType.push_back(type);
-	selected.push_back(false);
-	synClassIndex.push_back(-1);
-	synAttributesSpecific.push_back(unordered_map<string, string>());
-	synAttributesGeneric.push_back(unordered_map<string, unordered_map<
-		RulesOfEngagement::QueryVar, string>>());
-	synSelfReference.push_back(unordered_set<RulesOfEngagement::QueryRelations>());
-	synRelGenericFirst.push_back(unordered_set<RulesOfEngagement::QueryRelations>());
-	synRelSpecificFirst.push_back(vector<pair<RulesOfEngagement::QueryRelations, string>>());
-	synRelGenericSecond.push_back(unordered_set<RulesOfEngagement::QueryRelations>());
-	synRelSpecificSecond.push_back(vector<pair<RulesOfEngagement::QueryRelations, string>>());
-	synPattern.push_back(vector<string>());
-
+	int index = synonyms.size();
+	synonyms.push_back(Synonym(name, type));
 	stringToIndex[name] = index;
-	if (typeToIndices.count(type) > 0)
-		typeToIndices[type].push_back(index);
-	else {
-		vector<int> temp;
-		temp.push_back(index);
-		typeToIndices[type] = temp;
-	}
+	typeToIndices[type].push_back(index);
+}
+
+/**
+* This method Returns the synonym information stored as Synonym.
+* @param name name of synonym
+* @return the Synonym information
+*/
+Synonym SynonymTable::getSynonym(const string& name) const
+{
+	return synonyms.at(stringToIndex.at(name));
 }
 
 /**
@@ -54,7 +44,10 @@ void SynonymTable::insert(const string& name, RulesOfEngagement::QueryVar type)
 */
 vector<string> SynonymTable::getAllNames() const
 {
-	return synName;
+	vector<string> answers;
+	for (auto it = synonyms.begin(); it != synonyms.end(); ++it)
+		answers.push_back(it->synName);
+	return answers;
 }
 
 /**
@@ -77,7 +70,7 @@ vector<string> SynonymTable::getAllOfType(RulesOfEngagement::QueryVar type) cons
 	vector<string> ans;
 	const vector<int>& indices = typeToIndices.at(type);
 	for (auto it = indices.begin(); it != indices.end(); it++)
-		ans.push_back(synName[*it]);
+		ans.push_back(synonyms[*it].synName);
 	return ans;
 }
 
@@ -88,7 +81,7 @@ vector<string> SynonymTable::getAllOfType(RulesOfEngagement::QueryVar type) cons
 */
 RulesOfEngagement::QueryVar SynonymTable::getType(const string& name) const
 {
-	return synType.at(stringToIndex.at(name));
+	return synonyms.at(stringToIndex.at(name)).synType;
 }
 
 /**
@@ -107,7 +100,7 @@ int SynonymTable::getSynonymIndex(const string& name) const
 */
 void SynonymTable::setSelected(const string& name)
 {
-	selected.at(stringToIndex.at(name)) = true;
+	synonyms.at(stringToIndex.at(name)).selected = true;
 	selectedIndices.push_back(stringToIndex.at(name));
 }
 
@@ -119,7 +112,7 @@ vector<string> SynonymTable::getAllSelected() const
 {
 	vector<string> ans;
 	for (auto it = selectedIndices.begin(); it != selectedIndices.end(); it++)
-		ans.push_back(synName[*it]);
+		ans.push_back(synonyms[*it].synName);
 	return ans;
 }
 
@@ -130,7 +123,7 @@ vector<string> SynonymTable::getAllSelected() const
 */
 bool SynonymTable::isSelected(const string& name) const
 {
-	return selected.at(stringToIndex.at(name));
+	return synonyms.at(stringToIndex.at(name)).selected;
 }
 
 /**
@@ -140,7 +133,7 @@ bool SynonymTable::isSelected(const string& name) const
 */
 void SynonymTable::putIntoClass(const string& name, int classIndex)
 {
-	synClassIndex.at(stringToIndex.at(name)) = classIndex;
+	synonyms.at(stringToIndex.at(name)).synClassIndex = classIndex;
 }
 
 /**
@@ -150,7 +143,7 @@ void SynonymTable::putIntoClass(const string& name, int classIndex)
 */
 int SynonymTable::getClass(const string& name) const
 {
-	return synClassIndex.at(stringToIndex.at(name));
+	return synonyms.at(stringToIndex.at(name)).synClassIndex;
 }
 
 /**
@@ -164,11 +157,11 @@ bool SynonymTable::setSpecificAttribute(const string& name,
 	const string& condition, const string& attribute)
 {
 	if (RulesOfEngagement::allowableConditions[
-		synType.at(stringToIndex.at(name))].count(condition) == 0)
+		synonyms.at(stringToIndex.at(name)).synType].count(condition) == 0)
 		throw new SPAException("Synonym " + name + " has no such condition " + condition);
-	if (synAttributesSpecific.at(stringToIndex.at(name)).count(condition) > 0)
-		return synAttributesSpecific.at(stringToIndex.at(name))[condition] == attribute;
-	synAttributesSpecific.at(stringToIndex.at(name)).insert(
+	if (synonyms.at(stringToIndex.at(name)).synAttributesSpecific.count(condition) > 0)
+		return synonyms.at(stringToIndex.at(name)).synAttributesSpecific[condition] == attribute;
+	synonyms.at(stringToIndex.at(name)).synAttributesSpecific.insert(
 		pair<string, string>(condition, attribute));
 	return true;
 }
@@ -180,7 +173,7 @@ bool SynonymTable::setSpecificAttribute(const string& name,
 */
 unordered_map<string, string> SynonymTable::getAllSpecificAttributes(const string& name) const
 {
-	return synAttributesSpecific.at(stringToIndex.at(name));
+	return synonyms.at(stringToIndex.at(name)).synAttributesSpecific;
 }
 
 /**
@@ -190,25 +183,25 @@ unordered_map<string, string> SynonymTable::getAllSpecificAttributes(const strin
 * @param otherVariable name of other synonym
 * @param otherAttribute name of other attribute
 */
-void SynonymTable::setGenericAttribute(const string& name, const string& ownAttribute,
+/*void SynonymTable::setGenericAttribute(const string& name, const string& ownAttribute,
 	RulesOfEngagement::QueryVar otherVariable, const string& otherAttribute)
 {
 	//if (RulesOfEngagement::allowableConditions[otherVariable].count(otherAttribute) == 0)
 		//throw new SPAException(variable + " has no such condition " + otherAttribute);
-	synAttributesGeneric.at(stringToIndex.at(name))[ownAttribute].insert(
+	synonyms.at(stringToIndex.at(name)).synAttributesGeneric[ownAttribute].insert(
 		pair<RulesOfEngagement::QueryVar, string>(otherVariable, otherAttribute));
-}
+}*/
 
 /**
 * This method Returns all generic conditions on the synonym.
 * @param name name of own synonym
 * @return an unordered map containing all the generic conditions
 */
-unordered_map<string, unordered_map<RulesOfEngagement::QueryVar, string>>
+/*unordered_map<string, unordered_map<RulesOfEngagement::QueryVar, string>>
 	SynonymTable::getAllGenericAttributes(const string& name) const
 {
-	return synAttributesGeneric.at(stringToIndex.at(name));
-}
+	return synonyms.at(stringToIndex.at(name)).synAttributesGeneric;
+}*/
 
 /**
 * This method Sets a self reference condition on the synonym. It must be of the form relation(name, name).
@@ -218,7 +211,7 @@ unordered_map<string, unordered_map<RulesOfEngagement::QueryVar, string>>
 void SynonymTable::setSelfReference(const string& name,
 	RulesOfEngagement::QueryRelations relation)
 {
-	synSelfReference.at(stringToIndex.at(name)).insert(relation);
+	synonyms.at(stringToIndex.at(name)).synSelfReference.insert(relation);
 }
 
 /**
@@ -229,7 +222,7 @@ void SynonymTable::setSelfReference(const string& name,
 unordered_set<RulesOfEngagement::QueryRelations>
 	SynonymTable::getAllSelfReferences(const string& name) const
 {
-	return synSelfReference.at(stringToIndex.at(name));
+	return synonyms.at(stringToIndex.at(name)).synSelfReference;
 }
 
 /**
@@ -240,7 +233,7 @@ unordered_set<RulesOfEngagement::QueryRelations>
 void SynonymTable::setFirstGeneric(const string& name,
 	RulesOfEngagement::QueryRelations relation)
 {
-	synRelGenericFirst.at(stringToIndex.at(name)).insert(relation);
+	synonyms.at(stringToIndex.at(name)).synRelGenericFirst.insert(relation);
 }
 
 /**
@@ -251,7 +244,7 @@ void SynonymTable::setFirstGeneric(const string& name,
 unordered_set<RulesOfEngagement::QueryRelations>
 	SynonymTable::getAllFirstGeneric(const string& name) const
 {
-	return synRelGenericFirst.at(stringToIndex.at(name));
+	return synonyms.at(stringToIndex.at(name)).synRelGenericFirst;
 }
 
 /**
@@ -264,7 +257,7 @@ unordered_set<RulesOfEngagement::QueryRelations>
 void SynonymTable::setFirstSpecific(const string& name,
 	RulesOfEngagement::QueryRelations relation, const string& specific)
 {
-	synRelSpecificFirst.at(stringToIndex.at(name)).push_back(pair<RulesOfEngagement::QueryRelations, string>(relation, specific));
+	synonyms.at(stringToIndex.at(name)).synRelSpecificFirst.push_back(pair<RulesOfEngagement::QueryRelations, string>(relation, specific));
 }
 
 /**
@@ -275,7 +268,7 @@ void SynonymTable::setFirstSpecific(const string& name,
 vector<pair<RulesOfEngagement::QueryRelations, string>>
 	SynonymTable::getAllFirstSpecific(const string& name) const
 {
-	return synRelSpecificFirst.at(stringToIndex.at(name));
+	return synonyms.at(stringToIndex.at(name)).synRelSpecificFirst;
 }
 
 /**
@@ -286,7 +279,7 @@ vector<pair<RulesOfEngagement::QueryRelations, string>>
 void SynonymTable::setSecondGeneric(const string& name,
 	RulesOfEngagement::QueryRelations relation)
 {
-	synRelGenericSecond.at(stringToIndex.at(name)).insert(relation);
+	synonyms.at(stringToIndex.at(name)).synRelGenericSecond.insert(relation);
 }
 
 /**
@@ -297,7 +290,7 @@ void SynonymTable::setSecondGeneric(const string& name,
 unordered_set<RulesOfEngagement::QueryRelations>
 	SynonymTable::getAllSecondGeneric(const string& name) const
 {
-	return synRelGenericSecond.at(stringToIndex.at(name));
+	return synonyms.at(stringToIndex.at(name)).synRelGenericSecond;
 }
 
 /**
@@ -310,7 +303,7 @@ unordered_set<RulesOfEngagement::QueryRelations>
 void SynonymTable::setSecondSpecific(const string& name,
 	RulesOfEngagement::QueryRelations relation, const string& specific)
 {
-	synRelSpecificSecond.at(stringToIndex.at(name)).push_back(
+	synonyms.at(stringToIndex.at(name)).synRelSpecificSecond.push_back(
 		pair<RulesOfEngagement::QueryRelations, string>(relation, specific));
 }
 
@@ -322,7 +315,7 @@ void SynonymTable::setSecondSpecific(const string& name,
 vector<pair<RulesOfEngagement::QueryRelations, string>>
 	SynonymTable::getAllSecondSpecific(const string& name) const
 {
-	return synRelSpecificSecond.at(stringToIndex.at(name));
+	return synonyms.at(stringToIndex.at(name)).synRelSpecificSecond;
 }
 
 /**
@@ -333,7 +326,7 @@ vector<pair<RulesOfEngagement::QueryRelations, string>>
 */
 void SynonymTable::setPattern(const string& name, const string& expression)
 {
-	synPattern.at(stringToIndex.at(name)).push_back(expression);
+	synonyms.at(stringToIndex.at(name)).synPattern.push_back(expression);
 }
 
 /**
@@ -343,5 +336,293 @@ void SynonymTable::setPattern(const string& name, const string& expression)
 */
 vector<string> SynonymTable::getAllPattern(const string& name) const
 {
-	return synPattern.at(stringToIndex.at(name));
+	return synonyms.at(stringToIndex.at(name)).synPattern;
+}
+
+void SynonymTable::setRelation(const RulesOfEngagement::Relation rel)
+{
+	const string& firstRel = rel.firstSynonym;
+	const string& secondRel = rel.secondSynonym;
+	synonyms.at(stringToIndex.at(firstRel)).relations.push_back(rel);
+	synonyms.at(stringToIndex.at(secondRel)).relations.push_back(rel);
+}
+
+void SynonymTable::doneRelation(const RulesOfEngagement::Relation rel)
+{
+	const string& firstRel = rel.firstSynonym;
+	const string& secondRel = rel.secondSynonym;
+	vector<RulesOfEngagement::Relation>& relsOne =
+		synonyms.at(stringToIndex.at(firstRel)).relations;
+	for (auto it = relsOne.begin(); it != relsOne.end(); ++it)
+		if (it->firstSynonym == firstRel &&
+			it->secondSynonym == secondRel && it->type == rel.type) {
+				relsOne.erase(it);
+				break;
+		}
+	vector<RulesOfEngagement::Relation>& relsTwo =
+		synonyms.at(stringToIndex.at(secondRel)).relations;
+	for (auto it = relsTwo.begin(); it != relsTwo.end(); ++it)
+		if (it->firstSynonym == firstRel &&
+			it->secondSynonym == secondRel && it->type == rel.type) {
+				relsTwo.erase(it);
+				break;
+		}
+}
+
+void SynonymTable::setCondition(const RulesOfEngagement::Condition cond)
+{
+	const string& firstRel = cond.firstRel;
+	const string& secondRel = cond.secondRel;
+	synonyms.at(stringToIndex.at(firstRel)).conditions.push_back(cond);
+	synonyms.at(stringToIndex.at(secondRel)).conditions.push_back(cond);
+}
+
+void SynonymTable::doneCondition(const RulesOfEngagement::Condition cond)
+{
+	const string& firstRel = cond.firstRel;
+	const string& secondRel = cond.secondRel;
+	vector<RulesOfEngagement::Condition>& condsOne =
+		synonyms.at(stringToIndex.at(firstRel)).conditions;
+	for (auto it = condsOne.begin(); it != condsOne.end(); ++it)
+		if (it->firstRel == firstRel && it->firstCondition == cond.firstCondition &&
+			it->secondRel == secondRel && it->secondCondition == cond.secondCondition) {
+				condsOne.erase(it);
+				break;
+		}
+	vector<RulesOfEngagement::Condition>& condsTwo =
+		synonyms.at(stringToIndex.at(secondRel)).conditions;
+	for (auto it = condsTwo.begin(); it != condsTwo.end(); ++it)
+		if (it->firstRel == firstRel && it->firstCondition == cond.firstCondition &&
+			it->secondRel == secondRel && it->secondCondition == cond.secondCondition) {
+				condsTwo.erase(it);
+				break;
+		}
+}
+
+bool SynonymTable::stillActive(const string& name) const
+{
+	const Synonym& syno = synonyms.at(stringToIndex.at(name));
+	return syno.selected || !syno.synPattern.empty() ||
+		!syno.relations.empty() || !syno.conditions.empty();
+}
+
+unordered_map<string, string> SynonymTable::alias()
+{
+	unordered_map<string, unordered_map<string, bool>> aliasMap;
+	for (auto it = typeToIndices.begin(); it != typeToIndices.end(); ++it) {
+		const RulesOfEngagement::QueryVar type = it->first;
+		const vector<int>& potentials = it->second;
+
+		for (size_t i = 0; i < potentials.size(); ++i) {
+			const Synonym& first = synonyms[potentials[i]];
+			for (size_t j = i + 1; j < potentials.size(); ++j) {
+				const Synonym& second = synonyms[potentials[j]];
+				if (aliasMap.count(first.synName) > 0 &&
+					aliasMap[first.synName].count(second.synName) > 0)
+					continue;
+				bool equal = true;
+
+				{
+					const auto& firstThing = first.synAttributesSpecific;
+					const auto& secondThing = second.synAttributesSpecific;
+					for (auto it2 = firstThing.begin(); it2 != firstThing.end(); ++it2) {
+						if (secondThing.count(it2->first) == 0 ||
+							it2->second != secondThing.at(it2->first)) {
+							equal = false;
+							aliasMap[first.synName].insert(pair<string, bool>(second.synName, false));
+							break;
+						}
+					}
+					if (!equal)
+						continue;
+					for (auto it2 = secondThing.begin(); it2 != secondThing.end(); ++it2) {
+						if (firstThing.count(it2->first) == 0 ||
+							it2->second != firstThing.at(it2->first)) {
+							equal = false;
+							aliasMap[first.synName].insert(pair<string, bool>(second.synName, false));
+							break;
+						}
+					}
+					if (!equal)
+						continue;
+				}
+
+				{
+					const auto& firstThing = first.synSelfReference;
+					const auto& secondThing = second.synSelfReference;
+					for (auto it2 = firstThing.begin(); it2 != firstThing.end(); ++it2) {
+						if (secondThing.count(*it2) == 0) {
+							equal = false;
+							aliasMap[first.synName].insert(pair<string, bool>(second.synName, false));
+							break;
+						}
+					}
+					if (!equal)
+						continue;
+					for (auto it2 = secondThing.begin(); it2 != secondThing.end(); ++it2) {
+						if (firstThing.count(*it2) == 0) {
+							equal = false;
+							aliasMap[first.synName].insert(pair<string, bool>(second.synName, false));
+							break;
+						}
+					}
+					if (!equal)
+						continue;
+				}
+
+				{
+					const auto& firstThing = first.synRelGenericFirst;
+					const auto& secondThing = second.synRelGenericFirst;
+					for (auto it2 = firstThing.begin(); it2 != firstThing.end(); ++it2) {
+						if (secondThing.count(*it2) == 0) {
+							equal = false;
+							aliasMap[first.synName].insert(pair<string, bool>(second.synName, false));
+							break;
+						}
+					}
+					if (!equal)
+						continue;
+					for (auto it2 = secondThing.begin(); it2 != secondThing.end(); ++it2) {
+						if (firstThing.count(*it2) == 0) {
+							equal = false;
+							aliasMap[first.synName].insert(pair<string, bool>(second.synName, false));
+							break;
+						}
+					}
+					if (!equal)
+						continue;
+				}
+
+				{
+					const auto& firstThing = first.synRelSpecificFirst;
+					const auto& secondThing = second.synRelSpecificFirst;
+					for (auto it2 = firstThing.begin(); it2 != firstThing.end(); ++it2) {
+						const pair<RulesOfEngagement::QueryRelations, string>& thepair = *it2;
+						bool match = false;
+						for (auto it3 = secondThing.begin(); it3 != secondThing.end(); ++it3) {
+							const pair<RulesOfEngagement::QueryRelations, string>& thepair2 = *it3;
+							if (thepair.first == thepair2.first && thepair.first == thepair2.first) {
+								match = true;
+								break;
+							}
+						}
+						if (!match) {
+							equal = false;
+							aliasMap[first.synName].insert(pair<string, bool>(second.synName, false));
+							break;
+						}
+					}
+					if (!equal)
+						continue;
+					for (auto it2 = secondThing.begin(); it2 != secondThing.end(); ++it2) {
+						const pair<RulesOfEngagement::QueryRelations, string>& thepair = *it2;
+						bool match = false;
+						for (auto it3 = firstThing.begin(); it3 != firstThing.end(); ++it3) {
+							const pair<RulesOfEngagement::QueryRelations, string>& thepair2 = *it3;
+							if (thepair.first == thepair2.first && thepair.first == thepair2.first) {
+								match = true;
+								break;
+							}
+						}
+						if (!match) {
+							equal = false;
+							aliasMap[first.synName].insert(pair<string, bool>(second.synName, false));
+							break;
+						}
+					}
+					if (!equal)
+						continue;
+				}
+
+				{
+					const auto& firstThing = first.synRelGenericSecond;
+					const auto& secondThing = second.synRelGenericSecond;
+					for (auto it2 = firstThing.begin(); it2 != firstThing.end(); ++it2) {
+						if (secondThing.count(*it2) == 0) {
+							equal = false;
+							aliasMap[first.synName].insert(pair<string, bool>(second.synName, false));
+							break;
+						}
+					}
+					if (!equal)
+						continue;
+					for (auto it2 = secondThing.begin(); it2 != secondThing.end(); ++it2) {
+						if (firstThing.count(*it2) == 0) {
+							equal = false;
+							aliasMap[first.synName].insert(pair<string, bool>(second.synName, false));
+							break;
+						}
+					}
+					if (!equal)
+						continue;
+				}
+
+				{
+					const auto& firstThing = first.synRelSpecificSecond;
+					const auto& secondThing = second.synRelSpecificSecond;
+					for (auto it2 = firstThing.begin(); it2 != firstThing.end(); ++it2) {
+						const pair<RulesOfEngagement::QueryRelations, string>& thepair = *it2;
+						bool match = false;
+						for (auto it3 = secondThing.begin(); it3 != secondThing.end(); ++it3) {
+							const pair<RulesOfEngagement::QueryRelations, string>& thepair2 = *it3;
+							if (thepair.first == thepair2.first && thepair.first == thepair2.first) {
+								match = true;
+								break;
+							}
+						}
+						if (!match) {
+							equal = false;
+							aliasMap[first.synName].insert(pair<string, bool>(second.synName, false));
+							break;
+						}
+					}
+					if (!equal)
+						continue;
+					for (auto it2 = secondThing.begin(); it2 != secondThing.end(); ++it2) {
+						const pair<RulesOfEngagement::QueryRelations, string>& thepair = *it2;
+						bool match = false;
+						for (auto it3 = firstThing.begin(); it3 != firstThing.end(); ++it3) {
+							const pair<RulesOfEngagement::QueryRelations, string>& thepair2 = *it3;
+							if (thepair.first == thepair2.first && thepair.first == thepair2.first) {
+								match = true;
+								break;
+							}
+						}
+						if (!match) {
+							equal = false;
+							aliasMap[first.synName].insert(pair<string, bool>(second.synName, false));
+							break;
+						}
+					}
+					if (!equal)
+						continue;
+				}
+
+				if (first.relations.size() != second.relations.size()) {
+					equal = false;
+					aliasMap[first.synName].insert(pair<string, bool>(second.synName, false));
+					continue;
+				}
+				//equal = tryMatch(first.synName, first.relations, first.conditions, second.synName, second.relations, second.conditions)
+			}
+		}
+	}
+	return unordered_map<string, string>();
+}
+
+bool tryMatch(const string& firstName, const vector<RulesOfEngagement::Relation> firstRelations,
+	const vector<RulesOfEngagement::Condition> firstConditions, const string& secondName,
+	const vector<RulesOfEngagement::Relation> secondRelations,
+	const vector<RulesOfEngagement::Condition> secondConditions)
+{
+	if (firstRelations.empty()) {
+		if (firstConditions.empty()) {
+
+		} else {
+
+		}
+	} else {
+
+	}
+	return true;
 }

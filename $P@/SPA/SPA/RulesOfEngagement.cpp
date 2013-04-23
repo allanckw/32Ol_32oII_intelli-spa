@@ -573,6 +573,8 @@ void RulesOfEngagement::initialise()
 	relation2ByMap[Contains] = &containsBy;
 	relation2ByMap[ContainsStar] = &containsStarBy;
 	relation2ByMap[Sibling] = &siblingBy;
+	relation2ByMap[PatternSecond] = &patternSecondBy;
+	relation2ByMap[PatternThird] = &patternThirdBy;
 
 	relationFromMap[ModifiesStmt] = &modifiesStmtFrom;
 	relationFromMap[ModifiesProc] = &modifiesProcFrom;
@@ -842,11 +844,11 @@ bool RulesOfEngagement::isExistType(RulesOfEngagement::QueryVar var)
 {
 	switch (var) {
 	case Assign:
-		return (PKB::assignTable.size() > 0);
+		return (!PKB::assignTable.empty());
 	case If:
-		return (PKB::ifTable.size() > 0);
+		return (!PKB::ifTable.empty());
 	case While:
-		return (PKB::whileTable.size() > 0);
+		return (!PKB::whileTable.empty());
 	default:
 		throw SPAException("No such type for isExist");
 	}
@@ -1284,6 +1286,17 @@ const vector<ASTNode*> RulesOfEngagement::containsStarBy(const ASTNode * const x
 	}
 	return results;
 }
+
+const vector<ASTNode*> RulesOfEngagement::patternSecondBy(const ASTNode * const x)
+{
+	return vector<ASTNode*>(1, x->getChild(1));
+}
+
+const vector<ASTNode*> RulesOfEngagement::patternThirdBy(const ASTNode * const x)
+{
+	return vector<ASTNode*>(1, x->getChild(2));
+}
+
 //e.g asking if + is a sibling of variable x in an assignment of x = a + b 
 //Tree Structure here:
 // assign

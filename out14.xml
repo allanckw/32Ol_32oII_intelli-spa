@@ -9,14 +9,14 @@
 <id test01="1" >1</id><querystr><![CDATA[assign a; Select a pattern a (_,_"x1+x2*y1"_)]]></querystr>
 <stuans>1</stuans>
 <correct>1</correct>
-<time_taken>3.000000</time_taken>
+<time_taken>4.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id test01="1" >1</id><querystr><![CDATA[assign a; Select a pattern a(_,_"y2 * left +right"_)]]></querystr>
 <stuans></stuans>
 <correct>1</correct>
-<time_taken>2.000000</time_taken>
+<time_taken>3.000000</time_taken>
 <failed>
 <missing>1</missing>
 <additional></additional>

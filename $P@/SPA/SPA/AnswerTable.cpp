@@ -1268,26 +1268,26 @@ void AnswerTable::projectAway(const string& name)
 		for (auto it2 = row.begin(); it2 != it2end; ++it2) {
 			const pair<int, unordered_set<ASTNode*>>& thepair = *it2;
 			equiv += Helper::intToString(thepair.first);
-			if (!thepair.second.empty()) {
+			/*if (!thepair.second.empty()) {
 				equiv += "{";
 				temp.insert(thepair.second.begin(), thepair.second.end());
 				for (auto it3 = temp.begin(); it3 != temp.end(); ++it3)
 					equiv += Helper::intToString((int) *it3) + ",";
 				temp.clear();
 				equiv += "}";
-			}
+			}*/
 		}
 		for (auto it2 = row.begin() + index + 1; it2 != row.end(); ++it2) {
 			const pair<int, unordered_set<ASTNode*>>& thepair = *it2;
 			equiv += Helper::intToString(thepair.first);
-			if (!thepair.second.empty()) {
+			/*if (!thepair.second.empty()) {
 				equiv += ",{";
 				temp.insert(thepair.second.begin(), thepair.second.end());
 				for (auto it3 = temp.begin(); it3 != temp.end(); ++it3)
 					equiv += Helper::intToString((int) *it3) + ",";
 				temp.clear();
 				equiv += "}";
-			}
+			}*/
 		}
 		if (seen.count(equiv) == 0) {
 			seen.insert(equiv);

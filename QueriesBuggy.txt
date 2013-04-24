@@ -1,0 +1,72 @@
+1
+cat: All Category
+1 - Tuple :: Sibling
+stmtLst then, else; variable v;
+Select v such that Contains*(then, v) and Contains*(else, v) and Sibling(then, else)
+x,y
+5000
+2 - Tuple :: Sibling
+stmtLst s;
+Select s such that Contains(s, 2)
+2
+5000
+3 - Tuple :: Sibling
+stmtLst s;
+Select s such that Contains(s, 4)
+4
+5000
+4 - Tuple :: Sibling
+stmt s;
+Select s such that Contains(2, s)
+
+5000
+5 - Tuple :: Sibling
+stmt s;
+Select s such that Contains(4, s)
+
+5000
+6 - Tuple :: Sibling
+stmtLst s;
+Select s such that Contains*(s, 2)
+1,2
+5000
+7 - Tuple :: Sibling
+stmtLst s;
+Select s such that Contains*(s, 6)
+1,2,4,6
+5000
+8 - Tuple :: Sibling
+stmt s;
+Select s such that Contains*(1, s)
+2,3,4,5,6,7,8,9,10
+5000
+9 - Tuple :: Sibling
+stmt s;
+Select s such that Contains*(4, s)
+
+5000
+10 - Tuple :: Sibling
+stmtLst s;
+Select BOOLEAN such that Contains(1, 2)
+false
+5000
+11 - Tuple :: Sibling
+stmtLst s;
+Select BOOLEAN such that Contains(3, 4)
+false
+5000
+12 - Tuple :: Sibling
+stmt s;
+Select BOOLEAN such that Contains*(2, 3)
+false
+5000
+13 - Tuple :: Sibling
+stmt s;
+Select BOOLEAN such that Contains*(3, 4)
+true
+5000
+14 - Tuple :: Sibling
+stmt s;
+Select s such that Affects(s, s)
+2
+5000

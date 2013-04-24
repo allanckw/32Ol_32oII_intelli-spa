@@ -1,7 +1,0 @@
-1
-cat: All Category
-1 - Tuple :: Sibling
-stmtLst then, else; variable v;
-Select v such that Contains*(then, v) and Contains*(else, v) and Sibling(then, else)
-"x","y"
-5000

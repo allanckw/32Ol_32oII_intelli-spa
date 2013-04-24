@@ -1,17 +1,17 @@
 <?xml-stylesheet type="text/xsl" href="analysis.xsl"?>
 <test_results>
 <info>
-<name>3201_3202_SPA</name><parsing_time_taken>1.000000</parsing_time_taken>
+<name>3201_3202_SPA</name><parsing_time_taken>3.000000</parsing_time_taken>
 </info>
 <queries>
 <category name=" All Category">
 <query>
 <id Tuple="1" comment="Multiple" >1</id><querystr><![CDATA[stmtLst then, else; variable v; Select v such that Contains*(then, v) and Contains*(else, v) and Sibling(then, else) ]]></querystr>
 <stuans></stuans>
-<correct>"x","y"</correct>
-<time_taken>1.000000</time_taken>
+<correct>x,y</correct>
+<time_taken>9.000000</time_taken>
 <failed>
-<missing>"x","y"</missing>
+<missing>x,y</missing>
 <additional></additional>
 <summary>
 <expected>2</expected>
@@ -24,10 +24,10 @@
 <query>
 <id Tuple="1" comment="Multiple" >2</id><querystr><![CDATA[stmtLst then, else; variable v; Select v such that Contains*(then, v) and Contains*(else, v) and Sibling(else, then) ]]></querystr>
 <stuans></stuans>
-<correct>"x","y"</correct>
-<time_taken>1.000000</time_taken>
+<correct>x,y</correct>
+<time_taken>4.000000</time_taken>
 <failed>
-<missing>"x","y"</missing>
+<missing>x,y</missing>
 <additional></additional>
 <summary>
 <expected>2</expected>

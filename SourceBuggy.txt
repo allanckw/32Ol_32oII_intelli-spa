@@ -12,7 +12,7 @@ procedure One {
 		y = 1;
 	}
 	y = y - 1;	
-	call Three;
+	call Two;
 	}
 }
 

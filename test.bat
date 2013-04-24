@@ -1,1 +1,1 @@
-Call $P@\SPA\Release\autotester.exe SourceSiblingBuggy.txt QueriesSiblingBuggy.txt outSiblingBuggy.xml > NUL
+Call $P@\SPA\Release\autotester.exe SourceBuggy.txt QueriesBuggy.txt outBuggy.xml > NUL

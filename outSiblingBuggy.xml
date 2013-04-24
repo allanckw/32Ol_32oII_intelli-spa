@@ -1,7 +1,7 @@
 <?xml-stylesheet type="text/xsl" href="analysis.xsl"?>
 <test_results>
 <info>
-<name>SPA</name><parsing_time_taken>1.000000</parsing_time_taken>
+<name>3201_3202_SPA</name><parsing_time_taken>1.000000</parsing_time_taken>
 </info>
 <queries>
 <category name=" All Category">
@@ -9,7 +9,7 @@
 <id Tuple="1" comment="Sibling" >1</id><querystr><![CDATA[stmtLst then, else; variable v; Select v such that Contains*(then, v) and Contains*(else, v) and Sibling(then, else)]]></querystr>
 <stuans></stuans>
 <correct>"x","y"</correct>
-<time_taken>6.000000</time_taken>
+<time_taken>3.000000</time_taken>
 <failed>
 <missing>"x","y"</missing>
 <additional></additional>

@@ -1,0 +1,89 @@
+<?xml-stylesheet type="text/xsl" href="analysis.xsl"?>
+<test_results>
+<info>
+<name>3201_3202_SPA</name><parsing_time_taken>1.000000</parsing_time_taken>
+</info>
+<queries>
+<category name=" All Category">
+<query>
+<id Tuple="1" comment="Sibling" >1</id><querystr><![CDATA[stmtLst then, else; variable v; Select v such that Contains*(then, v) and Contains*(else, v) and Sibling(then, else)]]></querystr>
+<stuans></stuans>
+<correct>x,y</correct>
+<time_taken>3.000000</time_taken>
+<failed>
+<missing>x,y</missing>
+<additional></additional>
+<summary>
+<expected>2</expected>
+<matched>0</matched>
+<missing>2</missing>
+<additional>0</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Tuple="1" comment="Sibling" >2</id><querystr><![CDATA[stmtLst s; Select s such that Contains(s, 2)]]></querystr>
+<stuans>1</stuans>
+<correct>2</correct>
+<time_taken>2.000000</time_taken>
+<failed>
+<missing>2</missing>
+<additional>1</additional>
+<summary>
+<expected>1</expected>
+<matched>0</matched>
+<missing>1</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Tuple="1" comment="Sibling" >3</id><querystr><![CDATA[stmtLst s; Select s such that Contains(s, 4)]]></querystr>
+<stuans>3</stuans>
+<correct>4</correct>
+<time_taken>1.000000</time_taken>
+<failed>
+<missing>4</missing>
+<additional>3</additional>
+<summary>
+<expected>1</expected>
+<matched>0</matched>
+<missing>1</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Tuple="1" comment="Sibling" >4</id><querystr><![CDATA[stmt s; Select s such that Contains(2, s)]]></querystr>
+<stuans>518323579,518323849</stuans>
+<correct></correct>
+<time_taken>2.000000</time_taken>
+<failed>
+<missing></missing>
+<additional>518323579,518323849</additional>
+<summary>
+<expected>0</expected>
+<matched>0</matched>
+<missing>0</missing>
+<additional>2</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Tuple="1" comment="Sibling" >5</id><querystr><![CDATA[stmt s; Select s such that Contains(4, s)]]></querystr>
+<stuans>518323883,518323893</stuans>
+<correct></correct>
+<time_taken>1.000000</time_taken>
+<failed>
+<missing></missing>
+<additional>518323883,518323893</additional>
+<summary>
+<expected>0</expected>
+<matched>0</matched>
+<missing>0</missing>
+<additional>2</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id Tuple="1" comment="Sibling" >6</id>

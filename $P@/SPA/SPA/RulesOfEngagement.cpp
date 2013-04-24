@@ -745,7 +745,13 @@ int RulesOfEngagement::convertASTNodeToInteger(const QueryVar type, const ASTNod
 	case While:
 	case If:
 	case Prog_Line:
-		return ((ASTStmtNode*) node)->getStmtNumber();
+		{
+			const ASTStmtNode* stmtNode = dynamic_cast<const ASTStmtNode*>(node);
+			if (stmtNode == NULL)
+				return -1;
+			else
+				return stmtNode->getStmtNumber();
+		}
 	default:
 		throw new SPAException("Unknown type");
 	}
@@ -762,8 +768,11 @@ vector<pair<int, unordered_set<ASTNode*>>>
 	case Statement:
 	case Prog_Line: {
 		unordered_map<int, unordered_set<ASTNode*>> simplify;
-		for (auto it = answers.begin(); it != answers.end(); it++)
-			simplify[convertASTNodeToInteger(var, *it)].insert(*it);
+		for (auto it = answers.begin(); it != answers.end(); it++) {
+			int stmt = convertASTNodeToInteger(var, *it);
+			if (stmt != -1)
+				simplify[stmt].insert(*it);
+		}
 						
 		return vector<pair<int, unordered_set<ASTNode*>>>(simplify.begin(), simplify.end());
 					}

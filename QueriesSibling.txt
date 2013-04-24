@@ -1,0 +1,12 @@
+2
+cat: All Category
+1 - Tuple :: Multiple
+stmtLst then, else; variable v;
+Select v such that Contains*(then, v) and Contains*(else, v) and Sibling(then, else) 
+"x", "y"
+5000
+2 - Tuple :: Multiple
+stmtLst then, else; variable v;
+Select v such that Contains*(then, v) and Contains*(else, v) and Sibling(else, then) 
+"x", "y"
+5000

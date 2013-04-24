@@ -123,6 +123,9 @@
     <ClInclude Include="..\..\..\$P%40\SPA\SPA\FormNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\$p%40\spa\spa\synonym.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ASTNode.cpp">
@@ -228,6 +231,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\$P%40\SPA\SPA\FormNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\$P%40\SPA\SPA\Synonym.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

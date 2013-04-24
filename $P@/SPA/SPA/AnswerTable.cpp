@@ -873,19 +873,26 @@ void AnswerTable::combine(const string& ownSynonym, AnswerTable& otherTable,
 
 	if (RulesOfEngagement::takesInASTNode[rel]) { //the ASTnode relations
 		RulesOfEngagement::isRelation2 fn = RulesOfEngagement::getRelation2(rel);
+		const RulesOfEngagement::QueryVar firstType = type[firstRelIndex];
+		const RulesOfEngagement::QueryVar secondType = otherTable.type[secondRelIndex];
 		unordered_map<ASTNode*, unordered_map<ASTNode*, bool>> memo;
+
 		for (auto it = answers.begin(); it != answers.end(); it++) {
 			pair<int, unordered_set<ASTNode*>>& info = (*it)[firstRelIndex];
-			if (info.second.empty())
-				info.second =
-				RulesOfEngagement::convertIntegerToASTNode(type[firstRelIndex], info.first);
+			if (RulesOfEngagement::preferIntRep.count(firstType) > 0)
+				info.second = RulesOfEngagement::convertIntegerToASTNode(firstType, info.first);
+			else if (info.second.empty())
+				info.second = RulesOfEngagement::convertIntegerToASTNode(firstType, info.first);
 			const unordered_set<ASTNode*>& first = info.second;
 
 			for (auto it2 = otherTable.answers.begin(); it2 != otherTable.answers.end(); it2++) {
 				pair<int, unordered_set<ASTNode*>>& info2 = (*it2)[secondRelIndex];
-				if (info2.second.empty())
-					info2.second = RulesOfEngagement::convertIntegerToASTNode(
-					otherTable.type[secondRelIndex], info2.first);
+				if (RulesOfEngagement::preferIntRep.count(secondType) > 0)
+					info2.second =
+						RulesOfEngagement::convertIntegerToASTNode(secondType, info2.first);
+				else if (info2.second.empty())
+					info2.second =
+					RulesOfEngagement::convertIntegerToASTNode(secondType, info2.first);
 				const unordered_set<ASTNode*>& second = info2.second;
 
 				for (auto it3 = first.begin(); it3 != first.end(); it3++) {
@@ -1101,8 +1108,10 @@ void AnswerTable::withCombine(const string& firstSynonym, const string& firstCon
 			switch (secondVar) {
 			case RulesOfEngagement::Procedure: //procName
 				RHSequiv = PKB::procedures.getPROCName(RHS);
+				break;
 			case RulesOfEngagement::Variable: //varName
 				RHSequiv = PKB::variables.getVARName(RHS);
+				break;
 			}
 			RHSequivs.push_back(RHSequiv);
 		}
@@ -1113,8 +1122,10 @@ void AnswerTable::withCombine(const string& firstSynonym, const string& firstCon
 			switch (firstVar) {
 			case RulesOfEngagement::Procedure: //procName
 				LHSequiv = PKB::procedures.getPROCName(LHS);
+				break;
 			case RulesOfEngagement::Variable: //varName
 				LHSequiv = PKB::variables.getVARName(LHS);
+				break;
 			}
 
 			auto it2 = otherTable.answers.begin();
@@ -1181,8 +1192,10 @@ void AnswerTable::withPrune(const string& firstSynonym,
 			switch (firstVar) {
 			case RulesOfEngagement::Procedure: //procName
 				LHSequiv = PKB::procedures.getPROCName(LHS);
+				break;
 			case RulesOfEngagement::Variable: //varName
 				LHSequiv = PKB::variables.getVARName(LHS);
+				break;
 			}
 
 			int RHS = (*it)[secondRelIndex].first;
@@ -1190,8 +1203,10 @@ void AnswerTable::withPrune(const string& firstSynonym,
 			switch (secondVar) {
 			case RulesOfEngagement::Procedure: //procName
 				RHSequiv = PKB::procedures.getPROCName(RHS);
+				break;
 			case RulesOfEngagement::Variable: //varName
 				RHSequiv = PKB::variables.getVARName(RHS);
+				break;
 			}
 			if (LHSequiv == RHSequiv)
 				newTable.push_back(*it);
@@ -1238,6 +1253,57 @@ void AnswerTable::finishHimOff()
 			answers = answers2;
 		}
 	}
+}
+
+void AnswerTable::projectAway(const string& name)
+{
+	const size_t index = synonymPosition[name];
+	vector<vector<pair<int, unordered_set<ASTNode*>>>> answers2;
+	unordered_set<string> seen;
+	set<ASTNode*> temp;
+	for (auto it = answers.begin(); it != answers.end(); ++it) {
+		const vector<pair<int, unordered_set<ASTNode*>>>& row = *it;
+		string equiv = "";
+		const auto it2end = row.begin() + index;
+		for (auto it2 = row.begin(); it2 != it2end; ++it2) {
+			const pair<int, unordered_set<ASTNode*>>& thepair = *it2;
+			equiv += Helper::intToString(thepair.first);
+			/*if (!thepair.second.empty()) {
+				equiv += "{";
+				temp.insert(thepair.second.begin(), thepair.second.end());
+				for (auto it3 = temp.begin(); it3 != temp.end(); ++it3)
+					equiv += Helper::intToString((int) *it3) + ",";
+				temp.clear();
+				equiv += "}";
+			}*/
+		}
+		for (auto it2 = row.begin() + index + 1; it2 != row.end(); ++it2) {
+			const pair<int, unordered_set<ASTNode*>>& thepair = *it2;
+			equiv += Helper::intToString(thepair.first);
+			/*if (!thepair.second.empty()) {
+				equiv += ",{";
+				temp.insert(thepair.second.begin(), thepair.second.end());
+				for (auto it3 = temp.begin(); it3 != temp.end(); ++it3)
+					equiv += Helper::intToString((int) *it3) + ",";
+				temp.clear();
+				equiv += "}";
+			}*/
+		}
+		if (seen.count(equiv) == 0) {
+			seen.insert(equiv);
+			vector<pair<int, unordered_set<ASTNode*>>> newAns(it->begin(), it->begin() + index);
+			newAns.insert(newAns.end(), it->begin() + index + 1, it->end());
+			answers2.push_back(newAns);
+		}
+	}
+	answers = answers2;
+
+	header.erase(header.begin() + index);
+	type.erase(type.begin() + index);
+	synonymPosition.erase(name);
+	for (auto it = synonymPosition.begin(); it != synonymPosition.end(); ++it)
+		if (it->second >= index)
+			--it->second;
 }
 
 /**

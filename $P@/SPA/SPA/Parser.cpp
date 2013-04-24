@@ -229,6 +229,9 @@ void Parser::tokenizer(string line)//split the string into tokens
 
 	}while(startindex != -1 && position < line.size() && endindex != -1);
 
+	if(list.size() > 0)
+	Parser::tokenized_codes.push_back(list);
+
 	//house keeping
 	if(Parser::tokenized_codes.size() > 1)	{
 		vector<string> temp_vec = Parser::tokenized_codes.at(0);
@@ -236,9 +239,6 @@ void Parser::tokenizer(string line)//split the string into tokens
 		Parser::tokenized_codes.erase(Parser::tokenized_codes.begin());
 		Parser::tokenized_codes.at(0) = temp_vec;
 	}
-
-	if(list.size() > 0)
-	Parser::tokenized_codes.push_back(list);
 }
 
 /**

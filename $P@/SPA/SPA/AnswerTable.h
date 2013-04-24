@@ -30,6 +30,7 @@ public:
 	void withPrune(const string& firstSynonym, const string& firstCondition,
 		const string& secondSynonym, const string& secondCondition);
 	
+	void projectAway(const string& name);
 	void finishHimOff();
 	AnswerTable project(const vector<string>& selection);
 	void cartesian(const AnswerTable& otherTable);

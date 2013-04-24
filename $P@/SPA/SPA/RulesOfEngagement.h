@@ -57,6 +57,36 @@ public:
 		ContainsStar,
 		Sibling
 	};
+
+	struct Relation {
+		RulesOfEngagement::QueryRelations type;
+		string firstSynonym;
+		string secondSynonym;
+
+		Relation(const RulesOfEngagement::QueryRelations type,
+			const string firstSynonym, const string secondSynonym)
+			: type(type), firstSynonym(firstSynonym), secondSynonym(secondSynonym) {}
+	};
+	
+	struct Condition {
+		string firstRel;
+		string firstCondition;
+		string secondRel;
+		string secondCondition;
+
+		Condition(const string firstRel, const string firstCondition,
+			const string secondRel, const string secondCondition)
+			: firstRel(firstRel), firstCondition(firstCondition),
+			secondRel(secondRel), secondCondition(secondCondition) {}
+	};
+
+	struct Pattern {
+		string synonym;
+		string expression;
+
+		Pattern(const string synonym, const string expression)
+			: synonym(synonym), expression(expression) {}
+	};
 	
 	static unordered_map<string, unordered_set<QueryRelations>> tokenToRel;
 	static unordered_map<string, QueryVar> tokenToVar;
@@ -71,6 +101,7 @@ public:
 	static unordered_map<QueryRelations, QueryVar> privilegedSecondArgument;
 	static unordered_set<QueryRelations> allowableSelfReference;
 	static unordered_map<QueryRelations, bool> takesInASTNode;
+	static unordered_set<QueryVar> preferIntRep;
 
 	static int convertArgumentToInteger(const QueryRelations type,
 		const bool first, const string& arg);
@@ -157,6 +188,8 @@ private:
 	static const vector<ASTNode*> containsBy(const ASTNode * const x);
 	static const vector<ASTNode*> containsStarBy(const ASTNode * const x);
 	static const vector<ASTNode*> siblingBy(const ASTNode * const x);
+	static const vector<ASTNode*> patternSecondBy(const ASTNode * const x);
+	static const vector<ASTNode*> patternThirdBy(const ASTNode * const x);
 
 	static unordered_map<QueryRelations, relationFamily> relationFromMap;
 	static vector<int> modifiesStmtFrom(int y);

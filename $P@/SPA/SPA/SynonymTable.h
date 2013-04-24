@@ -1,31 +1,12 @@
 #pragma once
 #include "stdAfx.h"
 #include "RulesOfEngagement.h"
+#include "Synonym.h"
 
 class SynonymTable
 {
 private:
-	vector<string> synName;
-	vector<RulesOfEngagement::QueryVar> synType;
-	vector<bool> selected;
-	vector<int> synClassIndex;
-	vector<unordered_map<string, string>> synAttributesSpecific;
-	vector<unordered_map<string, unordered_map<RulesOfEngagement::QueryVar, string>>>
-		synAttributesGeneric;
-	vector<unordered_set<RulesOfEngagement::QueryRelations>> synSelfReference;
-
-	//e.g. stmt s; Select s such that modifies(s, _)
-	//-> stmt s; variable v; Select s such that modifies(s, v) (implicitly)
-	//-> synRelGenericFirst[s] = {modifies(, implicit)} //variable is implicit
-	vector<unordered_set<RulesOfEngagement::QueryRelations>> synRelGenericFirst;
-
-	//e.g. stmt s; select s such that follows(s, 2) -> synRelFirst[s] = {follows,2}
-	vector<vector<pair<RulesOfEngagement::QueryRelations, string>>> synRelSpecificFirst;
-
-	vector<unordered_set<RulesOfEngagement::QueryRelations>> synRelGenericSecond;
-	vector<vector<pair<RulesOfEngagement::QueryRelations, string>>> synRelSpecificSecond;
-
-	vector<vector<string>> synPattern;
+	vector<Synonym> synonyms;
 
 	unordered_map<string, int> stringToIndex;
 	unordered_map<RulesOfEngagement::QueryVar, vector<int>> typeToIndices;
@@ -35,7 +16,8 @@ private:
 public:
 	int getSize() const;
 
-	void insert(const string& name, RulesOfEngagement::QueryVar type);
+	void insert(const string& name, const RulesOfEngagement::QueryVar type);
+	Synonym getSynonym(const string& name) const;
 	vector<string> getAllNames() const;
 	bool isInTable(const string& name) const;
 	vector<string> getAllOfType(RulesOfEngagement::QueryVar type) const;
@@ -54,10 +36,10 @@ public:
 	//string getSpecificAttribute(string name, string condition) const;
 	unordered_map<string, string> getAllSpecificAttributes(const string& name) const;
 
-	void setGenericAttribute(const string& name, const string& ownAttribute,
+	/*void setGenericAttribute(const string& name, const string& ownAttribute,
 		RulesOfEngagement::QueryVar otherVariable, const string& otherAttribute);
 	unordered_map<string, unordered_map<RulesOfEngagement::QueryVar, string>>
-		getAllGenericAttributes(const string& name) const;
+		getAllGenericAttributes(const string& name) const;*/
 
 	void setSelfReference(const string& name, RulesOfEngagement::QueryRelations relation);
 	unordered_set<RulesOfEngagement::QueryRelations> getAllSelfReferences(const string& name) const;
@@ -80,4 +62,12 @@ public:
 
 	void setPattern(const string& name, const string& expression);
 	vector<string> getAllPattern(const string& name) const;
+
+	void setRelation(const RulesOfEngagement::Relation rel);
+	void doneRelation(const RulesOfEngagement::Relation rel);
+	void setCondition(const RulesOfEngagement::Condition cond);
+	void doneCondition(const RulesOfEngagement::Condition cond);
+	bool stillActive(const string& name) const;
+
+	unordered_map<string, string> alias();
 };

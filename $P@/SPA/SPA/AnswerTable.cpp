@@ -873,19 +873,26 @@ void AnswerTable::combine(const string& ownSynonym, AnswerTable& otherTable,
 
 	if (RulesOfEngagement::takesInASTNode[rel]) { //the ASTnode relations
 		RulesOfEngagement::isRelation2 fn = RulesOfEngagement::getRelation2(rel);
+		const RulesOfEngagement::QueryVar firstType = type[firstRelIndex];
+		const RulesOfEngagement::QueryVar secondType = otherTable.type[secondRelIndex];
 		unordered_map<ASTNode*, unordered_map<ASTNode*, bool>> memo;
+
 		for (auto it = answers.begin(); it != answers.end(); it++) {
 			pair<int, unordered_set<ASTNode*>>& info = (*it)[firstRelIndex];
-			if (info.second.empty())
-				info.second =
-				RulesOfEngagement::convertIntegerToASTNode(type[firstRelIndex], info.first);
+			if (RulesOfEngagement::preferIntRep.count(firstType) > 0)
+				info.second = RulesOfEngagement::convertIntegerToASTNode(firstType, info.first);
+			else if (info.second.empty())
+				info.second = RulesOfEngagement::convertIntegerToASTNode(firstType, info.first);
 			const unordered_set<ASTNode*>& first = info.second;
 
 			for (auto it2 = otherTable.answers.begin(); it2 != otherTable.answers.end(); it2++) {
 				pair<int, unordered_set<ASTNode*>>& info2 = (*it2)[secondRelIndex];
-				if (info2.second.empty())
-					info2.second = RulesOfEngagement::convertIntegerToASTNode(
-					otherTable.type[secondRelIndex], info2.first);
+				if (RulesOfEngagement::preferIntRep.count(secondType) > 0)
+					info2.second =
+						RulesOfEngagement::convertIntegerToASTNode(secondType, info2.first);
+				else if (info2.second.empty())
+					info2.second =
+					RulesOfEngagement::convertIntegerToASTNode(secondType, info2.first);
 				const unordered_set<ASTNode*>& second = info2.second;
 
 				for (auto it3 = first.begin(); it3 != first.end(); it3++) {

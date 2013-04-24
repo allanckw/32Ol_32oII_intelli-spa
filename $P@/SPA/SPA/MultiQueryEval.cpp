@@ -1198,9 +1198,20 @@ void MultiQueryEval::evaluate(list<string>& results)
 			} else { //Case 3: rel("1","2") 
 				int first = RulesOfEngagement::convertArgumentToInteger(type, true, firstRel);
 				int second = RulesOfEngagement::convertArgumentToInteger(type, false, secondRel);
-				if (!RulesOfEngagement::getRelation(type)(first, second)) {
-					earlyQuit = true;
-					return;
+				if (RulesOfEngagement::takesInASTNode[type]) {
+					ASTNode* firstAST = *RulesOfEngagement::convertIntegerToASTNode(
+						RulesOfEngagement::privilegedFirstArgument[type], first).begin();
+					ASTNode* secondAST = *RulesOfEngagement::convertIntegerToASTNode(
+						RulesOfEngagement::privilegedSecondArgument[type], second).begin();
+					if (!RulesOfEngagement::getRelation2(type)(firstAST, secondAST)) {
+						earlyQuit = true;
+						return;
+					}
+				} else {
+					if (!RulesOfEngagement::getRelation(type)(first, second)) {
+						earlyQuit = true;
+						return;
+					}
 				}
 			}
 		}

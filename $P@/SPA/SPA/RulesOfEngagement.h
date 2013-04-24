@@ -101,6 +101,7 @@ public:
 	static unordered_map<QueryRelations, QueryVar> privilegedSecondArgument;
 	static unordered_set<QueryRelations> allowableSelfReference;
 	static unordered_map<QueryRelations, bool> takesInASTNode;
+	static unordered_set<QueryVar> preferIntRep;
 
 	static int convertArgumentToInteger(const QueryRelations type,
 		const bool first, const string& arg);

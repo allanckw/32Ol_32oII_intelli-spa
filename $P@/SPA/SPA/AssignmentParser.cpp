@@ -42,6 +42,10 @@ int AssignmentParser::compareOprPrecedence(string opr1, string opr2)
 */
 ASTExprNode* AssignmentParser::processAssignment(MathExpression expr)
 {
+	if(expr.at(expr.size()-1) !=";")
+		expr.push_back(";");
+	
+
 	stack<string> operators, subExprBrackets; 
 	stack<ASTExprNode*> operands;
 
@@ -51,19 +55,39 @@ ASTExprNode* AssignmentParser::processAssignment(MathExpression expr)
 	//then there is no point going thru the shunting yard algorithm
 	if (!AssignmentParser::isValidExpr(expr)){
 		string msg;
-		for (size_t i = 0; i < expr.size(); i++) {
+		for (unsigned int i = 0; i < expr.size(); i++) {
 			msg += expr.at(i);
 		}
 		throw SPAException(msg + " is an invalid expression");
 	}
-
-	for (size_t i = 0; i < expr.size(); i++ ) {
+	//expr.push_back("+");
+	for (unsigned int i = 0; i < expr.size(); i++ ) {
 		string token = expr[i]; 
 		if (token == "/" || token == "^" || token == "%")
 			throw SPAException("Operator not supported, use '+', '-' or '*' only");
 		
 		if (token == ";") //terminating sequence for assignment
-			break; 
+			{
+				if (operators.size() >= 1 && operands.size() >= 2 &&
+					AssignmentParser::compareOprPrecedence("+", operators.top()) != 0)	{
+				
+				ASTExprNode* oprNode = new ASTExprNode(ASTNode::Operator, operators.top());
+					operators.pop();
+
+					ASTExprNode* rightChild = operands.top();
+					operands.pop();
+					
+					ASTExprNode* leftChild = operands.top();
+					operands.pop();
+
+					oprNode->addChild(leftChild, 1);
+					oprNode->addChild(rightChild, 2);
+
+					operands.push(oprNode);
+					//operators.push(token);
+				}
+				break; 
+		}
 
 		if (token == ")" && subExprBrackets.size() == 0)
 			throw SPAException("Please check your expression, additional brackets are found!");
@@ -92,7 +116,7 @@ ASTExprNode* AssignmentParser::processAssignment(MathExpression expr)
 				subExpr.push_back(token);
 			}
 
-		} else if (AssignmentParser::isOperator(token)) {
+		} else if (AssignmentParser::isOperator(token)) {//+
 			if (operators.empty()) {//if the operator stack is empty simply push
 				operators.push(token);
 			
@@ -136,18 +160,41 @@ ASTExprNode* AssignmentParser::processAssignment(MathExpression expr)
 					ASTExprNode* varNode = new ASTExprNode(ASTNode::Variable, i);
 					operands.push(varNode);
 				}
-			} 
+			}
+
+			//at this pt ok
+			//if(prev was a *)
 		}
 	}
 	
 	//Build the complete right sub tree to be returned to assign node
+
+	//operators.pop();
+
+	stack<string> operatorst; 
+	stack<ASTExprNode*> operandst;
+	while (!operators.empty()) 
+	{
+		string g= operators.top();
+		operatorst.push(g);
+		operators.pop();
+	}
+	operators = operatorst;
+	while (!operands.empty()) 
+	{
+		ASTExprNode* a = operands.top();
+		operandst.push(a);
+		operands.pop();
+	}
+	operands=operandst;
+
 	while (!operators.empty()) {
 		ASTExprNode* oprNode = new ASTExprNode(ASTNode::Operator, operators.top());
 					
-		ASTExprNode* rightChild = operands.top();
+		ASTExprNode* leftChild = operands.top();
 		operands.pop();
 					
-		ASTExprNode* leftChild = operands.top();
+		ASTExprNode* rightChild = operands.top();
 		operands.pop();
 
 		oprNode->addChild(leftChild, 1);
@@ -158,6 +205,8 @@ ASTExprNode* AssignmentParser::processAssignment(MathExpression expr)
 	}
 	return operands.top();
 }
+
+
 
 
 /**

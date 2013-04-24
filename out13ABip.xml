@@ -1,0 +1,80 @@
+<?xml-stylesheet type="text/xsl" href="analysis.xsl"?>
+<test_results>
+<info>
+<name>SPA</name><parsing_time_taken>3.000000</parsing_time_taken>
+</info>
+<queries>
+<category name=" All Category">
+<query>
+<id test01="1" >1</id><querystr><![CDATA[stmt s; Select s such that AffectsBip(1, s)]]></querystr>
+<stuans>12,4,40,34,42,38</stuans>
+<correct>4,12,34,38,40,42</correct>
+<time_taken>3.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id test01a="1" >1</id><querystr><![CDATA[stmt s; Select s such that AffectsBip*(1, s)]]></querystr>
+<stuans>12,4,13,5,6,40,41,34,42,38,51,52,53,46,49</stuans>
+<correct>4,5,6,12,13,34,38,40,41,42,46,49,51,52,53</correct>
+<time_taken>3.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id test02="1" >2</id><querystr><![CDATA[stmt s; Select s such that AffectsBip(4, s)]]></querystr>
+<stuans>5,6</stuans>
+<correct>5,6</correct>
+<time_taken>3.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id test02a="1" >2</id><querystr><![CDATA[stmt s; Select s such that AffectsBip*(4, s)]]></querystr>
+<stuans>13,5,6,12,4,40,41,34,42,38,51,52,53,46,49</stuans>
+<correct>4,5,6,12,13,34,38,40,41,42,46,49,51,52,53</correct>
+<time_taken>4.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id test03="1" >3</id><querystr><![CDATA[stmt s; Select s such that AffectsBip(8, s)]]></querystr>
+<stuans>34,46</stuans>
+<correct>34,46</correct>
+<time_taken>4.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id test03a="1" >3</id><querystr><![CDATA[stmt s; Select s such that AffectsBip*(8, s)]]></querystr>
+<stuans>34,51,52,53,38,46,41,49,40,42,12,13</stuans>
+<correct>12,13,34,38,40,41,42,46,49,51,52,53</correct>
+<time_taken>5.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id test04="1" >4</id><querystr><![CDATA[stmt s; Select s such that AffectsBip(12, s)]]></querystr>
+<stuans>13</stuans>
+<correct>13</correct>
+<time_taken>3.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id test04a="1" >4</id><querystr><![CDATA[stmt s; Select s such that AffectsBip*(12, s)]]></querystr>
+<stuans>13</stuans>
+<correct>13</correct>
+<time_taken>4.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id test05="1" >5</id><querystr><![CDATA[stmt s; Select s such that AffectsBip(13, s)]]></querystr>
+<stuans></stuans>
+<correct></correct>
+<time_taken>3.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id test05a="1" >5</id><querystr><![CDATA[stmt s; Select s such that AffectsBip*(13, s)]]></querystr>
+<stuans></stuans>
+<correct></correct>
+<time_taken>3.000000</time_taken>
+<passed/>
+</query>
+</category>
+</queries>
+</test_results>

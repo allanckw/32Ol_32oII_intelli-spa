@@ -165,7 +165,7 @@ bool PQLAffectsProcessor::isAffects(STMT a1, STMT a2) {
 					}
 					return true;
 				}
-				break;
+				continue;
 			} else if (currCFG->first <= a2 && a2 <= currCFG->last)
 				return true;
 		}
@@ -178,10 +178,20 @@ bool PQLAffectsProcessor::isAffects(STMT a1, STMT a2) {
 			break;
 
 		case CFGNode::WhileNode:
-			if (currCFG->children.whileChildren.whileIn->first <= a2
-				&& a2 < currCFG->children.whileChildren.whileOut->first)
-				search.push(currCFG->children.whileChildren.whileIn);
-			else
+			if (currCFG->children.whileChildren.whileIn->first <= a2) {
+				if (currCFG->children.whileChildren.whileOut->type == CFGNode::DummyNode) {
+					const IntervalList* ilist = currCFG->children.whileChildren.whileOut->prevList;
+					while (ilist->next != NULL)
+						ilist = ilist->next;
+					if (a2 <= ilist->last)
+						search.push(currCFG->children.whileChildren.whileIn);
+					else
+						search.push(currCFG->children.whileChildren.whileOut);
+				} else if (a2 < currCFG->children.whileChildren.whileOut->first)
+					search.push(currCFG->children.whileChildren.whileIn);
+				else
+					search.push(currCFG->children.whileChildren.whileOut);
+			} else
 				search.push(currCFG->children.whileChildren.whileOut);
 			break;
 

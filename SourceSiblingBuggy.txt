@@ -1,0 +1,25 @@
+procedure One {
+	while x {
+	x = x - 1;
+	if y then {
+		y = 1;
+		if x then {
+			x = 1;
+		} else {
+			x = 1;
+		}
+	} else {
+		y = 1;
+	}
+	y = y - 1;	
+	call Three;
+	}
+}
+
+procedure Two {
+	z=z;
+}
+
+procedure Three {
+	x=x;
+}

@@ -1,0 +1,12 @@
+10
+cat: All Category
+1 - test01
+assign a;
+Select a pattern a (_,_"x1+x2*y1"_)
+1
+5000
+1 - test01
+assign a;
+Select a pattern a(_,_"y2 * left +right"_)
+1
+5000

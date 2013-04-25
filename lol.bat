@@ -65,4 +65,3 @@ Call  $P@\SPA\Release\autotester.exe Sample-Source.txt  Sample-Queries.txt  outS
 echo "Sample Source complete"
 
 Call $P@\SPA\Release\autotester.exe not_simple_source.txt not_simple_query.txt outNotSimple.xml > NUL
-Call $P@\SPA\Release\autotester.exe SourceContainsBuggy.txt QueriesContainsBuggy.txt outContainsBuggy.xml > NUL

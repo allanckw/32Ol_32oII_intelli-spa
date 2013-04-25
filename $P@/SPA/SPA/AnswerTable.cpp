@@ -1267,27 +1267,31 @@ void AnswerTable::projectAway(const string& name)
 		const auto it2end = row.begin() + index;
 		for (auto it2 = row.begin(); it2 != it2end; ++it2) {
 			const pair<int, unordered_set<ASTNode*>>& thepair = *it2;
-			equiv += Helper::intToString(thepair.first);
-			/*if (!thepair.second.empty()) {
+			if (thepair.first == -1) {
 				equiv += "{";
-				temp.insert(thepair.second.begin(), thepair.second.end());
-				for (auto it3 = temp.begin(); it3 != temp.end(); ++it3)
-					equiv += Helper::intToString((int) *it3) + ",";
-				temp.clear();
+				if (!thepair.second.empty()) {
+					temp.insert(thepair.second.begin(), thepair.second.end());
+					for (auto it3 = temp.begin(); it3 != temp.end(); ++it3)
+						equiv += Helper::intToString((int) *it3) + ",";
+					temp.clear();
+				}
 				equiv += "}";
-			}*/
+			} else
+				equiv += Helper::intToString(thepair.first);
 		}
 		for (auto it2 = row.begin() + index + 1; it2 != row.end(); ++it2) {
 			const pair<int, unordered_set<ASTNode*>>& thepair = *it2;
-			equiv += Helper::intToString(thepair.first);
-			/*if (!thepair.second.empty()) {
-				equiv += ",{";
-				temp.insert(thepair.second.begin(), thepair.second.end());
-				for (auto it3 = temp.begin(); it3 != temp.end(); ++it3)
-					equiv += Helper::intToString((int) *it3) + ",";
-				temp.clear();
+			if (thepair.first == -1) {
+				equiv += "{";
+				if (!thepair.second.empty()) {
+					temp.insert(thepair.second.begin(), thepair.second.end());
+					for (auto it3 = temp.begin(); it3 != temp.end(); ++it3)
+						equiv += Helper::intToString((int) *it3) + ",";
+					temp.clear();
+				}
 				equiv += "}";
-			}*/
+			} else
+				equiv += Helper::intToString(thepair.first);
 		}
 		if (seen.count(equiv) == 0) {
 			seen.insert(equiv);
